@@ -1,0 +1,274 @@
+# default_view:
+#  view: yes
+#  name: Home
+#  entities:
+#     - group.devices
+#     - group.daylight
+#     - group.home_server
+#     - group.travel
+#     - group.airplay_devices
+#     - media_player.itunes
+#     - media_player.kodi
+#     - media_player.apple_tv
+#     - camera.foscam_black
+#     - camera.foscam_white
+#     - group.lights_by_zone
+#     - input_boolean.loop_light_bedroom
+#     - input_boolean.loop_light_hallway
+#     # - input_boolean.notify_home
+#     - input_select.who_dj
+
+new:
+  view: yes
+  name: "New Home"
+  entities:
+    - group.daylight
+    - group.devices
+    - group.home_server
+    - group.travel
+    - media_player.itunes
+    - media_player.kodi
+    - media_player.apple_tv
+    - camera.foscam_black
+    - camera.foscam_white
+    - group.lights_by_zone
+    - group.control
+
+common_room:
+  view: yes
+  name: "Common Room"
+  entities:
+    - group.home_server
+    - group.common_room_lights_all
+    - group.common_room_scenes
+    - media_player.kodi
+    - media_player.apple_tv
+    - media_player.denon
+    - media_player.dune
+    - media_player.denon_avr2113_airtunes_speaker
+    - media_player.living_room_apple_tv_airtunes_speaker
+    - camera.foscam_black
+
+common_room_lights_all:
+  name: "Common Room Lights"
+  icon: mdi:lightbulb-outline
+  entities:
+    - light.common_room_1
+    - light.common_room_2
+    - light.common_room_3
+    - light.common_room_4
+    - light.hallway
+    - light.lightstrip
+
+common_room_lights_main:
+  name: "Common Room Main Lights"
+  icon: mdi:lightbulb
+  entities:
+    - light.common_room_1
+    - light.common_room_2
+    - light.common_room_3
+    - light.common_room_4
+
+common_room_scenes:
+  name: "Common Room Light Scenes"
+  icon: mdi:duck
+  entities:
+    - scene.common_room_off
+    - scene.common_room_bright
+    - scene.common_room_alive
+    - scene.common_room_dim
+
+bedroom:
+  view: yes
+  name: "Bedroom"
+  entities:
+    - group.bedroom_lights_all
+    - group.bedroom_scenes
+    - media_player.itunes
+    - media_player.computer_airtunes_speaker
+    - media_player.bedroom_aex_airtunes_speaker
+    - input_boolean.loop_light_bedroom
+
+bedroom_lights_all:
+  name: "Bedroom Lights"
+  icon: mdi:lightbulb-outline
+  entities:
+    - light.bedroom_1
+    - light.bedroom_2
+    - light.bedroom_3
+    - light.bedroom_4
+    - light.bedroom_lc
+    - light.bedroom_lw
+
+bedroom_lights_main:
+  name: "Bedroom Main Lights"
+  icon: mdi:lightbulb
+  entities:
+    - light.bedroom_1
+    - light.bedroom_2
+    - light.bedroom_3
+    - light.bedroom_4
+
+bedroom_scenes:
+  name: "Bedroom Light Scenes"
+  icon: mdi:duck
+  entities:
+    - scene.bedroom_off
+    - scene.bedroom_concentrate
+    - scene.bedroom_energize
+    - scene.bedroom_read
+    - scene.bedroom_relax
+    - scene.bedroom_blossom
+    - scene.bedroom_savanna
+    - scene.bedroom_twilight
+    - scene.bedroom_aurora
+    - scene.bedroom_bright
+    - scene.bedroom_alive
+    - scene.bedroom_warm
+    - scene.bedroom_sleep
+
+first_floor:
+  view: yes
+  name: "First Floor"
+  entities:
+    - group.first_floor_lights_all
+    - group.first_floor_scenes
+    - media_player.working_space_aex_airtunes_speaker
+    - camera.foscam_white
+
+first_floor_lights_all:
+  name: "First Floor Lights"
+  icon: mdi:lightbulb-outline
+  entities:
+    - light.front_1
+    - light.front_2
+    - light.garage
+
+first_floor_lights_main:
+  name: "First Floor Main Lights"
+  icon: mdi:lightbulb
+  entities:
+    - light.front_1
+    - light.front_2
+
+first_floor_scenes:
+  name: First Floor Light Scenes
+  icon: mdi:duck
+  entities:
+    - scene.first_floor_off
+    - scene.first_floor_bright
+    - scene.first_floor_alive
+    - scene.first_floor_dim
+
+media_player:
+  name: "Media Players"
+  icon: mdi:play-box-outline
+  entities:
+    - media_player.itunes
+    - media_player.apple_tv
+    - media_player.denon
+    - media_player.dune
+    - media_player.kodi
+
+airplay_devices:
+  name: "Airplay Devices"
+  icon: mdi:airplay
+  entities:
+    - media_player.denon_avr2113_airtunes_speaker
+    - media_player.living_room_apple_tv_airtunes_speaker
+    - media_player.computer_airtunes_speaker
+    - media_player.bedroom_aex_airtunes_speaker
+
+travel:
+  name: "Travel"
+  icon: mdi:car
+  entities:
+    - sensor.home_to_benjy
+    - sensor.benjy_to_home
+    - sensor.home_to_malaiwan
+    - sensor.malaiwan_to_home
+
+home_server:
+  name: "Home Server"
+  icon: mdi:server-security
+  entities:
+    - sensor.uptime
+    - sensor.cpu_load_total
+    - sensor.memory_usage_real
+    - sensor.network_up
+    - sensor.network_down
+    - sensor.temperature_sda
+    - sensor.temperature_sdb
+    - sensor.temperature_sdc
+    - sensor.temperature_sdd
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+    - sensor.speedtest_ping
+
+daylight:
+  name: "Daylight"
+  icon: mdi:weather-sunny
+  entities:
+    - sensor.date
+    - sensor.time
+    - sensor.day_night
+    - sun.sun
+    - sensor.solar_angle
+
+devices:
+  name: "Devices"
+  icon: mdi:tablet-ipad
+  entities:
+    - device_tracker.pesiphone6
+    - sensor.pes_iphone_6_battery_level
+    - sensor.pes_iphone_6_battery_level_2
+    - sensor.pes_iphone_6_battery_level_3
+    - sensor.pes_iphone_6_battery_state
+    - sensor.pes_iphone_6_battery_state_2
+    - sensor.pes_iphone_6_battery_state_3
+    - device_tracker.juesiphone6splus
+    - sensor.jues_iphone_6s_plus_battery_level
+    - sensor.jues_iphone_6s_plus_battery_level_2
+    - sensor.jues_iphone_6s_plus_battery_level_3
+    - sensor.jues_iphone_6s_plus_battery_state
+    - sensor.jues_iphone_6s_plus_battery_state_2
+    - sensor.jues_iphone_6s_plus_battery_state_3
+    - device_tracker.pepe
+    - device_tracker.pesipodtouch4
+    - device_tracker.pesipadmini2
+    - sensor.pes_ipad_mini_2_battery_level
+    - sensor.pes_ipad_mini_2_battery_level_2
+    - sensor.pes_ipad_mini_2_battery_state
+    - sensor.pes_ipad_mini_2_battery_state_2
+    - device_tracker.juesipadmini2
+    - sensor.jues_ipad_mini_2_battery_level
+    - sensor.jues_ipad_mini_2_battery_level_2
+    - sensor.jues_ipad_mini_2_battery_state
+    - sensor.jues_ipad_mini_2_battery_state_2
+    - device_tracker.benjysiphone6
+
+lights_by_zone:
+  name: "Lights by Zone"
+  icon: mdi:lightbulb
+  control: hidden
+  entities:
+    - group.common_room_lights_main
+    - light.hallway
+    - light.lightstrip
+    - group.bedroom_lights_main
+    - light.bedroom_lw
+    - light.bedroom_lc
+    - group.first_floor_lights_main
+    - light.garage
+
+control:
+  name: "Control Panel"
+  icon: mdi:google-controller
+  control: hidden
+  entities:
+    - switch.common_room_air_conditioning
+    - switch.bedroom_air_conditioning
+    - input_boolean.loop_light_common_room
+    - input_boolean.loop_light_hallway
+    - input_boolean.loop_light_bedroom
+    - input_select.who_dj

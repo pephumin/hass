@@ -1,0 +1,21 @@
+entities:
+
+- name: SiamSquare (admin)
+  icon: mdi:puzzle
+  url: http://www.siamsquare.org/admin
+
+- name: "[::SIAMSPEED::]"
+  icon: mdi:car
+  url: http://www.siamspeed.com
+
+- name: Synology
+  icon: mdi:music-box
+  url: http://phumin.synology.me:5000
+
+- name: Foscam Black
+  icon: mdi:home
+  url: http://phumin.synology.me:7070
+
+- name: Foscam White
+  icon: mdi:home-outline
+  url: http://phumin.synology.me:7171

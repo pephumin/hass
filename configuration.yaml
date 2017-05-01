@@ -1,0 +1,139 @@
+homeassistant:
+  name: Home
+  latitude: !secret latitude_luzern
+  longitude: !secret longitude_luzern
+  elevation: 8
+  unit_system: metric
+  time_zone: Asia/Bangkok
+  customize: !include config/customise.yaml
+
+http:
+  api_password: !secret api_password
+  base_url: !secret base_url
+
+frontend:
+config:
+updater:
+discovery:
+conversation:
+recorder:
+sun:
+
+zone:
+  name: Luzern
+  latitude: !secret latitude_luzern
+  longitude: !secret longitude_luzern
+  radius: 300
+
+zone 2:
+  name: Malaiwan
+  latitude: !secret latitude_malaiwan
+  longitude: !secret longitude_malaiwan
+  radius: 300
+
+zone 3:
+  name: Benjawan
+  latitude: !secret latitude_benjawan
+  longitude: !secret longitude_benjawan
+  radius: 300
+
+light:
+  platform: hue
+  host: 192.168.1.22
+  allow_unreachable: true
+  allow_hue_groups: true
+
+tts:
+  platform: google
+
+ifttt:
+  key: !secret ifttt_key
+
+history: !include config/history.yaml
+logbook: !include config/logbook.yaml
+group: !include config/groups.yaml
+device_tracker: !include config/device_tracker.yaml
+sensor: !include config/sensor.yaml
+media_player: !include config/media_player.yaml
+camera: !include config/camera.yaml
+weblink: !include config/weblink.yaml
+notify: !include config/notify.yaml
+scene: !include config/scene.yaml
+script: !include config/script.yaml
+input_boolean: !include config/input_boolean.yaml
+input_select: !include config/input_select.yaml
+automation: !include_dir_merge_list automation/
+
+# critical, fatal, error, warning, warn, info, debug, notset
+logger:
+  default: critical
+  logs:
+    homeassistant.components.automation: debug
+    homeassistant.components.notify: debug
+    homeassistant.components.sensor: debug
+    homeassistant.components.input_boolean: debug
+    homeassistant.components.device_tracker: debug
+    homeassistant.components.camera: debug
+    homeassistant.components.switch: debug
+    homeassistant.components.scene: debug
+
+switch:
+  platform: broadlink
+  update_interval: 60
+  name: "Broadlink Common Room"
+  host: 192.168.1.142
+  mac: "B4:43:0D:30:4E:13"
+  monitored_conditions:
+    - temperature
+  switches:
+    common_room_aircond:
+      friendly_name: "Common Room Air Conditioning"
+      command_on: 'JgCYAAABKpQWNxQTFDcVEhQSFRMTExYRFDcVEhUSFDgVERUSFBIVEhY2FBMUORQRFRMUORITFBIUExQ4FTgTEhY2FRIUORQ3FxETExQTEzgWOBITFDgUEhUSFhEWEBY4ExIWEhM4FDgUEhQTFBQUNxQ4FREVOBQTFTcTOBQ4FDgUORM4FjYUOBQTFBIVEhQ3FTgUEhYSFDUVAA0F'
+      command_off: 'JgCYAAABKJYUOBUTEzkTEhYSFRAWERQTFBMUExURFhAWERURFRIUExQ4FREVNxYRFw8VOBURFhEUEhU3FjcUEhU3FRMVNxY1FBIVExURFTcUOBYRFhAVEhURFhEVEhU2FhIVEhQ3FTcWEBYRFRIVNxY2FREWEhQRFjYWNxU3FTcUOBU3FTcVOBQ3FxAVNxY1FRIVERYSFBAVAA0F'
+    # common_room_fan:
+    #   friendly_name: "Common Room Fan"
+    #   command_on: 'JgDEACoNKg0PKSsLKg8PJw8pDSkOKw0oECgp6ysNKQ4PJysMKw4NKg4pDSkPKBAoDikrAAYuKQ0rDQ4qKQ0rDA4pDykOKg0qDSkPKCrrKgwrDg0pKg0qDQ8oDikPKQ4qDigOKyroKg8oDw0pKw0pDQ4qDSkPKA8pDikOKSrrKQ4pDQ8oKg8pDg4pDSkPKA8pDikOKSrqKg4qDQ8nKg8oDg4pDygOKw0oDyoOKCrrKA8qDBEnKg0pDw0pDikOKQ4pDygPKikADQUAAAAA'
+    #   command_off: 'JgDEACoNKg0PKSsLKg8PJw8pDSkOKw0oECgp6ysNKQ4PJysMKw4NKg4pDSkPKBAoDikrAAYuKQ0rDQ4qKQ0rDA4pDykOKg0qDSkPKCrrKgwrDg0pKg0qDQ8oDikPKQ4qDigOKyroKg8oDw0pKw0pDQ4qDSkPKA8pDikOKSrrKQ4pDQ8oKg8pDg4pDSkPKA8pDikOKSrqKg4qDQ8nKg8oDg4pDygOKw0oDyoOKCrrKA8qDBEnKg0pDw0pDikOKQ4pDygPKikADQUAAAAA'
+    # common_room_tv:
+    #   friendly_name: "Common Room TV"
+    #   command_on: 'JgDEAFASKRIUEyoQFRIpEhQTFBMpEhQUExQTExUAA0lSESgSFhEqERQUKBIUExUSKBIVEhUTFBMVAANKTxMoExMTKREVEygSFBMVEikSFRQSExYSFQADSVASKBMVEycSFRIqERUTExMpEhQTFBQTExYAA0hREigTExUoERQTKREVFBQSKREVFBMTFBMVAANKURApEhQTKBMUEygSFhEWESkSFRMUEhYSFQADSVASKRIWESgTFBIpEhUSFBMpEhQTFBMUExYADQUAAAAA'
+    #   command_off: 'JgDEAFASKRIUEyoQFRIpEhQTFBMpEhQUExQTExUAA0lSESgSFhEqERQUKBIUExUSKBIVEhUTFBMVAANKTxMoExMTKREVEygSFBMVEikSFRQSExYSFQADSVASKBMVEycSFRIqERUTExMpEhQTFBQTExYAA0hREigTExUoERQTKREVFBQSKREVFBMTFBMVAANKURApEhQTKBMUEygSFhEWESkSFRMUEhYSFQADSVASKRIWESgTFBIpEhUSFBMpEhQTFBMUExYADQUAAAAA'
+    # common_room_androidbox:
+    #   friendly_name: "Common Room Android Box"
+    #   command_on: 'JgBYAAABKJIUERQRFBEUERU0FRAVEBUQFjQVNxI2FDYUERQ2FDYUNRU1FRAUNhQ2FDYUERQ2FRESEhM3FBETERQRFDYUERU1FAAFEwABKEgWAAxJAAEnSBMADQU'
+    #   command_off: 'JgBYAAABKJIUERQRFBEUERU0FRAVEBUQFjQVNxI2FDYUERQ2FDYUNRU1FRAUNhQ2FDYUERQ2FRESEhM3FBETERQRFDYUERU1FAAFEwABKEgWAAxJAAEnSBMADQU'
+
+switch 2:
+  platform: broadlink
+  update_interval: 60
+  name: "Broadlink Bedroom"
+  host: 192.168.1.152
+  mac: "B4:43:0D:F9:11:7F"
+  monitored_conditions:
+    - temperature
+  switches:
+    bedroom_aircond:
+      friendly_name: "Bedroom Air Conditioning"
+      command_on: 'JgC8AXE5DioPDg0PDg4OKw0PDg4ODw0PDioPDg0rDisODg4qDyoPKg4qDisODg4ODisODg4ODg8NDw4ODg4OKw4qDyoOKw4ODg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODisPDQ4PDQ8ODg4ODg8NAAPNcDkPKg4ODg4ODw0rDg4ODw0PDg4OKw4ODisNKw8NDisOKw0rDyoOKg4ODg8OKg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4rDg4ODg4PDSsOKw0PDg4ODw0PDg4OKw4ODioPDg0PDg4ODw0PDg4ODg4PDQ8ODg4rDSsPKg4qDw4NKw8NDisOKw4qDyoOKg8NDg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8OKg8qDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4ODg4OKw4ODisOKg4rDgANBQAAAAAAAAAAAAAAAA=='
+      command_off: 'JgC8AXA5DyoODg4ODg8NKw4PDQ8ODg4ODisODg4rDioODw0rDyoOKg8qDioPDg0PDioPDg0PDg4ODw0PDQ8OKw0rDyoOKg8ODQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODisODg4ODg4ODw0PDg4OAAPMcTkOKg4PDQ8PDQ4rDg4ODg4PDQ8OKg4PDSsPKg4ODisOKg4rDioPKg4ODg4OKw4ODg8ODg0PDg4ODw0PDg4ODg4PDQ8ODg8ODQ8NDw4ODg8NDw4ODw0ODw0PDioPKg8NDg8NDw4ODg4OKw8NDisODg4ODg8NDw4ODg4ODw0PDg4ODw0rDyoOKg8qDg4OKw0PDioPKg4qDyoPKg4ODg4ODg8ODg4ODg4ODg8ODg4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg8ODQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4OKw4qDw4NDw4ODg4ODw0PDg4PDQ4PDQ8ODg4PDQ8ODg8NDg8NDw4ODg4OKw8NDisOKg4rDgANBQAAAAAAAAAAAAAAAA=='
+
+ios:
+  # push:
+  #   categories:
+  #     - name: Alarm
+  #       identifier: 'ALARM'
+  #       actions:
+  #         - identifier: 'SOUND_ALARM'
+  #           title: 'Sound Alarm'
+  #           activationMode: 'background'
+  #           authenticationRequired: yes
+  #           destructive: yes
+  #           behavior: 'default'
+  #         - identifier: 'SILENCE_ALARM'
+  #           title: 'Silence Alarm'
+  #           activationMode: 'background'
+  #           authenticationRequired: yes
+  #           destructive: no
+  #           behavior: 'textInput'
+  #           textInputButtonTitle: 'Silencio!'
+  #           textInputPlaceholder: 'Placeholder'

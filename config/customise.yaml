@@ -1,0 +1,50 @@
+device_tracker.pesiphone6:
+  icon: mdi:cellphone-iphone
+
+device_tracker.pesipadmini2:
+  icon: mdi:tablet-ipad
+
+device_tracker.juesiphone6splus:
+  icon: mdi:cellphone-iphone
+
+device_tracker.juesipadmini2:
+  icon: mdi:tablet-ipad
+
+device_tracker.pesipodtouch4:
+  icon: mdi:cellphone
+
+device_tracker.pepe:
+  icon: mdi:laptop-mac
+
+device_tracker.benjysiphone6:
+  icon: mdi:cellphone-iphone
+
+# - entity_id: device_tracker.pesiphone6
+  # friendly_name: Pe
+
+# - entity_id: device_tracker.juesiphone6splus
+  # friendly_name: Jue
+
+# - entity_id: light.*
+  # friendly_name: Light
+
+# - entity_id: light.lightstrip
+  # friendly_name: Light Strip
+
+# - entity_id: light.common_room
+  # friendly_name: Common Room
+
+# - entity_id: light.bedroom
+  # friendly_name: Bedroom
+
+# - entity_id: light.first_floor
+  # friendly_name: First Floor
+
+# - entity_id: light.garage
+  # friendly_name: Garage
+
+# - entity_id: sensor.*_battery
+  # icon: mdi:battery
+
+# - entity_id: sensor.home_to_benjy, sensor.benjy_to_home, sensor.home_to_malaiwan, sensor.malaiwan_to_home
+#   icon: mdi:car

@@ -1,0 +1,66 @@
+- alias: "Sunset 1"
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-02:00:00"
+  action:
+    - service: notify.tv
+      data:
+        message: "Sunset in 2 hours"
+
+- alias: "Sunset 2"
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-01:00:00"
+  action:
+    - service: notify.tv
+      data:
+        message: "Sunset in one hour"
+
+- alias: "Sunset 3"
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:30:00"
+  action:
+    - service: notify.tv
+      data:
+        message: "Sunset in 30 minutes"
+
+- alias: "Sunset 4"
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "+00:00:00"
+  action:
+    - service: notify.tv
+      data:
+        message: "The sun is down now"
+
+- alias: "Autolight for sunset"
+  trigger:
+    platform: sun
+    event: sunset
+    offset: "-00:30:00"
+  condition:
+    condition: or
+    conditions:
+      - condition: state
+        entity_id: device_tracker.pesiphone6
+        state: home
+      - condition: state
+        entity_id: device_tracker.juesiphone6splus
+        state: home
+  action:
+    - service: light.turn_on
+      entity_id: light.lightstrip
+      data:
+        transition: 5
+        brightness: 178
+        xy_color: [0.1794, 0.0964]
+    - service: light.turn_on
+      entity_id: light.garage
+      data:
+        transition: 5
+        brightness: 178

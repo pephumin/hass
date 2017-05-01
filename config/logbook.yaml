@@ -1,0 +1,10 @@
+include:
+  domains:
+    - sensor
+    - light
+    - media_player
+
+exclude:
+  domains:
+    - sun
+    - weblink

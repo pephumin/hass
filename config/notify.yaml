@@ -1,0 +1,27 @@
+- platform: nfandroidtv
+  name: nfandroidtv
+  host: 192.168.1.88
+
+- platform: kodi
+  name: kodi
+  host: 192.168.1.88
+  port: 8080
+  username: !secret my_username
+  password: !secret my_password
+
+- platform: group
+  name: tv
+  services:
+    - service: nfandroidtv
+    - service: kodi
+
+- platform: pushbullet
+  name: pushbullet
+  api_key: !secret api_key_pushbullet
+
+- platform: smtp
+  name: email
+  server: !secret smtp_server
+  port: !secret smtp_port
+  sender: !secret smtp_sender
+  recipient: phumin@sawasdee.org

@@ -1,0 +1,27 @@
+- alias: "Dune Not Playing"
+  trigger:
+    - platform: state
+      entity_id: media_player.dune
+      from: "playing"
+      to: "idle"
+  condition:
+    condition: state
+    entity_id: sun.sun
+    state: "below_horizon"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.common_room_alive
+
+- alias: "Dune Playing"
+  trigger:
+    - platform: state
+      entity_id: media_player.dune
+      from: "idle"
+      to: "playing"
+  condition:
+    condition: state
+    entity_id: sun.sun
+    state: "below_horizon"
+  action:
+    - service: scene.turn_on
+      entity_id: scene.common_room_dim

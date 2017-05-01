@@ -1,0 +1,30 @@
+# - alias: "Notify iOS"
+#   trigger:
+#     platform: state
+#     entity_id: light.bedroom_4
+#     to: 'on'
+#     from: 'off'
+#   action:
+#     service: notify.ios_pesiphone6
+#     data:
+#       message: "Something happened at home!"
+#       data:
+#         push:
+#           badge: 5
+#           sound: <SOUND FILE HERE>
+#           category: "ALARM" # Needs to match the top level identifier you used in the ios configuration
+#         action_data: # Anything passed in action_data will get echoed back to Home Assistant.
+#           entity_id: light.bedroom_lw
+#           my_custom_data: foo_bar
+#
+# - alias: Sound the alarm
+#   trigger:
+#     platform: event
+#     event_type: ios.notification_action_fired
+#     event_data:
+#       actionName: SOUND_ALARM
+#   action:
+#     - service: notify.email
+#       data:
+#         title: "Sound the alarm"
+#         message: "Sound the alarm message"

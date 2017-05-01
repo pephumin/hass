@@ -1,0 +1,461 @@
+- name: "All Lights Off"
+  entities:
+    group.all_lights:
+      state: off
+
+- name: "Common Room Off"
+  entities:
+    group.common_room_lights_all:
+      state: off
+
+- name: "Common Room Bright"
+  entities:
+    light.common_room_1:
+      state: on
+      transition: 1
+      brightness: 254
+    light.common_room_2:
+      state: on
+      transition: 1
+      brightness: 254
+    light.common_room_3:
+      state: on
+      transition: 1
+      brightness: 124
+    light.common_room_4:
+      state: on
+      transition: 1
+      brightness: 124
+    light.lightstrip:
+      state: off
+    light.hallway:
+      state: off
+
+- name: "Common Room Alive"
+  entities:
+    light.common_room_1:
+      state: on
+      transition: 1
+      brightness: 131
+    light.common_room_2:
+      state: on
+      transition: 1
+      brightness: 131
+    light.common_room_3:
+      state: off
+    light.common_room_4:
+      state: off
+    light.lightstrip:
+      state: off
+    light.hallway:
+      state: off
+
+- name: "Common Room Dim"
+  entities:
+    light.common_room_1:
+      state: on
+      transition: 1
+      brightness: 35
+    light.common_room_2:
+      state: on
+      transition: 1
+      brightness: 35
+    light.common_room_3:
+      state: off
+    light.common_room_4:
+      state: off
+    light.lightstrip:
+      state: off
+    light.hallway:
+      state: off
+
+- name: "Bedroom Off"
+  entities:
+    group.bedroom_lights_all:
+      state: off
+
+- name: "Bedroom Concentrate"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 2
+      brightness: 120
+      xy_color: [0.3685,0.3717]
+    light.bedroom_2:
+      state: on
+      transition: 2
+      brightness: 120
+      xy_color: [0.3685,0.3717]
+    light.bedroom_3:
+      state: on
+      transition: 2
+      brightness: 254
+      xy_color: [0.3685,0.3717]
+    light.bedroom_4:
+      state: on
+      transition: 2
+      brightness: 254
+      xy_color: [0.3685,0.3717]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Energize"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 2
+      brightness: 70
+      xy_color: [0.3143,0.3302]
+    light.bedroom_2:
+      state: on
+      transition: 2
+      brightness: 70
+      xy_color: [0.3143,0.3302]
+    light.bedroom_3:
+      state: on
+      transition: 2
+      brightness: 144
+      xy_color: [0.3143,0.3302]
+    light.bedroom_4:
+      state: on
+      transition: 2
+      brightness: 144
+      xy_color: [0.3143,0.3302]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Read"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 2
+      brightness: 120
+      xy_color: [0.4450,0.4067]
+    light.bedroom_2:
+      state: on
+      transition: 2
+      brightness: 120
+      xy_color: [0.4450,0.4067]
+    light.bedroom_3:
+      state: on
+      transition: 2
+      brightness: 254
+      xy_color: [0.4450,0.4067]
+    light.bedroom_4:
+      state: on
+      transition: 2
+      brightness: 254
+      xy_color: [0.4450,0.4067]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Relax"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 2
+      brightness: 70
+      xy_color: [0.5014,0.4153]
+    light.bedroom_2:
+      state: on
+      transition: 2
+      brightness: 70
+      xy_color: [0.5014,0.4153]
+    light.bedroom_3:
+      state: on
+      transition: 2
+      brightness: 144
+      xy_color: [0.5014,0.4153]
+    light.bedroom_4:
+      state: on
+      transition: 2
+      brightness: 144
+      xy_color: [0.5014,0.4153]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Blossom"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 2
+      brightness: 88
+      xy_color: [0.3944,0.2952]
+    light.bedroom_2:
+      state: on
+      transition: 2
+      brightness: 88
+      xy_color: [0.3944,0.2952]
+    light.bedroom_3:
+      state: on
+      transition: 2
+      brightness: 123
+      xy_color: [0.3944,0.2952]
+    light.bedroom_4:
+      state: on
+      transition: 2
+      brightness: 123
+      xy_color: [0.3944,0.2952]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Savanna"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 2
+      brightness: 88
+      xy_color: [0.6406,0.3333]
+    light.bedroom_2:
+      state: on
+      transition: 2
+      brightness: 88
+      xy_color: [0.4640,0.4513]
+    light.bedroom_3:
+      state: on
+      transition: 2
+      brightness: 123
+      xy_color: [0.6406,0.3333]
+    light.bedroom_4:
+      state: on
+      transition: 2
+      brightness: 123
+      xy_color: [0.5888,0.3536]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Twilight"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 2
+      brightness: 88
+      xy_color: [0.5997,0.3765]
+    light.bedroom_2:
+      state: on
+      transition: 2
+      brightness: 88
+      xy_color: [0.3581,0.2871]
+    light.bedroom_3:
+      state: on
+      transition: 2
+      brightness: 123
+      xy_color: [0.5993,0.3765]
+    light.bedroom_4:
+      state: on
+      transition: 2
+      brightness: 123
+      xy_color: [0.3581,0.2872]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Aurora"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 2
+      brightness: 88
+      xy_color: [0.2351,0.1743]
+    light.bedroom_2:
+      state: on
+      transition: 2
+      brightness: 88
+      xy_color: [0.1684,0.0416]
+    light.bedroom_3:
+      state: on
+      transition: 2
+      brightness: 123
+      xy_color: [0.2916,0.2860]
+    light.bedroom_4:
+      state: on
+      transition: 2
+      brightness: 123
+      xy_color: [0.3108,0.3239]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Bright"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 1
+      brightness: 88
+      xy_color: [0.2951,0.2930]
+    light.bedroom_2:
+      state: on
+      transition: 1
+      brightness: 88
+      xy_color: [0.2951,0.2930]
+    light.bedroom_3:
+      state: on
+      transition: 1
+      brightness: 123
+      xy_color: [0.2951,0.2930]
+    light.bedroom_4:
+      state: on
+      transition: 1
+      brightness: 123
+      xy_color: [0.2951,0.2930]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Alive"
+  entities:
+    light.bedroom_1:
+      state: off
+    light.bedroom_2:
+      state: off
+    light.bedroom_3:
+      state: on
+      transition: 1
+      brightness: 169
+      xy_color: [0.2723,0.2482]
+    light.bedroom_4:
+      state: on
+      transition: 1
+      brightness: 169
+      xy_color: [0.2723,0.2482]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+
+- name: "Bedroom Warm"
+  entities:
+    light.bedroom_1:
+      state: off
+    light.bedroom_2:
+      state: off
+    light.bedroom_3:
+      state: on
+      transition: 1
+      brightness: 6
+      xy_color: [0.4410,0.4379]
+    light.bedroom_4:
+      state: on
+      transition: 1
+      brightness: 6
+      xy_color: [0.4410,0.4379]
+    light.bedroom_lw:
+      state: on
+      transition: 1
+      brightness: 6
+    light.bedroom_lc:
+      state: on
+      transition: 1
+      brightness: 6
+      xy_color: [0.2850,0.1897]
+
+- name: "Bedroom Sleep"
+  entities:
+    light.bedroom_1:
+      state: off
+    light.bedroom_2:
+      state: off
+    light.bedroom_3:
+      state: off
+    light.bedroom_4:
+      state: off
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: on
+      transition: 1
+      brightness: 70
+      xy_color: [0.3227,0.5086]
+
+- name: "First Floor Off"
+  entities:
+    group.first_floor_lights_all:
+      state: off
+
+- name: "First Floor Concentrate"
+  entities:
+    group.first_floor_lights_main:
+      state: on
+      profile: "Concentrate"
+    light.garage:
+      state: off
+
+- name: "First Floor Energize"
+  entities:
+    group.first_floor_lights_main:
+      state: on
+      profile: "Energize"
+    light.garage:
+      state: off
+
+- name: "First Floor Read"
+  entities:
+    group.first_floor_lights_main:
+      state: on
+      profile: "Read"
+    light.garage:
+      state: off
+
+- name: "First Floor Relax"
+  entities:
+    group.first_floor_lights_main:
+      state: on
+      profile: "Relax"
+    light.garage:
+      state: off
+
+- name: "First Floor Bright"
+  entities:
+    light.first_floor_1:
+      state: on
+      transition: 1
+      brightness: 254
+    light.first_floor_2:
+      state: on
+      transition: 1
+      brightness: 254
+    light.garage:
+      state: on
+      transition: 2
+      brightness: 124
+
+- name: "First Floor Alive"
+  entities:
+    light.first_floor_1:
+      state: on
+      transition: 1
+      brightness: 131
+    light.first_floor_2:
+      state: on
+      transition: 1
+      brightness: 131
+    light.garage:
+      state: off
+
+- name: "First Floor Dim"
+  entities:
+    light.first_floor_1:
+      state: on
+      transition: 1
+      brightness: 35
+    light.first_floor_2:
+      state: on
+      transition: 1
+      brightness: 35
+    light.garage:
+      state: off

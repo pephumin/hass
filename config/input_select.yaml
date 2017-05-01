@@ -1,0 +1,12 @@
+who_dj:
+  name: "Who is the DJ?"
+  options:
+   - Pe
+   - Benjy
+  initial: Pe
+  icon: mdi:music
+
+common_room_preset:
+  options:
+    - Chilled
+    - Euphoria

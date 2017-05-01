@@ -1,0 +1,20 @@
+- platform: synology
+  url: http://192.168.1.100:5000
+  username: !secret my_username
+  password: !secret my_password
+  timeout: 15
+  verify_ssl: false
+
+# - platform: foscam
+#   name: Foscam Black
+#   ip: 192.168.1.78
+#   port: 7070
+#   username: !secret my_username
+#   password: !secret my_password
+
+# - platform: foscam
+#   name: Foscam White
+#   ip: 192.168.1.79
+#   port: 7171
+#   username: !secret my_username
+#   password: !secret my_password

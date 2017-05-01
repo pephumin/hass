@@ -1,0 +1,127 @@
+- alias: "Jue Leaves Home"
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.juesiphone6splus
+      event: leave
+      zone: zone.luzern
+  action:
+    - service: notify.email
+      data:
+        title: "Jue has left home"
+        message: 'Jue has left home on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+    - service: notify.tv
+      data:
+        title: "Jue has left home"
+        message: 'Jue has left home on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+
+- alias: "Jue Arrives Home"
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.juesiphone6splus
+      event: enter
+      zone: zone.luzern
+  action:
+    - service: notify.email
+      data:
+        title: "Jue has arrived home"
+        message: 'Jue has arrived home on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+    - service: notify.tv
+      data:
+        title: "Jue has arrived home"
+        message: 'Jue has arrived home on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+
+- alias: "Jue Leaves Malaiwan"
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.juesiphone6splus
+      event: leave
+      zone: zone.malaiwan
+  action:
+    - service: notify.email
+      data:
+        title: "Jue has left Malaiwan"
+        message: 'Jue has left Malaiwan on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+    - service: notify.tv
+      data:
+        title: "Jue has left Malaiwan"
+        message: 'Jue has left Malaiwan on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+
+- alias: "Jue Arrives Malaiwan"
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.juesiphone6splus
+      event: enter
+      zone: zone.malaiwan
+  action:
+    - service: notify.email
+      data:
+        title: "Jue has arrived Malaiwan"
+        message: 'Jue has arrived Malaiwan on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+    - service: notify.tv
+      data:
+        title: "Jue has arrived Malaiwan"
+        message: 'Jue has arrived Malaiwan on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+
+- alias: "Pe Leaves Home"
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.pesiphone6
+      event: leave
+      zone: zone.luzern
+  action:
+    - service: notify.email
+      data:
+        title: "Pe has left home"
+        message: 'Pe has left home on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+    - service: notify.tv
+      data:
+        title: "Pe has left home"
+        message: 'Pe has left home on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+
+- alias: "Pe Arrives Home"
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.pesiphone6
+      event: enter
+      zone: zone.luzern
+  action:
+    - service: notify.email
+      data:
+        title: "Pe has arrived home"
+        message: 'Pe has arrived home on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+    - service: notify.tv
+      data:
+        title: "Pe has arrived home"
+        message: 'Pe has arrived home on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+
+- alias: "Pe Leaves Benjawan"
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.pesiphone6
+      event: leave
+      zone: zone.benjawan
+  action:
+    - service: notify.email
+      data:
+        title: "Pe has left Benjawan"
+        message: 'Pe has left Benjawan on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+    - service: notify.tv
+      data:
+        title: "Pe has left Benjawan"
+        message: 'Pe has left Benjawan on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+
+- alias: "Pe Arrives Benjawan"
+  trigger:
+    - platform: zone
+      entity_id: device_tracker.pesiphone6
+      event: enter
+      zone: zone.benjawan
+  action:
+    - service: notify.email
+      data:
+        title: "Pe has arrived Benjawan"
+        message: 'Pe has arrived Benjawan on {{now.now().strftime("%d%m%Y-%H%M%S")}}'
+    - service: notify.tv
+      data:
+        title: "Pe has arrived Benjawan"
+        message: 'Pe has arrived Benjawan on {{now.now().strftime("%d%m%Y-%H%M%S")}}'

@@ -1,0 +1,178 @@
+- platform: synologydsm
+  name: Saturn
+  host: 192.168.1.100
+  username: !secret my_username
+  password: !secret my_password
+  monitored_conditions:
+    - cpu_total_load
+    - memory_real_usage
+    - network_up
+    - network_down
+    - disk_status
+    - disk_temp
+
+# - platform: moon
+
+- platform: time_date
+  name: Date & Time
+  display_options:
+    - 'time'
+    - 'date'
+    # - 'date_time'
+    # - 'time_date'
+    # - 'time_utc'
+    # - 'beat'
+
+# - platform: worldclock
+#   name: World Clock
+#   time_zone: Asia/Bangkok
+
+- platform: google_travel_time
+  name: "Home to Benjy"
+  api_key: !secret google_travel_time_api_key
+  origin: zone.luzern
+  destination: zone.benjawan
+  options:
+   mode: driving
+   units: metric
+
+- platform: google_travel_time
+  name: "Benjy to Home"
+  api_key: !secret google_travel_time_api_key
+  origin: zone.benjawan
+  destination: zone.luzern
+  options:
+   mode: driving
+   units: metric
+
+- platform: google_travel_time
+  name: "Home to Malaiwan"
+  api_key: !secret google_travel_time_api_key
+  origin: zone.luzern
+  destination: zone.malaiwan
+  options:
+   mode: driving
+   units: metric
+
+- platform: google_travel_time
+  name: "Malaiwan to Home"
+  api_key: !secret google_travel_time_api_key
+  origin: zone.malaiwan
+  destination: zone.luzern
+  options:
+   mode: driving
+   units: metric
+
+# - platform: template
+#   sensors:
+#     battery_pesiphone6:
+#       friendly_name: "Battery on Pe iPhone 6"
+#       icon-template: mdi:battery
+#       value_template: >-
+#         {%- if states.device_tracker.pesiphone6.attributes.battery %}
+#             {{ states.device_tracker.pesiphone6.attributes.battery|round }}
+#         {% else %}
+#             {{ states.sensor.pesiphone6.state }}
+#         {%- endif %}
+#       unit_of_measurement: '%'
+#
+#     battery_juesiphone6splus:
+#       friendly_name: "Battery on Jue iPhone 6s Plus"
+#       icon-template: mdi:battery
+#       value_template: >-
+#         {%- if states.device_tracker.juesiphone6splus.attributes.battery %}
+#             {{ states.device_tracker.juesiphone6splus.attributes.battery|round }}
+#         {% else %}
+#             {{ states.sensor.juesiphone6splus.state }}
+#         {%- endif %}
+#       unit_of_measurement: '%'
+
+- platform: template
+  sensors:
+    day_night:
+      friendly_name: "Day/Night"
+      icon_template: '{% if is_state("sun.sun", "above_horizon") %}mdi:weather-sunny{% else %}mdi:weather-night{% endif %}'
+      value_template: '{% if is_state("sun.sun", "above_horizon") %}Day{% else %}Night{% endif %}'
+
+- platform: template
+  sensors:
+    solar_angle:
+      friendly_name: 'Sun Angle'
+      icon_template: mdi:weather-sunset
+      value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
+      unit_of_measurement: '°'
+      # value_template: '{{ states.sun.sun.attributes.elevation }}'
+      # friendly_name: 'Sun angle'
+      # unit_of_measurement: 'degrees'
+    # sunrise:
+    #   value_template: '{{ states.sun.sun.attributes.next_rising }}'
+
+# - platform: template
+#   sensors:
+#     sunset_time:
+#       friendly_name: "Sunset"
+#       icon_template: mdi:weather-sunset-down
+#       value_template: '{% set timestamp = as_timestamp(states.sun.sun.attributes.next_setting) | timestamp_custom("%I:%M") %} {{ timestamp.lstrip("0") }}'
+#       unit_of_measurement: "hours"
+
+# - platform: template
+#   sensors:
+#     sunrise_time:
+#       friendly_name: "Sunrise"
+#       icon_template: mdi:weather-sunset-up
+#       value_template: '{% set timestamp = as_timestamp(states.sun.sun.attributes.next_rising) | timestamp_custom("%I:%M") %} {{ timestamp.lstrip("0") }}'
+#       unit_of_measurement: "hours"
+
+# - platform: template
+#   sensors:
+#     network_down_kbps:
+#       value_template: '{{ sensor.network_down.state | multiply(1024) }}'
+#       friendly_name: 'Network Down'
+#       unit_of_measurement: 'kB/s'
+#     network_up_kbps:
+#       value_template: '{{ sensor.network_up.state | multiply(1024) }}'
+#       friendly_name: 'Network Up'
+#       unit_of_measurement: 'kB/s'
+
+- platform: speedtest
+  minute:
+    - 0
+    - 30
+  monitored_conditions:
+    - ping
+    - download
+    - upload
+
+## Systemstate
+- platform: systemmonitor
+  resources:
+    - type: last_boot
+    - type: since_last_boot
+    - type: processor_use
+    - type: disk_use_percent
+      arg: /
+    - type: memory_use_percent
+
+## Last boot Template
+- platform: template
+  sensors:
+    uptime:
+      friendly_name: Uptime
+      icon_template: mdi:timelapse
+      value_template: >-
+        {%- set slb = states.sensor.since_last_boot.state.split(' ') -%}
+        {%- set count = slb | length -%}
+        {%- set hms = slb[count - 1] -%}
+        {%- set hms_trimmed = hms.split('.')[0] -%}
+        {%- set hms_split = hms_trimmed.split(':') -%}
+        {%- set hours = hms_split[0] | int -%}
+        {%- if count == 3 -%}
+          {{ slb[0] ~ ' ' ~ slb[1] ~ ' ' }}
+        {%- endif -%}
+        {%- if hours > 0 -%}
+          {%- if hours == 1 -%}
+            1 hour
+          {%- else -%}
+            {{ hours }} hours
+          {%- endif -%}
+        {%- endif -%}
