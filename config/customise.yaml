@@ -1,50 +1,113 @@
+### icon ###
+
 device_tracker.pesiphone6:
   icon: mdi:cellphone-iphone
-
 device_tracker.pesipadmini2:
   icon: mdi:tablet-ipad
-
 device_tracker.juesiphone6splus:
   icon: mdi:cellphone-iphone
-
 device_tracker.juesipadmini2:
   icon: mdi:tablet-ipad
-
 device_tracker.pesipodtouch4:
   icon: mdi:cellphone
-
 device_tracker.pepe:
   icon: mdi:laptop-mac
-
 device_tracker.benjysiphone6:
   icon: mdi:cellphone-iphone
+sensor.home_to_benjy:
+  icon: mdi:car
+sensor.benjy_to_home:
+  icon: mdi:car
+sensor.home_to_malaiwan:
+  icon: mdi:car
+sensor.malaiwan_to_home:
+  icon: mdi:car
+sensor.rm_pro_temperature:
+  icon: mdi:thermometer-lines
+  friendly_name: "Broadlink RM Pro"
+switch.common_room_air_cond:
+  icon: mdi:air-conditioner
+  assumed_state: true
+switch.common_room_fan:
+  icon: mdi:fan
+  assumed_state: true
+switch.common_room_tv:
+  icon: mdi:television
+  assumed_state: true
+switch.common_room_android_box:
+  icon: mdi:android
+  assumed_state: true
+sensor.rm_mini_temperature:
+  icon: mdi:thermometer-lines
+  friendly_name: "Broadlink RM Mini"
+switch.bedroom_air_cond:
+  icon: mdi:air-conditioner
+  assumed_state: true
 
-# - entity_id: device_tracker.pesiphone6
-  # friendly_name: Pe
 
-# - entity_id: device_tracker.juesiphone6splus
-  # friendly_name: Jue
+### hidden ###
 
-# - entity_id: light.*
-  # friendly_name: Light
-
-# - entity_id: light.lightstrip
-  # friendly_name: Light Strip
-
-# - entity_id: light.common_room
-  # friendly_name: Common Room
-
-# - entity_id: light.bedroom
-  # friendly_name: Bedroom
-
-# - entity_id: light.first_floor
-  # friendly_name: First Floor
-
-# - entity_id: light.garage
-  # friendly_name: Garage
-
-# - entity_id: sensor.*_battery
-  # icon: mdi:battery
-
-# - entity_id: sensor.home_to_benjy, sensor.benjy_to_home, sensor.home_to_malaiwan, sensor.malaiwan_to_home
-#   icon: mdi:car
+sensor.cpu_use:
+  hidden: true
+sensor.disk_use_:
+  hidden: true
+sensor.ram_use:
+  hidden: true
+sensor.speedtest_ping:
+  hidden: true
+sensor.last_boot:
+  hidden: true
+sensor.since_last_boot:
+  hidden: true
+sensor.status_sda:
+  hidden: true
+sensor.status_sdb:
+  hidden: true
+sensor.status_sdc:
+  hidden: true
+sensor.status_sdd:
+  hidden: true
+sensor.network_down:
+  hidden: true
+sensor.network_up:
+  hidden: true
+sensor.pes_iphone_6_battery_level:
+  hidden: true
+sensor.pes_iphone_6_battery_level_2:
+  hidden: true
+sensor.pes_iphone_6_battery_level_3:
+  hidden: true
+sensor.pes_iphone_6_battery_state:
+  hidden: true
+sensor.pes_iphone_6_battery_state_2:
+  hidden: true
+sensor.pes_iphone_6_battery_state_3:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_level:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_level_2:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_level_3:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_state:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_state_2:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_state_3:
+  hidden: true
+sensor.pes_ipad_mini_2_battery_level:
+  hidden: true
+sensor.pes_ipad_mini_2_battery_level_2:
+  hidden: true
+sensor.pes_ipad_mini_2_battery_state:
+  hidden: true
+sensor.pes_ipad_mini_2_battery_state_2:
+  hidden: true
+sensor.jues_ipad_mini_2_battery_level:
+  hidden: true
+sensor.jues_ipad_mini_2_battery_level_2:
+  hidden: true
+sensor.jues_ipad_mini_2_battery_state:
+  hidden: true
+sensor.jues_ipad_mini_2_battery_state_2:
+  hidden: true

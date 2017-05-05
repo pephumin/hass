@@ -9,7 +9,7 @@ entities:
   url: http://www.siamspeed.com
 
 - name: Synology
-  icon: mdi:music-box
+  icon: mdi:server-network
   url: http://phumin.synology.me:5000
 
 - name: Foscam Black

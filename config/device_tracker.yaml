@@ -3,8 +3,8 @@
   password: !secret icloud_password
   account_name: pe
   track_new_devices: true
-  interval_seconds: 300
-  consider_home: 600
+  interval_seconds: 600
+  consider_home: 900
 
 - platform: tomato
   host: 192.168.1.1
@@ -12,8 +12,8 @@
   password: !secret my_password
   http_id: !secret tomato_http_id
   track_new_devices: true
-  interval_seconds: 300
-  consider_home: 600
+  interval_seconds: 600
+  consider_home: 900
 
 # - platform: nmap_tracker
 #   hosts: 192.168.1.1/24

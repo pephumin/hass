@@ -18,3 +18,13 @@
 #   port: 7171
 #   username: !secret my_username
 #   password: !secret my_password
+
+- platform: generic
+  name: Current Location Pe
+  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.pesiphone6.attributes.latitude }},{{ states.device_tracker.pesiphone6.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:P%7C{{ states.device_tracker.pesiphone6.attributes.latitude }},{{ states.device_tracker.pesiphone6.attributes.longitude }}
+  limit_refetch_to_url_change: false
+
+- platform: generic
+  name: Current Location Jue
+  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.pesiphone6.attributes.latitude }},{{ states.device_tracker.pesiphone6.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:P%7C{{ states.device_tracker.pesiphone6.attributes.latitude }},{{ states.device_tracker.pesiphone6.attributes.longitude }}
+  limit_refetch_to_url_change: false
