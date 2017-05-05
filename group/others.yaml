@@ -1,0 +1,29 @@
+travel:
+  name: "Travel"
+  icon: mdi:car
+  entities:
+    - sensor.home_to_benjy
+    - sensor.benjy_to_home
+    - sensor.home_to_malaiwan
+    - sensor.malaiwan_to_home
+
+daylight:
+  name: "Daylight"
+  icon: mdi:weather-sunny
+  entities:
+    - sensor.date
+    - sensor.time
+    - sensor.day_night
+    - sun.sun
+    - sensor.solar_angle
+
+weblink:
+  name: "Web Links"
+  icon: mdi:lightbulb
+  control: hidden
+  entities:
+    - weblink.siamspeed
+    - weblink.siamsquare_admin
+    - weblink.foscam_black
+    - weblink.foscam_white
+    - weblink.synology

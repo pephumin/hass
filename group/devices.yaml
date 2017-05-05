@@ -1,0 +1,48 @@
+devices:
+  name: "Devices"
+  icon: mdi:tablet-ipad
+  entities:
+    - device_tracker.pesiphone6
+    - sensor.battery_pesiphone6
+    - device_tracker.juesiphone6splus
+    - sensor.battery_juesiphone6splus
+    - device_tracker.pepe
+    - device_tracker.pesipodtouch4
+    - device_tracker.pesipadmini2
+    - sensor.battery_pesipadmini2
+    - device_tracker.juesipadmini2
+    - sensor.battery_juesipadmini2
+    - device_tracker.benjysiphone6
+
+media_player:
+  name: "Media Players"
+  icon: mdi:play-box-outline
+  entities:
+    - media_player.itunes
+    - media_player.apple_tv
+    - media_player.denon
+    - media_player.dune
+    - media_player.kodi
+
+airplay_devices:
+  name: "Airplay Devices"
+  icon: mdi:airplay
+  entities:
+    - media_player.denon_avr2113_airtunes_speaker
+    - media_player.living_room_apple_tv_airtunes_speaker
+    - media_player.computer_airtunes_speaker
+    - media_player.bedroom_aex_airtunes_speaker
+
+home_server:
+  name: "Home Server"
+  icon: mdi:server-security
+  entities:
+    - sensor.uptime
+    - sensor.cpu_load_total
+    - sensor.memory_usage_real
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+    - sensor.temperature_sda
+    - sensor.temperature_sdb
+    - sensor.temperature_sdc
+    - sensor.temperature_sdd
