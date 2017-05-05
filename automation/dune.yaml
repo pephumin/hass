@@ -1,4 +1,6 @@
 - alias: "Dune Not Playing"
+  initial_state: true
+  hide_entity: false
   trigger:
     - platform: state
       entity_id: media_player.dune
@@ -13,6 +15,8 @@
       entity_id: scene.common_room_alive
 
 - alias: "Dune Playing"
+  initial_state: true
+  hide_entity: false
   trigger:
     - platform: state
       entity_id: media_player.dune

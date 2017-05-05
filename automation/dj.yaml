@@ -1,4 +1,6 @@
 - alias: "DJ Lighting Selector"
+  initial_state: true
+  hide_entity: false
   trigger:
     platform: event
     event_type: DJ

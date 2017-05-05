@@ -1,4 +1,6 @@
-- alias: "Loop Light for Bedroom"
+- alias: "Loop Light Bedroom"
+  initial_state: true
+  hide_entity: false
   trigger:
     platform: time
     minutes: "/1"
@@ -12,16 +14,18 @@
       entity_id: light.bedroom_3
       data:
         effect: random
-        transition: 5
-        brightness: 123
+        transition: 1
+        brightness: 100
     - service: light.turn_on
       entity_id: light.bedroom_4
       data:
         effect: random
-        transition: 5
-        brightness: 123
+        transition: 1
+        brightness: 100
 
-- alias: "Loop Light for Common Room"
+- alias: "Loop Light Common Room"
+  initial_state: true
+  hide_entity: false
   trigger:
     platform: time
     minutes: "/1"
@@ -35,16 +39,18 @@
       entity_id: light.lightstrip
       data:
         effect: random
-        transition: 5
+        transition: 2
         brightness: 255
     - service: light.turn_on
       entity_id: light.hallway
       data:
         effect: random
-        transition: 5
+        transition: 2
         brightness: 255
 
-- alias: "Loop Light for Hallway"
+- alias: "Loop Light Hallway"
+  initial_state: true
+  hide_entity: false
   trigger:
     platform: time
     minutes: "/1"
@@ -58,5 +64,5 @@
       entity_id: light.hallway
       data:
         effect: random
-        transition: 5
+        transition: 2
         brightness: 255
