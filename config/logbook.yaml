@@ -8,3 +8,13 @@ exclude:
   domains:
     - sun
     - weblink
+  entities:
+    - sensor.since_last_boot
+    - sensor.ram_use
+    - sensor.cpu_use
+    - sensor.solar_angle
+    - sun.sun
+    - sensor.time
+    # - sensor.common_room_temperature
+    - camera.current_location_jue
+    - camera.current_location_pe

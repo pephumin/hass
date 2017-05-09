@@ -13,7 +13,7 @@
   name: tv
   services:
     - service: nfandroidtv
-    - service: kodi
+    # - service: kodi
 
 - platform: pushbullet
   name: pushbullet

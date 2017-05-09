@@ -12,3 +12,8 @@ loop_light_hallway:
   name: "Loop Light Hallway"
   initial: off
   icon: mdi:spotlight
+
+benjy_visits:
+  name: "Benjy Visits"
+  initial: off
+  icon: mdi:duck

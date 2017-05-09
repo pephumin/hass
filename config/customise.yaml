@@ -14,6 +14,42 @@ device_tracker.pepe:
   icon: mdi:laptop-mac
 device_tracker.benjysiphone6:
   icon: mdi:cellphone-iphone
+
+light.bedroom_1:
+  icon: mdi:lightbulb
+light.bedroom_2:
+  icon: mdi:lightbulb
+light.bedroom_3:
+  icon: mdi:lightbulb
+light.bedroom_4:
+  icon: mdi:lightbulb
+light.bedroom_lw:
+  icon: mdi:lamp
+light.bedroom_lc:
+  icon: mdi:spotlight
+light.common_room_1:
+  icon: mdi:ceiling-light
+light.common_room_2:
+  icon: mdi:ceiling-light
+light.common_room_3:
+  icon: mdi:ceiling-light
+light.common_room_4:
+  icon: mdi:ceiling-light
+light.lightstrip:
+  icon: mdi:alarm-light
+light.hallway:
+  icon: mdi:spotlight-beam
+light.front_1:
+  icon: mdi:lightbulb-outline
+light.front_2:
+  icon: mdi:lightbulb-outline
+light.garage:
+  icon: mdi:spotlight
+camera.foscam_black:
+  icon: mdi:webcam
+camera.foscam_white:
+  icon: mdi:webcam
+
 sensor.home_to_benjy:
   icon: mdi:car
 sensor.benjy_to_home:
@@ -22,6 +58,7 @@ sensor.home_to_malaiwan:
   icon: mdi:car
 sensor.malaiwan_to_home:
   icon: mdi:car
+
 sensor.rm_pro_temperature:
   icon: mdi:thermometer-lines
   friendly_name: "Broadlink RM Pro"
@@ -44,32 +81,68 @@ switch.bedroom_air_cond:
   icon: mdi:air-conditioner
   assumed_state: true
 
+sensor.owm_temperature:
+  icon: mdi:thermometer
+  friendly_name: "Temperature"
+sensor.owm_condition:
+  icon: mdi:weather-cloudy
+  friendly_name: "Condition"
+sensor.owm_cloud_coverage:
+  icon: mdi:weather-partlycloudy
+  friendly_name: "Cloud coverage"
+sensor.owm_humidity:
+  icon: mdi:weather-fog
+  friendly_name: "Humidity"
+sensor.owm_rain:
+  icon: mdi:weather-pouring
+  friendly_name: "Rain"
+
+sensor.cpu_use:
+  icon: mdi:chip
+  friendly_name: "CPU Usage"
+sensor.ram_use:
+  icon: mdi:memory
+  friendly_name: "RAM Usage"
+sensor.disk_use_:
+  icon: mdi:harddisk
+  friendly_name: "HDD Usage"
+
+binary_sensor.foscam_black:
+  icon: mdi:webcam
+  friendly_name: "Foscam Black"
+binary_sensor.foscam_white:
+  icon: mdi:webcam
+  friendly_name: "Foscam White"
+binary_sensor.printer:
+  icon: mdi:printer
+  friendly_name: "Samsung Printer"
+binary_sensor.deeper:
+  icon: mdi:router-wireless
+  friendly_name: "Primary Gateway"
+binary_sensor.higher:
+  icon: mdi:router-wireless
+  friendly_name: "Secondary Gateway"
+binary_sensor.pluto:
+  icon: mdi:wifi
+  friendly_name: "Airport Extreme"
+binary_sensor.neptune:
+  icon: mdi:wifi
+  friendly_name: "Airport Express #1"
+binary_sensor.uranus:
+  icon: mdi:wifi
+  friendly_name: "Airport Express #2"
+binary_sensor.moon:
+  icon: mdi:orbit
+  friendly_name: "Philips Hue"
+
 
 ### hidden ###
 
-sensor.cpu_use:
-  hidden: true
-sensor.disk_use_:
-  hidden: true
-sensor.ram_use:
-  hidden: true
-sensor.speedtest_ping:
-  hidden: true
+# sensor.speedtest_ping:
+#   hidden: true
 sensor.last_boot:
   hidden: true
 sensor.since_last_boot:
-  hidden: true
-sensor.status_sda:
-  hidden: true
-sensor.status_sdb:
-  hidden: true
-sensor.status_sdc:
-  hidden: true
-sensor.status_sdd:
-  hidden: true
-sensor.network_down:
-  hidden: true
-sensor.network_up:
   hidden: true
 sensor.pes_iphone_6_battery_level:
   hidden: true
