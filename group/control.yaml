@@ -12,10 +12,11 @@ control:
     - input_boolean.loop_light_common_room
     - input_boolean.loop_light_hallway
     - input_boolean.loop_light_bedroom
+    - input_boolean.benjy_visits
     - input_select.who_dj
 
 control_cr:
-  name: "Control Panel CR"
+  name: "Common Room Control Panel"
   icon: mdi:google-controller
   control: hidden
   entities:
@@ -26,10 +27,11 @@ control_cr:
     - switch.common_room_android_box
     - input_boolean.loop_light_common_room
     - input_boolean.loop_light_hallway
+    - input_boolean.benjy_visits
     - input_select.who_dj
 
 control_br:
-  name: "Control Panel BR"
+  name: "Bedroom Control Panel"
   icon: mdi:google-controller
   control: hidden
   entities:

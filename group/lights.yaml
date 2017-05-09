@@ -1,4 +1,5 @@
 lights_all:
+  view: no
   name: "Lights"
   icon: mdi:lightbulb-outline
   entities:
@@ -19,6 +20,7 @@ lights_all:
     - light.garage
 
 common_room_lights_all:
+  view: no
   name: "Common Room Lights"
   icon: mdi:lightbulb-outline
   entities:
@@ -30,6 +32,7 @@ common_room_lights_all:
     - light.lightstrip
 
 common_room_lights_main:
+  view: no
   name: "Common Room Main Lights"
   icon: mdi:lightbulb
   entities:
@@ -39,6 +42,7 @@ common_room_lights_main:
     - light.common_room_4
 
 bedroom_lights_all:
+  view: no
   name: "Bedroom Lights"
   icon: mdi:lightbulb-outline
   entities:
@@ -50,6 +54,7 @@ bedroom_lights_all:
     - light.bedroom_lw
 
 bedroom_lights_main:
+  view: no
   name: "Bedroom Main Lights"
   icon: mdi:lightbulb
   entities:
@@ -59,6 +64,7 @@ bedroom_lights_main:
     - light.bedroom_4
 
 first_floor_lights_all:
+  view: no
   name: "First Floor Lights"
   icon: mdi:lightbulb-outline
   entities:
@@ -67,6 +73,7 @@ first_floor_lights_all:
     - light.garage
 
 first_floor_lights_main:
+  view: no
   name: "First Floor Main Lights"
   icon: mdi:lightbulb
   entities:

@@ -1,4 +1,5 @@
 travel:
+  view: no
   name: "Travel"
   icon: mdi:car
   entities:
@@ -8,6 +9,7 @@ travel:
     - sensor.malaiwan_to_home
 
 daylight:
+  view: no
   name: "Daylight"
   icon: mdi:weather-sunny
   entities:
@@ -16,10 +18,23 @@ daylight:
     - sensor.day_night
     - sun.sun
     - sensor.solar_angle
+    # - binary_sensor.trend_solar_angle
+
+weather:
+  view: no
+  name: "Weather"
+  icon: mdi:weather-cloudy
+  entities:
+    - sensor.owm_temperature
+    - sensor.owm_condition
+    - sensor.owm_cloud_coverage
+    - sensor.owm_humidity
+    - sensor.owm_rain
 
 weblink:
+  view: no
   name: "Web Links"
-  icon: mdi:lightbulb
+  icon: mdi:web
   control: hidden
   entities:
     - weblink.siamspeed

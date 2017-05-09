@@ -1,20 +1,25 @@
-# default_view:
-new:
+default_view:
+# new:
   view: yes
-  # name: Home
-  name: "New Home"
+  name: Home
+  # name: "New Home"
   entities:
     - group.daylight
     - group.devices
     - group.home_server
+    - group.online
     - group.travel
     - media_player.itunes
     - media_player.kodi
     - media_player.apple_tv
     - camera.foscam_black
     - camera.foscam_white
+    - camera.current_location_pe
+    - camera.current_location_jue
+    - camera.current_location_bmw
     - group.lights_all
     - group.control
+    - group.weather
 
 common_room:
   view: yes
@@ -28,6 +33,7 @@ common_room:
     - media_player.denon
     - media_player.dune
     - media_player.denon_avr2113_airtunes_speaker
+    - media_player.androidtv_airtunes_speaker
     - media_player.living_room_apple_tv_airtunes_speaker
     - camera.foscam_black
     - group.control_cr
@@ -41,7 +47,6 @@ bedroom:
     - media_player.itunes
     - media_player.computer_airtunes_speaker
     - media_player.bedroom_aex_airtunes_speaker
-    - input_boolean.loop_light_bedroom
     - group.control_br
 
 first_floor:
@@ -52,3 +57,6 @@ first_floor:
     - group.first_floor_scenes
     - media_player.working_space_aex_airtunes_speaker
     - camera.foscam_white
+    - camera.current_location_pe
+    - camera.current_location_jue
+    - camera.current_location_bmw
