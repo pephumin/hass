@@ -1,0 +1,7 @@
+- platform: synologydsm
+  name: Saturn
+  host: 192.168.1.100
+  username: !secret my_username
+  password: !secret my_longer_password
+  monitored_conditions:
+    - disk_temp
