@@ -2,8 +2,8 @@
   initial_state: true
   hide_entity: false
   trigger:
-    platform: event
-    event_type: DJ
+    - platform: event
+      event_type: DJ
   action:
     - service: input_select.select_option
       data:

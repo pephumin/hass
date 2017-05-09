@@ -1,0 +1,161 @@
+- alias: Offline Deeper
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.deeper
+      to: 'off'
+  action:
+    - service: notify.email
+      data:
+        title: "The primary gateway is offline"
+        message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: notify.tv
+      data:
+        title: "The primary gateway is offline"
+        message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
+
+- alias: Offline Higher
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.higher
+      to: 'off'
+  action:
+    - service: notify.email
+      data:
+        title: "The secondary gateway is offline"
+        message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: notify.tv
+      data:
+        title: "The secondary gateway is offline"
+        message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
+
+- alias: Offline Pluto
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.pluto
+      to: 'off'
+  action:
+    - service: notify.email
+      data:
+        title: "Airport Extreme is offline"
+        message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: notify.tv
+      data:
+        title: "Airport Extreme is offline"
+        message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
+
+- alias: Offline Neptune
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.neptune
+      to: 'off'
+  action:
+    - service: notify.email
+      data:
+        title: "Airport Express #1 is offline"
+        message: 'Airport Express #1 is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: notify.tv
+      data:
+        title: "Airport Express #1 is offline"
+        message: 'Airport Express #1 is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
+
+- alias: Offline Uranus
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.uranus
+      to: 'off'
+  action:
+    - service: notify.email
+      data:
+        title: "Airport Express #2 is offline"
+        message: 'Airport Express #2 is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: notify.tv
+      data:
+        title: "Airport Express #2 is offline"
+        message: 'Airport Express #2 is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
+
+- alias: Offline Foscam Black
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.foscam_black
+      to: 'off'
+  action:
+    - service: notify.email
+      data:
+        title: "Foscam Black is offline"
+        message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: notify.tv
+      data:
+        title: "Foscam Black is offline"
+        message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
+
+- alias: Offline Foscam White
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.foscam_white
+      to: 'off'
+  action:
+    - service: notify.email
+      data:
+        title: "Foscam White is offline"
+        message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: notify.tv
+      data:
+        title: "Foscam White is offline"
+        message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
+
+- alias: Offline Printer
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.printer
+      to: 'off'
+  action:
+    - service: notify.email
+      data:
+        title: "Printer is offline"
+        message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: notify.tv
+      data:
+        title: "Printer is offline"
+        message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
+
+- alias: Offline Hue
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.moon
+      to: 'off'
+  action:
+    - service: notify.email
+      data:
+        title: "Philips Hue is offline"
+        message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: notify.tv
+      data:
+        title: "Philips Hue is offline"
+        message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"

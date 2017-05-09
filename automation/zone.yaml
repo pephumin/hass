@@ -7,14 +7,10 @@
       event: leave
       zone: zone.home
   action:
-    - service: notify.email
-      data:
-        title: "Jue has left Home"
-        message: 'Jue has left Home [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
     - service: notify.tv
       data:
         title: "Jue has left Home"
-        message: 'Jue has left Home [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
+        message: 'Jue has left Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
         data:
           displaytime: 2000
           icon: "warning"
@@ -28,14 +24,10 @@
       event: enter
       zone: zone.home
   action:
-    - service: notify.email
-      data:
-        title: "Jue has arrived home"
-        message: 'Jue has arrived home [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
     - service: notify.tv
       data:
         title: "Jue has arrived home"
-        message: 'Jue has arrived home [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
+        message: 'Jue has arrived home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
         data:
           displaytime: 2000
           icon: "warning"
@@ -49,14 +41,10 @@
       event: leave
       zone: zone.malaiwan
   action:
-    - service: notify.email
-      data:
-        title: "Jue has left Malaiwan"
-        message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
     - service: notify.tv
       data:
         title: "Jue has left Malaiwan"
-        message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
+        message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
         data:
           displaytime: 2000
           icon: "warning"
@@ -70,14 +58,10 @@
       event: enter
       zone: zone.malaiwan
   action:
-    - service: notify.email
-      data:
-        title: "Jue has arrived Malaiwan"
-        message: 'Jue has arrived Malaiwan [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
     - service: notify.tv
       data:
         title: "Jue has arrived Malaiwan"
-        message: 'Jue has arrived Malaiwan [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
+        message: 'Jue has arrived Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
         data:
           displaytime: 2000
           icon: "warning"
@@ -91,14 +75,10 @@
       event: leave
       zone: zone.home
   action:
-    - service: notify.email
-      data:
-        title: "Pe has left Home"
-        message: 'Pe has left Home [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
     - service: notify.tv
       data:
         title: "Pe has left Home"
-        message: 'Pe has left Home [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
+        message: 'Pe has left Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
         data:
           displaytime: 2000
           icon: "warning"
@@ -112,14 +92,10 @@
       event: enter
       zone: zone.home
   action:
-    - service: notify.email
-      data:
-        title: "Pe has arrived home"
-        message: 'Pe has arrived home [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
     - service: notify.tv
       data:
         title: "Pe has arrived home"
-        message: 'Pe has arrived home [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
+        message: 'Pe has arrived home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
         data:
           displaytime: 2000
           icon: "warning"
@@ -133,14 +109,10 @@
       event: leave
       zone: zone.benjawan
   action:
-    - service: notify.email
-      data:
-        title: "Pe has left Benjawan"
-        message: 'Pe has left Benjawan [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
     - service: notify.tv
       data:
         title: "Pe has left Benjawan"
-        message: 'Pe has left Benjawan [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
+        message: 'Pe has left Benjawan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
         data:
           displaytime: 2000
           icon: "warning"
@@ -154,14 +126,10 @@
       event: enter
       zone: zone.benjawan
   action:
-    - service: notify.email
-      data:
-        title: "Pe has arrived Benjawan"
-        message: 'Pe has arrived Benjawan [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
     - service: notify.tv
       data:
         title: "Pe has arrived Benjawan"
-        message: 'Pe has arrived Benjawan [{{now().strftime("%d.%m.%Y")}} at {{now().strftime("%H:%M")}}]'
+        message: 'Pe has arrived Benjawan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
         data:
           displaytime: 2000
           icon: "warning"

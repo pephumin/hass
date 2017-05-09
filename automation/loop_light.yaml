@@ -2,9 +2,9 @@
   initial_state: true
   hide_entity: false
   trigger:
-    platform: time
-    minutes: "/1"
-    seconds: 0
+    - platform: time
+      minutes: "/1"
+      seconds: 0
   condition:
     condition: state
     entity_id: input_boolean.loop_light_bedroom
@@ -22,14 +22,21 @@
         effect: random
         transition: 1
         brightness: 100
+    - service: notify.tv
+      data:
+        title: "Loop Bedroom Lights"
+        message: 'Two lights in Bedroom are set to colour looping [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
 
 - alias: "Loop Light Common Room"
   initial_state: true
   hide_entity: false
   trigger:
-    platform: time
-    minutes: "/1"
-    seconds: 0
+    - platform: time
+      minutes: "/1"
+      seconds: 0
   condition:
     condition: state
     entity_id: input_boolean.loop_light_common_room
@@ -47,14 +54,21 @@
         effect: random
         transition: 2
         brightness: 255
+    - service: notify.tv
+      data:
+        title: "Loop Common Room Lights"
+        message: 'Two lights in Common Room are set to colour looping [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
 
 - alias: "Loop Light Hallway"
   initial_state: true
   hide_entity: false
   trigger:
-    platform: time
-    minutes: "/1"
-    seconds: 0
+    - platform: time
+      minutes: "/1"
+      seconds: 0
   condition:
     condition: state
     entity_id: input_boolean.loop_light_hallway
@@ -66,3 +80,10 @@
         effect: random
         transition: 2
         brightness: 255
+    - service: notify.tv
+      data:
+        title: "Loop Hallway Light"
+        message: 'Hallway light is set to colour looping [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+        data:
+          displaytime: 2000
+          icon: "warning"
