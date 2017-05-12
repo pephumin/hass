@@ -68,6 +68,7 @@ online:
     - binary_sensor.pluto
     - binary_sensor.neptune
     - binary_sensor.uranus
+    - binary_sensor.mercury
     - binary_sensor.foscam_black
     - binary_sensor.foscam_white
     - binary_sensor.moon

@@ -131,6 +131,9 @@ binary_sensor.neptune:
 binary_sensor.uranus:
   icon: mdi:wifi
   friendly_name: "Airport Express #2"
+binary_sensor.mercury:
+  icon: mdi:wifi
+  friendly_name: "Airport Express #3"
 binary_sensor.moon:
   icon: mdi:orbit
   friendly_name: "Philips Hue"

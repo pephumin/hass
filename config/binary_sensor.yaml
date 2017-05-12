@@ -31,6 +31,10 @@
   name: "Uranus"
 
 - platform: ping
+  host: 192.168.1.5
+  name: "Mercury"
+
+- platform: ping
   host: 192.168.1.22
   name: "Moon"
 
