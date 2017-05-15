@@ -1,0 +1,80 @@
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+
+google.load("visualization", "1", {packages:["corechart"]});
+google.setOnLoadCallback(drawChart);
+
+
+var dataSet1 = [
+    [ 'A', 25 ],
+    [ 'B', 125 ],
+    [ 'C', 35 ],
+    [ 'D', 10 ],
+    [ 'E', 12 ],
+    [ 'F', 70 ],
+    [ 'G', 60 ]
+    ];
+
+var dataTitle = [ 'Category', 'Size', 'Pctg' ];
+
+// first sorts the array according to column 2 in descending order (that is done by supplying the JavaScript built-in 'sort' with a sorting function of our own)
+// then calculates the total of column, calculates the percentages and puts the percentages into a new column in each row
+// prepends the data array with its title row
+
+function paretorize() {
+  // Sort the dataSet array usung column 2
+  dataSet1.sort( function(a,b) {
+    return b[1] - a[1];
+  });
+
+  // Calculate the total of column 2
+  var sum = 0;
+  for(row=0; row<dataSet1.length; row++) {
+    sum += dataSet1[row][1];
+  }
+
+  // Calculate the accumulating percentages
+  // and add them into a new column in each row
+  var accum = 0;
+  for(row=0; row<dataSet1.length; row++) {
+    dataSet1[row].push( accum+100*dataSet1[row][1]/sum );
+    accum = dataSet1[row][2];
+  }
+
+  // Add the title row at the beginning of dataSet
+  // ('unshift' is not supported in IE8 and earlier)
+  dataSet1.unshift( dataTitle );
+}
+
+paretorize();
+
+function drawChart() {
+  var data = google.visualization.arrayToDataTable( dataSet1 );
+
+  var options = {
+    title:  'Pareto chart',
+    legend: { position: 'none' },         // no legend
+    // Create two vertical axes taking its titles from the first row
+    vAxes:[
+       { title: dataSet1[0][1], minValue: 0 },
+       { title: dataSet1[0][2], minValue: 0, maxValue: 100 }
+     ],
+    hAxis:  { title: dataSet1[0][0] },
+    backgroundColor: {strokeWidth: 2 },   // to get a nice box
+    seriesType: "bars",                   // the standard chart type
+    // the second data column should be of type 'line' and should be associated with the second vertical axis
+    series: {1: {type: "line", targetAxisIndex: 1 }},
+    };
+
+  // Note: this calls a ComboChart !!!
+  var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+  chart.draw(data, options);
+}
+
+// If you want to use other types of data series you need to change the frequency function
+// and instead of mathematical greater/less comparisons you need to write the appropriate code for your case.
+// The given 'grades' example could be something like if( series[d]==bins[b] ) { histo[b+1][1]++; }
+
+</script>
+
+<div id="chart_div" style="width: 400px; height: 300px;"></div>
