@@ -1,0 +1,15 @@
+# - platform: statistics
+#   name: "Distance Pe & Home"
+#   entity_id: proximity.pe_home
+
+# - platform: statistics
+#   name: "Distance Jue & Home"
+#   entity_id: proximity.jue_home
+
+# - platform: statistics
+#   name: "Distance Pe & Benjawan"
+#   entity_id: proximity.pe_benjawan
+
+# - platform: statistics
+#   name: "Distance Jue & Malaiwan"
+#   entity_id: proximity.jue_malaiwan

@@ -1,4 +1,6 @@
 - alias: Offline Deeper
+  initial_state: true
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: binary_sensor.deeper
@@ -12,11 +14,10 @@
       data:
         title: "The primary gateway is offline"
         message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-        data:
-          displaytime: 2000
-          icon: "warning"
 
 - alias: Offline Higher
+  initial_state: true
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: binary_sensor.higher
@@ -30,11 +31,10 @@
       data:
         title: "The secondary gateway is offline"
         message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-        data:
-          displaytime: 2000
-          icon: "warning"
 
 - alias: Offline Pluto
+  initial_state: true
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: binary_sensor.pluto
@@ -48,11 +48,10 @@
       data:
         title: "Airport Extreme is offline"
         message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-        data:
-          displaytime: 2000
-          icon: "warning"
 
 - alias: Offline Neptune
+  initial_state: true
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: binary_sensor.neptune
@@ -66,11 +65,10 @@
       data:
         title: "Airport Express #1 is offline"
         message: 'Airport Express #1 is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-        data:
-          displaytime: 2000
-          icon: "warning"
 
 - alias: Offline Uranus
+  initial_state: true
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: binary_sensor.uranus
@@ -84,11 +82,10 @@
       data:
         title: "Airport Express #2 is offline"
         message: 'Airport Express #2 is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-        data:
-          displaytime: 2000
-          icon: "warning"
 
 - alias: Offline Foscam Black
+  initial_state: true
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: binary_sensor.foscam_black
@@ -102,11 +99,10 @@
       data:
         title: "Foscam Black is offline"
         message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-        data:
-          displaytime: 2000
-          icon: "warning"
 
 - alias: Offline Foscam White
+  initial_state: true
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: binary_sensor.foscam_white
@@ -120,11 +116,10 @@
       data:
         title: "Foscam White is offline"
         message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-        data:
-          displaytime: 2000
-          icon: "warning"
 
 - alias: Offline Printer
+  initial_state: true
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: binary_sensor.printer
@@ -138,11 +133,10 @@
       data:
         title: "Printer is offline"
         message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-        data:
-          displaytime: 2000
-          icon: "warning"
 
 - alias: Offline Hue
+  initial_state: true
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: binary_sensor.moon
@@ -156,6 +150,3 @@
       data:
         title: "Philips Hue is offline"
         message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-        data:
-          displaytime: 2000
-          icon: "warning"

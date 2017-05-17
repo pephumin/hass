@@ -62,9 +62,3 @@
 #       icon_template: '{% if states.sensor.temperature_sda.state <= 39 %}mdi:thermometer{% else %}mdi:thermometer-lines{% endif %}'
 #       value_template: '{{ states.sensor.temperature_sda.state }}'
 #       # unit_of_measurement: '°C'
-
-# - platform: moon
-
-# - platform: worldclock
-#   name: World Clock
-#   time_zone: Asia/Bangkok

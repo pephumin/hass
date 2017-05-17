@@ -1,3 +1,55 @@
+- alias: "Sunset 1"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-02:00:00"
+  action:
+    - service: notify.tv
+      data:
+        title: "Sunset in 2 hours"
+        message: 'Sunset can be expected in approx. two hours [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+- alias: "Sunset 2"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-01:00:00"
+  action:
+    - service: notify.tv
+      data:
+        title: "Sunset in 1 hour"
+        message: 'Sunset can be expected in approx. one hour [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+- alias: "Sunset 3"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:30:00"
+  action:
+    - service: notify.tv
+      data:
+        title: "Sunset in 30 minutes"
+        message: 'Sunset can be expected in approx. 30 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+- alias: "Sunset 4"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "+00:00:00"
+  action:
+    - service: notify.tv
+      data:
+        title: "The sun is down now"
+        message: 'Sunset is happening now, another goodbye to the day [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
 # - alias: "Software update"
 #   initial_state: false
 #   hide_entity: true
@@ -27,9 +79,6 @@
 #       data:
 #         title: "Auto-message"
 #         message: 'Common Room Light #1 has been set to On [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-#         data:
-#           displaytime: 2000
-#           icon: "warning"
 #
 # - alias: "Notify CR 2"
 #   initial_state: true
@@ -48,9 +97,6 @@
 #       data:
 #         title: "Auto-message"
 #         message: 'Common Room Light #2 has been set to On [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-#         data:
-#           displaytime: 2000
-#           icon: "warning"
 #
 # - alias: "Notify BR 1"
 #   initial_state: true
@@ -69,9 +115,6 @@
 #       data:
 #         title: "Auto-message"
 #         message: 'Bedroom Light #3 has been set to On [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-#         data:
-#           displaytime: 2000
-#           icon: "warning"
 #
 # - alias: "Notify BR 2"
 #   initial_state: true
@@ -90,6 +133,3 @@
 #       data:
 #         title: "Auto-message"
 #         message: 'Bedroom Light #4 has been set to On [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-#         data:
-#           displaytime: 2000
-#           icon: "warning"

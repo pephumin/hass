@@ -7,6 +7,10 @@ travel:
     - sensor.benjy_to_home
     - sensor.home_to_malaiwan
     - sensor.malaiwan_to_home
+    # - proximity.pe_home
+    # - sensor.distance_pe__home_mean
+    # - proximity.jue_home
+    # - sensor.distance_jue__home_mean
 
 daylight:
   view: no
@@ -19,6 +23,7 @@ daylight:
     - sun.sun
     - sensor.solar_angle
     # - binary_sensor.trend_solar_angle
+    - sensor.moon
 
 weather:
   view: no

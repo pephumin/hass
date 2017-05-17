@@ -1,0 +1,31 @@
+# home:
+#   zone: home
+#   devices:
+#     - device_tracker.pesiphone6
+#     - device_tracker.juesiphone6splus
+#   tolerance: 1000
+#   unit_of_measurement: m
+pe_home:
+  zone: home
+  devices:
+    - device_tracker.pesiphone6
+  tolerance: 1000
+  unit_of_measurement: m
+jue_home:
+  zone: home
+  devices:
+    - device_tracker.juesiphone6splus
+  tolerance: 1000
+  unit_of_measurement: m
+jue_malaiwan:
+  zone: malaiwan
+  devices:
+    - device_tracker.juesiphone6splus
+  tolerance: 1000
+  unit_of_measurement: m
+pe_benjawan:
+  zone: benjawan
+  devices:
+    - device_tracker.pesiphone6
+  tolerance: 1000
+  unit_of_measurement: m

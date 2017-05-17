@@ -45,6 +45,7 @@ light.front_2:
   icon: mdi:lightbulb-outline
 light.garage:
   icon: mdi:spotlight
+
 camera.foscam_black:
   icon: mdi:webcam
 camera.foscam_white:
@@ -62,6 +63,7 @@ sensor.malaiwan_to_home:
 sensor.rm_pro_temperature:
   icon: mdi:thermometer-lines
   friendly_name: "Broadlink RM Pro"
+
 switch.common_room_air_cond:
   icon: mdi:air-conditioner
   assumed_state: true
@@ -138,6 +140,25 @@ binary_sensor.moon:
   icon: mdi:orbit
   friendly_name: "Philips Hue"
 
+proximity.jue_home:
+  icon: mdi:compass
+  friendly_name: "Jue from Home"
+proximity.pe_home:
+  icon: mdi:compass
+  friendly_name: "Pe from Home"
+proximity.jue_malaiwan:
+  icon: mdi:compass
+  friendly_name: "Jue from Malaiwan"
+proximity.pe_benjawan:
+  icon: mdi:compass
+  friendly_name: "Pe from Benjy"
+
+sensor.distance_pe__home_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "Ave. distance Pe & Home"
+sensor.distance_jue__home_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "Ave. distance Jue & Home"
 
 ### hidden ###
 

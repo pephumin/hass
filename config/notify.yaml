@@ -29,3 +29,8 @@
 - platform: html5
   gcm_api_key: !secret gcm_api_key
   gcm_sender_id: !secret gcm_sender_id
+
+- platform: ios
+  name: iOSApp
+  target: 'TOKEN'
+  # target: 'a3293f87-0103-3014-9fac-bf3f9cb6e0a8'

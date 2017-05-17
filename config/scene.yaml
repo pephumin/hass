@@ -79,22 +79,22 @@
     light.bedroom_1:
       state: on
       transition: 1
-      brightness: 120
+      brightness: 110
       xy_color: [0.3685,0.3717]
     light.bedroom_2:
       state: on
       transition: 1
-      brightness: 120
+      brightness: 110
       xy_color: [0.3685,0.3717]
     light.bedroom_3:
       state: on
       transition: 1
-      brightness: 254
+      brightness: 220
       xy_color: [0.3685,0.3717]
     light.bedroom_4:
       state: on
       transition: 1
-      brightness: 254
+      brightness: 220
       xy_color: [0.3685,0.3717]
     light.bedroom_lw:
       state: off
@@ -106,23 +106,23 @@
     light.bedroom_1:
       state: on
       transition: 1
-      brightness: 70
-      xy_color: [0.3143,0.3302]
+      brightness: 101
+      xy_color: [0.368,0.3686]
     light.bedroom_2:
       state: on
       transition: 1
-      brightness: 70
-      xy_color: [0.3143,0.3302]
+      brightness: 101
+      xy_color: [0.368,0.3686]
     light.bedroom_3:
       state: on
       transition: 1
-      brightness: 144
-      xy_color: [0.3143,0.3302]
+      brightness: 202
+      xy_color: [0.368,0.3686]
     light.bedroom_4:
       state: on
       transition: 1
-      brightness: 144
-      xy_color: [0.3143,0.3302]
+      brightness: 202
+      xy_color: [0.368,0.3686]
     light.bedroom_lw:
       state: off
     light.bedroom_lc:
@@ -134,22 +134,22 @@
       state: on
       transition: 1
       brightness: 120
-      xy_color: [0.4450,0.4067]
+      xy_color: [0.4448,0.4066]
     light.bedroom_2:
       state: on
       transition: 1
       brightness: 120
-      xy_color: [0.4450,0.4067]
+      xy_color: [0.4448,0.4066]
     light.bedroom_3:
       state: on
       transition: 1
-      brightness: 254
-      xy_color: [0.4450,0.4067]
+      brightness: 240
+      xy_color: [0.4448,0.4066]
     light.bedroom_4:
       state: on
       transition: 1
-      brightness: 254
-      xy_color: [0.4450,0.4067]
+      brightness: 240
+      xy_color: [0.4448,0.4066]
     light.bedroom_lw:
       state: off
     light.bedroom_lc:
@@ -161,22 +161,22 @@
       state: on
       transition: 1
       brightness: 70
-      xy_color: [0.5014,0.4153]
+      xy_color: [0.5119,0.4147]
     light.bedroom_2:
       state: on
       transition: 1
       brightness: 70
-      xy_color: [0.5014,0.4153]
+      xy_color: [0.5119,0.4147]
     light.bedroom_3:
       state: on
       transition: 1
       brightness: 144
-      xy_color: [0.5014,0.4153]
+      xy_color: [0.5119,0.4147]
     light.bedroom_4:
       state: on
       transition: 1
       brightness: 144
-      xy_color: [0.5014,0.4153]
+      xy_color: [0.5119,0.4147]
     light.bedroom_lw:
       state: off
     light.bedroom_lc:

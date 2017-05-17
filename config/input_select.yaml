@@ -1,12 +1,8 @@
-who_dj:
-  name: "Who is the DJ?"
+homemode:
+  name: "Home Mode"
   options:
-   - Pe
-   - Benjy
-  initial: Pe
-  icon: mdi:music
-
-common_room_preset:
-  options:
-    - Chilled
-    - Euphoria
+    - Home
+    - Away
+    - Vacation
+  initial: Home
+  icon: mdi:home-outline
