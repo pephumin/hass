@@ -2,4 +2,4 @@ name: Malaiwan
 icon: mdi:home-modern
 latitude: !secret latitude_malaiwan
 longitude: !secret longitude_malaiwan
-radius: 250
+radius: 100

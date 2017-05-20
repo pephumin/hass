@@ -2,4 +2,4 @@ name: Benjawan
 icon: mdi:home-variant
 latitude: !secret latitude_benjawan
 longitude: !secret longitude_benjawan
-radius: 150
+radius: 100
