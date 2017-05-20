@@ -1,7 +1,7 @@
 - platform: broadlink
   update_interval: 60
   name: "Common Room"
-  host: 192.168.1.142
+  host: 192.168.1.12
   mac: "B4:43:0D:30:4E:13"
   monitored_conditions:
     - temperature

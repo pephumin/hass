@@ -1,6 +1,6 @@
 - platform: broadlink
   name: "RM Pro"
-  host: 192.168.1.142
+  host: 192.168.1.12
   mac: "B4:43:0D:30:4E:13"
   switches:
     cr_aircond:
@@ -22,7 +22,7 @@
 
 - platform: broadlink
   name: "RM Mini"
-  host: 192.168.1.152
+  host: 192.168.1.13
   mac: "B4:43:0D:F9:11:7F"
   switches:
     br_aircond:
