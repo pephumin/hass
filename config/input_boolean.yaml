@@ -1,19 +1,19 @@
-loop_light_bedroom:
-  name: "Loop Light Bedroom"
-  initial: off
-  icon: mdi:spotlight
+# loop_light_bedroom:
+#   name: "Loop Light Bedroom"
+#   initial: off
+#   icon: mdi:spotlight
+#
+# loop_light_common_room:
+#   name: "Loop Light Common Room"
+#   initial: off
+#   icon: mdi:spotlight
+#
+# loop_light_hallway:
+#   name: "Loop Light Hallway"
+#   initial: off
+#   icon: mdi:spotlight
 
-loop_light_common_room:
-  name: "Loop Light Common Room"
-  initial: off
-  icon: mdi:spotlight
-
-loop_light_hallway:
-  name: "Loop Light Hallway"
-  initial: off
-  icon: mdi:spotlight
-
-benjy_visits:
-  name: "Benjy visits"
-  initial: off
-  icon: mdi:duck
+# benjy_visits:
+#   name: "Benjy visits"
+#   initial: off
+#   icon: mdi:duck

@@ -38,23 +38,10 @@
   host: 192.168.1.22
   name: "Moon"
 
-# - platform: trend
-#   sensors:
-#     trend_solar_angle:
-#       friendly_name: 'Trend Solar Angle'
-#       entity_id: sun.sun
+- platform: ping
+  host: 192.168.1.12
+  name: "Broadlink RM Pro"
 
-# - platform: trend
-#   sensors:
-#     temp_up_sda:
-#       friendly_name: 'Temperature+ SDA'
-#       entity_id: sensor.temperature_sda
-#       device_class: heat
-
-# - platform: trend
-#   sensors:
-#     temp_down_sda:
-#       friendly_name: 'Temperature- SDA'
-#       entity_id: sensor.temperature_sda
-#       device_class: cold
-#       invert: Yes
+- platform: ping
+  host: 192.168.1.13
+  name: "Broadlink RM Mini"
