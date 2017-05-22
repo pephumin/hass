@@ -1,14 +1,17 @@
 zone:
+
   - name: Home
     icon: mdi:home
     latitude: !secret latitude_home
     longitude: !secret longitude_home
     radius: 100
+
   - name: Benjawan
     icon: mdi:home-variant
     latitude: !secret latitude_benjawan
     longitude: !secret longitude_benjawan
     radius: 100
+
   - name: Malaiwan
     icon: mdi:home-modern
     latitude: !secret latitude_malaiwan
@@ -16,6 +19,7 @@ zone:
     radius: 100
 
 automation:
+
   - alias: "Jue Leaves Home"
     initial_state: true
     hide_entity: false
