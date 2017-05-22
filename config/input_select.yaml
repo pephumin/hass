@@ -1,8 +1,0 @@
-# homemode:
-#   name: "Home Mode"
-#   options:
-#     - Home
-#     - Away
-#     - Vacation
-#   initial: Home
-#   icon: mdi:home-outline

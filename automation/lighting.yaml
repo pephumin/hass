@@ -7,20 +7,15 @@
     - platform: time
       after: '00:01:00'
   condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_select.homemode
-        state: 'Home'
-      - condition: state
-        entity_id: input_boolean.benjy_visits
-        state: 'off'
+    - condition: state
+      entity_id: input_select.homemode
+      state: Home
   action:
     - service: light.turn_off
       entity_id: group.all_lights
       data:
-        transition: 5
-    - service: script.notifying
+        transition: 60
+    - service: script.flashing_once
       data:
         title: "All lights has been turned off"
         message: 'All lights are off after midnight everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
@@ -30,19 +25,15 @@
   hide_entity: false
   trigger:
     - platform: state
-      entity_id: device_tracker.pesiphone6, device_tracker.juesiphone6splus
-      state: 'not_home'
+      entity_id: input_select.homemode
+      state: Away
       for:
         minutes: 30
-  condition:
-    - condition: state
-      entity_id: input_boolean.benjy_visits
-      state: 'off'
   action:
     - service: light.turn_off
       entity_id: group.all_lights
       data:
-        transition: 5
+        transition: 1
     - service: script.notifying
       data:
         title: "All lights has been turned off"
@@ -58,7 +49,7 @@
   condition:
     - condition: state
       entity_id: input_select.homemode
-      state: 'Home'
+      state: Home
   action:
     - service: script.autolight_sunset_home
 
@@ -72,11 +63,11 @@
   condition:
     - condition: state
       entity_id: input_select.homemode
-      state: 'Away'
+      state: Away
   action:
     - service: script.autolight_sunset_away
 
-- alias: "Autolight Home Mode"
+- alias: "Autolight Home 1"
   initial_state: true
   hide_entity: true
   trigger:
@@ -87,153 +78,145 @@
   condition:
     - condition: state
       entity_id: input_select.homemode
-      state: 'Home'
+      state: Home
   action:
-    - service: script.autolight_mode_home
+    - service: script.autolight_mode_home_1
 
-# - alias: "Autolight Away Mode"
-#   initial_state: true
-#   hide_entity: true
-#   trigger:
-#     - platform: time
-#       hours: 19
-#       minutes: 0
-#       seconds: 0
-#   condition:
-#     - condition: state
-#       entity_id: input_select.homemode
-#       state: 'Away'
-#   action:
-#     - service: script.autolight_mode_away
-
-# - alias: "Autolight Vacation Mode"
-#   initial_state: true
-#   hide_entity: true
-#   trigger:
-#     - platform: time
-#       hours: 19
-#       minutes: 0
-#       seconds: 0
-#   condition:
-#     - condition: state
-#       entity_id: input_select.homemode
-#       state: 'Vacation'
-#   action:
-#     - service: script.autolight_mode_vacation
-
-### Loop lighting
-
-- alias: "Loop Light Bedroom"
+- alias: "Autolight Home 2"
   initial_state: true
-  hide_entity: false
+  hide_entity: true
   trigger:
     - platform: time
-      minutes: "/1"
+      hours: 21
+      minutes: 0
       seconds: 0
   condition:
-    condition: state
-    entity_id: input_boolean.loop_light_bedroom
-    state: "on"
+    - condition: state
+      entity_id: input_select.homemode
+      state: Home
   action:
-    - service: light.turn_on
-      entity_id: light.bedroom_3
-      data:
-        effect: random
-        transition: 1
-        brightness: 100
-    - service: light.turn_on
-      entity_id: light.bedroom_4
-      data:
-        effect: random
-        transition: 1
-        brightness: 100
-    # - service: notify.tv
-    #   data:
-    #     title: "Loop Bedroom Lights"
-    #     message: 'Two lights in Bedroom are set to colour looping [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: script.autolight_mode_home_2
 
-- alias: "Loop Light Common Room"
+- alias: "Autolight Away 1"
   initial_state: true
-  hide_entity: false
+  hide_entity: true
   trigger:
     - platform: time
-      minutes: "/1"
+      hours: 19
+      minutes: 30
       seconds: 0
   condition:
-    condition: state
-    entity_id: input_boolean.loop_light_common_room
-    state: "on"
+    - condition: state
+      entity_id: input_select.homemode
+      state: Away
   action:
-    - service: light.turn_on
-      entity_id: light.lightstrip
-      data:
-        effect: random
-        transition: 2
-        brightness: 255
-    - service: light.turn_on
-      entity_id: light.hallway
-      data:
-        effect: random
-        transition: 2
-        brightness: 255
-    # - service: notify.tv
-    #   data:
-    #     title: "Loop Common Room Lights"
-    #     message: 'Two lights in Common Room are set to colour looping [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: script.autolight_mode_away_1
 
-- alias: "Loop Light Hallway"
+- alias: "Autolight Away 2"
   initial_state: true
-  hide_entity: false
+  hide_entity: true
   trigger:
     - platform: time
-      minutes: "/1"
+      hours: 20
+      minutes: 45
       seconds: 0
   condition:
-    condition: state
-    entity_id: input_boolean.loop_light_hallway
-    state: "on"
+    - condition: state
+      entity_id: input_select.homemode
+      state: Away
   action:
-    - service: light.turn_on
-      entity_id: light.hallway
-      data:
-        effect: random
-        transition: 2
-        brightness: 255
-    # - service: notify.tv
-    #   data:
-    #     title: "Loop Hallway Light"
-    #     message: 'Hallway light is set to colour looping [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - service: script.autolight_mode_away_2
+
+- alias: "Autolight Away 3"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: time
+      hours: 21
+      minutes: 0
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: input_select.homemode
+      state: Away
+  action:
+    - service: script.autolight_mode_away_3
+
+- alias: "Autolight Vacation 1"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: time
+      hours: 19
+      minutes: 30
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: input_select.homemode
+      state: Vacation
+  action:
+    - service: script.autolight_mode_vacation_1
+
+- alias: "Autolight Vacation 2"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: time
+      hours: 20
+      minutes: 45
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: input_select.homemode
+      state: Vacation
+  action:
+    - service: script.autolight_mode_vacation_2
+
+- alias: "Autolight Vacation 3"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: time
+      hours: 21
+      minutes: 0
+      seconds: 0
+  condition:
+    - condition: state
+      entity_id: input_select.homemode
+      state: Vacation
+  action:
+    - service: script.autolight_mode_vacation_3
 
 ### Dune
 
-- alias: "Dune Not Playing"
-  initial_state: true
-  hide_entity: false
-  trigger:
-    - platform: state
-      entity_id: media_player.dune
-      from: "playing"
-      to: "idle"
-  condition:
-    condition: state
-    entity_id: sun.sun
-    state: "below_horizon"
-  action:
-    - service: scene.turn_on
-      entity_id: scene.common_room_alive
-
-- alias: "Dune Playing"
-  initial_state: true
-  hide_entity: false
-  trigger:
-    - platform: state
-      entity_id: media_player.dune
-      from: "idle"
-      to: "playing"
-  condition:
-    condition: state
-    entity_id: sun.sun
-    state: "below_horizon"
-  action:
-    - service: scene.turn_on
-      entity_id: scene.common_room_dim
+# - alias: "Dune Not Playing"
+#   initial_state: true
+#   hide_entity: false
+#   trigger:
+#     - platform: state
+#       entity_id: media_player.dune
+#       from: "playing"
+#       to: "idle"
+#   condition:
+#     condition: state
+#     entity_id: sun.sun
+#     state: "below_horizon"
+#   action:
+#     - service: scene.turn_on
+#       entity_id: scene.common_room_alive
+#
+# - alias: "Dune Playing"
+#   initial_state: true
+#   hide_entity: false
+#   trigger:
+#     - platform: state
+#       entity_id: media_player.dune
+#       from: "idle"
+#       to: "playing"
+#   condition:
+#     condition: state
+#     entity_id: sun.sun
+#     state: "below_horizon"
+#   action:
+#     - service: scene.turn_on
+#       entity_id: scene.common_room_dim

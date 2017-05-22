@@ -16,30 +16,30 @@ devices:
     - device_tracker.pepe
     - device_tracker.benjysiphone6
 
-family:
-  view: no
-  name: "Family"
-  icon: mdi:emoticon-tongue
-  entities:
-    - device_tracker.pesiphone6
-    - device_tracker.juesiphone6splus
+# family:
+#   view: no
+#   name: "Family"
+#   icon: mdi:emoticon-tongue
+#   entities:
+#     - device_tracker.pesiphone6
+#     - device_tracker.juesiphone6splus
 
-media_player:
-  view: no
-  name: "Media Players"
-  icon: mdi:play-box-outline
-  entities:
-    - media_player.itunes
-    - media_player.apple_tv
-    - media_player.denon
-    - media_player.dune
-    - media_player.kodi
-    - media_player.computer_airtunes_speaker
-    - media_player.bedroom_aex_airtunes_speaker
-    - media_player.denon_avr2113_airtunes_speaker
-    - media_player.androidtv_airtunes_speaker
-    - media_player.living_room_apple_tv_airtunes_speaker
-    - media_player.working_space_aex_airtunes_speaker
+# media_player:
+#   view: no
+#   name: "Media Players"
+#   icon: mdi:play-box-outline
+#   entities:
+#     - media_player.itunes
+#     - media_player.apple_tv
+#     - media_player.denon
+#     - media_player.dune
+#     - media_player.kodi
+#     - media_player.computer_airtunes_speaker
+#     - media_player.bedroom_aex_airtunes_speaker
+#     - media_player.denon_avr2113_airtunes_speaker
+#     - media_player.androidtv_airtunes_speaker
+#     - media_player.living_room_apple_tv_airtunes_speaker
+#     - media_player.working_space_aex_airtunes_speaker
 
 home_server:
   view: no
@@ -69,7 +69,69 @@ online:
     - binary_sensor.neptune
     - binary_sensor.uranus
     - binary_sensor.mercury
+    - binary_sensor.broadlink_rm_pro
+    - binary_sensor.broadlink_rm_mini
     - binary_sensor.foscam_black
     - binary_sensor.foscam_white
     - binary_sensor.moon
     - binary_sensor.printer
+
+online_cr:
+  view: no
+  name: "Online Status Common Room"
+  entities:
+    - binary_sensor.deeper
+    - binary_sensor.higher
+    - binary_sensor.pluto
+    # - binary_sensor.neptune
+    # - binary_sensor.uranus
+    # - binary_sensor.mercury
+    - binary_sensor.broadlink_rm_pro
+    # - binary_sensor.broadlink_rm_mini
+    - binary_sensor.foscam_black
+    # - binary_sensor.foscam_white
+    # - binary_sensor.moon
+    # - binary_sensor.printer
+
+online_br:
+  view: no
+  name: "Online Status Bedroom"
+  entities:
+    # - binary_sensor.deeper
+    # - binary_sensor.higher
+    # - binary_sensor.pluto
+    - binary_sensor.neptune
+    # - binary_sensor.uranus
+    # - binary_sensor.mercury
+    # - binary_sensor.broadlink_rm_pro
+    - binary_sensor.broadlink_rm_mini
+    # - binary_sensor.foscam_black
+    # - binary_sensor.foscam_white
+    - binary_sensor.moon
+    # - binary_sensor.printer
+
+online_ff:
+  view: no
+  name: "Online Status First Floor"
+  entities:
+    # - binary_sensor.deeper
+    # - binary_sensor.higher
+    # - binary_sensor.pluto
+    # - binary_sensor.neptune
+    - binary_sensor.uranus
+    - binary_sensor.mercury
+    # - binary_sensor.broadlink_rm_pro
+    # - binary_sensor.broadlink_rm_mini
+    # - binary_sensor.foscam_black
+    - binary_sensor.foscam_white
+    # - binary_sensor.moon
+    - binary_sensor.printer
+
+proximity:
+  view: no
+  name: "Current Position"
+  entities:
+    - proximity.pe_home
+    - proximity.jue_home
+    - proximity.pe_benjawan
+    - proximity.jue_malaiwan

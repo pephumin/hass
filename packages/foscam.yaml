@@ -1,0 +1,72 @@
+shell_command:
+  foscam_turn_off: !secret foscam_turn_off
+  foscam_turn_on: !secret foscam_turn_on
+
+switch:
+  - platform: command_line
+    name: "Foscam Motion Detection"
+    switches:
+      foscam_motion:
+        command_on: !secret command_on
+        command_off: !secret command_off
+        command_state: !secret command_state
+        value_template: '{{ value == "1" }}'
+
+script:
+  foscam_off:
+    alias: "Foscam Motion Inactive"
+    sequence:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.foscam_motion
+      - service: shell_command.foscam_turn_off
+
+  foscam_on:
+    alias: "Foscam Motion Active"
+    sequence:
+      - service: switch.turn_off
+        data:
+          entity_id: switch.foscam_motion
+      - service: shell_command.foscam_turn_on
+      - service: switch.turn_on
+        data:
+          entity_id: switch.foscam_motion
+
+automation:
+  - alias: "Enable Motion Detection Away Mode"
+    initial_state: false
+    hide_entity: false
+    trigger:
+      - platform: state
+        entity_id: input_select.homemode
+        from: Home
+        to: Away
+    action:
+      - service: script.foscam_on
+      - service: notify.email
+        data:
+          title: "Enable Motion Detection"
+          message: 'Foscam Motion Detection is activated for Away mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: notify.tv
+        data:
+          title: "Enable Motion Detection"
+          message: 'Foscam Motion Detection is activated for Away mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Disable Motion Detection Home Mode"
+    initial_state: false
+    hide_entity: false
+    trigger:
+      - platform: state
+        entity_id: input_select.homemode
+        from: Away
+        to: Home
+    action:
+      - service: script.foscam_off
+      - service: notify.email
+        data:
+          title: "Disable Motion Detection"
+          message: 'Foscam Motion Detection is deactivated for Home mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: notify.tv
+        data:
+          title: "Disable Motion Detection"
+          message: 'Foscam Motion Detection is deactivated for Home mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

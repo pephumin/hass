@@ -23,45 +23,8 @@
 #         milliseconds: 500
 #     - service: script.strobe_a
 
-# foscam_off:
-#   alias: "Foscam Motion Inactive"
-#   sequence:
-#     - service: switch.turn_off
-#       data:
-#         entity_id: switch.foscam_motion
-#     - service: shell_command.foscam_turn_off
-
-# foscam_on:
-#   alias: "Foscam Motion Active"
-#   sequence:
-#     - service: switch.turn_off
-#       data:
-#         entity_id: switch.foscam_motion
-#     - service: shell_command.foscam_turn_on
-#     - service: switch.turn_on
-#       data:
-#         entity_id: switch.foscam_motion
-
-mute_common_room:
-  alias: "Mute Common Room"
-  sequence:
-    - service: broadlink.send_packet_192_168_1_142
-      data:
-        packet:
-          - 'JgDMAG82Dw0PDg0pDg0OKg0ODikPDA4ODikODg8MDikOKQ4ODwwPDQ4NDg4ODw4MDg0OKQ8NDikODw0ODQ4ODg4oDw0ODQ8pDigQKA4ODSsNDQ4NDg4ODQ8oDygPDQ4qDSkOKQ8ODQAJj283DQ4ODQ4pDw0OKQ8MDygQDA8ODSkODQ8NDikOKQ4NDw0ODQ8ODQ4ODwwODwwOKQ8ODSkODQ8NDg0PDg0pDg4ODQ8oDikPKA8NECcPDA8NDg4PDA4rDCkPDg0qDigOKQ4ODwANBQAAAAAAAAAAAAAAAA=='
-          # - 'JgDMAG44Dg0ODQ4qDQ4OKQ4NDikODg4NDisNDRALECgOKQ4NDw0PDBAMDg4PDA4NDw4OJxEMDygODg0ODwwPDQ4qDgwPDQ4pDygOKQ4ODikODRAMDg0PDQ4pECgNDg4pDikOKQ8MDwAJkG42Dw0ODQ4pDwwOKQ8NECcODg4ODigODg4NDykOKA8NEAwODQ4ODwwODg4NDw0OKQ4NDikPDQ8MDw4ODQ4qDgwQDQ0pDikPKQ0NDykODQ4ODg0PDQ8oDygODg4pDikOKQ4ODQANBQAAAAAAAAAAAAAAAA=='
-
-mute_bedroom:
-  alias: "Mute Bedroom"
-  sequence:
-    - service: broadlink.send_packet_192_168_1_152
-      data:
-        packet:
-          # - 'JgDMAAgaCjsKGQkZChkJGQoZCRkKGQk8CTwJPAk8CRkKGQkABZ8LGAk8CRkJGgkZCTwJPAo7CTwKGQkZCRoJGQk8CTwJAAWfCxgJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwJGgkZCRoJPAk8CTsKOwoZCRoJGQkaCTsKOwoABZ8KGAo7ChkJGQkaCRkKGQkZChkJPAk8CTwJPAkZCRoJAAWfChkJOwoZCRoJGQk8CTwJPAk8CRkKGQkZChkJPAk8CQANBQAAAAAAAAAAAAAAAA=='
-          - 'JgDMAAgaCjsKGQkZChkJGgkZCRoJGQk8CTwJPAk8CRkKGQkABZ8KGQk8CxcJGgkZCTwKOwo7CTwJGgkZCRoJGQk8CTwKAAWeChkJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwLGAkZCRoJPAk7CjsMOQwXCRkKGQkZCjsKOwwABZ0KGAo7CRoJGQkaCRkJGgkZCRoJPAk8CTwJPAkZCRoJAAWfChgKOwoZCRkKGQk8CTwJPAs6CRkKGQkZChkJPAk8CwANBQAAAAAAAAAAAAAAAA=='
-
 autolight_sunset_home:
-  alias: "Autolight Sunset (Home)"
+  alias: "Autolighting Sunset Home"
   sequence:
     - service: light.turn_on
       data:
@@ -69,25 +32,22 @@ autolight_sunset_home:
         transition: 300
         brightness: 200
         xy_color: [0.1794, 0.0964]
-    - service: script.flashing_short
+    - service: script.flashing_once
       data:
         title: "Lightstrip has been turned on"
         message: '15 minutes before sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-    - delay:
-        hours: 1
-        minutes: 15
-        seconds: 0
+    - delay: 01:15:00
     - service: light.turn_off
       data:
         entity_id: light.lightstrip
         transition: 1
-    - service: script.flashing_short
+    - service: script.flashing_once
       data:
         title: "Lightstrip has been turned off"
         message: '1.5 hors after sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
 autolight_sunset_away:
-  alias: "Autolight Sunset (Away)"
+  alias: "Autolighting Sunset Away"
   sequence:
     - service: light.turn_on
       data:
@@ -98,10 +58,7 @@ autolight_sunset_away:
       data:
         title: "Garage light has been turned on"
         message: '15 minutes before sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-    - delay:
-        hours: 1
-        minutes: 15
-        seconds: 0
+    - delay: 01:15:00
     - service: light.turn_off
       data:
         entity_id: light.garage
@@ -111,76 +68,181 @@ autolight_sunset_away:
         title: "Garage light has been turned off"
         message: '1.5 hors after sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-autolight_mode_home:
-  alias: "Autolight (Home)"
+autolight_mode_home_1:
+  alias: "Autolighting Home 1"
   sequence:
     - service: light.turn_on
       data:
         entity_id: light.front_1
         transition: 5
         brightness: 200
-    - service: script.flashing_short
+    - service: script.flashing_once
       data:
         title: "Downstairs Light has been turned on"
         message: 'At 19:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-    - delay:
-        hours: 1
-        minutes: 0
-        seconds: 0
+    - delay: 01:00:00
     - service: light.turn_off
       data:
         entity_id: light.front_1
-        transition: 1
-    - service: script.flashing_short
+        transition: 5
+    - service: script.flashing_once
       data:
         title: "Downstairs Light has been turned off"
         message: 'At 20:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-    - delay:
-        hours: 0
-        minutes: 30
-        seconds: 0
+
+autolight_mode_home_2:
+  alias: "Autolighting Home 2"
+  sequence:
     - service: light.turn_on
       data:
         entity_id: light.bedroom_lw
-        transition: 5
+        transition: 60
         brightness: 50
-    - service: script.flashing_short
+    - service: script.flashing_once
       data:
         title: "Bedroom LW has been turned on"
         message: 'At 21:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-    - delay:
-        hours: 2
-        minutes: 0
-        seconds: 0
+    - delay: 02:00:00
     - service: light.turn_off
       data:
         entity_id: light.bedroom_lw
-        transition: 1
-    - service: script.flashing_short
+        transition: 5
+    - service: script.flashing_once
       data:
         title: "Bedroom LW has been turned off"
         message: 'At 23:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-# autolight_mode_away:
-#   alias: "Autolight (Away)"
-#   sequence:
-#     - service: light.turn_on
-#       data_template:
-#         entity_id: {% if is_state("sensor.date_odd", "odd") %}light.common_room_1{% elif is_state("sensor.date_odd", "even") %}light.common_room_2{% endif %}
-#         brightness: 255
-#     - service: light.turn_off
-#       data_template:
-#         entity_id: {% if is_state("sensor.date_odd", "odd") %}light.common_room_2{% elif is_state("sensor.date_odd", "even") %}light.common_room_1{% endif %}
-#     - service: light.turn_on
-#       data_template:
-#         entity_id: {% if is_state("sensor.date_odd", "odd") %}light.bedroom_1{% elif is_state("sensor.date_odd", "even") %}light.bedroom_2{% endif %}
-#         brightness: 255
-#     - service: light.turn_off
-#       data_template:
-#         entity_id: {% if is_state("sensor.date_odd", "odd") %}light.bedroom_2{% elif is_state("sensor.date_odd", "even") %}light.bedroom_1{% endif %}
+autolight_mode_away_1:
+  alias: "Autolighting Away 1"
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.garage
+        transition: 1
+        brightness: 255
+    - service: script.notifying
+      data:
+        title: "Garage Light has been turned on"
+        message: 'At 19:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - delay: 01:00:00
+    - service: light.turn_off
+      data:
+        entity_id: light.garage
+        transition: 1
+    - service: script.notifying
+      data:
+        title: "Garage Light has been turned off"
+        message: 'At 20:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-# autolight_mode_vacation
-  # alias: "Autolight (Vacation)"
+autolight_mode_away_2:
+  alias: "Autolighting Away 2"
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.front_2
+        transition: 1
+        brightness: 255
+    - service: script.notifying
+      data:
+        title: "Downstairs Light has been turned on"
+        message: 'At 20:45pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - delay: 00:45:00
+    - service: light.turn_off
+      data:
+        entity_id: light.front_2
+        transition: 1
+    - service: script.notifying
+      data:
+        title: "Downstairs Light has been turned off"
+        message: 'At 21:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+autolight_mode_away_3:
+  alias: "Autolighting Away 3"
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lw
+        transition: 1
+        brightness: 255
+    - service: script.notifying
+      data:
+        title: "Bedroom LW has been turned on"
+        message: 'At 21:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - delay: 01:30:00
+    - service: light.turn_off
+      data:
+        entity_id: light.bedroom_lw
+        transition: 1
+    - service: script.notifying
+      data:
+        title: "Bedroom LW has been turned off"
+        message: 'At 22:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+autolight_mode_vacation_1:
+  alias: "Autolighting Vacation 1"
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.garage
+        transition: 1
+        brightness: 255
+    - service: script.notifying
+      data:
+        title: "Garage Light has been turned on"
+        message: 'At 19:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - delay: 01:00:00
+    - service: light.turn_off
+      data:
+        entity_id: light.garage
+        transition: 1
+    - service: script.notifying
+      data:
+        title: "Garage Light has been turned off"
+        message: 'At 20:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+autolight_mode_vacation_2:
+  alias: "Autolighting Vacation 2"
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.front_2
+        transition: 1
+        brightness: 255
+    - service: script.notifying
+      data:
+        title: "Downstairs Light has been turned on"
+        message: 'At 20:45pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - delay: 00:45:00
+    - service: light.turn_off
+      data:
+        entity_id: light.front_2
+        transition: 1
+    - service: script.notifying
+      data:
+        title: "Downstairs Light has been turned off"
+        message: 'At 21:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+autolight_mode_vacation_3:
+  alias: "Autolighting Vacation 3"
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: light.bedroom_lw
+        transition: 1
+        brightness: 255
+    - service: script.notifying
+      data:
+        title: "Bedroom LW has been turned on"
+        message: 'At 21:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+    - delay: 01:30:00
+    - service: light.turn_off
+      data:
+        entity_id: light.bedroom_lw
+        transition: 1
+    - service: script.notifying
+      data:
+        title: "Bedroom LW has been turned off"
+        message: 'At 22:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
 flashing_long:
   alias: "Flashing Long and Notify"
@@ -209,10 +271,26 @@ flashing_long:
         transition: 1
         brightness: 250
         flash: long
+    - service: light.turn_on
+      entity_id: light.front_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: long
+    - service: light.turn_on
+      entity_id: light.front_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: long
     - service: notify.tv
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
+        data:
+          duration: 15
+          transparency: "25%"
+          color: navy
     - service: notify.email
       data_template:
         title: '{{ title }}'
@@ -227,41 +305,386 @@ flashing_short:
         transition: 1
         brightness: 250
         flash: short
-    # - service: light.turn_on
-    #   entity_id: light.common_room_2
-    #   data:
-    #     transition: 1
-    #     brightness: 250
-    #     flash: short
+    - service: light.turn_on
+      entity_id: light.common_room_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
     - service: light.turn_on
       entity_id: light.bedroom_1
       data:
         transition: 1
         brightness: 250
         flash: short
-    # - service: light.turn_on
-    #   entity_id: light.bedroom_2
-    #   data:
-    #     transition: 1
-    #     brightness: 250
-    #     flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - delay: 00:00:01
+    - service: light.turn_on
+      entity_id: light.common_room_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.common_room_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - delay: 00:00:01
+    - service: light.turn_on
+      entity_id: light.common_room_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.common_room_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - delay: 00:00:01
+    - service: light.turn_on
+      entity_id: light.common_room_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.common_room_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - delay: 00:00:01
+    - service: light.turn_on
+      entity_id: light.common_room_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.common_room_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
     - service: notify.tv
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
-    # - service: notify.email
-    #   data_template:
-    #     title: '{{ title }}'
-    #     message: '{{ message }}'
+        data:
+          duration: 15
+          transparency: "25%"
+    - service: notify.email
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+
+flashing_once:
+  alias: "Flashing Once and Notify"
+  sequence:
+    - service: light.turn_on
+      entity_id: light.common_room_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.common_room_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.bedroom_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_1
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: light.turn_on
+      entity_id: light.front_2
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - service: notify.tv
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          duration: 15
+          transparency: "25%"
+    - service: notify.email
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+
+# flashing_slow:
+#   alias: "Flashing Slow and Notify"
+#   sequence:
+#     - service: light.turn_on
+#       entity_id: light.bedroom_1
+#       data:
+#         transition: 1
+#         brightness: 250
+#         xy_color: [0.3680,0.3686]
+#         flash: short
+#     - service: light.turn_on
+#       entity_id: light.common_room_1
+#       data:
+#         transition: 1
+#         brightness: 250
+#         flash: short
+#     - delay: 00:00:01
+#     # - service: light.turn_off
+#     #   entity_id: light.bedroom_1
+#     # - service: light.turn_off
+#     #   entity_id: light.common_room_1
+#     - service: light.turn_on
+#       entity_id: light.bedroom_2
+#       data:
+#         transition: 1
+#         brightness: 250
+#         xy_color: [0.3680,0.3686]
+#         flash: short
+#     - service: light.turn_on
+#       entity_id: light.common_room_2
+#       data:
+#         transition: 1
+#         brightness: 250
+#         flash: short
+#     - delay: 00:00:01
+#     # - service: light.turn_off
+#     #   entity_id: light.bedroom_2
+#     # - service: light.turn_off
+#     #   entity_id: light.common_room_2
+#     - service: light.turn_on
+#       entity_id: light.bedroom_1
+#       data:
+#         transition: 1
+#         brightness: 250
+#         xy_color: [0.3680,0.3686]
+#         flash: short
+#     - service: light.turn_on
+#       entity_id: light.common_room_1
+#       data:
+#         transition: 1
+#         brightness: 250
+#         flash: short
+#     - delay: 00:00:01
+#     # - service: light.turn_off
+#     #   entity_id: light.bedroom_1
+#     # - service: light.turn_off
+#     #   entity_id: light.common_room_1
+#     - service: light.turn_on
+#       entity_id: light.bedroom_2
+#       data:
+#         transition: 1
+#         brightness: 250
+#         xy_color: [0.3680,0.3686]
+#         flash: short
+#     - service: light.turn_on
+#       entity_id: light.common_room_2
+#       data:
+#         transition: 1
+#         brightness: 250
+#         flash: short
+#     - delay: 00:00:01
+#     # - service: light.turn_off
+#     #   entity_id: light.bedroom_2
+#     # - service: light.turn_off
+#     #   entity_id: light.common_room_2
+#     - service: light.turn_on
+#       entity_id: light.bedroom_1
+#       data:
+#         transition: 1
+#         brightness: 250
+#         xy_color: [0.3680,0.3686]
+#         flash: short
+#     - service: light.turn_on
+#       entity_id: light.common_room_1
+#       data:
+#         transition: 1
+#         brightness: 250
+#         flash: short
+#     - delay: 00:00:01
+#     # - service: light.turn_off
+#     #   entity_id: light.bedroom_1
+#     # - service: light.turn_off
+#     #   entity_id: light.common_room_1
+#     - service: light.turn_on
+#       entity_id: light.bedroom_2
+#       data:
+#         transition: 1
+#         brightness: 250
+#         xy_color: [0.3680,0.3686]
+#         flash: short
+#     - service: light.turn_on
+#       entity_id: light.common_room_2
+#       data:
+#         transition: 1
+#         brightness: 250
+#         flash: short
+#     - delay: 00:00:01
+#     # - service: light.turn_off
+#     #   entity_id: light.bedroom_2
+#     # - service: light.turn_off
+#     #   entity_id: light.common_room_2
+#     - service: notify.tv
+#       data_template:
+#         title: '{{ title }}'
+#         message: '{{ message }}'
+#         data:
+#           duration: 15
+#           transparency: "25%"
+#           color: black
+#     - service: notify.email
+#       data_template:
+#         title: '{{ title }}'
+#         message: '{{ message }}'
 
 notifying:
-  alias: "Notify TV and emails"
+  alias: "Notify to TV and email"
   sequence:
     - service: notify.tv
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
+        data:
+          duration: 15
+          transparency: "25%"
     - service: notify.email
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
+    # - service: script.notify_pesiphone6
+    #   data_template:
+    #     title: '{{ title }}'
+    #     message: '{{ message }}'

@@ -1,6 +1,9 @@
 - platform: nfandroidtv
-  name: nfandroidtv
+  name: tv
   host: 192.168.1.88
+  # duration: 15
+  # transparency: "25%"
+  # color: grey (default), black, indigo, green, red, cyan, teal, amber, pink
 
 - platform: kodi
   name: kodi
@@ -9,16 +12,6 @@
   username: !secret my_username
   password: !secret my_password
 
-- platform: group
-  name: tv
-  services:
-    - service: nfandroidtv
-    # - service: kodi
-
-- platform: pushbullet
-  name: pushbullet
-  api_key: !secret api_key_pushbullet
-
 - platform: smtp
   name: email
   server: !secret smtp_server
@@ -26,11 +19,16 @@
   sender: !secret smtp_sender
   recipient: phumin@sawasdee.org
 
-- platform: html5
-  gcm_api_key: !secret gcm_api_key
-  gcm_sender_id: !secret gcm_sender_id
+# - platform: pushbullet
+#   name: pushbullet
+#   api_key: !secret api_key_pushbullet
 
-- platform: ios
-  name: iOSApp
-  target: 'TOKEN'
-  # target: 'a3293f87-0103-3014-9fac-bf3f9cb6e0a8'
+# - platform: html5
+#   gcm_api_key: !secret gcm_api_key
+#   gcm_sender_id: !secret gcm_sender_id
+
+# - platform: group
+#   name: tv
+#   services:
+#     - service: nfandroidtv
+#     # - service: kodi

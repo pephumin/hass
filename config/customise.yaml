@@ -139,6 +139,12 @@ binary_sensor.mercury:
 binary_sensor.moon:
   icon: mdi:orbit
   friendly_name: "Philips Hue"
+binary_sensor.broadlink_rm_pro:
+  icon: mdi:remote
+  friendly_name: "Broadlink RM Pro"
+binary_sensor.broadlink_rm_mini:
+  icon: mdi:remote
+  friendly_name: "Broadlink RM Mini"
 
 proximity.jue_home:
   icon: mdi:compass
@@ -153,17 +159,25 @@ proximity.pe_benjawan:
   icon: mdi:compass
   friendly_name: "Pe from Benjy"
 
-sensor.distance_pe__home_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: "Ave. distance Pe & Home"
-sensor.distance_jue__home_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: "Ave. distance Jue & Home"
+# automation.set_alarm:
+#   icon: mdi:alarm-check
+#   friendly_name: "Activate Alarm"
+# sensor.alarm_time:
+#   icon: mdi:alarm-multiple
+#   friendly_name: "Alarm Set"
+# input_slider.alarmhour:
+#   icon: mdi:timer
+#   friendly_name: "Hour"
+# input_slider.alarmminutes:
+#   icon: mdi:timer
+#   friendly_name: "Minute"
+# input_boolean.alarmweekday:
+#   icon: mdi:timetable
+#   friendly_name: "Weekdays Only"
+
 
 ### hidden ###
 
-# sensor.speedtest_ping:
-#   hidden: true
 sensor.last_boot:
   hidden: true
 sensor.since_last_boot:

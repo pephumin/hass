@@ -1,0 +1,51 @@
+- alias: "Sunset 1"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-02:00:00"
+  action:
+    - service: script.flashing_once
+      data:
+        title: "Sunset in 2 hours"
+        message: 'Sunset is expected in two hours [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+- alias: "Sunset 2"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-01:00:00"
+  action:
+    - service: script.flashing_once
+      data:
+        title: "Sunset in 1 hour"
+        message: 'Sunset is expected in one hour [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+- alias: "Sunset 3"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "-00:30:00"
+  action:
+    - service: script.flashing_once
+      data:
+        title: "Sunset in 30 minutes"
+        message: 'Sunset is expected in 30 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+- alias: "Sunset 4"
+  initial_state: true
+  hide_entity: true
+  trigger:
+    - platform: sun
+      event: sunset
+      offset: "+00:00:00"
+  action:
+    - service: script.flashing_short
+      data:
+        title: "The sun is down now"
+        message: 'Sunset is happening now, another goodbye to the day [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

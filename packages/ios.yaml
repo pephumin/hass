@@ -1,0 +1,134 @@
+ios:
+  push_categories: # Defines actionable notifications. Categories are groups of actions. You specify the category in the notification.
+    # - name: Alarm
+    #   identifier: 'ALARM'
+    #   actions:
+    #     - identifier: 'SOUND_ALARM' # Must be unique and ALL CAPS
+    #       title: 'Sound Alarm' # Needs to be short!
+    #       activationMode: 'background' # or background. The mode in which to run the app when the action is performed.
+    #       authenticationRequired: yes # A Boolean value indicating whether the user must unlock the device before the action is performed.
+    #       destructive: yes # A Boolean value indicating whether the action is destructive.  When the value of this property is true, the system displays the corresponding button differently to indicate that the action is destructive.
+    #       behavior: 'default' # or TextInput. When TextInput the system provides a way for the user to enter a text response to be included with the notification.
+    #       context: 'default' # or Minimal. Default = In this context, the full UI is displayed for the notification’s alert. You may specify up to four custom actions in this context. Minimal = In this context, a minimal UI is displayed for the notification’s alert. You may specify up to two custom actions in this context.
+    #     - identifier: 'SILENCE_ALARM' # Must be unique and ALL CAPS
+    #       title: 'Silence Alarm' # Needs to be short!
+    #       activationMode: 'background' # or background. The mode in which to run the app when the action is performed.
+    #       authenticationRequired: yes # A Boolean value indicating whether the user must unlock the device before the action is performed.
+    #       destructive: no # A Boolean value indicating whether the action is destructive.  When the value of this property is true, the system displays the corresponding button differently to indicate that the action is destructive.
+    #       behavior: 'TextInput' # Default or TextInput. When TextInput the system provides a way for the user to enter a text response to be included with the notification.
+    #       context: 'default' # or Minimal. Default = In this context, the full UI is displayed for the notification’s alert. You may specify up to four custom actions in this context. Minimal = In this context, a minimal UI is displayed for the notification’s alert. You may specify up to two custom actions in this context.
+    #       textInputButtonTitle: 'Silence!' # Only for iOS 10 when behavior is TextInput.
+    #       textInputPlaceholder: '...' # Only for iOS 10 when behavior is TextInput.
+    #       parameters: # iOS 9 only. Use this dictionary to specify any behavior-specific data for the action. For example, if you set behavior to TextInput you can use the UIUserNotificationTextInputActionButtonTitleKey key, which lets you customize the title of the button displayed by the text input interface.
+    #         UIUserNotificationTextInputActionButtonTitleKey: "Silence!"
+    - name: Alert
+      identifier: 'ALERT'
+      actions:
+        - identifier: 'SOUND_ALERT'
+          title: 'Sound Alert'
+          activationMode: 'background'
+          authenticationRequired: yes
+          destructive: yes
+          behavior: 'default'
+          context: 'default'
+        - identifier: 'SILENCE_ALERT'
+          title: 'Silence Alert'
+          activationMode: 'background'
+          authenticationRequired: yes
+          destructive: no
+          behavior: 'TextInput'
+          context: 'default'
+          textInputButtonTitle: 'Silence!'
+          textInputPlaceholder: '...'
+          parameters:
+            UIUserNotificationTextInputActionButtonTitleKey: "Silence!"
+
+notify:
+  - platform: ios
+    name: iOSApp
+    target: 'TOKEN'
+    # target: '4f5fb4f5-904e-315e-a13c-0adeb7f55d5b'
+
+script:
+  notify_pesiphone6:
+    alias: "Notify iPhone Pe"
+    sequence:
+      - service: notify.ios_pesiphone6
+        data_template:
+          title: '{{ title }}'
+          message: '{{ message }}'
+          data:
+            push:
+              badge: 1
+              category: "ALERT"
+  notify_juesiphone6splus:
+    alias: "Notify iPhone Jue"
+    sequence:
+      - service: notify.ios_juesiphone6splus
+        data_template:
+          title: '{{ title }}'
+          message: '{{ message }}'
+          data:
+            push:
+              badge: 1
+              category: "ALERT"
+  notify_both:
+    alias: "Notify iPhone Pe & Jue"
+    sequence:
+      - service: notify.ios_pesiphone6
+        data_template:
+          title: '{{ title }}'
+          message: '{{ message }}'
+          data:
+            push:
+              badge: 1
+              category: "ALERT"
+      - service: notify.ios_juesiphone6splus
+        data_template:
+          title: '{{ title }}'
+          message: '{{ message }}'
+          data:
+            push:
+              badge: 1
+              category: "ALERT"
+
+# automation:
+  # - alias: Notify iOS App
+  #   initial_state: true
+  #   hide_entity: false
+  #   trigger:
+  #     - platform: state
+  #       entity_id: light.bedroom_4
+  #       to: 'on'
+  #       from: 'off'
+  #   action:
+  #     - service: script.notify_pesiphone6
+  #       data:
+  #         title: “ตกลงมันยังไงกันแน่”
+  #         message: “ไฟในห้องนอนดวงที่ 4 ได้ถูกเปิด”
+
+  # - alias: iOS App Action Pressed
+  #   initial_state: true
+  #   hide_entity: false
+  #   trigger:
+  #     - platform: event
+  #       event_type: ios.notification_action_fired
+  #       event_data:
+  #         actionName: SOUND_ALARM
+  #   action:
+  #     - service: light.turn_on
+  #       entity_id: light.bedroom_3
+  #       data:
+  #         effect: random
+  #         transition: 1
+  #         brightness: 100
+  #     - service: light.turn_on
+  #       entity_id: light.bedroom_4
+  #       data:
+  #         effect: random
+  #         transition: 1
+  #         brightness: 100
+  #     - service: notify.tv
+  #       data:
+  #         title: "Loop Bedroom Lights"
+  #         message: 'Two lights in Bedroom are set to colour looping [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
