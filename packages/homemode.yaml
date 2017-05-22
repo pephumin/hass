@@ -42,7 +42,7 @@ input_slider:
     name: Volume Bedroom
     initial: 0.2
     min: 0.0
-    max: 1.0
+    max: 0.5
     step: 0.05
     icon: mdi:volume-high
 
@@ -226,15 +226,15 @@ automation:
           title: "Vacation Mode is now active"
           message: 'Vacation Mode is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  # - alias: Home Mode Change
-  #   trigger:
-  #     platform: state
-  #     entity_id: input_select.homemode
-  #   action:
-  #     - service: script.notify
-  #       data_template:
-  #         notify_text: "Perfil: {{ states.input_select.homemode.state }}'"
-  #         notify_mobile: False
+  - alias: Home Mode Change
+    trigger:
+      platform: state
+      entity_id: input_select.homemode
+    action:
+      - service: script.flashing_short
+        data:
+          title: "Home mode has been changed"
+          message: 'Home mode has been changed to {{ states.input_select.homemode.state }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   # - alias: Profile Home
   #   initial_state: false
@@ -308,44 +308,42 @@ automation:
   #         volume_common_room: 0
   #         volume_bedroom: 0
 
-  - alias: Volume Common Room
+  - alias: Volume Adjust Common Room
     trigger:
       - platform: state
         entity_id: input_slider.volume_common_room
     action:
       - service: media_player.volume_set
-        entity_id:
-          - media_player.denon
         data_template:
+          entity_id: media_player.denon
           volume_level: "{{ states.input_slider.volume_common_room.state }}"
 
-  - alias: Volume Bedroom
+  - alias: Volume Common Room
+    trigger:
+      - platform: state
+        entity_id: media_player.denon
+    action:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.volume_common_room
+          value: "{{ states.media_player.denon.attributes.volume_level }}"
+
+  - alias: Volume Adjust Bedroom
     trigger:
       - platform: state
         entity_id: input_slider.volume_bedroom
     action:
       - service: media_player.volume_set
-        entity_id:
-          - media_player.itunes
         data_template:
+          entity_id: media_player.itunes
           volume_level: "{{ states.input_slider.volume_bedroom.state }}"
 
-  # - alias: Volume Common Room
-  #   trigger:
-  #     - platform: state
-  #       entity_id: media_player.denon
-  #   action:
-  #     - service: input_slider.select_value
-  #       data_template:
-  #         entity_id: input_slider.volume_common_room
-  #         value: "{{ states.media_player.denon.attributes.volume_level }}"
-  #
-  # - alias: Volume Bedroom
-  #   trigger:
-  #     - platform: state
-  #       entity_id: media_player.itunes
-  #   action:
-  #     - service: input_slider.select_value
-  #       data_template:
-  #         entity_id: input_slider.volume_bedroom
-  #         value: "{{ states.media_player.itunes.attributes.volume_level }}"
+  - alias: Volume Bedroom
+    trigger:
+      - platform: state
+        entity_id: media_player.itunes
+    action:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.volume_bedroom
+          value: "{{ states.media_player.itunes.attributes.volume_level }}"
