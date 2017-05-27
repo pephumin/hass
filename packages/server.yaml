@@ -1,0 +1,65 @@
+sensor:
+
+  - platform: synologydsm
+    name: Saturn
+    host: !secret synology_ip
+    username: !secret my_username
+    password: !secret my_longer_password
+    monitored_conditions:
+      - disk_temp
+
+  - platform: systemmonitor
+    resources:
+      - type: last_boot
+      - type: since_last_boot
+      - type: processor_use
+      - type: memory_use_percent
+
+  - platform: speedtest
+    minute:
+      - 0
+      - 30
+    monitored_conditions:
+      - download
+      - upload
+
+  - platform: template
+    sensors:
+      uptime:
+        friendly_name: Uptime
+        icon_template: mdi:timelapse
+        value_template: >-
+          {%- set slb = states.sensor.since_last_boot.state.split(' ') -%}
+          {%- set count = slb | length -%}
+          {%- set hms = slb[count - 1] -%}
+          {%- set hms_trimmed = hms.split('.')[0] -%}
+          {%- set hms_split = hms_trimmed.split(':') -%}
+          {%- set hours = hms_split[0] | int -%}
+          {%- if count == 3 -%}
+            {{ slb[0] ~ ' ' ~ slb[1] ~ ' ' }}
+          {%- endif -%}
+          {%- if hours > 0 -%}
+            {%- if hours == 1 -%}
+              1 hour
+            {%- else -%}
+              {{ hours }} hours
+            {%- endif -%}
+          {%- endif -%}
+
+
+group:
+  home_server:
+    view: no
+    name: "Home Server"
+    icon: mdi:server-security
+    entities:
+      - sensor.uptime
+      - sensor.cpu_use
+      - sensor.ram_use
+      - sensor.disk_use_
+      - sensor.speedtest_download
+      - sensor.speedtest_upload
+      - sensor.temperature_sda
+      - sensor.temperature_sdb
+      - sensor.temperature_sdc
+      - sensor.temperature_sdd

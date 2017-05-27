@@ -9,10 +9,13 @@ homeassistant:
   packages:
     alarmclock: !include packages/alarmclock.yaml
     broadlink: !include packages/broadlink.yaml
-    # foscam: !include packages/foscam.yaml
+    # denon: !include packages/denon.yaml
+    foscam: !include packages/foscam.yaml
     homemode: !include packages/homemode.yaml
     ios: !include packages/ios.yaml
     offline: !include packages/offline.yaml
+    server: !include packages/server.yaml
+    daylight: !include packages/daylight.yaml
     zone: !include packages/zone.yaml
 
 http:
@@ -67,23 +70,15 @@ ffmpeg:
   ffmpeg_bin: /bin/ffmpeg
 
 automation: !include_dir_merge_list automation/
-# binary_sensor: !include config/binary_sensor.yaml
-camera: !include config/camera.yaml
 device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
 history: !include config/history.yaml
-# input_boolean: !include config/input_boolean.yaml
-# input_select: !include config/input_select.yaml
 logbook: !include config/logbook.yaml
 media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
-proximity: !include config/proximity.yaml
 scene: !include config/scene.yaml
 script: !include config/script.yaml
 sensor: !include_dir_merge_list sensor/
-# switch: !include config/switch.yaml
-weblink: !include config/weblink.yaml
-# zone: !include_dir_list zone/
 
 # critical, fatal, error, warning, warn, info, debug, notset
 logger:
@@ -91,22 +86,24 @@ logger:
   # default: warning
   logs:
     homeassistant.components.automation: debug
-    # homeassistant.components.history: debug
     homeassistant.components.http: warning
     homeassistant.components.input_boolean: debug
     homeassistant.components.input_select: debug
     homeassistant.components.ios: debug
-    # homeassistant.components.logbook: debug
     homeassistant.components.notify: debug
     # homeassistant.components.proximity: debug
     homeassistant.components.script: debug
     homeassistant.components.sensor: debug
-    # homeassistant.components.switch: debug
+    homeassistant.components.switch: debug
+    denonavr.denon: debug
 
 mqtt:
   broker: !secret cloudmqtt_broker
   port: !secret cloudmqtt_port
-  username: !secret cloudmqtt_username
-  password: !secret cloudmqtt_password
-  discovery: true
-  discovery_prefix: homeassistant
+  username: hass
+  password: !secret my_password
+  client_id: home-assistant
+  keepalive: 60
+  protocol: 3.1
+  # discovery: true
+  # discovery_prefix: homeassistant

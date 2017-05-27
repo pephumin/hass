@@ -1,0 +1,24 @@
+# - platform: min_max
+#   entity_ids:
+#     - sensor.uptime
+#     - sensor.cpu_use
+#     - sensor.ram_use
+#     - sensor.disk_use_
+#     - sensor.speedtest_download
+#     - sensor.speedtest_upload
+#     - sensor.temperature_sda
+#     - sensor.temperature_sdb
+#     - sensor.temperature_sdc
+#     - sensor.temperature_sdd
+#     - sensor.common_room_temperature
+#     - sensor.owm_temperature
+#     - sensor.owm_cloud_coverage
+#     - sensor.owm_humidity
+#     - sensor.home_to_benjy
+#     - sensor.benjy_to_home
+#     - sensor.home_to_malaiwan
+#     - sensor.malaiwan_to_home
+#     - proximity.pe_home
+#     - proximity.jue_home
+#     - proximity.pe_benjawan
+#     - proximity.jue_malaiwan

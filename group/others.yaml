@@ -12,19 +12,6 @@ travel:
     # - proximity.jue_home
     # - sensor.distance_jue__home_mean
 
-daylight:
-  view: no
-  name: "Daylight"
-  icon: mdi:weather-sunny
-  entities:
-    - sensor.date
-    - sensor.time
-    - sensor.day_night
-    - sun.sun
-    - sensor.solar_angle
-    # - binary_sensor.trend_solar_angle
-    - sensor.moon
-
 weather:
   view: no
   name: "Weather"
@@ -36,14 +23,14 @@ weather:
     - sensor.owm_humidity
     - sensor.owm_rain
 
-weblink:
-  view: no
-  name: "Web Links"
-  icon: mdi:web
-  control: hidden
-  entities:
-    - weblink.siamspeed
-    - weblink.siamsquare_admin
-    - weblink.foscam_black
-    - weblink.foscam_white
-    - weblink.synology
+# weblink:
+#   view: no
+#   name: "Web Links"
+#   icon: mdi:web
+#   control: hidden
+#   entities:
+#     - weblink.siamspeed
+#     - weblink.siamsquare_admin
+#     - weblink.foscam_black
+#     - weblink.foscam_white
+#     - weblink.synology

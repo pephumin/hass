@@ -287,10 +287,6 @@ flashing_long:
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
-        data:
-          duration: 15
-          transparency: "25%"
-          color: navy
     - service: notify.email
       data_template:
         title: '{{ title }}'
@@ -487,9 +483,6 @@ flashing_short:
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
-        data:
-          duration: 15
-          transparency: "25%"
     - service: notify.email
       data_template:
         title: '{{ title }}'
@@ -538,9 +531,6 @@ flashing_once:
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
-        data:
-          duration: 15
-          transparency: "25%"
     - service: notify.email
       data_template:
         title: '{{ title }}'
@@ -661,10 +651,6 @@ flashing_once:
 #       data_template:
 #         title: '{{ title }}'
 #         message: '{{ message }}'
-#         data:
-#           duration: 15
-#           transparency: "25%"
-#           color: black
 #     - service: notify.email
 #       data_template:
 #         title: '{{ title }}'
@@ -677,9 +663,6 @@ notifying:
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
-        data:
-          duration: 15
-          transparency: "25%"
     - service: notify.email
       data_template:
         title: '{{ title }}'

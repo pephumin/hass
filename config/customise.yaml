@@ -146,34 +146,29 @@ binary_sensor.broadlink_rm_mini:
   icon: mdi:remote
   friendly_name: "Broadlink RM Mini"
 
+script.mute_common_room:
+  icon: mdi:volume-mute
+  friendly_name: "Mute Common Room"
+script.mute_bedroom:
+  icon: mdi:volume-mute
+  friendly_name: "Mute Bedroom"
+
 proximity.jue_home:
-  icon: mdi:compass
+  # icon: mdi:compass-outline
   friendly_name: "Jue from Home"
 proximity.pe_home:
-  icon: mdi:compass
+  # icon: mdi:compass-outline
   friendly_name: "Pe from Home"
 proximity.jue_malaiwan:
-  icon: mdi:compass
+  # icon: mdi:compass-outline
   friendly_name: "Jue from Malaiwan"
 proximity.pe_benjawan:
-  icon: mdi:compass
+  # icon: mdi:compass-outline
   friendly_name: "Pe from Benjy"
 
-# automation.set_alarm:
-#   icon: mdi:alarm-check
-#   friendly_name: "Activate Alarm"
-# sensor.alarm_time:
-#   icon: mdi:alarm-multiple
-#   friendly_name: "Alarm Set"
-# input_slider.alarmhour:
-#   icon: mdi:timer
-#   friendly_name: "Hour"
-# input_slider.alarmminutes:
-#   icon: mdi:timer
-#   friendly_name: "Minute"
-# input_boolean.alarmweekday:
-#   icon: mdi:timetable
-#   friendly_name: "Weekdays Only"
+sensor.phumin:
+  icon: mdi:email-outline
+  friendly_name: "Unread Emails"
 
 
 ### hidden ###

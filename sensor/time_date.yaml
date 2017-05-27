@@ -1,5 +1,0 @@
-- platform: time_date
-  name: Date & Time
-  display_options:
-    - 'time'
-    - 'date'
