@@ -1,9 +1,9 @@
 - platform: nfandroidtv
   name: tv
   host: 192.168.1.88
-  duration: 15
+  duration: 10
   transparency: "25%"
-  # color: grey (default), black, indigo, green, red, cyan, teal, amber, pink
+  color: "black"
 
 - platform: kodi
   name: kodi
