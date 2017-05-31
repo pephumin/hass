@@ -1,0 +1,36 @@
+travel:
+  view: no
+  name: "Travel"
+  icon: mdi:car
+  entities:
+    - sensor.home_to_benjy
+    - sensor.benjy_to_home
+    - sensor.home_to_malaiwan
+    - sensor.malaiwan_to_home
+    # - proximity.pe_home
+    # - sensor.distance_pe__home_mean
+    # - proximity.jue_home
+    # - sensor.distance_jue__home_mean
+
+weather:
+  view: no
+  name: "Weather"
+  icon: mdi:weather-cloudy
+  entities:
+    - sensor.owm_temperature
+    - sensor.owm_condition
+    - sensor.owm_cloud_coverage
+    - sensor.owm_humidity
+    - sensor.owm_rain
+
+# weblink:
+#   view: no
+#   name: "Web Links"
+#   icon: mdi:web
+#   control: hidden
+#   entities:
+#     - weblink.siamspeed
+#     - weblink.siamsquare_admin
+#     - weblink.foscam_black
+#     - weblink.foscam_white
+#     - weblink.synology

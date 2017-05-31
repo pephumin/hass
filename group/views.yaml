@@ -1,0 +1,67 @@
+# default_view:
+new:
+  view: yes
+  # name: Home
+  name: "New Home"
+  entities:
+    - group.daylight
+    - group.devices
+    - group.home_server
+    - group.online
+    - group.travel
+    - media_player.itunes
+    - media_player.kodi
+    - media_player.apple_tv
+    - camera.foscam_black
+    - camera.foscam_white
+    - camera.current_location_pe
+    - camera.current_location_jue
+    # - camera.current_location_bmw
+    - group.lights_all
+    - group.control
+    - group.weather
+    - group.proximity
+
+common_room:
+  view: yes
+  name: "Common Room"
+  entities:
+    - group.home_server
+    - group.online_cr
+    - group.common_room_lights_all
+    - group.common_room_scenes
+    - media_player.kodi
+    - media_player.apple_tv
+    - media_player.denon
+    - media_player.dune
+    - media_player.denon_avr2113_airtunes_speaker
+    - media_player.androidtv_airtunes_speaker
+    - media_player.living_room_apple_tv_airtunes_speaker
+    - camera.foscam_black
+    - group.control_cr
+
+bedroom:
+  view: yes
+  name: "Bedroom"
+  entities:
+    - group.online_br
+    - group.bedroom_lights_all
+    - group.bedroom_scenes
+    - media_player.itunes
+    - media_player.computer_airtunes_speaker
+    - media_player.bedroom_aex_airtunes_speaker
+    - group.control_br
+    - group.alarmclock
+
+first_floor:
+  view: yes
+  name: "First Floor"
+  entities:
+    - group.online_ff
+    - group.first_floor_lights_all
+    - group.first_floor_scenes
+    - media_player.working_space_aex_airtunes_speaker
+    - camera.foscam_white
+    - camera.current_location_pe
+    - camera.current_location_jue
+    # - camera.current_location_bmw

@@ -1,0 +1,42 @@
+control:
+  name: "Control Panel"
+  icon: mdi:google-controller
+  control: hidden
+  entities:
+    - sensor.common_room_temperature
+    - switch.common_room_air_cond
+    - switch.common_room_fan
+    - switch.common_room_tv
+    - switch.common_room_android_box
+    - sensor.denon_source
+    - input_slider.volume_common_room
+    - script.mute_common_room
+    - switch.bedroom_air_cond
+    - switch.bedroom_tv
+    - input_slider.volume_bedroom
+    - script.mute_bedroom
+    - input_select.homemode
+control_cr:
+  name: "Common Room Control Panel"
+  icon: mdi:google-controller
+  control: hidden
+  entities:
+    - sensor.common_room_temperature
+    - switch.common_room_air_cond
+    - switch.common_room_fan
+    - switch.common_room_tv
+    - switch.common_room_android_box
+    - sensor.denon_source
+    - input_slider.volume_common_room
+    - script.mute_common_room
+    - input_select.homemode
+control_br:
+  name: "Bedroom Control Panel"
+  icon: mdi:google-controller
+  control: hidden
+  entities:
+    - switch.bedroom_air_cond
+    - switch.bedroom_tv
+    - input_slider.volume_bedroom
+    - script.mute_bedroom
+    - input_select.homemode
