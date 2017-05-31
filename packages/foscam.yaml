@@ -1,5 +1,4 @@
 camera:
-
   - platform: synology
     url: !secret synology
     username: !secret my_username
@@ -7,15 +6,11 @@ camera:
     timeout: 15
     verify_ssl: false
 
-
 # shell_command:
-#
 #   foscam_turn_off: !secret foscam_turn_off
 #   foscam_turn_on: !secret foscam_turn_on
 #
-#
 # switch:
-#
 #   - platform: command_line
 #     name: "Foscam Motion Detection"
 #     switches:
@@ -25,9 +20,7 @@ camera:
 #         command_state: !secret command_state
 #         value_template: '{{ value == "1" }}'
 #
-#
 # script:
-#
 #   foscam_off:
 #     alias: "Foscam Motion Inactive"
 #     sequence:
@@ -35,7 +28,6 @@ camera:
 #         data:
 #           entity_id: switch.foscam_motion
 #       - service: shell_command.foscam_turn_off
-#
 #   foscam_on:
 #     alias: "Foscam Motion Active"
 #     sequence:
@@ -48,7 +40,6 @@ camera:
 #           entity_id: switch.foscam_motion
 #
 # automation:
-#
 #   - alias: "Enable Motion Detection Away Mode"
 #     initial_state: false
 #     hide_entity: false
@@ -67,7 +58,6 @@ camera:
 #         data:
 #           title: "Enable Motion Detection"
 #           message: 'Foscam Motion Detection is activated for Away mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-#
 #   - alias: "Disable Motion Detection Home Mode"
 #     initial_state: false
 #     hide_entity: false

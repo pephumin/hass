@@ -10,12 +10,21 @@
   host: 192.168.1.1
   username: !secret my_username
   password: !secret my_password
-  http_id: !secret tomato_http_id
+  http_id: !secret tomato_http_id_1
   track_new_devices: true
   interval_seconds: 600
   consider_home: 900
 
-- platform: owntracks
+- platform: tomato
+  host: 192.168.1.11
+  username: !secret my_username
+  password: !secret my_password
+  http_id: !secret tomato_http_id_2
+  track_new_devices: true
+  interval_seconds: 600
+  consider_home: 900
+
+# - platform: owntracks
 
 # - platform: nmap_tracker
 #   hosts: 192.168.1.1/24

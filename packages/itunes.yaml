@@ -1,0 +1,40 @@
+media_player:
+  - platform: itunes
+    name: iTunes
+    host: !secret itunes_ip
+
+rest_command:
+  dja:
+      url: 'http://192.168.1.200:8181/playlists/dja/play'
+      method: PUT
+      payload: '{ "shuffle": true }'
+  djb:
+      url: 'http://192.168.1.200:8181/playlists/djb/play'
+      method: PUT
+      payload: '{ "shuffle": true }'
+  djp:
+      url: 'http://192.168.1.200:8181/playlists/djp/play'
+      method: PUT
+      payload: '{ "shuffle": true }'
+
+script:
+  dja_shuffle:
+    alias: "DJA Shuffle"
+    sequence:
+      - service: rest_command.dja
+  djb_shuffle:
+    alias: "DJB Shuffle"
+    sequence:
+      - service: rest_command.djb
+  djp_shuffle:
+    alias: "DJP Shuffle"
+    sequence:
+      - service: rest_command.djp
+
+# group:
+#   playlists:
+#     name: Playlists
+#     entities:
+#       - script.dja_shuffle
+#       - script.djb_shuffle
+#       - script.djp_shuffle

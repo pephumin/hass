@@ -1,5 +1,4 @@
 sensor:
-
   - platform: synologydsm
     name: Saturn
     host: !secret synology_ip
@@ -7,22 +6,23 @@ sensor:
     password: !secret my_longer_password
     monitored_conditions:
       - disk_temp
-
   - platform: systemmonitor
     resources:
       - type: last_boot
       - type: since_last_boot
       - type: processor_use
       - type: memory_use_percent
-
-  - platform: speedtest
-    minute:
-      - 0
-      - 30
-    monitored_conditions:
-      - download
-      - upload
-
+  # - platform: speedtest
+  #   minute:
+  #     - 0
+  #     - 10
+  #     - 20
+  #     - 30
+  #     - 40
+  #     - 50
+  #   monitored_conditions:
+  #     - download
+  #     - upload
   - platform: template
     sensors:
       uptime:
@@ -46,20 +46,19 @@ sensor:
             {%- endif -%}
           {%- endif -%}
 
-
-group:
-  home_server:
-    view: no
-    name: "Home Server"
-    icon: mdi:server-security
-    entities:
-      - sensor.uptime
-      - sensor.cpu_use
-      - sensor.ram_use
-      - sensor.disk_use_
-      - sensor.speedtest_download
-      - sensor.speedtest_upload
-      - sensor.temperature_sda
-      - sensor.temperature_sdb
-      - sensor.temperature_sdc
-      - sensor.temperature_sdd
+# group:
+#   home_server:
+#     view: no
+#     name: "Home Server"
+#     icon: mdi:server-security
+#     entities:
+#       - sensor.uptime
+#       - sensor.cpu_use
+#       - sensor.ram_use
+#       - sensor.disk_use_
+#       # - sensor.speedtest_download
+#       # - sensor.speedtest_upload
+#       - sensor.temperature_sda
+#       - sensor.temperature_sdb
+#       - sensor.temperature_sdc
+#       - sensor.temperature_sdd

@@ -1,5 +1,4 @@
 script:
-
   mute_common_room:
     alias: "Mute Common Room"
     sequence:
@@ -8,7 +7,6 @@ script:
           packet:
             - 'JgDMAG82Dw0PDg0pDg0OKg0ODikPDA4ODikODg8MDikOKQ4ODwwPDQ4NDg4ODw4MDg0OKQ8NDikODw0ODQ4ODg4oDw0ODQ8pDigQKA4ODSsNDQ4NDg4ODQ8oDygPDQ4qDSkOKQ8ODQAJj283DQ4ODQ4pDw0OKQ8MDygQDA8ODSkODQ8NDikOKQ4NDw0ODQ8ODQ4ODwwODwwOKQ8ODSkODQ8NDg0PDg0pDg4ODQ8oDikPKA8NECcPDA8NDg4PDA4rDCkPDg0qDigOKQ4ODwANBQAAAAAAAAAAAAAAAA=='
             # - 'JgDMAG44Dg0ODQ4qDQ4OKQ4NDikODg4NDisNDRALECgOKQ4NDw0PDBAMDg4PDA4NDw4OJxEMDygODg0ODwwPDQ4qDgwPDQ4pDygOKQ4ODikODRAMDg0PDQ4pECgNDg4pDikOKQ8MDwAJkG42Dw0ODQ4pDwwOKQ8NECcODg4ODigODg4NDykOKA8NEAwODQ4ODwwODg4NDw0OKQ4NDikPDQ8MDw4ODQ4qDgwQDQ0pDikPKQ0NDykODQ4ODg0PDQ8oDygODg4pDikOKQ4ODQANBQAAAAAAAAAAAAAAAA=='
-
   mute_bedroom:
     alias: "Mute Bedroom"
     sequence:
@@ -18,9 +16,7 @@ script:
             # - 'JgDMAAgaCjsKGQkZChkJGQoZCRkKGQk8CTwJPAk8CRkKGQkABZ8LGAk8CRkJGgkZCTwJPAo7CTwKGQkZCRoJGQk8CTwJAAWfCxgJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwJGgkZCRoJPAk8CTsKOwoZCRoJGQkaCTsKOwoABZ8KGAo7ChkJGQkaCRkKGQkZChkJPAk8CTwJPAkZCRoJAAWfChkJOwoZCRoJGQk8CTwJPAk8CRkKGQkZChkJPAk8CQANBQAAAAAAAAAAAAAAAA=='
             - 'JgDMAAgaCjsKGQkZChkJGgkZCRoJGQk8CTwJPAk8CRkKGQkABZ8KGQk8CxcJGgkZCTwKOwo7CTwJGgkZCRoJGQk8CTwKAAWeChkJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwLGAkZCRoJPAk7CjsMOQwXCRkKGQkZCjsKOwwABZ0KGAo7CRoJGQkaCRkJGgkZCRoJPAk8CTwJPAkZCRoJAAWfChgKOwoZCRkKGQk8CTwJPAs6CRkKGQkZChkJPAk8CwANBQAAAAAAAAAAAAAAAA=='
 
-
 sensor:
-
   - platform: broadlink
     update_interval: 60
     name: "Common Room"
@@ -29,37 +25,80 @@ sensor:
     monitored_conditions:
       - temperature
 
-
 switch:
-
   - platform: broadlink
     name: "RM Pro"
     host: 192.168.1.13
     mac: "B4:43:0D:30:4E:13"
     switches:
-      cr_aircond:
+      common_room_air_cond:
         friendly_name: "Common Room Air Cond"
         command_on: 'JgCaAAc0AAEnlhQ4FhEUORMSFRIUExURFRIUOBQTFBMTOBUSFBQTExQSFDgUEhY3FBIUExQ4FBIWERQTFDcVOBQSFTcVExM5FBIUEhQTFBIVOBQ3FjcVNhUSFhEVEhQTFDcUExQSFTcWEhMSFRIUExQ4FTcUORU2FhAVOBQ4FTcVNxU3FTcUORM4FDgUOBQTFDgUNxU4FREUERUADQUAAAAAAAAAAAAAAAAAAA=='
         command_off: 'JgCcAAABKJYTOBUSFDkTEhUSFBQTEhQTFREUExURFRMTFBQSFBIVEhQ3FRIVNxUSFBMVNhUSFRMTExQ3FjgTEhQ4FBMUOBUTExIUExQTEzgWNhU4ExQVERQSFRIVEhQ3FhITExU4FBIUEhUSFBIUOBQ4FjYUFBMSFTkTORM4FTcUORM4FDgUOBYRFBMUNxURFjYVEhQTFDYVAAWNCAANBQAAAAAAAAAAAAAAAA=='
-      cr_fan:
+      common_room_fan:
         friendly_name: "Common Room Fan"
         command_on: 'JgCSACoPKA8NKSsNKQ4NKQ8pDikOKQ8oDiop6ykOKQ4PKSgPKA8NKQ4pDygPKA8oDykq6ioNKg8NKCoOKQ4OKQ4pDikOKg4oDygq7CgNKg8NKSoOKQ4NKw0pDikOKQ8oECcq6ioNKg4OKSoOKg0NKQ8qDSgPKQ8oECcq6ioOKQ4NKSoOKg4OKBAnECgNKw0pDikqAA0FAAAAAAAA'
         command_off: 'JgDCACoNKw0QKCoMKwwOKQ4pDyoNKg8nDikq6ykNKg0PKSkOKg0OKRAnDygPKQ4pDikr6ioNKQ4OKigNKg4PKQ0pDikPKA8pDygq6ioPKQ0OKCsNKRAMKQ4pDikPKA4pDiop6iwNKA8OKCsNKg0OKBAoDygOKRAoDioo6ioOKQ4OKSoPKQ0NKg0rDCkQKQ4oDikr6SoOKg0OKCsNKw4MKQ4pDikQJw8pDiop6ioOKQ4NKygOKg4OKQ0pDikPKA8oDykpAA0FAAAAAAAA'
-      cr_tv:
+      common_room_tv:
         friendly_name: "Common Room TV"
         command_on: 'JgDEAE0TKBQTEygSFRMnExQUExMoExUTExMVEhQAA0pOEygTFREoExQTKBIVEhUTKBIUExYSFBMUAANITxQmFBQTJxUSFCcVExEVEycUFBIUExUSFQADSE8TKBMUEigUFBIoFRMSFBMoExUSFBMUEhYAA0dREicVEhMpEhQSKBQTExYSJxQTFBQSFBQTAANJTxMnFRMTJxMUEycUFRIVFCUUExQTFBMUFAADSU8SKBMTFSYUExQnExUSFBMnFBMUExUTExMADQUAAAAA'
         command_off: 'JgCMAE4UJxQTEycUFBIpExMTFBMoExUSFRIVEhQAA0lPFCgSFBMnExQUJxQTFBMTKBMTFBMUFBMUAANITxUmFBIVJxIUFCcTFRIUEycUFRIUExMUFAADSU4VJhMUEycVExQmFRITFBMoExMTFRIVEhYAA0hOFCcTFRInFBURKBQTExQUKBMTExYRFBMUAA0FAAAAAAAAAAAAAAAA'
-      cr_androidbox:
+      common_room_android_box:
         friendly_name: "Common Room Android Box"
         command_on: 'JgBYAAABKJIUERYPFBEUERU1ExIUERMSEzgSNxQ1FTUUERU1FDYTNxM3FBEUNhM4EjYUERQ3ExISEhU1FBETEhMSEzgUEBQ3EgAFEwABJ0sSAAxKAAEpSRMADQU='
         command_off: 'JgBcAAgACe4AASiSFBAUERMSFBEUNhMTEhIUERQ2FDcSNxM2FBEUNhQ2EzcTNxMTFTQTNxM2FBEUNhQSExIUNxESExMTEhQ1ExITNxMABRMAAShKEgAMSgABJ0oTAA0FAAAAAAAAAAAAAAAA'
-
   - platform: broadlink
     name: "RM Mini"
     host: 192.168.1.14
     mac: "B4:43:0D:F9:11:7F"
     switches:
-      br_aircond:
+      bedroom_air_cond:
         friendly_name: "Bedroom Air Cond"
         command_on: 'JgC8AXI4DioODw4ODg4PKg4ODg4ODg8ODioPDg0rDyoNDw8pDisOKw0rDyoODg4ODyoODg8NDw4ODg4ODg4OKw8pDyoPKg0PDg4ODg4PDg4PDQ4PDQ8ODg4ODg8NDw4ODw0PDg4ODg4ODw0PDg4PDQ8ODg4ODg8NDyoPDQ8ODQ8ODg4ODg8NAAPNcDkPKg4ODg4PDg4qDw4NDw4ODw0OKw4ODisOKg4PDioPKg4qDyoOKg8ODg4OKg4PDQ8ODg8ODg4ODg4ODg8ODg4ODw0ODw4ODw0PDg0PDg4ODg4rDg4PDQ4PDSsPKg4ODg4PDg4ODg4PKg4ODisODg4ODg4ODw4ODg4PDg4ODg4PDQ4rDioPKg8pDg8NKw4PDioPKg4qDyoOKg4PDQ8ODg4ODg8NDw4ODw4NDw4ODw0ODw4ODg4ODg4PDg4PDQ8ODg4ODg8NDg8NDw4ODg4ODw0PDw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg4ODw4NDw4ODg4PDg4ODg4PDg0PDg4PKg4qDw0PDg4ODw0ODw0PDg4PDQ4PDg4ODg4ODw4NDw8NDg8OKg8NDw4NKw4ODisPKg4qDwANBQAAAAAAAAAAAAAAAA=='
         command_off: 'JgC8AXE5DioPDg0PDg4PKg4ODg4ODw4ODioPDg0rDyoODg4rDioPKg4qDyoODg8NDisPDQ4ODg8NDw4ODw4NKw4rDioPKg4ODg4ODw0PDg4ODg4PDg4ODg8ODQ8ODg4ODg8ODg4ODg4PDg0PDw0ODxAMDg4ODg8ODSsPDQ4PDQ8ODg4PDQ8OAAPMcTkOKg8NDg8ODg4qDg8NDw4ODw4NKw8NDisOKg8ODSsPKg4qDyoPKQ8ODg4OKw4ODg4ODg4PDg4ODg8ODQ8ODg4ODg8NDw4ODg4PDg4ODg4ODw0PDg4ODg4PDSsOKw4OEAwODw0PDg4OKw4ODioPDg4ODg4ODw0PDg4ODg4PDQ8ODg4rDioPKg4qDw4NKw8ODioPKg4qDyoOKg8ODQ8ODg4ODg8NDw4ODg4ODw0PDg4RDA4ODg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODw4ODg4ODg4PDQ8ODg8NDg8NDw4ODg8NDw4ODg4PDg4ODg4ODg4PDg4OKw0rDw0ODw0PDg4ODg4PDQ8ODg8ODg4ODg4ODg8NDw4ODw0ODw0PDw0OKw4ODisOKg8qDgANBQAAAAAAAAAAAAAAAA=='
+      bedroom_tv:
+        friendly_name: "Bedroom TV"
+        command_on: 'JgBGAJWaEzYSOBI3EhUSExEUEhMRFhE4ETkSNxIVERQRFBETEhUSExE5ERMSFRITERMSFBEWEDkRExI4EjoROBI4ETgSNxAADQUAAA=='
+        command_off: 'JgCMAJaZEzYSOBI4ERUSFBETEhMRFhE4EjgSNxIVERQSExETEhUSExE5ERMSFRITEhMRFBEWETgSExE4EjoRORE4EjgRNxAABdaWmRE4EjgROBIVERMSFBAUEhUSNxI4EjcSFRITERQRFBEWERMSOBEUERYRExITERQRFRI4EhMRORE6EjcSOBI3EjgQAA0FAAAAAAAAAAAAAAAA'
+
+# group:
+#   control:
+#     name: "Control Panel"
+#     icon: mdi:google-controller
+#     control: hidden
+#     entities:
+#       - sensor.common_room_temperature
+#       - switch.common_room_air_cond
+#       - switch.common_room_fan
+#       - switch.common_room_tv
+#       - switch.common_room_android_box
+#       - input_slider.volume_common_room
+#       - script.mute_common_room
+#       - switch.bedroom_air_cond
+#       - switch.bedroom_tv
+#       - input_slider.volume_bedroom
+#       - script.mute_bedroom
+#       - input_select.homemode
+#   control_cr:
+#     name: "Common Room Control Panel"
+#     icon: mdi:google-controller
+#     control: hidden
+#     entities:
+#       - sensor.common_room_temperature
+#       - switch.common_room_air_cond
+#       - switch.common_room_fan
+#       - switch.common_room_tv
+#       - switch.common_room_android_box
+#       - input_slider.volume_common_room
+#       - script.mute_common_room
+#       - input_select.homemode
+#   control_br:
+#     name: "Bedroom Control Panel"
+#     icon: mdi:google-controller
+#     control: hidden
+#     entities:
+#       - switch.bedroom_air_cond
+#       - switch.bedroom_tv
+#       - input_slider.volume_bedroom
+#       - script.mute_bedroom
+#       - input_select.homemode

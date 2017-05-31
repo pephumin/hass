@@ -12,8 +12,12 @@ device_tracker.pesipodtouch4:
   icon: mdi:cellphone
 device_tracker.pepe:
   icon: mdi:laptop-mac
-device_tracker.benjysiphone6:
-  icon: mdi:cellphone-iphone
+# device_tracker.benjysiphone6:
+#   icon: mdi:cellphone-iphone
+# device_tracker.benjysipadmini2:
+#   icon: mdi:tablet-ipad
+# device_tracker.benjysmbp:
+#   icon: mdi:laptop-mac
 
 light.bedroom_1:
   icon: mdi:lightbulb
@@ -76,11 +80,16 @@ switch.common_room_tv:
 switch.common_room_android_box:
   icon: mdi:android
   assumed_state: true
+sensor.denon_source:
+  icon: mdi:amplifier
 sensor.rm_mini_temperature:
   icon: mdi:thermometer-lines
   friendly_name: "Broadlink RM Mini"
 switch.bedroom_air_cond:
   icon: mdi:air-conditioner
+  assumed_state: true
+switch.bedroom_tv:
+  icon: mdi:television
   assumed_state: true
 
 sensor.owm_temperature:

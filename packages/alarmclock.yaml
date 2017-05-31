@@ -1,5 +1,4 @@
 input_slider:
-
   alarmhour:
     name: Hour
     icon: mdi:timer
@@ -7,7 +6,6 @@ input_slider:
     min: 0
     max: 23
     step: 1
-
   alarmminutes:
     name: Minutes
     icon: mdi:timer
@@ -16,22 +14,17 @@ input_slider:
     max: 55
     step: 5
 
-
 input_boolean:
-
   activate_alarm:
     name: "Activate Alarm"
     initial: off
     icon: mdi:alarm-check
-
   alarmweekday:
     name: "Weekdays Only"
     initial: on
     icon: mdi:calendar
 
-
 sensor:
-
   - platform: template
     sensors:
       alarm_time:
@@ -42,26 +35,22 @@ sensor:
           - input_slider.alarmminutes
           - input_slider.alarmhour
 
-
-group:
-
-  alarmclock:
-    name: Alarm Clock
-    control: hidden
-    entities:
-      - input_boolean.activate_alarm
-      # - automation.set_alarm
-      - sensor.alarm_time
-      - input_slider.alarmhour
-      - input_slider.alarmminutes
-      - input_boolean.alarmweekday
-
+# group:
+#   alarmclock:
+#     name: Alarm Clock
+#     control: hidden
+#     entities:
+#       - input_boolean.activate_alarm
+#       # - automation.set_alarm
+#       - sensor.alarm_time
+#       - input_slider.alarmhour
+#       - input_slider.alarmminutes
+#       - input_boolean.alarmweekday
 
 automation:
-
   - alias: 'Set Alarm'
-    initial_state: false
-    hide_entity: false
+    initial_state: 'off'
+    hide_entity: True
     trigger:
       - platform: time
         minutes: '/5'
@@ -96,10 +85,9 @@ automation:
         entity_id: automation.set_alarm
       - service: input_boolean.turn_off
         entity_id: input_boolean.activate_alarm
-
   - alias: "Alarm Enabled"
-    initial_state: true
-    hide_entity: false
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_slider.alarmhour, input_slider.alarmminutes
@@ -109,9 +97,7 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.activate_alarm
 
-
 script:
-
   alarm_lighting:
     alias: "Alarm Lighting"
     sequence:

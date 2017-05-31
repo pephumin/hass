@@ -10,7 +10,7 @@
 #     Disable all welcome messages. Disable texting and voice messages.
 #     Keep alarm clock on. Keep room covers down and don't move the other.
 #     Disable mode automatically if alarm clock triggers.
-# - Guests:
+# - Visitor:
 #     Disables automatic shutdown of media players and lights on leaving the house, or when turning on other mediaplayers.
 #     Keeps covers open.
 # - Nobody:
@@ -20,7 +20,6 @@
 #     When back, emits a permanent notification and changes mode to Standard?
 
 input_select:
-
   homemode:
     name: "Home Mode"
     options:
@@ -31,9 +30,7 @@ input_select:
     initial: Home
     icon: mdi:home-outline
 
-
 input_slider:
-
   volume_common_room:
     name: Volume Common Room
     initial: 0.35
@@ -41,15 +38,13 @@ input_slider:
     max: 0.5
     step: 0.05
     icon: mdi:volume-high
-
   volume_bedroom:
     name: Volume Bedroom
-    # initial: 0.2
+    initial: 0.3
     min: 0.0
     max: 0.5
     step: 0.05
     icon: mdi:volume-high
-
 
 # script:
 #   homeconfig:
@@ -82,8 +77,170 @@ input_slider:
 #         data_template:
 #           value: '{{ volume_bedroom }}'
 
-
 automation:
+  - alias: Volume Common Room
+    initial_state: 'on'
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: media_player.denon
+    condition:
+      - condition: template
+        value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
+    action:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.volume_common_room
+          value: '{{ states.media_player.denon.attributes.volume_level }}'
+  - alias: Volume Adjust Common Room
+    initial_state: 'on'
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: input_slider.volume_common_room
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.denon
+          volume_level: '{{ states.input_slider.volume_common_room.state }}'
+  - alias: Volume Bedroom
+    initial_state: 'on'
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: media_player.itunes
+    condition:
+      - condition: template
+        value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
+    action:
+      - service: input_slider.select_value
+        data_template:
+          entity_id: input_slider.volume_bedroom
+          value: '{{ states.media_player.itunes.attributes.volume_level }}'
+  - alias: Volume Adjust Bedroom
+    initial_state: 'on'
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: input_slider.volume_bedroom
+    action:
+      - service: media_player.volume_set
+        data_template:
+          entity_id: media_player.itunes
+          volume_level: '{{ states.input_slider.volume_bedroom.state }}'
+  - alias: "Set Home Mode"
+    initial_state: 'on'
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone6
+        from: 'not_home'
+        to: 'home'
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        from: 'not_home'
+        to: 'home'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: Home
+      - service: script.flashing_once
+        data:
+          title: "Home Mode is now active"
+          message: 'Home Mode is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: "Set Away Mode 1"
+    initial_state: 'on'
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone6
+        from: 'home'
+        to: 'not_home'
+        for:
+          minutes: 30
+    condition:
+      - condition: state
+        entity_id: device_tracker.juesiphone6splus
+        state: 'not_home'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: Away
+      - service: notify.email
+        data:
+          title: "Away Mode #1 is now active"
+          message: 'Away Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: "Set Away Mode 2"
+    initial_state: 'on'
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        from: 'home'
+        to: 'not_home'
+        for:
+          minutes: 30
+    condition:
+      - condition: state
+        entity_id: device_tracker.pesiphone6
+        state: 'not_home'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: Away
+      - service: notify.email
+        data:
+          title: "Away Mode #2 is now active"
+          message: 'Away Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: "Set Vacation Mode 1"
+    initial_state: 'on'
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone6
+        from: 'home'
+        to: 'not_home'
+        for:
+          hours: 20
+    condition:
+      - condition: state
+        entity_id: device_tracker.juesiphone6splus
+        state: 'not_home'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: Vacation
+      - service: notify.email
+        data:
+          title: "Vacation Mode #1 is now active"
+          message: 'Vacation Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: "Set Vacation Mode 2"
+    initial_state: 'on'
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        from: 'home'
+        to: 'not_home'
+        for:
+          hours: 20
+    condition:
+      - condition: state
+        entity_id: device_tracker.pesiphone6
+        state: 'not_home'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: Vacation
+      - service: notify.email
+        data:
+          title: "Vacation Mode #2 is now active"
+          message: 'Vacation Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   # - alias: Home Mode Change
   #   trigger:
@@ -162,187 +319,3 @@ automation:
   #         autolightvacation: true
   #         volume_common_room: 0.0
   #         volume_bedroom: 0.0
-
-  - alias: Volume Common Room
-    trigger:
-      - platform: state
-        entity_id: media_player.denon
-    action:
-      - service: input_slider.select_value
-        data_template:
-          entity_id: input_slider.volume_common_room
-          value: '{{ states.media_player.denon.attributes.volume_level }}'
-
-  - alias: Volume Adjust Common Room
-    trigger:
-      - platform: state
-        entity_id: input_slider.volume_common_room
-    action:
-      - service: media_player.volume_set
-        data_template:
-          entity_id: media_player.denon
-          volume_level: '{{ states.input_slider.volume_common_room.state }}'
-
-  - alias: Volume Bedroom
-    trigger:
-      - platform: state
-        entity_id: media_player.itunes
-    action:
-      - service: input_slider.select_value
-        data_template:
-          entity_id: input_slider.volume_bedroom
-          value: '{{ states.media_player.itunes.attributes.volume_level }}'
-
-  - alias: Volume Adjust Bedroom
-    trigger:
-      - platform: state
-        entity_id: input_slider.volume_bedroom
-    action:
-      - service: media_player.volume_set
-        data_template:
-          entity_id: media_player.itunes
-          volume_level: '{{ states.input_slider.volume_bedroom.state }}'
-
-  - alias: "Set Home Mode 1"
-    initial_state: true
-    hide_entity: false
-    trigger:
-      - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'not_home'
-        to: 'home'
-        for:
-          minutes: 10
-    condition:
-      - condition: state
-        entity_id: device_tracker.juesiphone6splus
-        state: 'home'
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.homemode
-          option: Home
-      - service: script.flashing_once
-        data:
-          title: "Home Mode #1 is now active"
-          message: 'Home Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Set Home Mode 2"
-    initial_state: true
-    hide_entity: false
-    trigger:
-      - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'not_home'
-        to: 'home'
-        for:
-          minutes: 10
-    condition:
-      - condition: state
-        entity_id: device_tracker.pesiphone6
-        state: 'home'
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.homemode
-          option: Home
-      - service: script.flashing_once
-        data:
-          title: "Home Mode #2 is now active"
-          message: 'Home Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Set Away Mode 1"
-    initial_state: true
-    hide_entity: false
-    trigger:
-      - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'home'
-        to: 'not_home'
-        for:
-          minutes: 30
-    condition:
-      - condition: state
-        entity_id: device_tracker.juesiphone6splus
-        state: 'not_home'
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.homemode
-          option: Away
-      - service: notify.email
-        data:
-          title: "Away Mode #1 is now active"
-          message: 'Away Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Set Away Mode 2"
-    initial_state: true
-    hide_entity: false
-    trigger:
-      - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'home'
-        to: 'not_home'
-        for:
-          minutes: 30
-    condition:
-      - condition: state
-        entity_id: device_tracker.pesiphone6
-        state: 'not_home'
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.homemode
-          option: Away
-      - service: notify.email
-        data:
-          title: "Away Mode #2 is now active"
-          message: 'Away Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Set Vacation Mode 1"
-    initial_state: true
-    hide_entity: false
-    trigger:
-      - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'home'
-        to: 'not_home'
-        for:
-          hours: 20
-    condition:
-      - condition: state
-        entity_id: device_tracker.juesiphone6splus
-        state: 'not_home'
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.homemode
-          option: Vacation
-      - service: notify.email
-        data:
-          title: "Vacation Mode #1 is now active"
-          message: 'Vacation Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Set Vacation Mode 2"
-    initial_state: true
-    hide_entity: false
-    trigger:
-      - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'home'
-        to: 'not_home'
-        for:
-          hours: 20
-    condition:
-      - condition: state
-        entity_id: device_tracker.pesiphone6
-        state: 'not_home'
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.homemode
-          option: Vacation
-      - service: notify.email
-        data:
-          title: "Vacation Mode #2 is now active"
-          message: 'Vacation Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

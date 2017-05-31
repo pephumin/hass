@@ -23,6 +23,26 @@
 #         milliseconds: 500
 #     - service: script.strobe_a
 
+
+# mute_common_room:
+#   alias: "Mute Common Room"
+#   sequence:
+#     - service: broadlink.send_packet_192_168_1_13
+#       data:
+#         packet:
+#           - 'JgDMAG82Dw0PDg0pDg0OKg0ODikPDA4ODikODg8MDikOKQ4ODwwPDQ4NDg4ODw4MDg0OKQ8NDikODw0ODQ4ODg4oDw0ODQ8pDigQKA4ODSsNDQ4NDg4ODQ8oDygPDQ4qDSkOKQ8ODQAJj283DQ4ODQ4pDw0OKQ8MDygQDA8ODSkODQ8NDikOKQ4NDw0ODQ8ODQ4ODwwODwwOKQ8ODSkODQ8NDg0PDg0pDg4ODQ8oDikPKA8NECcPDA8NDg4PDA4rDCkPDg0qDigOKQ4ODwANBQAAAAAAAAAAAAAAAA=='
+#           # - 'JgDMAG44Dg0ODQ4qDQ4OKQ4NDikODg4NDisNDRALECgOKQ4NDw0PDBAMDg4PDA4NDw4OJxEMDygODg0ODwwPDQ4qDgwPDQ4pDygOKQ4ODikODRAMDg0PDQ4pECgNDg4pDikOKQ8MDwAJkG42Dw0ODQ4pDwwOKQ8NECcODg4ODigODg4NDykOKA8NEAwODQ4ODwwODg4NDw0OKQ4NDikPDQ8MDw4ODQ4qDgwQDQ0pDikPKQ0NDykODQ4ODg0PDQ8oDygODg4pDikOKQ4ODQANBQAAAAAAAAAAAAAAAA=='
+#
+# mute_bedroom:
+#   alias: "Mute Bedroom"
+#   sequence:
+#     - service: broadlink.send_packet_192_168_1_14
+#       data:
+#         packet:
+#           # - 'JgDMAAgaCjsKGQkZChkJGQoZCRkKGQk8CTwJPAk8CRkKGQkABZ8LGAk8CRkJGgkZCTwJPAo7CTwKGQkZCRoJGQk8CTwJAAWfCxgJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwJGgkZCRoJPAk8CTsKOwoZCRoJGQkaCTsKOwoABZ8KGAo7ChkJGQkaCRkKGQkZChkJPAk8CTwJPAkZCRoJAAWfChkJOwoZCRoJGQk8CTwJPAk8CRkKGQkZChkJPAk8CQANBQAAAAAAAAAAAAAAAA=='
+#           - 'JgDMAAgaCjsKGQkZChkJGgkZCRoJGQk8CTwJPAk8CRkKGQkABZ8KGQk8CxcJGgkZCTwKOwo7CTwJGgkZCRoJGQk8CTwKAAWeChkJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwLGAkZCRoJPAk7CjsMOQwXCRkKGQkZCjsKOwwABZ0KGAo7CRoJGQkaCRkJGgkZCRoJPAk8CTwJPAkZCRoJAAWfChgKOwoZCRkKGQk8CTwJPAs6CRkKGQkZChkJPAk8CwANBQAAAAAAAAAAAAAAAA=='
+
+
 autolight_sunset_home:
   alias: "Autolighting Sunset Home"
   sequence:
@@ -84,7 +104,7 @@ autolight_mode_home_1:
     - service: light.turn_off
       data:
         entity_id: light.front_1
-        transition: 5
+        transition: 1
     - service: script.flashing_once
       data:
         title: "Downstairs Light has been turned off"
@@ -248,41 +268,47 @@ flashing_long:
   alias: "Flashing Long and Notify"
   sequence:
     - service: light.turn_on
-      entity_id: light.common_room_1
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: long
-    - service: light.turn_on
-      entity_id: light.common_room_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: long
-    - service: light.turn_on
-      entity_id: light.bedroom_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: long
-    - service: light.turn_on
-      entity_id: light.bedroom_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: long
-    - service: light.turn_on
-      entity_id: light.front_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: long
-    - service: light.turn_on
-      entity_id: light.front_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: long
+    # - service: light.turn_on
+    #   entity_id: light.common_room_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: long
+    # - service: light.turn_on
+    #   entity_id: light.common_room_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: long
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: long
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: long
+    # - service: light.turn_on
+    #   entity_id: light.front_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: long
+    # - service: light.turn_on
+    #   entity_id: light.front_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: long
     - service: notify.tv
       data_template:
         title: '{{ title }}'
@@ -296,189 +322,219 @@ flashing_short:
   alias: "Flashing Short and Notify"
   sequence:
     - service: light.turn_on
-      entity_id: light.common_room_1
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
-    - service: light.turn_on
-      entity_id: light.common_room_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.common_room_1
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
-    - service: light.turn_on
-      entity_id: light.common_room_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.common_room_1
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
-    - service: light.turn_on
-      entity_id: light.common_room_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.common_room_1
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
-    - service: light.turn_on
-      entity_id: light.common_room_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: light.common_room_1
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
-    - service: light.turn_on
-      entity_id: light.common_room_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
     - service: notify.tv
       data_template:
         title: '{{ title }}'
@@ -492,41 +548,47 @@ flashing_once:
   alias: "Flashing Once and Notify"
   sequence:
     - service: light.turn_on
-      entity_id: light.common_room_1
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
-    - service: light.turn_on
-      entity_id: light.common_room_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.bedroom_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_1
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
-    - service: light.turn_on
-      entity_id: light.front_2
-      data:
-        transition: 1
-        brightness: 250
-        flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.common_room_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.bedroom_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_1
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
+    # - service: light.turn_on
+    #   entity_id: light.front_2
+    #   data:
+    #     transition: 1
+    #     brightness: 250
+    #     flash: short
     - service: notify.tv
       data_template:
         title: '{{ title }}'

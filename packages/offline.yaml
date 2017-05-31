@@ -1,106 +1,87 @@
 binary_sensor:
-
   - platform: ping
     host: 192.168.1.1
     name: "Deeper"
-
   - platform: ping
     host: 192.168.1.11
     name: "Higher"
-
   - platform: ping
     host: 192.168.1.2
     name: "Pluto"
-
   - platform: ping
     host: 192.168.1.3
     name: "Neptune"
-
   - platform: ping
     host: 192.168.1.4
     name: "Uranus"
-
   - platform: ping
     host: 192.168.1.5
     name: "Mercury"
-
   - platform: ping
     host: 192.168.1.22
     name: "Moon"
-
   - platform: ping
     host: 192.168.1.13
     name: "Broadlink RM Pro"
-
   - platform: ping
     host: 192.168.1.14
     name: "Broadlink RM Mini"
-
   - platform: ping
     host: 192.168.1.78
     name: "Foscam Black"
-
   - platform: ping
     host: 192.168.1.79
     name: "Foscam White"
-
   - platform: ping
     host: 192.168.1.44
     name: "Printer"
 
-
-group:
-
-  online:
-    view: no
-    name: "Online Status"
-    entities:
-      - binary_sensor.deeper
-      - binary_sensor.higher
-      - binary_sensor.pluto
-      - binary_sensor.neptune
-      - binary_sensor.uranus
-      - binary_sensor.mercury
-      - binary_sensor.broadlink_rm_pro
-      - binary_sensor.broadlink_rm_mini
-      - binary_sensor.foscam_black
-      - binary_sensor.foscam_white
-      - binary_sensor.moon
-      - binary_sensor.printer
-
-  online_cr:
-    view: no
-    name: "Online Status Common Room"
-    entities:
-      - binary_sensor.deeper
-      - binary_sensor.higher
-      - binary_sensor.pluto
-      - binary_sensor.broadlink_rm_pro
-      - binary_sensor.foscam_black
-
-  online_br:
-    view: no
-    name: "Online Status Bedroom"
-    entities:
-      - binary_sensor.neptune
-      - binary_sensor.broadlink_rm_mini
-      - binary_sensor.moon
-
-  online_ff:
-    view: no
-    name: "Online Status First Floor"
-    entities:
-      - binary_sensor.uranus
-      - binary_sensor.mercury
-      - binary_sensor.foscam_white
-      - binary_sensor.printer
-
+# group:
+#   online:
+#     view: no
+#     name: "Online Status"
+#     entities:
+#       - binary_sensor.deeper
+#       - binary_sensor.higher
+#       - binary_sensor.pluto
+#       - binary_sensor.neptune
+#       - binary_sensor.uranus
+#       - binary_sensor.mercury
+#       - binary_sensor.broadlink_rm_pro
+#       - binary_sensor.broadlink_rm_mini
+#       - binary_sensor.foscam_black
+#       - binary_sensor.foscam_white
+#       - binary_sensor.moon
+#       - binary_sensor.printer
+#   online_cr:
+#     view: no
+#     name: "Online Status Common Room"
+#     entities:
+#       - binary_sensor.deeper
+#       - binary_sensor.higher
+#       - binary_sensor.pluto
+#       - binary_sensor.broadlink_rm_pro
+#       - binary_sensor.foscam_black
+#   online_br:
+#     view: no
+#     name: "Online Status Bedroom"
+#     entities:
+#       - binary_sensor.neptune
+#       - binary_sensor.broadlink_rm_mini
+#       - binary_sensor.moon
+#   online_ff:
+#     view: no
+#     name: "Online Status First Floor"
+#     entities:
+#       - binary_sensor.uranus
+#       - binary_sensor.mercury
+#       - binary_sensor.foscam_white
+#       - binary_sensor.printer
 
 automation:
-
   - alias: Offline Deeper
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.deeper
@@ -114,10 +95,9 @@ automation:
         data:
           title: "The primary gateway is offline"
           message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Higher
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.higher
@@ -131,10 +111,9 @@ automation:
         data:
           title: "The secondary gateway is offline"
           message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Pluto
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.pluto
@@ -148,10 +127,9 @@ automation:
         data:
           title: "Airport Extreme is offline"
           message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Neptune
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.neptune
@@ -165,10 +143,9 @@ automation:
         data:
           title: "Airport Express Master Bedroom is offline"
           message: 'Airport Express Master Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Uranus
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.uranus
@@ -182,10 +159,9 @@ automation:
         data:
           title: "Airport Express Downstairs is offline"
           message: 'Airport Express Downstairs is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Mercury
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.mercury
@@ -199,10 +175,9 @@ automation:
         data:
           title: "Airport Express Remote is offline"
           message: 'Airport Express Remote is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Hue
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.moon
@@ -216,10 +191,9 @@ automation:
         data:
           title: "Philips Hue is offline"
           message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Broadlink RM Pro
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.broadlink_rm_pro
@@ -233,10 +207,9 @@ automation:
         data:
           title: "Broadlink RM Pro is offline"
           message: 'Broadlink RM Pro is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Broadlink RM Mini
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.broadlink_rm_mini
@@ -250,10 +223,9 @@ automation:
         data:
           title: "Broadlink RM Mini is offline"
           message: 'Broadlink RM Mini is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Foscam Black
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.foscam_black
@@ -267,10 +239,9 @@ automation:
         data:
           title: "Foscam Black is offline"
           message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Foscam White
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.foscam_white
@@ -284,10 +255,9 @@ automation:
         data:
           title: "Foscam White is offline"
           message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: Offline Printer
-    initial_state: true
-    hide_entity: true
+    initial_state: 'on'
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.printer

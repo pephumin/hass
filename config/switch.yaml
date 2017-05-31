@@ -1,0 +1,2 @@
+- platform: tplink
+  host: !secret tplink_ip

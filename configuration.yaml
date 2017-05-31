@@ -9,13 +9,14 @@ homeassistant:
   packages:
     alarmclock: !include packages/alarmclock.yaml
     broadlink: !include packages/broadlink.yaml
-    # denon: !include packages/denon.yaml
+    daylight: !include packages/daylight.yaml
+    denon: !include packages/denon.yaml
     foscam: !include packages/foscam.yaml
     homemode: !include packages/homemode.yaml
     ios: !include packages/ios.yaml
+    itunes: !include packages/itunes.yaml
     offline: !include packages/offline.yaml
     server: !include packages/server.yaml
-    daylight: !include packages/daylight.yaml
     zone: !include packages/zone.yaml
 
 http:
@@ -30,21 +31,6 @@ http:
   ip_ban_enabled: True
   login_attempts_threshold: 3
 
-recorder:
-  purge_days: 30
-  db_url: !secret db_url
-  exclude:
-    entities:
-      - sensor.since_last_boot
-      - sensor.ram_use
-      - sensor.cpu_use
-      - sensor.solar_angle
-      - sun.sun
-      - sensor.time
-      # - sensor.common_room_temperature
-      - camera.current_location_jue
-      - camera.current_location_pe
-
 config:
 conversation:
 discovery:
@@ -55,7 +41,7 @@ zeroconf:
 
 light:
   platform: hue
-  host: 192.168.1.22
+  host: !secret hue_ip
   allow_unreachable: true
   # allow_in_emulated_hue: false
   allow_hue_groups: false
@@ -76,8 +62,10 @@ history: !include config/history.yaml
 logbook: !include config/logbook.yaml
 media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
+recorder: !include config/recorder.yaml
 scene: !include config/scene.yaml
 script: !include config/script.yaml
+# switch: !include config/switch.yaml
 sensor: !include_dir_merge_list sensor/
 
 # critical, fatal, error, warning, warn, info, debug, notset
@@ -90,12 +78,12 @@ logger:
     homeassistant.components.input_boolean: debug
     homeassistant.components.input_select: debug
     homeassistant.components.ios: debug
+    homeassistant.components.media_player: critical
     homeassistant.components.notify: debug
-    # homeassistant.components.proximity: debug
+    homeassistant.components.proximity: critical
     homeassistant.components.script: debug
     homeassistant.components.sensor: debug
     homeassistant.components.switch: debug
-    denonavr.denon: debug
 
 mqtt:
   broker: !secret cloudmqtt_broker
@@ -105,5 +93,3 @@ mqtt:
   client_id: home-assistant
   keepalive: 60
   protocol: 3.1
-  # discovery: true
-  # discovery_prefix: homeassistant
