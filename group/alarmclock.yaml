@@ -1,0 +1,10 @@
+alarmclock:
+  name: Alarm Clock
+  control: hidden
+  entities:
+    - input_boolean.activate_alarm
+    # - automation.set_alarm
+    - sensor.alarm_time
+    - input_slider.alarmhour
+    - input_slider.alarmminutes
+    - input_boolean.alarmweekday

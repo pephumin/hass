@@ -1,0 +1,43 @@
+online:
+  view: no
+  name: "Online Status"
+  entities:
+    - binary_sensor.deeper
+    - binary_sensor.higher
+    - binary_sensor.pluto
+    - binary_sensor.neptune
+    - binary_sensor.uranus
+    - binary_sensor.mercury
+    - binary_sensor.broadlink_rm_pro
+    - binary_sensor.broadlink_rm_mini
+    - binary_sensor.foscam_black
+    - binary_sensor.foscam_white
+    - binary_sensor.moon
+    - binary_sensor.printer
+
+online_cr:
+  view: no
+  name: "Online Status Common Room"
+  entities:
+    - binary_sensor.deeper
+    - binary_sensor.higher
+    - binary_sensor.pluto
+    - binary_sensor.broadlink_rm_pro
+    - binary_sensor.foscam_black
+
+online_br:
+  view: no
+  name: "Online Status Bedroom"
+  entities:
+    - binary_sensor.neptune
+    - binary_sensor.broadlink_rm_mini
+    - binary_sensor.moon
+    
+online_ff:
+  view: no
+  name: "Online Status First Floor"
+  entities:
+    - binary_sensor.uranus
+    - binary_sensor.mercury
+    - binary_sensor.foscam_white
+    - binary_sensor.printer

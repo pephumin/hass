@@ -1,0 +1,6 @@
+playlists:
+  name: Playlists
+  entities:
+    - script.dja_shuffle
+    - script.djb_shuffle
+    - script.djp_shuffle
