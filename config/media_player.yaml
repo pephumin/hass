@@ -1,23 +1,19 @@
-- platform: itunes
-  name: iTunes
-  host: 192.168.1.200
-
 - platform: apple_tv
   name: Apple TV
-  host: 192.168.1.55
+  host: !secret apple_tv_ip
   login_id: !secret apple_tv_login_id
 
 - platform: denonavr
   name: Denon
-  host: 192.168.1.66
+  host: !secret denon_ip
 
 - platform: dunehd
   name: Dune
-  host: 192.168.1.77
+  host: !secret dune_ip
 
 - platform: kodi
   name: Kodi
-  host: 192.168.1.88
+  host: !secret kodi_ip
   username: !secret my_username
   password: !secret my_password
   turn_off_action: quit
