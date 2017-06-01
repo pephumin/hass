@@ -9,6 +9,7 @@ control:
     - switch.common_room_tv
     - switch.common_room_android_box
     - sensor.denon_source
+    - input_select.avrmode
     - input_slider.volume_common_room
     - script.mute_common_room
     - switch.bedroom_air_cond
@@ -27,6 +28,7 @@ control_cr:
     - switch.common_room_tv
     - switch.common_room_android_box
     - sensor.denon_source
+    - input_select.avrmode
     - input_slider.volume_common_room
     - script.mute_common_room
     - input_select.homemode

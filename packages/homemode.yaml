@@ -40,7 +40,7 @@ input_slider:
     icon: mdi:volume-high
   volume_bedroom:
     name: Volume Bedroom
-    initial: 0.3
+    initial: 0.30
     min: 0.0
     max: 0.5
     step: 0.05
