@@ -1,145 +1,302 @@
-# Profiles HASS Module
-#
-# Provides several profiles that manage settings.
-
-# - Standard:
-#     Uses reports, alarms, etc according to configuration.
-# - Relax:
-#     Disables reports, changes volumes, starts hue. Disables welcome music. Shut down PC if not in use? (wake on lan?)
-# - Sleep:
-#     Disable all welcome messages. Disable texting and voice messages.
-#     Keep alarm clock on. Keep room covers down and don't move the other.
-#     Disable mode automatically if alarm clock triggers.
-# - Visitor:
-#     Disables automatic shutdown of media players and lights on leaving the house, or when turning on other mediaplayers.
-#     Keeps covers open.
-# - Nobody:
-#     Mode when everyone is out (temporarily). Heating and such keep working. Covers are not moved (may be summer?).
-# - Away:
-#     When on holidays or away from home. Disables alarm clock, reports, etc, keep media shut down. Heating, covers.
-#     When back, emits a permanent notification and changes mode to Standard?
-
 input_select:
   homemode:
     name: "Home Mode"
     options:
      - Home
      - Away
-     - Visitor # no autolight off
      - Vacation # alarm clock off
+     - Visitor # no autolight off
     initial: Home
     icon: mdi:home-outline
 
 input_slider:
   volume_common_room:
     name: Volume Common Room
-    initial: 0.35
+    # initial: 0.35
     min: 0.0
     max: 0.5
     step: 0.05
     icon: mdi:volume-high
   volume_bedroom:
     name: Volume Bedroom
-    initial: 0.30
+    # initial: 0.30
     min: 0.0
     max: 0.5
     step: 0.05
     icon: mdi:volume-high
 
-# script:
-#   homeconfig:
-#     alias: "Home Configuration"
-#     sequence:
-#       - service_template: "input_boolean.{{ 'turn_on' if alarmclock == 'true' else 'turn_off' }}"
-#         entity_id: input_boolean.activate_alarm
-#       - service_template: "script.{{ 'turn_on' if autolighthome == 'true' else 'turn_off' }}"
-#         entity_id: script.autolight_mode_home_1
-#       - service_template: "script.{{ 'turn_on' if autolighthome == 'true' else 'turn_off' }}"
-#         entity_id: script.autolight_mode_home_2
-#       - service_template: "script.{{ 'turn_on' if autolightaway == 'true' else 'turn_off' }}"
-#         entity_id: script.autolight_mode_away_1
-#       - service_template: "script.{{ 'turn_on' if autolightaway == 'true' else 'turn_off' }}"
-#         entity_id: script.autolight_mode_away_2
-#       - service_template: "script.{{ 'turn_on' if autolightaway == 'true' else 'turn_off' }}"
-#         entity_id: script.autolight_mode_away_3
-#       - service_template: "script.{{ 'turn_on' if autolightvacation == 'true' else 'turn_off' }}"
-#         entity_id: script.autolight_mode_vacation_1
-#       - service_template: "script.{{ 'turn_on' if autolightvacation == 'true' else 'turn_off' }}"
-#         entity_id: script.autolight_mode_vacation_2
-#       - service_template: "script.{{ 'turn_on' if autolightvacation == 'true' else 'turn_off' }}"
-#         entity_id: script.autolight_mode_vacation_3
-#       - service: input_slider.select_value
-#         entity_id: input_slider.volume_common_room
-#         data_template:
-#           value: '{{ volume_common_room }}'
-#       - service: input_slider.select_value
-#         entity_id: input_slider.volume_bedroom
-#         data_template:
-#           value: '{{ volume_bedroom }}'
+script:
+  autolight_sunset_home:
+    alias: "Autolighting Sunset Home"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.lightstrip
+          transition: 300
+          brightness: 200
+          xy_color: [0.1794, 0.0964]
+      - service: script.flashing_once
+        data:
+          title: "Lightstrip has been turned on"
+          message: '15 minutes before sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 01:15:00
+      - service: light.turn_off
+        data:
+          entity_id: light.lightstrip
+      - service: script.flashing_once
+        data:
+          title: "Lightstrip has been turned off"
+          message: '1.5 hors after sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  autolight_sunset_away:
+    alias: "Autolighting Sunset Away"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.garage
+          transition: 300
+          brightness: 255
+      - service: script.notifying
+        data:
+          title: "Garage light has been turned on"
+          message: '15 minutes before sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 01:15:00
+      - service: light.turn_off
+        data:
+          entity_id: light.garage
+      - service: script.notifying
+        data:
+          title: "Garage light has been turned off"
+          message: '1.5 hors after sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  autolight_mode_home_1:
+    alias: "Autolighting Home 1"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.front_1
+          transition: 5
+          brightness: 200
+      - service: script.flashing_once
+        data:
+          title: "Downstairs Light has been turned on"
+          message: 'At 19:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 01:00:00
+      - service: light.turn_off
+        data:
+          entity_id: light.front_1
+      - service: script.flashing_once
+        data:
+          title: "Downstairs Light has been turned off"
+          message: 'At 20:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  autolight_mode_home_2:
+    alias: "Autolighting Home 2"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.bedroom_lw
+          transition: 60
+          brightness: 50
+      - service: script.flashing_once
+        data:
+          title: "Bedroom LW has been turned on"
+          message: 'At 21:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 02:00:00
+      - service: light.turn_off
+        data:
+          entity_id: light.bedroom_lw
+      - service: script.flashing_once
+        data:
+          title: "Bedroom LW has been turned off"
+          message: 'At 23:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  autolight_mode_away_1:
+    alias: "Autolighting Away 1"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.garage
+          transition: 1
+          brightness: 255
+      - service: script.notifying
+        data:
+          title: "Garage Light has been turned on"
+          message: 'At 19:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 01:00:00
+      - service: light.turn_off
+        data:
+          entity_id: light.garage
+      - service: script.notifying
+        data:
+          title: "Garage Light has been turned off"
+          message: 'At 20:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  autolight_mode_away_2:
+    alias: "Autolighting Away 2"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.front_2
+          transition: 1
+          brightness: 255
+      - service: script.notifying
+        data:
+          title: "Downstairs Light has been turned on"
+          message: 'At 20:45pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 00:45:00
+      - service: light.turn_off
+        data:
+          entity_id: light.front_2
+      - service: script.notifying
+        data:
+          title: "Downstairs Light has been turned off"
+          message: 'At 21:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  autolight_mode_away_3:
+    alias: "Autolighting Away 3"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.bedroom_lw
+          transition: 1
+          brightness: 255
+      - service: script.notifying
+        data:
+          title: "Bedroom LW has been turned on"
+          message: 'At 21:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 01:30:00
+      - service: light.turn_off
+        data:
+          entity_id: light.bedroom_lw
+      - service: script.notifying
+        data:
+          title: "Bedroom LW has been turned off"
+          message: 'At 22:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  autolight_mode_vacation_1:
+    alias: "Autolighting Vacation 1"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.garage
+          transition: 1
+          brightness: 255
+      - service: script.notifying
+        data:
+          title: "Garage Light has been turned on"
+          message: 'At 19:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 01:00:00
+      - service: light.turn_off
+        data:
+          entity_id: light.garage
+      - service: script.notifying
+        data:
+          title: "Garage Light has been turned off"
+          message: 'At 20:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  autolight_mode_vacation_2:
+    alias: "Autolighting Vacation 2"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.front_2
+          transition: 1
+          brightness: 255
+      - service: script.notifying
+        data:
+          title: "Downstairs Light has been turned on"
+          message: 'At 20:45pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 00:45:00
+      - service: light.turn_off
+        data:
+          entity_id: light.front_2
+      - service: script.notifying
+        data:
+          title: "Downstairs Light has been turned off"
+          message: 'At 21:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  autolight_mode_vacation_3:
+    alias: "Autolighting Vacation 3"
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.bedroom_lw
+          transition: 1
+          brightness: 255
+      - service: script.notifying
+        data:
+          title: "Bedroom LW has been turned on"
+          message: 'At 21:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - delay: 01:30:00
+      - service: light.turn_off
+        data:
+          entity_id: light.bedroom_lw
+      - service: script.notifying
+        data:
+          title: "Bedroom LW has been turned off"
+          message: 'At 22:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
 automation:
   - alias: Volume Common Room
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: media_player.denon
     condition:
       - condition: template
-        value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
+        # value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
+        value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
     action:
       - service: input_slider.select_value
         data_template:
           entity_id: input_slider.volume_common_room
-          value: '{{ states.media_player.denon.attributes.volume_level }}'
+          # value: '{{ states.media_player.denon.attributes.volume_level }}'
+          value: '{{ trigger.to_state.attributes.volume_level }}'
   - alias: Volume Adjust Common Room
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_slider.volume_common_room
+    condition:
+      - condition: template
+        value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
     action:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.denon
-          volume_level: '{{ states.input_slider.volume_common_room.state }}'
+          # volume_level: '{{ states.input_slider.volume_common_room.state }}'
+          volume_level: "{{ states('input_slider.volume_common_room') }}"
   - alias: Volume Bedroom
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: media_player.itunes
     condition:
       - condition: template
-        value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
+        # value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
+        value_template: "{{ not is_state_attr('media_player.itunes', 'volume_level', states('input_slider.volume_bedroom')) }}"
     action:
       - service: input_slider.select_value
         data_template:
           entity_id: input_slider.volume_bedroom
-          value: '{{ states.media_player.itunes.attributes.volume_level }}'
+          # value: '{{ states.media_player.itunes.attributes.volume_level }}'
+          value: '{{ trigger.to_state.attributes.volume_level }}'
   - alias: Volume Adjust Bedroom
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_slider.volume_bedroom
+    condition:
+      - condition: template
+        value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
     action:
       - service: media_player.volume_set
         data_template:
           entity_id: media_player.itunes
-          volume_level: '{{ states.input_slider.volume_bedroom.state }}'
+          # volume_level: '{{ states.input_slider.volume_bedroom.state }}'
+          volume_level: "{{ states('input_slider.volume_bedroom') }}"
   - alias: "Set Home Mode"
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone6
         from: 'not_home'
         to: 'home'
+        for:
+          minutes: 10
       - platform: state
         entity_id: device_tracker.juesiphone6splus
         from: 'not_home'
         to: 'home'
+        for:
+          minutes: 10
     action:
       - service: input_select.select_option
         data:
@@ -150,8 +307,6 @@ automation:
           title: "Home Mode is now active"
           message: 'Home Mode is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: "Set Away Mode 1"
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone6
@@ -173,8 +328,6 @@ automation:
           title: "Away Mode #1 is now active"
           message: 'Away Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: "Set Away Mode 2"
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
@@ -196,8 +349,6 @@ automation:
           title: "Away Mode #2 is now active"
           message: 'Away Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: "Set Vacation Mode 1"
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone6
@@ -219,8 +370,6 @@ automation:
           title: "Vacation Mode #1 is now active"
           message: 'Vacation Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: "Set Vacation Mode 2"
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
@@ -241,7 +390,155 @@ automation:
         data:
           title: "Vacation Mode #2 is now active"
           message: 'Vacation Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
+  - alias: "Autolights All Off 1"
+    trigger:
+      - platform: time
+        after: '00:01:00'
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Home
+    action:
+      - service: light.turn_off
+        entity_id: group.all_lights
+        # data:
+        #   transition: 60
+      - service: script.flashing_once
+        data:
+          title: "All lights has been turned off"
+          message: 'All lights are off after midnight everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: "Autolights All Off 2"
+    trigger:
+      - platform: state
+        entity_id: input_select.homemode
+        state: Away
+    action:
+      - service: light.turn_off
+        entity_id: group.all_lights
+        # data:
+        #   transition: 1
+      - service: script.notifying
+        data:
+          title: "All lights has been turned off"
+          message: 'All lights are off when noboby is home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: "Autolight Sunset Home"
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: "-00:15:00"
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Home
+    action:
+      - service: script.autolight_sunset_home
+  - alias: "Autolight Sunset Away"
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: "-00:15:00"
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Away
+    action:
+      - service: script.autolight_sunset_away
+  - alias: "Autolight Home 1"
+    trigger:
+      - platform: time
+        hours: 19
+        minutes: 30
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Home
+    action:
+      - service: script.autolight_mode_home_1
+  - alias: "Autolight Home 2"
+    trigger:
+      - platform: time
+        hours: 21
+        minutes: 0
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Home
+    action:
+      - service: script.autolight_mode_home_2
+  - alias: "Autolight Away 1"
+    trigger:
+      - platform: time
+        hours: 19
+        minutes: 30
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Away
+    action:
+      - service: script.autolight_mode_away_1
+  - alias: "Autolight Away 2"
+    trigger:
+      - platform: time
+        hours: 20
+        minutes: 45
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Away
+    action:
+      - service: script.autolight_mode_away_2
+  - alias: "Autolight Away 3"
+    trigger:
+      - platform: time
+        hours: 21
+        minutes: 0
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Away
+    action:
+      - service: script.autolight_mode_away_3
+  - alias: "Autolight Vacation 1"
+    trigger:
+      - platform: time
+        hours: 19
+        minutes: 30
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Vacation
+    action:
+      - service: script.autolight_mode_vacation_1
+  - alias: "Autolight Vacation 2"
+    trigger:
+      - platform: time
+        hours: 20
+        minutes: 45
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Vacation
+    action:
+      - service: script.autolight_mode_vacation_2
+  - alias: "Autolight Vacation 3"
+    trigger:
+      - platform: time
+        hours: 21
+        minutes: 0
+        seconds: 0
+    condition:
+      - condition: state
+        entity_id: input_select.homemode
+        state: Vacation
+    action:
+      - service: script.autolight_mode_vacation_3
   # - alias: Home Mode Change
   #   trigger:
   #     platform: state
@@ -251,10 +548,7 @@ automation:
   #       data:
   #         title: "Home mode has been changed"
   #         message: 'Home mode has been changed to {{ states.input_select.homemode.state }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   # - alias: Profile Home
-  #   initial_state: false
-  #   hide_entity: false
   #   trigger:
   #     platform: state
   #     entity_id: input_select.homemode
@@ -268,10 +562,7 @@ automation:
   #         autolightvacation: false
   #         volume_common_room: 0.3
   #         volume_bedroom: 0.2
-  #
   # - alias: Profile Visitor
-  #   initial_state: false
-  #   hide_entity: false
   #   trigger:
   #     platform: state
   #     entity_id: input_select.homemode
@@ -285,10 +576,7 @@ automation:
   #         autolightvacation: false
   #         volume_common_room: 0.4
   #         volume_bedroom: 0.2
-  #
   # - alias: Profile Away
-  #   initial_state: false
-  #   hide_entity: false
   #   trigger:
   #     platform: state
   #     entity_id: input_select.homemode
@@ -302,10 +590,7 @@ automation:
   #         autolightvacation: false
   #         volume_common_room: 0.35
   #         volume_bedroom: 0.3
-  #
   # - alias: Profile Vacation
-  #   initial_state: false
-  #   hide_entity: false
   #   trigger:
   #     platform: state
   #     entity_id: input_select.homemode

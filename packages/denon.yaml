@@ -1,33 +1,66 @@
+sensor:
+  - platform: template
+    sensors:
+      denon_source:
+        # value_template: '{% if states.media_player.denon %}{{ states.media_player.denon.attributes["source"] }}{% else %}Off{% endif %}'
+        value_template: '{% if states.media_player.denon.state == "off" %}Off{% else %}{{ states.media_player.denon.attributes["source"] }}{% endif %}'
+        # friendly_name: 'Denon Source'
+
+automation:
+  # - alias: "Change AVR Source"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: sensor.denon_source
+  #   # condition:
+  #   #   - condition: template
+  #   #     value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
+  #   action:
+  #     - service: input_slider.select_value
+  #       data_template:
+  #         entity_id: input_slider.avrmode
+  #         value: '{{ states.media_player.denon.attributes["source"] }}'
+
+  - alias: "Denon Source Cable TV"
+    trigger:
+      - platform: state
+        entity_id: sensor.denon_source
+        to: 'Cabel TV'
+    condition:
+      - condition: state
+        entity_id: media_player.denon
+        state: 'playing'
+    action:
+      - service: scene.turn_on
+        entity_id: scene.common_room_bright
+
+  - alias: "Denon Source Music"
+    trigger:
+      - platform: state
+        entity_id: sensor.denon_source
+        to: 'Music'
+    condition:
+      - condition: state
+        entity_id: media_player.denon
+        state: 'playing'
+    action:
+      - service: scene.turn_on
+        entity_id: scene.common_room_dim
+
 # switch:
-#
 #   - platform: denonxml
 #     host: 192.168.1.66
 #     port: 1
 #     scan_interval: 5
-#
 #   - platform: denonxml
 #     host: 192.168.1.66
 #     port: 2
 #     scan_interval: 5
 #
-#
 # shell_command:
-#
 #   set_denon_volume: '/bin/curl -k http://192.168.1.66/goform/formiPhoneAppVolume.xml?{{ zone }}+{{ volume | float - 80 }}'
 #   set_denon_source: '/bin/curl -X GET http://192.168.1.66/goform/formiPhoneAppDirect.xml?{{ source }}'
 #
-#
-# group:
-#
-#   denon:
-#     name: Denon AVR
-#     entities:
-#       - switch.denon_zone1
-#       - switch.denon_zone2
-#
-#
 # homeassistant:
-#
 #   customize:
 #     switch.denon_zone1:
 #       friendly_name: Common Room
@@ -37,71 +70,3 @@
 #       friendly_name: Zone2
 #       icon: mdi:volume-high
 #       custom_ui_state_card: custom_source
-
-input_select:
-  avrmode:
-    name: "AVR Mode"
-    options:
-     - CBL/SAT
-     - Music
-     - AppleTV
-     - Dune
-    initial: CBL/SAT
-    icon: mdi:amplifier
-
-sensor:
-  - platform: template
-    sensors:
-      denon_source:
-        value_template: '{{ states.media_player.denon.attributes["source"] }}'
-        friendly_name: 'Denon Source'
-
-automation:
-  - alias: "Change AVR Source"
-    initial_state: 'on'
-    hide_entity: True
-    trigger:
-      - platform: state
-        entity_id: sensor.denon_source
-    # condition:
-    #   - condition: template
-    #     value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
-    action:
-      - service: input_slider.select_value
-        data_template:
-          entity_id: input_slider.avrmode
-          value: '{{ states.media_player.denon.attributes["source"] }}'
-  - alias: "Denon Source CBL"
-    initial_state: 'on'
-    hide_entity: True
-    trigger:
-      platform: state
-      entity_id: sensor.denon_source
-      to: 'CBL/SAT'
-    condition:
-      - condition: state
-        entity_id: sun.sun
-        state: 'below_horizon'
-      - condition: state
-        entity_id: media_player.denon
-        state: 'playing'
-    action:
-      service: scene.turn_on
-      entity_id: scene.common_room_dim
-  - alias: "Denon Source Music"
-    initial_state: 'on'
-    hide_entity: True
-    trigger:
-      platform: state
-      entity_id: sensor.denon_source
-      to: 'Music'
-    condition:
-      - condition: state
-        entity_id: sun.sun
-        state: 'below_horizon'
-      - condition: state
-        entity_id: media_player.denon
-        state: 'playing'
-    action:
-      service: scene.turn_on
-      entity_id: scene.common_room_bright

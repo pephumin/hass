@@ -16,7 +16,6 @@ default_view:
     - camera.foscam_white
     - camera.current_location_pe
     - camera.current_location_jue
-    # - camera.current_location_bmw
     - group.lights_all
     - group.control
     - group.weather
@@ -64,4 +63,3 @@ first_floor:
     - camera.foscam_white
     - camera.current_location_pe
     - camera.current_location_jue
-    # - camera.current_location_bmw

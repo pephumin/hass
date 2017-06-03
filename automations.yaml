@@ -1,6 +1,7 @@
 ### Autolighting
 
-- alias: "Autolights All Off 1"
+- id: autolights_all_off_1
+  alias: "Autolights All Off 1"
   initial_state: true
   hide_entity: false
   trigger:
@@ -20,7 +21,8 @@
         title: "All lights has been turned off"
         message: 'All lights are off after midnight everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-- alias: "Autolights All Off 2"
+- id: autolights_all_off_2
+  alias: "Autolights All Off 2"
   initial_state: true
   hide_entity: false
   trigger:
@@ -39,7 +41,8 @@
         title: "All lights has been turned off"
         message: 'All lights are off when noboby is home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-- alias: "Autolight Sunset Home"
+- id: autolights_sunset_home
+  alias: "Autolight Sunset Home"
   initial_state: true
   hide_entity: true
   trigger:
@@ -53,7 +56,8 @@
   action:
     - service: script.autolight_sunset_home
 
-- alias: "Autolight Sunset Away"
+- id: autolights_sunset_away
+  alias: "Autolight Sunset Away"
   initial_state: true
   hide_entity: true
   trigger:
@@ -67,7 +71,8 @@
   action:
     - service: script.autolight_sunset_away
 
-- alias: "Autolight Home 1"
+- id: autolights_home_1
+  alias: "Autolight Home 1"
   initial_state: true
   hide_entity: true
   trigger:
@@ -82,7 +87,8 @@
   action:
     - service: script.autolight_mode_home_1
 
-- alias: "Autolight Home 2"
+- id: autolights_home_2
+  alias: "Autolight Home 2"
   initial_state: true
   hide_entity: true
   trigger:
@@ -97,7 +103,8 @@
   action:
     - service: script.autolight_mode_home_2
 
-- alias: "Autolight Away 1"
+- id: autolights_away_1
+  alias: "Autolight Away 1"
   initial_state: true
   hide_entity: true
   trigger:
@@ -112,7 +119,8 @@
   action:
     - service: script.autolight_mode_away_1
 
-- alias: "Autolight Away 2"
+- id: autolights_away_2
+  alias: "Autolight Away 2"
   initial_state: true
   hide_entity: true
   trigger:
@@ -127,7 +135,8 @@
   action:
     - service: script.autolight_mode_away_2
 
-- alias: "Autolight Away 3"
+- id: autolights_away_3
+  alias: "Autolight Away 3"
   initial_state: true
   hide_entity: true
   trigger:
@@ -142,7 +151,8 @@
   action:
     - service: script.autolight_mode_away_3
 
-- alias: "Autolight Vacation 1"
+- id: autolights_vacation_1
+  alias: "Autolight Vacation 1"
   initial_state: true
   hide_entity: true
   trigger:
@@ -157,7 +167,8 @@
   action:
     - service: script.autolight_mode_vacation_1
 
-- alias: "Autolight Vacation 2"
+- id: autolights_vacation_2
+  alias: "Autolight Vacation 2"
   initial_state: true
   hide_entity: true
   trigger:
@@ -172,7 +183,8 @@
   action:
     - service: script.autolight_mode_vacation_2
 
-- alias: "Autolight Vacation 3"
+- id: autolights_vacation_3
+  alias: "Autolight Vacation 3"
   initial_state: true
   hide_entity: true
   trigger:

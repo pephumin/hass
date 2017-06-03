@@ -41,8 +41,6 @@ camera:
 #
 # automation:
 #   - alias: "Enable Motion Detection Away Mode"
-#     initial_state: false
-#     hide_entity: false
 #     trigger:
 #       - platform: state
 #         entity_id: input_select.homemode
@@ -58,9 +56,8 @@ camera:
 #         data:
 #           title: "Enable Motion Detection"
 #           message: 'Foscam Motion Detection is activated for Away mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+#
 #   - alias: "Disable Motion Detection Home Mode"
-#     initial_state: false
-#     hide_entity: false
 #     trigger:
 #       - platform: state
 #         entity_id: input_select.homemode
