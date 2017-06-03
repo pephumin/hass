@@ -14,6 +14,7 @@ online:
     - binary_sensor.foscam_white
     - binary_sensor.moon
     - binary_sensor.printer
+    - binary_sensor.titan
 
 online_cr:
   view: no
@@ -24,6 +25,7 @@ online_cr:
     - binary_sensor.pluto
     - binary_sensor.broadlink_rm_pro
     - binary_sensor.foscam_black
+    - binary_sensor.titan
 
 online_br:
   view: no
@@ -32,7 +34,7 @@ online_br:
     - binary_sensor.neptune
     - binary_sensor.broadlink_rm_mini
     - binary_sensor.moon
-    
+
 online_ff:
   view: no
   name: "Online Status First Floor"

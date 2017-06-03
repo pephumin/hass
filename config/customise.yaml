@@ -2,67 +2,97 @@
 
 device_tracker.pesiphone6:
   icon: mdi:cellphone-iphone
+  friendly_name: "Pe iPhone 6"
 device_tracker.pesipadmini2:
   icon: mdi:tablet-ipad
+  friendly_name: "Pe iPad Mini 2"
 device_tracker.juesiphone6splus:
   icon: mdi:cellphone-iphone
+  friendly_name: "Jue iPhone 6s Plus"
 device_tracker.juesipadmini2:
   icon: mdi:tablet-ipad
+  friendly_name: "Jue iPad Mini 2"
 device_tracker.pesipodtouch4:
   icon: mdi:cellphone
+  friendly_name: "iPod Touch BMW"
 device_tracker.pepe:
   icon: mdi:laptop-mac
+  friendly_name: "Pe Macbook Pro"
 # device_tracker.benjysiphone6:
 #   icon: mdi:cellphone-iphone
+#   friendly_name: "Benjy iPhone 6"
 # device_tracker.benjysipadmini2:
 #   icon: mdi:tablet-ipad
+#   friendly_name: "Benjy iPad Mini 2"
 # device_tracker.benjysmbp:
 #   icon: mdi:laptop-mac
+#   friendly_name: "Benjy Macbook Pro"
 
 light.bedroom_1:
   icon: mdi:lightbulb
+  friendly_name: "Bedroom 1"
 light.bedroom_2:
   icon: mdi:lightbulb
+  friendly_name: "Bedroom 2"
 light.bedroom_3:
   icon: mdi:lightbulb
+  friendly_name: "Bedroom 3"
 light.bedroom_4:
   icon: mdi:lightbulb
+  friendly_name: "Bedroom 4"
 light.bedroom_lw:
   icon: mdi:lamp
+  friendly_name: "Bedroom Living Whites"
 light.bedroom_lc:
   icon: mdi:spotlight
+  friendly_name: "Bedroom Living Colors"
 light.common_room_1:
   icon: mdi:ceiling-light
+  friendly_name: "Common Room 1"
 light.common_room_2:
   icon: mdi:ceiling-light
+  friendly_name: "Common Room 2"
 light.common_room_3:
   icon: mdi:ceiling-light
+  friendly_name: "Common Room 3"
 light.common_room_4:
   icon: mdi:ceiling-light
+  friendly_name: "Common Room 4"
 light.lightstrip:
   icon: mdi:alarm-light
+  friendly_name: "Lightstrip"
 light.hallway:
   icon: mdi:spotlight-beam
+  friendly_name: "Hallway"
 light.front_1:
   icon: mdi:lightbulb-outline
+  friendly_name: "Front 1"
 light.front_2:
   icon: mdi:lightbulb-outline
+  friendly_name: "Front 2"
 light.garage:
   icon: mdi:spotlight
+  friendly_name: "Garage"
 
 camera.foscam_black:
   icon: mdi:webcam
+  friendly_name: "Foscam Black"
 camera.foscam_white:
   icon: mdi:webcam
+  friendly_name: "Foscam White"
 
 sensor.home_to_benjy:
   icon: mdi:car
+  friendly_name: "Home to Benjy"
 sensor.benjy_to_home:
   icon: mdi:car
+  friendly_name: "Benjy to Home"
 sensor.home_to_malaiwan:
   icon: mdi:car
+  friendly_name: "Home to Malaiwan"
 sensor.malaiwan_to_home:
   icon: mdi:car
+  friendly_name: "Malaiwan to Home"
 
 sensor.rm_pro_temperature:
   icon: mdi:thermometer-lines
@@ -70,27 +100,55 @@ sensor.rm_pro_temperature:
 
 switch.common_room_air_cond:
   icon: mdi:air-conditioner
+  friendly_name: "Common Room Air Cond"
   assumed_state: true
 switch.common_room_fan:
   icon: mdi:fan
+  friendly_name: "Common Room Fan"
   assumed_state: true
 switch.common_room_tv:
   icon: mdi:television
+  friendly_name: "Common Room TV"
   assumed_state: true
 switch.common_room_android_box:
   icon: mdi:android
+  friendly_name: "Common Room Android Box"
   assumed_state: true
 sensor.denon_source:
   icon: mdi:amplifier
+  friendly_name: "Denon AVR"
 sensor.rm_mini_temperature:
   icon: mdi:thermometer-lines
   friendly_name: "Broadlink RM Mini"
 switch.bedroom_air_cond:
   icon: mdi:air-conditioner
+  friendly_name: "Bedroom Air Cond"
   assumed_state: true
 switch.bedroom_tv:
   icon: mdi:television
+  friendly_name: "Bedroom TV"
   assumed_state: true
+switch.titan:
+  icon: mdi:power-plug
+  friendly_name: "TP-Link Smart Plug"
+  assumed_state: true
+
+script.mute_common_room:
+  icon: mdi:volume-mute
+  friendly_name: "Mute Common Room"
+script.mute_bedroom:
+  icon: mdi:volume-mute
+  friendly_name: "Mute Bedroom"
+
+script.dja_shuffle:
+  icon: mdi:music-box-outline
+  friendly_name: "Playlist DJA"
+script.djb_shuffle:
+  icon: mdi:music-box-outline
+  friendly_name: "Playlist DJB"
+script.djp_shuffle:
+  icon: mdi:music-box-outline
+  friendly_name: "Playlist DJP"
 
 sensor.owm_temperature:
   icon: mdi:thermometer
@@ -154,13 +212,10 @@ binary_sensor.broadlink_rm_pro:
 binary_sensor.broadlink_rm_mini:
   icon: mdi:remote
   friendly_name: "Broadlink RM Mini"
+binary_sensor.titan:
+  icon: mdi:power-plug
+  friendly_name: "TP-Link Smart Plug"
 
-script.mute_common_room:
-  icon: mdi:volume-mute
-  friendly_name: "Mute Common Room"
-script.mute_bedroom:
-  icon: mdi:volume-mute
-  friendly_name: "Mute Bedroom"
 
 proximity.jue_home:
   # icon: mdi:compass-outline
@@ -175,9 +230,6 @@ proximity.pe_benjawan:
   # icon: mdi:compass-outline
   friendly_name: "Pe from Benjy"
 
-sensor.phumin:
-  icon: mdi:email-outline
-  friendly_name: "Unread Emails"
 
 
 ### hidden ###

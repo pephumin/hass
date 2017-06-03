@@ -1,0 +1,44 @@
+switch:
+  - platform: tplink
+    host: !secret tplink_ip
+
+sensor:
+  - platform: template
+    sensors:
+      titan_current_consumption:
+        friendly_name: "Electrical Power Consumption"
+        icon_template: mdi:power-plug
+        value_template: '{{ states.switch.titan.attributes["Current consumption"] }}'
+      titan_current:
+        friendly_name: "Electric Current"
+        icon_template: mdi:power-socket
+        value_template: '{{ states.switch.titan.attributes["Current"] }}'
+      titan_voltage:
+        friendly_name: "Voltage"
+        icon_template: mdi:tower-fire
+        value_template: '{{ states.switch.titan.attributes["Voltage"] }}'
+
+automation:
+  - alias: "Titan On"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.titan_current_consumption
+        value_template: '{{ states.sensor.titan_current_consumption.state }}'
+        above: 15
+    action:
+      - service: notify.email
+        data_template:
+          title: "Titan is running"
+          message: "Titan is running with the current electricity consumption of {{ states.sensor.titan_current_consumption.state }} W"
+
+  - alias: "Titan Off"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.titan_current_consumption
+        value_template: '{{ states.sensor.titan_current_consumption.state }}'
+        below: 1
+    action:
+      - service: notify.email
+        data_template:
+          title: "Titan is not running"
+          message: "Titan is not running with the current electricity consumption of {{ states.sensor.titan_current_consumption.state }} W"
