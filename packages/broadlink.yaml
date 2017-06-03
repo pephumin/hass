@@ -20,16 +20,16 @@ sensor:
   - platform: broadlink
     update_interval: 60
     name: "Common Room"
-    host: 192.168.1.13
-    mac: "B4:43:0D:30:4E:13"
+    host: !secret rmpro_ip
+    mac: !secret rmpro_mac
     monitored_conditions:
       - temperature
 
 switch:
   - platform: broadlink
     name: "RM Pro"
-    host: 192.168.1.13
-    mac: "B4:43:0D:30:4E:13"
+    host: !secret rmpro_ip
+    mac: !secret rmpro_mac
     switches:
       common_room_air_cond:
         friendly_name: "Common Room Air Cond"
@@ -49,8 +49,8 @@ switch:
         command_off: 'JgBcAAgACe4AASiSFBAUERMSFBEUNhMTEhIUERQ2FDcSNxM2FBEUNhQ2EzcTNxMTFTQTNxM2FBEUNhQSExIUNxESExMTEhQ1ExITNxMABRMAAShKEgAMSgABJ0oTAA0FAAAAAAAAAAAAAAAA'
   - platform: broadlink
     name: "RM Mini"
-    host: 192.168.1.14
-    mac: "B4:43:0D:F9:11:7F"
+    host: !secret rmmini_ip
+    mac: !secret rmmini_mac
     switches:
       bedroom_air_cond:
         friendly_name: "Bedroom Air Cond"
@@ -60,45 +60,3 @@ switch:
         friendly_name: "Bedroom TV"
         command_on: 'JgBGAJWaEzYSOBI3EhUSExEUEhMRFhE4ETkSNxIVERQRFBETEhUSExE5ERMSFRITERMSFBEWEDkRExI4EjoROBI4ETgSNxAADQUAAA=='
         command_off: 'JgCMAJaZEzYSOBI4ERUSFBETEhMRFhE4EjgSNxIVERQSExETEhUSExE5ERMSFRITEhMRFBEWETgSExE4EjoRORE4EjgRNxAABdaWmRE4EjgROBIVERMSFBAUEhUSNxI4EjcSFRITERQRFBEWERMSOBEUERYRExITERQRFRI4EhMRORE6EjcSOBI3EjgQAA0FAAAAAAAAAAAAAAAA'
-
-# group:
-#   control:
-#     name: "Control Panel"
-#     icon: mdi:google-controller
-#     control: hidden
-#     entities:
-#       - sensor.common_room_temperature
-#       - switch.common_room_air_cond
-#       - switch.common_room_fan
-#       - switch.common_room_tv
-#       - switch.common_room_android_box
-#       - input_slider.volume_common_room
-#       - script.mute_common_room
-#       - switch.bedroom_air_cond
-#       - switch.bedroom_tv
-#       - input_slider.volume_bedroom
-#       - script.mute_bedroom
-#       - input_select.homemode
-#   control_cr:
-#     name: "Common Room Control Panel"
-#     icon: mdi:google-controller
-#     control: hidden
-#     entities:
-#       - sensor.common_room_temperature
-#       - switch.common_room_air_cond
-#       - switch.common_room_fan
-#       - switch.common_room_tv
-#       - switch.common_room_android_box
-#       - input_slider.volume_common_room
-#       - script.mute_common_room
-#       - input_select.homemode
-#   control_br:
-#     name: "Bedroom Control Panel"
-#     icon: mdi:google-controller
-#     control: hidden
-#     entities:
-#       - switch.bedroom_air_cond
-#       - switch.bedroom_tv
-#       - input_slider.volume_bedroom
-#       - script.mute_bedroom
-#       - input_select.homemode
