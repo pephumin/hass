@@ -35,68 +35,6 @@ sensor:
           - input_slider.alarmminutes
           - input_slider.alarmhour
 
-# group:
-#   alarmclock:
-#     name: Alarm Clock
-#     control: hidden
-#     entities:
-#       - input_boolean.activate_alarm
-#       # - automation.set_alarm
-#       - sensor.alarm_time
-#       - input_slider.alarmhour
-#       - input_slider.alarmminutes
-#       - input_boolean.alarmweekday
-
-automation:
-  - alias: 'Set Alarm'
-    initial_state: 'off'
-    hide_entity: True
-    trigger:
-      - platform: time
-        minutes: '/5'
-        seconds: 2
-    condition:
-      - condition: template
-        value_template: '{{ now().hour == (states.input_slider.alarmhour.state | round(0)) and now().minute == (states.input_slider.alarmminutes.state | round(0) ) }}'
-      - condition: or
-        conditions:
-          - condition: and
-            conditions:
-              - condition: state
-                entity_id: input_boolean.alarmweekday
-                state: 'on'
-              - condition: time
-                weekday:
-                  - mon
-                  - tue
-                  - wed
-                  - thu
-                  - fri
-          - condition: state
-            entity_id: input_boolean.alarmweekday
-            state: 'off'
-    action:
-      - service: notify.email
-        data:
-          title: "It is an alarm time"
-          message: 'It is an alarm time [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.alarm_lighting
-      - service: homeassistant.turn_off
-        entity_id: automation.set_alarm
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.activate_alarm
-  - alias: "Alarm Enabled"
-    initial_state: 'on'
-    hide_entity: True
-    trigger:
-      - platform: state
-        entity_id: input_slider.alarmhour, input_slider.alarmminutes
-    action:
-      - service: homeassistant.turn_off
-        entity_id: automation.set_alarm
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.activate_alarm
-
 script:
   alarm_lighting:
     alias: "Alarm Lighting"
@@ -183,3 +121,52 @@ script:
         entity_id: light.bedroom_3
       - service: light.turn_off
         entity_id: light.bedroom_4
+
+automation:
+  - alias: 'Set Alarm'
+    initial_state: 'off'
+    hide_entity: True
+    trigger:
+      - platform: time
+        minutes: '/5'
+        seconds: 2
+    condition:
+      - condition: template
+        value_template: '{{ now().hour == (states.input_slider.alarmhour.state | round(0)) and now().minute == (states.input_slider.alarmminutes.state | round(0) ) }}'
+      - condition: or
+        conditions:
+          - condition: and
+            conditions:
+              - condition: state
+                entity_id: input_boolean.alarmweekday
+                state: 'on'
+              - condition: time
+                weekday:
+                  - mon
+                  - tue
+                  - wed
+                  - thu
+                  - fri
+          - condition: state
+            entity_id: input_boolean.alarmweekday
+            state: 'off'
+    action:
+      - service: notify.email
+        data:
+          title: "It is an alarm time"
+          message: 'It is an alarm time [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.alarm_lighting
+      - service: homeassistant.turn_off
+        entity_id: automation.set_alarm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.activate_alarm
+
+  - alias: "Alarm Enabled"
+    trigger:
+      - platform: state
+        entity_id: input_slider.alarmhour, input_slider.alarmminutes
+    action:
+      - service: homeassistant.turn_off
+        entity_id: automation.set_alarm
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.activate_alarm

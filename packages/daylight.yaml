@@ -17,23 +17,8 @@ sensor:
         value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
         unit_of_measurement: '°'
 
-# group:
-#   daylight:
-#     view: no
-#     name: "Daylight"
-#     icon: mdi:weather-sunny
-#     entities:
-#       - sensor.date
-#       - sensor.time
-#       - sensor.day_night
-#       - sun.sun
-#       - sensor.solar_angle
-#       - sensor.moon
-
 automation:
   - alias: "Sunset 1"
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset
@@ -44,8 +29,6 @@ automation:
           title: "Sunset in 2 hours"
           message: 'Sunset is expected in two hours [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: "Sunset 2"
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset
@@ -56,8 +39,6 @@ automation:
           title: "Sunset in 1 hour"
           message: 'Sunset is expected in one hour [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: "Sunset 3"
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset
@@ -68,8 +49,6 @@ automation:
           title: "Sunset in 30 minutes"
           message: 'Sunset is expected in 30 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: "Sunset 4"
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset

@@ -45,20 +45,3 @@ sensor:
               {{ hours }} hours
             {%- endif -%}
           {%- endif -%}
-
-# group:
-#   home_server:
-#     view: no
-#     name: "Home Server"
-#     icon: mdi:server-security
-#     entities:
-#       - sensor.uptime
-#       - sensor.cpu_use
-#       - sensor.ram_use
-#       - sensor.disk_use_
-#       # - sensor.speedtest_download
-#       # - sensor.speedtest_upload
-#       - sensor.temperature_sda
-#       - sensor.temperature_sdb
-#       - sensor.temperature_sdc
-#       - sensor.temperature_sdd

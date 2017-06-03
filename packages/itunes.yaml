@@ -30,11 +30,3 @@ script:
     alias: "DJP Shuffle"
     sequence:
       - service: rest_command.djp
-
-# group:
-#   playlists:
-#     name: Playlists
-#     entities:
-#       - script.dja_shuffle
-#       - script.djb_shuffle
-#       - script.djp_shuffle

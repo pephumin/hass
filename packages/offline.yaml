@@ -35,53 +35,12 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.44
     name: "Printer"
-
-# group:
-#   online:
-#     view: no
-#     name: "Online Status"
-#     entities:
-#       - binary_sensor.deeper
-#       - binary_sensor.higher
-#       - binary_sensor.pluto
-#       - binary_sensor.neptune
-#       - binary_sensor.uranus
-#       - binary_sensor.mercury
-#       - binary_sensor.broadlink_rm_pro
-#       - binary_sensor.broadlink_rm_mini
-#       - binary_sensor.foscam_black
-#       - binary_sensor.foscam_white
-#       - binary_sensor.moon
-#       - binary_sensor.printer
-#   online_cr:
-#     view: no
-#     name: "Online Status Common Room"
-#     entities:
-#       - binary_sensor.deeper
-#       - binary_sensor.higher
-#       - binary_sensor.pluto
-#       - binary_sensor.broadlink_rm_pro
-#       - binary_sensor.foscam_black
-#   online_br:
-#     view: no
-#     name: "Online Status Bedroom"
-#     entities:
-#       - binary_sensor.neptune
-#       - binary_sensor.broadlink_rm_mini
-#       - binary_sensor.moon
-#   online_ff:
-#     view: no
-#     name: "Online Status First Floor"
-#     entities:
-#       - binary_sensor.uranus
-#       - binary_sensor.mercury
-#       - binary_sensor.foscam_white
-#       - binary_sensor.printer
+  - platform: ping
+    host: 192.168.1.16
+    name: "Titan"
 
 automation:
   - alias: Offline Deeper
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.deeper
@@ -96,8 +55,6 @@ automation:
           title: "The primary gateway is offline"
           message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Higher
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.higher
@@ -112,8 +69,6 @@ automation:
           title: "The secondary gateway is offline"
           message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Pluto
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.pluto
@@ -128,8 +83,6 @@ automation:
           title: "Airport Extreme is offline"
           message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Neptune
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.neptune
@@ -144,8 +97,6 @@ automation:
           title: "Airport Express Master Bedroom is offline"
           message: 'Airport Express Master Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Uranus
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.uranus
@@ -160,8 +111,6 @@ automation:
           title: "Airport Express Downstairs is offline"
           message: 'Airport Express Downstairs is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Mercury
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.mercury
@@ -176,8 +125,6 @@ automation:
           title: "Airport Express Remote is offline"
           message: 'Airport Express Remote is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Hue
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.moon
@@ -192,8 +139,6 @@ automation:
           title: "Philips Hue is offline"
           message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Broadlink RM Pro
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.broadlink_rm_pro
@@ -208,8 +153,6 @@ automation:
           title: "Broadlink RM Pro is offline"
           message: 'Broadlink RM Pro is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Broadlink RM Mini
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.broadlink_rm_mini
@@ -224,8 +167,6 @@ automation:
           title: "Broadlink RM Mini is offline"
           message: 'Broadlink RM Mini is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Foscam Black
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.foscam_black
@@ -240,8 +181,6 @@ automation:
           title: "Foscam Black is offline"
           message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Foscam White
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.foscam_white
@@ -256,8 +195,6 @@ automation:
           title: "Foscam White is offline"
           message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   - alias: Offline Printer
-    initial_state: 'on'
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.printer
@@ -271,3 +208,17 @@ automation:
         data:
           title: "Printer is offline"
           message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: Offline TP Link Switch
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.titan
+        to: 'off'
+    action:
+      - service: notify.email
+        data:
+          title: "TP-Link Switch is offline"
+          message: 'TP-Link Switch is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: notify.tv
+        data:
+          title: "TP-Link Switch is offline"
+          message: 'TP-Link Switch is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
