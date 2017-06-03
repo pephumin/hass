@@ -1,0 +1,24 @@
+# - platform: history_stats
+#   name: "Duration Pe Home Week"
+#   entity_id: device_tracker.pesiphone6
+#   state: 'home'
+#   type: 'time'
+#   start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+#   end: '{{ now() }}'
+#
+# - platform: history_stats
+#   name: "Duration Jue Home Week"
+#   entity_id: device_tracker.juesiphone6splus
+#   state: 'home'
+#   type: 'time'
+#   start: '{{ as_timestamp( now().replace(hour=0).replace(minute=0).replace(second=0) ) - now().weekday() * 86400 }}'
+#   end: '{{ now() }}'
+#
+# - platform: history_stats
+#   name: "Duration Lightstrip Month"
+#   entity_id: light.lightstrip
+#   state: 'on'
+#   type: 'time'
+#   end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+#   duration:
+#     days: 30

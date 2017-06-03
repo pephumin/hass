@@ -1,0 +1,11 @@
+# - platform: statistics
+#   name: "Electrical Power Consumption"
+#   entity_id: sensor.titan_current_consumption
+#
+# - platform: statistics
+#   name: "Electric Current"
+#   entity_id: sensor.titan_current
+#
+# - platform: statistics
+#   name: "Voltage"
+#   entity_id: sensor.titan_voltage
