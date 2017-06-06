@@ -17,6 +17,12 @@ rest_command:
       method: PUT
       payload: '{ "shuffle": true }'
 
+# sensor:
+#   - platform: rest
+#     resource: http://192.168.1.200:8181/now_playing
+#     name: Now Playing
+#     value_template: '{{ value_json.name }}'
+
 script:
   dja_shuffle:
     alias: "DJA Shuffle"

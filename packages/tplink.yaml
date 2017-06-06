@@ -6,7 +6,7 @@ sensor:
   - platform: template
     sensors:
       titan_current_consumption:
-        friendly_name: "Electrical Power Consumption"
+        friendly_name: "Power Consumption"
         icon_template: mdi:power-plug
         value_template: '{{ states.switch.titan.attributes["Current consumption"] }}'
       titan_current:

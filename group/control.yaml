@@ -3,6 +3,7 @@ control:
   icon: mdi:google-controller
   control: hidden
   entities:
+    - switch.titan
     - input_select.homemode
     - sensor.common_room_temperature
     - sensor.denon_source
@@ -15,12 +16,12 @@ control_cr:
     - sensor.common_room_temperature
     - switch.common_room_air_cond
     - switch.common_room_fan
-    - switch.common_room_tv
-    - switch.common_room_android_box
-    - sensor.denon_source
-    - input_slider.volume_common_room
-    - script.mute_common_room
     - switch.titan
+    - sensor.denon_source
+    # - input_slider.volume_common_room
+    - script.mute_common_room
+    # - switch.common_room_tv
+    # - switch.common_room_android_box
     - sensor.titan_current_consumption
     - sensor.titan_current
     - sensor.titan_voltage
@@ -32,7 +33,7 @@ control_br:
   entities:
     - switch.bedroom_air_cond
     - switch.bedroom_tv
-    - input_slider.volume_bedroom
+    # - input_slider.volume_bedroom
     - script.mute_bedroom
     - script.dja_shuffle
     - script.djb_shuffle

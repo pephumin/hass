@@ -129,8 +129,8 @@ switch.bedroom_tv:
   friendly_name: "Bedroom TV"
   assumed_state: true
 switch.titan:
-  icon: mdi:power-plug
-  friendly_name: "TP-Link Smart Plug"
+  icon: mdi:dolby
+  friendly_name: "Home Theatre System"
   assumed_state: true
 
 script.mute_common_room:
@@ -175,6 +175,10 @@ sensor.ram_use:
 sensor.disk_use_:
   icon: mdi:harddisk
   friendly_name: "HDD Usage"
+
+# sensor.lastfm_pephumin:
+#   icon: mdi:lastfm
+#   friendly_name: "Now Playing"
 
 binary_sensor.foscam_black:
   icon: mdi:webcam
