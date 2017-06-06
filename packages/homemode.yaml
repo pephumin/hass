@@ -9,23 +9,24 @@ input_select:
     initial: Home
     icon: mdi:home-outline
 
-input_slider:
-  volume_common_room:
-    name: Volume Common Room
-    initial: 0.35
-    min: 0.0
-    max: 0.5
-    step: 0.05
-    icon: mdi:volume-high
-  volume_bedroom:
-    name: Volume Bedroom
-    initial: 0.25
-    min: 0.0
-    max: 0.5
-    step: 0.05
-    icon: mdi:volume-high
+# input_slider:
+#   volume_common_room:
+#     name: Volume Common Room
+#     initial: 0.35
+#     min: 0.0
+#     max: 0.5
+#     step: 0.05
+#     icon: mdi:volume-high
+#   volume_bedroom:
+#     name: Volume Bedroom
+#     initial: 0.25
+#     min: 0.0
+#     max: 0.5
+#     step: 0.05
+#     icon: mdi:volume-high
 
 script:
+
   autolight_sunset_home:
     alias: "Autolighting Sunset Home"
     sequence:
@@ -47,6 +48,7 @@ script:
         data:
           title: "Lightstrip has been turned off"
           message: '1.5 hors after sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   autolight_sunset_away:
     alias: "Autolighting Sunset Away"
     sequence:
@@ -67,6 +69,7 @@ script:
         data:
           title: "Garage light has been turned off"
           message: '1.5 hors after sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   autolight_mode_home_1:
     alias: "Autolighting Home 1"
     sequence:
@@ -87,6 +90,7 @@ script:
         data:
           title: "Downstairs Light has been turned off"
           message: 'At 20:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   autolight_mode_home_2:
     alias: "Autolighting Home 2"
     sequence:
@@ -107,6 +111,7 @@ script:
         data:
           title: "Bedroom LW has been turned off"
           message: 'At 23:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   autolight_mode_away_1:
     alias: "Autolighting Away 1"
     sequence:
@@ -127,6 +132,7 @@ script:
         data:
           title: "Garage Light has been turned off"
           message: 'At 20:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   autolight_mode_away_2:
     alias: "Autolighting Away 2"
     sequence:
@@ -147,6 +153,7 @@ script:
         data:
           title: "Downstairs Light has been turned off"
           message: 'At 21:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   autolight_mode_away_3:
     alias: "Autolighting Away 3"
     sequence:
@@ -167,6 +174,7 @@ script:
         data:
           title: "Bedroom LW has been turned off"
           message: 'At 22:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   autolight_mode_vacation_1:
     alias: "Autolighting Vacation 1"
     sequence:
@@ -187,6 +195,7 @@ script:
         data:
           title: "Garage Light has been turned off"
           message: 'At 20:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   autolight_mode_vacation_2:
     alias: "Autolighting Vacation 2"
     sequence:
@@ -207,6 +216,7 @@ script:
         data:
           title: "Downstairs Light has been turned off"
           message: 'At 21:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   autolight_mode_vacation_3:
     alias: "Autolighting Vacation 3"
     sequence:
@@ -229,61 +239,8 @@ script:
           message: 'At 22:30pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
 automation:
-  - alias: Volume Common Room
-    trigger:
-      - platform: state
-        entity_id: media_player.denon
-    condition:
-      - condition: template
-        # value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
-        value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
-    action:
-      - service: input_slider.select_value
-        data_template:
-          entity_id: input_slider.volume_common_room
-          # value: '{{ states.media_player.denon.attributes.volume_level }}'
-          value: '{{ trigger.to_state.attributes.volume_level }}'
-  - alias: Volume Adjust Common Room
-    trigger:
-      - platform: state
-        entity_id: input_slider.volume_common_room
-    condition:
-      - condition: template
-        value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
-    action:
-      - service: media_player.volume_set
-        data_template:
-          entity_id: media_player.denon
-          # volume_level: '{{ states.input_slider.volume_common_room.state }}'
-          volume_level: "{{ states('input_slider.volume_common_room') }}"
-  - alias: Volume Bedroom
-    trigger:
-      - platform: state
-        entity_id: media_player.itunes
-    condition:
-      - condition: template
-        # value_template: '{{ trigger.to_state.attributes.volume_level != trigger.from_state.attributes.volume_level }}'
-        value_template: "{{ not is_state_attr('media_player.itunes', 'volume_level', states('input_slider.volume_bedroom')) }}"
-    action:
-      - service: input_slider.select_value
-        data_template:
-          entity_id: input_slider.volume_bedroom
-          # value: '{{ states.media_player.itunes.attributes.volume_level }}'
-          value: '{{ trigger.to_state.attributes.volume_level }}'
-  - alias: Volume Adjust Bedroom
-    trigger:
-      - platform: state
-        entity_id: input_slider.volume_bedroom
-    condition:
-      - condition: template
-        value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
-    action:
-      - service: media_player.volume_set
-        data_template:
-          entity_id: media_player.itunes
-          # volume_level: '{{ states.input_slider.volume_bedroom.state }}'
-          volume_level: "{{ states('input_slider.volume_bedroom') }}"
-  - alias: "Set Home Mode"
+
+  - alias: "Set Home Mode 1"
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone6
@@ -291,12 +248,10 @@ automation:
         to: 'home'
         for:
           minutes: 10
-      - platform: state
+    condition:
+      - condition: state
         entity_id: device_tracker.juesiphone6splus
-        from: 'not_home'
-        to: 'home'
-        for:
-          minutes: 10
+        state: 'not_home'
     action:
       - service: input_select.select_option
         data:
@@ -306,6 +261,29 @@ automation:
         data:
           title: "Home Mode is now active"
           message: 'Home Mode is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Set Home Mode 2"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        from: 'not_home'
+        to: 'home'
+        for:
+          minutes: 10
+    condition:
+      - condition: state
+        entity_id: device_tracker.pesiphone6
+        state: 'not_home'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: Home
+      - service: script.flashing_once
+        data:
+          title: "Home Mode is now active"
+          message: 'Home Mode is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Set Away Mode 1"
     trigger:
       - platform: state
@@ -327,6 +305,7 @@ automation:
         data:
           title: "Away Mode #1 is now active"
           message: 'Away Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Set Away Mode 2"
     trigger:
       - platform: state
@@ -348,6 +327,7 @@ automation:
         data:
           title: "Away Mode #2 is now active"
           message: 'Away Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Set Vacation Mode 1"
     trigger:
       - platform: state
@@ -369,6 +349,7 @@ automation:
         data:
           title: "Vacation Mode #1 is now active"
           message: 'Vacation Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Set Vacation Mode 2"
     trigger:
       - platform: state
@@ -390,6 +371,7 @@ automation:
         data:
           title: "Vacation Mode #2 is now active"
           message: 'Vacation Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Autolights All Off 1"
     trigger:
       - platform: time
@@ -401,12 +383,11 @@ automation:
     action:
       - service: light.turn_off
         entity_id: group.all_lights
-        # data:
-        #   transition: 60
       - service: script.flashing_once
         data:
           title: "All lights has been turned off"
           message: 'All lights are off after midnight everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Autolights All Off 2"
     trigger:
       - platform: state
@@ -415,12 +396,11 @@ automation:
     action:
       - service: light.turn_off
         entity_id: group.all_lights
-        # data:
-        #   transition: 1
       - service: script.notifying
         data:
           title: "All lights has been turned off"
           message: 'All lights are off when noboby is home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Autolight Sunset Home"
     trigger:
       - platform: sun
@@ -432,6 +412,7 @@ automation:
         state: Home
     action:
       - service: script.autolight_sunset_home
+
   - alias: "Autolight Sunset Away"
     trigger:
       - platform: sun
@@ -443,6 +424,7 @@ automation:
         state: Away
     action:
       - service: script.autolight_sunset_away
+
   - alias: "Autolight Home 1"
     trigger:
       - platform: time
@@ -455,6 +437,7 @@ automation:
         state: Home
     action:
       - service: script.autolight_mode_home_1
+
   - alias: "Autolight Home 2"
     trigger:
       - platform: time
@@ -467,6 +450,7 @@ automation:
         state: Home
     action:
       - service: script.autolight_mode_home_2
+
   - alias: "Autolight Away 1"
     trigger:
       - platform: time
@@ -479,6 +463,7 @@ automation:
         state: Away
     action:
       - service: script.autolight_mode_away_1
+
   - alias: "Autolight Away 2"
     trigger:
       - platform: time
@@ -491,6 +476,7 @@ automation:
         state: Away
     action:
       - service: script.autolight_mode_away_2
+
   - alias: "Autolight Away 3"
     trigger:
       - platform: time
@@ -503,6 +489,7 @@ automation:
         state: Away
     action:
       - service: script.autolight_mode_away_3
+
   - alias: "Autolight Vacation 1"
     trigger:
       - platform: time
@@ -515,6 +502,7 @@ automation:
         state: Vacation
     action:
       - service: script.autolight_mode_vacation_1
+
   - alias: "Autolight Vacation 2"
     trigger:
       - platform: time
@@ -527,6 +515,7 @@ automation:
         state: Vacation
     action:
       - service: script.autolight_mode_vacation_2
+
   - alias: "Autolight Vacation 3"
     trigger:
       - platform: time
@@ -539,6 +528,56 @@ automation:
         state: Vacation
     action:
       - service: script.autolight_mode_vacation_3
+
+  # - alias: Volume Common Room
+  #   trigger:
+  #     - platform: state
+  #       entity_id: media_player.denon
+  #   condition:
+  #     - condition: template
+  #       value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
+  #   action:
+  #     - service: input_slider.select_value
+  #       data_template:
+  #         entity_id: input_slider.volume_common_room
+  #         value: '{{ trigger.to_state.attributes.volume_level }}'
+  # - alias: Volume Adjust Common Room
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_slider.volume_common_room
+  #   condition:
+  #     - condition: template
+  #       value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
+  #   action:
+  #     - service: media_player.volume_set
+  #       data_template:
+  #         entity_id: media_player.denon
+  #         volume_level: "{{ states('input_slider.volume_common_room') }}"
+  # - alias: Volume Bedroom
+  #   trigger:
+  #     - platform: state
+  #       entity_id: media_player.itunes
+  #   condition:
+  #     - condition: template
+  #       value_template: "{{ not is_state_attr('media_player.itunes', 'volume_level', states('input_slider.volume_bedroom')) }}"
+  #   action:
+  #     - service: input_slider.select_value
+  #       data_template:
+  #         entity_id: input_slider.volume_bedroom
+  #         value: '{{ trigger.to_state.attributes.volume_level }}'
+  # - alias: Volume Adjust Bedroom
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_slider.volume_bedroom
+  #   condition:
+  #     - condition: template
+  #       value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
+  #   action:
+  #     - service: media_player.volume_set
+  #       data_template:
+  #         entity_id: media_player.itunes
+  #         volume_level: "{{ states('input_slider.volume_bedroom') }}"
+
   # - alias: Home Mode Change
   #   trigger:
   #     platform: state
