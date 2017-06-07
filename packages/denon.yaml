@@ -3,7 +3,8 @@ sensor:
     sensors:
       denon_source:
         # value_template: '{% if states.media_player.denon %}{{ states.media_player.denon.attributes["source"] }}{% else %}Off{% endif %}'
-        value_template: '{% if states.media_player.denon.state == "off" %}Off{% else %}{{ states.media_player.denon.attributes["source"] }}{% endif %}'
+        # value_template: '{% if states.media_player.denon.state == "off" %}Off{% else %}{{ states.media_player.denon.attributes["source"] }}{% endif %}'
+        value_template: '{% if states.media_player.denon.attributes["source"] %}{{ states.media_player.denon.attributes["source"] }}{% else %}Off{% endif %}'
         # friendly_name: 'Denon Source'
 
 automation:
