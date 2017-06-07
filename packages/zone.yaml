@@ -93,6 +93,16 @@ sensor:
     options:
       mode: driving
       units: metric
+  - platform: template
+    sensors:
+      location_pe:
+        friendly_name: "Location Pe"
+        icon_template: mdi:map-marker
+        value_template: '{% if is_state("device_tracker.pesiphone6", "home") and is_state("device_tracker.iphone_pe", "home") %}Home{% else %}Away{% endif %}'
+      location_jue:
+        friendly_name: "Location Jue"
+        icon_template: mdi:map-marker
+        value_template: '{% if is_state("device_tracker.juesiphone6splus", "home") and is_state("device_tracker.iphone_jue", "home") %}Home{% else %}Away{% endif %}'
 
 automation:
   - alias: "Jue Leaves Home"
@@ -103,6 +113,10 @@ automation:
         to: 'not_home'
         for:
           seconds: 45
+    condition:
+      - condition: state
+        entity_id: sensor.location_jue
+        state: 'Away'
     action:
       - service: script.flashing_long
         data:
@@ -166,9 +180,14 @@ automation:
         for:
           seconds: 45
     condition:
-      - condition: numeric_state
-        entity_id: proximity.jue_home
-        below: 50
+      condition: and
+      conditions:
+        - condition: numeric_state
+          entity_id: proximity.jue_home
+          below: 50
+        - condition: state
+          entity_id: sensor.location_jue
+          state: 'Home'
     action:
       - service: script.flashing_short
         data:
@@ -224,6 +243,10 @@ automation:
         to: 'not_home'
         for:
           seconds: 45
+    condition:
+      - condition: state
+        entity_id: sensor.location_pe
+        state: 'Away'
     action:
       - service: script.flashing_long
         data:
@@ -233,7 +256,6 @@ automation:
         data:
           title: "Pe has left home"
           message: 'เป้ออกจากบ้านแล้ว [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: "Pe 3km Away From Home"
     trigger:
       - platform: numeric_state
@@ -288,9 +310,14 @@ automation:
         for:
           seconds: 45
     condition:
-      - condition: numeric_state
-        entity_id: proximity.pe_home
-        below: 50
+      condition: and
+      conditions:
+        - condition: numeric_state
+          entity_id: proximity.pe_home
+          below: 50
+        - condition: state
+          entity_id: sensor.location_pe
+          state: 'Home'
     action:
       - service: script.flashing_short
         data:

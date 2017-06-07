@@ -27,6 +27,24 @@ device_tracker.pepe:
 # device_tracker.benjysmbp:
 #   icon: mdi:laptop-mac
 #   friendly_name: "Benjy Macbook Pro"
+device_tracker.iphone_pe:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Pe iPhone 6"
+device_tracker.ipad_pe:
+  icon: mdi:tablet-ipad
+  friendly_name: "Pe iPad Mini 2"
+device_tracker.iphone_jue:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Jue iPhone 6s Plus"
+device_tracker.ipad_jue:
+  icon: mdi:tablet-ipad
+  friendly_name: "Jue iPad Mini 2"
+device_tracker.ipod_bmw:
+  icon: mdi:cellphone
+  friendly_name: "iPod Touch BMW"
+device_tracker.mbp_pe:
+  icon: mdi:laptop-mac
+  friendly_name: "Pe Macbook Pro"
 
 light.bedroom_1:
   icon: mdi:lightbulb

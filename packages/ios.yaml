@@ -21,6 +21,7 @@ ios:
     #       textInputPlaceholder: '...' # Only for iOS 10 when behavior is TextInput.
     #       parameters: # iOS 9 only. Use this dictionary to specify any behavior-specific data for the action. For example, if you set behavior to TextInput you can use the UIUserNotificationTextInputActionButtonTitleKey key, which lets you customize the title of the button displayed by the text input interface.
     #         UIUserNotificationTextInputActionButtonTitleKey: "Silence!"
+
     - name: Alert
       identifier: 'ALERT'
       actions:
@@ -42,6 +43,28 @@ ios:
           textInputPlaceholder: '...'
           parameters:
             UIUserNotificationTextInputActionButtonTitleKey: "Silence!"
+
+    # - name: Map
+    #   identifier: 'MAP'
+    #   actions:
+    #     - identifier: 'SOUND_ALERT'
+    #       title: 'Sound Alert'
+    #       activationMode: 'background'
+    #       authenticationRequired: yes
+    #       destructive: yes
+    #       behavior: 'default'
+    #       context: 'default'
+    #     - identifier: 'SILENCE_ALERT'
+    #       title: 'Silence Alert'
+    #       activationMode: 'background'
+    #       authenticationRequired: yes
+    #       destructive: no
+    #       behavior: 'TextInput'
+    #       context: 'default'
+    #       textInputButtonTitle: 'Silence!'
+    #       textInputPlaceholder: '...'
+    #       parameters:
+    #         UIUserNotificationTextInputActionButtonTitleKey: "Silence!"
 
 notify:
   - platform: ios
@@ -92,6 +115,23 @@ script:
               category: "ALERT"
 
 # automation:
+
+  # - alias: Notify iOS moving
+  #   trigger:
+  #     - platform: state
+  #       entity_id: device_tracker.pesiphone6
+  #   action:
+  #     - service: notify.ios_pesiphone6
+  #       data_template:
+  #         message: >
+  #            "Long press for location"
+  #         data:
+  #           push:
+  #             category: "MAP"
+  #           action_data:
+  #             latitude: "{{ trigger.to_state.attributes.latitude }}"
+  #             longitude: "{{ trigger.to_state.attributes.longitude }}"
+
   # - alias: Notify iOS App
   #   trigger:
   #     - platform: state
@@ -103,6 +143,7 @@ script:
   #       data:
   #         title: “ตกลงมันยังไงกันแน่”
   #         message: “ไฟในห้องนอนดวงที่ 4 ได้ถูกเปิด”
+
   # - alias: iOS App Action Pressed
   #   trigger:
   #     - platform: event
