@@ -6,28 +6,11 @@ homeassistant:
   unit_system: metric
   time_zone: Asia/Bangkok
   customize: !include config/customise.yaml
-  packages:
-    alarmclock: !include packages/alarmclock.yaml
-    broadlink: !include packages/broadlink.yaml
-    daylight: !include packages/daylight.yaml
-    denon: !include packages/denon.yaml
-    foscam: !include packages/foscam.yaml
-    homemode: !include packages/homemode.yaml
-    ios: !include packages/ios.yaml
-    itunes: !include packages/itunes.yaml
-    offline: !include packages/offline.yaml
-    server: !include packages/server.yaml
-    tplink: !include packages/tplink.yaml
-    zone: !include packages/zone.yaml
+  packages: !include_dir_named packages
 
 http:
   api_password: !secret my_password
   base_url: !secret base_url
-  # ssl_certificate: !secret ssl_certificate
-  # ssl_key: !secret ssl_key
-  # cors_allowed_origins:
-  #   - https://google.com
-  #   - https://home-assistant.io
   use_x_forwarded_for: True
   trusted_networks:
     - 127.0.0.1
@@ -48,7 +31,6 @@ light:
   platform: hue
   host: !secret hue_ip
   allow_unreachable: true
-  # allow_in_emulated_hue: false
   allow_hue_groups: false
 
 tts:
@@ -61,7 +43,6 @@ ffmpeg:
   ffmpeg_bin: /bin/ffmpeg
 
 automation: !include_dir_merge_list automation/
-# automation: !include automations.yaml
 device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
 history: !include config/history.yaml
@@ -71,7 +52,6 @@ notify: !include config/notify.yaml
 recorder: !include config/recorder.yaml
 scene: !include config/scene.yaml
 script: !include config/script.yaml
-# switch: !include config/switch.yaml
 sensor: !include_dir_merge_list sensor/
 
 # critical, fatal, error, warning, warn, info, debug, notset
@@ -88,7 +68,7 @@ logger:
     homeassistant.components.notify: debug
     homeassistant.components.proximity: critical
     homeassistant.components.script: debug
-    homeassistant.components.sensor: debug
+    homeassistant.components.sensor: critical
     homeassistant.components.switch: debug
 
 mqtt:
