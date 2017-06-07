@@ -12,17 +12,17 @@ sensor:
       - type: since_last_boot
       - type: processor_use
       - type: memory_use_percent
-  # - platform: speedtest
-  #   minute:
-  #     - 0
-  #     - 10
-  #     - 20
-  #     - 30
-  #     - 40
-  #     - 50
-  #   monitored_conditions:
-  #     - download
-  #     - upload
+  - platform: speedtest
+    minute:
+      - 0
+      - 10
+      - 20
+      - 30
+      - 40
+      - 50
+    monitored_conditions:
+      - download
+      - upload
   - platform: template
     sensors:
       uptime:
