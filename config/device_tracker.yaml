@@ -24,14 +24,14 @@
   interval_seconds: 10
   consider_home: 180
 
-- platform: ping
-  hosts:
-    iphone_pe: 192.168.1.124
-    ipad_pe: 192.168.1.181
-    iphone_jue: 192.168.1.110
-    ipad_jue: 192.168.1.129
-    ipod_bmw: 192.168.1.180
-    mbp_pe: 192.168.1.200
+# - platform: ping
+#   hosts:
+#     iphone_pe: 192.168.1.124
+#     ipad_pe: 192.168.1.181
+#     iphone_jue: 192.168.1.110
+#     ipad_jue: 192.168.1.129
+#     ipod_bmw: 192.168.1.180
+#     mbp_pe: 192.168.1.200
 
 # - platform: owntracks
 

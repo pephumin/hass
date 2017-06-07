@@ -60,6 +60,26 @@ camera:
   #   still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.pesipodtouch4.attributes.latitude }},{{ states.device_tracker.pesipodtouch4.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:P%7C{{ states.device_tracker.pesipodtouch4.attributes.latitude }},{{ states.device_tracker.pesipodtouch4.attributes.longitude }}
   #   limit_refetch_to_url_change: true
 
+binary_sensor:
+  - platform: command_line
+    scan_interval: 30
+    name: "Ping Pe"
+    command: /bin/sh /config/ping/pesiphone6.sh
+    payload_on: "Success"
+    payload_off: "Fail"
+  - platform: command_line
+    scan_interval: 30
+    name: "Ping Jue"
+    command: /bin/sh /config/ping/juesiphone6splus.sh
+    payload_on: "Success"
+    payload_off: "Fail"
+  # - platform: ping
+  #   host: 192.168.1.124
+  #   name: "Ping Pe"
+  # - platform: ping
+  #   host: 192.168.1.110
+  #   name: "Ping Jue"
+
 sensor:
   - platform: google_travel_time
     name: "Home to Benjy"
@@ -93,16 +113,18 @@ sensor:
     options:
       mode: driving
       units: metric
-  - platform: template
-    sensors:
-      location_pe:
-        friendly_name: "Location Pe"
-        icon_template: mdi:map-marker
-        value_template: '{% if is_state("device_tracker.pesiphone6", "home") and is_state("device_tracker.iphone_pe", "home") %}Home{% else %}Away{% endif %}'
-      location_jue:
-        friendly_name: "Location Jue"
-        icon_template: mdi:map-marker
-        value_template: '{% if is_state("device_tracker.juesiphone6splus", "home") and is_state("device_tracker.iphone_jue", "home") %}Home{% else %}Away{% endif %}'
+  # - platform: template
+  #   sensors:
+  #     location_pe:
+  #       friendly_name: "Location Pe"
+  #       icon_template: mdi:map-marker
+  #       # value_template: '{% if is_state("device_tracker.pesiphone6", "home") and is_state("device_tracker.iphone_pe", "home") %}Home{% else %}Away{% endif %}'
+  #       value_template: '{% if is_state("device_tracker.pesiphone6", "home") and is_state("sensor.ping_pe", "on") %}Home{% else %}Away{% endif %}'
+  #     location_jue:
+  #       friendly_name: "Location Jue"
+  #       icon_template: mdi:map-marker
+  #       # value_template: '{% if is_state("device_tracker.juesiphone6splus", "home") and is_state("device_tracker.iphone_jue", "home") %}Home{% else %}Away{% endif %}'
+  #       value_template: '{% if is_state("device_tracker.juesiphone6splus", "home") and is_state("sensor.ping_jue", "on") %}Home{% else %}Away{% endif %}'
 
 automation:
   - alias: "Jue Leaves Home"
@@ -115,8 +137,8 @@ automation:
           seconds: 45
     condition:
       - condition: state
-        entity_id: sensor.location_jue
-        state: 'Away'
+        entity_id: sensor.ping_jue
+        state: 'off'
     action:
       - service: script.flashing_long
         data:
@@ -186,8 +208,8 @@ automation:
           entity_id: proximity.jue_home
           below: 50
         - condition: state
-          entity_id: sensor.location_jue
-          state: 'Home'
+          entity_id: sensor.ping_jue
+          state: 'on'
     action:
       - service: script.flashing_short
         data:
@@ -245,8 +267,8 @@ automation:
           seconds: 45
     condition:
       - condition: state
-        entity_id: sensor.location_pe
-        state: 'Away'
+        entity_id: sensor.ping_pe
+        state: 'off'
     action:
       - service: script.flashing_long
         data:
@@ -316,8 +338,8 @@ automation:
           entity_id: proximity.pe_home
           below: 50
         - condition: state
-          entity_id: sensor.location_pe
-          state: 'Home'
+          entity_id: sensor.ping_pe
+          state: 'on'
     action:
       - service: script.flashing_short
         data:
