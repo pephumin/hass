@@ -147,8 +147,8 @@ switch.bedroom_tv:
   friendly_name: "Bedroom TV"
   assumed_state: true
 switch.titan:
-  icon: mdi:dolby
-  friendly_name: "Home Theatre System"
+  icon: mdi:surround-sound
+  friendly_name: "Bedroom Sound System"
   assumed_state: true
 
 script.mute_common_room:
@@ -237,7 +237,12 @@ binary_sensor.broadlink_rm_mini:
 binary_sensor.titan:
   icon: mdi:power-plug
   friendly_name: "TP-Link Smart Plug"
-
+binary_sensor.ping_pe:
+  icon: mdi:lan-connect
+  friendly_name: "Ping Pe"
+binary_sensor.ping_jue:
+  icon: mdi:lan-connect
+  friendly_name: "Ping Jue"
 
 proximity.jue_home:
   # icon: mdi:compass-outline
