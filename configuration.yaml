@@ -39,8 +39,8 @@ tts:
 ifttt:
   key: !secret ifttt_key
 
-ffmpeg:
-  ffmpeg_bin: /bin/ffmpeg
+# ffmpeg:
+#   ffmpeg_bin: /usr/bin/ffmpeg
 
 automation: !include_dir_merge_list automation/
 device_tracker: !include config/device_tracker.yaml
@@ -59,6 +59,7 @@ logger:
   default: critical
   # default: warning
   logs:
+    DenonAVR: critical
     homeassistant.components.automation: debug
     homeassistant.components.http: warning
     homeassistant.components.input_boolean: debug

@@ -14,11 +14,6 @@ zone:
     latitude: !secret latitude_malaiwan
     longitude: !secret longitude_malaiwan
     radius: 100
-  # - name: Nonthaburi
-  #   icon: mdi:castle
-  #   latitude: !secret latitude_nonthaburi
-  #   longitude: !secret longitude_nonthaburi
-  #   radius: 100
 
 proximity:
   pe_home:
@@ -113,18 +108,6 @@ sensor:
     options:
       mode: driving
       units: metric
-  # - platform: template
-  #   sensors:
-  #     location_pe:
-  #       friendly_name: "Location Pe"
-  #       icon_template: mdi:map-marker
-  #       # value_template: '{% if is_state("device_tracker.pesiphone6", "home") and is_state("device_tracker.iphone_pe", "home") %}Home{% else %}Away{% endif %}'
-  #       value_template: '{% if is_state("device_tracker.pesiphone6", "home") and is_state("sensor.ping_pe", "on") %}Home{% else %}Away{% endif %}'
-  #     location_jue:
-  #       friendly_name: "Location Jue"
-  #       icon_template: mdi:map-marker
-  #       # value_template: '{% if is_state("device_tracker.juesiphone6splus", "home") and is_state("device_tracker.iphone_jue", "home") %}Home{% else %}Away{% endif %}'
-  #       value_template: '{% if is_state("device_tracker.juesiphone6splus", "home") and is_state("sensor.ping_jue", "on") %}Home{% else %}Away{% endif %}'
 
 automation:
   - alias: "Jue Leaves Home"
@@ -137,7 +120,7 @@ automation:
           seconds: 45
     condition:
       - condition: state
-        entity_id: sensor.ping_jue
+        entity_id: binary_sensor.ping_jue
         state: 'off'
     action:
       - service: script.flashing_long
@@ -201,15 +184,15 @@ automation:
         to: 'home'
         for:
           seconds: 45
-    condition:
-      condition: and
-      conditions:
-        - condition: numeric_state
-          entity_id: proximity.jue_home
-          below: 50
-        - condition: state
-          entity_id: sensor.ping_jue
-          state: 'on'
+    # condition:
+    #   condition: and
+    #   conditions:
+    #     - condition: numeric_state
+    #       entity_id: proximity.jue_home
+    #       below: 50
+    #     - condition: state
+    #       entity_id: binary_sensor.ping_jue
+    #       state: 'on'
     action:
       - service: script.flashing_short
         data:
@@ -244,10 +227,10 @@ automation:
         to: 'Malaiwan'
         for:
           seconds: 45
-    condition:
-      - condition: numeric_state
-        entity_id: proximity.jue_malaiwan
-        below: 50
+    # condition:
+    #   - condition: numeric_state
+    #     entity_id: proximity.jue_malaiwan
+    #     below: 50
     action:
       - service: script.flashing_short
         data:
@@ -267,7 +250,7 @@ automation:
           seconds: 45
     condition:
       - condition: state
-        entity_id: sensor.ping_pe
+        entity_id: binary_sensor.ping_pe
         state: 'off'
     action:
       - service: script.flashing_long
@@ -331,15 +314,15 @@ automation:
         to: 'home'
         for:
           seconds: 45
-    condition:
-      condition: and
-      conditions:
-        - condition: numeric_state
-          entity_id: proximity.pe_home
-          below: 50
-        - condition: state
-          entity_id: sensor.ping_pe
-          state: 'on'
+    # condition:
+    #   condition: and
+    #   conditions:
+    #     - condition: numeric_state
+    #       entity_id: proximity.pe_home
+    #       below: 50
+    #     - condition: state
+    #       entity_id: binary_sensor.ping_pe
+    #       state: 'on'
     action:
       - service: script.flashing_short
         data:
