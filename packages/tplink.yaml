@@ -1,6 +1,8 @@
 switch:
   - platform: tplink
-    host: !secret tplink_ip
+    host: !secret tplink_ip_1
+  - platform: tplink
+    host: !secret tplink_ip_2
 
 sensor:
   - platform: template
@@ -17,9 +19,24 @@ sensor:
         friendly_name: "Voltage"
         icon_template: mdi:tower-fire
         value_template: '{{ states.switch.titan.attributes["Voltage"] }}'
+  - platform: template
+    sensors:
+      europa_current_consumption:
+        friendly_name: "Power Consumption"
+        icon_template: mdi:power-plug
+        value_template: '{{ states.switch.europa.attributes["Current consumption"] }}'
+      europa_current:
+        friendly_name: "Electric Current"
+        icon_template: mdi:power-socket
+        value_template: '{{ states.switch.europa.attributes["Current"] }}'
+      europa_voltage:
+        friendly_name: "Voltage"
+        icon_template: mdi:tower-fire
+        value_template: '{{ states.switch.europa.attributes["Voltage"] }}'
 
 automation:
-  - alias: "Titan On"
+
+  - alias: "Smart Plug Titan On"
     trigger:
       - platform: numeric_state
         entity_id: sensor.titan_current_consumption
@@ -31,7 +48,7 @@ automation:
           title: "Titan is running"
           message: "Titan is running with the current electricity consumption of {{ states.sensor.titan_current_consumption.state }} W"
 
-  - alias: "Titan Off"
+  - alias: "Smart Plug Titan Off"
     trigger:
       - platform: numeric_state
         entity_id: sensor.titan_current_consumption
@@ -42,3 +59,27 @@ automation:
         data_template:
           title: "Titan is not running"
           message: "Titan is not running with the current electricity consumption of {{ states.sensor.titan_current_consumption.state }} W"
+
+  - alias: "Smart Plug Europa On"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.europa_current_consumption
+        value_template: '{{ states.sensor.europa_current_consumption.state }}'
+        above: 15
+    action:
+      - service: notify.email
+        data_template:
+          title: "Europa is running"
+          message: "Europa is running with the current electricity consumption of {{ states.sensor.europa_current_consumption.state }} W"
+
+  - alias: "Smart Plug Europa Off"
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.europa_current_consumption
+        value_template: '{{ states.sensor.europa_current_consumption.state }}'
+        below: 1
+    action:
+      - service: notify.email
+        data_template:
+          title: "Europa is not running"
+          message: "Europa is not running with the current electricity consumption of {{ states.sensor.europa_current_consumption.state }} W"

@@ -38,6 +38,9 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.16
     name: "Titan"
+  - platform: ping
+    host: 192.168.1.17
+    name: "Europa"
 
 automation:
   - alias: Offline Deeper
@@ -208,7 +211,7 @@ automation:
         data:
           title: "Printer is offline"
           message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  - alias: Offline TP Link Switch
+  - alias: Offline Titan
     trigger:
       - platform: state
         entity_id: binary_sensor.titan
@@ -216,9 +219,23 @@ automation:
     action:
       - service: notify.email
         data:
-          title: "TP-Link Switch is offline"
-          message: 'TP-Link Switch is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Titan is offline"
+          message: 'Titan is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
       - service: notify.tv
         data:
-          title: "TP-Link Switch is offline"
-          message: 'TP-Link Switch is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Titan is offline"
+          message: 'Titan is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: Offline Europa
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.europa
+        to: 'off'
+    action:
+      - service: notify.email
+        data:
+          title: "Europa is offline"
+          message: 'Europa is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: notify.tv
+        data:
+          title: "Europa is offline"
+          message: 'Europa is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

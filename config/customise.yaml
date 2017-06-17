@@ -18,15 +18,18 @@ device_tracker.pesipodtouch4:
 device_tracker.pepe:
   icon: mdi:laptop-mac
   friendly_name: "Pe Macbook Pro"
-# device_tracker.benjysiphone6:
-#   icon: mdi:cellphone-iphone
-#   friendly_name: "Benjy iPhone 6"
-# device_tracker.benjysipadmini2:
-#   icon: mdi:tablet-ipad
-#   friendly_name: "Benjy iPad Mini 2"
-# device_tracker.benjysmbp:
-#   icon: mdi:laptop-mac
-#   friendly_name: "Benjy Macbook Pro"
+device_tracker.benjysiphone6:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Benjy iPhone 6"
+device_tracker.benjysipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: "Benjy iPad Mini 2"
+device_tracker.benjysmbp:
+  icon: mdi:laptop-mac
+  friendly_name: "Benjy Macbook Pro"
+device_tracker.boom:
+  icon: mdi:cellphone-android
+  friendly_name: "Boom Mobile"
 device_tracker.iphone_pe:
   icon: mdi:cellphone-iphone
   friendly_name: "Pe iPhone 6"
@@ -45,6 +48,18 @@ device_tracker.ipod_bmw:
 device_tracker.mbp_pe:
   icon: mdi:laptop-mac
   friendly_name: "Pe Macbook Pro"
+device_tracker.iphone_benjy:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Benjy iPhone 6"
+device_tracker.ipad_benjy:
+  icon: mdi:tablet-ipad
+  friendly_name: "Benjy iPad Mini 2"
+device_tracker.mbp_benjy:
+  icon: mdi:laptop-mac
+  friendly_name: "Benjy Macbook Pro"
+device_tracker.mobile_boom:
+  icon: mdi:cellphone-android
+  friendly_name: "Boom Mobile"
 
 light.bedroom_1:
   icon: mdi:lightbulb
@@ -148,6 +163,10 @@ switch.bedroom_tv:
   assumed_state: true
 switch.titan:
   icon: mdi:surround-sound
+  friendly_name: "Home Theatre System"
+  assumed_state: true
+switch.europa:
+  icon: mdi:surround-sound
   friendly_name: "Bedroom Sound System"
   assumed_state: true
 
@@ -236,7 +255,10 @@ binary_sensor.broadlink_rm_mini:
   friendly_name: "Broadlink RM Mini"
 binary_sensor.titan:
   icon: mdi:power-plug
-  friendly_name: "TP-Link Smart Plug"
+  friendly_name: "Smart Plug Common Room"
+binary_sensor.europa:
+  icon: mdi:power-plug
+  friendly_name: "Smart Plug Bedroom"
 binary_sensor.ping_pe:
   icon: mdi:lan-connect
   friendly_name: "Ping Pe"
