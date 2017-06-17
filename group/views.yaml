@@ -1,8 +1,8 @@
-default_view:
-# new:
+# default_view:
+new:
   view: yes
-  name: Home
-  # name: "New Home"
+  # name: Home
+  name: "New Home"
   entities:
     - group.daylight
     - group.devices

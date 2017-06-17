@@ -2,7 +2,10 @@ flashing_long:
   alias: "Flashing Long and Notify"
   sequence:
     - service: light.turn_on
-      entity_id: group.flashlights
+      entity_id:
+        - group.flashlights
+        # - light.hallway
+        # - light.lightstrip
       data:
         transition: 1
         brightness: 250
@@ -20,35 +23,50 @@ flashing_short:
   alias: "Flashing Short and Notify"
   sequence:
     - service: light.turn_on
-      entity_id: group.flashlights
+      entity_id:
+        - group.flashlights
+        # - light.hallway
+        # - light.lightstrip
       data:
         transition: 1
         brightness: 250
         flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: group.flashlights
+      entity_id:
+        - group.flashlights
+        # - light.hallway
+        # - light.lightstrip
       data:
         transition: 1
         brightness: 250
         flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: group.flashlights
+      entity_id:
+        - group.flashlights
+        # - light.hallway
+        # - light.lightstrip
       data:
         transition: 1
         brightness: 250
         flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: group.flashlights
+      entity_id:
+        - group.flashlights
+        # - light.hallway
+        # - light.lightstrip
       data:
         transition: 1
         brightness: 250
         flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id: group.flashlights
+      entity_id:
+        - group.flashlights
+        # - light.hallway
+        # - light.lightstrip
       data:
         transition: 1
         brightness: 250
@@ -66,7 +84,10 @@ flashing_once:
   alias: "Flashing Once and Notify"
   sequence:
     - service: light.turn_on
-      entity_id: group.flashlights
+      entity_id:
+        - group.flashlights
+        # - light.hallway
+        # - light.lightstrip
       data:
         transition: 1
         brightness: 250
