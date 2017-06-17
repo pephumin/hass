@@ -23,6 +23,7 @@ exclude:
     - input_slider
     - input_boolean
     - updater
+    - binary_sensor
   entities:
     - sensor.benjy_to_home
     - sensor.home_to_benjy
@@ -74,4 +75,6 @@ exclude:
     - camera.foscam_white
     - camera.current_location_jue
     - camera.current_location_pe
+    - sensor.titan_current_consumption
+    - sensor.titan_current
     - sensor.titan_voltage
