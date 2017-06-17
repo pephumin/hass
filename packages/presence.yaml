@@ -1,0 +1,82 @@
+input_boolean:
+  presence_pe:
+    name: "Pe at Home"
+    initial: off
+    icon: mdi:duck
+  presence_jue:
+    name: "Jue at Home"
+    initial: off
+    icon: mdi:duck
+
+automation:
+  - alias: 'Pe is Away'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone6
+        state: 'not_home'
+        for:
+          minutes: 1
+      - platform: numeric_state
+        entity_id: proximity.pe_home
+        above: 100
+    condition:
+      - condition: state
+        entity_id: input_boolean.presence_pe
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe
+
+  - alias: 'Jue is Away'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        state: 'not_home'
+        for:
+          minutes: 1
+      - platform: numeric_state
+        entity_id: proximity.jue_home
+        above: 100
+    condition:
+      - condition: state
+        entity_id: input_boolean.presence_jue
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue
+
+  - alias: 'Pe is Home'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone6
+        state: 'home'
+        for:
+          minutes: 1
+      - platform: numeric_state
+        entity_id: proximity.pe_home
+        below: 20
+    condition:
+      - condition: state
+        entity_id: input_boolean.presence_pe
+        state: 'off'
+    action:
+       service: input_boolean.turn_on
+       entity_id: input_boolean.presence_pe
+
+  - alias: 'Jue is Home'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        state: 'home'
+        for:
+          minutes: 1
+      - platform: numeric_state
+        entity_id: proximity.jue_home
+        below: 20
+    condition:
+      - condition: state
+        entity_id: input_boolean.presence_jue
+        state: 'off'
+    action:
+       service: input_boolean.turn_on
+       entity_id: input_boolean.presence_jue
