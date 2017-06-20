@@ -23,8 +23,6 @@ config:
 conversation:
 discovery:
 frontend:
-history:
-logbook:
 sun:
 updater:
 zeroconf:
@@ -38,9 +36,17 @@ light:
 tts:
   platform: google
 
+# ifttt:
+#   key: !secret ifttt_key
+
+# ffmpeg:
+#   ffmpeg_bin: /usr/bin/ffmpeg
+
 automation: !include_dir_merge_list automation/
 device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
+history: !include config/logs.yaml
+logbook: !include config/logs.yaml
 media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
 recorder: !include config/recorder.yaml
@@ -48,20 +54,11 @@ scene: !include config/scene.yaml
 script: !include config/script.yaml
 sensor: !include_dir_merge_list sensor/
 
-# mqtt:
-#   broker: !secret cloudmqtt_broker
-#   port: !secret cloudmqtt_port
-#   username: hass
-#   password: !secret my_password
-#   client_id: home-assistant
-#   keepalive: 60
-#   protocol: 3.1
-
+# critical, fatal, error, warning, warn, info, debug, notset
 logger:
   default: critical
   # default: warning
   logs:
-    DenonAVR: critical
     homeassistant.components.automation: debug
     homeassistant.components.device_tracker: critical
     homeassistant.components.http: warning
@@ -69,7 +66,6 @@ logger:
     homeassistant.components.input_select: debug
     homeassistant.components.ios: debug
     homeassistant.components.media_player: critical
-    homeassistant.components.mqtt: debug
     homeassistant.components.notify: debug
     homeassistant.components.proximity: critical
     homeassistant.components.script: debug

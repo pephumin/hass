@@ -1,11 +1,11 @@
 input_boolean:
   presence_pe:
     name: "Pe at Home"
-    initial: off
+    initial: on
     icon: mdi:duck
   presence_jue:
     name: "Jue at Home"
-    initial: off
+    initial: on
     icon: mdi:duck
 
 automation:
@@ -15,7 +15,12 @@ automation:
         entity_id: device_tracker.pesiphone6
         state: 'not_home'
         for:
-          minutes: 1
+          seconds: 45
+      - platform: state
+        entity_id: device_tracker.user_pesiphone6
+        state: 'not_home'
+        for:
+          seconds: 45
       - platform: numeric_state
         entity_id: proximity.pe_home
         above: 100
@@ -27,13 +32,33 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.presence_pe
 
+  - alias: 'Notify Pe is Away'
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_pe
+        state: 'off'
+    action:
+      - service: script.notify_juesiphone6splus
+        data:
+          title: "Pe has left home"
+          message: 'เป้ออกจากบ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.flashing_long
+        data:
+          title: "Pe has left home"
+          message: 'Pe has left home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: 'Jue is Away'
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
         state: 'not_home'
         for:
-          minutes: 1
+          seconds: 45
+      - platform: state
+        entity_id: device_tracker.user_juesiphone6splus
+        state: 'not_home'
+        for:
+          seconds: 45
       - platform: numeric_state
         entity_id: proximity.jue_home
         above: 100
@@ -45,13 +70,33 @@ automation:
       - service: input_boolean.turn_off
         entity_id: input_boolean.presence_jue
 
+  - alias: 'Notify Jue is Away'
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_jue
+        state: 'off'
+    action:
+      - service: script.notify_pesiphone6
+        data:
+          title: "Jue has left home"
+          message: 'Jue has left home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.flashing_long
+        data:
+          title: "Jue has left home"
+          message: 'Jue has left home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: 'Pe is Home'
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone6
         state: 'home'
         for:
-          minutes: 1
+          seconds: 45
+      - platform: state
+        entity_id: device_tracker.user_pesiphone6
+        state: 'home'
+        for:
+          seconds: 45
       - platform: numeric_state
         entity_id: proximity.pe_home
         below: 20
@@ -63,13 +108,33 @@ automation:
        service: input_boolean.turn_on
        entity_id: input_boolean.presence_pe
 
+  - alias: 'Notify Pe is Home'
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_pe
+        state: 'on'
+    action:
+      - service: script.notify_juesiphone6splus
+        data:
+          title: "Pe has arrived home"
+          message: 'เป้กลับถึงบ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.flashing_short
+        data:
+          title: "Pe has arrived home"
+          message: 'Pe has arrived home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: 'Jue is Home'
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
         state: 'home'
         for:
-          minutes: 1
+          seconds: 45
+      - platform: state
+        entity_id: device_tracker.user_juesiphone6splus
+        state: 'home'
+        for:
+          seconds: 45
       - platform: numeric_state
         entity_id: proximity.jue_home
         below: 20
@@ -80,3 +145,18 @@ automation:
     action:
        service: input_boolean.turn_on
        entity_id: input_boolean.presence_jue
+
+  - alias: 'Notify Jue is Home'
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_jue
+        state: 'on'
+    action:
+      - service: script.notify_pesiphone6
+        data:
+          title: "Jue has arrived home"
+          message: 'Jue has arrived home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.flashing_short
+        data:
+          title: "Jue has arrived home"
+          message: 'Jue has arrived home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

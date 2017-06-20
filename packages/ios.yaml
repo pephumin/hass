@@ -119,7 +119,7 @@ script:
   # - alias: Notify iOS moving
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.pesiphone6
+  #       entity_id: device_tracker.juesiphone6splus
   #   action:
   #     - service: notify.ios_pesiphone6
   #       data_template:

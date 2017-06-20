@@ -3,10 +3,16 @@
 device_tracker.pesiphone6:
   icon: mdi:cellphone-iphone
   friendly_name: "Pe iPhone 6"
+device_tracker.user_pesiphone6:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Pe iPhone 6"
 device_tracker.pesipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Pe iPad Mini 2"
 device_tracker.juesiphone6splus:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Jue iPhone 6s Plus"
+device_tracker.user_juesiphone6splus:
   icon: mdi:cellphone-iphone
   friendly_name: "Jue iPhone 6s Plus"
 device_tracker.juesipadmini2:

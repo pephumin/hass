@@ -16,7 +16,13 @@
 
 # - platform: bluetooth_tracker
 
-- platform: owntracks
+# - platform: owntracks
+#   max_gps_accuracy: 100
+#
+# - platform: mqtt
+#   devices:
+#     pesiphone6: /owntracks/user/pesiphone6
+#     juesiphone6splus: /owntracks/user/juesiphone6splus
 
 # - platform: tomato
 #   host: 192.168.1.1

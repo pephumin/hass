@@ -232,16 +232,25 @@ automation:
 
   - alias: "Set Home Mode 1"
     trigger:
+      # - platform: state
+      #   entity_id: device_tracker.pesiphone6
+      #   from: 'not_home'
+      #   to: 'home'
+      #   for:
+      #     minutes: 10
       - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'not_home'
-        to: 'home'
+        entity_id: input_boolean.presence_pe
+        from: 'off'
+        to: 'on'
         for:
           minutes: 10
     condition:
+      # - condition: state
+      #   entity_id: device_tracker.juesiphone6splus
+      #   state: 'not_home'
       - condition: state
-        entity_id: device_tracker.juesiphone6splus
-        state: 'not_home'
+        entity_id: input_boolean.presence_jue
+        state: 'off'
     action:
       - service: input_select.select_option
         data:
@@ -254,16 +263,25 @@ automation:
 
   - alias: "Set Home Mode 2"
     trigger:
+      # - platform: state
+      #   entity_id: device_tracker.juesiphone6splus
+      #   from: 'not_home'
+      #   to: 'home'
+      #   for:
+      #     minutes: 10
       - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'not_home'
-        to: 'home'
+        entity_id: input_boolean.presence_jue
+        from: 'off'
+        to: 'on'
         for:
           minutes: 10
     condition:
+      # - condition: state
+      #   entity_id: device_tracker.pesiphone6
+      #   state: 'not_home'
       - condition: state
-        entity_id: device_tracker.pesiphone6
-        state: 'not_home'
+        entity_id: input_boolean.presence_pe
+        state: 'off'
     action:
       - service: input_select.select_option
         data:
@@ -276,16 +294,25 @@ automation:
 
   - alias: "Set Away Mode 1"
     trigger:
+      # - platform: state
+      #   entity_id: device_tracker.pesiphone6
+      #   from: 'home'
+      #   to: 'not_home'
+      #   for:
+      #     minutes: 30
       - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'home'
-        to: 'not_home'
+        entity_id: input_boolean.presence_pe
+        from: 'on'
+        to: 'off'
         for:
           minutes: 30
     condition:
+      # - condition: state
+      #   entity_id: device_tracker.juesiphone6splus
+      #   state: 'not_home'
       - condition: state
-        entity_id: device_tracker.juesiphone6splus
-        state: 'not_home'
+        entity_id: input_boolean.presence_jue
+        state: 'off'
     action:
       - service: input_select.select_option
         data:
@@ -298,16 +325,25 @@ automation:
 
   - alias: "Set Away Mode 2"
     trigger:
+      # - platform: state
+      #   entity_id: device_tracker.juesiphone6splus
+      #   from: 'home'
+      #   to: 'not_home'
+      #   for:
+      #     minutes: 30
       - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'home'
-        to: 'not_home'
+        entity_id: input_boolean.presence_jue
+        from: 'on'
+        to: 'off'
         for:
           minutes: 30
     condition:
+      # - condition: state
+      #   entity_id: device_tracker.pesiphone6
+      #   state: 'not_home'
       - condition: state
-        entity_id: device_tracker.pesiphone6
-        state: 'not_home'
+        entity_id: input_boolean.presence_pe
+        state: 'off'
     action:
       - service: input_select.select_option
         data:
@@ -320,16 +356,25 @@ automation:
 
   - alias: "Set Vacation Mode 1"
     trigger:
+      # - platform: state
+      #   entity_id: device_tracker.pesiphone6
+      #   from: 'home'
+      #   to: 'not_home'
+      #   for:
+      #     hours: 20
       - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'home'
-        to: 'not_home'
+        entity_id: input_boolean.presence_pe
+        from: 'on'
+        to: 'off'
         for:
           hours: 20
     condition:
+      # - condition: state
+      #   entity_id: device_tracker.juesiphone6splus
+      #   state: 'not_home'
       - condition: state
-        entity_id: device_tracker.juesiphone6splus
-        state: 'not_home'
+        entity_id: input_boolean.presence_jue
+        state: 'off'
     action:
       - service: input_select.select_option
         data:
@@ -342,16 +387,25 @@ automation:
 
   - alias: "Set Vacation Mode 2"
     trigger:
+      # - platform: state
+      #   entity_id: device_tracker.juesiphone6splus
+      #   from: 'home'
+      #   to: 'not_home'
+      #   for:
+      #     hours: 20
       - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'home'
-        to: 'not_home'
+        entity_id: input_boolean.presence_jue
+        from: 'on'
+        to: 'off'
         for:
           hours: 20
     condition:
+      # - condition: state
+      #   entity_id: device_tracker.pesiphone6
+      #   state: 'not_home'
       - condition: state
-        entity_id: device_tracker.pesiphone6
-        state: 'not_home'
+        entity_id: input_boolean.presence_pe
+        state: 'off'
     action:
       - service: input_select.select_option
         data:
