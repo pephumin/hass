@@ -36,9 +36,8 @@ control_br:
     - switch.bedroom_tv
     - switch.europa
     - script.mute_bedroom
-    - script.dja_shuffle
-    - script.djb_shuffle
-    - script.djp_shuffle
+    - script.dj_shuffle
+    - script.soft_shuffle
     - sensor.europa_current_consumption
     - sensor.europa_current
     - sensor.europa_voltage

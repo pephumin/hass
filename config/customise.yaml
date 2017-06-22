@@ -192,6 +192,12 @@ script.djb_shuffle:
 script.djp_shuffle:
   icon: mdi:music-box-outline
   friendly_name: "Playlist DJP"
+script.dj_shuffle:
+  icon: mdi:music-box-outline
+  friendly_name: "Playlist DJ"
+script.soft_shuffle:
+  icon: mdi:music-box-outline
+  friendly_name: "Playlist Soft"
 
 sensor.owm_temperature:
   icon: mdi:thermometer

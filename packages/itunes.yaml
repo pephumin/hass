@@ -16,6 +16,14 @@ rest_command:
       url: 'http://192.168.1.200:8181/playlists/djp/play'
       method: PUT
       payload: '{ "shuffle": true }'
+  dj:
+      url: 'http://192.168.1.200:8181/playlists/dj/play'
+      method: PUT
+      payload: '{ "shuffle": true }'
+  soft:
+      url: 'http://192.168.1.200:8181/playlists/soft/play'
+      method: PUT
+      payload: '{ "shuffle": true }'
 
 # sensor:
 #   - platform: rest
@@ -25,14 +33,22 @@ rest_command:
 
 script:
   dja_shuffle:
-    alias: "DJA Shuffle"
+    alias: "Shuffle DJA"
     sequence:
       - service: rest_command.dja
   djb_shuffle:
-    alias: "DJB Shuffle"
+    alias: "Shuffle DJB"
     sequence:
       - service: rest_command.djb
   djp_shuffle:
-    alias: "DJP Shuffle"
+    alias: "Shuffle DJP"
+    sequence:
+      - service: rest_command.djp
+  dj_shuffle:
+    alias: "Shuffle DJ"
+    sequence:
+      - service: rest_command.djp
+  soft_shuffle:
+    alias: "Shuffle Soft"
     sequence:
       - service: rest_command.djp
