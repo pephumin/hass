@@ -195,16 +195,16 @@ automation:
 
   - alias: "Jue Arrives Home"
     trigger:
-      # - platform: state
-      #   entity_id: device_tracker.juesiphone6splus
-      #   from: 'not_home'
-      #   to: 'home'
-      #   for:
-      #     seconds: 30
-      - platform: zone
+      - platform: state
         entity_id: device_tracker.juesiphone6splus
-        zone: zone.home
-        event: enter
+        from: 'not_home'
+        to: 'home'
+        for:
+          seconds: 30
+      # - platform: zone
+      #   entity_id: device_tracker.juesiphone6splus
+      #   zone: zone.home
+      #   event: enter
     condition:
       # - condition: template
       #   value_template: '{% if states("proximity.jue_home") | float < 50 %}true{% else %}false{% endif %}'
@@ -233,9 +233,9 @@ automation:
       #   entity_id: device_tracker.juesiphone6splus
       #   zone: zone.malaiwan
       #   event: enter
-    condition:
-      - condition: template
-        value_template: '{% if states("proximity.jue_malaiwan") | float < 50 %}true{% else %}false{% endif %}'
+    # condition:
+    #   - condition: template
+    #     value_template: '{% if states("proximity.jue_malaiwan") | float < 50 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_pesiphone6
         data:
@@ -248,16 +248,16 @@ automation:
 
   - alias: "Pe Arrives Home"
     trigger:
-      # - platform: state
-      #   entity_id: device_tracker.pesiphone6
-      #   from: 'not_home'
-      #   to: 'home'
-      #   for:
-      #     seconds: 30
-      - platform: zone
+      - platform: state
         entity_id: device_tracker.pesiphone6
-        zone: zone.home
-        event: enter
+        from: 'not_home'
+        to: 'home'
+        for:
+          seconds: 30
+      # - platform: zone
+      #   entity_id: device_tracker.pesiphone6
+      #   zone: zone.home
+      #   event: enter
     condition:
       # - condition: template
       #   value_template: '{% if states("proximity.pe_home") | float < 50 %}true{% else %}false{% endif %}'
@@ -286,9 +286,9 @@ automation:
       #   entity_id: device_tracker.pesiphone6
       #   zone: zone.benjawan
       #   event: enter
-    condition:
-      - condition: template
-        value_template: '{% if states("proximity.pe_benjawan") | float < 50 %}true{% else %}false{% endif %}'
+    # condition:
+    #   - condition: template
+    #     value_template: '{% if states("proximity.pe_benjawan") | float < 50 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_juesiphone6splus
         data:

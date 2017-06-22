@@ -16,11 +16,11 @@ automation:
     trigger:
       - platform: template
         value_template: "{% if is_state('device_tracker.pesiphone6', 'not_home') %}true{% else %}false{% endif %}"
-      - platform: template
-        value_template: "{% if is_state('device_tracker.user_pesiphone6', 'not_home') %}true{% else %}false{% endif %}"
+      # - platform: template
+      #   value_template: "{% if is_state('device_tracker.user_pesiphone6', 'not_home') %}true{% else %}false{% endif %}"
       - platform: numeric_state
         entity_id: proximity.pe_home
-        above: 1000
+        above: 500
     condition:
       - condition: state
         entity_id: input_boolean.presence_pe
@@ -33,11 +33,11 @@ automation:
     trigger:
       - platform: template
         value_template: "{% if is_state('device_tracker.juesiphone6splus', 'not_home') %}true{% else %}false{% endif %}"
-      - platform: template
-        value_template: "{% if is_state('device_tracker.user_juesiphone6splus', 'not_home') %}true{% else %}false{% endif %}"
+      # - platform: template
+      #   value_template: "{% if is_state('device_tracker.user_juesiphone6splus', 'not_home') %}true{% else %}false{% endif %}"
       - platform: numeric_state
         entity_id: proximity.jue_home
-        above: 1000
+        above: 500
     condition:
       - condition: state
         entity_id: input_boolean.presence_jue
@@ -79,37 +79,3 @@ automation:
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_jue
-
-  # - alias: 'Jue is Away (Group)'
-  #   trigger:
-  #     - platform: template
-  #       value_template: "{% if is_state('group.jue', 'not_home') %}true{% else %}false{% endif %}"
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.presence_jue
-  #       state: 'on'
-  #   action:
-  #     - service: input_boolean.turn_off
-  #       entity_id: input_boolean.presence_jue
-  #
-  # - alias: 'Jue is Home (Group)'
-  #   trigger:
-  #     - platform: template
-  #       value_template: "{% if is_state('group.jue', 'home') %}true{% else %}false{% endif %}"
-  #   condition:
-  #     - condition: state
-  #       entity_id: input_boolean.presence_jue
-  #       state: 'off'
-  #   action:
-  #     - service: input_boolean.turn_on
-  #       entity_id: input_boolean.presence_jue
-
-  # - alias: 'Jue State Changes'
-  #   trigger:
-  #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
-  #   action:
-  #     - service: script.notify_pesiphone6
-  #       data_template:
-  #         title: "Jue state changes"
-  #         message: 'Jue has just changed from {{ trigger.from_state.state }} to {{ trigger.to_state.state }} for {{ trigger.for.state }}'

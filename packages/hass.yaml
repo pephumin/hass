@@ -48,7 +48,7 @@ automation:
         from: 'on'
         to: 'off'
         for:
-          minutes: 1
+          minutes: 15
     # condition:
     #   - condition: state
     #     entity_id: script.restart_hass
@@ -101,7 +101,7 @@ automation:
   - alias: 'Restarting HA'
     trigger:
       - platform: time
-        hours: '/1'
+        hours: '/4'
         minutes: 0
         seconds: 0
     # condition:
@@ -112,7 +112,7 @@ automation:
       - service: script.notifying
         data:
           title: "Restarting HA"
-          message: 'Restarting HA every 1 hour [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          message: 'Restarting HA every 4 hours [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   # - alias: 'Restarting HA 1'
   #   trigger:
