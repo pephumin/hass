@@ -61,13 +61,17 @@ logger:
   logs:
     homeassistant.components.automation: debug
     homeassistant.components.device_tracker: critical
+    # homeassistant.components.device_tracker: debug
     homeassistant.components.http: warning
     homeassistant.components.input_boolean: debug
     homeassistant.components.input_select: debug
     homeassistant.components.ios: debug
+    homeassistant.components.mqtt: debug
     homeassistant.components.media_player: critical
-    homeassistant.components.notify: debug
+    homeassistant.components.notify: warning
+    # homeassistant.components.notify.nfandroidtv: warning
     homeassistant.components.proximity: critical
     homeassistant.components.script: debug
     homeassistant.components.sensor: critical
+    homeassistant.components.shell_command: debug
     homeassistant.components.switch: debug

@@ -5,78 +5,166 @@ mqtt:
   password: !secret my_password
   client_id: home-assistant
   keepalive: 60
-  protocol: 3.1
-  #tls_insecure: True
-  #tls_version: 1.2
-  discovery: true
-  discovery_prefix: homeassistant
+  # protocol: 3.1
+  # #tls_insecure: True
+  # #tls_version: 1.2
+  # discovery: true
+  # discovery_prefix: homeassistant
 
 ifttt:
   key: !secret ifttt_key
 
-switch:
-  - platform: mqtt
-    state_topic: "homeassistant/killhass"
-    command_topic: "homeassistant/killhass"
-    name: "KillHass"
-    qos: 0
-    payload_on: "ON"
-    payload_of: "OFF"
-    optimistic: false
+# switch:
+#   - platform: mqtt
+#     state_topic: "homeassistant/restart_hass"
+#     command_topic: "homeassistant/restart_hass"
+#     name: "Restart Home Assistant"
+#     qos: 0
+#     payload_on: "ON"
+#     payload_of: "OFF"
+#     optimistic: false
 
-script:
-  restart_hass:
-    alias: "Restart hass if Hue is not found for 15 minutes"
-    sequence:
-      - delay:
-          minutes: 15
-      - service: script.notify_pesiphone6
-        data:
-          title: "Philips Hue is not found, restarting hass"
-          message: 'Philips Hue is not found, restarting hass [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
-          title: "Philips Hue is not found, restarting hass"
-          message: 'Philips Hue is not found, restarting hass [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: switch.turn_on
-        data:
-          entity_id: switch.killhass
+# script:
+#   restart_hass:
+#     sequence:
+#       - service: script.notify_pesiphone6
+#         data:
+#           title: "Philips Hue is not found, restarting hass"
+#           message: 'Philips Hue is not found, restarting hass [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+#       - service: script.flashing_once
+#         data:
+#           title: "Philips Hue is not found, restarting hass"
+#           message: 'Philips Hue is not found, restarting hass [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+#       - service: switch.turn_on
+#         data:
+#           entity_id: switch.restart_home_assistant
 
 automation:
 
-  - alias: "Restart hass if Hue is not found for 15 minutes"
+  - alias: "Restart HA when Hue is not found"
     trigger:
       - platform: state
         entity_id: binary_sensor.moon
         from: 'on'
         to: 'off'
-    condition:
-      # - condition: template
-      #   value_template: '{% if states.switch.titan %}false{% else %}true{% endif %}'
-      - condition: state
-        entity_id: script.restart_hass
-        state: 'off'
+        for:
+          minutes: 1
+    # condition:
+    #   - condition: state
+    #     entity_id: script.restart_hass
+    #     state: 'off'
     action:
-      - service: homeassistant.turn_on
-        entity_id: script.restart_hass
+      - service: homeassistant.restart
+      - service: script.flashing_short
+        data:
+          title: "Restarting HA as Hue is not found"
+          message: 'Restarting HA as Hue is not found for 15 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      # - service: homeassistant.turn_on
+      #   entity_id: script.restart_hass
+      # - service: script.notify_pesiphone6
+      #   data:
+      #     title: "Turn on restarting script for hass"
+      #     message: 'Turn on restarting script for hass [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: 'Stop hass from running'
-    trigger:
-      - platform: state
-        entity_id: switch.killhass
-        to: 'on'
-    action:
-      - service: homeassistant.stop
+  # - alias: 'Restarting hass'
+  #   trigger:
+  #     - platform: state
+  #       entity_id: switch.restart_home_assistant
+  #       to: 'on'
+  #   # condition:
+  #   #   - condition: time
+  #   #     after: '00:01:00'
+  #   #     before: '23:59:00'
+  #   action:
+  #     - service: homeassistant.restart
+  #     - service: script.notify_pesiphone6
+  #       data:
+  #         title: "Restarting hass"
+  #         message: 'Restarting hass [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  #
+  # - alias: 'Stop restarting hass is Hue is found'
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{% if is_state("binary_sensor.moon", "on") %}true{% else %}false{% endif %}'
+  #   condition:
+  #     - condition: state
+  #       entity_id: script.restart_hass
+  #       state: 'on'
+  #   action:
+  #     - service: homeassistant.turn_off
+  #       entity_id: script.restart_hass
+  #     - service: script.notify_pesiphone6
+  #       data:
+  #         title: "Found Philips Hue, cancel restarting hass"
+  #         message: 'Found Philips Hue, cancel restarting hass [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: 'Stop restarting hass is Hue is found'
+  - alias: 'Restarting HA'
     trigger:
-      - platform: template
-        # value_template: '{% if states.binary_sensor.moon %}true{% else %}false{% endif %}'
-        value_template: '{% if is_state("binary_sensor.moon", "on") %}true{% else %}false{% endif %}'
-    condition:
-      - condition: state
-        entity_id: script.restart_hass
-        state: 'on'
+      - platform: time
+        hours: '/1'
+        minutes: 0
+        seconds: 0
+    # condition:
+    #   - condition: template
+    #     value_template: '{{ now().date() | string == "2017-05-11" }}'
     action:
-      - service: homeassistant.turn_off
-        entity_id: script.restart_hass
+      - service: homeassistant.restart
+      - service: script.notifying
+        data:
+          title: "Restarting HA"
+          message: 'Restarting HA every 1 hour [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  # - alias: 'Restarting HA 1'
+  #   trigger:
+  #     - platform: time
+  #       hours:
+  #       minutes: 0
+  #       seconds: 0
+  #   # condition:
+  #   #   - condition: template
+  #   #     value_template: '{{ now().date() | string == "2017-05-11" }}'
+  #   action:
+  #     - service: homeassistant.restart
+  #     - service: script.notifying
+  #       data:
+  #         title: "Restarting HA 1"
+  #         message: 'Restarting HA at 3:00am everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  #
+  # - alias: 'Restarting HA 2'
+  #   trigger:
+  #     - platform: time
+  #       hours: 9
+  #       minutes: 0
+  #       seconds: 0
+  #   action:
+  #     - service: homeassistant.restart
+  #     - service: script.notifying
+  #       data:
+  #         title: "Restarting HA 2"
+  #         message: 'Restarting HA at 9:00am everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  #
+  # - alias: 'Restarting HA 3'
+  #   trigger:
+  #     - platform: time
+  #       hours: 15
+  #       minutes: 0
+  #       seconds: 0
+  #   action:
+  #     - service: homeassistant.restart
+  #     - service: script.notifying
+  #       data:
+  #         title: "Restarting HA 3"
+  #         message: 'Restarting HA at 15:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  #
+  # - alias: 'Restarting HA 4'
+  #   trigger:
+  #     - platform: time
+  #       hours: 21
+  #       minutes: 0
+  #       seconds: 0
+  #   action:
+  #     - service: homeassistant.restart
+  #     - service: script.notifying
+  #       data:
+  #         title: "Restarting HA 4"
+  #         message: 'Restarting HA at 21:00pm everyday [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

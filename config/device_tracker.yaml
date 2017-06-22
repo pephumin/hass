@@ -8,21 +8,22 @@
 
 - platform: nmap_tracker
   hosts: 192.168.1.1/24
-  home_interval: 1
+  home_interval: 5
+  scan_options: "--unprivileged -sn"
   interval_seconds: 30
-  consider_home: 180
+  consider_home: 600
   exclude:
     - 192.168.1.100
 
 # - platform: bluetooth_tracker
 
-# - platform: owntracks
-#   max_gps_accuracy: 100
-#
-# - platform: mqtt
-#   devices:
-#     pesiphone6: /owntracks/user/pesiphone6
-#     juesiphone6splus: /owntracks/user/juesiphone6splus
+- platform: owntracks
+  max_gps_accuracy: 100
+
+- platform: mqtt
+  devices:
+    mqtt_pesiphone6: /owntracks/user/pesiphone6
+    mqtt_juesiphone6splus: /owntracks/user/juesiphone6splus
 
 # - platform: tomato
 #   host: 192.168.1.1

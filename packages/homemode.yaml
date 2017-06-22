@@ -6,7 +6,7 @@ input_select:
      - Away
      - Vacation # alarm clock off
      - Visitor # no autolight off
-    initial: Home
+    # initial: Home
     icon: mdi:home-outline
 
 # input_slider:
@@ -232,12 +232,6 @@ automation:
 
   - alias: "Set Home Mode 1"
     trigger:
-      # - platform: state
-      #   entity_id: device_tracker.pesiphone6
-      #   from: 'not_home'
-      #   to: 'home'
-      #   for:
-      #     minutes: 10
       - platform: state
         entity_id: input_boolean.presence_pe
         from: 'off'
@@ -245,9 +239,6 @@ automation:
         for:
           minutes: 10
     condition:
-      # - condition: state
-      #   entity_id: device_tracker.juesiphone6splus
-      #   state: 'not_home'
       - condition: state
         entity_id: input_boolean.presence_jue
         state: 'off'
@@ -263,12 +254,6 @@ automation:
 
   - alias: "Set Home Mode 2"
     trigger:
-      # - platform: state
-      #   entity_id: device_tracker.juesiphone6splus
-      #   from: 'not_home'
-      #   to: 'home'
-      #   for:
-      #     minutes: 10
       - platform: state
         entity_id: input_boolean.presence_jue
         from: 'off'
@@ -276,9 +261,6 @@ automation:
         for:
           minutes: 10
     condition:
-      # - condition: state
-      #   entity_id: device_tracker.pesiphone6
-      #   state: 'not_home'
       - condition: state
         entity_id: input_boolean.presence_pe
         state: 'off'
@@ -294,12 +276,6 @@ automation:
 
   - alias: "Set Away Mode 1"
     trigger:
-      # - platform: state
-      #   entity_id: device_tracker.pesiphone6
-      #   from: 'home'
-      #   to: 'not_home'
-      #   for:
-      #     minutes: 30
       - platform: state
         entity_id: input_boolean.presence_pe
         from: 'on'
@@ -307,9 +283,6 @@ automation:
         for:
           minutes: 30
     condition:
-      # - condition: state
-      #   entity_id: device_tracker.juesiphone6splus
-      #   state: 'not_home'
       - condition: state
         entity_id: input_boolean.presence_jue
         state: 'off'
@@ -325,12 +298,6 @@ automation:
 
   - alias: "Set Away Mode 2"
     trigger:
-      # - platform: state
-      #   entity_id: device_tracker.juesiphone6splus
-      #   from: 'home'
-      #   to: 'not_home'
-      #   for:
-      #     minutes: 30
       - platform: state
         entity_id: input_boolean.presence_jue
         from: 'on'
@@ -338,9 +305,6 @@ automation:
         for:
           minutes: 30
     condition:
-      # - condition: state
-      #   entity_id: device_tracker.pesiphone6
-      #   state: 'not_home'
       - condition: state
         entity_id: input_boolean.presence_pe
         state: 'off'
@@ -356,12 +320,6 @@ automation:
 
   - alias: "Set Vacation Mode 1"
     trigger:
-      # - platform: state
-      #   entity_id: device_tracker.pesiphone6
-      #   from: 'home'
-      #   to: 'not_home'
-      #   for:
-      #     hours: 20
       - platform: state
         entity_id: input_boolean.presence_pe
         from: 'on'
@@ -369,9 +327,6 @@ automation:
         for:
           hours: 20
     condition:
-      # - condition: state
-      #   entity_id: device_tracker.juesiphone6splus
-      #   state: 'not_home'
       - condition: state
         entity_id: input_boolean.presence_jue
         state: 'off'
@@ -387,12 +342,6 @@ automation:
 
   - alias: "Set Vacation Mode 2"
     trigger:
-      # - platform: state
-      #   entity_id: device_tracker.juesiphone6splus
-      #   from: 'home'
-      #   to: 'not_home'
-      #   for:
-      #     hours: 20
       - platform: state
         entity_id: input_boolean.presence_jue
         from: 'on'
@@ -400,9 +349,6 @@ automation:
         for:
           hours: 20
     condition:
-      # - condition: state
-      #   entity_id: device_tracker.pesiphone6
-      #   state: 'not_home'
       - condition: state
         entity_id: input_boolean.presence_pe
         state: 'off'
@@ -437,6 +383,9 @@ automation:
       - platform: state
         entity_id: input_select.homemode
         to: Away
+      - platform: state
+        entity_id: input_select.homemode
+        to: Vacation
     action:
       - service: light.turn_off
         entity_id: group.all_lights

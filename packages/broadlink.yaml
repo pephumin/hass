@@ -60,3 +60,39 @@ switch:
         friendly_name: "Bedroom TV"
         command_on: 'JgBGAJWaEzYSOBI3EhUSExEUEhMRFhE4ETkSNxIVERQRFBETEhUSExE5ERMSFRITERMSFBEWEDkRExI4EjoROBI4ETgSNxAADQUAAA=='
         command_off: 'JgCMAJaZEzYSOBI4ERUSFBETEhMRFhE4EjgSNxIVERQSExETEhUSExE5ERMSFRITEhMRFBEWETgSExE4EjoRORE4EjgRNxAABdaWmRE4EjgROBIVERMSFBAUEhUSNxI4EjcSFRITERQRFBEWERMSOBEUERYRExITERQRFRI4EhMRORE6EjcSOBI3EjgQAA0FAAAAAAAAAAAAAAAA'
+
+# binary_sensor:
+#   - platform: template
+#     sensors:
+#       sw_bedroom_air_cond:
+#         value_template: "{{ states.switch.bedroom_air_cond.state == 'on' }}"
+#         entity_id: switch.bedroom_air_cond
+#         friendly_name: "Bedroom Air Cond"
+#       sw_bedroom_tv:
+#         value_template: "{{ states.switch.bedroom_tv.state == 'on' }}"
+#         entity_id: switch.bedroom_tv
+#         friendly_name: "Bedroom TV"
+#       sw_common_room_air_cond:
+#         value_template: "{{ states.switch.common_room_air_cond.state == 'on' }}"
+#         entity_id: switch.common_room_air_cond
+#         friendly_name: "Common Room Air Cond"
+#       sw_common_room_fan:
+#         value_template: "{{ states.switch.common_room_fan.state == 'on' }}"
+#         entity_id: switch.common_room_fan
+#         friendly_name: "Common Room Fan"
+#       sw_common_room_tv:
+#         value_template: "{{ states.switch.common_room_tv.state == 'on' }}"
+#         entity_id: switch.common_room_tv
+#         friendly_name: "Common Room TV"
+#       sw_common_room_android_box:
+#         value_template: "{{ states.switch.common_room_android_box.state == 'on' }}"
+#         entity_id: switch.common_room_android_box
+#         friendly_name: "Common Room Android Box"
+#   - platform: mqtt
+#     state_topic: "homeassistant/switch/bedroom_air_cond"
+#     name: "Bedroom Air Cond"
+#     qos: 0
+#     payload_on: "On"
+#     payload_off: "Off"
+#     #device_class: opening
+#     value_template: '{{ value.x }}'
