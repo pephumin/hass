@@ -41,7 +41,7 @@ automation:
       - platform: numeric_state
         entity_id: sensor.titan_current_consumption
         value_template: '{{ states.sensor.titan_current_consumption.state }}'
-        above: 15
+        above: 150
     action:
       - service: notify.email
         data_template:
@@ -53,7 +53,7 @@ automation:
       - platform: numeric_state
         entity_id: sensor.titan_current_consumption
         value_template: '{{ states.sensor.titan_current_consumption.state }}'
-        below: 1
+        below: 10
     action:
       - service: notify.email
         data_template:
@@ -65,7 +65,7 @@ automation:
       - platform: numeric_state
         entity_id: sensor.europa_current_consumption
         value_template: '{{ states.sensor.europa_current_consumption.state }}'
-        above: 15
+        above: 30
     action:
       - service: notify.email
         data_template:
@@ -77,7 +77,7 @@ automation:
       - platform: numeric_state
         entity_id: sensor.europa_current_consumption
         value_template: '{{ states.sensor.europa_current_consumption.state }}'
-        below: 1
+        below: 5
     action:
       - service: notify.email
         data_template:
