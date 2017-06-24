@@ -2,16 +2,16 @@
   username: !secret icloud_username
   password: !secret icloud_password
   account_name: pe
-  track_new_devices: true
-  interval_seconds: 600
-  consider_home: 900
+  track_new_devices: no
+  interval_seconds: 12
+  consider_home: 300
 
 - platform: nmap_tracker
   hosts: 192.168.1.1/24
   home_interval: 5
   scan_options: "--unprivileged -sn"
-  interval_seconds: 30
-  consider_home: 600
+  interval_seconds: 12
+  consider_home: 300
   exclude:
     - 192.168.1.100
 
@@ -20,10 +20,10 @@
 - platform: owntracks
   max_gps_accuracy: 100
 
-- platform: mqtt
-  devices:
-    mqtt_pesiphone6: /owntracks/user/pesiphone6
-    mqtt_juesiphone6splus: /owntracks/user/juesiphone6splus
+# - platform: mqtt
+#   devices:
+#     pesiphone6: /owntracks/user/pesiphone6
+#     juesiphone6splus: /owntracks/user/juesiphone6splus
 
 # - platform: tomato
 #   host: 192.168.1.1

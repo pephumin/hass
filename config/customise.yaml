@@ -24,48 +24,13 @@ device_tracker.pesipodtouch4:
 device_tracker.pepe:
   icon: mdi:laptop-mac
   friendly_name: "Pe Macbook Pro"
-device_tracker.benjysiphone6:
+
+device_tracker.benjy:
   icon: mdi:cellphone-iphone
-  friendly_name: "Benjy iPhone 6"
-device_tracker.benjysipadmini2:
-  icon: mdi:tablet-ipad
-  friendly_name: "Benjy iPad Mini 2"
-device_tracker.benjysmbp:
-  icon: mdi:laptop-mac
-  friendly_name: "Benjy Macbook Pro"
+  friendly_name: "Benjy"
 device_tracker.boom:
   icon: mdi:cellphone-android
-  friendly_name: "Boom Mobile"
-device_tracker.iphone_pe:
-  icon: mdi:cellphone-iphone
-  friendly_name: "Pe iPhone 6"
-device_tracker.ipad_pe:
-  icon: mdi:tablet-ipad
-  friendly_name: "Pe iPad Mini 2"
-device_tracker.iphone_jue:
-  icon: mdi:cellphone-iphone
-  friendly_name: "Jue iPhone 6s Plus"
-device_tracker.ipad_jue:
-  icon: mdi:tablet-ipad
-  friendly_name: "Jue iPad Mini 2"
-device_tracker.ipod_bmw:
-  icon: mdi:cellphone
-  friendly_name: "iPod Touch BMW"
-device_tracker.mbp_pe:
-  icon: mdi:laptop-mac
-  friendly_name: "Pe Macbook Pro"
-device_tracker.iphone_benjy:
-  icon: mdi:cellphone-iphone
-  friendly_name: "Benjy iPhone 6"
-device_tracker.ipad_benjy:
-  icon: mdi:tablet-ipad
-  friendly_name: "Benjy iPad Mini 2"
-device_tracker.mbp_benjy:
-  icon: mdi:laptop-mac
-  friendly_name: "Benjy Macbook Pro"
-device_tracker.mobile_boom:
-  icon: mdi:cellphone-android
-  friendly_name: "Boom Mobile"
+  friendly_name: "Boom"
 
 light.bedroom_1:
   icon: mdi:lightbulb
@@ -133,9 +98,17 @@ sensor.malaiwan_to_home:
   icon: mdi:car
   friendly_name: "Malaiwan to Home"
 
-sensor.rm_pro_temperature:
-  icon: mdi:thermometer-lines
-  friendly_name: "Broadlink RM Pro"
+sensor.common_room_temperature:
+  icon: mdi:thermometer
+  friendly_name: "Common Room Temperature"
+switch.titan:
+  icon: mdi:surround-sound
+  friendly_name: "Home Theatre System"
+  assumed_state: true
+switch.europa:
+  icon: mdi:surround-sound
+  friendly_name: "Bedroom Sound System"
+  assumed_state: true
 
 switch.common_room_air_cond:
   icon: mdi:air-conditioner
@@ -156,9 +129,7 @@ switch.common_room_android_box:
 sensor.denon_source:
   icon: mdi:amplifier
   friendly_name: "Denon AVR"
-sensor.rm_mini_temperature:
-  icon: mdi:thermometer-lines
-  friendly_name: "Broadlink RM Mini"
+
 switch.bedroom_air_cond:
   icon: mdi:air-conditioner
   friendly_name: "Bedroom Air Cond"
@@ -166,14 +137,6 @@ switch.bedroom_air_cond:
 switch.bedroom_tv:
   icon: mdi:television
   friendly_name: "Bedroom TV"
-  assumed_state: true
-switch.titan:
-  icon: mdi:surround-sound
-  friendly_name: "Home Theatre System"
-  assumed_state: true
-switch.europa:
-  icon: mdi:surround-sound
-  friendly_name: "Bedroom Sound System"
   assumed_state: true
 
 script.mute_common_room:
@@ -211,9 +174,6 @@ sensor.owm_cloud_coverage:
 sensor.owm_humidity:
   icon: mdi:weather-fog
   friendly_name: "Humidity"
-sensor.owm_rain:
-  icon: mdi:weather-pouring
-  friendly_name: "Rain"
 
 sensor.cpu_use:
   icon: mdi:chip
