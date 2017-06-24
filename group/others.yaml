@@ -21,7 +21,6 @@ weather:
     - sensor.owm_condition
     - sensor.owm_cloud_coverage
     - sensor.owm_humidity
-    - sensor.owm_rain
 
 # weblink:
 #   view: no
