@@ -10,12 +10,10 @@ flashing_long:
         transition: 1
         brightness: 250
         flash: long
-    - service: notify.tv
+    - service: script.notifying
       data_template:
-        title: '{{ title }}'
-        message: '{{ message }}'
-    - service: notify.email
-      data_template:
+        mobile: True
+        audio: '{{ audio if audio != "" else "" }}'
         title: '{{ title }}'
         message: '{{ message }}'
 
@@ -71,12 +69,10 @@ flashing_short:
         transition: 1
         brightness: 250
         flash: short
-    - service: notify.tv
+    - service: script.notifying
       data_template:
-        title: '{{ title }}'
-        message: '{{ message }}'
-    - service: notify.email
-      data_template:
+        mobile: True
+        audio: '{{ audio if audio != "" else "" }}'
         title: '{{ title }}'
         message: '{{ message }}'
 
@@ -92,17 +88,15 @@ flashing_once:
         transition: 1
         brightness: 250
         flash: short
-    - service: notify.tv
+    - service: script.notifying
       data_template:
-        title: '{{ title }}'
-        message: '{{ message }}'
-    - service: notify.email
-      data_template:
+        mobile: False
+        audio: '{{ audio if audio != "" else "" }}'
         title: '{{ title }}'
         message: '{{ message }}'
 
 notifying:
-  alias: "Notify to TV and email"
+  alias: "Notify to TV, email, and voice"
   sequence:
     - service: notify.tv
       data_template:
@@ -112,7 +106,104 @@ notifying:
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
+    - service: script.notifying_voice
+      data_template:
+        mobile: '{{ mobile }}'
+        audio: '{% if audio == "pips" %}http://192.168.1.100:8123/local/sounds/pips.mp3{% elif audio == "chime" %}http://192.168.1.100:8123/local/sounds/chime.mp3{% else %}{% endif %}'
+        title: '{{ title }}'
+        message: '{{ message }}'
+
+notifying_voice:
+  sequence:
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.music_player_daemon
+      data_template:
+        volume_level: 1.0
+    - service: media_player.play_media
+      entity_id: media_player.music_player_daemon
+      data_template:
+        media_content_id: '{{ audio }}'
+        media_content_type: "music"
+    - service: tts.google_say
+      entity_id: media_player.music_player_daemon
+      data_template:
+        message: '{{ title }}'
+    - delay: "00:00:01"
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+    - condition: template
+      value_template: '{{ "True" if mobile == "True" else False }}'
     - service: script.notify_pesiphone6
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
+
+# notify_audio:
+#   sequence:
+#     - service: script.notify_fade_out
+#       data_template:
+#         notify_fade: '{{ notify_fade }}'
+#     - delay: 00:00:02
+#     - wait_template: "{{ states.script.notify_fade_out.state == 'off' }}"
+#     - service: media_player.volume_set
+#       entity_id: media_player.music_player_daemon
+#       data_template:
+#         volume_level: 1.0
+#     - service: media_player.play_media
+#       entity_id: media_player.music_player_daemon
+#       data_template:
+#         media_content_id: "{{ notify_audio }}"
+#         media_content_type: "music"
+#     - delay: 00:00:05
+#     - wait_template: "{{ states.media_player.music_player_daemon.state == 'off' }}"
+#     - service: script.notify_fade_in
+#       data_template:
+#         notify_fade: "{{ notify_fade }}"
+#     - delay: 00:00:02
+#     - wait_template: "{{ states.script.notify_fade_in.state == 'off' }}"

@@ -1,10 +1,10 @@
 - platform: apple_tv
-  name: Apple TV
+  name: "Apple TV"
   host: !secret apple_tv_ip
   login_id: !secret apple_tv_login_id
 
 - platform: denonavr
-  name: Denon
+  name: "Denon"
   host: !secret denon_ip
 
 - platform: dunehd
@@ -12,11 +12,16 @@
   host: !secret dune_ip
 
 - platform: kodi
-  name: Kodi
+  name: "Kodi"
   host: !secret kodi_ip
   username: !secret my_username
   password: !secret my_password
   turn_off_action: quit
+
+- platform: mpd
+  name: "Music Player Daemon"
+  host: !secret itunes_ip
+  port: 6600
 
 # - platform: universal
 #   name: Common Room Media Center
