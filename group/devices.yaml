@@ -15,8 +15,6 @@ devices:
     # - sensor.battery_pesipodtouch4
     - device_tracker.pepe
     - sensor.battery_pepe
-    # - group.pe
-    # - group.jue
 
 proximity:
   view: no
@@ -26,20 +24,3 @@ proximity:
     - proximity.jue_home
     - proximity.pe_benjawan
     - proximity.jue_malaiwan
-
-# pe:
-#   view: no
-#   name: "Pe"
-#   entities:
-#     - device_tracker.pesiphone6
-#     - device_tracker.bt_pesiphone6
-#     # - device_tracker.user_pesiphone6
-#     # - device_tracker.pes_iphone_6
-#
-# jue:
-#   view: no
-#   name: "Jue"
-#   entities:
-#     - device_tracker.juesiphone6splus
-#     - device_tracker.bt_juesiphone6splus
-#     # - device_tracker.user_juesiphone6splus
