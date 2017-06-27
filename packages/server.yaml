@@ -1,4 +1,5 @@
 sensor:
+
   - platform: synologydsm
     name: Saturn
     host: !secret synology_ip
@@ -6,12 +7,14 @@ sensor:
     password: !secret my_longer_password
     monitored_conditions:
       - disk_temp
+
   - platform: systemmonitor
     resources:
       - type: last_boot
       - type: since_last_boot
       - type: processor_use
       - type: memory_use_percent
+
   - platform: speedtest
     minute:
       - 0
@@ -23,6 +26,7 @@ sensor:
     monitored_conditions:
       - download
       - upload
+
   - platform: template
     sensors:
       uptime:

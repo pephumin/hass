@@ -1,9 +1,11 @@
 media_player:
+  
   - platform: itunes
     name: iTunes
     host: !secret itunes_ip
 
 rest_command:
+
   dja:
       url: 'http://192.168.1.200:8181/playlists/dja/play'
       method: PUT
@@ -32,22 +34,27 @@ rest_command:
 #     value_template: '{{ value_json.name }}'
 
 script:
+
   dja_shuffle:
     alias: "Shuffle DJA"
     sequence:
       - service: rest_command.dja
+
   djb_shuffle:
     alias: "Shuffle DJB"
     sequence:
       - service: rest_command.djb
+
   djp_shuffle:
     alias: "Shuffle DJP"
     sequence:
       - service: rest_command.djp
+
   dj_shuffle:
     alias: "Shuffle DJ"
     sequence:
       - service: rest_command.djp
+
   soft_shuffle:
     alias: "Shuffle Soft"
     sequence:
