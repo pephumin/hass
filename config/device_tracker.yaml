@@ -2,7 +2,6 @@
   username: !secret icloud_username
   password: !secret icloud_password
   account_name: pe
-  track_new_devices: no
   interval_seconds: 12
   consider_home: 300
 
@@ -15,11 +14,14 @@
   exclude:
     - 192.168.1.100
 
-# - platform: bluetooth_tracker
+- platform: bluetooth_tracker
+  home_interval: 5
+  interval_seconds: 12
+  consider_home: 300
 
-- platform: owntracks
-  max_gps_accuracy: 100
-
+# - platform: owntracks
+#   max_gps_accuracy: 100
+#
 # - platform: mqtt
 #   devices:
 #     pesiphone6: /owntracks/user/pesiphone6

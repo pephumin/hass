@@ -1,241 +1,227 @@
 binary_sensor:
+
   - platform: ping
     host: 192.168.1.1
     name: "Deeper"
-  - platform: ping
-    host: 192.168.1.11
-    name: "Higher"
+
   - platform: ping
     host: 192.168.1.2
     name: "Pluto"
+
   - platform: ping
     host: 192.168.1.3
     name: "Neptune"
+
   - platform: ping
     host: 192.168.1.4
     name: "Uranus"
+
   - platform: ping
     host: 192.168.1.5
     name: "Mercury"
+
   - platform: ping
-    host: 192.168.1.22
-    name: "Moon"
+    host: 192.168.1.11
+    name: "Higher"
+
   - platform: ping
     host: 192.168.1.13
     name: "Broadlink RM Pro"
+
   - platform: ping
     host: 192.168.1.14
     name: "Broadlink RM Mini"
-  - platform: ping
-    host: 192.168.1.78
-    name: "Foscam Black"
-  - platform: ping
-    host: 192.168.1.79
-    name: "Foscam White"
-  - platform: ping
-    host: 192.168.1.44
-    name: "Printer"
+
   - platform: ping
     host: 192.168.1.16
     name: "Titan"
+
   - platform: ping
     host: 192.168.1.17
     name: "Europa"
 
+  - platform: ping
+    host: 192.168.1.22
+    name: "Moon"
+
+  - platform: ping
+    host: 192.168.1.44
+    name: "Printer"
+
+  - platform: ping
+    host: 192.168.1.78
+    name: "Foscam Black"
+
+  - platform: ping
+    host: 192.168.1.79
+    name: "Foscam White"
+
 automation:
+
   - alias: Offline Deeper
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.deeper
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "The primary gateway is offline"
           message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "The primary gateway is offline"
-          message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Higher
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.higher
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "The secondary gateway is offline"
           message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "The secondary gateway is offline"
-          message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Pluto
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.pluto
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "Airport Extreme is offline"
           message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Airport Extreme is offline"
-          message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Neptune
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.neptune
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
-          title: "Airport Express Master Bedroom is offline"
-          message: 'Airport Express Master Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Airport Express Master Bedroom is offline"
-          message: 'Airport Express Master Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Airport Express Bedroom is offline"
+          message: 'Airport Express Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Uranus
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.uranus
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "Airport Express Downstairs is offline"
           message: 'Airport Express Downstairs is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Airport Express Downstairs is offline"
-          message: 'Airport Express Downstairs is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Mercury
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.mercury
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
-          title: "Airport Express Remote is offline"
-          message: 'Airport Express Remote is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Airport Express Remote is offline"
-          message: 'Airport Express Remote is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Airport Express Working Space is offline"
+          message: 'Airport Express Working Space is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Hue
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.moon
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "Philips Hue is offline"
           message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Philips Hue is offline"
-          message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Broadlink RM Pro
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.broadlink_rm_pro
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "Broadlink RM Pro is offline"
           message: 'Broadlink RM Pro is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Broadlink RM Pro is offline"
-          message: 'Broadlink RM Pro is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Broadlink RM Mini
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.broadlink_rm_mini
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "Broadlink RM Mini is offline"
           message: 'Broadlink RM Mini is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Broadlink RM Mini is offline"
-          message: 'Broadlink RM Mini is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Foscam Black
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.foscam_black
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "Foscam Black is offline"
           message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Foscam Black is offline"
-          message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Foscam White
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.foscam_white
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "Foscam White is offline"
           message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Foscam White is offline"
-          message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Printer
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.printer
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
           title: "Printer is offline"
           message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Printer is offline"
-          message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Titan
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.titan
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
-          title: "Titan is offline"
-          message: 'Titan is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Titan is offline"
-          message: 'Titan is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Smart Plug Common Room is offline"
+          message: 'Smart Plug Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: Offline Europa
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: binary_sensor.europa
         to: 'off'
     action:
-      - service: notify.email
+      - service: script.notifying
         data:
-          title: "Europa is offline"
-          message: 'Europa is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: notify.tv
-        data:
-          title: "Europa is offline"
-          message: 'Europa is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Smart Plug Bedroom is offline"
+          message: 'Smart Plug Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

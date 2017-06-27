@@ -25,12 +25,12 @@ device_tracker.pepe:
   icon: mdi:laptop-mac
   friendly_name: "Pe Macbook Pro"
 
-device_tracker.benjy:
-  icon: mdi:cellphone-iphone
-  friendly_name: "Benjy"
-device_tracker.boom:
-  icon: mdi:cellphone-android
-  friendly_name: "Boom"
+# device_tracker.benjy:
+#   # icon: mdi:cellphone-iphone
+#   friendly_name: "Benjy"
+# device_tracker.boom:
+#   # icon: mdi:cellphone-android
+#   friendly_name: "Boom"
 
 light.bedroom_1:
   icon: mdi:lightbulb

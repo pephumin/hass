@@ -1,10 +1,13 @@
 sensor:
+
   - platform: moon
+
   - platform: time_date
     name: Date & Time
     display_options:
       - 'time'
       - 'date'
+
   - platform: template
     sensors:
       day_night:
@@ -18,6 +21,7 @@ sensor:
         unit_of_measurement: '°'
 
 automation:
+
   - alias: "Sunset 1"
     trigger:
       - platform: sun
@@ -26,8 +30,9 @@ automation:
     action:
       - service: script.flashing_once
         data:
-          title: "Sunset in 2 hours"
-          message: 'Sunset is expected in two hours [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Sunset is expected in 2 hours"
+          message: 'Sunset is expected in 2 hours [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Sunset 2"
     trigger:
       - platform: sun
@@ -36,8 +41,9 @@ automation:
     action:
       - service: script.flashing_once
         data:
-          title: "Sunset in 1 hour"
-          message: 'Sunset is expected in one hour [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Sunset is expected in 1 hour"
+          message: 'Sunset is expected in 1 hour [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Sunset 3"
     trigger:
       - platform: sun
@@ -46,8 +52,9 @@ automation:
     action:
       - service: script.flashing_once
         data:
-          title: "Sunset in 30 minutes"
+          title: "Sunset is expected in 30 minutes"
           message: 'Sunset is expected in 30 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Sunset 4"
     trigger:
       - platform: sun
@@ -56,5 +63,5 @@ automation:
     action:
       - service: script.flashing_short
         data:
-          title: "The sun is down now"
-          message: 'Sunset is happening now, another goodbye to the day [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Sun is setting, another goodbye to the day"
+          message: 'Sun is setting, another goodbye to the day [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
