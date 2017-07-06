@@ -6,3 +6,5 @@ playlists:
     - script.dja_shuffle
     - script.djb_shuffle
     - script.djp_shuffle
+    - script.dj_shuffle
+    - script.soft_shuffle

@@ -7,6 +7,35 @@ sensor:
         value_template: '{% if states.media_player.denon.attributes["source"] %}{{ states.media_player.denon.attributes["source"] }}{% else %}Off{% endif %}'
         # friendly_name: 'Denon Source'
 
+script:
+  turnon_tv_androidbox:
+    alias: "Turn on TV and Android Box"
+    sequence:
+      - service: switch.turn_on
+        entity_id: switch.common_room_tv
+      - service: switch.turn_on
+        entity_id: switch.common_room_android_box
+  turnoff_tv_androidbox:
+    alias: "Turn off TV and Android Box"
+    sequence:
+      - service: switch.turn_off
+        entity_id: switch.common_room_android_box
+      - service: switch.turn_off
+        entity_id: switch.common_room_tv
+
+switch:
+  - platform: template
+    switches:
+      androidtv:
+        # value_template: "{{ is_state('media_player.denon', 'on') and states.media_player.receiver.attributes.source == 'Cable TV' }}"
+        value_template: "{{ is_state('media_player.denon', 'on') }}"
+        turn_on:
+          service: script.turn_on
+          entity_id: script.turnon_tv_androidbox
+        turn_off:
+          service: script.turn_on
+          entity_id: script.turnoff_tv_androidbox
+
 automation:
   # - alias: "Change AVR Source"
   #   trigger:

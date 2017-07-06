@@ -16,6 +16,7 @@ online:
     - binary_sensor.printer
     - binary_sensor.titan
     - binary_sensor.europa
+    - binary_sensor.callisto
 
 online_cr:
   view: no
@@ -36,6 +37,7 @@ online_br:
     - binary_sensor.broadlink_rm_mini
     - binary_sensor.moon
     - binary_sensor.europa
+    - binary_sensor.callisto
 
 online_ff:
   view: no

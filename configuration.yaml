@@ -52,20 +52,6 @@ mqtt:
 ifttt:
   key: !secret ifttt_key
 
-# ffmpeg:
-#   ffmpeg_bin: /usr/bin/ffmpeg
-
-# apiai:
-#   intents:
-#     GetTime:
-#       speech: The time is now {{ as_timestamp(now()) }}
-#       async_action: False
-#       action:
-#         service: script.notify_pesiphone6
-#         data_template:
-#           title: "Api.ai has send a request"
-#           message: "{{ speech }}"
-
 automation: !include_dir_merge_list automation/
 device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
@@ -93,9 +79,23 @@ logger:
     homeassistant.components.mqtt: debug
     homeassistant.components.media_player: critical
     homeassistant.components.notify: warning
-    # homeassistant.components.notify.nfandroidtv: warning
+    # homeassistant.components.notify.nfandroidtv: notset
     homeassistant.components.proximity: critical
     homeassistant.components.script: debug
     homeassistant.components.sensor: critical
     homeassistant.components.shell_command: debug
     homeassistant.components.switch: debug
+
+# ffmpeg:
+#   ffmpeg_bin: /usr/bin/ffmpeg
+
+# apiai:
+#   intents:
+#     GetTime:
+#       speech: The time is now {{ as_timestamp(now()) }}
+#       async_action: False
+#       action:
+#         service: script.notify_pesiphone6
+#         data_template:
+#           title: "Api.ai has send a request"
+#           message: "{{ speech }}"

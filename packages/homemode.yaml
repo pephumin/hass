@@ -27,7 +27,7 @@ input_select:
 
 automation:
 
-  - alias: "Set Home Mode 1"
+  - alias: "Set Home Mode"
     trigger:
       - platform: state
         entity_id: input_boolean.presence_pe
@@ -35,41 +35,65 @@ automation:
         to: 'on'
         for:
           minutes: 10
-    condition:
-      - condition: state
+      - platform: state
         entity_id: input_boolean.presence_jue
-        state: 'off'
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 10
     action:
       - service: input_select.select_option
         data:
           entity_id: input_select.homemode
           option: Home
-      - service: script.flashing_once
+      - service: script.notifying
         data:
-          title: "Home Mode #1 is now active"
-          message: 'Home Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Home Mode is now active"
+          message: 'Home Mode is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: "Set Home Mode 2"
-    trigger:
-      - platform: state
-        entity_id: input_boolean.presence_jue
-        from: 'off'
-        to: 'on'
-        for:
-          minutes: 10
-    condition:
-      - condition: state
-        entity_id: input_boolean.presence_pe
-        state: 'off'
-    action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.homemode
-          option: Home
-      - service: script.flashing_once
-        data:
-          title: "Home Mode #2 is now active"
-          message: 'Home Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  # - alias: "Set Home Mode 1"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_boolean.presence_pe
+  #       from: 'off'
+  #       to: 'on'
+  #       for:
+  #         minutes: 10
+  #   condition:
+  #     - condition: state
+  #       entity_id: input_boolean.presence_jue
+  #       state: 'off'
+  #   action:
+  #     - service: input_select.select_option
+  #       data:
+  #         entity_id: input_select.homemode
+  #         option: Home
+  #     - service: script.notifying
+  #       data:
+  #         title: "Home Mode #1 is now active"
+  #         message: 'Home Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  #
+  # - alias: "Set Home Mode 2"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_boolean.presence_jue
+  #       from: 'off'
+  #       to: 'on'
+  #       for:
+  #         minutes: 10
+  #   condition:
+  #     - condition: state
+  #       entity_id: input_boolean.presence_pe
+  #       state: 'off'
+  #   action:
+  #     - service: input_select.select_option
+  #       data:
+  #         entity_id: input_select.homemode
+  #         option: Home
+  #     - service: script.notifying
+  #       data:
+  #         title: "Home Mode #2 is now active"
+  #         message: 'Home Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Set Away Mode 1"
     trigger:
@@ -88,7 +112,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: Away
-      - service: notify.email
+      - service: notify.notifying
         data:
           title: "Away Mode #1 is now active"
           message: 'Away Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
@@ -110,7 +134,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: Away
-      - service: notify.email
+      - service: notify.notifying
         data:
           title: "Away Mode #2 is now active"
           message: 'Away Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
@@ -132,7 +156,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: Vacation
-      - service: notify.email
+      - service: notify.notifying
         data:
           title: "Vacation Mode #1 is now active"
           message: 'Vacation Mode #1 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
@@ -154,7 +178,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: Vacation
-      - service: notify.email
+      - service: notify.notifying
         data:
           title: "Vacation Mode #2 is now active"
           message: 'Vacation Mode #2 is now active [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

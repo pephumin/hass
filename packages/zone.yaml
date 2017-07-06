@@ -116,6 +116,10 @@ automation:
       - platform: numeric_state
         entity_id: proximity.pe_home
         above: 500
+      - platform: zone
+        entity_id: device_tracker.pesiphone6
+        zone: zone.home
+        event: leave
     condition:
       - condition: state
         entity_id: input_boolean.presence_pe
@@ -131,6 +135,10 @@ automation:
       - platform: numeric_state
         entity_id: proximity.pe_home
         below: 10
+      - platform: zone
+        entity_id: device_tracker.pesiphone6
+        zone: zone.home
+        event: enter
     condition:
       - condition: state
         entity_id: input_boolean.presence_pe
@@ -145,18 +153,17 @@ automation:
         entity_id: input_boolean.presence_pe
         from: 'off'
         to: 'on'
-      # - platform: zone
-      #   entity_id: device_tracker.pesiphone6
-      #   zone: zone.home
-      #   event: enter
     condition:
-      - condition: template
-        value_template: '{% if states("proximity.pe_home") | float < 50 %}true{% else %}false{% endif %}'
+      # - condition: template
+      #   value_template: '{% if states("proximity.pe_home") | float < 50 %}true{% else %}false{% endif %}'
+      - condition: state
+        entity_id: input_boolean.presence_jue
+        state: 'off'
     action:
-      # - service: script.notify_juesiphone6splus
-      #   data:
-      #     title: "Pe has arrived home"
-      #     message: 'เป้กลับถึงบ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notify_juesiphone6splus
+        data:
+          title: "Pe has arrived home"
+          message: 'เป้กลับถึงบ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
       - service: script.flashing_once
         data:
           title: "Pe has arrived home"
@@ -168,15 +175,12 @@ automation:
         entity_id: input_boolean.presence_pe
         from: 'on'
         to: 'off'
-        for:
-          minutes: 1
-      # - platform: zone
-      #   entity_id: device_tracker.pesiphone6
-      #   zone: zone.home
-      #   event: leave
     condition:
-      - condition: template
-        value_template: '{% if states("proximity.pe_home") | float > 50 %}true{% else %}false{% endif %}'
+      # - condition: template
+      #   value_template: '{% if states("proximity.pe_home") | float > 50 %}true{% else %}false{% endif %}'
+      - condition: state
+        entity_id: input_boolean.presence_jue
+        state: 'off'
     action:
       - service: script.notify_juesiphone6splus
         data:
@@ -194,6 +198,10 @@ automation:
       - platform: numeric_state
         entity_id: proximity.jue_home
         above: 500
+      - platform: zone
+        entity_id: device_tracker.juesiphone6splus
+        zone: zone.home
+        event: leave
     condition:
       - condition: state
         entity_id: input_boolean.presence_jue
@@ -209,6 +217,10 @@ automation:
       - platform: numeric_state
         entity_id: proximity.jue_home
         below: 10
+      - platform: zone
+        entity_id: device_tracker.juesiphone6splus
+        zone: zone.home
+        event: enter
     condition:
       - condition: state
         entity_id: input_boolean.presence_jue
@@ -223,13 +235,12 @@ automation:
         entity_id: input_boolean.presence_jue
         from: 'off'
         to: 'on'
-      # - platform: zone
-      #   entity_id: device_tracker.juesiphone6splus
-      #   zone: zone.home
-      #   event: enter
     condition:
-      - condition: template
-        value_template: '{% if states("proximity.jue_home") | float < 50 %}true{% else %}false{% endif %}'
+      # - condition: template
+      #   value_template: '{% if states("proximity.jue_home") | float < 50 %}true{% else %}false{% endif %}'
+      - condition: state
+        entity_id: input_boolean.presence_pe
+        state: 'off'
     action:
       - service: script.notify_pesiphone6
         data:
@@ -246,15 +257,12 @@ automation:
         entity_id: input_boolean.presence_jue
         from: 'on'
         to: 'off'
-        for:
-          minutes: 1
-      # - platform: zone
-      #   entity_id: device_tracker.juesiphone6splus
-      #   zone: zone.home
-      #   event: leave
     condition:
-      - condition: template
-        value_template: '{% if states("proximity.jue_home") | float > 50 %}true{% else %}false{% endif %}'
+      # - condition: template
+      #   value_template: '{% if states("proximity.jue_home") | float > 50 %}true{% else %}false{% endif %}'
+      - condition: state
+        entity_id: input_boolean.presence_pe
+        state: 'off'
     action:
       - service: script.notify_pesiphone6
         data:
@@ -264,48 +272,6 @@ automation:
         data:
           title: "Jue has left home"
           message: 'Jue has left home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Jue Leaves Malaiwan"
-    trigger:
-      - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'Malaiwan'
-        to: 'not_home'
-        for:
-          minutes: 1
-    # condition:
-    #   - condition: template
-    #     value_template: '{% if states("proximity.jue_malaiwan") | float > 200 %}true{% else %}false{% endif %}'
-    action:
-      - service: script.notify_pesiphone6
-        data:
-          title: "Jue has left Malaiwan"
-          message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_long
-        data:
-          title: "Jue has left Malaiwan"
-          message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Pe Leaves Benjawan"
-    trigger:
-      - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'Benjawan'
-        to: 'not_home'
-        for:
-          minutes: 1
-    # condition:
-    #   - condition: template
-    #     value_template: '{% if states("proximity.pe_benjawan") | float > 200 %}true{% else %}false{% endif %}'
-    action:
-      - service: script.notify_juesiphone6splus
-        data:
-          title: "Pe has left Benjawan"
-          message: 'เป้ออกจากบ้านเบญ [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_long
-        data:
-          title: "Pe has left Benjawan"
-          message: 'Pe has left Benjawan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Jue Arrives Malaiwan"
     trigger:
@@ -326,6 +292,25 @@ automation:
           title: "Jue has arrived Malaiwan"
           message: 'Jue has arrived Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
+  - alias: "Jue Leaves Malaiwan"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        from: 'Malaiwan'
+        to: 'not_home'
+    condition:
+      - condition: template
+        value_template: '{% if states("proximity.jue_malaiwan") | float > 200 %}true{% else %}false{% endif %}'
+    action:
+      - service: script.notify_pesiphone6
+        data:
+          title: "Jue has left Malaiwan"
+          message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.flashing_long
+        data:
+          title: "Jue has left Malaiwan"
+          message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Pe Arrives Benjawan"
     trigger:
       - platform: state
@@ -345,19 +330,31 @@ automation:
           title: "Pe has arrived Benjawan"
           message: 'Pe has arrived Benjawan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
+  - alias: "Pe Leaves Benjawan"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone6
+        from: 'Benjawan'
+        to: 'not_home'
+    condition:
+      - condition: template
+        value_template: '{% if states("proximity.pe_benjawan") | float > 200 %}true{% else %}false{% endif %}'
+    action:
+      - service: script.notify_juesiphone6splus
+        data:
+          title: "Pe has left Benjawan"
+          message: 'เป้ออกจากบ้านเบญ [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.flashing_long
+        data:
+          title: "Pe has left Benjawan"
+          message: 'Pe has left Benjawan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
   - alias: "Jue 3km Away From Home"
     trigger:
       - platform: numeric_state
         entity_id: proximity.jue_home
         below: 3200
         above: 2800
-    # condition:
-    #   condition: or
-    #   conditions:
-    #     - condition: template
-    #       value_template: '{% if states("proximity.pe_home") | float > 3200 %}true{% else %}false{% endif %}'
-    #     - condition: template
-    #       value_template: '{% if states("proximity.pe_home") | float < 2800 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_pesiphone6
         data:
@@ -374,13 +371,6 @@ automation:
         entity_id: proximity.jue_home
         below: 2200
         above: 1800
-    # condition:
-    #   condition: or
-    #   conditions:
-    #     - condition: template
-    #       value_template: '{% if states("proximity.pe_home") | float > 2200 %}true{% else %}false{% endif %}'
-    #     - condition: template
-    #       value_template: '{% if states("proximity.pe_home") | float < 1800 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_pesiphone6
         data:
@@ -397,13 +387,6 @@ automation:
         entity_id: proximity.jue_home
         below: 1200
         above: 800
-    # condition:
-    #   condition: or
-    #   conditions:
-    #     - condition: template
-    #       value_template: '{% if states("proximity.pe_home") | float > 1200 %}true{% else %}false{% endif %}'
-    #     - condition: template
-    #       value_template: '{% if states("proximity.pe_home") | float < 800 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_pesiphone6
         data:
@@ -420,13 +403,6 @@ automation:
         entity_id: proximity.pe_home
         below: 3200
         above: 2800
-    # condition:
-    #   condition: or
-    #   conditions:
-    #     - condition: template
-    #       value_template: '{% if states("proximity.jue_home") | float > 3200 %}true{% else %}false{% endif %}'
-    #     - condition: template
-    #       value_template: '{% if states("proximity.jue_home") | float < 2800 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_juesiphone6splus
         data:
@@ -443,13 +419,6 @@ automation:
         entity_id: proximity.pe_home
         below: 2200
         above: 1800
-    # condition:
-    #   condition: or
-    #   conditions:
-    #     - condition: template
-    #       value_template: '{% if states("proximity.jue_home") | float > 2200 %}true{% else %}false{% endif %}'
-    #     - condition: template
-    #       value_template: '{% if states("proximity.jue_home") | float < 1800 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_juesiphone6splus
         data:
@@ -466,13 +435,6 @@ automation:
         entity_id: proximity.pe_home
         below: 1200
         above: 800
-    # condition:
-    #   condition: or
-    #   conditions:
-    #     - condition: template
-    #       value_template: '{% if states("proximity.jue_home") | float > 1200 %}true{% else %}false{% endif %}'
-    #     - condition: template
-    #       value_template: '{% if states("proximity.jue_home") | float < 800 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_juesiphone6splus
         data:
@@ -529,11 +491,6 @@ automation:
       - service: input_select.select_previous
         data:
           entity_id: input_select.homemode
-
-
-
-
-
 
   # - alias: "Testing"
   #   trigger:

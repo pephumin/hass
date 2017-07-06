@@ -110,6 +110,10 @@ switch.europa:
   friendly_name: "Bedroom Sound System"
   assumed_state: true
 
+switch.androidtv:
+  icon: mdi:television-classic
+  friendly_name: "TV and Android Box"
+  assumed_state: true
 switch.common_room_air_cond:
   icon: mdi:air-conditioner
   friendly_name: "Common Room Air Cond"
@@ -231,6 +235,9 @@ binary_sensor.titan:
 binary_sensor.europa:
   icon: mdi:power-plug
   friendly_name: "Smart Plug Bedroom"
+binary_sensor.callisto:
+  icon: mdi:power-socket
+  friendly_name: "Sonoff Bedroom"
 binary_sensor.ping_pe:
   icon: mdi:lan-connect
   friendly_name: "Ping Pe"

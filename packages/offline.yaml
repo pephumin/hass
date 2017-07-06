@@ -41,6 +41,10 @@ binary_sensor:
     name: "Europa"
 
   - platform: ping
+    host: 192.168.1.18
+    name: "Callisto"
+
+  - platform: ping
     host: 192.168.1.22
     name: "Moon"
 
@@ -225,3 +229,15 @@ automation:
         data:
           title: "Smart Plug Bedroom is offline"
           message: 'Smart Plug Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: Offline Callisto
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.callisto
+        to: 'off'
+    action:
+      - service: script.notifying
+        data:
+          title: "Sonoff Bedroom is offline"
+          message: 'Sonoff Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
