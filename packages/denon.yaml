@@ -27,14 +27,19 @@ switch:
   - platform: template
     switches:
       androidtv:
-        # value_template: "{{ is_state('media_player.denon', 'on') and states.media_player.receiver.attributes.source == 'Cable TV' }}"
         value_template: "{{ is_state('media_player.denon', 'on') }}"
         turn_on:
-          service: script.turn_on
-          entity_id: script.turnon_tv_androidbox
+          service: script.turnon_tv_androidbox
         turn_off:
-          service: script.turn_on
-          entity_id: script.turnoff_tv_androidbox
+          service: script.turnoff_tv_androidbox
+      bedroomsound:
+        value_template: "{{ is_state('switch.europa', 'on') and states.sensor.europa_current_consumption.state.split(' ')[0] | float > 40 }}"
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.bedroom_denon
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.bedroom_denon
 
 automation:
   # - alias: "Change AVR Source"
