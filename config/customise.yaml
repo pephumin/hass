@@ -142,6 +142,10 @@ switch.bedroom_tv:
   icon: mdi:television
   friendly_name: "Bedroom TV"
   assumed_state: true
+switch.bedroomsound:
+  icon: mdi:amplifier
+  friendly_name: "Bedroom Denon"
+  assumed_state: true
 
 script.mute_common_room:
   icon: mdi:volume-mute
@@ -237,7 +241,7 @@ binary_sensor.europa:
   friendly_name: "Smart Plug Bedroom"
 binary_sensor.callisto:
   icon: mdi:power-socket
-  friendly_name: "Sonoff Bedroom"
+  friendly_name: "Sonoff"
 binary_sensor.ping_pe:
   icon: mdi:lan-connect
   friendly_name: "Ping Pe"

@@ -100,11 +100,11 @@ sensor:
 input_boolean:
   presence_pe:
     name: "Pe at Home"
-    initial: off
+    initial: on
     icon: mdi:duck
   presence_jue:
     name: "Jue at Home"
-    initial: off
+    initial: on
     icon: mdi:owl
 
 automation:
@@ -279,9 +279,9 @@ automation:
         entity_id: device_tracker.juesiphone6splus
         from: 'not_home'
         to: 'Malaiwan'
-    condition:
-      - condition: template
-        value_template: '{% if states("proximity.jue_malaiwan") | float < 50 %}true{% else %}false{% endif %}'
+    # condition:
+    #   - condition: template
+    #     value_template: '{% if states("proximity.jue_malaiwan") | float < 50 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_pesiphone6
         data:
@@ -298,9 +298,9 @@ automation:
         entity_id: device_tracker.juesiphone6splus
         from: 'Malaiwan'
         to: 'not_home'
-    condition:
-      - condition: template
-        value_template: '{% if states("proximity.jue_malaiwan") | float > 200 %}true{% else %}false{% endif %}'
+    # condition:
+    #   - condition: template
+    #     value_template: '{% if states("proximity.jue_malaiwan") | float > 200 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_pesiphone6
         data:
@@ -317,9 +317,9 @@ automation:
         entity_id: device_tracker.pesiphone6
         from: 'not_home'
         to: 'Benjawan'
-    condition:
-      - condition: template
-        value_template: '{% if states("proximity.pe_benjawan") | float < 50 %}true{% else %}false{% endif %}'
+    # condition:
+    #   - condition: template
+    #     value_template: '{% if states("proximity.pe_benjawan") | float < 50 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_juesiphone6splus
         data:
@@ -336,9 +336,9 @@ automation:
         entity_id: device_tracker.pesiphone6
         from: 'Benjawan'
         to: 'not_home'
-    condition:
-      - condition: template
-        value_template: '{% if states("proximity.pe_benjawan") | float > 200 %}true{% else %}false{% endif %}'
+    # condition:
+    #   - condition: template
+    #     value_template: '{% if states("proximity.pe_benjawan") | float > 200 %}true{% else %}false{% endif %}'
     action:
       - service: script.notify_juesiphone6splus
         data:

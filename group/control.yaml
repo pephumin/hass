@@ -34,8 +34,9 @@ control_br:
   control: hidden
   entities:
     - switch.bedroom_air_cond
-    - switch.bedroom_tv
+    # - switch.bedroom_tv
     - switch.europa
+    - switch.bedroomsound
     - script.mute_bedroom
     - script.dj_shuffle
     - script.soft_shuffle
