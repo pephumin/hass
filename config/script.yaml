@@ -2,10 +2,7 @@ flashing_long:
   alias: "Flashing Long and Notify"
   sequence:
     - service: light.turn_on
-      entity_id:
-        - group.flashlights
-        # - light.hallway
-        # - light.lightstrip
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
@@ -21,50 +18,35 @@ flashing_short:
   alias: "Flashing Short and Notify"
   sequence:
     - service: light.turn_on
-      entity_id:
-        - group.flashlights
-        # - light.hallway
-        # - light.lightstrip
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id:
-        - group.flashlights
-        # - light.hallway
-        # - light.lightstrip
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id:
-        - group.flashlights
-        # - light.hallway
-        # - light.lightstrip
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id:
-        - group.flashlights
-        # - light.hallway
-        # - light.lightstrip
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
         flash: short
     - delay: 00:00:01
     - service: light.turn_on
-      entity_id:
-        - group.flashlights
-        # - light.hallway
-        # - light.lightstrip
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
@@ -80,10 +62,7 @@ flashing_once:
   alias: "Flashing Once and Notify"
   sequence:
     - service: light.turn_on
-      entity_id:
-        - group.flashlights
-        # - light.hallway
-        # - light.lightstrip
+      entity_id: group.flashlights
       data:
         transition: 1
         brightness: 250
@@ -116,6 +95,7 @@ notifying:
         message: '{{ message }}'
 
 volume_down:
+  alias: "Volume Fade Down"
   sequence:
     - condition: template
       value_template: '{% if is_state("media_player.itunes", "playing") %}true{% else %}false{% endif %}'
@@ -145,6 +125,7 @@ volume_down:
         volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
 
 volume_up:
+  alias: "Volume Fade Up"
   sequence:
     - condition: template
       value_template: '{% if is_state("media_player.itunes", "playing") %}true{% else %}false{% endif %}'
@@ -174,6 +155,7 @@ volume_up:
         volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
 
 notifying_voice:
+  alias: "Notify with voice to Macbook Pro"
   sequence:
     - service: script.volume_down
     - wait_template: '{{ states.script.volume_down.state == "off" }}'
@@ -215,27 +197,3 @@ notifying_voice:
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
-
-# notify_audio:
-#   sequence:
-#     - service: script.notify_fade_out
-#       data_template:
-#         notify_fade: '{{ notify_fade }}'
-#     - delay: 00:00:02
-#     - wait_template: "{{ states.script.notify_fade_out.state == 'off' }}"
-#     - service: media_player.volume_set
-#       entity_id: media_player.music_player_daemon
-#       data_template:
-#         volume_level: 1.0
-#     - service: media_player.play_media
-#       entity_id: media_player.music_player_daemon
-#       data_template:
-#         media_content_id: "{{ notify_audio }}"
-#         media_content_type: "music"
-#     - delay: 00:00:05
-#     - wait_template: "{{ states.media_player.music_player_daemon.state == 'off' }}"
-#     - service: script.notify_fade_in
-#       data_template:
-#         notify_fade: "{{ notify_fade }}"
-#     - delay: 00:00:02
-#     - wait_template: "{{ states.script.notify_fade_in.state == 'off' }}"
