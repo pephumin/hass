@@ -2,7 +2,7 @@ homeassistant:
   name: Home
   latitude: !secret latitude_home
   longitude: !secret longitude_home
-  elevation: 8
+  elevation: -21
   unit_system: metric
   time_zone: Asia/Bangkok
   customize: !include config/customise.yaml
@@ -25,6 +25,7 @@ discovery:
 frontend:
 sun:
 updater:
+# upnp:
 zeroconf:
 
 light:

@@ -3,16 +3,18 @@
   password: !secret icloud_password
   account_name: pe
   interval_seconds: 12
-  consider_home: 300
+  consider_home: 0:05:00
+  track_new_devices: True
 
-- platform: nmap_tracker
-  hosts: 192.168.1.1/24
-  home_interval: 5
-  scan_options: "--unprivileged -sn"
-  interval_seconds: 12
-  consider_home: 300
-  exclude:
-    - 192.168.1.100
+# - platform: nmap_tracker
+#   hosts: 192.168.1.1/24
+#   home_interval: 5
+#   scan_options: "--unprivileged -sn"
+#   interval_seconds: 12
+#   consider_home: 0:05:00
+#   track_new_devices: True
+#   exclude:
+#     - 192.168.1.100
 
 # - platform: bluetooth_tracker
 #   home_interval: 5
@@ -21,11 +23,17 @@
 
 - platform: owntracks
   max_gps_accuracy: 100
+  interval_seconds: 12
+  consider_home: 0:05:00
+  track_new_devices: True
 
-- platform: mqtt
-  devices:
-    pesiphone6: /owntracks/user/pesiphone6
-    juesiphone6splus: /owntracks/user/juesiphone6splus
+# - platform: mqtt
+#   devices:
+#     pesiphone6: owntracks/user/pesiphone6
+#     juesiphone6splus: owntracks/user/juesiphone6splus
+#   interval_seconds: 12
+#   consider_home: 0:05:00
+#   track_new_devices: True
 
 # - platform: tomato
 #   host: 192.168.1.1
@@ -45,11 +53,14 @@
 #   interval_seconds: 10
 #   consider_home: 180
 
-# - platform: ping
-#   hosts:
-#     iphone_pe: 192.168.1.124
-#     ipad_pe: 192.168.1.181
-#     iphone_jue: 192.168.1.110
-#     ipad_jue: 192.168.1.129
-#     ipod_bmw: 192.168.1.180
-#     mbp_pe: 192.168.1.200
+- platform: ping
+  hosts:
+    ping_pesiphone6: 192.168.1.124
+    ping_pesipadmini2: 192.168.1.181
+    ping_juesiphone6splus: 192.168.1.110
+    ping_juesipadmini2: 192.168.1.129
+    ping_pesipodtouch4: 192.168.1.180
+    ping_pepe: 192.168.1.200
+  interval_seconds: 12
+  consider_home: 0:05:00
+  track_new_devices: True
