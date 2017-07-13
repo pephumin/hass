@@ -22,7 +22,7 @@ control_cr:
     - switch.androidtv
     - script.mute_common_room
     - sensor.denon_source
-    - binary_sensor.callisto    # - switch.common_room_tv
+    # - switch.common_room_tv
     # - switch.common_room_android_box
     - sensor.titan_current_consumption
     - sensor.titan_current

@@ -240,8 +240,8 @@ binary_sensor.europa:
   icon: mdi:power-plug
   friendly_name: "Smart Plug Bedroom"
 binary_sensor.callisto:
-  icon: mdi:speaker
-  friendly_name: "Subwoofer"
+  icon: mdi:power-socket
+  friendly_name: "Sonoff"
 binary_sensor.ping_pe:
   icon: mdi:lan-connect
   friendly_name: "Ping Pe"

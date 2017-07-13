@@ -8,7 +8,6 @@
 #     payload_of: "OFF"
 #     optimistic: false
 
-
 # script:
 #   restart_hass:
 #     sequence:
