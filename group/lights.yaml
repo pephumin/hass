@@ -87,7 +87,7 @@ flashlights:
   entities:
     - light.common_room_1
     - light.common_room_2
-    - light.bedroom_1
-    - light.bedroom_2
+    - light.bedroom_3
+    - light.bedroom_4
     - light.front_1
     - light.front_2
