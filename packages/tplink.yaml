@@ -8,29 +8,29 @@ sensor:
   - platform: template
     sensors:
       titan_current_consumption:
-        friendly_name: "Power Consumption"
+        friendly_name: "Common Room Power"
         icon_template: mdi:power-plug
         value_template: '{{ states.switch.titan.attributes["Current consumption"] }}'
       titan_current:
-        friendly_name: "Electric Current"
+        friendly_name: "Common Room Electric"
         icon_template: mdi:power-socket
         value_template: '{{ states.switch.titan.attributes["Current"] }}'
       titan_voltage:
-        friendly_name: "Voltage"
+        friendly_name: "Common Room Voltage"
         icon_template: mdi:tower-fire
         value_template: '{{ states.switch.titan.attributes["Voltage"] }}'
   - platform: template
     sensors:
       europa_current_consumption:
-        friendly_name: "Power Consumption"
+        friendly_name: "Bedroom Power"
         icon_template: mdi:power-plug
         value_template: '{{ states.switch.europa.attributes["Current consumption"] }}'
       europa_current:
-        friendly_name: "Electric Current"
+        friendly_name: "Bedroom Electric"
         icon_template: mdi:power-socket
         value_template: '{{ states.switch.europa.attributes["Current"] }}'
       europa_voltage:
-        friendly_name: "Voltage"
+        friendly_name: "Bedroom Voltage"
         icon_template: mdi:tower-fire
         value_template: '{{ states.switch.europa.attributes["Voltage"] }}'
 
