@@ -25,7 +25,6 @@ discovery:
 frontend:
 sun:
 updater:
-# upnp:
 zeroconf:
 
 light:
@@ -36,6 +35,9 @@ light:
 
 tts:
   platform: google
+  cache: true
+  cache_dir: /tts
+  time_memory: 300
 
 mqtt:
   broker: !secret mqtt_broker
@@ -86,6 +88,9 @@ logger:
     homeassistant.components.sensor: critical
     homeassistant.components.shell_command: debug
     homeassistant.components.switch: debug
+
+# upnp:
+#   port_mapping: false
 
 # ffmpeg:
 #   ffmpeg_bin: /usr/bin/ffmpeg

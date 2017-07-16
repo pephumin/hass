@@ -82,3 +82,7 @@ exclude:
     - sensor.titan_voltage
     - sensor.europa_current
     - sensor.europa_voltage
+    # - sensor.igd_packets_sent
+    # - sensor.igd_packets_received
+    # - sensor.igd_sent_bytes
+    # - sensor.igd_received_bytes
