@@ -1,5 +1,18 @@
-sensor:
+binary_sensor:
+  - platform: command_line
+    command: '/bin/ping -W 1 -c 1 8.8.8.8 > /dev/null 2>&1 && echo success || echo fail'
+    name: 'Internet'
+    device_class: connectivity
+    payload_on: 'success'
+    payload_off: 'fail'
 
+# shell_command:
+#   db_events: !secret db_events
+#   db_states: !secret db_states
+#   db_recorder_runs: !secret db_recorder_runs
+#   db_schema_changes: !secret db_schema_changes
+
+sensor:
   - platform: synologydsm
     name: Saturn
     host: !secret synology_ip
@@ -7,14 +20,12 @@ sensor:
     password: !secret my_longer_password
     monitored_conditions:
       - disk_temp
-
   - platform: systemmonitor
     resources:
       - type: last_boot
       - type: since_last_boot
       - type: processor_use
       - type: memory_use_percent
-
   - platform: speedtest
     minute:
       - 0
@@ -26,7 +37,18 @@ sensor:
     monitored_conditions:
       - download
       - upload
-
+  # - platform: command_line
+  #   command: !secret db_events
+  #   name: "DB Events"
+  # - platform: command_line
+  #   command: !secret db_states
+  #   name: "DB States"
+  # - platform: command_line
+  #   command: !secret db_recorder_runs
+  #   name: "DB Recorder Runs"
+  # - platform: command_line
+  #   command: !secret db_schema_changes
+  #   name: "DB Schema Changes"
   - platform: template
     sensors:
       uptime:
@@ -49,3 +71,18 @@ sensor:
               {{ hours }} hours
             {%- endif -%}
           {%- endif -%}
+
+
+automation:
+
+  - alias: "Internet is down"
+    # hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.internet
+        to: 'off'
+    action:
+      - service: script.notifying
+        data:
+          title: "The Internet is down"
+          message: 'The Internet is down [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
