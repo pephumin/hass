@@ -6,15 +6,15 @@
   consider_home: 0:05:00
   track_new_devices: True
 
-# - platform: nmap_tracker
-#   hosts: 192.168.1.1/24
-#   home_interval: 5
-#   scan_options: "--unprivileged -sn"
-#   interval_seconds: 12
-#   consider_home: 0:05:00
-#   track_new_devices: True
-#   exclude:
-#     - 192.168.1.100
+- platform: nmap_tracker
+  hosts: 192.168.1.1/24
+  home_interval: 5
+  scan_options: "--unprivileged -sn"
+  exclude:
+    - 192.168.1.100
+  interval_seconds: 12
+  consider_home: 0:05:00
+  track_new_devices: True
 
 # - platform: bluetooth_tracker
 #   home_interval: 5
@@ -35,23 +35,23 @@
 #   consider_home: 0:05:00
 #   track_new_devices: True
 
-# - platform: tomato
-#   host: 192.168.1.1
-#   username: !secret my_username
-#   password: !secret my_password
-#   http_id: !secret tomato_http_id_1
-#   track_new_devices: true
-#   interval_seconds: 10
-#   consider_home: 180
+- platform: tomato
+  host: 192.168.1.1
+  username: !secret my_username
+  password: !secret my_password
+  http_id: !secret tomato_http_id_1
+  interval_seconds: 12
+  consider_home: 0:05:00
+  track_new_devices: True
 
-# - platform: tomato
-#   host: 192.168.1.11
-#   username: !secret my_username
-#   password: !secret my_password
-#   http_id: !secret tomato_http_id_2
-#   track_new_devices: true
-#   interval_seconds: 10
-#   consider_home: 180
+- platform: tomato
+  host: 192.168.1.11
+  username: !secret my_username
+  password: !secret my_password
+  http_id: !secret tomato_http_id_2
+  interval_seconds: 12
+  consider_home: 0:05:00
+  track_new_devices: True
 
 - platform: ping
   hosts:
@@ -61,6 +61,7 @@
     ping_juesipadmini2: 192.168.1.129
     ping_pesipodtouch4: 192.168.1.180
     ping_pepe: 192.168.1.200
+    ping_benjy: 192.168.1.202
   interval_seconds: 12
   consider_home: 0:05:00
   track_new_devices: True

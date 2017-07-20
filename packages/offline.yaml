@@ -60,9 +60,10 @@ binary_sensor:
     host: 192.168.1.79
     name: "Foscam White"
 
+
 automation:
 
-  - alias: Offline Deeper
+  - alias: "Offline Deeper"
     hide_entity: True
     trigger:
       - platform: state
@@ -74,7 +75,7 @@ automation:
           title: "The primary gateway is offline"
           message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Higher
+  - alias: "Offline Higher"
     hide_entity: True
     trigger:
       - platform: state
@@ -86,7 +87,7 @@ automation:
           title: "The secondary gateway is offline"
           message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Pluto
+  - alias: "Offline Pluto"
     hide_entity: True
     trigger:
       - platform: state
@@ -98,7 +99,7 @@ automation:
           title: "Airport Extreme is offline"
           message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Neptune
+  - alias: "Offline Neptune"
     hide_entity: True
     trigger:
       - platform: state
@@ -110,7 +111,7 @@ automation:
           title: "Airport Express Bedroom is offline"
           message: 'Airport Express Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Uranus
+  - alias: "Offline Uranus"
     hide_entity: True
     trigger:
       - platform: state
@@ -122,7 +123,7 @@ automation:
           title: "Airport Express Downstairs is offline"
           message: 'Airport Express Downstairs is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Mercury
+  - alias: "Offline Mercury"
     hide_entity: True
     trigger:
       - platform: state
@@ -134,7 +135,7 @@ automation:
           title: "Airport Express Working Space is offline"
           message: 'Airport Express Working Space is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Hue
+  - alias: "Offline Hue"
     hide_entity: True
     trigger:
       - platform: state
@@ -146,7 +147,7 @@ automation:
           title: "Philips Hue is offline"
           message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Broadlink RM Pro
+  - alias: "Offline Broadlink RM Pro"
     hide_entity: True
     trigger:
       - platform: state
@@ -158,7 +159,7 @@ automation:
           title: "Broadlink RM Pro is offline"
           message: 'Broadlink RM Pro is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Broadlink RM Mini
+  - alias: "Offline Broadlink RM Mini"
     hide_entity: True
     trigger:
       - platform: state
@@ -170,7 +171,7 @@ automation:
           title: "Broadlink RM Mini is offline"
           message: 'Broadlink RM Mini is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Foscam Black
+  - alias: "Offline Foscam Black"
     hide_entity: True
     trigger:
       - platform: state
@@ -182,7 +183,7 @@ automation:
           title: "Foscam Black is offline"
           message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Foscam White
+  - alias: "Offline Foscam White"
     hide_entity: True
     trigger:
       - platform: state
@@ -194,7 +195,7 @@ automation:
           title: "Foscam White is offline"
           message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Printer
+  - alias: "Offline Printer"
     hide_entity: True
     trigger:
       - platform: state
@@ -206,7 +207,7 @@ automation:
           title: "Printer is offline"
           message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Titan
+  - alias: "Offline Titan"
     hide_entity: True
     trigger:
       - platform: state
@@ -218,7 +219,7 @@ automation:
           title: "Smart Plug Common Room is offline"
           message: 'Smart Plug Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Europa
+  - alias: "Offline Europa"
     hide_entity: True
     trigger:
       - platform: state
@@ -230,7 +231,7 @@ automation:
           title: "Smart Plug Bedroom is offline"
           message: 'Smart Plug Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: Offline Callisto
+  - alias: "Offline Callisto"
     hide_entity: True
     trigger:
       - platform: state
@@ -239,5 +240,5 @@ automation:
     action:
       - service: script.notifying
         data:
-          title: "Sonoff Bedroom is offline"
-          message: 'Sonoff Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Subwoofer in Common Room is offline"
+          message: 'Subwoofer in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

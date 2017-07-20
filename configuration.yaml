@@ -46,11 +46,9 @@ mqtt:
   password: !secret my_password
   client_id: home-assistant
   keepalive: 60
-  # protocol: 3.1
-  # #tls_insecure: True
-  # #tls_version: 1.2
-  # discovery: true
-  # discovery_prefix: homeassistant
+  protocol: 3.1
+  discovery: true
+  discovery_prefix: homeassistant
 
 ifttt:
   key: !secret ifttt_key
@@ -67,14 +65,11 @@ scene: !include config/scene.yaml
 script: !include config/script.yaml
 sensor: !include_dir_merge_list sensor/
 
-# critical, fatal, error, warning, warn, info, debug, notset
 logger:
   default: critical
-  # default: warning
   logs:
-    homeassistant.components.automation: debug
+    homeassistant.components.automation: critical
     homeassistant.components.device_tracker: critical
-    # homeassistant.components.device_tracker: debug
     homeassistant.components.http: warning
     homeassistant.components.input_boolean: debug
     homeassistant.components.input_select: debug
@@ -82,26 +77,8 @@ logger:
     homeassistant.components.mqtt: debug
     homeassistant.components.media_player: critical
     homeassistant.components.notify: warning
-    # homeassistant.components.notify.nfandroidtv: notset
-    homeassistant.components.proximity: critical
+    homeassistant.components.proximity: debug
     homeassistant.components.script: debug
-    homeassistant.components.sensor: critical
+    homeassistant.components.sensor: debug
     homeassistant.components.shell_command: debug
     homeassistant.components.switch: debug
-
-# upnp:
-#   port_mapping: false
-
-# ffmpeg:
-#   ffmpeg_bin: /usr/bin/ffmpeg
-
-# apiai:
-#   intents:
-#     GetTime:
-#       speech: The time is now {{ as_timestamp(now()) }}
-#       async_action: False
-#       action:
-#         service: script.notify_pesiphone6
-#         data_template:
-#           title: "Api.ai has send a request"
-#           message: "{{ speech }}"

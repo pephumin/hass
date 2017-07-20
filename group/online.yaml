@@ -1,22 +1,22 @@
-online:
-  view: no
-  name: "Online Status"
-  entities:
-    - binary_sensor.deeper
-    - binary_sensor.higher
-    - binary_sensor.pluto
-    - binary_sensor.neptune
-    - binary_sensor.uranus
-    - binary_sensor.mercury
-    - binary_sensor.broadlink_rm_pro
-    - binary_sensor.broadlink_rm_mini
-    - binary_sensor.foscam_black
-    - binary_sensor.foscam_white
-    - binary_sensor.moon
-    - binary_sensor.printer
-    - binary_sensor.titan
-    - binary_sensor.europa
-    - binary_sensor.callisto
+# online:
+#   view: no
+#   name: "Online Status"
+#   entities:
+#     - binary_sensor.deeper
+#     - binary_sensor.higher
+#     - binary_sensor.pluto
+#     - binary_sensor.neptune
+#     - binary_sensor.uranus
+#     - binary_sensor.mercury
+#     - binary_sensor.broadlink_rm_pro
+#     - binary_sensor.broadlink_rm_mini
+#     - binary_sensor.foscam_black
+#     - binary_sensor.foscam_white
+#     - binary_sensor.moon
+#     - binary_sensor.printer
+#     - binary_sensor.titan
+#     - binary_sensor.europa
+#     - binary_sensor.callisto
 
 online_cr:
   view: no
@@ -28,6 +28,7 @@ online_cr:
     - binary_sensor.broadlink_rm_pro
     - binary_sensor.foscam_black
     - binary_sensor.titan
+    - binary_sensor.callisto
 
 online_br:
   view: no
@@ -37,7 +38,6 @@ online_br:
     - binary_sensor.broadlink_rm_mini
     - binary_sensor.moon
     - binary_sensor.europa
-    - binary_sensor.callisto
 
 online_ff:
   view: no
