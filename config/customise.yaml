@@ -103,7 +103,7 @@ sensor.common_room_temperature:
   friendly_name: "Common Room Temperature"
 switch.titan:
   icon: mdi:surround-sound
-  friendly_name: "Home Theatre System"
+  friendly_name: "Common Room Home Theatre"
   assumed_state: true
 switch.europa:
   icon: mdi:surround-sound
@@ -133,6 +133,10 @@ switch.common_room_android_box:
 sensor.denon_source:
   icon: mdi:amplifier
   friendly_name: "Denon AVR"
+switch.common_room_subwoofer:
+  icon: mdi:speaker
+  friendly_name: "Common Room Subwoofer"
+  assumed_state: true
 
 switch.bedroom_air_cond:
   icon: mdi:air-conditioner
@@ -241,13 +245,13 @@ binary_sensor.europa:
   friendly_name: "Smart Plug Bedroom"
 binary_sensor.callisto:
   icon: mdi:speaker
-  friendly_name: "Subwoofer"
-binary_sensor.ping_pe:
-  icon: mdi:lan-connect
-  friendly_name: "Ping Pe"
-binary_sensor.ping_jue:
-  icon: mdi:lan-connect
-  friendly_name: "Ping Jue"
+  friendly_name: "Sonoff Common Room"
+# binary_sensor.ping_pe:
+#   icon: mdi:lan-connect
+#   friendly_name: "Ping Pe"
+# binary_sensor.ping_jue:
+#   icon: mdi:lan-connect
+#   friendly_name: "Ping Jue"
 
 proximity.jue_home:
   # icon: mdi:compass-outline
@@ -261,7 +265,6 @@ proximity.jue_malaiwan:
 proximity.pe_benjawan:
   # icon: mdi:compass-outline
   friendly_name: "Pe from Benjy"
-
 
 
 ### hidden ###

@@ -1,0 +1,41 @@
+switch:
+  - platform: mqtt
+    name: "Common Room Subwoofer"
+    state_topic: "homeassistant/switch/common_room/subwoofer/state"
+    command_topic: "homeassistant/switch/common_room/subwoofer"
+    qos: 1
+    payload_on: "on"
+    payload_off: "off"
+    retain: true
+
+# # If installed sensor (temperature and humidity)
+# sensor:
+#   - platform: mqtt
+#     name: "Common Room Temperature"
+#     state_topic: "homeassistant/common_room/temp"
+#     qos: 1
+#     unit_of_measurement: "°C"
+#     value_template: "{{ value_json.Temp }}"
+#
+#   - platform: mqtt
+#     name: "Common Room Humidity"
+#     state_topic: "homeassistant/common_room/temp"
+#     qos: 1
+#     unit_of_measurement: "%"
+#     value_template: "{{ value_json.Humidity }}"
+#
+# # If the unit has POW
+# sensor:
+#   - platform: mqtt
+#     name: "Common Room Power"
+#     state_topic: "homeassistant/common_room/power"
+#     qos: 1
+#     unit_of_measurement: "W"
+#     value_template: "{{ value_json.Power }}"
+#
+#   - platform: mqtt
+#     name: "Common Room Voltage"
+#     state_topic: "homeassistant/common_room/power"
+#     qos: 1
+#     unit_of_measurement: "V"
+#     value_template: "{{ value_json.Voltage }}"

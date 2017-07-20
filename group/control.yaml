@@ -5,6 +5,7 @@ control:
   entities:
     - input_boolean.presence_pe
     - input_boolean.presence_jue
+    - input_boolean.presence_benjy
     - input_select.homemode
     - sensor.common_room_temperature
     - switch.titan
@@ -22,7 +23,7 @@ control_cr:
     - switch.androidtv
     - script.mute_common_room
     - sensor.denon_source
-    - switch.subwoofer
+    - switch.common_room_subwoofer
     # - switch.common_room_tv
     # - switch.common_room_android_box
     - sensor.titan_current_consumption
