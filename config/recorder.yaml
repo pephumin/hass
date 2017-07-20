@@ -1,4 +1,4 @@
-purge_days: 30
+purge_days: 20
 db_url: !secret db_url
 
 include:
