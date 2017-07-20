@@ -1,0 +1,81 @@
+automation:
+
+  - alias: "Auto Air-conditioning Bedroom 1"
+    hide_entity: True
+    trigger:
+      - platform: time
+        at: '22:45:00'
+    condition:
+      - condition: and
+        conditions:
+          - condition: template
+            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+          - condition: template
+            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.bedroom_air_cond
+      - service: script.notifying
+        data:
+          title: "Bedroom Air-conditioning has been turned on"
+          message: 'Bedroom Air-conditioning has been turned on [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Auto Air-conditioning Bedroom 2"
+    hide_entity: True
+    trigger:
+      - platform: time
+        at: '04:30:00'
+    condition:
+      - condition: and
+        conditions:
+          - condition: template
+            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+          - condition: template
+            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.bedroom_air_cond
+      - service: script.notifying
+        data:
+          title: "Bedroom Air-conditioning has been turned off"
+          message: 'Bedroom Air-conditioning has been turned off [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Auto Air-conditioning Bedroom 3"
+    hide_entity: True
+    trigger:
+      - platform: time
+        at: '05:00:00'
+    condition:
+      - condition: and
+        conditions:
+          - condition: template
+            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+          - condition: template
+            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.bedroom_air_cond
+      - service: script.notifying
+        data:
+          title: "Bedroom Air-conditioning has been turned on"
+          message: 'Bedroom Air-conditioning has been turned on [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Auto Air-conditioning Bedroom 4"
+    hide_entity: True
+    trigger:
+      - platform: time
+        at: '07:00:00'
+    condition:
+      - condition: and
+        conditions:
+          - condition: template
+            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+          - condition: template
+            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.bedroom_air_cond
+      - service: script.notifying
+        data:
+          title: "Bedroom Air-conditioning has been turned off"
+          message: 'Bedroom Air-conditioning has been turned off [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
