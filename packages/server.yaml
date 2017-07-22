@@ -1,10 +1,10 @@
-binary_sensor:
-  - platform: command_line
-    command: '/bin/ping -W 1 -c 1 8.8.8.8 > /dev/null 2>&1 && echo success || echo fail'
-    name: 'Internet'
-    device_class: connectivity
-    payload_on: 'success'
-    payload_off: 'fail'
+# binary_sensor:
+#   - platform: command_line
+#     command: '/bin/ping -W 1 -c 1 8.8.8.8 > /dev/null 2>&1 && echo success || echo fail'
+#     name: 'Internet'
+#     device_class: connectivity
+#     payload_on: 'success'
+#     payload_off: 'fail'
 
 # shell_command:
 #   db_events: !secret db_events
@@ -72,17 +72,16 @@ sensor:
             {%- endif -%}
           {%- endif -%}
 
-
-automation:
-
-  - alias: "Internet is down"
-    # hide_entity: True
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.internet
-        to: 'off'
-    action:
-      - service: script.notifying
-        data:
-          title: "The Internet is down"
-          message: 'The Internet is down [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+# automation:
+#
+#   - alias: "Internet is down"
+#     # hide_entity: True
+#     trigger:
+#       - platform: state
+#         entity_id: binary_sensor.internet
+#         to: 'off'
+#     action:
+#       - service: script.notifying
+#         data:
+#           title: "The Internet is down"
+#           message: 'The Internet is down [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

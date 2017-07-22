@@ -68,7 +68,7 @@ sensor: !include_dir_merge_list sensor/
 logger:
   default: critical
   logs:
-    homeassistant.components.automation: critical
+    homeassistant.components.automation: debug
     homeassistant.components.device_tracker: critical
     homeassistant.components.http: warning
     homeassistant.components.input_boolean: debug
@@ -77,8 +77,10 @@ logger:
     homeassistant.components.mqtt: debug
     homeassistant.components.media_player: critical
     homeassistant.components.notify: warning
-    homeassistant.components.proximity: debug
+    homeassistant.components.proximity: critical
     homeassistant.components.script: debug
     homeassistant.components.sensor: debug
+    homeassistant.components.sensor.command_line: warning
+    homeassistant.components.sensor.speedtest: warning
     homeassistant.components.shell_command: debug
     homeassistant.components.switch: debug

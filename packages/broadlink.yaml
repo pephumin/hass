@@ -93,7 +93,7 @@ switch:
 #         entity_id: switch.common_room_android_box
 #         friendly_name: "Common Room Android Box"
 #   - platform: mqtt
-#     state_topic: "homeassistant/switch/bedroom_air_cond"
+#     state_topic: "homeassistant/switch/bedroom/air_cond"
 #     name: "Bedroom Air Cond"
 #     qos: 0
 #     payload_on: "On"

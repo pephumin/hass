@@ -20,12 +20,13 @@ control_cr:
     - switch.common_room_air_cond
     - switch.common_room_fan
     - switch.titan
-    - switch.androidtv
-    - script.mute_common_room
     - sensor.denon_source
+    # - input_select.denonsource
     - switch.common_room_subwoofer
-    # - switch.common_room_tv
-    # - switch.common_room_android_box
+    - script.mute_common_room
+    # - switch.androidtv
+    - switch.common_room_tv
+    - switch.common_room_android_box
     - sensor.titan_current_consumption
     - sensor.titan_current
     - sensor.titan_voltage
