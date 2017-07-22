@@ -26,17 +26,18 @@
 #     initial: 'Off'
 #     icon: mdi:amplifier
 
+# these scripts are a real example on how to build a switch by using other sensors
 switch:
   - platform: template
     switches:
       androidtv:
-        value_template: "{{ is_state('switch.titan', 'on') and states.sensor.titan_current_consumption.state.split(' ')[0] | float > 150 }}"
+        value_template: "{{ is_state('switch.titan', 'on') and states.sensor.titan_current_consumption.state | float > 150 }}"
         turn_on:
           service: script.turnon_tv_androidbox
         turn_off:
           service: script.turnoff_tv_androidbox
       bedroomsound:
-        value_template: "{{ is_state('switch.europa', 'on') and states.sensor.europa_current_consumption.state.split(' ')[0] | float > 40 }}"
+        value_template: "{{ is_state('switch.europa', 'on') and states.sensor.europa_current_consumption.state | float > 40 }}"
         turn_on:
           service: switch.turn_on
           entity_id: switch.bedroom_denon
