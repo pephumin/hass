@@ -37,18 +37,28 @@ sensor:
     monitored_conditions:
       - download
       - upload
-  # - platform: command_line
-  #   command: !secret db_events
-  #   name: "DB Events"
-  # - platform: command_line
-  #   command: !secret db_states
-  #   name: "DB States"
-  # - platform: command_line
-  #   command: !secret db_recorder_runs
-  #   name: "DB Recorder Runs"
-  # - platform: command_line
-  #   command: !secret db_schema_changes
-  #   name: "DB Schema Changes"
+  # - platform: template
+  #   sensors:
+  #     db_events:
+  #       friendly_name: "DB Events"
+  #       icon_template: mdi:database
+  #       value_template: '{{ states.shell_command.db_events.state.split(" ")[1] | float }}'
+  #       unit_of_measurement: 'MB'
+  #     db_states:
+  #       friendly_name: "DB States"
+  #       icon_template: mdi:database
+  #       value_template: '{{ states.shell_command.db_states.state.split(" ")[1] | float }}'
+  #       unit_of_measurement: 'MB'
+  #     db_recorder_runs:
+  #       friendly_name: "DB Recorder Runs"
+  #       icon_template: mdi:database
+  #       value_template: '{{ states.shell_command.db_recorder_runs.state.split(" ")[1] | float }}'
+  #       unit_of_measurement: 'MB'
+  #     db_schema_changes:
+  #       friendly_name: "DB Schema Changes"
+  #       icon_template: mdi:database
+  #       value_template: '{{ states.shell_command.db_schema_changes.state.split(" ")[1] | float }}'
+  #       unit_of_measurement: 'MB'
   - platform: template
     sensors:
       uptime:
