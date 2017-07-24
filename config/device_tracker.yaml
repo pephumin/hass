@@ -6,15 +6,15 @@
   consider_home: 0:05:00
   track_new_devices: True
 
-- platform: nmap_tracker
-  hosts: 192.168.1.1/24
-  home_interval: 5
-  scan_options: "--unprivileged -sn"
-  exclude:
-    - 192.168.1.100
-  interval_seconds: 12
-  consider_home: 0:05:00
-  track_new_devices: True
+# - platform: nmap_tracker
+#   hosts: 192.168.1.1/24
+#   home_interval: 5
+#   scan_options: "--unprivileged -sn"
+#   exclude:
+#     - 192.168.1.100
+#   interval_seconds: 12
+#   consider_home: 0:05:00
+#   track_new_devices: True
 
 # - platform: bluetooth_tracker
 #   home_interval: 5
