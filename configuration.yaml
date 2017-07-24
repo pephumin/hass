@@ -68,6 +68,7 @@ sensor: !include_dir_merge_list sensor/
 logger:
   default: critical
   logs:
+    # denonavr.denon: debug
     homeassistant.components.automation: debug
     homeassistant.components.device_tracker: critical
     homeassistant.components.http: warning

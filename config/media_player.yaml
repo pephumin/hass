@@ -3,7 +3,7 @@
   host: !secret apple_tv_ip
   login_id: !secret apple_tv_login_id
 
-- platform: denonavr
+- platform: denon
   name: "Denon"
   host: !secret denon_ip
 
