@@ -29,6 +29,11 @@ online_cr:
     - binary_sensor.foscam_black
     - binary_sensor.titan
     - binary_sensor.callisto
+    - binary_sensor.denon
+    - binary_sensor.android_box
+    - binary_sensor.apple_tv
+    - binary_sensor.dune
+    - binary_sensor.xdj_rx
 
 online_br:
   view: no

@@ -110,9 +110,17 @@ switch.europa:
   friendly_name: "Bedroom Sound System"
   assumed_state: true
 
-switch.androidtv:
-  icon: mdi:television-classic
-  friendly_name: "TV and Android Box"
+switch.hometheatre:
+  icon: mdi:surround-sound
+  friendly_name: "Common Room Home Theatre"
+  assumed_state: true
+switch.sonytv:
+  icon: mdi:television
+  friendly_name: "Common Room TV"
+  assumed_state: true
+switch.android_box:
+  icon: mdi:android
+  friendly_name: "Common Room Android Box"
   assumed_state: true
 switch.common_room_air_cond:
   icon: mdi:air-conditioner
@@ -201,15 +209,6 @@ sensor.disk_use_:
 #   icon: mdi:lastfm
 #   friendly_name: "Now Playing"
 
-binary_sensor.foscam_black:
-  icon: mdi:webcam
-  friendly_name: "Foscam Black"
-binary_sensor.foscam_white:
-  icon: mdi:webcam
-  friendly_name: "Foscam White"
-binary_sensor.printer:
-  icon: mdi:printer
-  friendly_name: "Samsung Printer"
 binary_sensor.deeper:
   icon: mdi:router-wireless
   friendly_name: "Primary Gateway"
@@ -221,13 +220,13 @@ binary_sensor.pluto:
   friendly_name: "Airport Extreme"
 binary_sensor.neptune:
   icon: mdi:wifi
-  friendly_name: "Airport Express #1"
+  friendly_name: "Airport Express Bedroom"
 binary_sensor.uranus:
   icon: mdi:wifi
-  friendly_name: "Airport Express #2"
+  friendly_name: "Airport Express Downstairs"
 binary_sensor.mercury:
   icon: mdi:wifi
-  friendly_name: "Airport Express #3"
+  friendly_name: "Airport Express Working Space"
 binary_sensor.moon:
   icon: mdi:orbit
   friendly_name: "Philips Hue"
@@ -237,6 +236,15 @@ binary_sensor.broadlink_rm_pro:
 binary_sensor.broadlink_rm_mini:
   icon: mdi:remote
   friendly_name: "Broadlink RM Mini"
+binary_sensor.foscam_black:
+  icon: mdi:webcam
+  friendly_name: "Foscam Black"
+binary_sensor.foscam_white:
+  icon: mdi:webcam
+  friendly_name: "Foscam White"
+binary_sensor.printer:
+  icon: mdi:printer
+  friendly_name: "Samsung Printer"
 binary_sensor.titan:
   icon: mdi:power-plug
   friendly_name: "Smart Plug Common Room"
@@ -245,7 +253,23 @@ binary_sensor.europa:
   friendly_name: "Smart Plug Bedroom"
 binary_sensor.callisto:
   icon: mdi:speaker
-  friendly_name: "Sonoff Common Room"
+  friendly_name: "Sonoff Subwoofer"
+binary_sensor.xdj_rx:
+  icon: mdi:music
+  friendly_name: "XDJ-RX"
+binary_sensor.apple_tv:
+  icon: mdi:apple
+  friendly_name: "Apple TV"
+binary_sensor.denon:
+  icon: mdi:amplifier
+  friendly_name: "Denon AVR"
+binary_sensor.dune:
+  icon: mdi:movie-roll
+  friendly_name: "Dune Base"
+binary_sensor.android_box:
+  icon: mdi:android
+  friendly_name: "Android Box"
+
 # binary_sensor.ping_pe:
 #   icon: mdi:lan-connect
 #   friendly_name: "Ping Pe"
