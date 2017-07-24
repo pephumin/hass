@@ -116,9 +116,6 @@ input_boolean:
 
 binary_sensor:
   - platform: ping
-    host: 192.168.1.45
-    name: "xdj_rx"
-  - platform: ping
     host: 192.168.1.124
     name: "pesiphone6"
   - platform: ping
@@ -142,18 +139,10 @@ automation:
   - alias: "Pe is home"
     hide_entity: True
     trigger:
-      - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'not_home'
-        to: 'home'
-        for:
-          minutes: 1
-      - platform: state
-        entity_id: device_tracker.user_pesiphone6
-        from: 'not_home'
-        to: 'home'
-        for:
-          minutes: 1
+      - platform: template
+        value_template: '{% if is_state("device_tracker.pesiphone6", "home") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("device_tracker.user_pesiphone6", "home") %}true{% else %}false{% endif %}'
       - platform: numeric_state
         entity_id: proximity.pe_home
         below: 10
@@ -179,18 +168,10 @@ automation:
   - alias: "Pe is away"
     hide_entity: True
     trigger:
-      - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'home'
-        to: 'not_home'
-        for:
-          minutes: 1
-      - platform: state
-        entity_id: device_tracker.user_pesiphone6
-        from: 'home'
-        to: 'not_home'
-        for:
-          minutes: 1
+      - platform: template
+        value_template: '{% if is_state("device_tracker.pesiphone6", "not_home") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("device_tracker.user_pesiphone6", "not_home") %}true{% else %}false{% endif %}'
       - platform: numeric_state
         entity_id: proximity.pe_home
         above: 1000
@@ -260,18 +241,10 @@ automation:
   - alias: "Jue is home"
     hide_entity: True
     trigger:
-      - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'not_home'
-        to: 'home'
-        for:
-          minutes: 1
-      - platform: state
-        entity_id: device_tracker.user_juesiphone6splus
-        from: 'not_home'
-        to: 'home'
-        for:
-          minutes: 1
+      - platform: template
+        value_template: '{% if is_state("device_tracker.juesiphone6", "home") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("device_tracker.user_juesiphone6", "home") %}true{% else %}false{% endif %}'
       - platform: numeric_state
         entity_id: proximity.jue_home
         below: 10
@@ -297,18 +270,10 @@ automation:
   - alias: "Jue is away"
     hide_entity: True
     trigger:
-      - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'home'
-        to: 'not_home'
-        for:
-          minutes: 1
-      - platform: state
-        entity_id: device_tracker.user_juesiphone6splus
-        from: 'home'
-        to: 'not_home'
-        for:
-          minutes: 1
+      - platform: template
+        value_template: '{% if is_state("device_tracker.juesiphone6", "not_home") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("device_tracker.user_juesiphone6", "not_home") %}true{% else %}false{% endif %}'
       - platform: numeric_state
         entity_id: proximity.jue_home
         above: 1000
@@ -382,8 +347,8 @@ automation:
         entity_id: device_tracker.juesiphone6splus
         from: 'not_home'
         to: 'Malaiwan'
-        for:
-          minutes: 1
+        # for:
+        #   minutes: 1
     condition:
       - condition: template
         value_template: '{% if is_state("device_tracker.user_juesiphone6splus", "Malaiwan") %}true{% else %}false{% endif %}'
@@ -404,8 +369,8 @@ automation:
         entity_id: device_tracker.juesiphone6splus
         from: 'Malaiwan'
         to: 'not_home'
-        for:
-          minutes: 1
+        # for:
+        #   minutes: 1
     condition:
       - condition: template
         value_template: '{% if is_state("device_tracker.user_juesiphone6splus", "not_home") %}true{% else %}false{% endif %}'

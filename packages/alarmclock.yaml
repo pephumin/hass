@@ -31,9 +31,7 @@ sensor:
         friendly_name: 'Alarm Set'
         value_template: '{% if states.input_slider.alarmhour.state|round(0)|string|length == 1 %}0{% endif %}{{ states.input_slider.alarmhour.state|round(0)|string }}:{% if states.input_slider.alarmminutes.state|round(0)|string|length == 1 %}0{% endif %}{{ states.input_slider.alarmminutes.state|round(0)|string }}'
         icon_template: '{% if states.input_boolean.activate_alarm.state == "on" %}mdi:alarm-multiple{% elif states.input_boolean.activate_alarm.state == "off" %}mdi:alarm-off{% else %}mdi:alarm{% endif %}'
-        entity_id:
-          - input_slider.alarmminutes
-          - input_slider.alarmhour
+        entity_id: input_slider.alarmminutes, input_slider.alarmhour
 
 script:
   alarm_lighting:
@@ -42,64 +40,46 @@ script:
       - service: input_boolean.turn_on
         entity_id: input_boolean.alarmstatus
       - service: light.turn_on
-        entity_id:
-          - light.bedroom_3
-          - light.bedroom_4
+        entity_id: light.bedroom_3, light.bedroom_4
         data:
           transition: 180
           brightness: 10
           xy_color: [0.675,0.322]
       - delay: 00:03:00
       - service: light.turn_on
-        entity_id:
-          - light.bedroom_1
-          - light.bedroom_2
+        entity_id: light.bedroom_1, light.bedroom_2
         data:
           transition: 780
           brightness: 120
           xy_color: [0.5704, 0.3978]
       - delay: 00:05:00
       - service: light.turn_on
-        entity_id:
-          - light.bedroom_1
-          - light.bedroom_2
+        entity_id: light.bedroom_1, light.bedroom_2
         data:
           transition: 100
           brightness: 255
           xy_color: [0.3138,0.3238]
       - delay: 00:02:00
       - service: light.turn_on
-        entity_id:
-          - light.bedroom_1
-          - light.bedroom_2
+        entity_id: light.bedroom_1, light.bedroom_2
         data:
           flash: long
       - delay: 00:02:00
       - service: light.turn_on
-        entity_id:
-          - light.bedroom_3
-          - light.bedroom_4
+        entity_id: light.bedroom_3, light.bedroom_4
         data:
           effect: colorloop
       - delay: 00:03:00
       - service: light.turn_off
-        entity_id:
-          - light.bedroom_3
-          - light.bedroom_4
+        entity_id: light.bedroom_3, light.bedroom_4
       - delay: 00:00:01
       - service: light.turn_on
-        entity_id:
-          - light.bedroom_1
-          - light.bedroom_2
+        entity_id: light.bedroom_1, light.bedroom_2
         data:
           flash: long
       - delay: 00:02:00
       - service: light.turn_off
-        entity_id:
-          - light.bedroom_1
-          - light.bedroom_2
-          - light.bedroom_3
-          - light.bedroom_4
+        entity_id: light.bedroom_1, light.bedroom_2, light.bedroom_3, light.bedroom_4
 
 automation:
   - alias: 'Set Alarm'
