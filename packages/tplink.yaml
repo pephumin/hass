@@ -10,17 +10,17 @@ sensor:
       titan_current_consumption:
         friendly_name: "Common Room Power"
         icon_template: mdi:power-plug
-        value_template: '{{ states.switch.titan.attributes["Current consumption"].split(" ")[0] | float }}'
+        value_template: '{{ states.switch.titan.attributes["Current consumption"].split(" ")[0] }}'
         unit_of_measurement: 'Watts'
       titan_current:
         friendly_name: "Common Room Electric"
         icon_template: mdi:power-socket
-        value_template: '{{ states.switch.titan.attributes["Current"].split(" ")[0] | float }}'
+        value_template: '{{ states.switch.titan.attributes["Current"].split(" ")[0] }}'
         unit_of_measurement: 'Amps'
       titan_voltage:
         friendly_name: "Common Room Voltage"
         icon_template: mdi:tower-fire
-        value_template: '{{ states.switch.titan.attributes["Voltage"].split(" ")[0] | float }}'
+        value_template: '{{ states.switch.titan.attributes["Voltage"].split(" ")[0] }}'
         unit_of_measurement: 'Volts'
   - platform: template
     sensors:
