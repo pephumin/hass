@@ -12,6 +12,20 @@
 #   db_recorder_runs: !secret db_recorder_runs
 #   db_schema_changes: !secret db_schema_changes
 
+# input_select:
+#   log_level:
+#     name: 'Log Level'
+#     options:
+#       - critical
+#       - fatal
+#       - error
+#       - warning
+#       - warn
+#       - info
+#       - debug
+#       - notset
+#     initial: critical
+
 sensor:
   - platform: synologydsm
     name: Saturn
@@ -84,6 +98,15 @@ sensor:
 
 # automation:
 #
+#   - alias: 'Log Level'
+#     trigger:
+#       platform: state
+#       entity_id: input_select.log_level
+#     action:
+#       service: logger.set_level
+#       data_template:
+#         homeassistant.components: "{{ trigger.to_state.state }}"
+
 #   - alias: "Internet is down"
 #     # hide_entity: True
 #     trigger:

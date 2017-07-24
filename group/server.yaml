@@ -14,3 +14,4 @@ home_server:
     - sensor.temperature_sdb
     - sensor.temperature_sdc
     - sensor.temperature_sdd
+    # - input_select.log_level
