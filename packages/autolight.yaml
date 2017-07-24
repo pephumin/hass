@@ -7,7 +7,7 @@ automation:
         at: '00:01:00'
     condition:
       - condition: template
-        value_template: '{% if not is_state("input_select.homemode", "Visitor") %}true{% else %}{% endif %}'
+        value_template: '{% if not is_state("input_select.homemode", "Visitor") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: group.all_lights
@@ -41,7 +41,7 @@ automation:
         offset: "-00:15:00"
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.lightstrip
@@ -62,7 +62,7 @@ automation:
         offset: "+01:00:00"
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.lightstrip
@@ -79,7 +79,7 @@ automation:
         offset: "-00:15:00"
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.garage
@@ -99,7 +99,7 @@ automation:
         offset: "+01:00:00"
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.garage
@@ -115,7 +115,7 @@ automation:
         at: '19:30:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.front_1
@@ -134,7 +134,7 @@ automation:
         at: '20:00:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.front_1
@@ -150,7 +150,7 @@ automation:
         at: '21:30:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.bedroom_lw
@@ -169,7 +169,7 @@ automation:
         at: '23:15:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.bedroom_lw
@@ -185,7 +185,7 @@ automation:
         at: '19:30:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.garage
@@ -204,7 +204,7 @@ automation:
         at: '20:15:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.garage
@@ -220,7 +220,7 @@ automation:
         at: '20:00:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.front_2
@@ -239,7 +239,7 @@ automation:
         at: '20:45:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.front_2
@@ -255,7 +255,7 @@ automation:
         at: '21:30:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.bedroom_lw
@@ -274,7 +274,7 @@ automation:
         at: '22:00:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.bedroom_lw
@@ -290,7 +290,7 @@ automation:
         at: '22:40:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.bedroom_lw
@@ -309,7 +309,7 @@ automation:
         at: '23:10:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.bedroom_lw
@@ -325,7 +325,7 @@ automation:
         at: '19:30:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.garage
@@ -344,7 +344,7 @@ automation:
         at: '20:00:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.garage
@@ -360,7 +360,7 @@ automation:
         at: '20:15:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.front_2
@@ -379,7 +379,7 @@ automation:
         at: '20:55:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.front_2
@@ -395,7 +395,7 @@ automation:
         at: '21:15:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.common_room_1
@@ -414,7 +414,7 @@ automation:
         at: '21:45:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.common_room_1
@@ -430,7 +430,7 @@ automation:
         at: '22:00:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_on
         entity_id: light.bedroom_lw
@@ -449,7 +449,7 @@ automation:
         at: '22:30:00'
     condition:
       - condition: template
-        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Vacation") %}true{% else %}false{% endif %}'
     action:
       - service: light.turn_off
         entity_id: light.bedroom_lw

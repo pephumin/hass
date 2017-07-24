@@ -47,7 +47,7 @@ automation:
           minutes: 30
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}false{% endif %}'
     action:
       - service: input_select.select_option
         data:
@@ -69,7 +69,7 @@ automation:
           minutes: 30
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
     action:
       - service: input_select.select_option
         data:
@@ -91,7 +91,7 @@ automation:
           hours: 20
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}false{% endif %}'
     action:
       - service: input_select.select_option
         data:
@@ -113,7 +113,7 @@ automation:
           hours: 20
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
     action:
       - service: input_select.select_option
         data:

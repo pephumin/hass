@@ -9,9 +9,9 @@ automation:
       - condition: and
         conditions:
           - condition: template
-            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
           - condition: template
-            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}false{% endif %}'
     action:
       - service: switch.turn_on
         entity_id: switch.bedroom_air_cond
@@ -29,9 +29,9 @@ automation:
       - condition: and
         conditions:
           - condition: template
-            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
           - condition: template
-            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}false{% endif %}'
     action:
       - service: switch.turn_off
         entity_id: switch.bedroom_air_cond
@@ -49,9 +49,9 @@ automation:
       - condition: and
         conditions:
           - condition: template
-            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
           - condition: template
-            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}false{% endif %}'
     action:
       - service: switch.turn_on
         entity_id: switch.bedroom_air_cond
@@ -69,9 +69,9 @@ automation:
       - condition: and
         conditions:
           - condition: template
-            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}false{% endif %}'
           - condition: template
-            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}false{% endif %}'
     action:
       - service: switch.turn_off
         entity_id: switch.bedroom_air_cond
