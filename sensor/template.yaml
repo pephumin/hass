@@ -20,11 +20,11 @@
       icon_template: '{% if is_state("sensor.battery_juesipadmini2", "unknown") %}mdi:battery-unknown{% elif is_state_attr("device_tracker.juesipadmini2", "battery_status", "Charging") %}mdi:battery-charging{% elif states.device_tracker.juesipadmini2.attributes.battery <= 5 %}mdi:battery-outline{% elif states.device_tracker.juesipadmini2.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.juesipadmini2.attributes.battery|float / 10)|round*10}}{% endif %}'
       value_template: '{% if states.device_tracker.juesipadmini2.attributes.battery %}{{ states.device_tracker.juesipadmini2.attributes.battery|round }}{% else %}{{ states.sensor.battery_juesipadmini2.state }}{% endif %}'
       unit_of_measurement: '%'
-    # battery_pesipodtouch4:
-    #   friendly_name: "Battery on iPod Touch BMW"
-    #   icon_template: '{% if is_state("sensor.battery_pesipodtouch4", "unknown") %}mdi:battery-unknown{% elif is_state_attr("device_tracker.pesipodtouch4", "battery_status", "Charging") %}mdi:battery-charging{% elif states.device_tracker.pesipodtouch4.attributes.battery <= 5 %}mdi:battery-outline{% elif states.device_tracker.pesipodtouch4.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.pesipodtouch4.attributes.battery|float / 10)|round*10}}{% endif %}'
-    #   value_template: '{% if states.device_tracker.pesipodtouch4.attributes.battery %}{{ states.device_tracker.pesipodtouch4.attributes.battery|round }}{% else %}{{ states.sensor.battery_pesipodtouch4.state }}{% endif %}'
-    #   unit_of_measurement: '%'
+    battery_pesipodtouch4:
+      friendly_name: "Battery on iPod Touch BMW"
+      icon_template: '{% if is_state("sensor.battery_pesipodtouch4", "unknown") %}mdi:battery-unknown{% elif is_state_attr("device_tracker.pesipodtouch4", "battery_status", "Charging") %}mdi:battery-charging{% elif states.device_tracker.pesipodtouch4.attributes.battery <= 5 %}mdi:battery-outline{% elif states.device_tracker.pesipodtouch4.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.pesipodtouch4.attributes.battery|float / 10)|round*10}}{% endif %}'
+      value_template: '{% if states.device_tracker.pesipodtouch4.attributes.battery %}{{ states.device_tracker.pesipodtouch4.attributes.battery|round }}{% else %}{{ states.sensor.battery_pesipodtouch4.state }}{% endif %}'
+      unit_of_measurement: '%'
     battery_pepe:
       friendly_name: "Battery on Pe Macbook Pro"
       icon_template: '{% if is_state("sensor.battery_pepe", "unknown") %}mdi:battery-unknown{% elif is_state_attr("device_tracker.pepe", "battery_status", "Charging") %}mdi:battery-charging{% elif states.device_tracker.pepe.attributes.battery <= 5 %}mdi:battery-outline{% elif states.device_tracker.pepe.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.pepe.attributes.battery|float / 10)|round*10}}{% endif %}'

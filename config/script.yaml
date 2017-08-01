@@ -167,11 +167,10 @@ notifying_voice:
     - service: media_player.play_media
       data_template:
         entity_id: media_player.music_player_daemon
-        media_content_id: '{% if audio == "pip "%}http://192.168.1.100:8123/local/sounds/pip.mp3{% elif audio == "horn" %}http://192.168.1.100:8123/local/sounds/horn.mp3{% elif audio == "siren" %}http://192.168.1.100:8123/local/sounds/siren.mp3{% elif audio == "chime" %}http://192.168.1.100:8123/local/sounds/chime.mp3{% else %}http://192.168.1.100:8123/local/sounds/sinewave.mp3{% endif %}'
-        media_content_type: "music"
+        # media_content_id: '{% if audio == "pip "%}http://192.168.1.100:8123/local/sounds/pip.mp3{% elif audio == "horn" %}http://192.168.1.100:8123/local/sounds/horn.mp3{% elif audio == "siren" %}http://192.168.1.100:8123/local/sounds/siren.mp3{% elif audio == "chime" %}http://192.168.1.100:8123/local/sounds/chime.mp3{% else %}http://192.168.1.100:8123/local/sounds/sinewave.mp3{% endif %}'
+        media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
+        media_content_type: "audio/mp3"
     - delay: 00:00:00
-    # - wait_template: '{{ states.media_player.music_player_daemon.state == "off" }}'
-    #   timeout: 00:00:02
     - service: tts.google_say
       data_template:
         entity_id: media_player.music_player_daemon
@@ -183,10 +182,10 @@ notifying_voice:
     - service: media_player.play_media
       data_template:
         entity_id: media_player.music_player_daemon
-        media_content_id: '{% if audio == "pip "%}http://192.168.1.100:8123/local/sounds/pip.mp3{% elif audio == "horn" %}http://192.168.1.100:8123/local/sounds/horn.mp3{% elif audio == "siren" %}http://192.168.1.100:8123/local/sounds/siren.mp3{% elif audio == "chime" %}http://192.168.1.100:8123/local/sounds/chime.mp3{% else %}http://192.168.1.100:8123/local/sounds/sinewave.mp3{% endif %}'
-        media_content_type: "music"
-    # - wait_template: '{{ states.media_player.music_player_daemon.state == "off" }}'
-    #   timeout: 00:00:02
+        # media_content_id: '{% if audio == "pip "%}http://192.168.1.100:8123/local/sounds/pip.mp3{% elif audio == "horn" %}http://192.168.1.100:8123/local/sounds/horn.mp3{% elif audio == "siren" %}http://192.168.1.100:8123/local/sounds/siren.mp3{% elif audio == "chime" %}http://192.168.1.100:8123/local/sounds/chime.mp3{% else %}http://192.168.1.100:8123/local/sounds/sinewave.mp3{% endif %}'
+        # media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
+        media_content_id: '{{ ["http://phumin.synology.me:7575/local/sounds/pip.mp3", "http://phumin.synology.me:7575/local/sounds/horn.mp3", "http://phumin.synology.me:7575/local/sounds/siren.mp3", "http://phumin.synology.me:7575/local/sounds/chime.mp3", "http://phumin.synology.me:7575/local/sounds/sinewave.mp3"] | random }}'
+        media_content_type: "audio/mp3"
     - delay: 00:00:00
     - service: script.volume_up
     - wait_template: '{{ states.script.volume_up.state == "off" }}'

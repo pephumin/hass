@@ -73,8 +73,14 @@ sensor:
   #       icon_template: mdi:database
   #       value_template: '{{ states.shell_command.db_schema_changes.state.split(" ")[1] | float }}'
   #       unit_of_measurement: 'MB'
+
   - platform: template
     sensors:
+      average_temperature:
+        friendly_name: 'Average Disk Temperature'
+        unit_of_measurement: '°C'
+        icon_template: mdi:thermometer
+        value_template: '{{ (float(states.sensor.temperature_sda.state) + float(states.sensor.temperature_sdb.state) + float(states.sensor.temperature_sdc.state) + float(states.sensor.temperature_sdd.state)) / 4 | round(2) }}'
       uptime:
         friendly_name: Uptime
         icon_template: mdi:timelapse

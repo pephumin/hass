@@ -22,7 +22,7 @@ http:
 config:
 conversation:
 discovery:
-frontend:
+# shopping_list:
 sun:
 updater:
 zeroconf:
@@ -49,6 +49,41 @@ mqtt:
   protocol: 3.1
   discovery: true
   discovery_prefix: homeassistant
+  # birth_message:
+  #   topic: "telemetry/switch/common_room/fan/LWT"
+  #   payload: "Online"
+  #   qos: 1
+  #   retain: false
+  # will_message:
+  #   topic: "telemetry/switch/common_room/fan/LWT"
+  #   payload: "Offline"
+  #   qos: 1
+  #   retain: false
+
+frontend:
+  themes:
+    darkgreen:
+      primary-color: "#1abc9c"
+    green:
+      primary-color: "#2ecc71"
+    blue:
+      primary-color: "#3498db"
+    midnightblue:
+      primary-color: "#2c3e50"
+    red:
+      primary-color: "#c0392b"
+
+apple_tv:
+  name: "Apple TV"
+  host: !secret apple_tv_ip
+  login_id: !secret apple_tv_login_id
+  credentials: 8BE9E6B8815126A9:5C6D48EDCF40E6CEF3551198D43BD98C541455F472731A5288F4813BDA6ED27C
+
+# weather:
+#   - platform: openweathermap
+#     api_key: !secret openweather_api
+#     latitude: !secret latitude_home
+#     longitude: !secret longitude_home
 
 ifttt:
   key: !secret ifttt_key
@@ -68,7 +103,6 @@ sensor: !include_dir_merge_list sensor/
 logger:
   default: critical
   logs:
-    # denonavr.denon: debug
     homeassistant.components.automation: debug
     homeassistant.components.device_tracker: critical
     homeassistant.components.http: warning
@@ -76,7 +110,10 @@ logger:
     homeassistant.components.input_select: debug
     homeassistant.components.ios: debug
     homeassistant.components.mqtt: debug
+    # homeassistant.components.mqtt: critical
     homeassistant.components.media_player: critical
+    # homeassistant.components.media_player.denon: debug
+    # homeassistant.components.media_player.denonavr: debug
     homeassistant.components.notify: warning
     homeassistant.components.proximity: critical
     homeassistant.components.script: debug

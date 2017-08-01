@@ -28,6 +28,7 @@ online_cr:
     - binary_sensor.broadlink_rm_pro
     - binary_sensor.foscam_black
     - binary_sensor.titan
+    - binary_sensor.ganymede
     - binary_sensor.callisto
     - binary_sensor.denon
     - binary_sensor.android_box

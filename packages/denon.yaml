@@ -14,251 +14,411 @@
 #     step: 0.05
 #     icon: mdi:volume-high
 
-# input_select:
-#   denonsource:
-#     name: "Denon Media Source"
-#     options:
-#       - 'Cable TV'
-#       - 'Music'
-#       - 'Dune'
-#       - 'Apple TV'
-#       - 'Off'
-#     initial: 'Off'
-#     icon: mdi:amplifier
+input_select:
+  denon_mode:
+    name: 'Common Room Denon Mode'
+    options:
+      - 'Off'
+      - 'Cable TV'
+      - 'Music'
+      - 'Dune'
+      - 'Apple TV'
+    icon: mdi:amplifier
 
-# these scripts are a real example on how to build a switch by using other sensors
 switch:
   - platform: template
     switches:
-      androidtv:
-        value_template: "{{ is_state('switch.titan', 'on') and states.sensor.titan_current_consumption.state | float > 150 }}"
+      hometheatre:
+        value_template: "{% if states.sensor.titan_current_consumption.state %}{{ states.sensor.titan_current_consumption.state | float > 100 }}{% endif %}"
         turn_on:
-          service: script.turnon_tv_androidbox
+          service: script.hometheatre_turnon
         turn_off:
-          service: script.turnoff_tv_androidbox
+          service: script.hometheatre_turnoff
+      sonytv:
+        value_template: '{% if is_state("sensor.denon_source", "Off") %}false{% else %}{% if states.sensor.titan_current_consumption.state %}{{ states.sensor.titan_current_consumption.state | float > 100 }}{% endif %}{% endif %}'
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.common_room_tv
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.common_room_tv
+      android_box:
+        value_template: '{{ is_state("binary_sensor.android_box", "on") }}'
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.common_room_android_box
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.common_room_android_box
       bedroomsound:
-        value_template: "{{ is_state('switch.europa', 'on') and states.sensor.europa_current_consumption.state | float > 40 }}"
+        value_template: "{% if states.sensor.europa_current_consumption.state %}{{ states.sensor.europa_current_consumption.state | float > 40 }}{% endif %}"
         turn_on:
           service: switch.turn_on
           entity_id: switch.bedroom_denon
         turn_off:
           service: switch.turn_off
           entity_id: switch.bedroom_denon
+      mode_cabletv:
+        value_template: '{{ is_state("input_select.denon_mode", "Cable TV") }}'
+        turn_on:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.denon_mode
+            option: 'Cable TV'
+        turn_off:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.denon_mode
+            option: 'Off'
+      mode_music:
+        value_template: '{{ is_state("input_select.denon_mode", "Music") }}'
+        turn_on:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.denon_mode
+            option: 'Music'
+        turn_off:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.denon_mode
+            option: 'Off'
+      mode_dune:
+        value_template: '{{ is_state("input_select.denon_mode", "Dune") }}'
+        turn_on:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.denon_mode
+            option: 'Dune'
+        turn_off:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.denon_mode
+            option: 'Off'
+      mode_appletv:
+        value_template: '{{ is_state("input_select.denon_mode", "Apple TV") }}'
+        turn_on:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.denon_mode
+            option: 'Apple TV'
+        turn_off:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.denon_mode
+            option: 'Off'
 
 sensor:
   - platform: template
     sensors:
       denon_source:
-        value_template: '{% if states.media_player.denon.attributes["source"] %}{{ states.media_player.denon.attributes["source"] }}{% else %}Off{% endif %}'
+        value_template: '{% if is_state("media_player.avr2113", "on") %}{% if not states.media_player.avr2113.attributes.source %}Off{% else %}{{ states.media_player.avr2113.attributes.source }}{% endif %}{% else %}off{% endif %}'
+
+binary_sensor:
+  - platform: command_line
+    command: '/bin/ping -W 1 -c 1 192.168.1.45 > /dev/null 2>&1 && echo success || echo fail'
+    name: 'xdj_rx_2'
+    device_class: connectivity
+    payload_on: 'success'
+    payload_off: 'fail'
+  - platform: command_line
+    command: '/bin/ping -W 1 -c 1 192.168.1.77 > /dev/null 2>&1 && echo success || echo fail'
+    name: 'dune_2'
+    device_class: connectivity
+    payload_on: 'success'
+    payload_off: 'fail'
 
 shell_command:
-  # d_deviceinfo: !secret d_deviceinfo
-  # d_mainzone: !secret d_mainzone
-  # d_mainzone_status: !secret d_mainzone_status
-  # d_mainzone_statuslite: !secret d_mainzone_statuslite
-  # d_zone2_status: !secret d_zone2_status
-  # d_zone2_statuslite: !secret d_zone2_statuslite
-  d_power_on: !secret d_power_on
-  d_power_off: !secret d_power_off
-  d_volume_40: !secret d_volume_40
-  d_volume_50: !secret d_volume_50
-  d_mute_on: !secret d_mute_on
-  d_mute_off: !secret d_mute_off
-  d_source_dune: !secret d_source_dune
-  d_source_appletv: !secret d_source_appletv
-  d_source_satcbl: !secret d_source_satcbl
-  d_source_music: !secret d_source_music
-  d_source_usbipod: !secret d_source_usbipod
-  d_source_mediaserver: !secret d_source_mediaserver
-  d_source_mode_auto: !secret d_source_mode_auto
-  d_source_mode_analog: !secret d_source_mode_analog
+  denon_deviceinfo: !secret denon_deviceinfo
+  denon_mainzone: !secret denon_mainzone
+  denon_mainzone_status: !secret denon_mainzone_status
+  denon_mainzone_statuslite: !secret denon_mainzone_statuslite
+  denon_zone2_status: !secret denon_zone2_status
+  denon_zone2_statuslite: !secret denon_zone2_statuslite
+  denon_power_on: !secret denon_power_on
+  denon_power_off: !secret denon_power_off
+  denon_volume_40: !secret denon_volume_40
+  denon_volume_50: !secret denon_volume_50
+  denon_mute_on: !secret denon_mute_on
+  denon_mute_off: !secret denon_mute_off
+  denon_source_dune: !secret denon_source_dune
+  denon_source_appletv: !secret denon_source_appletv
+  denon_source_satcbl: !secret denon_source_satcbl
+  denon_source_music: !secret denon_source_music
+  denon_source_usbipod: !secret denon_source_usbipod
+  denon_source_mediaserver: !secret denon_source_mediaserver
+  denon_source_mode_auto: !secret denon_source_mode_auto
+  denon_source_mode_analog: !secret denon_source_mode_analog
+  # kodi_playpause: !secret kodi_playpause
+  # kodi_prev: !secret kodi_prev
+  # kodi_next: !secret kodi_next
+  # kodi_pe: !secret kodi_pe
+  # kodi_up: !secret kodi_up
+  # kodi_movies: !secret kodi_movies
+  # kodi_vol: !secret kodi_vol
+  dune_off: !secret dune_off
+  dune_on: !secret dune_on
+  dune_play: !secret dune_play
+  dune_pause: !secret dune_pause
+  dune_stop: !secret dune_stop
+  dune_info: !secret dune_info
+  dune_popup: !secret dune_popup
+  dune_top: !secret dune_top
+  dune_return: !secret dune_return
+  dune_audio: !secret dune_audio
+  dune_subtitle: !secret dune_subtitle
 
 script:
-  turnon_tv_androidbox:
-    alias: "Turn on TV and Android Box"
+
+  kodi_get_recent_movies:
+    alias: "Kodi Recent Movies"
+    sequence:
+      - service: media_player.kodi_call_method
+        data:
+          entity_id: media_player.kodi
+          method: VideoLibrary.GetRecentlyAddedMovies
+          properties:
+            - title
+            - year
+            - file
+            - lastplayed
+
+  kodi_get_recent_tvshows:
+    alias: "Kodi Recent TV Shows"
+    sequence:
+      - service: media_player.kodi_call_method
+        data:
+          entity_id: media_player.kodi
+          method: VideoLibrary.GetRecentlyAddedEpisodes
+          properties:
+            - showtitle
+            - file
+            - lastplayed
+            - firstaired
+
+  kodi_get_pvr_channels:
+    alias: "Kodi PVR Channels"
+    sequence:
+      - service: media_player.kodi_call_method
+        data:
+          entity_id: media_player.kodi
+          method: PVR.GetChannels
+          channelgroupid: 1
+
+  kodi_update_audio_library:
+    alias: Update Kodi Library
+    sequence:
+      - service: media_player.kodi_call_method
+        data:
+          entity_id: media_player.kodi
+          method: AudioLibrary.Scan
+
+  kodi_update_video_library:
+    alias: Update Kodi Library
+    sequence:
+      - service: media_player.kodi_call_method
+        data:
+          entity_id: media_player.kodi
+          method: VideoLibrary.Scan
+
+  hometheatre_turnon:
+    alias: "Home Theatre Turns On"
     sequence:
       - service: switch.turn_on
-        entity_id: switch.common_room_tv
-      - service: switch.turn_on
-        entity_id: switch.common_room_android_box
-  turnoff_tv_androidbox:
-    alias: "Turn off TV and Android Box"
-    sequence:
-      - service: switch.turn_off
-        entity_id: switch.common_room_android_box
-      - service: switch.turn_off
-        entity_id: switch.common_room_tv
-  xdjrx_turnon:
-    alias: "XDJ-RX is on entering DJ mode"
-    sequence:
-      - service: switch.turn_on
-        entity_id: switch.common_room_subwoofer
-      - delay: 00:00:01
-      - service: shell_command.d_source_music
+        entity_id: switch.titan
       - delay: 00:00:02
-      - service: shell_command.d_source_mode_analog
+      - service: switch.turn_on
+        entity_id: switch.common_room_tv
+      - delay: 00:00:05
+      - service: switch.turn_on
+        entity_id: switch.common_room_android_box
+      - delay: 00:00:02
+      - service: script.switch_to_cabletv
+      - delay: 00:00:05
+      - condition: template
+        value_template: '{% if is_state("media_player.avr2113", "off") %}true{% else %}false{% endif %}'
+      - service: media_player.turn_on
+        entity_id: media_player.avr2113
+      - service: script.switch_to_cabletv
+
+  hometheatre_turnoff:
+    alias: "Home Theatre Turns Off"
+    sequence:
+      - service: switch.turn_off
+        entity_id: switch.common_room_android_box
+      - delay: 00:00:01
+      - service: switch.turn_off
+        entity_id: switch.common_room_subwoofer
+      - delay: 00:00:10
+      - service: switch.turn_off
+        entity_id: switch.common_room_tv
+      - delay: 00:00:10
+      - service: script.switch_to_off
+      - delay: 00:00:03
+      - service: switch.turn_off
+        entity_id: switch.titan
+
+  switch_to_cabletv:
+    alias: "Switch to Cabel TV mode"
+    sequence:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.avr2113
+          source: 'Cable TV'
       - delay: 00:00:02
       - service: media_player.volume_set
         data:
-          entity_id: media_player.denon
-          volume_level: 0.4
-      - delay: 00:00:02
-      - service: script.notifying
-        data_template:
-          title: '{{ title }}'
-          message: '{{ message }}'
-  xdjrx_turnoff:
-    alias: "XDJ-RX is off exiting DJ mode"
+          entity_id: media_player.avr2113
+          volume_level: 0.38
+
+  switch_to_music:
+    alias: "Switch to Music mode"
     sequence:
-      - service: switch.turn_off
-        entity_id: switch.common_room_subwoofer
-      - delay: 00:00:01
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.avr2113
+          source: 'Music'
+      - delay: 00:00:02
       - service: media_player.volume_set
         data:
-          entity_id: media_player.denon
-          volume_level: 0.3
+          entity_id: media_player.avr2113
+          volume_level: 0.50
+
+  switch_to_dune:
+    alias: "Switch to Dune mode"
+    sequence:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.avr2113
+          source: 'Dune'
       - delay: 00:00:02
-      - service: shell_command.d_source_satcbl
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.avr2113
+          volume_level: 0.50
+
+  switch_to_appletv:
+    alias: "Switch to Apple TV mode"
+    sequence:
+      - service: media_player.select_source
+        data:
+          entity_id: media_player.avr2113
+          source: 'Apple TV'
       - delay: 00:00:02
-      - service: shell_command.d_source_mode_auto
+      - service: media_player.volume_set
+        data:
+          entity_id: media_player.avr2113
+          volume_level: 0.43
+      - service: media_player.turn_on
+        entity_id: media_player.apple_tv
+
+  switch_to_off:
+    alias: "Switch media mode to Off"
+    sequence:
+      - service: media_player.turn_off
+        entity_id: media_player.avr2113
       - delay: 00:00:02
-      - service: script.notifying
-        data_template:
-          title: '{{ title }}'
-          message: '{{ message }}'
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.denon_mode
+          option: 'Off'
 
 automation:
 
-  # - alias: "Denon Align Source Cable TV"
-  #   trigger:
-  #     - platform: template
-  #       value_template: "{{ not is_state('sensor.denon_source', states('input_select.denonsource')) }}"
-  #   condition:
-  #     - condition: template
-  #       value_template: '{% if is_state("sensor.denon_source", "SAT/CBL") %}true{% else %}{% endif %}'
-  #   action:
-  #     - service: input_select.select_option
-  #       data:
-  #         entity_id: input_select.denonsource
-  #         option: "Cable TV"
-  #
-  # - alias: "Denon Change Source Cable TV"
-  #   trigger:
-  #     # - platform: template
-  #     #   value_template: '{% if is_state_attr("media_player.denon", "source", "SAT/CBL") %}true{% else %}{% endif %}'
-  #     - platform: state
-  #       entity_id: input_select.denonsource
-  #       to: "Cable TV"
-  #   action:
-  #     - service: shell_command.d_source_satcbl
-  #
-  # - alias: "Denon Align Source Music"
-  #   trigger:
-  #     - platform: template
-  #       value_template: "{{ not is_state('sensor.denon_source', states('input_select.denonsource')) }}"
-  #   condition:
-  #     - condition: template
-  #       value_template: '{% if is_state("sensor.denon_source", "Music") %}true{% else %}{% endif %}'
-  #   action:
-  #     - service: input_select.select_option
-  #       data:
-  #         entity_id: input_select.denonsource
-  #         option: "Music"
-  #
-  # - alias: "Denon Change Source Music"
-  #   trigger:
-  #     # - platform: template
-  #     #   value_template: '{% if is_state_attr("media_player.denon", "source", "Music") %}true{% else %}{% endif %}'
-  #     - platform: state
-  #       entity_id: input_select.denonsource
-  #       to: "Music"
-  #   action:
-  #     - service: shell_command.d_source_music
-  #
-  # - alias: "Denon Align Source Dune"
-  #   trigger:
-  #     - platform: template
-  #       value_template: "{{ not is_state('sensor.denon_source', states('input_select.denonsource')) }}"
-  #   condition:
-  #     - condition: template
-  #       value_template: '{% if is_state("sensor.denon_source", "Dune") %}true{% else %}{% endif %}'
-  #   action:
-  #     - service: input_select.select_option
-  #       data:
-  #         entity_id: input_select.denonsource
-  #         option: "Dune"
-  #
-  # - alias: "Denon Change Source Dune"
-  #   trigger:
-  #     # - platform: template
-  #     #   value_template: '{% if is_state_attr("media_player.denon", "source", "BD") %}true{% else %}{% endif %}'
-  #     - platform: state
-  #       entity_id: input_select.denonsource
-  #       to: "Dune"
-  #   action:
-  #     - service: shell_command.d_source_dune
-  #
-  # - alias: "Denon Align Source Apple TV"
-  #   trigger:
-  #     - platform: template
-  #       value_template: "{{ not is_state('sensor.denon_source', states('input_select.denonsource')) }}"
-  #   condition:
-  #     - condition: template
-  #       value_template: '{% if is_state("sensor.denon_source", "Apple TV") %}true{% else %}{% endif %}'
-  #   action:
-  #     - service: input_select.select_option
-  #       data:
-  #         entity_id: input_select.denonsource
-  #         option: "Apple TV"
-  #
-  # - alias: "Denon Change Source Apple TV"
-  #   trigger:
-  #     # - platform: template
-  #     #   value_template: '{% if is_state_attr("media_player.denon", "source", "MPLAY") %}true{% else %}{% endif %}'
-  #     - platform: state
-  #       entity_id: input_select.denonsource
-  #       to: "Apple TV"
-  #   action:
-  #     - service: shell_command.d_source_appletv
-  #
-  # - alias: "Denon Align Source Off"
-  #   trigger:
-  #     - platform: template
-  #       value_template: "{{ not is_state('sensor.denon_source', states('input_select.denonsource')) }}"
-  #   condition:
-  #     - condition: template
-  #       value_template: '{% if is_state("sensor.denon_source", "Off") %}true{% else %}{% endif %}'
-  #   action:
-  #     - service: input_select.select_option
-  #       data:
-  #         entity_id: input_select.denonsource
-  #         option: "off"
-  #
-  # - alias: "Denon Change Source Off"
-  #   trigger:
-  #     # - platform: template
-  #     #   value_template: '{% if is_state("media_player.denon", "off") %}true{% else %}{% endif %}'
-  #     - platform: state
-  #       entity_id: input_select.denonsource
-  #       to: "Off"
-  #   action:
-  #     - service: shell_command.d_power_off
+  - alias: 'Denon Mode changes to Cable TV'
+    trigger:
+      - platform: state
+        entity_id: input_select.denon_mode
+        to: 'Cable TV'
+    condition:
+      - condition: state
+        entity_id: switch.mode_cabletv
+        state: 'on'
+    action:
+      - service: script.switch_to_cabletv
+
+  - alias: 'Denon Mode changes to Music'
+    trigger:
+      - platform: state
+        entity_id: input_select.denon_mode
+        to: 'Music'
+    condition:
+      - condition: state
+        entity_id: switch.mode_music
+        state: 'on'
+    action:
+      - service: script.switch_to_music
+
+  - alias: 'Denon Mode changes to Dune'
+    trigger:
+      - platform: state
+        entity_id: input_select.denon_mode
+        to: 'Dune'
+    condition:
+      - condition: state
+        entity_id: switch.mode_dune
+        state: 'on'
+    action:
+      - service: script.switch_to_dune
+
+  - alias: 'Denon Mode changes to Apple TV'
+    trigger:
+      - platform: state
+        entity_id: input_select.denon_mode
+        to: 'Apple TV'
+    condition:
+      - condition: state
+        entity_id: switch.mode_appletv
+        state: 'on'
+    action:
+      - service: script.switch_to_appletv
+
+  - alias: 'Denon Mode changes to Off'
+    trigger:
+      - platform: state
+        entity_id: input_select.denon_mode
+        to: 'Off'
+      # - platform: template
+      #   value_template: '{% if is_state("sensor.denon_source", "off") %}true{% else %}false{% endif %}'
+    action:
+      - service: script.switch_to_off
+
+  - alias: "Denon Mode aligns"
+    trigger:
+      - platform: time
+        minutes: '/5'
+        seconds: 00
+      - platform: state
+        entity_id: sensor.denon_source
+      - platform: state
+        entity_id: media_player.avr2113
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: template
+        value_template: "{{ not is_state('sensor.denon_source', states('input_select.denon_mode')) }}"
+    action:
+      - service: input_select.select_option
+        data_template:
+          entity_id: input_select.denon_mode
+          option: '{% if is_state("sensor.denon_source", "off") %}Off{% else %}{{ states.sensor.denon_source.state }}{% endif %}'
 
   - alias: "Auto Double Subwoofer On"
     trigger:
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "Music") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("sensor.denon_source", "Music") %}true{% else %}false{% endif %}'
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "MPLAY") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("sensor.denon_source", "Apple TV") %}true{% else %}false{% endif %}'
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "BD") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("sensor.denon_source", "Dune") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("sensor.denon_source", "DVD") %}true{% else %}false{% endif %}'
     condition:
       - condition: and
         conditions:
           - condition: template
-            value_template: '{% if is_state("switch.titan", "on") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("switch.titan", "on") %}true{% else %}false{% endif %}'
           - condition: template
-            value_template: '{% if is_state("media_player.denon", "on") %}true{% else %}{% endif %}'
+            value_template: '{% if is_state("media_player.avr2113", "on") %}true{% else %}false{% endif %}'
     action:
       - service: switch.turn_on
         entity_id: switch.common_room_subwoofer
@@ -266,97 +426,88 @@ automation:
   - alias: "Auto Double Subwoofer Off"
     trigger:
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "SAT/CBL") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("sensor.denon_source", "Cable TV") %}true{% else %}false{% endif %}'
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "NET") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("sensor.denon_source", "Game") %}true{% else %}false{% endif %}'
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "DVD") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("sensor.denon_source", "AUX") %}true{% else %}false{% endif %}'
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "Game") %}true{% else %}{% endif %}'
-      - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "AUX1") %}true{% else %}{% endif %}'
-      - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "USB/IPOD") %}true{% else %}{% endif %}'
-      - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "TUNER") %}true{% else %}{% endif %}'
-      - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "TV") %}true{% else %}{% endif %}'
-      - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "Internet Radio") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state("sensor.denon_source", "TV") %}true{% else %}false{% endif %}'
       - platform: state
         entity_id: switch.titan
         from: 'on'
         to: 'off'
       - platform: state
-        entity_id: media_player.denon
+        entity_id: media_player.avr2113
         from: 'on'
         to: 'off'
     action:
       - service: switch.turn_off
         entity_id: switch.common_room_subwoofer
 
-  - alias: "Turn on XDJ-RX"
+  - alias: "Auto Switch Dune On"
     trigger:
       - platform: state
-        entity_id: binary_sensor.xdjrx
+        entity_id: binary_sensor.dune
         from: 'off'
         to: 'on'
       - platform: state
-        entity_id: device_tracker.xdj_rx
-        from: 'not_home'
-        to: 'home'
+        entity_id: binary_sensor.dune_2
+        from: 'off'
+        to: 'on'
     condition:
       - condition: template
-        value_template: '{% if not is_state_attr("media_player.denon", "source", "Music") %}true{% else %}{% endif %}'
+        value_template: '{% if not is_state_attr("media_player.avr2113", "source", "Dune") %}true{% else %}false{% endif %}'
     action:
-      - service: script.xdjrx_turnon
-        data:
-          title: "XDJ-RX is on, entering DJ mode"
-          message: 'XDJ-RX is on, entering DJ mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.switch_to_dune
 
-  - alias: "Turn off XDJ-RX"
+  - alias: "Auto Switch Dune Off"
     trigger:
       - platform: state
-        entity_id: binary_sensor.xdjrx
+        entity_id: binary_sensor.dune
         from: 'on'
         to: 'off'
       - platform: state
-        entity_id: device_tracker.xdj_rx
-        from: 'home'
-        to: 'not_home'
+        entity_id: binary_sensor.dune_2
+        from: 'on'
+        to: 'off'
     condition:
       - condition: template
-        value_template: '{% if is_state_attr("media_player.denon", "source", "Music") %}true{% else %}{% endif %}'
+        value_template: '{% if is_state_attr("media_player.avr2113", "source", "Dune") %}true{% else %}false{% endif %}'
     action:
-      - service: script.xdjrx_turnoff
-        data:
-          title: "XDJ-RX is off, exiting DJ mode"
-          message: 'XDJ-RX is off, exiting DJ mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.switch_to_cabletv
 
-  - alias: "Lights Dune Pauses/Stops"
+  - alias: "Auto Switch XDJ-RX On"
     trigger:
       - platform: state
-        entity_id: media_player.dune
-        from: 'playing'
-        to: 'idle'
+        entity_id: binary_sensor.xdj_rx
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: binary_sensor.xdj_rx_2
+        from: 'off'
+        to: 'on'
     condition:
-      condition: and
-      conditions:
-        - condition: template
-          value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
-        - condition: template
-          value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
-        - condition: or
-          conditions:
-            - condition: state
-              entity_id: sun.sun
-              state: 'below_horizon'
-            - condition: time
-              after: '18:00:00'
-              before: '06:00:00'
+      - condition: template
+        value_template: '{% if not is_state_attr("media_player.avr2113", "source", "Music") %}true{% else %}false{% endif %}'
     action:
-      - service: scene.turn_on
-        entity_id: scene.common_room_alive
+      - service: script.switch_to_music
+
+  - alias: "Auto Switch XDJ-RX Off"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.xdj_rx
+        from: 'on'
+        to: 'off'
+      - platform: state
+        entity_id: binary_sensor.xdj_rx_2
+        from: 'on'
+        to: 'off'
+    condition:
+      - condition: template
+        value_template: '{% if is_state_attr("media_player.avr2113", "source", "Music") %}true{% else %}false{% endif %}'
+    action:
+      - service: script.switch_to_cabletv
 
   - alias: "Lights Dune Plays"
     trigger:
@@ -365,31 +516,63 @@ automation:
         from: 'idle'
         to: 'playing'
     condition:
-      condition: and
-      conditions:
-        - condition: template
-          value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}{% endif %}'
-        - condition: template
-          value_template: '{% if is_state("input_select.homemode", "Home") %}true{% else %}{% endif %}'
-        - condition: or
-          conditions:
-            - condition: state
-              entity_id: sun.sun
-              state: 'below_horizon'
-            - condition: time
-              after: '18:00:00'
-              before: '06:00:00'
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: sun.sun
+            state: 'below_horizon'
+          - condition: time
+            after: '18:00:00'
+            before: '06:00:00'
     action:
         service: scene.turn_on
         entity_id: scene.common_room_dim
 
+  - alias: "Lights Dune Pauses"
+    trigger:
+      - platform: state
+        entity_id: media_player.dune
+        from: 'playing'
+        to: 'paused'
+    condition:
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: sun.sun
+            state: 'below_horizon'
+          - condition: time
+            after: '18:00:00'
+            before: '06:00:00'
+    action:
+      - service: scene.turn_on
+        entity_id: scene.common_room_alive
+
+  - alias: "Lights Dune Stops"
+    trigger:
+      - platform: state
+        entity_id: media_player.dune
+        from: 'playing'
+        to: 'idle'
+    condition:
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: sun.sun
+            state: 'below_horizon'
+          - condition: time
+            after: '18:00:00'
+            before: '06:00:00'
+    action:
+      - service: scene.turn_on
+        entity_id: scene.common_room_alive
+
   # - alias: Volume Common Room
   #   trigger:
   #     - platform: state
-  #       entity_id: media_player.denon
+  #       entity_id: media_player.avr2113
   #   condition:
   #     - condition: template
-  #       value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
+  #       value_template: "{{ not is_state_attr('media_player.avr2113', 'volume_level', states('input_slider.volume_common_room')) }}"
   #   action:
   #     - service: input_slider.select_value
   #       data_template:
@@ -402,11 +585,11 @@ automation:
   #       entity_id: input_slider.volume_common_room
   #   condition:
   #     - condition: template
-  #       value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
+  #       value_template: "{{ not is_state_attr('media_player.avr2113', 'volume_level', states('input_slider.volume_common_room')) }}"
   #   action:
   #     - service: media_player.volume_set
   #       data_template:
-  #         entity_id: media_player.denon
+  #         entity_id: media_player.avr2113
   #         volume_level: "{{ states('input_slider.volume_common_room') }}"
 
   # - alias: Volume Bedroom
@@ -428,7 +611,7 @@ automation:
   #       entity_id: input_slider.volume_bedroom
   #   condition:
   #     - condition: template
-  #       value_template: "{{ not is_state_attr('media_player.denon', 'volume_level', states('input_slider.volume_common_room')) }}"
+  #       value_template: "{{ not is_state_attr('media_player.avr2113', 'volume_level', states('input_slider.volume_common_room')) }}"
   #   action:
   #     - service: media_player.volume_set
   #       data_template:

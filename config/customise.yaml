@@ -138,9 +138,6 @@ switch.common_room_android_box:
   icon: mdi:android
   friendly_name: "Common Room Android Box"
   assumed_state: true
-sensor.denon_source:
-  icon: mdi:amplifier
-  friendly_name: "Denon AVR"
 switch.common_room_subwoofer:
   icon: mdi:speaker
   friendly_name: "Common Room Subwoofer"
@@ -205,6 +202,16 @@ sensor.disk_use_:
   icon: mdi:harddisk
   friendly_name: "HDD Usage"
 
+sensor.denon_source:
+  icon: mdi:amplifier
+  friendly_name: "Common Room Denon"
+sensor.common_room_fan_power:
+  icon: mdi:power-plug
+  friendly_name: "Common Room Fan Power"
+sensor.common_room_fan_voltage:
+  icon: mdi:tower-fire
+  friendly_name: "Common Room Fan Voltage"
+
 # sensor.lastfm_pephumin:
 #   icon: mdi:lastfm
 #   friendly_name: "Now Playing"
@@ -254,6 +261,9 @@ binary_sensor.europa:
 binary_sensor.callisto:
   icon: mdi:speaker
   friendly_name: "Sonoff Subwoofer"
+binary_sensor.ganymede:
+  icon: mdi:fan
+  friendly_name: "Sonoff POW Fan"
 binary_sensor.xdj_rx:
   icon: mdi:music
   friendly_name: "XDJ-RX"
@@ -262,7 +272,7 @@ binary_sensor.apple_tv:
   friendly_name: "Apple TV"
 binary_sensor.denon:
   icon: mdi:amplifier
-  friendly_name: "Denon AVR"
+  friendly_name: "Denon AVR-2113"
 binary_sensor.dune:
   icon: mdi:movie-roll
   friendly_name: "Dune Base"

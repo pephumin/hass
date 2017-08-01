@@ -10,8 +10,9 @@ home_server:
     # - binary_sensor.internet
     - sensor.speedtest_download
     - sensor.speedtest_upload
-    - sensor.temperature_sda
-    - sensor.temperature_sdb
-    - sensor.temperature_sdc
-    - sensor.temperature_sdd
+    - sensor.average_temperature
+    # - sensor.temperature_sda
+    # - sensor.temperature_sdb
+    # - sensor.temperature_sdc
+    # - sensor.temperature_sdd
     # - input_select.log_level

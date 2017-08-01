@@ -1,12 +1,20 @@
 switch:
   - platform: mqtt
     name: "Common Room Subwoofer"
-    state_topic: "homeassistant/switch/common_room/subwoofer/state"
-    command_topic: "homeassistant/switch/common_room/subwoofer"
+    state_topic: "switch/common_room/subwoofer/state"
+    command_topic: "switch/common_room/subwoofer"
     qos: 1
     payload_on: "on"
     payload_off: "off"
     retain: true
+  # - platform: mqtt
+  #   name: "Common Room Fan"
+  #   state_topic: "switch/common_room/fan/STATE"
+  #   command_topic: "switch/common_room/fan/cmnd/POWER"
+  #   qos: 1
+  #   payload_on: "ON"
+  #   payload_off: "OFF"
+  #   retain: false
 
 # # If installed sensor (temperature and humidity)
 # sensor:
@@ -27,15 +35,37 @@ switch:
 # # If the unit has POW
 # sensor:
 #   - platform: mqtt
-#     name: "Common Room Power"
-#     state_topic: "homeassistant/common_room/power"
+#     name: "Common Room Fan Power"
+#     state_topic: "homeassistant/switch/common_room/fan/power"
 #     qos: 1
-#     unit_of_measurement: "W"
+#     unit_of_measurement: "Watts"
 #     value_template: "{{ value_json.Power }}"
 #
 #   - platform: mqtt
-#     name: "Common Room Voltage"
-#     state_topic: "homeassistant/common_room/power"
+#     name: "Common Room Fan Voltage"
+#     state_topic: "homeassistant/switch/common_room/fan/power"
 #     qos: 1
-#     unit_of_measurement: "V"
+#     unit_of_measurement: "Volts"
 #     value_template: "{{ value_json.Voltage }}"
+
+# sensor:
+#   - platform: mqtt
+#     name: "Common Room Fan Energy"
+#     state_topic: "telemetry/switch/common_room/fan/ENERGY"
+#     value_template: "{{ value_json.Today }}"
+#     unit_of_measurement: "kWh"
+#   - platform: mqtt
+#     name: "Common Room Fan Power"
+#     state_topic: "telemetry/switch/common_room/fan/ENERGY"
+#     value_template: "{{ value_json.Power }}"
+#     unit_of_measurement: "Watts"
+#   - platform: mqtt
+#     name: "Common Room Fan Current"
+#     state_topic: "telemetry/switch/common_room/fan/ENERGY"
+#     value_template: "{{ value_json.Current }}"
+#     unit_of_measurement: "Amps"
+#   - platform: mqtt
+#     name: "Common Room Fan Voltage"
+#     state_topic: "telemetry/switch/common_room/fan/ENERGY"
+#     value_template: "{{ value_json.Voltage }}"
+#     unit_of_measurement: "Volts"

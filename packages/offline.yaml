@@ -45,6 +45,10 @@ binary_sensor:
     name: "Callisto"
 
   - platform: ping
+    host: 192.168.1.19
+    name: "Ganymede"
+
+  - platform: ping
     host: 192.168.1.22
     name: "Moon"
 
@@ -267,8 +271,8 @@ automation:
     action:
       - service: script.notifying
         data:
-          title: "Smart Plug Common Room is offline"
-          message: 'Smart Plug Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Smart Plug in Common Room is offline"
+          message: 'Smart Plug in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Offline Europa"
     hide_entity: True
@@ -279,17 +283,29 @@ automation:
     action:
       - service: script.notifying
         data:
-          title: "Smart Plug Bedroom is offline"
-          message: 'Smart Plug Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Smart Plug in Bedroom is offline"
+          message: 'Smart Plug in Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  # - alias: "Offline Callisto"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.callisto
-  #       to: 'off'
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         title: "Subwoofer in Common Room is offline"
-  #         message: 'Subwoofer in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: "Offline Callisto"
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.callisto
+        to: 'off'
+    action:
+      - service: script.notifying
+        data:
+          title: "Subwoofer Switch in Common Room is offline"
+          message: 'Subwoofer Switch in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Offline Ganymede"
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ganymede
+        to: 'off'
+    action:
+      - service: script.notifying
+        data:
+          title: "Ganymede Fan Switch in Common Room is offline"
+          message: 'Ganymede Fan Switch in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

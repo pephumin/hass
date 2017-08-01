@@ -11,8 +11,8 @@ devices:
     - sensor.battery_juesiphone6splus
     - device_tracker.juesipadmini2
     - sensor.battery_juesipadmini2
-    # - device_tracker.pesipodtouch4
-    # - sensor.battery_pesipodtouch4
+    - device_tracker.pesipodtouch4
+    - sensor.battery_pesipodtouch4
     - device_tracker.pepe
     - sensor.battery_pepe
 
