@@ -22,6 +22,20 @@ weather:
     - sensor.owm_cloud_coverage
     - sensor.owm_humidity
 
+ganymede:
+  view: no
+  name: "Ganymede"
+  icon: mdi:power-plug
+  entities:
+    - switch.ganymede
+    - sensor.ganymede_power
+    - sensor.ganymede_power_factor
+    - sensor.ganymede_current
+    - sensor.ganymede_voltage
+    - sensor.ganymede_energy_today
+    - sensor.ganymede_energy_yesterday
+    - sensor.ganymede_energy_total
+
 # weblink:
 #   view: no
 #   name: "Web Links"

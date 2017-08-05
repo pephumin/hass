@@ -8,3 +8,14 @@ alarmclock:
     - input_slider.alarmhour
     - input_slider.alarmminutes
     - input_boolean.alarmweekday
+
+timer:
+  name: Timer
+  control: hidden
+  entities:
+    - input_boolean.activate_timer
+    - automation.set_timer
+    - sensor.timer_duration
+    - input_slider.timerhours
+    - input_slider.timerminutes
+    - input_select.timer_for

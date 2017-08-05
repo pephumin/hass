@@ -52,13 +52,13 @@ mqtt:
   # birth_message:
   #   topic: "telemetry/switch/common_room/fan/LWT"
   #   payload: "Online"
-  #   qos: 1
-  #   retain: false
+  #   # qos: 1
+  #   # retain: true
   # will_message:
   #   topic: "telemetry/switch/common_room/fan/LWT"
   #   payload: "Offline"
-  #   qos: 1
-  #   retain: false
+  #   # qos: 1
+  #   # retain: true
 
 frontend:
   themes:
@@ -109,8 +109,8 @@ logger:
     homeassistant.components.input_boolean: debug
     homeassistant.components.input_select: debug
     homeassistant.components.ios: debug
-    homeassistant.components.mqtt: debug
-    # homeassistant.components.mqtt: critical
+    # homeassistant.components.mqtt: debug
+    homeassistant.components.mqtt: info
     homeassistant.components.media_player: critical
     # homeassistant.components.media_player.denon: debug
     # homeassistant.components.media_player.denonavr: debug

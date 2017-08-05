@@ -1,5 +1,5 @@
 input_slider:
-  alarmhour:
+  alarmhours:
     name: Hour
     icon: mdi:timer
     initial: 6
@@ -29,9 +29,9 @@ sensor:
     sensors:
       alarm_time:
         friendly_name: 'Alarm Set'
-        value_template: '{% if states.input_slider.alarmhour.state|round(0)|string|length == 1 %}0{% endif %}{{ states.input_slider.alarmhour.state|round(0)|string }}:{% if states.input_slider.alarmminutes.state|round(0)|string|length == 1 %}0{% endif %}{{ states.input_slider.alarmminutes.state|round(0)|string }}'
+        value_template: '{% if states.input_slider.alarmhours.state|round(0)|string|length == 1 %}0{% endif %}{{ states.input_slider.alarmhours.state|round(0)|string }}:{% if states.input_slider.alarmminutes.state|round(0)|string|length == 1 %}0{% endif %}{{ states.input_slider.alarmminutes.state|round(0)|string }}'
         icon_template: '{% if states.input_boolean.activate_alarm.state == "on" %}mdi:alarm-multiple{% elif states.input_boolean.activate_alarm.state == "off" %}mdi:alarm-off{% else %}mdi:alarm{% endif %}'
-        entity_id: input_slider.alarmminutes, input_slider.alarmhour
+        entity_id: input_slider.alarmminutes, input_slider.alarmhours
 
 script:
   alarm_lighting:
@@ -91,7 +91,7 @@ automation:
         seconds: 2
     condition:
       - condition: template
-        value_template: '{{ now().hour == (states.input_slider.alarmhour.state | round(0)) and now().minute == (states.input_slider.alarmminutes.state | round(0) ) }}'
+        value_template: '{{ now().hour == (states.input_slider.alarmhours.state | round(0)) and now().minute == (states.input_slider.alarmminutes.state | round(0) ) }}'
       - condition: or
         conditions:
           - condition: and
@@ -123,7 +123,7 @@ automation:
   - alias: "Alarm Enabled"
     trigger:
       - platform: state
-        entity_id: input_slider.alarmhour, input_slider.alarmminutes
+        entity_id: input_slider.alarmhours, input_slider.alarmminutes
     action:
       - service: homeassistant.turn_off
         entity_id: automation.set_alarm
