@@ -10,7 +10,6 @@ default_view:
     - group.online
     - group.travel
     - media_player.apple_tv
-    - media_player.avr2113
     - media_player.denon
     - media_player.dune
     - media_player.itunes
@@ -24,6 +23,7 @@ default_view:
     - group.control
     - group.weather
     - group.proximity
+    - group.timer
 
 common_room:
   view: yes
@@ -33,14 +33,15 @@ common_room:
     - group.online_cr
     - group.common_room_lights_all
     - group.common_room_scenes
-    - media_player.kodi
-    - media_player.dune
     - media_player.apple_tv
-    - media_player.avr2113
+    - media_player.denon
+    - media_player.dune
+    - media_player.kodi
     - media_player.avr2113_airtunes_speaker
     - media_player.living_room_apple_tv_airtunes_speaker
     - camera.foscam_black
     - group.control_cr
+    - group.ganymede
 
 bedroom:
   view: yes
