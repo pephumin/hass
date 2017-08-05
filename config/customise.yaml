@@ -24,7 +24,12 @@ device_tracker.pesipodtouch4:
 device_tracker.pepe:
   icon: mdi:laptop-mac
   friendly_name: "Pe Macbook Pro"
-
+device_tracker.dune:
+  icon: mdi:movie-roll
+  friendly_name: "Dune Base"
+device_tracker.xdj_rx:
+  icon: mdi:music
+  friendly_name: "Pioneer XDJ-RX"
 # device_tracker.benjy:
 #   # icon: mdi:cellphone-iphone
 #   friendly_name: "Benjy"
@@ -138,9 +143,13 @@ switch.common_room_android_box:
   icon: mdi:android
   friendly_name: "Common Room Android Box"
   assumed_state: true
-switch.common_room_subwoofer:
-  icon: mdi:speaker
-  friendly_name: "Common Room Subwoofer"
+# switch.common_room_subwoofer:
+#   icon: mdi:speaker
+#   friendly_name: "Common Room Subwoofer"
+#   assumed_state: true
+switch.ganymede:
+  icon: mdi:power-plug
+  friendly_name: "Ganymede"
   assumed_state: true
 
 switch.bedroom_air_cond:
@@ -205,12 +214,28 @@ sensor.disk_use_:
 sensor.denon_source:
   icon: mdi:amplifier
   friendly_name: "Common Room Denon"
-sensor.common_room_fan_power:
+
+sensor.ganymede_energy_today:
+  icon: mdi:chart-areaspline
+  friendly_name: "Ganymede Energy Today"
+sensor.ganymede_energy_yesterday:
+  icon: mdi:chart-areaspline
+  friendly_name: "Ganymede Energy Yesterday"
+sensor.ganymede_energy_total:
+  icon: mdi:chart-areaspline
+  friendly_name: "Ganymede Energy Total"
+sensor.ganymede_power:
   icon: mdi:power-plug
-  friendly_name: "Common Room Fan Power"
-sensor.common_room_fan_voltage:
+  friendly_name: "Ganymede Power"
+sensor.ganymede_power_factor:
+  icon: mdi:power-plug
+  friendly_name: "Ganymede Power Factor"
+sensor.ganymede_current:
+  icon: mdi:pulse
+  friendly_name: "Ganymede Current"
+sensor.ganymede_voltage:
   icon: mdi:tower-fire
-  friendly_name: "Common Room Fan Voltage"
+  friendly_name: "Ganymede Voltage"
 
 # sensor.lastfm_pephumin:
 #   icon: mdi:lastfm
@@ -253,17 +278,17 @@ binary_sensor.printer:
   icon: mdi:printer
   friendly_name: "Samsung Printer"
 binary_sensor.titan:
-  icon: mdi:power-plug
+  icon: mdi:power-socket-us
   friendly_name: "Smart Plug Common Room"
 binary_sensor.europa:
-  icon: mdi:power-plug
+  icon: mdi:power-socket-us
   friendly_name: "Smart Plug Bedroom"
 binary_sensor.callisto:
-  icon: mdi:speaker
-  friendly_name: "Sonoff Subwoofer"
+  icon: mdi:power-plug
+  friendly_name: "Sonoff Basic"
 binary_sensor.ganymede:
-  icon: mdi:fan
-  friendly_name: "Sonoff POW Fan"
+  icon: mdi:power-plug
+  friendly_name: "Sonoff POW"
 binary_sensor.xdj_rx:
   icon: mdi:music
   friendly_name: "XDJ-RX"
@@ -279,13 +304,6 @@ binary_sensor.dune:
 binary_sensor.android_box:
   icon: mdi:android
   friendly_name: "Android Box"
-
-# binary_sensor.ping_pe:
-#   icon: mdi:lan-connect
-#   friendly_name: "Ping Pe"
-# binary_sensor.ping_jue:
-#   icon: mdi:lan-connect
-#   friendly_name: "Ping Jue"
 
 proximity.jue_home:
   # icon: mdi:compass-outline
@@ -346,4 +364,12 @@ sensor.jues_ipad_mini_2_battery_level_2:
 sensor.jues_ipad_mini_2_battery_state:
   hidden: true
 sensor.jues_ipad_mini_2_battery_state_2:
+  hidden: true
+sensor.temperature_sda:
+  hidden: true
+sensor.temperature_sdb:
+  hidden: true
+sensor.temperature_sdc:
+  hidden: true
+sensor.temperature_sdd:
   hidden: true

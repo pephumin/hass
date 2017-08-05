@@ -33,23 +33,31 @@ binary_sensor:
     name: "Broadlink RM Mini"
 
   - platform: ping
-    host: 192.168.1.16
+    host: 192.168.1.20
     name: "Titan"
 
   - platform: ping
-    host: 192.168.1.17
+    host: 192.168.1.21
     name: "Europa"
 
   - platform: ping
-    host: 192.168.1.18
-    name: "Callisto"
-
-  - platform: ping
-    host: 192.168.1.19
+    host: 192.168.1.22
     name: "Ganymede"
 
   - platform: ping
-    host: 192.168.1.22
+    host: 192.168.1.23
+    name: "Callisto"
+
+  - platform: ping
+    host: 192.168.1.24
+    name: "Sonoff_B1"
+
+  - platform: ping
+    host: 192.168.1.25
+    name: "Sonoff_B2"
+
+  - platform: ping
+    host: 192.168.1.40
     name: "Moon"
 
   - platform: ping
@@ -123,6 +131,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.deeper
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -135,6 +144,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.higher
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -147,6 +157,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.pluto
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -159,6 +170,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.neptune
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -171,6 +183,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.uranus
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -183,6 +196,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.mercury
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -195,6 +209,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.moon
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -207,6 +222,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.broadlink_rm_pro
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -219,6 +235,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.broadlink_rm_mini
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -231,6 +248,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.foscam_black
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -243,6 +261,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.foscam_white
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -255,6 +274,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.printer
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -267,6 +287,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.titan
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -279,6 +300,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.europa
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -291,6 +313,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.callisto
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying
@@ -303,6 +326,7 @@ automation:
     trigger:
       - platform: state
         entity_id: binary_sensor.ganymede
+        from: 'on'
         to: 'off'
     action:
       - service: script.notifying

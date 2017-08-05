@@ -21,23 +21,23 @@ control_cr:
   entities:
     - sensor.common_room_temperature
     - switch.common_room_air_cond
-    # - switch.common_room_fan
+    - switch.common_room_fan
     # - switch.titan
     - switch.hometheatre
     - sensor.denon_source
     - input_select.denon_mode
     - switch.sonytv
     - switch.android_box
-    - switch.common_room_subwoofer
+    # - switch.common_room_subwoofer
     - script.mute_common_room
     - sensor.titan_current_consumption
     - sensor.titan_current
     - sensor.titan_voltage
-    - switch.common_room_fan
-    - sensor.common_room_fan_energy
-    - sensor.common_room_fan_power
-    - sensor.common_room_fan_current
-    - sensor.common_room_fan_voltage
+    # - switch.common_room_lamp
+    # - sensor.common_room_lamp_energy
+    # - sensor.common_room_lamp_power
+    # - sensor.common_room_lamp_current
+    # - sensor.common_room_lamp_voltage
 
 control_br:
   name: "Bedroom Control Panel"

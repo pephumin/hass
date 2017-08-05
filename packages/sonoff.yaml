@@ -1,71 +1,150 @@
+# switch:
+#   - platform: mqtt
+#     name: "Common Room Subwoofer"
+#     state_topic: "switch/common_room/subwoofer/state"
+#     command_topic: "switch/common_room/subwoofer"
+#     qos: 1
+#     payload_on: "on"
+#     payload_off: "off"
+#     retain: false
+#   - platform: mqtt
+#     name: "Common Room Lamp"
+#     state_topic: "switch/common_room/lamp/state"
+#     command_topic: "switch/common_room/lamp"
+#     qos: 1
+#     payload_on: "on"
+#     payload_off: "off"
+#     retain: false
+#
+# sensor:
+#   # - platform: mqtt
+#   #   name: "Common Room Temperature"
+#   #   state_topic: "switch/common_room/subwoofer/temp"
+#   #   qos: 1
+#   #   unit_of_measurement: "°C"
+#   #   value_template: "{{ value_json.Temp }}"
+#   # - platform: mqtt
+#   #   name: "Common Room Humidity"
+#   #   state_topic: "switch/common_room/subwoofer/temp"
+#   #   qos: 1
+#   #   unit_of_measurement: "%"
+#   #   value_template: "{{ value_json.Humidity }}"
+#   - platform: mqtt
+#     name: "Common Room Lamp Power"
+#     state_topic: "switch/common_room/lamp/power"
+#     qos: 1
+#     unit_of_measurement: "Watts"
+#     value_template: "{{ value_json.Power }}"
+#   - platform: mqtt
+#     name: "Common Room Lamp Current"
+#     state_topic: "switch/common_room/lamp/power"
+#     qos: 1
+#     unit_of_measurement: "Amps"
+#     value_template: "{{ value_json.Current }}"
+#   - platform: mqtt
+#     name: "Common Room Lamp Voltage"
+#     state_topic: "switch/common_room/lamp/power"
+#     qos: 1
+#     unit_of_measurement: "Volts"
+#     value_template: "{{ value_json.Voltage }}"
+
 switch:
   - platform: mqtt
-    name: "Common Room Subwoofer"
-    state_topic: "switch/common_room/subwoofer/state"
-    command_topic: "switch/common_room/subwoofer"
-    qos: 1
-    payload_on: "on"
-    payload_off: "off"
+    name: "Ganymede"
+    state_topic: "stat/ganymede/POWER"
+    command_topic: "cmnd/ganymede/POWER"
+    qos: 0
+    optimistic: false
+    payload_on: "ON"
+    payload_off: "OFF"
     retain: true
-  # - platform: mqtt
-  #   name: "Common Room Fan"
-  #   state_topic: "switch/common_room/fan/STATE"
-  #   command_topic: "switch/common_room/fan/cmnd/POWER"
-  #   qos: 1
-  #   payload_on: "ON"
-  #   payload_off: "OFF"
-  #   retain: false
 
-# # If installed sensor (temperature and humidity)
-# sensor:
-#   - platform: mqtt
-#     name: "Common Room Temperature"
-#     state_topic: "homeassistant/common_room/temp"
-#     qos: 1
-#     unit_of_measurement: "°C"
-#     value_template: "{{ value_json.Temp }}"
-#
-#   - platform: mqtt
-#     name: "Common Room Humidity"
-#     state_topic: "homeassistant/common_room/temp"
-#     qos: 1
-#     unit_of_measurement: "%"
-#     value_template: "{{ value_json.Humidity }}"
-#
-# # If the unit has POW
-# sensor:
-#   - platform: mqtt
-#     name: "Common Room Fan Power"
-#     state_topic: "homeassistant/switch/common_room/fan/power"
-#     qos: 1
-#     unit_of_measurement: "Watts"
-#     value_template: "{{ value_json.Power }}"
-#
-#   - platform: mqtt
-#     name: "Common Room Fan Voltage"
-#     state_topic: "homeassistant/switch/common_room/fan/power"
-#     qos: 1
-#     unit_of_measurement: "Volts"
-#     value_template: "{{ value_json.Voltage }}"
+sensor:
+  - platform: mqtt
+    name: "Ganymede Energy Today"
+    state_topic: "tele/ganymede/ENERGY"
+    value_template: "{{ value_json.Today | round(1) }}"
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "Ganymede Energy Yesterday"
+    state_topic: "tele/ganymede/ENERGY"
+    value_template: "{{ value_json.Yesterday | round(1) }}"
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "Ganymede Energy Total"
+    state_topic: "tele/ganymede/ENERGY"
+    value_template: "{{ value_json.Total | round(1) }}"
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "Ganymede Power"
+    state_topic: "tele/ganymede/ENERGY"
+    value_template: "{{ value_json.Power | round(1) }}"
+    unit_of_measurement: "Watts"
+  - platform: mqtt
+    name: "Ganymede Power Factor"
+    state_topic: "tele/ganymede/ENERGY"
+    value_template: "{{ value_json.Factor | round(2) }}"
+  - platform: mqtt
+    name: "Ganymede Current"
+    state_topic: "tele/ganymede/ENERGY"
+    value_template: "{{ value_json.Current | round(2) }}"
+    unit_of_measurement: "Amps"
+  - platform: mqtt
+    name: "Ganymede Voltage"
+    state_topic: "tele/ganymede/ENERGY"
+    value_template: "{{ value_json.Voltage | round(0) }}"
+    unit_of_measurement: "Volts"
 
-# sensor:
-#   - platform: mqtt
-#     name: "Common Room Fan Energy"
-#     state_topic: "telemetry/switch/common_room/fan/ENERGY"
-#     value_template: "{{ value_json.Today }}"
-#     unit_of_measurement: "kWh"
-#   - platform: mqtt
-#     name: "Common Room Fan Power"
-#     state_topic: "telemetry/switch/common_room/fan/ENERGY"
-#     value_template: "{{ value_json.Power }}"
-#     unit_of_measurement: "Watts"
-#   - platform: mqtt
-#     name: "Common Room Fan Current"
-#     state_topic: "telemetry/switch/common_room/fan/ENERGY"
-#     value_template: "{{ value_json.Current }}"
-#     unit_of_measurement: "Amps"
-#   - platform: mqtt
-#     name: "Common Room Fan Voltage"
-#     state_topic: "telemetry/switch/common_room/fan/ENERGY"
-#     value_template: "{{ value_json.Voltage }}"
-#     unit_of_measurement: "Volts"
+binary_sensor:
+  - platform: mqtt
+    name: "Ganymede LWT"
+    state_topic: "tele/ganymede/LWT"
+    value_template: "{{ value }}"
+    payload_on: "Online"
+    payload_off: "Offline"
+    device_class: connectivity
+
+automation:
+
+  - alias: "Auto Double Subwoofer On"
+    trigger:
+      - platform: template
+        value_template: '{% if is_state("sensor.denon_source", "Music") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("sensor.denon_source", "MPLAY") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("sensor.denon_source", "BD") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("sensor.denon_source", "DVD") %}true{% else %}false{% endif %}'
+    condition:
+      - condition: and
+        conditions:
+          - condition: template
+            value_template: '{% if is_state("switch.titan", "on") %}true{% else %}false{% endif %}'
+          - condition: template
+            value_template: '{% if is_state("media_player.denon", "on") %}true{% else %}false{% endif %}'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.ganymede
+
+  - alias: "Auto Double Subwoofer Off"
+    trigger:
+      - platform: template
+        value_template: '{% if is_state("sensor.denon_source", "SAT/CBL") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("sensor.denon_source", "Game") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("sensor.denon_source", "AUX") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("sensor.denon_source", "TV") %}true{% else %}false{% endif %}'
+      - platform: state
+        entity_id: switch.titan
+        from: 'on'
+        to: 'off'
+      - platform: state
+        entity_id: media_player.denon
+        from: 'on'
+        to: 'off'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.ganymede
