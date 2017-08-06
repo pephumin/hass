@@ -1,7 +1,0 @@
-- platform: openweathermap
-  api_key: !secret openweather_api
-  monitored_conditions:
-    - weather
-    - temperature
-    - humidity
-    - clouds
