@@ -1,5 +1,0 @@
-# - platform: imap
-#   server: mail.thaiweb.net
-#   port: 993
-#   username: phumin
-#   password: !secret my_longer_password
