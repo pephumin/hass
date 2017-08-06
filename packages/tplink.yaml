@@ -9,12 +9,12 @@ sensor:
     sensors:
       titan_current_consumption:
         friendly_name: "Common Room Power"
-        icon_template: mdi:power-plug
+        icon_template: mdi:power-socket
         value_template: '{{ states.switch.titan.attributes["Current consumption"].split(" ")[0] | round(1) }}'
         unit_of_measurement: 'Watts'
       titan_current:
-        friendly_name: "Common Room Electric"
-        icon_template: mdi:power-socket
+        friendly_name: "Common Room Current"
+        icon_template: mdi:pulse
         value_template: '{{ states.switch.titan.attributes["Current"].split(" ")[0] | round(2) }}'
         unit_of_measurement: 'Amps'
       titan_voltage:
@@ -26,12 +26,12 @@ sensor:
     sensors:
       europa_current_consumption:
         friendly_name: "Bedroom Power"
-        icon_template: mdi:power-plug
+        icon_template: mdi:power-socket
         value_template: '{{ states.switch.europa.attributes["Current consumption"].split(" ")[0] | round(1) }}'
         unit_of_measurement: 'Watts'
       europa_current:
-        friendly_name: "Bedroom Electric"
-        icon_template: mdi:power-socket
+        friendly_name: "Bedroom Current"
+        icon_template: mdi:pulse
         value_template: '{{ states.switch.europa.attributes["Current"].split(" ")[0] | round(2) }}'
         unit_of_measurement: 'Amps'
       europa_voltage:

@@ -215,6 +215,21 @@ sensor.denon_source:
   icon: mdi:amplifier
   friendly_name: "Common Room Denon"
 
+sensor.ganymede_power:
+  icon: mdi:power-socket
+  friendly_name: "Ganymede Power"
+sensor.ganymede_power_factor:
+  icon: mdi:power-socket
+  friendly_name: "Ganymede Power Factor"
+sensor.ganymede_current:
+  icon: mdi:pulse
+  friendly_name: "Ganymede Current"
+sensor.ganymede_voltage:
+  icon: mdi:tower-fire
+  friendly_name: "Ganymede Voltage"
+sensor.ganymede_uptime:
+  icon: mdi:timelapse
+  friendly_name: "Ganymede Uptime"
 sensor.ganymede_energy_today:
   icon: mdi:chart-areaspline
   friendly_name: "Ganymede Energy Today"
@@ -224,18 +239,6 @@ sensor.ganymede_energy_yesterday:
 sensor.ganymede_energy_total:
   icon: mdi:chart-areaspline
   friendly_name: "Ganymede Energy Total"
-sensor.ganymede_power:
-  icon: mdi:power-plug
-  friendly_name: "Ganymede Power"
-sensor.ganymede_power_factor:
-  icon: mdi:power-plug
-  friendly_name: "Ganymede Power Factor"
-sensor.ganymede_current:
-  icon: mdi:pulse
-  friendly_name: "Ganymede Current"
-sensor.ganymede_voltage:
-  icon: mdi:tower-fire
-  friendly_name: "Ganymede Voltage"
 
 # sensor.lastfm_pephumin:
 #   icon: mdi:lastfm

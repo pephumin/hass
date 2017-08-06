@@ -49,16 +49,16 @@ mqtt:
   protocol: 3.1
   discovery: true
   discovery_prefix: homeassistant
-  # birth_message:
-  #   topic: "telemetry/switch/common_room/fan/LWT"
-  #   payload: "Online"
-  #   # qos: 1
-  #   # retain: true
-  # will_message:
-  #   topic: "telemetry/switch/common_room/fan/LWT"
-  #   payload: "Offline"
-  #   # qos: 1
-  #   # retain: true
+  birth_message:
+    topic: "tele/ganymede/LWT"
+    payload: "Online"
+    qos: 1
+    retain: true
+  will_message:
+    topic: "tele/ganymede/LWT"
+    payload: "Offline"
+    qos: 1
+    retain: true
 
 frontend:
   themes:
@@ -88,7 +88,7 @@ apple_tv:
 ifttt:
   key: !secret ifttt_key
 
-automation: !include_dir_merge_list automation/
+# automation: !include_dir_merge_list automation/
 device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
 history: !include config/logs.yaml
@@ -98,7 +98,7 @@ notify: !include config/notify.yaml
 recorder: !include config/recorder.yaml
 scene: !include config/scene.yaml
 script: !include config/script.yaml
-sensor: !include_dir_merge_list sensor/
+# sensor: !include_dir_merge_list sensor/
 
 logger:
   default: critical
@@ -109,8 +109,8 @@ logger:
     homeassistant.components.input_boolean: debug
     homeassistant.components.input_select: debug
     homeassistant.components.ios: debug
-    # homeassistant.components.mqtt: debug
-    homeassistant.components.mqtt: info
+    homeassistant.components.mqtt: debug
+    # homeassistant.components.mqtt: info
     homeassistant.components.media_player: critical
     # homeassistant.components.media_player.denon: debug
     # homeassistant.components.media_player.denonavr: debug

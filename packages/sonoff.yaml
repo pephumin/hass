@@ -53,13 +53,17 @@ switch:
     name: "Ganymede"
     state_topic: "stat/ganymede/POWER"
     command_topic: "cmnd/ganymede/POWER"
-    qos: 0
-    optimistic: false
+    qos: 1
     payload_on: "ON"
     payload_off: "OFF"
     retain: true
 
 sensor:
+  - platform: mqtt
+    name: "Ganymede Uptime"
+    state_topic: "tele/ganymede/STATE"
+    value_template: "{{ value_json.Uptime }}"
+    unit_of_measurement: "Hour(s)"
   - platform: mqtt
     name: "Ganymede Energy Today"
     state_topic: "tele/ganymede/ENERGY"
@@ -94,15 +98,6 @@ sensor:
     state_topic: "tele/ganymede/ENERGY"
     value_template: "{{ value_json.Voltage | round(0) }}"
     unit_of_measurement: "Volts"
-
-binary_sensor:
-  - platform: mqtt
-    name: "Ganymede LWT"
-    state_topic: "tele/ganymede/LWT"
-    value_template: "{{ value }}"
-    payload_on: "Online"
-    payload_off: "Offline"
-    device_class: connectivity
 
 automation:
 

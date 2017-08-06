@@ -12,15 +12,15 @@ travel:
     # - proximity.jue_home
     # - sensor.distance_jue__home_mean
 
-weather:
-  view: no
-  name: "Weather"
-  icon: mdi:weather-cloudy
-  entities:
-    - sensor.owm_temperature
-    - sensor.owm_condition
-    - sensor.owm_cloud_coverage
-    - sensor.owm_humidity
+# weather:
+#   view: no
+#   name: "Weather"
+#   icon: mdi:weather-cloudy
+#   entities:
+#     - sensor.owm_temperature
+#     - sensor.owm_condition
+#     - sensor.owm_cloud_coverage
+#     - sensor.owm_humidity
 
 ganymede:
   view: no
@@ -32,6 +32,7 @@ ganymede:
     - sensor.ganymede_power_factor
     - sensor.ganymede_current
     - sensor.ganymede_voltage
+    - sensor.ganymede_uptime
     - sensor.ganymede_energy_today
     - sensor.ganymede_energy_yesterday
     - sensor.ganymede_energy_total

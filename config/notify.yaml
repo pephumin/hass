@@ -30,6 +30,11 @@
     - service: kodi
     - service: voicetv
 
+- platform: file
+  name: file
+  filename: !secret notify_file
+  timestamp: true
+
 # - platform: pushbullet
 #   name: pushbullet
 #   api_key: !secret api_key_pushbullet
