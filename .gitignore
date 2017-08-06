@@ -26,3 +26,7 @@ html5_push_registrations.conf
 ip_bans.yaml
 /icloud/*
 openssl/*
+notify.log
+sensor/
+ping/
+*.sh
