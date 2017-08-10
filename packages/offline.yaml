@@ -94,6 +94,10 @@ binary_sensor:
     host: 192.168.1.88
     name: "Android_Box"
 
+  - platform: ping
+    host: 192.168.1.200
+    name: "pepe"
+
 ##########################################
 
 automation:
@@ -136,6 +140,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "The primary gateway is offline"
           message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -149,6 +159,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "The secondary gateway is offline"
           message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -162,6 +178,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Airport Extreme is offline"
           message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -175,6 +197,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Airport Express Bedroom is offline"
           message: 'Airport Express Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -188,6 +216,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Airport Express Downstairs is offline"
           message: 'Airport Express Downstairs is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -201,6 +235,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Airport Express Working Space is offline"
           message: 'Airport Express Working Space is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -214,6 +254,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Philips Hue is offline"
           message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -227,6 +273,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Broadlink RM Pro is offline"
           message: 'Broadlink RM Pro is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -240,6 +292,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Broadlink RM Mini is offline"
           message: 'Broadlink RM Mini is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -253,6 +311,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Foscam Black is offline"
           message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -266,6 +330,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Foscam White is offline"
           message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -279,6 +349,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Printer is offline"
           message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -292,6 +368,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Smart Plug in Common Room is offline"
           message: 'Smart Plug in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -305,6 +387,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Smart Plug in Bedroom is offline"
           message: 'Smart Plug in Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -318,6 +406,12 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Subwoofer Switch in Common Room is offline"
           message: 'Subwoofer Switch in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -331,5 +425,11 @@ automation:
     action:
       - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
           title: "Ganymede Fan Switch in Common Room is offline"
           message: 'Ganymede Fan Switch in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

@@ -8,3 +8,14 @@ playlists:
     - script.djp_shuffle
     - script.dj_shuffle
     - script.soft_shuffle
+
+kodi:
+  view: no
+  name: "Kodi"
+  icon: mdi:kodi
+  entities:
+    - script.kodi_get_recent_movies
+    - script.kodi_get_recent_tvshows
+    - script.kodi_get_pvr_channels
+    - script.kodi_update_audio_library
+    - script.kodi_update_video_library

@@ -29,8 +29,14 @@ automation:
         event: sunset
         offset: "-00:30:00"
     action:
-      - service: script.flashing_once
+      - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "pip"
+          light: "false"
+          mobile: "false"
           title: "Sunset is expected in 30 minutes"
           message: 'Sunset is expected in 30 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -41,7 +47,13 @@ automation:
         event: sunset
         offset: "+00:00:00"
     action:
-      - service: script.flashing_once
+      - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "pip"
+          light: "false"
+          mobile: "false"
           title: "Sun is setting now"
           message: 'Sun is setting now [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

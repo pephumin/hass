@@ -1,5 +1,49 @@
+notify_pesiphone6:
+  alias: "Notify iPhone Pe"
+  sequence:
+    - service: notify.ios_pesiphone6
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            badge: 1
+            category: "ALERT"
+
+notify_juesiphone6splus:
+  alias: "Notify iPhone Jue"
+  sequence:
+    - service: notify.ios_juesiphone6splus
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            badge: 1
+            category: "ALERT"
+
+notify_pesiphone6_juesiphone6splus:
+  alias: "Notify iPhone Pe & Jue"
+  sequence:
+    - service: notify.ios_pesiphone6
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            badge: 1
+            category: "ALERT"
+    - service: notify.ios_juesiphone6splus
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            badge: 1
+            category: "ALERT"
+
 flashing_long:
-  alias: "Flashing Long and Notify"
+  alias: "Light Flash Long"
   sequence:
     - service: light.turn_on
       entity_id: group.flashlights
@@ -7,15 +51,9 @@ flashing_long:
         transition: 1
         brightness: 250
         flash: long
-    - service: script.notifying
-      data_template:
-        mobile: '{{ mobile if mobile != "" else "true" }}'
-        audio: '{{ audio if audio != "" else "siren" }}'
-        title: '{{ title }}'
-        message: '{{ message }}'
 
 flashing_short:
-  alias: "Flashing Short and Notify"
+  alias: "Light Flash Short"
   sequence:
     - service: light.turn_on
       entity_id: group.flashlights
@@ -51,15 +89,9 @@ flashing_short:
         transition: 1
         brightness: 250
         flash: short
-    - service: script.notifying
-      data_template:
-        mobile: '{{ mobile if mobile != "" else "false" }}'
-        audio: '{{ audio if audio != "" else "pip" }}'
-        title: '{{ title }}'
-        message: '{{ message }}'
 
 flashing_once:
-  alias: "Flashing Once and Notify"
+  alias: "Light Flash Once"
   sequence:
     - service: light.turn_on
       entity_id: group.flashlights
@@ -67,38 +99,12 @@ flashing_once:
         transition: 1
         brightness: 250
         flash: short
-    - service: script.notifying
-      data_template:
-        mobile: '{{ mobile if mobile != "" else "false" }}'
-        audio: '{{ audio if audio != "" else "chime" }}'
-        title: '{{ title }}'
-        message: '{{ message }}'
-
-notifying:
-  alias: "Notify to TV, email, and voice"
-  sequence:
-    - service: notify.email
-      data_template:
-        title: '{{ title }}'
-        message: '{{ message }}'
-    - service: script.notifying_voice
-      data_template:
-        mobile: '{{ mobile }}'
-        audio: '{{ audio }}'
-        title: '{{ title }}'
-        message: '{{ message }}'
-    - condition: template
-      value_template: '{% if is_state("media_player.denon", "on") %}true{% else %}false{% endif %}'
-    - service: notify.tv
-      data_template:
-        title: '{{ title }}'
-        message: '{{ message }}'
 
 volume_down:
   alias: "Volume Fade Down"
   sequence:
     - condition: template
-      value_template: '{% if is_state("media_player.itunes", "playing") %}true{% else %}false{% endif %}'
+      value_template: '{{ is_state("media_player.itunes", "playing") }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
@@ -128,7 +134,7 @@ volume_up:
   alias: "Volume Fade Up"
   sequence:
     - condition: template
-      value_template: '{% if is_state("media_player.itunes", "playing") %}true{% else %}false{% endif %}'
+      value_template: '{{ is_state("media_player.itunes", "playing") }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
@@ -154,45 +160,114 @@ volume_up:
       data_template:
         volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
 
-notifying_voice:
-  alias: "Notify with voice to Macbook Pro"
+speak:
+  alias: "Sub-notify script Speak"
   sequence:
+    - condition: template
+      value_template: '{{ (speak != "false" and is_state("binary_sensor.pepe", "on")) }}'
     - service: script.volume_down
-    - wait_template: '{{ states.script.volume_down.state == "off" }}'
+    - wait_template: '{{ is_state("script.volume_down", "off") }}'
       timeout: 00:00:01
     - service: media_player.volume_set
-      data_template:
+      data:
         entity_id: media_player.music_player_daemon
         volume_level: 1.0
     - service: media_player.play_media
       data_template:
         entity_id: media_player.music_player_daemon
-        # media_content_id: '{% if audio == "pip "%}http://192.168.1.100:8123/local/sounds/pip.mp3{% elif audio == "horn" %}http://192.168.1.100:8123/local/sounds/horn.mp3{% elif audio == "siren" %}http://192.168.1.100:8123/local/sounds/siren.mp3{% elif audio == "chime" %}http://192.168.1.100:8123/local/sounds/chime.mp3{% else %}http://192.168.1.100:8123/local/sounds/sinewave.mp3{% endif %}'
         media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
         media_content_type: "audio/mp3"
-    - delay: 00:00:00
+    - delay: 00:00:01
     - service: tts.google_say
       data_template:
         entity_id: media_player.music_player_daemon
         # message: '{{ title }}'
         message: "{{ title }} {{ now().strftime('%H:%M') }}"
-    # - wait_template: '{{ states.media_player.music_player_daemon.state == "off" }}'
-    #   timeout: 00:00:01
-    - delay: 00:00:05
-    - service: media_player.play_media
-      data_template:
-        entity_id: media_player.music_player_daemon
-        # media_content_id: '{% if audio == "pip "%}http://192.168.1.100:8123/local/sounds/pip.mp3{% elif audio == "horn" %}http://192.168.1.100:8123/local/sounds/horn.mp3{% elif audio == "siren" %}http://192.168.1.100:8123/local/sounds/siren.mp3{% elif audio == "chime" %}http://192.168.1.100:8123/local/sounds/chime.mp3{% else %}http://192.168.1.100:8123/local/sounds/sinewave.mp3{% endif %}'
-        # media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
-        media_content_id: '{{ ["http://phumin.synology.me:7575/local/sounds/pip.mp3", "http://phumin.synology.me:7575/local/sounds/horn.mp3", "http://phumin.synology.me:7575/local/sounds/siren.mp3", "http://phumin.synology.me:7575/local/sounds/chime.mp3", "http://phumin.synology.me:7575/local/sounds/sinewave.mp3"] | random }}'
-        media_content_type: "audio/mp3"
-    - delay: 00:00:00
+    - delay: 00:00:03
+    # - service: media_player.play_media
+    #   data_template:
+    #     entity_id: media_player.music_player_daemon
+    #     media_content_id: '{{ ["http://phumin.synology.me:7575/local/sounds/pip.mp3", "http://phumin.synology.me:7575/local/sounds/horn.mp3", "http://phumin.synology.me:7575/local/sounds/siren.mp3", "http://phumin.synology.me:7575/local/sounds/chime.mp3", "http://phumin.synology.me:7575/local/sounds/sinewave.mp3"] | random }}'
+    #     media_content_type: "audio/mp3"
+    # - delay: 00:00:00
     - service: script.volume_up
-    - wait_template: '{{ states.script.volume_up.state == "off" }}'
+    - wait_template: '{{ is_state("script.volume_up", "off") }}'
       timeout: 00:00:01
+
+email:
+  alias: "Sub-notify script Email"
+  sequence:
     - condition: template
-      value_template: '{{ "true" if mobile == "true" else "false" }}'
-    - service: script.notify_pesiphone6
+      value_template: '{{ email != "false" }}'
+    - service: notify.email
       data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+
+tv:
+  alias: "Sub-notify script TV"
+  sequence:
+    # - condition: template
+    #   value_template: '{{ tv != "false" }}'
+    # - condition: template
+    #   value_template: '{{ is_state("media_player.denon", "on") }}'
+    - condition: template
+      value_template: '{{ (tv != "false" and is_state("media_player.denon", "on")) }}'
+    - service: notify.tv
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+
+mobile:
+  alias: "Sub-notify script Mobile"
+  sequence:
+    - condition: template
+      value_template: '{{ mobile != "false" }}'
+    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone6{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "both" %}script.notify_pesiphone6_juesiphone6splus{% else %}script.notify_pesiphone6{% endif %}'
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+    # - service: script.turn_on
+    #   data_template:
+    #     entity_id: '{% if mobile == "pe" %}script.notify_pesiphone6{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "both" %}script.notify_pesiphone6_juesiphone6splus{% else %}script.notify_pesiphone6{% endif %}'
+    #     title: '{{ title }}'
+    #     message: '{{ message }}'
+
+light:
+  alias: "Sub-notify script Light"
+  sequence:
+    - condition: template
+      value_template: '{{ light != "false" }}'
+    - service_template: '{% if light == "long" %}script.flashing_long{% elif light == "short" %}script.flashing_short{% elif light == "once" %}script.flashing_once{% endif %}'
+    # - service: script.turn_on
+    #   data_template:
+    #     entity_id: '{% if light == "long" %}script.flashing_long{% elif light == "short" %}script.flashing_short{% elif light == "once" %}script.flashing_once{% endif %}'
+
+notifying:
+  alias: "Notify script"
+  sequence:
+    - service: script.light
+      data_template:
+        light: '{{ light if (light == "long" or light == "short" or light == "once" or light == "false") else "false" }}'
+    - delay: 00:00:02
+    - service: script.email
+      data_template:
+        email: '{{ email if (email == "true" or email == "false") else "true" }}'
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.tv
+      data_template:
+        tv: '{{ tv if (tv == "true" or tv == "false") else "true" }}'
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.speak
+      data_template:
+        speak: '{{ speak if (speak == "true" or speak == "false") else "true" }}'
+        audio: '{{ audio if (audio == "siren" or audio == "pip" or audio == "chime" or audio == "horn" or audio == "sinewave") else "sinewave" }}'
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.mobile
+      data_template:
+        mobile: '{{ mobile if (mobile == "pe" or mobile == "jue" or mobile == "both" or mobile == "false") else "false" }}'
         title: '{{ title }}'
         message: '{{ message }}'

@@ -2,19 +2,8 @@ include:
   domains:
     - binary_sensor
     - device_tracker
-    - input_slider
-    - input_boolean
-    - light
     - proximity
-    - sensor
-    - switch
   entities:
-    - input_select.homemode
-    - media_player.apple_tv
-    - media_player.kodi
-    - media_player.denon
-    - media_player.dune
-    - media_player.itunes
     - sensor.benjy_to_home
     - sensor.home_to_benjy
     - sensor.home_to_malaiwan
@@ -24,62 +13,25 @@ include:
     - sensor.ram_use
     - sensor.speedtest_download
     - sensor.speedtest_upload
-    - sensor.temperature_sda
-    - sensor.temperature_sdb
-    - sensor.temperature_sdc
-    - sensor.temperature_sdd
-    - sensor.owm_temperature
-    - sensor.owm_condition
-    - sensor.owm_cloud_coverage
-    - sensor.owm_humidity
     - sensor.titan_current_consumption
     - sensor.europa_current_consumption
 
 exclude:
   domains:
+    - input_slider
+    - input_boolean
+    - light
+    - media_player
     - scene
+    - sensor
     - sun
+    - switch
     - updater
     - weblink
     - zone
   entities:
     - sun.sun
-    - sensor.moon
-    - sensor.time
-    - sensor.date
-    - sensor.day_night
-    - sensor.solar_angle
-    - sensor.last_boot
-    - sensor.since_last_boot
-    - sensor.jues_ipad_mini_2_battery_level
-    - sensor.jues_ipad_mini_2_battery_level_2
-    - sensor.jues_ipad_mini_2_battery_state
-    - sensor.jues_ipad_mini_2_battery_state_2
-    - sensor.jues_iphone_6s_plus_battery_level
-    - sensor.jues_iphone_6s_plus_battery_level_2
-    - sensor.jues_iphone_6s_plus_battery_level_3
-    - sensor.jues_iphone_6s_plus_battery_state
-    - sensor.jues_iphone_6s_plus_battery_state_2
-    - sensor.jues_iphone_6s_plus_battery_state_3
-    - sensor.pes_ipad_mini_2_battery_level
-    - sensor.pes_ipad_mini_2_battery_level_2
-    - sensor.pes_ipad_mini_2_battery_state
-    - sensor.pes_ipad_mini_2_battery_state_2
-    - sensor.pes_iphone_6_battery_level
-    - sensor.pes_iphone_6_battery_level_2
-    - sensor.pes_iphone_6_battery_level_3
-    - sensor.pes_iphone_6_battery_state
-    - sensor.pes_iphone_6_battery_state_2
-    - sensor.pes_iphone_6_battery_state_3
     - camera.foscam_black
     - camera.foscam_white
     - camera.current_location_jue
     - camera.current_location_pe
-    - sensor.titan_current
-    - sensor.titan_voltage
-    - sensor.europa_current
-    - sensor.europa_voltage
-    # - sensor.igd_packets_sent
-    # - sensor.igd_packets_received
-    # - sensor.igd_sent_bytes
-    # - sensor.igd_received_bytes

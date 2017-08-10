@@ -50,12 +50,12 @@ mqtt:
   discovery: true
   discovery_prefix: homeassistant
   birth_message:
-    topic: "tele/ganymede/LWT"
+    topic: "tele/hass/LWT"
     payload: "Online"
     qos: 1
     retain: true
   will_message:
-    topic: "tele/ganymede/LWT"
+    topic: "tele/hass/LWT"
     payload: "Offline"
     qos: 1
     retain: true
@@ -103,14 +103,14 @@ script: !include config/script.yaml
 logger:
   default: critical
   logs:
-    homeassistant.components.automation: debug
+    homeassistant.components.automation: info
     homeassistant.components.device_tracker: critical
     homeassistant.components.http: warning
     homeassistant.components.input_boolean: debug
     homeassistant.components.input_select: debug
     homeassistant.components.ios: debug
-    homeassistant.components.mqtt: debug
-    # homeassistant.components.mqtt: info
+    # homeassistant.components.mqtt: debug
+    homeassistant.components.mqtt: info
     homeassistant.components.media_player: critical
     # homeassistant.components.media_player.denon: debug
     # homeassistant.components.media_player.denonavr: debug

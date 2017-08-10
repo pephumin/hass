@@ -22,9 +22,8 @@ control_cr:
     - sensor.common_room_temperature
     - switch.common_room_air_cond
     - switch.common_room_fan
-    # - switch.titan
     - switch.hometheatre
-    - sensor.denon_source
+    # - sensor.denon_source
     - input_select.denon_mode
     - switch.sonytv
     - switch.android_box
@@ -33,11 +32,6 @@ control_cr:
     - sensor.titan_current_consumption
     - sensor.titan_current
     - sensor.titan_voltage
-    # - switch.common_room_lamp
-    # - sensor.common_room_lamp_energy
-    # - sensor.common_room_lamp_power
-    # - sensor.common_room_lamp_current
-    # - sensor.common_room_lamp_voltage
 
 control_br:
   name: "Bedroom Control Panel"
@@ -47,7 +41,6 @@ control_br:
     - switch.bedroom_air_cond
     # - switch.bedroom_tv
     - switch.europa
-    - switch.bedroomsound
     - script.mute_bedroom
     - script.dj_shuffle
     - script.soft_shuffle

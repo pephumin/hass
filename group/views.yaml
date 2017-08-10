@@ -42,6 +42,7 @@ common_room:
     - camera.foscam_black
     - group.control_cr
     - group.ganymede
+    - group.kodi
 
 bedroom:
   view: yes

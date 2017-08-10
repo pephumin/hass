@@ -1,31 +1,3 @@
-# binary_sensor:
-#   - platform: command_line
-#     command: '/bin/ping -W 1 -c 1 8.8.8.8 > /dev/null 2>&1 && echo success || echo fail'
-#     name: 'Internet'
-#     device_class: connectivity
-#     payload_on: 'success'
-#     payload_off: 'fail'
-
-# shell_command:
-#   db_events: !secret db_events
-#   db_states: !secret db_states
-#   db_recorder_runs: !secret db_recorder_runs
-#   db_schema_changes: !secret db_schema_changes
-
-# input_select:
-#   log_level:
-#     name: 'Log Level'
-#     options:
-#       - critical
-#       - fatal
-#       - error
-#       - warning
-#       - warn
-#       - info
-#       - debug
-#       - notset
-#     initial: critical
-
 sensor:
   - platform: synologydsm
     name: Saturn
@@ -43,84 +15,62 @@ sensor:
   - platform: speedtest
     minute:
       - 0
+      - 5
       - 10
+      - 15
       - 20
+      - 25
       - 30
+      - 35
       - 40
+      - 45
       - 50
+      - 55
     monitored_conditions:
+      - ping
       - download
       - upload
-  # - platform: template
-  #   sensors:
-  #     db_events:
-  #       friendly_name: "DB Events"
-  #       icon_template: mdi:database
-  #       value_template: '{{ states.shell_command.db_events.state.split(" ")[1] | float }}'
-  #       unit_of_measurement: 'MB'
-  #     db_states:
-  #       friendly_name: "DB States"
-  #       icon_template: mdi:database
-  #       value_template: '{{ states.shell_command.db_states.state.split(" ")[1] | float }}'
-  #       unit_of_measurement: 'MB'
-  #     db_recorder_runs:
-  #       friendly_name: "DB Recorder Runs"
-  #       icon_template: mdi:database
-  #       value_template: '{{ states.shell_command.db_recorder_runs.state.split(" ")[1] | float }}'
-  #       unit_of_measurement: 'MB'
-  #     db_schema_changes:
-  #       friendly_name: "DB Schema Changes"
-  #       icon_template: mdi:database
-  #       value_template: '{{ states.shell_command.db_schema_changes.state.split(" ")[1] | float }}'
-  #       unit_of_measurement: 'MB'
-
+  # - platform: mqtt
+  #   state_topic: 'hass/speedtest'
+  #   name: 'Speedtest MQTT Ping'
+  #   unit_of_measurement: "ms"
+  #   value_template: "{{ value_json.Ping_ms }}"
+  # - platform: mqtt
+  #   state_topic: 'hass/speedtest'
+  #   name: 'Speedtest MQTT Download'
+  #   unit_of_measurement: "Mbit/s"
+  #   value_template: "{{ value_json.Download_Mbit }}"
+  # - platform: mqtt
+  #   state_topic: 'hass/speedtest'
+  #   name: 'Speedtest MQTT Upload'
+  #   unit_of_measurement: "Mbit/s"
+  #   value_template: "{{ value_json.Upload_Mbit }}"
   - platform: template
     sensors:
       average_temperature:
         friendly_name: 'Average Disk Temperature'
         unit_of_measurement: '°C'
         icon_template: mdi:thermometer
-        value_template: '{{ (float(states.sensor.temperature_sda.state) + float(states.sensor.temperature_sdb.state) + float(states.sensor.temperature_sdc.state) + float(states.sensor.temperature_sdd.state)) / 4 | round(2) }}'
+        value_template: '{% if (states.sensor.temperature_sda.state and states.sensor.temperature_sdb.state and states.sensor.temperature_sdc.state and states.sensor.temperature_sdd.state) %}{{ (float(states.sensor.temperature_sda.state) + float(states.sensor.temperature_sdb.state) + float(states.sensor.temperature_sdc.state) + float(states.sensor.temperature_sdd.state)) / 4 | round(2) }}{% endif %}'
       uptime:
         friendly_name: Uptime
         icon_template: mdi:timelapse
         value_template: >-
-          {%- set slb = states.sensor.since_last_boot.state.split(' ') -%}
-          {%- set count = slb | length -%}
-          {%- set hms = slb[count - 1] -%}
-          {%- set hms_trimmed = hms.split('.')[0] -%}
-          {%- set hms_split = hms_trimmed.split(':') -%}
-          {%- set hours = hms_split[0] | int -%}
-          {%- if count == 3 -%}
-            {{ slb[0] ~ ' ' ~ slb[1] ~ ' ' }}
-          {%- endif -%}
-          {%- if hours > 0 -%}
-            {%- if hours == 1 -%}
-              1 hour
-            {%- else -%}
-              {{ hours }} hours
+          {%- if states.sensor.since_last_boot.state -%}
+            {%- set slb = states.sensor.since_last_boot.state.split(' ') -%}
+            {%- set count = slb | length -%}
+            {%- set hms = slb[count - 1] -%}
+            {%- set hms_trimmed = hms.split('.')[0] -%}
+            {%- set hms_split = hms_trimmed.split(':') -%}
+            {%- set hours = hms_split[0] | int -%}
+            {%- if count == 3 -%}
+              {{ slb[0] ~ ' ' ~ slb[1] ~ ' ' }}
+            {%- endif -%}
+            {%- if hours > 0 -%}
+              {%- if hours == 1 -%}
+                1 hour
+              {%- else -%}
+                {{ hours }} hours
+              {%- endif -%}
             {%- endif -%}
           {%- endif -%}
-
-# automation:
-#
-#   - alias: 'Log Level'
-#     trigger:
-#       platform: state
-#       entity_id: input_select.log_level
-#     action:
-#       service: logger.set_level
-#       data_template:
-#         homeassistant.components: "{{ trigger.to_state.state }}"
-
-#   - alias: "Internet is down"
-#     # hide_entity: True
-#     trigger:
-#       - platform: state
-#         entity_id: binary_sensor.internet
-#         to: 'off'
-#     action:
-#       - service: script.notifying
-#         data:
-#           title: "The Internet is down"
-#           message: 'The Internet is down [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

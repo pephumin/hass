@@ -71,49 +71,6 @@ notify:
     name: iOSApp
     target: 'TOKEN'
 
-script:
-  notify_pesiphone6:
-    alias: "Notify iPhone Pe"
-    sequence:
-      - service: notify.ios_pesiphone6
-        data_template:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              badge: 1
-              category: "ALERT"
-  notify_juesiphone6splus:
-    alias: "Notify iPhone Jue"
-    sequence:
-      - service: notify.ios_juesiphone6splus
-        data_template:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              badge: 1
-              category: "ALERT"
-  notify_both:
-    alias: "Notify iPhone Pe & Jue"
-    sequence:
-      - service: notify.ios_pesiphone6
-        data_template:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              badge: 1
-              category: "ALERT"
-      - service: notify.ios_juesiphone6splus
-        data_template:
-          title: '{{ title }}'
-          message: '{{ message }}'
-          data:
-            push:
-              badge: 1
-              category: "ALERT"
-
 sensor:
   - platform: template
     sensors:

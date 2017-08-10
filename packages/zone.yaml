@@ -148,9 +148,9 @@ automation:
     hide_entity: True
     trigger:
       - platform: template
-        value_template: '{% if is_state("device_tracker.pesiphone6", "home") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.pesiphone6", "home") }}'
       - platform: template
-        value_template: '{% if is_state("device_tracker.user_pesiphone6", "home") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.user_pesiphone6", "home") }}'
       - platform: numeric_state
         entity_id: proximity.pe_home
         below: 10
@@ -159,16 +159,19 @@ automation:
         zone: zone.home
         event: enter
     condition:
-      - condition: and
-        conditions:
-          - condition: template
-            value_template: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          - condition: or
-            conditions:
-              - condition: template
-                value_template: '{% if is_state("device_tracker.ping_pesiphone6", "home") %}true{% else %}false{% endif %}'
-              - condition: template
-                value_template: '{% if is_state("binary_sensor.pesiphone6", "on") %}true{% else %}false{% endif %}'
+      # - condition: and
+      #   conditions:
+      #     - condition: template
+      #       value_template: '{{ is_state("input_boolean.presence_pe", "off") }}'
+      #     - condition: or
+      #       conditions:
+      #         - condition: template
+      #           value_template: '{{ is_state("device_tracker.ping_pesiphone6", "home") }}'
+      #         - condition: template
+      #           value_template: '{{ is_state("binary_sensor.pesiphone6", "on") }}'
+      - condition: template
+        value_template: '{{ (is_state("input_boolean.presence_pe", "off") and (is_state("device_tracker.ping_pesiphone6", "home") or is_state("binary_sensor.pesiphone6", "on"))) }}'
+
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_pe
@@ -177,9 +180,11 @@ automation:
     hide_entity: True
     trigger:
       - platform: template
-        value_template: '{% if is_state("device_tracker.pesiphone6", "not_home") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.pesiphone6", "not_home") }}'
       - platform: template
-        value_template: '{% if is_state("device_tracker.user_pesiphone6", "not_home") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.user_pesiphone6", "not_home") }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.pepe", "not_home") }}'
       - platform: numeric_state
         entity_id: proximity.pe_home
         above: 1000
@@ -188,16 +193,18 @@ automation:
         zone: zone.home
         event: leave
     condition:
-      - condition: and
-        conditions:
-          - condition: template
-            value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}false{% endif %}'
-          - condition: or
-            conditions:
-              - condition: template
-                value_template: '{% if is_state("device_tracker.ping_pesiphone6", "not_home") %}true{% else %}false{% endif %}'
-              - condition: template
-                value_template: '{% if is_state("binary_sensor.pesiphone6", "off") %}true{% else %}false{% endif %}'
+      # - condition: and
+      #   conditions:
+      #     - condition: template
+      #       value_template: '{% if is_state("input_boolean.presence_pe", "on") %}true{% else %}false{% endif %}'
+      #     - condition: or
+      #       conditions:
+      #         - condition: template
+      #           value_template: '{% if is_state("device_tracker.ping_pesiphone6", "not_home") %}true{% else %}false{% endif %}'
+      #         - condition: template
+      #           value_template: '{% if is_state("binary_sensor.pesiphone6", "off") %}true{% else %}false{% endif %}'
+      - condition: template
+        value_template: '{{ (is_state("input_boolean.presence_pe", "on") and (is_state("device_tracker.ping_pesiphone6", "not_home") or is_state("binary_sensor.pesiphone6", "off"))) }}'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.presence_pe
@@ -213,14 +220,20 @@ automation:
           minutes: 2
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("input_boolean.presence_jue", "off") }}'
     action:
-      - service: script.notify_juesiphone6splus
+      # - service: script.notify_juesiphone6splus
+      #   data:
+      #     title: "Pe has arrived home"
+      #     message: 'เป้กลับถึงบ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notifying
         data:
-          title: "Pe has arrived home"
-          message: 'เป้กลับถึงบ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "pe"
           title: "Pe has arrived home"
           message: 'Pe has arrived home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -235,14 +248,20 @@ automation:
           minutes: 2
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("input_boolean.presence_jue", "off") }}'
     action:
-      - service: script.notify_juesiphone6splus
+      # - service: script.notify_juesiphone6splus
+      #   data:
+      #     title: "Pe has left home"
+      #     message: 'เป้ออกจากบ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notifying
         data:
-          title: "Pe has left home"
-          message: 'เป้ออกจากบ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "pe"
           title: "Pe has left home"
           message: 'Pe has left home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -250,9 +269,9 @@ automation:
     hide_entity: True
     trigger:
       - platform: template
-        value_template: '{% if is_state("device_tracker.juesiphone6splus", "home") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "home") }}'
       - platform: template
-        value_template: '{% if is_state("device_tracker.user_juesiphone6splus", "home") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.user_juesiphone6splus", "home") }}'
       - platform: numeric_state
         entity_id: proximity.jue_home
         below: 10
@@ -261,16 +280,18 @@ automation:
         zone: zone.home
         event: enter
     condition:
-      - condition: and
-        conditions:
-          - condition: template
-            value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}false{% endif %}'
-          - condition: or
-            conditions:
-              - condition: template
-                value_template: '{% if is_state("device_tracker.ping_juesiphone6splus", "home") %}true{% else %}false{% endif %}'
-              - condition: template
-                value_template: '{% if is_state("binary_sensor.juesiphone6splus", "on") %}true{% else %}false{% endif %}'
+      # - condition: and
+      #   conditions:
+      #     - condition: template
+      #       value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}false{% endif %}'
+      #     - condition: or
+      #       conditions:
+      #         - condition: template
+      #           value_template: '{% if is_state("device_tracker.ping_juesiphone6splus", "home") %}true{% else %}false{% endif %}'
+      #         - condition: template
+      #           value_template: '{% if is_state("binary_sensor.juesiphone6splus", "on") %}true{% else %}false{% endif %}'
+      - condition: template
+        value_template: '{{ (is_state("input_boolean.presence_jue", "off") and (is_state("device_tracker.ping_juesiphone6splus", "home") or is_state("binary_sensor.juesiphone6splus", "on"))) }}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_jue
@@ -279,9 +300,9 @@ automation:
     hide_entity: True
     trigger:
       - platform: template
-        value_template: '{% if is_state("device_tracker.juesiphone6splus", "not_home") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "not_home") }}'
       - platform: template
-        value_template: '{% if is_state("device_tracker.user_juesiphone6splus", "not_home") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.user_juesiphone6splus", "not_home") }}'
       - platform: numeric_state
         entity_id: proximity.jue_home
         above: 1000
@@ -290,16 +311,18 @@ automation:
         zone: zone.home
         event: leave
     condition:
-      - condition: and
-        conditions:
-          - condition: template
-            value_template: '{% if is_state("input_boolean.presence_jue", "on") %}true{% else %}false{% endif %}'
-          - condition: or
-            conditions:
-              - condition: template
-                value_template: '{% if is_state("device_tracker.ping_juesiphone6splus", "not_home") %}true{% else %}false{% endif %}'
-              - condition: template
-                value_template: '{% if is_state("binary_sensor.juesiphone6splus", "off") %}true{% else %}false{% endif %}'
+      # - condition: and
+      #   conditions:
+      #     - condition: template
+      #       value_template: '{% if is_state("input_boolean.presence_jue", "on") %}true{% else %}false{% endif %}'
+      #     - condition: or
+      #       conditions:
+      #         - condition: template
+      #           value_template: '{% if is_state("device_tracker.ping_juesiphone6splus", "not_home") %}true{% else %}false{% endif %}'
+      #         - condition: template
+      #           value_template: '{% if is_state("binary_sensor.juesiphone6splus", "off") %}true{% else %}false{% endif %}'
+      - condition: template
+        value_template: '{{ (is_state("input_boolean.presence_jue", "on") and (is_state("device_tracker.ping_juesiphone6splus", "not_home") or is_state("binary_sensor.juesiphone6splus", "off"))) }}'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.presence_jue
@@ -315,14 +338,16 @@ automation:
           minutes: 2
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("input_boolean.presence_pe", "off") }}'
     action:
-      - service: script.notify_pesiphone6
+      - service: script.notifying
         data:
-          title: "Jue has arrived home"
-          message: 'Jue has arrived home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "pe"
           title: "Jue has arrived home"
           message: 'Jue has arrived home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -337,14 +362,16 @@ automation:
           minutes: 2
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("input_boolean.presence_pe", "off") }}'
     action:
-      - service: script.notify_pesiphone6
+      - service: script.notifying
         data:
-          title: "Jue has left home"
-          message: 'Jue has left home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "pe"
           title: "Jue has left home"
           message: 'Jue has left home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -356,9 +383,9 @@ automation:
         from: 'not_home'
         to: 'Malaiwan'
       - platform: template
-        value_template: '{% if is_state("device_tracker.juesiphone6splus", "Malaiwan") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
       - platform: template
-        value_template: '{% if is_state("device_tracker.user_juesiphone6splus", "Malaiwan") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.user_juesiphone6splus", "Malaiwan") }}'
       - platform: numeric_state
         entity_id: proximity.jue_malaiwan
         below: 10
@@ -368,7 +395,7 @@ automation:
         event: enter
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_jue_malaiwan", "off") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("input_boolean.presence_jue_malaiwan", "off") }}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_jue_malaiwan
@@ -389,7 +416,7 @@ automation:
         event: leave
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_jue_malaiwan", "on") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("input_boolean.presence_jue_malaiwan", "on") }}'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.presence_jue_malaiwan
@@ -403,16 +430,15 @@ automation:
         to: 'on'
         for:
           minutes: 2
-    # condition:
-    #   - condition: template
-    #     value_template: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
     action:
-      - service: script.notify_pesiphone6
+      - service: script.notifying
         data:
-          title: "Jue has arrived Malaiwan"
-          message: 'Jue has arrived Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "pip"
+          light: "short"
+          mobile: "pe"
           title: "Jue has arrived Malaiwan"
           message: 'Jue has arrived Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -425,62 +451,17 @@ automation:
         to: 'off'
         for:
           minutes: 2
-    # condition:
-    #   - condition: template
-    #     value_template: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
     action:
-      - service: script.notify_pesiphone6
+      - service: script.notifying
         data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "pip"
+          light: "short"
+          mobile: "pe"
           title: "Jue has left Malaiwan"
           message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
-          title: "Jue has left Malaiwan"
-          message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  # - alias: "Jue Arrives Malaiwan"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
-  #       from: 'not_home'
-  #       to: 'Malaiwan'
-  #       # for:
-  #       #   minutes: 2
-  #   condition:
-  #     - condition: template
-  #       value_template: '{% if is_state("device_tracker.user_juesiphone6splus", "Malaiwan") %}true{% else %}false{% endif %}'
-  #   action:
-  #     - service: script.notify_pesiphone6
-  #       data:
-  #         title: "Jue has arrived Malaiwan"
-  #         message: 'Jue has arrived Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #     - service: script.flashing_short
-  #       data:
-  #         title: "Jue has arrived Malaiwan"
-  #         message: 'Jue has arrived Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Jue Leaves Malaiwan"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
-  #       from: 'Malaiwan'
-  #       to: 'not_home'
-  #       # for:
-  #       #   minutes: 2
-  #   condition:
-  #     - condition: template
-  #       value_template: '{% if is_state("device_tracker.user_juesiphone6splus", "not_home") %}true{% else %}false{% endif %}'
-  #   action:
-  #     - service: script.notify_pesiphone6
-  #       data:
-  #         title: "Jue has left Malaiwan"
-  #         message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #     - service: script.flashing_short
-  #       data:
-  #         title: "Jue has left Malaiwan"
-  #         message: 'Jue has left Malaiwan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Pe is at Benjawan"
     hide_entity: True
@@ -490,9 +471,9 @@ automation:
         from: 'not_home'
         to: 'Benjawan'
       - platform: template
-        value_template: '{% if is_state("device_tracker.pesiphone6", "Benjawan") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.pesiphone6", "Benjawan") }}'
       - platform: template
-        value_template: '{% if is_state("device_tracker.user_pesiphone6", "Benjawan") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("device_tracker.user_pesiphone6", "Benjawan") }}'
       - platform: numeric_state
         entity_id: proximity.pe_benjawan
         below: 10
@@ -502,7 +483,7 @@ automation:
         event: enter
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_pe_benjawan", "off") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("input_boolean.presence_pe_benjawan", "off") }}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_pe_benjawan
@@ -523,7 +504,7 @@ automation:
         event: leave
     condition:
       - condition: template
-        value_template: '{% if is_state("input_boolean.presence_pe_benjawan", "on") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("input_boolean.presence_pe_benjawan", "on") }}'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.presence_pe_benjawan
@@ -537,16 +518,19 @@ automation:
         to: 'on'
         for:
           minutes: 2
-    # condition:
-    #   - condition: template
-    #     value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}false{% endif %}'
     action:
-      - service: script.notify_juesiphone6splus
+      # - service: script.notify_juesiphone6splus
+      #   data:
+      #     title: "Pe has arrived Benjawan"
+      #     message: 'เป้ถึงบ้านเบญ [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notifying
         data:
-          title: "Pe has arrived Benjawan"
-          message: 'เป้ถึงบ้านเบญ [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_short
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "pip"
+          light: "short"
+          mobile: "jue"
           title: "Pe has arrived Benjawan"
           message: 'Pe has arrived Benjawan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -559,62 +543,21 @@ automation:
         to: 'off'
         for:
           minutes: 2
-    # condition:
-    #   - condition: template
-    #     value_template: '{% if is_state("input_boolean.presence_jue", "off") %}true{% else %}false{% endif %}'
     action:
-      - service: script.notify_juesiphone6splus
+      # - service: script.notify_juesiphone6splus
+      #   data:
+      #     title: "Pe has left Benjawan"
+      #     message: 'เป้ออกจากบ้านเบญ [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notifying
         data:
-          title: "Pe has left Benjawan"
-          message: 'เป้ออกจากบ้านเบญ [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_short
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "pip"
+          light: "short"
+          mobile: "jue"
           title: "Pe has left Benjawan"
           message: 'Pe has left Benjawan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  # - alias: "Pe Arrives Benjawan"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: device_tracker.pesiphone6
-  #       from: 'not_home'
-  #       to: 'Benjawan'
-  #       for:
-  #         minutes: 2
-  #   condition:
-  #     - condition: template
-  #       value_template: '{% if is_state("device_tracker.user_pesiphone6", "Benjawan") %}true{% else %}false{% endif %}'
-  #   action:
-  #     - service: script.notify_juesiphone6splus
-  #       data:
-  #         title: "Pe has arrived Benjawan"
-  #         message: 'เป้ถึงบ้านเบญ [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #     - service: script.flashing_short
-  #       data:
-  #         title: "Pe has arrived Benjawan"
-  #         message: 'Pe has arrived Benjawan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Pe Leaves Benjawan"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: device_tracker.pesiphone6
-  #       from: 'Benjawan'
-  #       to: 'not_home'
-  #       for:
-  #         minutes: 2
-  #   condition:
-  #     - condition: template
-  #       value_template: '{% if is_state("device_tracker.user_pesiphone6", "not_home") %}true{% else %}false{% endif %}'
-  #   action:
-  #     - service: script.notify_juesiphone6splus
-  #       data:
-  #         title: "Pe has left Benjawan"
-  #         message: 'เป้ออกจากบ้านเบญ [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #     - service: script.flashing_short
-  #       data:
-  #         title: "Pe has left Benjawan"
-  #         message: 'Pe has left Benjawan [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Jue 3km Away From Home"
     hide_entity: True
@@ -624,12 +567,14 @@ automation:
         below: 3200
         above: 2800
     action:
-      - service: script.notify_pesiphone6
+      - service: script.notifying
         data:
-          title: "Jue is 3km away from Home"
-          message: 'Jue is 3km away from Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "pe"
           title: "Jue is 3km away from Home"
           message: 'Jue is 3km away from Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -641,12 +586,14 @@ automation:
         below: 2200
         above: 1800
     action:
-      - service: script.notify_pesiphone6
+      - service: script.notifying
         data:
-          title: "Jue is 2km away from Home"
-          message: 'Jue is 2km away from Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "pe"
           title: "Jue is 2km away from Home"
           message: 'Jue is 2km away from Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -658,12 +605,14 @@ automation:
         below: 1200
         above: 800
     action:
-      - service: script.notify_pesiphone6
+      - service: script.notifying
         data:
-          title: "Jue is 1km away from Home"
-          message: 'Jue is 1km away from Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_short
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "pe"
           title: "Jue is 1km away from Home"
           message: 'Jue is 1km away from Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -675,12 +624,18 @@ automation:
         below: 3200
         above: 2800
     action:
-      - service: script.notify_juesiphone6splus
+      # - service: script.notify_juesiphone6splus
+      #   data:
+      #     title: "Pe is 3km away from Home"
+      #     message: 'เป้อยู่ห่างจากบ้านประมาณ 3 กม. [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notifying
         data:
-          title: "Pe is 3km away from Home"
-          message: 'เป้อยู่ห่างจากบ้านประมาณ 3 กม. [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "jue"
           title: "Pe is 3km away from Home"
           message: 'Pe is 3km away from Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -692,12 +647,18 @@ automation:
         below: 2200
         above: 1800
     action:
-      - service: script.notify_juesiphone6splus
+      # - service: script.notify_juesiphone6splus
+      #   data:
+      #     title: "Pe is 2km away from Home"
+      #     message: 'เป้อยู่ห่างจากบ้านประมาณ 2 กม. [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notifying
         data:
-          title: "Pe is 2km away from Home"
-          message: 'เป้อยู่ห่างจากบ้านประมาณ 2 กม. [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_once
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "jue"
           title: "Pe is 2km away from Home"
           message: 'Pe is 2km away from Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -709,41 +670,71 @@ automation:
         below: 1200
         above: 800
     action:
-      - service: script.notify_juesiphone6splus
+      # - service: script.notify_juesiphone6splus
+      #   data:
+      #     title: "Pe is 1km away from Home"
+      #     message: 'เป้อยู่ห่างจากบ้านประมาณ 1 กม. [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notifying
         data:
-          title: "Pe is 1km away from Home"
-          message: 'เป้อยู่ห่างจากบ้านประมาณ 1 กม. [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_short
-        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "once"
+          mobile: "jue"
           title: "Pe is 1km away from Home"
           message: 'Pe is 1km away from Home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: "Benjy Visits"
+  - alias: "Benjy is here"
     hide_entity: True
     trigger:
-      - platform: state
-        entity_id: device_tracker.benjy
-        from: 'not_home'
-        to: 'home'
-        for:
-          minutes: 2
+      - platform: template
+        value_template: '{{ is_state("device_tracker.benjy", "home") }}'
       - platform: zone
         entity_id: device_tracker.benjy
         zone: zone.home
         event: enter
     condition:
-      - condition: and
-        conditions:
-          - condition: template
-            value_template: '{% if is_state("input_boolean.presence_benjy", "off") %}true{% else %}false{% endif %}'
-          - condition: or
-            conditions:
-              - condition: template
-                value_template: '{% if is_state("device_tracker.ping_benjy", "home") %}true{% else %}false{% endif %}'
-              - condition: template
-                value_template: '{% if is_state("binary_sensor.benjy", "on") %}true{% else %}false{% endif %}'
+      # - condition: and
+      #   conditions:
+      #     - condition: template
+      #       value_template: '{% if is_state("input_boolean.presence_benjy", "off") %}true{% else %}false{% endif %}'
+      #     - condition: or
+      #       conditions:
+      #         - condition: template
+      #           value_template: '{% if is_state("device_tracker.ping_benjy", "home") %}true{% else %}false{% endif %}'
+      #         - condition: template
+      #           value_template: '{% if is_state("binary_sensor.benjy", "on") %}true{% else %}false{% endif %}'
+      - condition: template
+        value_template: '{{ (is_state("input_boolean.presence_benjy", "off") and (is_state("device_tracker.ping_benjy", "home") or is_state("binary_sensor.benjy", "on"))) }}'
     action:
       - service: input_boolean.turn_on
+        entity_id: input_boolean.presence_benjy
+
+  - alias: "Benjy is not here"
+    hide_entity: True
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("device_tracker.benjy", "not_home") }}'
+      - platform: zone
+        entity_id: device_tracker.benjy
+        zone: zone.home
+        event: leave
+    condition:
+      # - condition: and
+      #   conditions:
+      #     - condition: template
+      #       value_template: '{% if is_state("input_boolean.presence_benjy", "on") %}true{% else %}false{% endif %}'
+      #     - condition: or
+      #       conditions:
+      #         - condition: template
+      #           value_template: '{% if is_state("device_tracker.ping_benjy", "not_home") %}true{% else %}false{% endif %}'
+      #         - condition: template
+      #           value_template: '{% if is_state("binary_sensor.benjy", "off") %}true{% else %}false{% endif %}'
+      - condition: template
+        value_template: '{{ (is_state("input_boolean.presence_benjy", "on") and (is_state("device_tracker.ping_benjy", "not_home") or is_state("binary_sensor.benjy", "off"))) }}'
+    action:
+      - service: input_boolean.turn_off
         entity_id: input_boolean.presence_benjy
 
   - alias: "Benjy Arrives Home"
@@ -756,24 +747,27 @@ automation:
         for:
           minutes: 2
     action:
-      - service: script.notify_pesiphone6
-        data:
-          title: "Benjy has arrived"
-          message: 'Benjy visits and she has arrived [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.notify_juesiphone6splus
-        data:
-          title: "Benjy has arrived"
-          message: 'เบญมาหาที่บ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_long
-        data:
-          title: "Benjy has arrived"
-          message: 'Benjy visits and she has arrived [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
       - service: input_select.select_option
         data:
           entity_id: input_select.homemode
           option: Visitor
+      # - service: script.notify_juesiphone6splus
+      #   data:
+      #     title: "Benjy has arrived"
+      #     message: 'เบญมาหาที่บ้าน [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notifying
+        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "long"
+          mobile: "both"
+          title: "Benjy has arrived"
+          message: 'Benjy visits and she has arrived [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Benjy Leaves Home"
+    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_boolean.presence_benjy
@@ -782,18 +776,24 @@ automation:
         for:
           minutes: 2
     action:
-      - service: script.notify_pesiphone6
-        data:
-          title: "Benjy has left"
-          message: 'Benjy has left [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.notify_juesiphone6splus
-        data:
-          title: "Benjy has left"
-          message: 'เบญกลับแล้ว [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-      - service: script.flashing_short
-        data:
-          title: "Benjy has left"
-          message: 'Benjy has left [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      # - service: input_select.select_option
+      #   data:
+      #     entity_id: input_select.homemode
+      #     option: Visitor
       - service: input_select.select_previous
         data:
           entity_id: input_select.homemode
+      # - service: script.notify_juesiphone6splus
+      #   data:
+      #     title: "Benjy has left"
+      #     message: 'เบญกลับแล้ว [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.notifying
+        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "long"
+          mobile: "both"
+          title: "Benjy has left"
+          message: 'Benjy has left [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

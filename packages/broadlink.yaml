@@ -6,14 +6,12 @@ script:
         data:
           packet:
             - 'JgDMAG82Dw0PDg0pDg0OKg0ODikPDA4ODikODg8MDikOKQ4ODwwPDQ4NDg4ODw4MDg0OKQ8NDikODw0ODQ4ODg4oDw0ODQ8pDigQKA4ODSsNDQ4NDg4ODQ8oDygPDQ4qDSkOKQ8ODQAJj283DQ4ODQ4pDw0OKQ8MDygQDA8ODSkODQ8NDikOKQ4NDw0ODQ8ODQ4ODwwODwwOKQ8ODSkODQ8NDg0PDg0pDg4ODQ8oDikPKA8NECcPDA8NDg4PDA4rDCkPDg0qDigOKQ4ODwANBQAAAAAAAAAAAAAAAA=='
-            # - 'JgDMAG44Dg0ODQ4qDQ4OKQ4NDikODg4NDisNDRALECgOKQ4NDw0PDBAMDg4PDA4NDw4OJxEMDygODg0ODwwPDQ4qDgwPDQ4pDygOKQ4ODikODRAMDg0PDQ4pECgNDg4pDikOKQ8MDwAJkG42Dw0ODQ4pDwwOKQ8NECcODg4ODigODg4NDykOKA8NEAwODQ4ODwwODg4NDw0OKQ4NDikPDQ8MDw4ODQ4qDgwQDQ0pDikPKQ0NDykODQ4ODg0PDQ8oDygODg4pDikOKQ4ODQANBQAAAAAAAAAAAAAAAA=='
   mute_bedroom:
     alias: "Mute Bedroom"
     sequence:
       - service: broadlink.send_packet_192_168_1_14
         data:
           packet:
-            # - 'JgDMAAgaCjsKGQkZChkJGQoZCRkKGQk8CTwJPAk8CRkKGQkABZ8LGAk8CRkJGgkZCTwJPAo7CTwKGQkZCRoJGQk8CTwJAAWfCxgJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwJGgkZCRoJPAk8CTsKOwoZCRoJGQkaCTsKOwoABZ8KGAo7ChkJGQkaCRkKGQkZChkJPAk8CTwJPAkZCRoJAAWfChkJOwoZCRoJGQk8CTwJPAk8CRkKGQkZChkJPAk8CQANBQAAAAAAAAAAAAAAAA=='
             - 'JgDMAAgaCjsKGQkZChkJGgkZCRoJGQk8CTwJPAk8CRkKGQkABZ8KGQk8CxcJGgkZCTwKOwo7CTwJGgkZCRoJGQk8CTwKAAWeChkJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwLGAkZCRoJPAk7CjsMOQwXCRkKGQkZCjsKOwwABZ0KGAo7CRoJGQkaCRkJGgkZCRoJPAk8CTwJPAkZCRoJAAWfChgKOwoZCRkKGQk8CTwJPAs6CRkKGQkZChkJPAk8CwANBQAAAAAAAAAAAAAAAA=='
 
 sensor:
@@ -64,39 +62,3 @@ switch:
         friendly_name: "Bedroom Denon"
         command_on: 'JgCIAAcbCTwJGQoZCRkKOwoZCRkKGQkZCTwJPAk8CRoJGQkABZ8JGgk8CRkKGQkZChkJPAk8CTwJOwoZChkJGQk8CTwJAAWfCRoJOwoZCRoJGQk8CRoJGQoZCRkJPAk8CTwJGQoZCQAFnwkaCTwJGQkaCRkJGgk8CTsKOwo7ChkJGQoZCTwJPAkADQU='
         command_off: 'JgDMAAcbCTwJGQoZCRkKGQk8CRkKGQkZCjsJPAo7CRoJGQoABZ4KGQk8CRkKGQkZCjsJGgk8CTwJPAkZCRoJGQk8CTwJAAWfCRoJPAkZChkJGQoZCTwJGQoZCRkJPAk8CTwJGgkZCQAFnwoZCTwJGQoZCRkKOwkaCTwJOwo7ChkJGQoZCTwJPAkABZ8JGgk8CRkJGgkZChkJOwoZCRoJGQk8CTwJPAkZChkJAAWfCRoJOwoZCRoJGQo7CRkKOwo7CjoLGQkZChkJPAk8CQANBQAAAAAAAAAAAAAAAA=='
-
-# binary_sensor:
-#   - platform: template
-#     sensors:
-#       sw_bedroom_air_cond:
-#         value_template: "{{ states.switch.bedroom_air_cond.state == 'on' }}"
-#         entity_id: switch.bedroom_air_cond
-#         friendly_name: "Bedroom Air Cond"
-#       sw_bedroom_tv:
-#         value_template: "{{ states.switch.bedroom_tv.state == 'on' }}"
-#         entity_id: switch.bedroom_tv
-#         friendly_name: "Bedroom TV"
-#       sw_common_room_air_cond:
-#         value_template: "{{ states.switch.common_room_air_cond.state == 'on' }}"
-#         entity_id: switch.common_room_air_cond
-#         friendly_name: "Common Room Air Cond"
-#       sw_common_room_fan:
-#         value_template: "{{ states.switch.common_room_fan.state == 'on' }}"
-#         entity_id: switch.common_room_fan
-#         friendly_name: "Common Room Fan"
-#       sw_common_room_tv:
-#         value_template: "{{ states.switch.common_room_tv.state == 'on' }}"
-#         entity_id: switch.common_room_tv
-#         friendly_name: "Common Room TV"
-#       sw_common_room_android_box:
-#         value_template: "{{ states.switch.common_room_android_box.state == 'on' }}"
-#         entity_id: switch.common_room_android_box
-#         friendly_name: "Common Room Android Box"
-#   - platform: mqtt
-#     state_topic: "homeassistant/switch/bedroom/air_cond"
-#     name: "Bedroom Air Cond"
-#     qos: 0
-#     payload_on: "On"
-#     payload_off: "Off"
-#     #device_class: opening
-#     value_template: '{{ value.x }}'
