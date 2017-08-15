@@ -24,3 +24,39 @@ proximity:
     - proximity.jue_home
     - proximity.pe_benjawan
     - proximity.jue_malaiwan
+    # - binary_sensor.pe_going_home
+    # - binary_sensor.jue_going_home
+    # - binary_sensor.pe_going_benjawan
+    # - binary_sensor.jue_going_malaiwan
+
+pesiphone6:
+  view: no
+  name: "Pe iPhone 6"
+  entities:
+    - device_tracker.pesiphone6
+    - device_tracker.ping_pesiphone6
+    - device_tracker.user_pesiphone6
+
+pesipadmini2:
+  view: no
+  name: "Pe iPad Mini 2"
+  entities:
+    - device_tracker.pesipadmini2
+    - device_tracker.ping_pesipadmini2
+    - device_tracker.user_pesipadmini2
+
+juesiphone6splus:
+  view: no
+  name: "Jue iPhone 6s Plus"
+  entities:
+    - device_tracker.juesiphone6splus
+    - device_tracker.ping_juesiphone6splus
+    - device_tracker.user_juesiphone6splus
+
+juesipadmini2:
+  view: no
+  name: "Jue iPad Mini 2"
+  entities:
+    - device_tracker.juesipadmini2
+    - device_tracker.ping_juesipadmini2
+    - device_tracker.user_juesipadmini2

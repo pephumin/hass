@@ -29,8 +29,10 @@
 
 # - platform: mqtt
 #   devices:
-#     pesiphone6: owntracks/user/pesiphone6
-#     juesiphone6splus: owntracks/user/juesiphone6splus
+#     mqtt_pesiphone6: owntracks/user/pesiphone6
+#     mqtt_juesiphone6splus: owntracks/user/juesiphone6splus
+#     mqtt_pesipadmini2: owntracks/user/pesipadmini2
+#     mqtt_juesipadmini2: owntracks/user/juesipadmini2
 #   interval_seconds: 12
 #   consider_home: 0:05:00
 #   track_new_devices: True

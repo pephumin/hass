@@ -111,6 +111,7 @@ logger:
     homeassistant.components.ios: debug
     # homeassistant.components.mqtt: debug
     homeassistant.components.mqtt: info
+    homeassistant.components.media_player.mpd: debug
     homeassistant.components.media_player: critical
     # homeassistant.components.media_player.denon: debug
     # homeassistant.components.media_player.denonavr: debug
