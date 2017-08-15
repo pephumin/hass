@@ -1,3 +1,54 @@
+binary_sensor:
+  # - platform: template
+  #   sensors:
+  #     saturn_is_hot:
+  #       value_template: '{% if states.sensor.average_temperature.state %}{{ float(states.sensor.average_temperature.state) > 41 }}{% endif %}'
+  #       friendly_name: 'Saturn HDDs are hot'
+  #       device_class: heat
+  - platform: trend
+    sensors:
+      saturn_temperature_up:
+        friendly_name: 'HDDs Temperature Increasing'
+        entity_id: sensor.average_temperature
+        device_class: heat
+  - platform: threshold
+    threshold: 41
+    type: upper
+    entity_id: sensor.average_temperature
+    name: 'Saturn Disks are hot'
+    device_class: heat
+  # - platform: template
+  #   sensors:
+  #     saturn_is_cool:
+  #       value_template: '{% if states.sensor.average_temperature.state %}{{ float(states.sensor.average_temperature.state) < 38 }}{% endif %}'
+  #       friendly_name: 'Saturn HDDs are cool'
+  #       device_class: cold
+  # - platform: trend
+  #   sensors:
+  #     saturn_temperature_down:
+  #       friendly_name: 'HDDs Temperature Decreasing'
+  #       entity_id: sensor.average_temperature
+  #       device_class: cold
+  #       invert: true
+  # - platform: threshold
+  #   threshold: 38
+  #   type: lower
+  #   entity_id: sensor.average_temperature
+  #   name: 'Saturn Disks are cool'
+  #   device_class: cold
+
+# alert:
+#   hot_saturn:
+#     name: Alert when Saturn is hot
+#     done_message: Saturn has cooled down
+#     entity_id: binary_sensor.saturn_is_hot
+#     state: 'on'
+#     repeat: 30
+#     can_acknowledge: true
+#     skip_first: false
+#     notifiers:
+#       - alert
+
 sensor:
   - platform: synologydsm
     name: Saturn
@@ -30,21 +81,6 @@ sensor:
       - ping
       - download
       - upload
-  # - platform: mqtt
-  #   state_topic: 'hass/speedtest'
-  #   name: 'Speedtest MQTT Ping'
-  #   unit_of_measurement: "ms"
-  #   value_template: "{{ value_json.Ping_ms }}"
-  # - platform: mqtt
-  #   state_topic: 'hass/speedtest'
-  #   name: 'Speedtest MQTT Download'
-  #   unit_of_measurement: "Mbit/s"
-  #   value_template: "{{ value_json.Download_Mbit }}"
-  # - platform: mqtt
-  #   state_topic: 'hass/speedtest'
-  #   name: 'Speedtest MQTT Upload'
-  #   unit_of_measurement: "Mbit/s"
-  #   value_template: "{{ value_json.Upload_Mbit }}"
   - platform: template
     sensors:
       average_temperature:

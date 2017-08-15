@@ -30,3 +30,4 @@ notify.log
 sensor/
 ping/
 *.sh
+removed/

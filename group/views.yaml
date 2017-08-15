@@ -23,7 +23,7 @@ default_view:
     - group.control
     # - group.weather
     - group.proximity
-    - group.timer
+    # - group.timer
 
 common_room:
   view: yes
@@ -56,7 +56,7 @@ bedroom:
     - media_player.bedroom_aex_airtunes_speaker
     - media_player.computer_airtunes_speaker
     - group.control_br
-    - group.alarmclock
+    # - group.alarmclock
 
 first_floor:
   view: yes
