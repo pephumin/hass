@@ -30,13 +30,11 @@ switch:
     switches:
       hometheatre:
         value_template: "{% if states.sensor.titan_current_consumption.state %}{{ states.sensor.titan_current_consumption.state | float > 100 }}{% endif %}"
-        # value_template: "{% if not is_state("sensor.titan_current_consumption", "") %}{{ states.sensor.titan_current_consumption.state | float > 100 }}{% endif %}"
         turn_on:
           service: script.hometheatre_turnon
         turn_off:
           service: script.hometheatre_turnoff
       sonytv:
-        # value_template: '{% if is_state("sensor.denon_source", "Off") %}false{% else %}{% if states.sensor.titan_current_consumption.state %}{{ states.sensor.titan_current_consumption.state | float > 100 }}{% endif %}{% endif %}'
         value_template: '{% if is_state("sensor.denon_source", "Off") %}false{% else %}{% if not is_state("sensor.titan_current_consumption", "") %}{{ states.sensor.titan_current_consumption.state | float > 100 }}{% endif %}{% endif %}'
         turn_on:
           service: switch.turn_on
@@ -54,7 +52,6 @@ switch:
           entity_id: switch.common_room_android_box
       bedroomsound:
         value_template: "{% if states.sensor.europa_current_consumption.state %}{{ states.sensor.europa_current_consumption.state | float > 40 }}{% endif %}"
-        # value_template: "{% if not is_state("sensor.europa_current_consumption", "") %}{{ states.sensor.europa_current_consumption.state | float > 40 }}{% endif %}"
         turn_on:
           service: switch.turn_on
           entity_id: switch.bedroom_denon
@@ -67,7 +64,6 @@ sensor:
     sensors:
       denon_source:
         value_template: '{% if is_state("media_player.denon", "on") %}{% if not states.media_player.denon.attributes.source %}Off{% else %}{{ states.media_player.denon.attributes.source }}{% endif %}{% else %}Off{% endif %}'
-        # value_template: '{% if is_state("media_player.denon", "on") %}{% if is_state_attr("media_player.denon", "source", "") %}Off{% else %}{{ states.media_player.denon.attributes.source }}{% endif %}{% else %}Off{% endif %}'
 
 binary_sensor:
   - platform: command_line
@@ -93,6 +89,7 @@ shell_command:
   denon_power_on: !secret denon_power_on
   denon_power_off: !secret denon_power_off
   denon_volume_40: !secret denon_volume_40
+  denon_volume_45: !secret denon_volume_45
   denon_volume_50: !secret denon_volume_50
   denon_mute_on: !secret denon_mute_on
   denon_mute_off: !secret denon_mute_off
@@ -173,8 +170,6 @@ script:
       - delay: 00:00:05
       - service: switch.turn_on
         entity_id: switch.common_room_android_box
-      - delay: 00:00:02
-      - service: script.switch_to_cabletv
       - delay: 00:00:05
       - service: script.denon_turnon
       - service: script.switch_to_cabletv
@@ -205,11 +200,10 @@ script:
       - condition: template
         value_template: '{{ not is_state("sensor.denon_source", "SAT/CBL") }}'
       - service: shell_command.denon_source_satcbl
-      - delay: 00:00:05
-      - service: shell_command.denon_volume_50
-      # - condition: template
-      #   value_template: '{{ "true" if volume_change != "" else "false" }}'
-      # - service: shell_command.denon_volume_{{ states.volume_change.state }}
+      - delay: 00:00:07
+      - condition: template
+        value_template: '{{ "true" if newvolume != "" else "false" }}'
+      - service_template: shell_command.denon_volume_{{ newvolume }}
 
   switch_to_music:
     alias: "Switch Media to Music"
@@ -220,11 +214,10 @@ script:
       - condition: template
         value_template: '{{ not is_state("sensor.denon_source", "Music") }}'
       - service: shell_command.denon_source_music
-      - delay: 00:00:05
-      - service: shell_command.denon_volume_40
-      # - condition: template
-      #   value_template: '{{ "true" if volume_change != "" else "false" }}'
-      # - service: shell_command.denon_volume_{{ states.volume_change.state }}
+      - delay: 00:00:07
+      - condition: template
+        value_template: '{{ "true" if newvolume != "" else "false" }}'
+      - service_template: shell_command.denon_volume_{{ newvolume }}
 
   switch_to_dune:
     alias: "Switch Media to Dune"
@@ -235,11 +228,10 @@ script:
       - condition: template
         value_template: '{{ not is_state("sensor.denon_source", "BD") }}'
       - service: shell_command.denon_source_dune
-      - delay: 00:00:05
-      - service: shell_command.denon_volume_40
-      # - condition: template
-      #   value_template: '{{ "true" if volume_change != "" else "false" }}'
-      # - service: shell_command.denon_volume_{{ states.volume_change.state }}
+      - delay: 00:00:07
+      - condition: template
+        value_template: '{{ "true" if newvolume != "" else "false" }}'
+      - service_template: shell_command.denon_volume_{{ newvolume }}
 
   switch_to_appletv:
     alias: "Switch Media to Apple TV"
@@ -250,11 +242,10 @@ script:
       - condition: template
         value_template: '{{ not is_state("sensor.denon_source", "MPLAY") }}'
       - service: shell_command.denon_source_appletv
-      - delay: 00:00:05
-      - service: shell_command.denon_volume_45
-      # - condition: template
-      #   value_template: '{{ "true" if volume_change != "" else "false" }}'
-      # - service: shell_command.denon_volume_{{ states.volume_change.state }}
+      - delay: 00:00:07
+      - condition: template
+        value_template: '{{ "true" if newvolume != "" else "false" }}'
+      - service_template: shell_command.denon_volume_{{ newvolume }}
 
   switch_to_off:
     alias: "Switch Media to Off"
@@ -284,10 +275,9 @@ automation:
       - platform: state
         entity_id: input_select.denon_mode
     action:
-      - service: script.turn_on
+      - service_template: '{% if is_state("input_select.denon_mode", "Cable TV") %}script.switch_to_cabletv{% elif is_state("input_select.denon_mode", "Music") %}script.switch_to_music{% elif is_state("input_select.denon_mode", "Dune") %}script.switch_to_dune{% elif is_state("input_select.denon_mode", "Apple TV") %}script.switch_to_appletv{% elif is_state("input_select.denon_mode", "Off") %}script.switch_to_off{% else %}{% endif %}'
         data_template:
-          entity_id: '{% if is_state("input_select.denon_mode", "Cable TV") %}script.switch_to_cabletv{% elif is_state("input_select.denon_mode", "Music") %}script.switch_to_music{% elif is_state("input_select.denon_mode", "Dune") %}script.switch_to_dune{% elif is_state("input_select.denon_mode", "Apple TV") %}script.switch_to_appletv{% elif is_state("input_select.denon_mode", "Off") %}script.switch_to_off{% endif %}'
-          # volume_change: '{% if not state("volume_change", "") %}states.volume_change.state{% else %}{% if is_state("input_select.denon_mode", "Cable TV") %}50{% elif is_state("input_select.denon_mode", "Music") %}40{% elif is_state("input_select.denon_mode", "Dune") %}40{% elif is_state("input_select.denon_mode", "Apple TV") %}45{% elif is_state("input_select.denon_mode", "Off") %}false{% endif %}{% endif %}'
+          newvolume: '{% if is_state("input_select.denon_mode", "Cable TV") %}50{% elif is_state("input_select.denon_mode", "Music") %}40{% elif is_state("input_select.denon_mode", "Dune") %}40{% elif is_state("input_select.denon_mode", "Apple TV") %}45{% else %}false{% endif %}'
 
   - alias: "Denon Mode aligns"
     trigger:
@@ -335,6 +325,8 @@ automation:
         value_template: '{{ is_state_attr("media_player.denon", "source", "Music") }}'
     action:
       - service: script.switch_to_music
+        data:
+          newvolume: 40
 
   - alias: "Auto Switch XDJ-RX Off"
     trigger:
@@ -355,6 +347,8 @@ automation:
         value_template: '{{ is_state_attr("media_player.denon", "source", "Music") }}'
     action:
       - service: script.switch_to_cabletv
+        data:
+          newvolume: 50
 
   - alias: "Auto Switch Dune On"
     trigger:
@@ -375,6 +369,8 @@ automation:
         value_template: '{{ not is_state_attr("media_player.denon", "source", "BD") }}'
     action:
       - service: script.switch_to_dune
+        data:
+          newvolume: 40
 
   - alias: "Auto Switch Dune Off"
     trigger:
@@ -395,63 +391,65 @@ automation:
         value_template: '{{ is_state_attr("media_player.denon", "source", "BD") }}'
     action:
       - service: script.switch_to_cabletv
+        data:
+          newvolume: 50
 
-  - alias: "Lights Dune Plays"
-    trigger:
-      - platform: state
-        entity_id: media_player.dune
-        from: 'idle'
-        to: 'playing'
-    condition:
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: sun.sun
-            state: 'below_horizon'
-          - condition: time
-            after: '18:00:00'
-            before: '06:00:00'
-    action:
-        service: scene.turn_on
-        entity_id: scene.common_room_dim
-
-  - alias: "Lights Dune Pauses"
-    trigger:
-      - platform: state
-        entity_id: media_player.dune
-        from: 'playing'
-        to: 'paused'
-    condition:
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: sun.sun
-            state: 'below_horizon'
-          - condition: time
-            after: '18:00:00'
-            before: '06:00:00'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.common_room_alive
-
-  - alias: "Lights Dune Stops"
-    trigger:
-      - platform: state
-        entity_id: media_player.dune
-        from: 'playing'
-        to: 'idle'
-    condition:
-      - condition: or
-        conditions:
-          - condition: state
-            entity_id: sun.sun
-            state: 'below_horizon'
-          - condition: time
-            after: '18:00:00'
-            before: '06:00:00'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.common_room_bright
+  # - alias: "Lights Dune Plays"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: media_player.dune
+  #       from: 'idle'
+  #       to: 'playing'
+  #   condition:
+  #     - condition: or
+  #       conditions:
+  #         - condition: state
+  #           entity_id: sun.sun
+  #           state: 'below_horizon'
+  #         - condition: time
+  #           after: '18:00:00'
+  #           before: '06:00:00'
+  #   action:
+  #       service: scene.turn_on
+  #       entity_id: scene.common_room_dim
+  #
+  # - alias: "Lights Dune Pauses"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: media_player.dune
+  #       from: 'playing'
+  #       to: 'paused'
+  #   condition:
+  #     - condition: or
+  #       conditions:
+  #         - condition: state
+  #           entity_id: sun.sun
+  #           state: 'below_horizon'
+  #         - condition: time
+  #           after: '18:00:00'
+  #           before: '06:00:00'
+  #   action:
+  #     - service: scene.turn_on
+  #       entity_id: scene.common_room_alive
+  #
+  # - alias: "Lights Dune Stops"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: media_player.dune
+  #       from: 'playing'
+  #       to: 'idle'
+  #   condition:
+  #     - condition: or
+  #       conditions:
+  #         - condition: state
+  #           entity_id: sun.sun
+  #           state: 'below_horizon'
+  #         - condition: time
+  #           after: '18:00:00'
+  #           before: '06:00:00'
+  #   action:
+  #     - service: scene.turn_on
+  #       entity_id: scene.common_room_bright
 
   # - alias: Volume Common Room
   #   trigger:

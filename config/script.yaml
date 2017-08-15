@@ -100,7 +100,7 @@ flashing_once:
         brightness: 250
         flash: short
 
-volume_down:
+ss_volume_down:
   alias: "Volume Fade Down"
   sequence:
     - condition: template
@@ -108,29 +108,37 @@ volume_down:
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
 
-volume_up:
+ss_volume_up:
   alias: "Volume Fade Up"
   sequence:
     - condition: template
@@ -138,34 +146,42 @@ volume_up:
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.02 }}'
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
 
-speak:
+s_speak:
   alias: "Sub-notify script Speak"
   sequence:
     - condition: template
       value_template: '{{ (speak != "false" and is_state("binary_sensor.pepe", "on")) }}'
-    - service: script.volume_down
+    - service: script.ss_volume_down
     - wait_template: '{{ is_state("script.volume_down", "off") }}'
       timeout: 00:00:01
     - service: media_player.volume_set
@@ -181,20 +197,13 @@ speak:
     - service: tts.google_say
       data_template:
         entity_id: media_player.music_player_daemon
-        # message: '{{ title }}'
         message: "{{ title }} {{ now().strftime('%H:%M') }}"
     - delay: 00:00:03
-    # - service: media_player.play_media
-    #   data_template:
-    #     entity_id: media_player.music_player_daemon
-    #     media_content_id: '{{ ["http://phumin.synology.me:7575/local/sounds/pip.mp3", "http://phumin.synology.me:7575/local/sounds/horn.mp3", "http://phumin.synology.me:7575/local/sounds/siren.mp3", "http://phumin.synology.me:7575/local/sounds/chime.mp3", "http://phumin.synology.me:7575/local/sounds/sinewave.mp3"] | random }}'
-    #     media_content_type: "audio/mp3"
-    # - delay: 00:00:00
-    - service: script.volume_up
+    - service: script.ss_volume_up
     - wait_template: '{{ is_state("script.volume_up", "off") }}'
       timeout: 00:00:01
 
-email:
+s_email:
   alias: "Sub-notify script Email"
   sequence:
     - condition: template
@@ -204,13 +213,9 @@ email:
         title: '{{ title }}'
         message: '{{ message }}'
 
-tv:
+s_tv:
   alias: "Sub-notify script TV"
   sequence:
-    # - condition: template
-    #   value_template: '{{ tv != "false" }}'
-    # - condition: template
-    #   value_template: '{{ is_state("media_player.denon", "on") }}'
     - condition: template
       value_template: '{{ (tv != "false" and is_state("media_player.denon", "on")) }}'
     - service: notify.tv
@@ -218,7 +223,7 @@ tv:
         title: '{{ title }}'
         message: '{{ message }}'
 
-mobile:
+s_mobile:
   alias: "Sub-notify script Mobile"
   sequence:
     - condition: template
@@ -227,46 +232,38 @@ mobile:
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
-    # - service: script.turn_on
-    #   data_template:
-    #     entity_id: '{% if mobile == "pe" %}script.notify_pesiphone6{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "both" %}script.notify_pesiphone6_juesiphone6splus{% else %}script.notify_pesiphone6{% endif %}'
-    #     title: '{{ title }}'
-    #     message: '{{ message }}'
 
-light:
+s_light:
   alias: "Sub-notify script Light"
   sequence:
     - condition: template
       value_template: '{{ light != "false" }}'
     - service_template: '{% if light == "long" %}script.flashing_long{% elif light == "short" %}script.flashing_short{% elif light == "once" %}script.flashing_once{% endif %}'
-    # - service: script.turn_on
-    #   data_template:
-    #     entity_id: '{% if light == "long" %}script.flashing_long{% elif light == "short" %}script.flashing_short{% elif light == "once" %}script.flashing_once{% endif %}'
 
 notifying:
   alias: "Notify script"
   sequence:
-    - service: script.light
+    - service: script.s_light
       data_template:
         light: '{{ light if (light == "long" or light == "short" or light == "once" or light == "false") else "false" }}'
     - delay: 00:00:02
-    - service: script.email
+    - service: script.s_email
       data_template:
         email: '{{ email if (email == "true" or email == "false") else "true" }}'
         title: '{{ title }}'
         message: '{{ message }}'
-    - service: script.tv
+    - service: script.s_tv
       data_template:
         tv: '{{ tv if (tv == "true" or tv == "false") else "true" }}'
         title: '{{ title }}'
         message: '{{ message }}'
-    - service: script.speak
+    - service: script.s_speak
       data_template:
         speak: '{{ speak if (speak == "true" or speak == "false") else "true" }}'
         audio: '{{ audio if (audio == "siren" or audio == "pip" or audio == "chime" or audio == "horn" or audio == "sinewave") else "sinewave" }}'
         title: '{{ title }}'
         message: '{{ message }}'
-    - service: script.mobile
+    - service: script.s_mobile
       data_template:
         mobile: '{{ mobile if (mobile == "pe" or mobile == "jue" or mobile == "both" or mobile == "false") else "false" }}'
         title: '{{ title }}'

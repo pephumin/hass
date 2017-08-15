@@ -12,9 +12,9 @@
   username: !secret my_username
   password: !secret my_password
 
-- platform: lannouncer
-  name: voicetv
-  host: !secret kodi_ip
+# - platform: lannouncer
+#   name: voicetv
+#   host: !secret kodi_ip
 
 - platform: smtp
   name: email
@@ -28,7 +28,7 @@
   services:
     - service: tv
     - service: kodi
-    - service: voicetv
+    # - service: voicetv
 
 - platform: file
   name: file
@@ -42,3 +42,9 @@
 # - platform: html5
 #   gcm_api_key: !secret gcm_api_key
 #   gcm_sender_id: !secret gcm_sender_id
+
+- platform: group
+  name: alert
+  services:
+    - service: tv
+    - service: email
