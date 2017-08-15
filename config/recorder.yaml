@@ -5,8 +5,14 @@ include:
   domains:
     - binary_sensor
     - device_tracker
+    - media_player
     - proximity
   entities:
+    - input_boolean.presence_pe
+    - input_boolean.presence_jue
+    - input_boolean.presence_benjy
+    - input_boolean.presence_pe_benjawan
+    - input_boolean.presence_jue_malaiwan
     - sensor.benjy_to_home
     - sensor.home_to_benjy
     - sensor.home_to_malaiwan
@@ -14,8 +20,10 @@ include:
     - sensor.uptime
     - sensor.cpu_use
     - sensor.ram_use
+    - sensor.average_temperature
     - sensor.speedtest_download
     - sensor.speedtest_upload
+    - sensor.common_room_temperature
     - sensor.titan_current_consumption
     - sensor.europa_current_consumption
 
@@ -24,7 +32,6 @@ exclude:
     - input_slider
     - input_boolean
     - light
-    - media_player
     - scene
     - sensor
     - sun
