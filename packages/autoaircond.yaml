@@ -37,7 +37,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "pip"
           light: "false"
           mobile: "false"
@@ -59,7 +59,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "pip"
           light: "false"
           mobile: "false"
