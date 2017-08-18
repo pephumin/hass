@@ -104,77 +104,69 @@ ss_volume_down:
   alias: "Volume Fade Down"
   sequence:
     - condition: template
-      value_template: '{{ is_state("media_player.itunes", "playing") }}'
+      value_template: '{{ (is_state("media_player.itunes", "playing") and is_state("input_boolean.mpd_silence", "off")) }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
-    - service: media_player.volume_set
-      entity_id: media_player.itunes
-      data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) - 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
 
 ss_volume_up:
   alias: "Volume Fade Up"
   sequence:
     - condition: template
-      value_template: '{{ is_state("media_player.itunes", "playing") }}'
+      value_template: '{{ (is_state("media_player.itunes", "playing") and is_state("input_boolean.mpd_silence", "off")) }}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
-    - service: media_player.volume_set
-      entity_id: media_player.itunes
-      data_template:
-        volume_level: '{{ float(states.media_player.itunes.attributes.volume_level) + 0.025 }}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
 
 s_speak:
   alias: "Sub-notify script Speak"
@@ -182,12 +174,10 @@ s_speak:
     - condition: template
       value_template: '{{ (speak != "false" and is_state("binary_sensor.pepe", "on")) }}'
     - service: script.ss_volume_down
-    - wait_template: '{{ is_state("script.volume_down", "off") }}'
-      timeout: 00:00:01
     - service: media_player.volume_set
-      data:
+      data_template:
         entity_id: media_player.music_player_daemon
-        volume_level: 1.0
+        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}1.0{% endif%}'
     - service: media_player.play_media
       data_template:
         entity_id: media_player.music_player_daemon
@@ -200,8 +190,6 @@ s_speak:
         message: "{{ title }} {{ now().strftime('%H:%M') }}"
     - delay: 00:00:03
     - service: script.ss_volume_up
-    - wait_template: '{{ is_state("script.volume_up", "off") }}'
-      timeout: 00:00:01
 
 s_email:
   alias: "Sub-notify script Email"
