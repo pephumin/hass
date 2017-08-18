@@ -165,6 +165,15 @@ switch.bedroomsound:
   friendly_name: "Bedroom Denon"
   assumed_state: true
 
+switch.foscam_black_motion:
+  icon: mdi:account-alert
+  friendly_name: "Foscam Black Motion Detection"
+  assumed_state: true
+switch.foscam_white_motion:
+  icon: mdi:account-alert
+  friendly_name: "Foscam White Motion Detection"
+  assumed_state: true
+
 script.mute_common_room:
   icon: mdi:volume-mute
   friendly_name: "Mute Common Room"
