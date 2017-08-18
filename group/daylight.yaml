@@ -5,7 +5,6 @@ daylight:
   entities:
     - sensor.date
     - sensor.time
-    - sensor.day_night
     - sun.sun
     - sensor.solar_angle
     - sensor.moon
