@@ -1,3 +1,9 @@
+input_boolean:
+  mpd_silence:
+    name: "Disable Speeching"
+    initial: off
+    icon: mdi:microphone-off
+
 input_select:
   homemode:
     name: "Home Mode"
@@ -8,6 +14,24 @@ input_select:
      - Visitor # no autolight off
     initial: Home
     icon: mdi:home-outline
+
+script:
+  turn_off_lightstrip:
+    alias: "Turn Off Lightstrip"
+    sequence:
+      - condition: template
+        value_template: '{{ is_state("light.lightstrip", "on") }}'
+      - delay: 00:05:00
+      - service: light.turn_off
+        entity_id: light.lightstrip
+  turn_off_hallway:
+    alias: "Turn Off Lightstrip"
+    sequence:
+      - condition: template
+        value_template: '{{ is_state("light.hallway", "on") }}'
+      - delay: 00:05:00
+      - service: light.turn_off
+        entity_id: light.hallway
 
 automation:
 
@@ -31,6 +55,12 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Home'
+      - service: switch.turn_off
+        entity_id: switch.foscam_black_motion
+      - service: switch.turn_off
+        entity_id: switch.foscam_white_motion
+      - service: script.turn_off_lightstrip
+      - service: script.turn_off_hallway
 
   - alias: "Set Away Mode 1"
     hide_entity: True
@@ -49,6 +79,10 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Away'
+      - service: switch.turn_on
+        entity_id: switch.foscam_black_motion
+      - service: switch.turn_on
+        entity_id: switch.foscam_white_motion
 
   - alias: "Set Away Mode 2"
     hide_entity: True
@@ -67,6 +101,10 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Away'
+      - service: switch.turn_on
+        entity_id: switch.foscam_black_motion
+      - service: switch.turn_on
+        entity_id: switch.foscam_white_motion
 
   - alias: "Set Vacation Mode 1"
     hide_entity: True
@@ -85,6 +123,10 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Vacation'
+      - service: switch.turn_on
+        entity_id: switch.foscam_black_motion
+      - service: switch.turn_on
+        entity_id: switch.foscam_white_motion
 
   - alias: "Set Vacation Mode 2"
     hide_entity: True
@@ -103,3 +145,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Vacation'
+      - service: switch.turn_on
+        entity_id: switch.foscam_black_motion
+      - service: switch.turn_on
+        entity_id: switch.foscam_white_motion

@@ -6,57 +6,168 @@ camera:
     timeout: 15
     verify_ssl: false
 
-# shell_command:
-#   foscam_turn_off: !secret foscam_turn_off
-#   foscam_turn_on: !secret foscam_turn_on
-#
-# switch:
-#   - platform: command_line
-#     name: "Foscam Motion Detection"
-#     switches:
-#       foscam_motion:
-#         command_on: !secret foscam_command_on
-#         command_off: !secret foscam_command_off
-#         command_state: !secret foscam_command_state
-#         value_template: '{{ value == "1" }}'
-#
-# script:
-#   foscam_off:
-#     alias: "Foscam Motion Inactive"
-#     sequence:
-#       - service: switch.turn_off
-#         data:
-#           entity_id: switch.foscam_motion
-#       - service: shell_command.foscam_turn_off
-#   foscam_on:
-#     alias: "Foscam Motion Active"
-#     sequence:
-#       - service: switch.turn_off
-#         data:
-#           entity_id: switch.foscam_motion
-#       - service: shell_command.foscam_turn_on
-#       - service: switch.turn_on
-#         data:
-#           entity_id: switch.foscam_motion
-#
-# automation:
-#   - alias: "Enable Motion Detection Away Mode"
-#     trigger:
-#       - platform: state
-#         entity_id: input_select.homemode
-#         from: Home
-#         to: Away
-#     action:
-#       - service: script.foscam_on
-#       - service: notify.email
-#         data:
-#           title: "Enable Motion Detection"
-#           message: 'Foscam Motion Detection is activated for Away mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-#       - service: notify.tv
-#         data:
-#           title: "Enable Motion Detection"
-#           message: 'Foscam Motion Detection is activated for Away mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-#
+shell_command:
+  foscam_black_command_on: !secret foscam_black_command_on
+  foscam_black_command_off: !secret foscam_black_command_off
+  foscam_black_command_state: !secret foscam_black_command_state
+  foscam_black_present_1: !secret foscam_black_present_1
+  foscam_black_present_2: !secret foscam_black_present_2
+  foscam_black_present_3: !secret foscam_black_present_3
+  foscam_black_present_4: !secret foscam_black_present_4
+  foscam_black_reboot: !secret foscam_black_reboot
+  foscam_black_scan_0: !secret foscam_black_scan_0
+  foscam_black_scan_1: !secret foscam_black_scan_1
+  foscam_black_scan_2: !secret foscam_black_scan_2
+  foscam_black_scan_3: !secret foscam_black_scan_3
+  foscam_white_command_on: !secret foscam_white_command_on
+  foscam_white_command_off: !secret foscam_white_command_off
+  foscam_white_command_state: !secret foscam_white_command_state
+  foscam_white_present_1: !secret foscam_white_present_1
+  foscam_white_present_2: !secret foscam_white_present_2
+  foscam_white_present_3: !secret foscam_white_present_3
+  foscam_white_present_4: !secret foscam_white_present_4
+  foscam_white_reboot: !secret foscam_white_reboot
+  foscam_white_scan_0: !secret foscam_white_scan_0
+  foscam_white_scan_1: !secret foscam_white_scan_1
+  foscam_white_scan_2: !secret foscam_white_scan_2
+  foscam_white_scan_3: !secret foscam_white_scan_3
+
+switch:
+  - platform: command_line
+    name: "Foscam Black Motion Detection"
+    switches:
+      foscam_black_motion:
+        command_on: !secret foscam_black_command_on
+        command_off: !secret foscam_black_command_off
+        command_state: !secret foscam_black_command_state
+        value_template: '{{ value == "1" }}'
+  - platform: command_line
+    name: "Foscam White Motion Detection"
+    switches:
+      foscam_white_motion:
+        command_on: !secret foscam_white_command_on
+        command_off: !secret foscam_white_command_off
+        command_state: !secret foscam_white_command_state
+        value_template: '{{ value == "1" }}'
+
+script:
+  black_scan:
+    sequence:
+      - service: shell_command.foscam_black_present_2
+      - delay: 00:00:25
+      - service: shell_command.foscam_black_present_3
+      - delay: 00:00:15
+      - service: shell_command.foscam_black_present_4
+      - service: script.black_scan_loop
+  black_scan_loop:
+    sequence:
+      - delay: 00:00:15
+      - service: script.black_scan
+  black_scan_stop:
+    sequence:
+      - service: script.turn_off
+        entity_id: script.black_scan
+      - service: script.turn_off
+        entity_id: script.black_scan_loop
+      - service: shell_command.foscam_black_present_1
+  white_scan:
+    sequence:
+      - service: shell_command.foscam_white_present_2
+      - delay: 00:00:30
+      - service: shell_command.foscam_white_present_3
+      - delay: 00:00:15
+      - service: shell_command.foscam_white_present_4
+      - service: script.white_scan_loop
+  white_scan_loop:
+    sequence:
+      - delay: 00:00:10
+      - service: script.white_scan
+  white_scan_stop:
+    sequence:
+      - service: script.turn_off
+        entity_id: script.white_scan
+      - service: script.turn_off
+        entity_id: script.white_scan_loop
+      - service: shell_command.foscam_white_present_1
+
+automation:
+
+  - alias: "Foscam Black Motion Detection Enable"
+    trigger:
+      - platform: state
+        entity_id: switch.foscam_black_motion
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.black_scan
+      - service: script.notifying
+        data:
+          email: "true"
+          tv: "false"
+          speak: "false"
+          audio: "chime"
+          light: "false"
+          mobile: "pe"
+          title: "Foscam Black Motion Detection is activated"
+          message: 'Foscam Black Motion Detection is activated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Foscam Black Motion Detection Disable"
+    trigger:
+      - platform: state
+        entity_id: switch.foscam_black_motion
+        from: 'on'
+        to: 'off'
+    action:
+      - service: script.black_scan_stop
+      - service: script.notifying
+        data:
+          email: "true"
+          tv: "false"
+          speak: "false"
+          audio: "chime"
+          light: "false"
+          mobile: "pe"
+          title: "Foscam Black Motion Detection is deactivated"
+          message: 'Foscam Black Motion Detection is deactivated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Foscam White Motion Detection Enable"
+    trigger:
+      - platform: state
+        entity_id: switch.foscam_white_motion
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.white_scan
+      - service: script.notifying
+        data:
+          email: "true"
+          tv: "false"
+          speak: "false"
+          audio: "chime"
+          light: "false"
+          mobile: "pe"
+          title: "Foscam White Motion Detection is activated"
+          message: 'Foscam White Motion Detection is activated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Foscam White Motion Detection Disable"
+    trigger:
+      - platform: state
+        entity_id: switch.foscam_white_motion
+        from: 'on'
+        to: 'off'
+    action:
+      - service: script.white_scan_stop
+      - service: script.notifying
+        data:
+          email: "true"
+          tv: "false"
+          speak: "false"
+          audio: "chime"
+          light: "false"
+          mobile: "pe"
+          title: "Foscam White Motion Detection is deactivated"
+          message: 'Foscam White Motion Detection is deactivated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
 #   - alias: "Disable Motion Detection Home Mode"
 #     trigger:
 #       - platform: state

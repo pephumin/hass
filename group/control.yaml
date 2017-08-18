@@ -13,6 +13,9 @@ control:
     - switch.europa
     - input_boolean.presence_pe_benjawan
     - input_boolean.presence_jue_malaiwan
+    - switch.foscam_black_motion
+    - switch.foscam_white_motion
+    - input_boolean.mpd_silence
 
 control_cr:
   name: "Common Room Control Panel"
