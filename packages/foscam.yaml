@@ -51,6 +51,38 @@ switch:
         value_template: '{{ value == "1" }}'
 
 script:
+  motion_detection_activate:
+    sequence:
+      - service: switch.turn_on
+        entity_id: switch.foscam_black_motion
+      - service: switch.turn_on
+        entity_id: switch.foscam_white_motion
+      # - service: script.notifying
+      #   data:
+      #     email: "true"
+      #     tv: "false"
+      #     speak: "false"
+      #     audio: "chime"
+      #     light: "false"
+      #     mobile: "false"
+      #     title: "Foscam Motion Detection is activated"
+      #     message: 'Foscam Motion Detection is activated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  motion_detection_deactivate:
+    sequence:
+      - service: switch.turn_off
+        entity_id: switch.foscam_black_motion
+      - service: switch.turn_off
+        entity_id: switch.foscam_white_motion
+      # - service: script.notifying
+      #   data:
+      #     email: "true"
+      #     tv: "false"
+      #     speak: "false"
+      #     audio: "chime"
+      #     light: "false"
+      #     mobile: "false"
+      #     title: "Foscam Motion Detection is deactivated"
+      #     message: 'Foscam Motion Detection is deactivated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   black_scan:
     sequence:
       - service: shell_command.foscam_black_present_2
@@ -100,16 +132,6 @@ automation:
         to: 'on'
     action:
       - service: script.black_scan
-      - service: script.notifying
-        data:
-          email: "true"
-          tv: "false"
-          speak: "false"
-          audio: "chime"
-          light: "false"
-          mobile: "pe"
-          title: "Foscam Black Motion Detection is activated"
-          message: 'Foscam Black Motion Detection is activated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Foscam Black Motion Detection Disable"
     trigger:
@@ -119,16 +141,6 @@ automation:
         to: 'off'
     action:
       - service: script.black_scan_stop
-      - service: script.notifying
-        data:
-          email: "true"
-          tv: "false"
-          speak: "false"
-          audio: "chime"
-          light: "false"
-          mobile: "pe"
-          title: "Foscam Black Motion Detection is deactivated"
-          message: 'Foscam Black Motion Detection is deactivated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Foscam White Motion Detection Enable"
     trigger:
@@ -138,16 +150,6 @@ automation:
         to: 'on'
     action:
       - service: script.white_scan
-      - service: script.notifying
-        data:
-          email: "true"
-          tv: "false"
-          speak: "false"
-          audio: "chime"
-          light: "false"
-          mobile: "pe"
-          title: "Foscam White Motion Detection is activated"
-          message: 'Foscam White Motion Detection is activated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Foscam White Motion Detection Disable"
     trigger:
@@ -157,30 +159,39 @@ automation:
         to: 'off'
     action:
       - service: script.white_scan_stop
-      - service: script.notifying
-        data:
-          email: "true"
-          tv: "false"
-          speak: "false"
-          audio: "chime"
-          light: "false"
-          mobile: "pe"
-          title: "Foscam White Motion Detection is deactivated"
-          message: 'Foscam White Motion Detection is deactivated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-#   - alias: "Disable Motion Detection Home Mode"
-#     trigger:
-#       - platform: state
-#         entity_id: input_select.homemode
-#         from: Away
-#         to: Home
-#     action:
-#       - service: script.foscam_off
-#       - service: notify.email
-#         data:
-#           title: "Disable Motion Detection"
-#           message: 'Foscam Motion Detection is deactivated for Home mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-#       - service: notify.tv
-#         data:
-#           title: "Disable Motion Detection"
-#           message: 'Foscam Motion Detection is deactivated for Home mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: "Auto Motion Detection Activation"
+    trigger:
+      - platform: state
+        entity_id: input_select.homemode
+        to: 'Away'
+      - platform: state
+        entity_id: input_select.homemode
+        to: 'Vacation'
+      - platform: state
+        entity_id: input_select.homemode
+        to: 'Visitor'
+    condition:
+      - condition: template
+        value_template: '{{ (is_state("switch.foscam_black_motion", "off") or is_state("switch.foscam_white_motion", "off")) }}'
+    action:
+      - service: script.motion_detection_activate
+
+  - alias: "Auto Motion Detection Deactivation"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_pe
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: input_boolean.presence_pe
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: input_select.homemode
+        to: 'Home'
+    condition:
+      - condition: template
+        value_template: '{{ (is_state("switch.foscam_black_motion", "on") or is_state("switch.foscam_white_motion", "on")) }}'
+    action:
+      - service: script.motion_detection_deactivate
