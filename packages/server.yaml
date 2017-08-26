@@ -49,6 +49,9 @@ binary_sensor:
 #     notifiers:
 #       - alert
 
+shell_command:
+  wag160n_reboot: !secret wag160n_reboot
+
 sensor:
   - platform: synologydsm
     name: Saturn

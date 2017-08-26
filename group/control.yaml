@@ -9,8 +9,8 @@ control:
     - input_select.homemode
     - sensor.common_room_temperature
     # - switch.titan
-    - switch.hometheatre
-    - switch.europa
+    # - switch.hometheatre
+    # - switch.europa
     - input_boolean.presence_pe_benjawan
     - input_boolean.presence_jue_malaiwan
     - switch.foscam_black_motion
