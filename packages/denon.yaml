@@ -66,18 +66,33 @@ sensor:
         value_template: '{% if is_state("media_player.denon", "on") %}{% if not states.media_player.denon.attributes.source %}Off{% else %}{{ states.media_player.denon.attributes.source }}{% endif %}{% else %}Off{% endif %}'
 
 binary_sensor:
+  - platform: ping
+    host: 192.168.1.45
+    name: "XDJ_RX"
   - platform: command_line
     command: '/bin/ping -W 1 -c 1 192.168.1.45 > /dev/null 2>&1 && echo success || echo fail'
     name: 'ping_xdj_rx'
     device_class: connectivity
     payload_on: 'success'
     payload_off: 'fail'
+  - platform: ping
+    host: 192.168.1.55
+    name: "Apple_TV"
+  - platform: ping
+    host: 192.168.1.66
+    name: "Denon"
+  - platform: ping
+    host: 192.168.1.77
+    name: "Dune"
   - platform: command_line
     command: '/bin/ping -W 1 -c 1 192.168.1.77 > /dev/null 2>&1 && echo success || echo fail'
     name: 'ping_dune'
     device_class: connectivity
     payload_on: 'success'
     payload_off: 'fail'
+  - platform: ping
+    host: 192.168.1.88
+    name: "Android_Box"
 
 shell_command:
   denon_deviceinfo: !secret denon_deviceinfo
@@ -313,6 +328,10 @@ automation:
         from: 'not_home'
         to: 'home'
       - platform: state
+        entity_id: device_tracker.ping_xdj_rx
+        from: 'not_home'
+        to: 'home'
+      - platform: state
         entity_id: binary_sensor.xdj_rx
         from: 'off'
         to: 'on'
@@ -322,7 +341,7 @@ automation:
         to: 'on'
     condition:
       - condition: template
-        value_template: '{{ is_state_attr("media_player.denon", "source", "Music") }}'
+        value_template: '{{ not is_state_attr("media_player.denon", "source", "Music") }}'
     action:
       - service: script.switch_to_music
         data:
@@ -332,6 +351,10 @@ automation:
     trigger:
       - platform: state
         entity_id: device_tracker.xdj_rx
+        from: 'home'
+        to: 'not_home'
+      - platform: state
+        entity_id: device_tracker.ping_xdj_rx
         from: 'home'
         to: 'not_home'
       - platform: state
@@ -357,6 +380,10 @@ automation:
         from: 'not_home'
         to: 'home'
       - platform: state
+        entity_id: device_tracker.ping_dune
+        from: 'not_home'
+        to: 'home'
+      - platform: state
         entity_id: binary_sensor.dune
         from: 'off'
         to: 'on'
@@ -376,6 +403,10 @@ automation:
     trigger:
       - platform: state
         entity_id: device_tracker.dune
+        from: 'home'
+        to: 'not_home'
+      - platform: state
+        entity_id: device_tracker.ping_dune
         from: 'home'
         to: 'not_home'
       - platform: state
