@@ -1,7 +1,6 @@
 automation:
 
   - alias: "Autolight All Off 1"
-    hide_entity: True
     trigger:
       - platform: time
         at: '00:01:00'
@@ -23,7 +22,6 @@ automation:
           message: 'All lights are off after midnight [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight All Off 2"
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_select.homemode
@@ -46,7 +44,6 @@ automation:
           message: 'All lights are off when noboby is home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Sunset Home A"
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset
@@ -73,7 +70,6 @@ automation:
           message: 'Lightstrip has been turned on 15 minutes before sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Sunset Home B"
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset
@@ -96,7 +92,6 @@ automation:
           message: 'Lightstrip has been turned off 1.5 hours after sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Sunset Away A"
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset
@@ -122,7 +117,6 @@ automation:
           message: 'Garage light has been turned on 15 minutes before sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Sunset Away B"
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset
@@ -145,7 +139,6 @@ automation:
           message: 'Garage light has been turned off 1.5 hours after sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Home 1A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '19:30:00'
@@ -170,7 +163,6 @@ automation:
           message: 'Downstairs Light has been turned on at 19:30pm for home-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Home 1B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '20:00:00'
@@ -192,7 +184,6 @@ automation:
           message: 'Downstairs Light has been turned off at 20:00pm for home-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Home 2A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '21:30:00'
@@ -217,7 +208,6 @@ automation:
           message: 'Bedroom LW has been turned on at 21:30pm for home-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Home 2B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '23:15:00'
@@ -239,7 +229,6 @@ automation:
           message: 'Bedroom LW has been turned off at 23:15pm for home-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Away 1A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '19:30:00'
@@ -264,7 +253,6 @@ automation:
           message: 'Garage Light has been turned on at 19:30pm for away-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Away 1B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '20:15:00'
@@ -286,7 +274,6 @@ automation:
           message: 'Garage Light has been turned off at 20:15pm for away-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Away 2A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '20:00:00'
@@ -311,7 +298,6 @@ automation:
           message: 'Downstairs Light has been turned on at 20:00pm for away-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Away 2B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '20:45:00'
@@ -333,7 +319,6 @@ automation:
           message: 'Downstairs Light has been turned off at 20:45pm for away-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Away 3A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '21:30:00'
@@ -358,7 +343,6 @@ automation:
           message: 'Bedroom LW has been turned on at 21:30pm for away-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Away 3B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '22:00:00'
@@ -380,7 +364,6 @@ automation:
           message: 'Bedroom LW has been turned off at 22:00pm for away-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Away 4A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '22:40:00'
@@ -405,7 +388,6 @@ automation:
           message: 'Bedroom LW has been turned on at 22:40pm for away-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Away 4B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '23:10:00'
@@ -427,7 +409,6 @@ automation:
           message: 'Bedroom LW has been turned off at 23:10pm for away-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Vacation 1A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '19:30:00'
@@ -452,7 +433,6 @@ automation:
           message: 'Garage Light has been turned on at 19:30pm for vacation-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Vacation 1B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '20:00:00'
@@ -474,7 +454,6 @@ automation:
           message: 'Garage Light has been turned off at 20:00pm for vacation-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Vacation 2A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '20:15:00'
@@ -499,7 +478,6 @@ automation:
           message: 'Downstairs Light has been turned on at 20:15pm for vacation-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Vacation 2B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '20:55:00'
@@ -521,7 +499,6 @@ automation:
           message: 'Downstairs Light has been turned off at 20:55pm for vacation-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Vacation 3A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '21:15:00'
@@ -546,7 +523,6 @@ automation:
           message: 'Common Room 1 has been turned on at 21:15pm for vacation-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Vacation 3B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '21:45:00'
@@ -568,7 +544,6 @@ automation:
           message: 'Common Room 1 has been turned off at 21:45pm for vacation-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Vacation 4A"
-    hide_entity: True
     trigger:
       - platform: time
         at: '22:00:00'
@@ -593,7 +568,6 @@ automation:
           message: 'Bedroom LW has been turned on at 22:00pm for vacation-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Vacation 4B"
-    hide_entity: True
     trigger:
       - platform: time
         at: '22:30:00'
@@ -613,3 +587,44 @@ automation:
           mobile: "pe"
           title: "Bedroom LW has been turned off at 22:30pm for vacation-mode"
           message: 'Bedroom LW has been turned off at 22:30pm for vacation-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Auto off Welcome light Pe"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_pe
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ (is_state("light.lightstrip", "on") and is_state("light.hallway", "on")) }}'
+    action:
+      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
+        data:
+          entity_id: light.lightstrip
+          brightness: 200
+          kelvin: 2700
+      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
+        data:
+          entity_id: light.hallway
+          brightness: 200
+          kelvin: 7000
+
+  - alias: "Auto off Welcome light Jue"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_jue
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ is_state("light.hallway", "on") }}'
+    action:
+      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
+        data:
+          entity_id: light.hallway
+          brightness: 200
+          kelvin: 7000

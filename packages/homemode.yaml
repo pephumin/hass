@@ -12,7 +12,7 @@ input_select:
      - Away
      - Vacation # alarm clock off
      - Visitor # no autolight off
-    initial: Home
+    # initial: Home
     icon: mdi:home-outline
 
 script:
@@ -55,10 +55,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Home'
-      - service: switch.turn_off
-        entity_id: switch.foscam_black_motion
-      - service: switch.turn_off
-        entity_id: switch.foscam_white_motion
+      - service: script.motion_detection_deactivate
       - service: script.turn_off_lightstrip
       - service: script.turn_off_hallway
 
@@ -79,10 +76,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Away'
-      - service: switch.turn_on
-        entity_id: switch.foscam_black_motion
-      - service: switch.turn_on
-        entity_id: switch.foscam_white_motion
+      - service: script.motion_detection_activate
 
   - alias: "Set Away Mode 2"
     hide_entity: True
@@ -101,10 +95,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Away'
-      - service: switch.turn_on
-        entity_id: switch.foscam_black_motion
-      - service: switch.turn_on
-        entity_id: switch.foscam_white_motion
+      - service: script.motion_detection_deactivate
 
   - alias: "Set Vacation Mode 1"
     hide_entity: True
@@ -123,10 +114,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Vacation'
-      - service: switch.turn_on
-        entity_id: switch.foscam_black_motion
-      - service: switch.turn_on
-        entity_id: switch.foscam_white_motion
+      - service: script.motion_detection_deactivate
 
   - alias: "Set Vacation Mode 2"
     hide_entity: True
@@ -145,7 +133,4 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Vacation'
-      - service: switch.turn_on
-        entity_id: switch.foscam_black_motion
-      - service: switch.turn_on
-        entity_id: switch.foscam_white_motion
+      - service: script.motion_detection_deactivate

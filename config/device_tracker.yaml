@@ -2,19 +2,19 @@
   username: !secret icloud_username
   password: !secret icloud_password
   account_name: pe
-  interval_seconds: 12
+  # interval_seconds: 12
   consider_home: 0:05:00
   track_new_devices: True
 
-# - platform: nmap_tracker
-#   hosts: 192.168.1.1/24
-#   home_interval: 5
-#   scan_options: "--unprivileged -sn"
-#   exclude:
-#     - 192.168.1.100
-#   interval_seconds: 12
-#   consider_home: 0:05:00
-#   track_new_devices: True
+- platform: nmap_tracker
+  hosts: 192.168.1.1/24
+  home_interval: 5
+  scan_options: "--unprivileged -sn"
+  exclude:
+    - 192.168.1.100
+  interval_seconds: 12
+  consider_home: 0:05:00
+  track_new_devices: True
 
 # - platform: bluetooth_tracker
 #   home_interval: 5
@@ -57,13 +57,17 @@
 
 - platform: ping
   hosts:
-    ping_pesiphone6: 192.168.1.124
-    ping_pesipadmini2: 192.168.1.181
-    ping_juesiphone6splus: 192.168.1.110
-    ping_juesipadmini2: 192.168.1.129
-    ping_pesipodtouch4: 192.168.1.180
+    ping_pesiphone6: 192.168.1.30
+    ping_pesipadmini2: 192.168.1.31
+    ping_juesiphone6splus: 192.168.1.32
+    ping_juesipadmini2: 192.168.1.33
+    ping_pesipodtouch4: 192.168.1.34
+    ping_benjy: 192.168.1.35
+    ping_benjysmbp: 192.168.1.36
+    ping_benjysipadmini2: 192.168.1.37
     ping_pepe: 192.168.1.200
-    ping_benjy: 192.168.1.202
+    ping_xdj_rx: 192.168.1.45
+    ping_dune: 192.168.1.77
   interval_seconds: 12
   consider_home: 0:05:00
   track_new_devices: True

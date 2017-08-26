@@ -1,13 +1,10 @@
 sensor:
-
   - platform: moon
-
   - platform: time_date
     name: Date & Time
     display_options:
       - 'time'
       - 'date'
-
   - platform: template
     sensors:
       solar_angle:
