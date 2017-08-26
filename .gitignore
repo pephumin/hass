@@ -29,5 +29,5 @@ openssl/*
 notify.log
 sensor/
 ping/
-*.sh
+sh/
 removed/
