@@ -15,6 +15,7 @@ lights_all:
     - light.bedroom_4
     - light.bedroom_lc
     - light.bedroom_lw
+    - light.callisto
     - light.front_1
     - light.front_2
     - light.garage
@@ -52,6 +53,7 @@ bedroom_lights_all:
     - light.bedroom_4
     - light.bedroom_lc
     - light.bedroom_lw
+    # - light.callisto
 
 bedroom_lights_main:
   view: no

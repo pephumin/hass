@@ -5,37 +5,79 @@ device_tracker.pesiphone6:
   friendly_name: "Pe iPhone 6"
 device_tracker.user_pesiphone6:
   icon: mdi:cellphone-iphone
-  friendly_name: "Pe iPhone 6"
+  friendly_name: "Pe iPhone 6 (Owntracks)"
+device_tracker.ping_pesiphone6:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Pe iPhone 6 (Ping)"
 device_tracker.pesipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Pe iPad Mini 2"
+device_tracker.user_pesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: "Pe iPad Mini 2 (Owntracks)"
+device_tracker.ping_pesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: "Pe iPad Mini 2 (Ping)"
 device_tracker.juesiphone6splus:
   icon: mdi:cellphone-iphone
   friendly_name: "Jue iPhone 6s Plus"
 device_tracker.user_juesiphone6splus:
   icon: mdi:cellphone-iphone
-  friendly_name: "Jue iPhone 6s Plus"
+  friendly_name: "Jue iPhone 6s Plus (Owntracks)"
+device_tracker.ping_juesiphone6splus:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Jue iPhone 6s Plus (Ping)"
 device_tracker.juesipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Jue iPad Mini 2"
+device_tracker.user_juesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: "Jue iPad Mini 2 (Owntracks)"
+device_tracker.ping_juesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: "Jue iPad Mini 2 (Ping)"
 device_tracker.pesipodtouch4:
   icon: mdi:cellphone
   friendly_name: "iPod Touch BMW"
+device_tracker.ping_pesipodtouch4:
+  icon: mdi:cellphone
+  friendly_name: "iPod Touch BMW (Ping)"
 device_tracker.pepe:
   icon: mdi:laptop-mac
   friendly_name: "Pe Macbook Pro"
+device_tracker.ping_pepe:
+  icon: mdi:laptop-mac
+  friendly_name: "Pe Macbook Pro (Ping)"
 device_tracker.dune:
   icon: mdi:movie-roll
   friendly_name: "Dune Base"
+device_tracker.ping_dune:
+  icon: mdi:movie-roll
+  friendly_name: "Dune Base (Ping)"
 device_tracker.xdj_rx:
   icon: mdi:music
   friendly_name: "Pioneer XDJ-RX"
-# device_tracker.benjy:
-#   # icon: mdi:cellphone-iphone
-#   friendly_name: "Benjy"
-# device_tracker.boom:
-#   # icon: mdi:cellphone-android
-#   friendly_name: "Boom"
+device_tracker.ping_xdj_rx:
+  icon: mdi:music
+  friendly_name: "Pioneer XDJ-RX (Ping)"
+device_tracker.benjy:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Benjy"
+device_tracker.ping_benjy:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Benjy (Ping)"
+device_tracker.benjymbp:
+  icon: mdi:laptop-mac
+  friendly_name: "Benjy Macbook Pro"
+device_tracker.ping_benjymbp:
+  icon: mdi:laptop-mac
+  friendly_name: "Benjy Macbook Pro(Ping)"
+device_tracker.boom:
+  icon: mdi:cellphone-android
+  friendly_name: "Boom"
+device_tracker.ping_boom:
+  icon: mdi:cellphone-android
+  friendly_name: "Boom (Ping)"
 
 light.bedroom_1:
   icon: mdi:lightbulb
@@ -147,10 +189,6 @@ switch.common_room_android_box:
 #   icon: mdi:speaker
 #   friendly_name: "Common Room Subwoofer"
 #   assumed_state: true
-switch.ganymede:
-  icon: mdi:power-plug
-  friendly_name: "Ganymede"
-  assumed_state: true
 
 switch.bedroom_air_cond:
   icon: mdi:air-conditioner
@@ -223,31 +261,6 @@ sensor.disk_use_:
 sensor.denon_source:
   icon: mdi:amplifier
   friendly_name: "Common Room Denon"
-
-sensor.ganymede_power:
-  icon: mdi:power-socket
-  friendly_name: "Ganymede Power"
-sensor.ganymede_power_factor:
-  icon: mdi:power-socket
-  friendly_name: "Ganymede Power Factor"
-sensor.ganymede_current:
-  icon: mdi:pulse
-  friendly_name: "Ganymede Current"
-sensor.ganymede_voltage:
-  icon: mdi:tower-fire
-  friendly_name: "Ganymede Voltage"
-sensor.ganymede_uptime:
-  icon: mdi:timelapse
-  friendly_name: "Ganymede Uptime"
-sensor.ganymede_energy_today:
-  icon: mdi:chart-areaspline
-  friendly_name: "Ganymede Energy Today"
-sensor.ganymede_energy_yesterday:
-  icon: mdi:chart-areaspline
-  friendly_name: "Ganymede Energy Yesterday"
-sensor.ganymede_energy_total:
-  icon: mdi:chart-areaspline
-  friendly_name: "Ganymede Energy Total"
 
 # sensor.lastfm_pephumin:
 #   icon: mdi:lastfm
@@ -330,6 +343,50 @@ proximity.pe_benjawan:
   # icon: mdi:compass-outline
   friendly_name: "Pe from Benjy"
 
+switch.ganymede:
+  icon: mdi:power-plug
+  friendly_name: "Ganymede"
+  assumed_state: true
+sensor.ganymede_power:
+  icon: mdi:power-socket
+  friendly_name: "Ganymede Power"
+sensor.ganymede_power_factor:
+  icon: mdi:power-socket
+  friendly_name: "Ganymede Power Factor"
+sensor.ganymede_current:
+  icon: mdi:pulse
+  friendly_name: "Ganymede Current"
+sensor.ganymede_voltage:
+  icon: mdi:tower-fire
+  friendly_name: "Ganymede Voltage"
+sensor.ganymede_uptime:
+  icon: mdi:timelapse
+  friendly_name: "Ganymede Uptime"
+sensor.ganymede_energy_today:
+  icon: mdi:chart-areaspline
+  friendly_name: "Ganymede Energy Today"
+sensor.ganymede_energy_yesterday:
+  icon: mdi:chart-areaspline
+  friendly_name: "Ganymede Energy Yesterday"
+sensor.ganymede_energy_total:
+  icon: mdi:chart-areaspline
+  friendly_name: "Ganymede Energy Total"
+
+switch.callisto:
+  icon: mdi:lightbulb-on-outline
+  friendly_name: "Callisto"
+light.callisto:
+  icon: mdi:lightbulb-on-outline
+  friendly_name: "Callisto"
+sensor.callisto_uptime:
+  icon: mdi:timelapse
+  friendly_name: "Callisto Uptime"
+light.wemos:
+  icon: mdi:led-strip
+input_select.wemos_effect:
+  icon: mdi:animation
+input_slider.wemos_animation_speed:
+  icon: mdi:fast-forward
 
 ### hidden ###
 

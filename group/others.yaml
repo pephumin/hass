@@ -22,17 +22,19 @@ travel:
 #     - sensor.owm_cloud_coverage
 #     - sensor.owm_humidity
 
-ganymede:
+sonoff:
   view: no
-  name: "Ganymede"
+  name: "Sonoff"
   icon: mdi:power-plug
   entities:
+    - light.callisto
+    - sensor.callisto_uptime
     - switch.ganymede
+    - sensor.ganymede_uptime
     - sensor.ganymede_power
     - sensor.ganymede_power_factor
     - sensor.ganymede_current
     - sensor.ganymede_voltage
-    - sensor.ganymede_uptime
     - sensor.ganymede_energy_today
     - sensor.ganymede_energy_yesterday
     - sensor.ganymede_energy_total
@@ -48,3 +50,12 @@ ganymede:
 #     - weblink.foscam_black
 #     - weblink.foscam_white
 #     - weblink.synology
+
+led:
+  view: no
+  name: "LED"
+  icon: mdi:led-strip
+  entities:
+    - light.wemos
+    - input_select.wemos_effect
+    - input_slider.wemos_animation_speed
