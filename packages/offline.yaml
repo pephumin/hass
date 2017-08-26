@@ -49,14 +49,6 @@ binary_sensor:
     name: "Callisto"
 
   - platform: ping
-    host: 192.168.1.24
-    name: "Sonoff_B1"
-
-  - platform: ping
-    host: 192.168.1.25
-    name: "Sonoff_B2"
-
-  - platform: ping
     host: 192.168.1.40
     name: "Moon"
 
@@ -72,33 +64,12 @@ binary_sensor:
     host: 192.168.1.79
     name: "Foscam White"
 
-##########################################
+##################
 
   - platform: ping
-    host: 192.168.1.45
-    name: "XDJ_RX"
+    host: 192.168.1.29
+    name: "Wemos"
 
-  - platform: ping
-    host: 192.168.1.55
-    name: "Apple_TV"
-
-  - platform: ping
-    host: 192.168.1.66
-    name: "Denon"
-
-  - platform: ping
-    host: 192.168.1.77
-    name: "Dune"
-
-  - platform: ping
-    host: 192.168.1.88
-    name: "Android_Box"
-
-  - platform: ping
-    host: 192.168.1.200
-    name: "pepe"
-
-##########################################
 
 automation:
 
@@ -396,25 +367,6 @@ automation:
           title: "Smart Plug in Bedroom is offline"
           message: 'Smart Plug in Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: "Offline Callisto"
-    hide_entity: True
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.callisto
-        from: 'on'
-        to: 'off'
-    action:
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "true"
-          audio: "siren"
-          light: "false"
-          mobile: "false"
-          title: "Subwoofer Switch in Common Room is offline"
-          message: 'Subwoofer Switch in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
   - alias: "Offline Ganymede"
     hide_entity: True
     trigger:
@@ -431,5 +383,28 @@ automation:
           audio: "siren"
           light: "false"
           mobile: "false"
-          title: "Ganymede Fan Switch in Common Room is offline"
-          message: 'Ganymede Fan Switch in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          # title: "Subwoofer Common Room is offline"
+          # message: 'Subwoofer Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Ganymede is offline"
+          message: 'Ganymede is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Offline Callisto"
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.callisto
+        from: 'on'
+        to: 'off'
+    action:
+      - service: script.notifying
+        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
+          # title: "Night Light Bedroom is offline"
+          # message: 'Night Light Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "Callisto is offline"
+          message: 'Callisto is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
