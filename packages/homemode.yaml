@@ -15,24 +15,6 @@ input_select:
     # initial: Home
     icon: mdi:home-outline
 
-script:
-  turn_off_lightstrip:
-    alias: "Turn Off Lightstrip"
-    sequence:
-      - condition: template
-        value_template: '{{ is_state("light.lightstrip", "on") }}'
-      - delay: 00:05:00
-      - service: light.turn_off
-        entity_id: light.lightstrip
-  turn_off_hallway:
-    alias: "Turn Off Lightstrip"
-    sequence:
-      - condition: template
-        value_template: '{{ is_state("light.hallway", "on") }}'
-      - delay: 00:05:00
-      - service: light.turn_off
-        entity_id: light.hallway
-
 automation:
 
   - alias: "Set Home Mode"
@@ -56,8 +38,6 @@ automation:
           entity_id: input_select.homemode
           option: 'Home'
       - service: script.motion_detection_deactivate
-      - service: script.turn_off_lightstrip
-      - service: script.turn_off_hallway
 
   - alias: "Set Away Mode 1"
     hide_entity: True
@@ -95,7 +75,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Away'
-      - service: script.motion_detection_deactivate
+      - service: script.motion_detection_activate
 
   - alias: "Set Vacation Mode 1"
     hide_entity: True
@@ -114,7 +94,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Vacation'
-      - service: script.motion_detection_deactivate
+      - service: script.motion_detection_activate
 
   - alias: "Set Vacation Mode 2"
     hide_entity: True
@@ -133,4 +113,4 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Vacation'
-      - service: script.motion_detection_deactivate
+      - service: script.motion_detection_activate

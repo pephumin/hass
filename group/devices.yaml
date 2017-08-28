@@ -1,7 +1,7 @@
 devices:
   view: no
   name: "Devices"
-  icon: mdi:tablet-ipad
+  icon: mdi:account
   entities:
     - device_tracker.pesiphone6
     - sensor.battery_pesiphone6
@@ -15,6 +15,55 @@ devices:
     - sensor.battery_pesipodtouch4
     - device_tracker.pepe
     - sensor.battery_pepe
+
+check:
+  view: no
+  name: "Check"
+  entities:
+    - device_tracker.pesiphone6
+    - device_tracker.user_pesiphone6
+    - device_tracker.ping_pesiphone6
+    - binary_sensor.pesiphone6
+    - device_tracker.pesipadmini2
+    - device_tracker.user_pesipadmini2
+    - device_tracker.ping_pesipadmini2
+    - binary_sensor.pesipadmini2
+    - device_tracker.juesiphone6splus
+    - device_tracker.user_juesiphone6splus
+    - device_tracker.ping_juesiphone6splus
+    - binary_sensor.juesiphone6splus
+    - device_tracker.juesipadmini2
+    - device_tracker.user_juesipadmini2
+    - device_tracker.ping_juesipadmini2
+    - binary_sensor.juesipadmini2
+    - device_tracker.pesipodtouch4
+    - device_tracker.ping_pesipodtouch4
+    - binary_sensor.pesipodtouch4
+    - device_tracker.pepe
+    - device_tracker.ping_pepe
+    - binary_sensor.pepe
+    - device_tracker.benjy
+    - device_tracker.ping_benjy
+    - binary_sensor.benjy
+    - device_tracker.benjysipadmini2
+    - device_tracker.ping_benjysipadmini2
+    - binary_sensor.benjysipadmini2
+    - device_tracker.benjysmbp
+    - device_tracker.ping_benjysmbp
+    - binary_sensor.benjysmbp
+    - device_tracker.boom
+    - device_tracker.ping_boom
+    - binary_sensor.boom
+
+friends:
+  view: no
+  name: "Friends"
+  icon: mdi:account-multiple
+  entities:
+    - device_tracker.benjy
+    - device_tracker.benjysipadmini2
+    - device_tracker.benjysmbp
+    - device_tracker.boom
 
 proximity:
   view: no

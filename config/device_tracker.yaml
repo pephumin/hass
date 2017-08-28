@@ -3,8 +3,8 @@
   password: !secret icloud_password
   account_name: pe
   # interval_seconds: 12
-  consider_home: 0:05:00
-  track_new_devices: True
+  # consider_home: 0:05:00
+  # track_new_devices: True
 
 - platform: nmap_tracker
   hosts: 192.168.1.1/24
