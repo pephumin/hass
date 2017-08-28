@@ -279,7 +279,7 @@ script:
     alias: "Turn on Denon when it is Off"
     sequence:
       - condition: template
-        value_template: '{{ (is_state("switch.titan", "on") and is_state("media_player.denon", "off")) }}'
+        value_template: '{{ is_state("switch.titan", "on") and is_state("media_player.denon", "off") }}'
       - service: media_player.turn_on
         entity_id: media_player.denon
 
@@ -305,15 +305,15 @@ automation:
       - condition: or
         conditions:
           - condition: template
-            value_template: '{{ (is_state("sensor.denon_source", "SAT/CBL") and not is_state("input_select.denon_mode", "Cable TV")) }}'
+            value_template: '{{ is_state("sensor.denon_source", "SAT/CBL") and not is_state("input_select.denon_mode", "Cable TV") }}'
           - condition: template
-            value_template: '{{ (is_state("sensor.denon_source", "Music") and not is_state("input_select.denon_mode", "Music")) }}'
+            value_template: '{{ is_state("sensor.denon_source", "Music") and not is_state("input_select.denon_mode", "Music") }}'
           - condition: template
-            value_template: '{{ (is_state("sensor.denon_source", "BD") and not is_state("input_select.denon_mode", "Dune")) }}'
+            value_template: '{{ is_state("sensor.denon_source", "BD") and not is_state("input_select.denon_mode", "Dune") }}'
           - condition: template
-            value_template: '{{ (is_state("sensor.denon_source", "MPLAY") and not is_state("input_select.denon_mode", "Apple TV")) }}'
+            value_template: '{{ is_state("sensor.denon_source", "MPLAY") and not is_state("input_select.denon_mode", "Apple TV") }}'
           - condition: template
-            value_template: '{{ (is_state("sensor.denon_source", "Off") and not is_state("input_select.denon_mode", "Off")) }}'
+            value_template: '{{ is_state("sensor.denon_source", "Off") and not is_state("input_select.denon_mode", "Off") }}'
     action:
       - service: input_select.select_option
         entity_id: input_select.denon_mode
@@ -323,22 +323,24 @@ automation:
 
   - alias: "Auto Switch XDJ-RX On"
     trigger:
-      - platform: state
-        entity_id: device_tracker.xdj_rx
-        from: 'not_home'
-        to: 'home'
-      - platform: state
-        entity_id: device_tracker.ping_xdj_rx
-        from: 'not_home'
-        to: 'home'
-      - platform: state
-        entity_id: binary_sensor.xdj_rx
-        from: 'off'
-        to: 'on'
-      - platform: state
-        entity_id: binary_sensor.ping_xdj_rx
-        from: 'off'
-        to: 'on'
+      # - platform: state
+      #   entity_id: device_tracker.xdj_rx
+      #   from: 'not_home'
+      #   to: 'home'
+      # - platform: state
+      #   entity_id: device_tracker.ping_xdj_rx
+      #   from: 'not_home'
+      #   to: 'home'
+      # - platform: state
+      #   entity_id: binary_sensor.xdj_rx
+      #   from: 'off'
+      #   to: 'on'
+      # - platform: state
+      #   entity_id: binary_sensor.ping_xdj_rx
+      #   from: 'off'
+      #   to: 'on'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.xdj_rx", "home") or is_state("device_tracker.ping_xdj_rx", "home") or is_state("binary_sensor.xdj_rx", "on") or is_state("binary_sensor.ping_xdj_rx", "on") }}'
     condition:
       - condition: template
         value_template: '{{ not is_state_attr("media_player.denon", "source", "Music") }}'
@@ -349,22 +351,24 @@ automation:
 
   - alias: "Auto Switch XDJ-RX Off"
     trigger:
-      - platform: state
-        entity_id: device_tracker.xdj_rx
-        from: 'home'
-        to: 'not_home'
-      - platform: state
-        entity_id: device_tracker.ping_xdj_rx
-        from: 'home'
-        to: 'not_home'
-      - platform: state
-        entity_id: binary_sensor.xdj_rx
-        from: 'on'
-        to: 'off'
-      - platform: state
-        entity_id: binary_sensor.ping_xdj_rx
-        from: 'on'
-        to: 'off'
+      # - platform: state
+      #   entity_id: device_tracker.xdj_rx
+      #   from: 'home'
+      #   to: 'not_home'
+      # - platform: state
+      #   entity_id: device_tracker.ping_xdj_rx
+      #   from: 'home'
+      #   to: 'not_home'
+      # - platform: state
+      #   entity_id: binary_sensor.xdj_rx
+      #   from: 'on'
+      #   to: 'off'
+      # - platform: state
+      #   entity_id: binary_sensor.ping_xdj_rx
+      #   from: 'on'
+      #   to: 'off'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.xdj_rx", "not_home") or is_state("device_tracker.ping_xdj_rx", "not_home") or is_state("binary_sensor.xdj_rx", "off") or is_state("binary_sensor.ping_xdj_rx", "off") }}'
     condition:
       - condition: template
         value_template: '{{ is_state_attr("media_player.denon", "source", "Music") }}'
@@ -375,22 +379,24 @@ automation:
 
   - alias: "Auto Switch Dune On"
     trigger:
-      - platform: state
-        entity_id: device_tracker.dune
-        from: 'not_home'
-        to: 'home'
-      - platform: state
-        entity_id: device_tracker.ping_dune
-        from: 'not_home'
-        to: 'home'
-      - platform: state
-        entity_id: binary_sensor.dune
-        from: 'off'
-        to: 'on'
-      - platform: state
-        entity_id: binary_sensor.ping_dune
-        from: 'off'
-        to: 'on'
+      # - platform: state
+      #   entity_id: device_tracker.dune
+      #   from: 'not_home'
+      #   to: 'home'
+      # - platform: state
+      #   entity_id: device_tracker.ping_dune
+      #   from: 'not_home'
+      #   to: 'home'
+      # - platform: state
+      #   entity_id: binary_sensor.dune
+      #   from: 'off'
+      #   to: 'on'
+      # - platform: state
+      #   entity_id: binary_sensor.ping_dune
+      #   from: 'off'
+      #   to: 'on'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.dune", "home") or is_state("device_tracker.ping_dune", "home") or is_state("binary_sensor.dune", "on") or is_state("binary_sensor.ping_dune", "on") }}'
     condition:
       - condition: template
         value_template: '{{ not is_state_attr("media_player.denon", "source", "BD") }}'
@@ -401,22 +407,24 @@ automation:
 
   - alias: "Auto Switch Dune Off"
     trigger:
-      - platform: state
-        entity_id: device_tracker.dune
-        from: 'home'
-        to: 'not_home'
-      - platform: state
-        entity_id: device_tracker.ping_dune
-        from: 'home'
-        to: 'not_home'
-      - platform: state
-        entity_id: binary_sensor.dune
-        from: 'on'
-        to: 'off'
-      - platform: state
-        entity_id: binary_sensor.ping_dune
-        from: 'on'
-        to: 'off'
+      # - platform: state
+      #   entity_id: device_tracker.dune
+      #   from: 'home'
+      #   to: 'not_home'
+      # - platform: state
+      #   entity_id: device_tracker.ping_dune
+      #   from: 'home'
+      #   to: 'not_home'
+      # - platform: state
+      #   entity_id: binary_sensor.dune
+      #   from: 'on'
+      #   to: 'off'
+      # - platform: state
+      #   entity_id: binary_sensor.ping_dune
+      #   from: 'on'
+      #   to: 'off'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.dune", "not_home") or is_state("device_tracker.ping_dune", "not_home") or is_state("binary_sensor.dune", "off") or is_state("binary_sensor.ping_dune", "off") }}'
     condition:
       - condition: template
         value_template: '{{ is_state_attr("media_player.denon", "source", "BD") }}'

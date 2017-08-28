@@ -7,7 +7,7 @@ automation:
         at: '22:45:00'
     condition:
       - condition: template
-        value_template: '{{ (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on")) }}'
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
     action:
       - service: switch.turn_on
         entity_id: switch.bedroom_air_cond
@@ -29,7 +29,7 @@ automation:
         at: '04:30:00'
     condition:
       - condition: template
-        value_template: '{{ (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on")) }}'
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
     action:
       - service: switch.turn_off
         entity_id: switch.bedroom_air_cond
@@ -51,7 +51,7 @@ automation:
         at: '05:00:00'
     condition:
       - condition: template
-        value_template: '{{ (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on")) }}'
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
     action:
       - service: switch.turn_on
         entity_id: switch.bedroom_air_cond
@@ -73,7 +73,7 @@ automation:
         at: '07:00:00'
     condition:
       - condition: template
-        value_template: '{{ (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on")) }}'
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
     action:
       - service: switch.turn_off
         entity_id: switch.bedroom_air_cond

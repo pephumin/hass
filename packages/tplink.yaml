@@ -10,34 +10,34 @@ sensor:
       titan_current_consumption:
         friendly_name: "Common Room Power"
         icon_template: mdi:power-socket
-        value_template: '{{ states.switch.titan.attributes["Current consumption"].split(" ")[0] | round(1) }}'
+        value_template: '{% if not is_state_attr("switch.titan", "Current consumption", "") %}{{ states.switch.titan.attributes["Current consumption"].split(" ")[0] | round(1) }}{% endif %}'
         unit_of_measurement: 'Watts'
       titan_current:
         friendly_name: "Common Room Current"
         icon_template: mdi:pulse
-        value_template: '{{ states.switch.titan.attributes["Current"].split(" ")[0] | round(2) }}'
+        value_template: '{% if not is_state_attr("switch.titan", "Current", "") %}{{ states.switch.titan.attributes["Current"].split(" ")[0] | round(2) }}{% endif %}'
         unit_of_measurement: 'Amps'
       titan_voltage:
         friendly_name: "Common Room Voltage"
         icon_template: mdi:tower-fire
-        value_template: '{{ states.switch.titan.attributes["Voltage"].split(" ")[0] | round(0) }}'
+        value_template: '{% if not is_state_attr("switch.titan", "Voltage", "") %}{{ states.switch.titan.attributes["Voltage"].split(" ")[0] | round(0) }}{% endif %}'
         unit_of_measurement: 'Volts'
   - platform: template
     sensors:
       europa_current_consumption:
         friendly_name: "Bedroom Power"
         icon_template: mdi:power-socket
-        value_template: '{{ states.switch.europa.attributes["Current consumption"].split(" ")[0] | round(1) }}'
+        value_template: '{% if not is_state_attr("switch.europa", "Current consumption", "") %}{{ states.switch.europa.attributes["Current consumption"].split(" ")[0] | round(1) }}{% endif %}'
         unit_of_measurement: 'Watts'
       europa_current:
         friendly_name: "Bedroom Current"
         icon_template: mdi:pulse
-        value_template: '{{ states.switch.europa.attributes["Current"].split(" ")[0] | round(2) }}'
+        value_template: '{% if not is_state_attr("switch.europa", "Current", "") %}{{ states.switch.europa.attributes["Current"].split(" ")[0] | round(2) }}{% endif %}'
         unit_of_measurement: 'Amps'
       europa_voltage:
         friendly_name: "Bedroom Voltage"
         icon_template: mdi:tower-fire
-        value_template: '{{ states.switch.europa.attributes["Voltage"].split(" ")[0] | round(0) }}'
+        value_template: '{% if not is_state_attr("switch.europa", "Voltage", "") %}{{ states.switch.europa.attributes["Voltage"].split(" ")[0] | round(0) }}{% endif %}'
         unit_of_measurement: 'Volts'
 
 # automation:
