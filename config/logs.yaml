@@ -18,6 +18,7 @@ include:
     - sensor.cpu_use
     - sensor.ram_use
     - sensor.average_temperature
+    - sensor.maximum_disk_temperature
     - sensor.speedtest_download
     - sensor.speedtest_upload
     - sensor.common_room_temperature

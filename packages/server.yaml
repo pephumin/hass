@@ -1,10 +1,4 @@
 binary_sensor:
-  # - platform: template
-  #   sensors:
-  #     saturn_is_hot:
-  #       value_template: '{% if states.sensor.average_temperature.state %}{{ float(states.sensor.average_temperature.state) > 41 }}{% endif %}'
-  #       friendly_name: 'Saturn HDDs are hot'
-  #       device_class: heat
   - platform: trend
     sensors:
       saturn_temperature_up:
@@ -17,25 +11,6 @@ binary_sensor:
     entity_id: sensor.average_temperature
     name: 'Saturn Disks are hot'
     device_class: heat
-  # - platform: template
-  #   sensors:
-  #     saturn_is_cool:
-  #       value_template: '{% if states.sensor.average_temperature.state %}{{ float(states.sensor.average_temperature.state) < 38 }}{% endif %}'
-  #       friendly_name: 'Saturn HDDs are cool'
-  #       device_class: cold
-  # - platform: trend
-  #   sensors:
-  #     saturn_temperature_down:
-  #       friendly_name: 'HDDs Temperature Decreasing'
-  #       entity_id: sensor.average_temperature
-  #       device_class: cold
-  #       invert: true
-  # - platform: threshold
-  #   threshold: 38
-  #   type: lower
-  #   entity_id: sensor.average_temperature
-  #   name: 'Saturn Disks are cool'
-  #   device_class: cold
 
 # alert:
 #   hot_saturn:
@@ -84,6 +59,15 @@ sensor:
       - ping
       - download
       - upload
+  - platform: min_max
+    type: max
+    name: "Maximum Disk Temperature"
+    round_digits: 1
+    entity_ids:
+      - sensor.temperature_sda
+      - sensor.temperature_sdb
+      - sensor.temperature_sdc
+      - sensor.temperature_sdd
   - platform: template
     sensors:
       average_temperature:
