@@ -255,7 +255,7 @@ automation:
         value_template: '{{ is_state("input_boolean.presence_jue", "off") and (is_state("device_tracker.ping_juesiphone6splus", "home") or is_state("binary_sensor.juesiphone6splus", "on")) }}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.presence_pe
+        entity_id: input_boolean.presence_jue
 
   - alias: "Jue is not at Luzern"
     trigger:
@@ -323,16 +323,8 @@ automation:
 
   - alias: "Jue is at Malaiwan"
     trigger:
-      # - platform: template
-      #   value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") or is_state("device_tracker.user_juesiphone6splus", "Malaiwan") }}'
-      - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'not_home'
-        to: 'Malaiwan'
-      - platform: state
-        entity_id: device_tracker.user_juesiphone6splus
-        from: 'not_home'
-        to: 'Malaiwan'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") or is_state("device_tracker.user_juesiphone6splus", "Malaiwan") }}'
       - platform: numeric_state
         entity_id: proximity.jue_malaiwan
         below: 10
@@ -349,14 +341,8 @@ automation:
 
   - alias: "Jue is not at Malaiwan"
     trigger:
-      - platform: state
-        entity_id: device_tracker.juesiphone6splus
-        from: 'Malaiwan'
-        to: 'not_home'
-      - platform: state
-        entity_id: device_tracker.user_juesiphone6splus
-        from: 'Malaiwan'
-        to: 'not_home'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "not_home") and is_state("device_tracker.user_juesiphone6splus", "not_home") }}'
       - platform: numeric_state
         entity_id: proximity.jue_malaiwan
         above: 1000
@@ -413,16 +399,8 @@ automation:
 
   - alias: "Pe is at Benjawan"
     trigger:
-      # - platform: template
-      #   value_template: '{{ is_state("device_tracker.pesiphone6", "Benjawan") or is_state("device_tracker.user_pesiphone6", "Benjawan") }}'
-      - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'not_home'
-        to: 'Benjawan'
-      - platform: state
-        entity_id: device_tracker.user_pesiphone6
-        from: 'not_home'
-        to: 'Benjawan'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.pesiphone6", "Benjawan") or is_state("device_tracker.user_pesiphone6", "Benjawan") }}'
       - platform: numeric_state
         entity_id: proximity.pe_benjawan
         below: 10
@@ -439,14 +417,8 @@ automation:
 
   - alias: "Pe is not at Benjawan"
     trigger:
-      - platform: state
-        entity_id: device_tracker.pesiphone6
-        from: 'Benjawan'
-        to: 'not_home'
-      - platform: state
-        entity_id: device_tracker.user_pesiphone6
-        from: 'Benjawan'
-        to: 'not_home'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.pesiphone6", "not_home") or is_state("device_tracker.user_pesiphone6", "not_home") }}'
       - platform: numeric_state
         entity_id: proximity.pe_benjawan
         above: 1000
