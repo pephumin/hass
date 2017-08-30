@@ -15,10 +15,13 @@ lights_all:
     - light.bedroom_4
     - light.bedroom_lc
     - light.bedroom_lw
-    - light.callisto
+    - light.pandora
     - light.front_1
     - light.front_2
     - light.garage
+    # - group.common_room_lights_all
+    # - group.bedroom_lights_all
+    # - group.first_floor_lights_all
 
 common_room_lights_all:
   view: no
@@ -53,7 +56,7 @@ bedroom_lights_all:
     - light.bedroom_4
     - light.bedroom_lc
     - light.bedroom_lw
-    # - light.callisto
+    - light.pandora
 
 bedroom_lights_main:
   view: no

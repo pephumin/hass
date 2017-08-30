@@ -30,6 +30,8 @@ online_cr:
     - binary_sensor.titan
     - binary_sensor.ganymede
     - binary_sensor.callisto
+    - binary_sensor.mimas
+    - binary_sensor.pandora
     - binary_sensor.denon
     - binary_sensor.android_box
     - binary_sensor.apple_tv

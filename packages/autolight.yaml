@@ -1,6 +1,18 @@
+script:
+
+  all_lights_off_but_pandora:
+    alias: "Turn off all lights but Pandora if Pe is home"
+    sequence:
+      - service: light.turn_off
+        entity_id: group.all_lights
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+      - service: light.turn_on
+        entity_id: light.pandora
+
 automation:
 
-  - alias: "Autolight All Off 1"
+  - alias: "Autolight All Off"
     trigger:
       - platform: time
         at: '00:01:00'
@@ -8,40 +20,17 @@ automation:
       - condition: template
         value_template: '{{ not is_state("input_select.homemode", "Visitor") }}'
     action:
-      - service: light.turn_off
-        entity_id: group.all_lights
+      - service: script.all_lights_off_but_pandora
       - service: script.notifying
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
           title: "All lights are off after midnight"
           message: 'All lights are off after midnight [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Autolight All Off 2"
-    trigger:
-      - platform: state
-        entity_id: input_select.homemode
-        to: 'Away'
-      - platform: state
-        entity_id: input_select.homemode
-        to: 'Vacation'
-    action:
-      - service: light.turn_off
-        entity_id: group.all_lights
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "true"
-          audio: "chime"
-          light: "false"
-          mobile: "false"
-          title: "All lights are off when noboby is home"
-          message: 'All lights are off when noboby is home [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Autolight Sunset Home A"
     trigger:
@@ -62,7 +51,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
@@ -84,7 +73,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
@@ -588,6 +577,96 @@ automation:
           title: "Bedroom LW has been turned off at 22:30pm for vacation-mode"
           message: 'Bedroom LW has been turned off at 22:30pm for vacation-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
+  - alias: "Autolight Pe Home Bedroom 1A"
+    trigger:
+      - platform: time
+        at: '18:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: light.turn_on
+        entity_id: light.pandora
+
+  - alias: "Autolight Pe Home Bedroom 1B"
+    trigger:
+      - platform: time
+        at: '19:30:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.pandora
+
+  - alias: "Autolight Pe Home Bedroom 2A"
+    trigger:
+      - platform: time
+        at: '22:30:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: light.turn_on
+        entity_id: light.pandora
+
+  - alias: "Autolight Pe Home Bedroom 2B"
+    trigger:
+      - platform: time
+        at: '23:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.pandora
+
+  - alias: "Autolight Pe Home Bedroom 3A"
+    trigger:
+      - platform: time
+        at: '23:00:01'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: scene.turn_on
+        entity_id: scene.bedroom_night
+
+  - alias: "Autolight Pe Home Bedroom 3B"
+    trigger:
+      - platform: time
+        at: '23:45:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.bedroom_3
+      - service: light.turn_off
+        entity_id: light.bedroom_lc
+
+  - alias: "Autolight Pe Home Bedroom 4A"
+    trigger:
+      - platform: time
+        at: '00:01:01'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: light.turn_on
+        entity_id: light.pandora
+
+  - alias: "Autolight Pe Home Bedroom 4B"
+    trigger:
+      - platform: time
+        at: '02:15:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.pandora
+
   - alias: "Auto off Welcome light Pe"
     trigger:
       - platform: state
@@ -597,19 +676,23 @@ automation:
         for:
           minutes: 5
     condition:
+      # - condition: template
+      #   value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "xy_color", "0.6203,0.2925")) and (is_state("light.lightstrip", "on") and is_state_attr("light.lightstrip", "xy_color", "0.6031,0.3046")) }}'
       - condition: template
-        value_template: '{{ (is_state("light.lightstrip", "on") and is_state("light.hallway", "on")) }}'
+        value_template: '{{ is_state("light.hallway", "on") and is_state("light.lightstrip", "on") }}'
     action:
       - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
         data:
           entity_id: light.lightstrip
+          transition: 1
           brightness: 200
-          kelvin: 2700
+          xy_color: [0.1794, 0.0964]
       - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
         data:
           entity_id: light.hallway
+          transition: 1
           brightness: 200
-          kelvin: 7000
+          xy_color: [0.2951,0.2930]
 
   - alias: "Auto off Welcome light Jue"
     trigger:
@@ -620,11 +703,14 @@ automation:
         for:
           minutes: 5
     condition:
+      # - condition: template
+      #   value_template: '{{ is_state("light.hallway", "on") and is_state_attr("light.hallway", "xy_color", "0.6203,0.2925") }}'
       - condition: template
         value_template: '{{ is_state("light.hallway", "on") }}'
     action:
       - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
         data:
           entity_id: light.hallway
+          transition: 1
           brightness: 200
           kelvin: 7000

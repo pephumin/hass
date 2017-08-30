@@ -26,9 +26,8 @@ sonoff:
   view: no
   name: "Sonoff"
   icon: mdi:power-plug
+  control: hidden
   entities:
-    - light.callisto
-    - sensor.callisto_uptime
     - switch.ganymede
     - sensor.ganymede_uptime
     - sensor.ganymede_power
@@ -38,6 +37,14 @@ sonoff:
     - sensor.ganymede_energy_today
     - sensor.ganymede_energy_yesterday
     - sensor.ganymede_energy_total
+    - switch.callisto
+    - sensor.callisto_uptime
+    # - switch.mimas
+    # - sensor.mimas_uptime
+    # - light.pandora
+    # - sensor.pandora_uptime
+    # - sensor.pandora_temperature
+    # - sensor.pandora_humidity
 
 # weblink:
 #   view: no

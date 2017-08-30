@@ -8,14 +8,13 @@ control:
     - input_boolean.presence_benjy
     - input_select.homemode
     - sensor.common_room_temperature
-    # - switch.titan
-    # - switch.hometheatre
-    # - switch.europa
-    - input_boolean.presence_pe_benjawan
-    - input_boolean.presence_jue_malaiwan
+    - sensor.pandora_temperature
+    - sensor.pandora_humidity
+    - input_boolean.mpd_silence
     - switch.foscam_black_motion
     - switch.foscam_white_motion
-    - input_boolean.mpd_silence
+    - input_boolean.presence_pe_benjawan
+    - input_boolean.presence_jue_malaiwan
 
 control_cr:
   name: "Common Room Control Panel"
@@ -30,7 +29,7 @@ control_cr:
     - input_select.denon_mode
     - switch.sonytv
     - switch.android_box
-    # - switch.common_room_subwoofer
+    - switch.mimas
     - script.mute_common_room
     - sensor.titan_current_consumption
     - sensor.titan_current
@@ -41,6 +40,8 @@ control_br:
   icon: mdi:google-controller
   control: hidden
   entities:
+    - sensor.pandora_temperature
+    - sensor.pandora_humidity
     - switch.bedroom_air_cond
     # - switch.bedroom_tv
     - switch.europa

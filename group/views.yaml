@@ -72,4 +72,4 @@ first_floor:
     - camera.foscam_white
     - camera.current_location_pe
     - camera.current_location_jue
-    - group.check
+    - group.friends

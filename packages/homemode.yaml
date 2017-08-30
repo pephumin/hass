@@ -56,6 +56,8 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Away'
+      - service: light.turn_off
+        entity_id: group.all_lights
       - service: script.motion_detection_activate
 
   - alias: "Set Away Mode 2"
@@ -75,6 +77,8 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Away'
+      - service: light.turn_off
+        entity_id: group.all_lights
       - service: script.motion_detection_activate
 
   - alias: "Set Vacation Mode 1"
@@ -94,6 +98,8 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Vacation'
+      - service: light.turn_off
+        entity_id: group.all_lights
       - service: script.motion_detection_activate
 
   - alias: "Set Vacation Mode 2"
@@ -113,4 +119,6 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Vacation'
+      - service: light.turn_off
+        entity_id: group.all_lights
       - service: script.motion_detection_activate

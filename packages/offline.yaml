@@ -1,25 +1,19 @@
 binary_sensor:
-
   - platform: ping
     host: 192.168.1.1
     name: "Deeper"
-
   - platform: ping
     host: 192.168.1.2
     name: "Pluto"
-
   - platform: ping
     host: 192.168.1.3
     name: "Neptune"
-
   - platform: ping
     host: 192.168.1.4
     name: "Uranus"
-
   - platform: ping
     host: 192.168.1.5
     name: "Mercury"
-
   - platform: ping
     host: 192.168.1.11
     name: "Higher"
@@ -27,7 +21,6 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.13
     name: "Broadlink RM Pro"
-
   - platform: ping
     host: 192.168.1.14
     name: "Broadlink RM Mini"
@@ -35,7 +28,6 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.20
     name: "Titan"
-
   - platform: ping
     host: 192.168.1.21
     name: "Europa"
@@ -43,15 +35,19 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.22
     name: "Ganymede"
-
   - platform: ping
     host: 192.168.1.23
     name: "Callisto"
+  - platform: ping
+    host: 192.168.1.24
+    name: "Mimas"
+  - platform: ping
+    host: 192.168.1.25
+    name: "Pandora"
 
   - platform: ping
     host: 192.168.1.40
     name: "Moon"
-
   - platform: ping
     host: 192.168.1.44
     name: "Printer"
@@ -59,16 +55,15 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.78
     name: "Foscam Black"
-
   - platform: ping
     host: 192.168.1.79
     name: "Foscam White"
 
 ##################
 
-  - platform: ping
-    host: 192.168.1.29
-    name: "Wemos"
+  # - platform: ping
+  #   host: 192.168.1.29
+  #   name: "Wemos"
 
 
 automation:
@@ -108,6 +103,8 @@ automation:
         entity_id: binary_sensor.deeper
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -127,6 +124,8 @@ automation:
         entity_id: binary_sensor.higher
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -146,6 +145,8 @@ automation:
         entity_id: binary_sensor.pluto
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -165,6 +166,8 @@ automation:
         entity_id: binary_sensor.neptune
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -184,6 +187,8 @@ automation:
         entity_id: binary_sensor.uranus
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -203,6 +208,8 @@ automation:
         entity_id: binary_sensor.mercury
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -222,6 +229,8 @@ automation:
         entity_id: binary_sensor.moon
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -241,6 +250,8 @@ automation:
         entity_id: binary_sensor.broadlink_rm_pro
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -260,6 +271,8 @@ automation:
         entity_id: binary_sensor.broadlink_rm_mini
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -279,6 +292,8 @@ automation:
         entity_id: binary_sensor.foscam_black
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -298,6 +313,8 @@ automation:
         entity_id: binary_sensor.foscam_white
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -317,6 +334,8 @@ automation:
         entity_id: binary_sensor.printer
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -336,6 +355,8 @@ automation:
         entity_id: binary_sensor.titan
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -345,8 +366,8 @@ automation:
           audio: "siren"
           light: "false"
           mobile: "false"
-          title: "Smart Plug in Common Room is offline"
-          message: 'Smart Plug in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "TP-Link Plug in Common Room is offline"
+          message: 'TP-Link Plug in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Offline Europa"
     hide_entity: True
@@ -355,6 +376,8 @@ automation:
         entity_id: binary_sensor.europa
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -364,8 +387,8 @@ automation:
           audio: "siren"
           light: "false"
           mobile: "false"
-          title: "Smart Plug in Bedroom is offline"
-          message: 'Smart Plug in Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: "TP-Link Plug in Bedroom is offline"
+          message: 'TP-Link Plug in Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Offline Ganymede"
     hide_entity: True
@@ -374,6 +397,8 @@ automation:
         entity_id: binary_sensor.ganymede
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -383,8 +408,6 @@ automation:
           audio: "siren"
           light: "false"
           mobile: "false"
-          # title: "Subwoofer Common Room is offline"
-          # message: 'Subwoofer Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
           title: "Ganymede is offline"
           message: 'Ganymede is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
@@ -395,6 +418,8 @@ automation:
         entity_id: binary_sensor.callisto
         from: 'on'
         to: 'off'
+        for:
+          minutes: 3
     action:
       - service: script.notifying
         data:
@@ -404,7 +429,47 @@ automation:
           audio: "siren"
           light: "false"
           mobile: "false"
-          # title: "Night Light Bedroom is offline"
-          # message: 'Night Light Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
           title: "Callisto is offline"
           message: 'Callisto is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Offline Mimas"
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.mimas
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 3
+    action:
+      - service: script.notifying
+        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
+          title: "Mimas is offline"
+          message: 'Mimas is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Offline Pandora"
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.pandora
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 3
+    action:
+      - service: script.notifying
+        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
+          title: "Pandora is offline"
+          message: 'Pandora is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
