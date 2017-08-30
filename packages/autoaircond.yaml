@@ -11,18 +11,31 @@ automation:
     action:
       - service: switch.turn_on
         entity_id: switch.bedroom_air_cond
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "true"
-          audio: "pip"
-          light: "false"
-          mobile: "false"
-          title: "Bedroom Air-conditioning has been turned on"
-          message: 'Bedroom Air-conditioning has been turned on [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+      - service: script.bedroom_ac_18
 
   - alias: "Auto Air-conditioning Bedroom 2"
+    hide_entity: True
+    trigger:
+      - platform: time
+        at: '01:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: script.bedroom_ac_21
+
+  - alias: "Auto Air-conditioning Bedroom 3"
+    hide_entity: True
+    trigger:
+      - platform: time
+        at: '03:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: script.bedroom_ac_24
+
+  - alias: "Auto Air-conditioning Bedroom 4"
     hide_entity: True
     trigger:
       - platform: time
@@ -33,18 +46,8 @@ automation:
     action:
       - service: switch.turn_off
         entity_id: switch.bedroom_air_cond
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "false"
-          audio: "pip"
-          light: "false"
-          mobile: "false"
-          title: "Bedroom Air-conditioning has been turned off"
-          message: 'Bedroom Air-conditioning has been turned off [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: "Auto Air-conditioning Bedroom 3"
+  - alias: "Auto Air-conditioning Bedroom 5"
     hide_entity: True
     trigger:
       - platform: time
@@ -55,18 +58,8 @@ automation:
     action:
       - service: switch.turn_on
         entity_id: switch.bedroom_air_cond
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "false"
-          audio: "pip"
-          light: "false"
-          mobile: "false"
-          title: "Bedroom Air-conditioning has been turned on"
-          message: 'Bedroom Air-conditioning has been turned on [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: "Auto Air-conditioning Bedroom 4"
+  - alias: "Auto Air-conditioning Bedroom 6"
     hide_entity: True
     trigger:
       - platform: time
@@ -77,13 +70,3 @@ automation:
     action:
       - service: switch.turn_off
         entity_id: switch.bedroom_air_cond
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "true"
-          audio: "pip"
-          light: "false"
-          mobile: "false"
-          title: "Bedroom Air-conditioning has been turned off"
-          message: 'Bedroom Air-conditioning has been turned off [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
