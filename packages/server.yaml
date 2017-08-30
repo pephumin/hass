@@ -75,6 +75,11 @@ sensor:
         unit_of_measurement: '°C'
         icon_template: mdi:thermometer
         value_template: '{% if states.sensor.temperature_sda.state and states.sensor.temperature_sdb.state and states.sensor.temperature_sdc.state and states.sensor.temperature_sdd.state %}{{ (float(states.sensor.temperature_sda.state) + float(states.sensor.temperature_sdb.state) + float(states.sensor.temperature_sdc.state) + float(states.sensor.temperature_sdd.state)) / 4 | round(2) }}{% endif %}'
+        entity_id:
+          - sensor.temperature_sda
+          - sensor.temperature_sdb
+          - sensor.temperature_sdc
+          - sensor.temperature_sdd
       uptime:
         friendly_name: Uptime
         icon_template: mdi:timelapse
@@ -97,3 +102,5 @@ sensor:
               {%- endif -%}
             {%- endif -%}
           {%- endif -%}
+        entity_id:
+          - sensor.since_last_boot

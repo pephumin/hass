@@ -52,38 +52,21 @@ switch:
 
 script:
   motion_detection_activate:
+    alias: "Motion Detection Activate"
     sequence:
       - service: switch.turn_on
         entity_id: switch.foscam_black_motion
       - service: switch.turn_on
         entity_id: switch.foscam_white_motion
-      # - service: script.notifying
-      #   data:
-      #     email: "true"
-      #     tv: "false"
-      #     speak: "false"
-      #     audio: "chime"
-      #     light: "false"
-      #     mobile: "false"
-      #     title: "Foscam Motion Detection is activated"
-      #     message: 'Foscam Motion Detection is activated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   motion_detection_deactivate:
+    alias: "Motion Detection Deactivate"
     sequence:
       - service: switch.turn_off
         entity_id: switch.foscam_black_motion
       - service: switch.turn_off
         entity_id: switch.foscam_white_motion
-      # - service: script.notifying
-      #   data:
-      #     email: "true"
-      #     tv: "false"
-      #     speak: "false"
-      #     audio: "chime"
-      #     light: "false"
-      #     mobile: "false"
-      #     title: "Foscam Motion Detection is deactivated"
-      #     message: 'Foscam Motion Detection is deactivated [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
   black_scan:
+    alias: "Foscam Black Scan Starts"
     sequence:
       - service: shell_command.foscam_black_present_2
       - delay: 00:00:25
@@ -92,10 +75,12 @@ script:
       - service: shell_command.foscam_black_present_4
       - service: script.black_scan_loop
   black_scan_loop:
+    alias: "Foscam Black Scan Loops"
     sequence:
       - delay: 00:00:15
       - service: script.black_scan
   black_scan_stop:
+    alias: "Foscam Black Scan Stops"
     sequence:
       - service: script.turn_off
         entity_id: script.black_scan
@@ -103,6 +88,7 @@ script:
         entity_id: script.black_scan_loop
       - service: shell_command.foscam_black_present_1
   white_scan:
+    alias: "Foscam White Scan Starts"
     sequence:
       - service: shell_command.foscam_white_present_2
       - delay: 00:00:30
@@ -111,10 +97,12 @@ script:
       - service: shell_command.foscam_white_present_4
       - service: script.white_scan_loop
   white_scan_loop:
+    alias: "Foscam White Scan Loops"
     sequence:
       - delay: 00:00:10
       - service: script.white_scan
   white_scan_stop:
+    alias: "Foscam White Scan Stops"
     sequence:
       - service: script.turn_off
         entity_id: script.white_scan
@@ -162,36 +150,20 @@ automation:
 
   - alias: "Auto Motion Detection Activation"
     trigger:
-      - platform: state
-        entity_id: input_select.homemode
-        to: 'Away'
-      - platform: state
-        entity_id: input_select.homemode
-        to: 'Vacation'
-      - platform: state
-        entity_id: input_select.homemode
-        to: 'Visitor'
+      - platform: template
+        value_template: '{{ is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") or is_state("input_select.homemode", "Visitor") }}'
     condition:
       - condition: template
-        value_template: '{{ (is_state("switch.foscam_black_motion", "off") or is_state("switch.foscam_white_motion", "off")) }}'
+        value_template: '{{ is_state("switch.foscam_black_motion", "off") or is_state("switch.foscam_white_motion", "off") }}'
     action:
       - service: script.motion_detection_activate
 
   - alias: "Auto Motion Detection Deactivation"
     trigger:
-      - platform: state
-        entity_id: input_boolean.presence_pe
-        from: 'off'
-        to: 'on'
-      - platform: state
-        entity_id: input_boolean.presence_pe
-        from: 'off'
-        to: 'on'
-      - platform: state
-        entity_id: input_select.homemode
-        to: 'Home'
+      - platform: template
+        value_template: '{{ is_state("input_boolean.presence_pe", "on") or is_state("input_boolean.presence_jue", "on") or is_state("input_select.homemode", "Home") }}'
     condition:
       - condition: template
-        value_template: '{{ (is_state("switch.foscam_black_motion", "on") or is_state("switch.foscam_white_motion", "on")) }}'
+        value_template: '{{ is_state("switch.foscam_black_motion", "on") or is_state("switch.foscam_white_motion", "on") }}'
     action:
       - service: script.motion_detection_deactivate
