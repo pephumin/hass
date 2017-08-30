@@ -1,3 +1,37 @@
+# Fade the Light On Over 5 Seconds - light.turn_on
+#
+# {
+# 	"entity_id": "light.wemos",
+# 	"brightness": 150,
+# 	"color_name": "blue",
+# 	"transition": "5"
+# }
+#
+# Flash The Light - light.turn_on
+#
+# {
+# 	"entity_id": "light.wemos",
+# 	"color_name": "green",
+# 	"brightness": 255,
+# 	"flash": "short"
+# }
+#
+# Call Rainbow Effect with Slow Animation Speed - light.turn_on
+#
+# {
+# 	"entity_id": "light.wemos",
+# 	"transition": "50",
+# 	"brightness": 255,
+# 	"effect": "rainbow"
+# }
+#
+# Fade the Light Off Over 5 Seconds - light.turn_off
+#
+# {
+# 	"entity_id": "light.wemos",
+# 	"transition": "50"
+# }
+
 # light:
 #   - platform: mqtt
 #     name: "Wemos"
@@ -90,6 +124,7 @@ light:
       - ripple
       - sinelon
       - solid
+      - strobe
       - twinkle
     brightness: true
     flash: true
@@ -116,4 +151,4 @@ automation:
       - service: mqtt.publish
         data_template:
           topic: "wemos/set"
-          payload: '{"transition":{{ trigger.to_state.state | int }}}'
+          payload: '{"transition": {{ trigger.to_state.state | int }}}'
