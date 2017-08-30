@@ -108,31 +108,31 @@ ss_volume_down:
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
 
 ss_volume_up:
   alias: "Volume Fade Up"
@@ -142,37 +142,37 @@ ss_volume_up:
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
     - service: media_player.volume_set
       entity_id: media_player.itunes
       data_template:
-        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
 
 s_speak:
   alias: "Sub-notify script Speak"
   sequence:
     - condition: template
-      value_template: '{{ (speak != "false" and is_state("binary_sensor.pepe", "on")) }}'
+      value_template: '{{ speak != "false" and is_state("binary_sensor.pepe", "on") }}'
     - service: script.ss_volume_down
     - service: media_player.volume_set
       data_template:
@@ -201,11 +201,21 @@ s_email:
         title: '{{ title }}'
         message: '{{ message }}'
 
+s_mbp:
+  alias: "Sub-notify script Macbook Pro"
+  sequence:
+    - condition: template
+      value_template: '{{ is_state("device_tracker.pepe", "home") or is_state("binary_sensor.pepe", "on") }}'
+    - service: notify.growl
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+
 s_tv:
   alias: "Sub-notify script TV"
   sequence:
     - condition: template
-      value_template: '{{ (tv != "false" and is_state("media_player.denon", "on")) }}'
+      value_template: '{{ tv != "false" and is_state("media_player.denon", "on") }}'
     - service: notify.tv
       data_template:
         title: '{{ title }}'
@@ -231,6 +241,10 @@ s_light:
 notifying:
   alias: "Notify script"
   sequence:
+    - service: script.s_mbp
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
     - service: script.s_light
       data_template:
         light: '{{ light if (light == "long" or light == "short" or light == "once" or light == "false") else "false" }}'

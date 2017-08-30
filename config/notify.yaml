@@ -48,3 +48,8 @@
   services:
     - service: tv
     - service: email
+
+- platform: gntp
+  name: growl
+  hostname: 192.168.1.200
+  password: !secret my_password
