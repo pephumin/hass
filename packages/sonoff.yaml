@@ -4,7 +4,7 @@ switch:
     state_topic: "stat/ganymede/POWER"
     command_topic: "cmnd/ganymede/POWER"
     availability_topic: "tele/ganymede/LWT"
-    qos: 0
+    qos: 1
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: true
@@ -13,7 +13,7 @@ switch:
     state_topic: "stat/callisto/POWER"
     command_topic: "cmnd/callisto/POWER"
     availability_topic: "tele/callisto/LWT"
-    qos: 0
+    qos: 1
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: true
@@ -22,7 +22,7 @@ switch:
     state_topic: "stat/mimas/POWER"
     command_topic: "cmnd/mimas/POWER"
     availability_topic: "tele/mimas/LWT"
-    qos: 0
+    qos: 1
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: true
@@ -33,7 +33,7 @@ light:
     state_topic: "stat/pandora/POWER"
     command_topic: "cmnd/pandora/POWER"
     availability_topic: "tele/pandora/LWT"
-    qos: 0
+    qos: 1
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: true
@@ -103,19 +103,13 @@ sensor:
     state_topic: "tele/pandora/SENSOR"
     value_template: "{{ value_json['DHT22'].Humidity }}"
     unit_of_measurement: "%"
-  # - platform: statistics
-  #   entity_id: sensor.pandora_temperature
-  #   name: "Bedroom Temperature"
-  # - platform: statistics
-  #   entity_id: sensor.pandora_humidity
-  #   name: "Bedroom Humidity"
 
 automation:
 
   - alias: "Auto Double Subwoofer On"
     trigger:
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "Music") or is_state("sensor.denon_source", "MPLAY") or is_state("sensor.denon_source", "BD") or is_state("sensor.denon_source", "DVD") or is_state("sensor.denon_source", "AUX1") or is_state("sensor.denon_source", "USB/IPOD") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("sensor.denon_source", "Music") or is_state("sensor.denon_source", "MPLAY") or is_state("sensor.denon_source", "BD") or is_state("sensor.denon_source", "DVD") or is_state("sensor.denon_source", "AUX1") or is_state("sensor.denon_source", "USB/IPOD") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("switch.titan", "on") and is_state("media_player.denon", "on") }}'
@@ -126,7 +120,7 @@ automation:
   - alias: "Auto Double Subwoofer Off"
     trigger:
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "SAT/CBL") or is_state("sensor.denon_source", "Game") or is_state("sensor.denon_source", "TV") or is_state("sensor.denon_source", "TUNER") or is_state("sensor.denon_source", "Internet Radio") or is_state("sensor.denon_source", "NET") %}true{% else %}false{% endif %}'
+        value_template: '{{ is_state("sensor.denon_source", "SAT/CBL") or is_state("sensor.denon_source", "Game") or is_state("sensor.denon_source", "TV") or is_state("sensor.denon_source", "TUNER") or is_state("sensor.denon_source", "Internet Radio") or is_state("sensor.denon_source", "NET") }}'
       - platform: state
         entity_id: switch.titan
         from: 'on'
@@ -138,19 +132,3 @@ automation:
     action:
       - service: switch.turn_off
         entity_id: switch.mimas
-
-  # - alias: "Auto Fan Saturn On"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ states.sensor.average_temperature.state | float > 41 }}'
-  #   action:
-  #     - service: switch.turn_on
-  #       entity_id: switch.ganymede
-
-  # - alias: "Auto Fan Saturn Off"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ states.sensor.average_temperature.state | float < 41 }}'
-  #   action:
-  #     - service: switch.turn_off
-  #       entity_id: switch.ganymede
