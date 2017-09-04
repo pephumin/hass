@@ -91,14 +91,20 @@ ifttt:
 # automation: !include_dir_merge_list automation/
 device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
-history: !include config/logs.yaml
-logbook: !include config/logs.yaml
+# history: !include config/logs.yaml
+# logbook: !include config/logs.yaml
 media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
-recorder: !include config/recorder.yaml
+# recorder: !include config/recorder.yaml
 scene: !include config/scene.yaml
 script: !include config/script.yaml
 # sensor: !include_dir_merge_list sensor/
+
+history:
+logbook:
+recorder:
+  purge_days: 10
+  db_url: !secret db_url
 
 logger:
   default: critical
