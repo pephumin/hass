@@ -1,3 +1,32 @@
+# sensor:
+#   - platform: template
+#     sensor:
+#       motion_summary:
+#         value_template: >
+#           {%-for state in states.binary_sensor
+#             if(state.attributes.device_class=="motion" and state.state=="on")-%}
+#               {%-if loop.last-%}
+#                 {%-if loop.index > 0-%}
+#                   {%-for state in states.binary_sensor if(state.attributes.device_class=="motion" and state.state =="on")-%}
+#                     {{state.name}}{%-if not loop.last -%}{%-if(loop.index+1==loop.length)%} & {%else%}, {%endif-%}{%-else%} active{%endif-%}
+#                   {%-endfor-%}
+#                 {%-endif-%}
+#               {%-endif-%}
+#             {%-else-%}
+#               all clear
+#           {%-endfor-%}
+#         icon_template: >
+#           {%-for state in states.binary_sensor
+#             if(state.attributes.device_class=="motion" and state.state=="on")-%}
+#               {%-if loop.last-%}
+#                 {%-if loop.index > 0-%}
+#                     mdi:alert
+#                 {%-endif-%}
+#               {%-endif-%}
+#             {%-else-%}
+#               mdi:check
+#           {%-endfor-%}
+
 # Fade the Light On Over 5 Seconds - light.turn_on
 #
 # {
@@ -107,6 +136,7 @@ light:
     command_topic: "wemos/set"
     effect: true
     effect_list:
+      - applause
       - bpm
       - candy cane
       - confetti
