@@ -120,39 +120,50 @@ device_tracker.ping_xdj_rx:
 light.bedroom_1:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 1"
+  custom_ui_state_card: custom_light
 light.bedroom_2:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 2"
+  custom_ui_state_card: custom_light
 light.bedroom_3:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 3"
+  custom_ui_state_card: custom_light
 light.bedroom_4:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 4"
-light.bedroom_lw:
-  icon: mdi:lamp
-  friendly_name: "Bedroom Living Whites"
+  custom_ui_state_card: custom_light
 light.bedroom_lc:
   icon: mdi:spotlight
-  friendly_name: "Bedroom Living Colors"
+  friendly_name: "Bedroom LC"
+  custom_ui_state_card: custom_light
+light.bedroom_lw:
+  icon: mdi:lamp
+  friendly_name: "Bedroom LW"
 light.common_room_1:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 1"
+  # custom_ui_state_card: custom-ui
 light.common_room_2:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 2"
+  # custom_ui_state_card: custom-ui
 light.common_room_3:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 3"
+  # custom_ui_state_card: custom-ui
 light.common_room_4:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 4"
+  # custom_ui_state_card: custom-ui
 light.lightstrip:
   icon: mdi:alarm-light
   friendly_name: "Lightstrip"
+  custom_ui_state_card: custom_light
 light.hallway:
   icon: mdi:spotlight-beam
   friendly_name: "Hallway"
+  custom_ui_state_card: custom_light
 light.front_1:
   icon: mdi:lightbulb-outline
   friendly_name: "Front 1"
@@ -232,6 +243,7 @@ switch.bedroom_air_cond:
   icon: mdi:air-conditioner
   friendly_name: "Bedroom Air Cond"
   assumed_state: true
+  # custom_ui_state_card: custom_aircond
 switch.bedroom_tv:
   icon: mdi:television
   friendly_name: "Bedroom TV"
@@ -295,6 +307,12 @@ sensor.ram_use:
 sensor.disk_use_:
   icon: mdi:harddisk
   friendly_name: "HDD Usage"
+sensor.maximum_disk_temperature:
+  icon: mdi:thermometer-lines
+  friendly_name: "Maximum Disk Temperature"
+sensor.average_disk_temperature:
+  icon: mdi:thermometer
+  friendly_name: "Average Disk Temperature"
 
 sensor.denon_source:
   icon: mdi:amplifier
@@ -388,7 +406,7 @@ proximity.pe_benjawan:
   friendly_name: "Pe from Benjy"
 
 switch.ganymede:
-  icon: mdi:power-plug
+  icon: mdi:power-socket
   friendly_name: "Ganymede"
   assumed_state: true
 sensor.ganymede_power:
@@ -443,12 +461,31 @@ sensor.pandora_humidity:
   icon: mdi:water-percent
   friendly_name: "Bedroom Humidity"
 
+sensor.common_room_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "Common Room Temperature"
+sensor.bedroom_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "Bedroom Temperature"
+sensor.bedroom_humidity_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "Bedroom Humidity"
+sensor.maximum_disk_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "Maximum Saturn Temperature"
+sensor.average_disk_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "Average Saturn Temperature"
+
 light.wemos:
   icon: mdi:led-strip
+  friendly_name: "LED Lightstrip"
 input_select.wemos_effect:
   icon: mdi:animation
+  friendly_name: "LED Effect"
 input_slider.wemos_animation_speed:
   icon: mdi:fast-forward
+  friendly_name: "Speed"
 
 ### hidden ###
 
