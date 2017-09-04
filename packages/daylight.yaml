@@ -21,6 +21,9 @@ automation:
       - platform: sun
         event: sunset
         offset: "-00:30:00"
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
     action:
       - service: script.notifying
         data:
@@ -39,6 +42,9 @@ automation:
       - platform: sun
         event: sunset
         offset: "+00:00:00"
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
     action:
       - service: script.notifying
         data:
