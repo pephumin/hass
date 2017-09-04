@@ -34,6 +34,17 @@ script:
         data:
           packet:
             - 'JgC8AXA5DyoODg4ODg8NKw8ODQ8ODg4ODisODg4rDioPDg0rDisOKg4rDioPDg0PDioPDg0PDg4ODw0PDg4OKw0rDyoNKw8ODQ8ODg4ODg8NDw4ODw4NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODisNDw4ODg8NDw4ODg4OAAPMcTkPKg0PDg4ODg4rDg4ODw0PDg4OKw4ODioOKw8NDisOKg8qDioOKw4ODg8NKw4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4rDg4ODg4ODisOKg8ODg4ODg4PDSsODg4PDSsODw0PDg4ODg4PDQ8ODg4PDQ8NDw4rDioPKg4qDw4NKw8NDisOKg4rDyoOKg8NDg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8OKg8qDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4ODisNDw4ODisOKg8qDgANBQAAAAAAAAAAAAAAAA=='
+  bedroom_ac_powerful:
+    alias: "Bedroom Air Condition Powerful"
+    sequence:
+      - service: broadlink.send_packet_192_168_1_14
+        data:
+          packet:
+            - 'JgC8AXE5DioPDQ8ODQ8PKg4ODg4PDQ8ODioODg4rDyoODg4qDyoOKg8qDykPDg4ODisNDw4ODg4ODw0PDw0PKg4qDyoOKg8ODQ8PDQ4PDQ8ODg4ODg8ODg4ODw0PDg4ODw0PDg0PDg4ODg8ODQ8ODg4ODg8NDw8NDisODg4ODw4NDw4ODg4OAAPMcTkPKg0PDg4ODg8qDg4ODw4ODg4OKw4ODioPKg8NDisOKg4rDioPKg8NDw4NKw8NDw4ODg4ODw0ODw4ODw0PDg0PDg4PDQ8ODg4ODg8NDw4ODg4rDg4ODg8NDyoOKg4PDg4PDQ8ODg4OKg8ODSsPDQ8ODg4ODg8ODg4ODg4ODg8NDw4qDyoPKg4qDw0OKw8NDisOKg8qDioPKg8NDw0ODw4ODw0PDg0PDg4ODg8ODg4PDQ4ODw4ODg4ODw4ODg4ODg4PDg4ODw0PDQ4PDg4ODg4PDioPDQ4PDg4ODg4PDQ8ODg8NDw4ODg4ODw0ODw4ODg4PDg4ODQ8PDQ4PDg4OKg8qDw0PDg4ODg4PDQ4PDg4ODg4ODw4ODg8NDw4NDw0PDw0PDg4qDw0PKg8NDisOKg4rDgANBQAAAAAAAAAAAAAAAA=='
+  bedroom_ac_control:
+    alias: "Bedroom Air Condition Control"
+    sequence:
+      - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" %}script.bedroom_ac_18{% else %}{% endif %}'
 
 sensor:
   - platform: broadlink
@@ -43,6 +54,9 @@ sensor:
     mac: !secret rmpro_mac
     monitored_conditions:
       - temperature
+  # - platform: statistics
+  #   entity_id: sensor.common_room_temperature
+  #   name: "Common Room Temperature"
 
 switch:
   - platform: broadlink
