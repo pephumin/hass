@@ -9,11 +9,7 @@ home_server:
     - sensor.disk_use_
     - sensor.speedtest_download
     - sensor.speedtest_upload
-    - sensor.average_temperature
+    - sensor.average_disk_temperature
     - sensor.maximum_disk_temperature
-    # - binary_sensor.saturn_is_hot
     - binary_sensor.saturn_temperature_up
-    - binary_sensor.saturn_disks_are_hot
-    # - binary_sensor.saturn_is_cool
-    # - binary_sensor.saturn_temperature_down
-    # - binary_sensor.saturn_disks_are_cool
+    # - binary_sensor.saturn_disks_are_hot

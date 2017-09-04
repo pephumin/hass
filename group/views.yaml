@@ -45,6 +45,7 @@ common_room:
     - group.sonoff
     - group.kodi
     - group.led
+    - group.stats_cr
 
 bedroom:
   view: yes
@@ -59,6 +60,7 @@ bedroom:
     - media_player.computer_airtunes_speaker
     - group.control_br
     # - group.alarmclock
+    - group.stats_br
 
 first_floor:
   view: yes

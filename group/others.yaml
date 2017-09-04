@@ -64,5 +64,28 @@ led:
   icon: mdi:led-strip
   entities:
     - light.wemos
-    - input_select.wemos_effect
+    # - input_select.wemos_effect
     - input_slider.wemos_animation_speed
+    # - sensor.motion_summary
+
+stats_cr:
+  view: no
+  name: "Statistics Common Room"
+  icon: mdi:chart-line-stacked
+  entities:
+    - sensor.common_room_temperature_mean
+    - sensor.average_disk_temperature_mean
+    - sensor.titan_current_consumption
+    - sensor.titan_current
+    - sensor.titan_voltage
+
+stats_br:
+  view: no
+  name: "Statistics Bedroom"
+  icon: mdi:chart-line-stacked
+  entities:
+    - sensor.bedroom_temperature_mean
+    - sensor.bedroom_humidity_mean
+    - sensor.europa_current_consumption
+    - sensor.europa_current
+    - sensor.europa_voltage
