@@ -68,17 +68,18 @@ sensor:
       - sensor.temperature_sdb
       - sensor.temperature_sdc
       - sensor.temperature_sdd
-  - platform: statistics
-    entity_id: sensor.average_disk_temperature
-    name: "Maximum Disk Temperature"
   - platform: template
     sensors:
-      average_disk_temperature:
+      average_temperature:
         friendly_name: 'Average Disk Temperature'
         unit_of_measurement: '°C'
         icon_template: mdi:thermometer
-        value_template: '{{ states.sensor.maximum_disk_temperature.attributes.mean }}'
-        # value_template: '{% if states.sensor.temperature_sda.state and states.sensor.temperature_sdb.state and states.sensor.temperature_sdc.state and states.sensor.temperature_sdd.state %}{{ (float(states.sensor.temperature_sda.state) + float(states.sensor.temperature_sdb.state) + float(states.sensor.temperature_sdc.state) + float(states.sensor.temperature_sdd.state)) / 4 | round(2) }}{% endif %}'
+        value_template: '{% if states.sensor.temperature_sda.state and states.sensor.temperature_sdb.state and states.sensor.temperature_sdc.state and states.sensor.temperature_sdd.state %}{{ (float(states.sensor.temperature_sda.state) + float(states.sensor.temperature_sdb.state) + float(states.sensor.temperature_sdc.state) + float(states.sensor.temperature_sdd.state)) / 4 | round(2) }}{% endif %}'
+        entity_id:
+          - sensor.temperature_sda
+          - sensor.temperature_sdb
+          - sensor.temperature_sdc
+          - sensor.temperature_sdd
       uptime:
         friendly_name: Uptime
         icon_template: mdi:timelapse
@@ -101,6 +102,5 @@ sensor:
               {%- endif -%}
             {%- endif -%}
           {%- endif -%}
-  - platform: statistics
-    entity_id: sensor.maximum_disk_temperature
-    name: "Average Disk Temperature"
+        entity_id:
+          - sensor.since_last_boot
