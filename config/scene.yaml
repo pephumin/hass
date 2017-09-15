@@ -195,7 +195,7 @@
       brightness: 70
       xy_color: [0.3227,0.5086]
     light.pandora:
-      state: on
+      state: off
 
 - name: "Bedroom Concentrate"
   entities:
@@ -224,7 +224,7 @@
     light.bedroom_lc:
       state: off
     light.pandora:
-      state: off
+      state: on
 
 - name: "Bedroom Energize"
   entities:
@@ -253,7 +253,7 @@
     light.bedroom_lc:
       state: off
     light.pandora:
-      state: off
+      state: on
 
 - name: "Bedroom Read"
   entities:
@@ -282,7 +282,7 @@
     light.bedroom_lc:
       state: off
     light.pandora:
-      state: off
+      state: on
 
 - name: "Bedroom Relax"
   entities:
@@ -441,6 +441,8 @@
       profile: "Concentrate"
     light.garage:
       state: off
+    light.calypso:
+      state: on
 
 - name: "First Floor Energize"
   entities:
@@ -449,6 +451,8 @@
       profile: "Energize"
     light.garage:
       state: off
+    light.calypso:
+      state: on
 
 - name: "First Floor Read"
   entities:
@@ -457,6 +461,8 @@
       profile: "Read"
     light.garage:
       state: off
+    light.calypso:
+      state: on
 
 - name: "First Floor Relax"
   entities:
@@ -464,6 +470,8 @@
       state: on
       profile: "Relax"
     light.garage:
+      state: off
+    light.calypso:
       state: off
 
 - name: "First Floor Bright"
@@ -480,6 +488,8 @@
       state: on
       transition: 1
       brightness: 124
+    light.calypso:
+      state: on
 
 - name: "First Floor Alive"
   entities:
@@ -493,6 +503,8 @@
       brightness: 131
     light.garage:
       state: off
+    light.calypso:
+      state: off
 
 - name: "First Floor Dim"
   entities:
@@ -505,4 +517,6 @@
       transition: 1
       brightness: 35
     light.garage:
+      state: off
+    light.calypso:
       state: off

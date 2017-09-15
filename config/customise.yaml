@@ -120,50 +120,46 @@ device_tracker.ping_xdj_rx:
 light.bedroom_1:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 1"
-  custom_ui_state_card: custom_light
+  # custom_ui_state_card: custom_light
 light.bedroom_2:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 2"
-  custom_ui_state_card: custom_light
+  # custom_ui_state_card: custom_light
 light.bedroom_3:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 3"
-  custom_ui_state_card: custom_light
+  # custom_ui_state_card: custom_light
 light.bedroom_4:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 4"
-  custom_ui_state_card: custom_light
+  # custom_ui_state_card: custom_light
 light.bedroom_lc:
   icon: mdi:spotlight
   friendly_name: "Bedroom LC"
-  custom_ui_state_card: custom_light
+  # custom_ui_state_card: custom_light
 light.bedroom_lw:
   icon: mdi:lamp
   friendly_name: "Bedroom LW"
 light.common_room_1:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 1"
-  # custom_ui_state_card: custom-ui
 light.common_room_2:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 2"
-  # custom_ui_state_card: custom-ui
 light.common_room_3:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 3"
-  # custom_ui_state_card: custom-ui
 light.common_room_4:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 4"
-  # custom_ui_state_card: custom-ui
 light.lightstrip:
   icon: mdi:alarm-light
   friendly_name: "Lightstrip"
-  custom_ui_state_card: custom_light
+  # custom_ui_state_card: custom_light
 light.hallway:
   icon: mdi:spotlight-beam
   friendly_name: "Hallway"
-  custom_ui_state_card: custom_light
+  # custom_ui_state_card: custom_light
 light.front_1:
   icon: mdi:lightbulb-outline
   friendly_name: "Front 1"
@@ -340,6 +336,12 @@ binary_sensor.uranus:
 binary_sensor.mercury:
   icon: mdi:wifi
   friendly_name: "Airport Express Working Space"
+binary_sensor.apollo:
+  icon: mdi:wifi
+  friendly_name: "ASUStek RT-12+"
+binary_sensor.sputnik:
+  icon: mdi:wifi
+  friendly_name: "Ubiquiti Rocket M2"
 binary_sensor.moon:
   icon: mdi:orbit
   friendly_name: "Philips Hue"
@@ -355,7 +357,7 @@ binary_sensor.foscam_black:
 binary_sensor.foscam_white:
   icon: mdi:webcam
   friendly_name: "Foscam White"
-binary_sensor.printer:
+binary_sensor.earth:
   icon: mdi:printer
   friendly_name: "Samsung Printer"
 binary_sensor.titan:
@@ -376,6 +378,12 @@ binary_sensor.mimas:
 binary_sensor.pandora:
   icon: mdi:power-plug
   friendly_name: "Sonoff Basic Pandora"
+binary_sensor.phoebe:
+  icon: mdi:power-plug
+  friendly_name: "Sonoff Basic Phoebe"
+binary_sensor.calypso:
+  icon: mdi:power-plug
+  friendly_name: "Sonoff Basic Calypso"
 binary_sensor.xdj_rx:
   icon: mdi:music
   friendly_name: "XDJ-RX"
@@ -438,28 +446,26 @@ switch.callisto:
   icon: mdi:power-plug
   friendly_name: "Callisto"
   assumed_state: true
-sensor.callisto_uptime:
-  icon: mdi:timelapse
-  friendly_name: "Callisto Uptime"
 switch.mimas:
   icon: mdi:speaker
   friendly_name: "Common Room Subwoofer"
   assumed_state: true
-sensor.mimas_uptime:
-  icon: mdi:timelapse
-  friendly_name: "Mimas Uptime"
 light.pandora:
   icon: mdi:lightbulb-on-outline
   friendly_name: "Bedroom Night Light"
-sensor.pandora_uptime:
-  icon: mdi:timelapse
-  friendly_name: "Pandora Uptime"
 sensor.pandora_temperature:
   icon: mdi:thermometer
   friendly_name: "Bedroom Temperature"
 sensor.pandora_humidity:
   icon: mdi:water-percent
   friendly_name: "Bedroom Humidity"
+switch.phoebe:
+  icon: mdi:power-plug
+  friendly_name: "Phoebe"
+  assumed_state: true
+light.calypso:
+  icon: mdi:lightbulb-on-outline
+  friendly_name: "Kitchen"
 
 sensor.common_room_temperature_mean:
   icon: mdi:chart-line-stacked

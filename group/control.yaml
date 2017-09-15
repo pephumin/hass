@@ -25,8 +25,8 @@ control_cr:
     - switch.common_room_air_cond
     - switch.common_room_fan
     - switch.hometheatre
-    - sensor.denon_source
-    - sensor.denonsourcecheck
+    # - sensor.denon_source
+    # - sensor.denonsourcecheck
     - input_select.denon_mode
     - switch.sonytv
     - switch.android_box
@@ -46,3 +46,10 @@ control_br:
     - script.mute_bedroom
     - script.dj_shuffle
     - script.soft_shuffle
+
+# control_ff:
+#   name: "First Floor Control Panel"
+#   icon: mdi:google-controller
+#   control: hidden
+#   entities:
+#     - light.calypso

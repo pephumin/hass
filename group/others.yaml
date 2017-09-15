@@ -29,7 +29,6 @@ sonoff:
   control: hidden
   entities:
     - switch.ganymede
-    - sensor.ganymede_uptime
     - sensor.ganymede_power
     - sensor.ganymede_power_factor
     - sensor.ganymede_current
@@ -38,25 +37,10 @@ sonoff:
     - sensor.ganymede_energy_yesterday
     - sensor.ganymede_energy_total
     - switch.callisto
-    - sensor.callisto_uptime
     # - switch.mimas
-    # - sensor.mimas_uptime
     # - light.pandora
-    # - sensor.pandora_uptime
     # - sensor.pandora_temperature
     # - sensor.pandora_humidity
-
-# weblink:
-#   view: no
-#   name: "Web Links"
-#   icon: mdi:web
-#   control: hidden
-#   entities:
-#     - weblink.siamspeed
-#     - weblink.siamsquare_admin
-#     - weblink.foscam_black
-#     - weblink.foscam_white
-#     - weblink.synology
 
 led:
   view: no
@@ -64,9 +48,7 @@ led:
   icon: mdi:led-strip
   entities:
     - light.wemos
-    # - input_select.wemos_effect
     - input_slider.wemos_animation_speed
-    # - sensor.motion_summary
 
 stats_cr:
   view: no

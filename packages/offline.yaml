@@ -15,6 +15,12 @@ binary_sensor:
     host: 192.168.1.5
     name: "Mercury"
   - platform: ping
+    host: 192.168.1.6
+    name: "Apollo"
+  - platform: ping
+    host: 192.168.1.7
+    name: "Sputnik"
+  - platform: ping
     host: 192.168.1.11
     name: "Higher"
 
@@ -44,13 +50,22 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.25
     name: "Pandora"
+  - platform: ping
+    host: 192.168.1.26
+    name: "Phoebe"
+  - platform: ping
+    host: 192.168.1.27
+    name: "Calypso"
+  # - platform: ping
+  #   host: 192.168.1.29
+  #   name: "Wemos"
 
   - platform: ping
     host: 192.168.1.40
     name: "Moon"
   - platform: ping
     host: 192.168.1.44
-    name: "Printer"
+    name: "Earth"
 
   - platform: ping
     host: 192.168.1.78
@@ -59,19 +74,13 @@ binary_sensor:
     host: 192.168.1.79
     name: "Foscam White"
 
-##################
-
-  # - platform: ping
-  #   host: 192.168.1.29
-  #   name: "Wemos"
-
 
 automation:
 
   - alias: 'Device status offline'
     trigger:
       - platform: state
-        entity_id: binary_sensor.deeper, binary_sensor.higher, binary_sensor.pluto, binary_sensor.neptune, binary_sensor.uranus, binary_sensor.mercury, binary_sensor.moon, binary_sensor.broadlink_rm_pro, binary_sensor.broadlink_rm_mini, binary_sensor.foscam_black, binary_sensor.foscam_white, binary_sensor.printer, binary_sensor.titan, binary_sensor.europa
+        entity_id: binary_sensor.broadlink_rm_pro, binary_sensor.broadlink_rm_mini, binary_sensor.moon, binary_sensor.earth, binary_sensor.foscam_black, binary_sensor.foscam_white
         from: 'on'
         to: 'off'
         for:
@@ -85,15 +94,35 @@ automation:
           audio: "siren"
           light: "false"
           mobile: "false"
-          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}'
-          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }}'
+          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: 'Device status online'
     trigger:
       - platform: state
-        entity_id: binary_sensor.deeper, binary_sensor.higher, binary_sensor.pluto, binary_sensor.neptune, binary_sensor.uranus, binary_sensor.mercury, binary_sensor.moon, binary_sensor.broadlink_rm_pro, binary_sensor.broadlink_rm_mini, binary_sensor.foscam_black, binary_sensor.foscam_white, binary_sensor.printer, binary_sensor.titan, binary_sensor.europa
+        entity_id: binary_sensor.broadlink_rm_pro, binary_sensor.broadlink_rm_mini, binary_sensor.moon, binary_sensor.earth, binary_sensor.foscam_black, binary_sensor.foscam_white
         from: 'off'
         to: 'on'
+        for:
+          minutes: 5
+    action:
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }}'
+          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: 'Router status offline'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.deeper, binary_sensor.pluto, binary_sensor.neptune, binary_sensor.uranus, binary_sensor.mercury, binary_sensor.apollo, binary_sensor.sputnik, binary_sensor.higher
+        from: 'on'
+        to: 'off'
         for:
           minutes: 5
     action:
@@ -105,383 +134,65 @@ automation:
           audio: "siren"
           light: "false"
           mobile: "false"
-          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }}'
-          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ trigger.to_state.state }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }}'
+          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  # - alias: "Offline Deeper"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.deeper
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "The primary gateway is offline"
-  #         message: 'The primary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Higher"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.higher
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "The secondary gateway is offline"
-  #         message: 'The secondary gateway is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Pluto"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.pluto
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Airport Extreme is offline"
-  #         message: 'Airport Extreme is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Neptune"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.neptune
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Airport Express Bedroom is offline"
-  #         message: 'Airport Express Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Uranus"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.uranus
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Airport Express Downstairs is offline"
-  #         message: 'Airport Express Downstairs is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Mercury"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.mercury
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Airport Express Working Space is offline"
-  #         message: 'Airport Express Working Space is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Hue"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.moon
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Philips Hue is offline"
-  #         message: 'Philips Hue is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Broadlink RM Pro"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.broadlink_rm_pro
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Broadlink RM Pro is offline"
-  #         message: 'Broadlink RM Pro is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Broadlink RM Mini"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.broadlink_rm_mini
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Broadlink RM Mini is offline"
-  #         message: 'Broadlink RM Mini is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Foscam Black"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.foscam_black
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Foscam Black is offline"
-  #         message: 'Foscam Black is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Foscam White"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.foscam_white
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Foscam White is offline"
-  #         message: 'Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Printer"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.printer
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Printer is offline"
-  #         message: 'Printer is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Titan"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.titan
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "TP-Link Plug in Common Room is offline"
-  #         message: 'TP-Link Plug in Common Room is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Europa"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.europa
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "TP-Link Plug in Bedroom is offline"
-  #         message: 'TP-Link Plug in Bedroom is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Ganymede"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.ganymede
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Ganymede is offline"
-  #         message: 'Ganymede is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Callisto"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.callisto
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Callisto is offline"
-  #         message: 'Callisto is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Mimas"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.mimas
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Mimas is offline"
-  #         message: 'Mimas is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-  #
-  # - alias: "Offline Pandora"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: state
-  #       entity_id: binary_sensor.pandora
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 3
-  #   action:
-  #     - service: script.notifying
-  #       data:
-  #         email: "false"
-  #         tv: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "false"
-  #         mobile: "false"
-  #         title: "Pandora is offline"
-  #         message: 'Pandora is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+  - alias: 'Router status online'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.deeper, binary_sensor.pluto, binary_sensor.neptune, binary_sensor.uranus, binary_sensor.mercury, binary_sensor.apollo, binary_sensor.sputnik, binary_sensor.higher
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 5
+    action:
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }}'
+          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: 'Smart plug status offline'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.titan, binary_sensor.europa, binary_sensor.ganymede, binary_sensor.callisto, binary_sensor.mimas, binary_sensor.pandora, binary_sensor.phoebe, binary_sensor.calypso
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+    action:
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "siren"
+          light: "false"
+          mobile: "false"
+          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }}'
+          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: 'Smart plug status online'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.titan, binary_sensor.europa, binary_sensor.ganymede, binary_sensor.callisto, binary_sensor.mimas, binary_sensor.pandora, binary_sensor.phoebe, binary_sensor.calypso
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 5
+    action:
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }}'
+          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

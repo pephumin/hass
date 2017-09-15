@@ -172,7 +172,7 @@ s_speak:
   alias: "Sub-notify script Speak"
   sequence:
     - condition: template
-      value_template: '{{ speak != "false" and is_state("binary_sensor.pepe", "on") }}'
+      value_template: '{{ speak != "false" and is_state("device_tracker.pepe", "home") }}'
     - service: script.ss_volume_down
     - service: media_player.volume_set
       data_template:

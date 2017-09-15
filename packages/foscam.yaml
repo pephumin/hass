@@ -5,6 +5,18 @@ camera:
     password: !secret my_longer_password
     timeout: 15
     verify_ssl: false
+  # - platform: foscam
+  #   name: "Common Room"
+  #   ip: !secret foscam_black_ip
+  #   port: !secret foscam_black_port
+  #   username: !secret my_username
+  #   password: !secret my_password
+  # - platform: foscam
+  #   name: "First Floor"
+  #   ip: !secret foscam_white_ip
+  #   port: !secret foscam_white_port
+  #   username: !secret my_username
+  #   password: !secret my_password
 
 shell_command:
   foscam_black_command_on: !secret foscam_black_command_on

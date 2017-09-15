@@ -18,6 +18,7 @@ lights_all:
     - light.pandora
     - light.front_1
     - light.front_2
+    - light.calypso
     - light.garage
     # - group.common_room_lights_all
     # - group.bedroom_lights_all
@@ -75,6 +76,7 @@ first_floor_lights_all:
   entities:
     - light.front_1
     - light.front_2
+    - light.calypso
     - light.garage
 
 first_floor_lights_main:
@@ -84,6 +86,7 @@ first_floor_lights_main:
   entities:
     - light.front_1
     - light.front_2
+    - light.calypso
 
 flashlights:
   view: no

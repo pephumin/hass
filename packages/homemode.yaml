@@ -25,13 +25,22 @@ automation:
         from: 'off'
         to: 'on'
         for:
-          minutes: 10
+          minutes: 5
       - platform: state
         entity_id: input_boolean.presence_jue
         from: 'off'
         to: 'on'
         for:
-          minutes: 10
+          minutes: 5
+      - platform: state
+        entity_id: input_boolean.presence_benjy
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_benjy", "off") }}'
     action:
       - service: input_select.select_option
         data:
@@ -50,7 +59,7 @@ automation:
           minutes: 30
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.presence_jue", "off") }}'
+        value_template: '{{ is_state("input_boolean.presence_jue", "off") and is_state("input_boolean.presence_benjy", "off") }}'
     action:
       - service: input_select.select_option
         data:
@@ -71,7 +80,7 @@ automation:
           minutes: 30
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.presence_pe", "off") }}'
+        value_template: '{{ is_state("input_boolean.presence_pe", "off") and is_state("input_boolean.presence_benjy", "off") }}'
     action:
       - service: input_select.select_option
         data:
@@ -92,7 +101,7 @@ automation:
           hours: 20
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.presence_jue", "off") }}'
+        value_template: '{{ is_state("input_boolean.presence_jue", "off") and is_state("input_boolean.presence_benjy", "off") }}'
     action:
       - service: input_select.select_option
         data:
@@ -113,7 +122,7 @@ automation:
           hours: 20
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.presence_pe", "off") }}'
+        value_template: '{{ is_state("input_boolean.presence_pe", "off") and is_state("input_boolean.presence_benjy", "off") }}'
     action:
       - service: input_select.select_option
         data:
@@ -122,3 +131,21 @@ automation:
       - service: light.turn_off
         entity_id: group.all_lights
       - service: script.motion_detection_activate
+
+  - alias: "Set Visitor Mode"
+    hide_entity: True
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_benjy
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 10
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_pe", "on") and is_state("input_boolean.presence_jue", "on") }}'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: 'Visitor'

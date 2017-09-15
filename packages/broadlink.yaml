@@ -37,6 +37,8 @@ script:
   bedroom_ac_powerful:
     alias: "Bedroom Air Condition Powerful"
     sequence:
+      - service: script.bedroom_ac_18
+      - delay: 00:00:15
       - service: broadlink.send_packet_192_168_1_14
         data:
           packet:
@@ -44,7 +46,7 @@ script:
   bedroom_ac_control:
     alias: "Bedroom Air Condition Control"
     sequence:
-      - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" %}script.bedroom_ac_18{% else %}{% endif %}'
+      - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" or packet == "powerful" %}script.bedroom_ac_powerful{% else %}{% endif %}'
 
 sensor:
   - platform: broadlink
@@ -54,9 +56,9 @@ sensor:
     mac: !secret rmpro_mac
     monitored_conditions:
       - temperature
-  # - platform: statistics
-  #   entity_id: sensor.common_room_temperature
-  #   name: "Common Room Temperature"
+  - platform: statistics
+    entity_id: sensor.common_room_temperature
+    name: "Common Room Temperature"
 
 switch:
   - platform: broadlink

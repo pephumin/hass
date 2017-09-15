@@ -21,7 +21,6 @@ default_view:
     - camera.current_location_jue
     - group.lights_all
     - group.control
-    # - group.weather
     - group.proximity
     # - group.timer
     # - group.friends

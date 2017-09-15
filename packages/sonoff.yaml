@@ -26,6 +26,15 @@ switch:
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: true
+  - platform: mqtt
+    name: "Phoebe"
+    state_topic: "stat/phoebe/POWER"
+    command_topic: "cmnd/phoebe/POWER"
+    availability_topic: "tele/phoebe/LWT"
+    qos: 0
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true
 
 light:
   - platform: mqtt
@@ -37,13 +46,17 @@ light:
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: true
+  - platform: mqtt
+    name: "Calypso"
+    state_topic: "stat/calypso/POWER"
+    command_topic: "cmnd/calypso/POWER"
+    availability_topic: "tele/calypso/LWT"
+    qos: 0
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true
 
 sensor:
-  - platform: mqtt
-    name: "Ganymede Uptime"
-    state_topic: "tele/ganymede/STATE"
-    value_template: "{{ value_json.Uptime }}"
-    unit_of_measurement: "Hour(s)"
   - platform: mqtt
     name: "Ganymede Energy Today"
     state_topic: "tele/ganymede/ENERGY"
@@ -79,43 +92,28 @@ sensor:
     value_template: "{{ value_json.Voltage | round(0) }}"
     unit_of_measurement: "Volts"
   - platform: mqtt
-    name: "Callisto Uptime"
-    state_topic: "tele/callisto/STATE"
-    value_template: "{{ value_json.Uptime }}"
-    unit_of_measurement: "Hour(s)"
-  - platform: mqtt
-    name: "Mimas Uptime"
-    state_topic: "tele/mimas/STATE"
-    value_template: "{{ value_json.Uptime }}"
-    unit_of_measurement: "Hour(s)"
-  - platform: mqtt
-    name: "Pandora Uptime"
-    state_topic: "tele/pandora/STATE"
-    value_template: "{{ value_json.Uptime }}"
-    unit_of_measurement: "Hour(s)"
-  - platform: mqtt
     name: "Pandora Temperature"
     state_topic: "tele/pandora/SENSOR"
     value_template: "{{ value_json['DHT22'].Temperature }}"
     unit_of_measurement: "°C"
+  - platform: statistics
+    entity_id: sensor.pandora_temperature
+    name: "Bedroom Temperature"
   - platform: mqtt
     name: "Pandora Humidity"
     state_topic: "tele/pandora/SENSOR"
     value_template: "{{ value_json['DHT22'].Humidity }}"
     unit_of_measurement: "%"
-  # - platform: statistics
-  #   entity_id: sensor.pandora_temperature
-  #   name: "Bedroom Temperature"
-  # - platform: statistics
-  #   entity_id: sensor.pandora_humidity
-  #   name: "Bedroom Humidity"
+  - platform: statistics
+    entity_id: sensor.pandora_humidity
+    name: "Bedroom Humidity"
 
 automation:
 
   - alias: "Auto Double Subwoofer On"
     trigger:
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "Music") or is_state("sensor.denon_source", "MPLAY") or is_state("sensor.denon_source", "BD") or is_state("sensor.denon_source", "DVD") or is_state("sensor.denon_source", "AUX1") or is_state("sensor.denon_source", "USB/IPOD") %}true{% else %}false{% endif %}'
+        value_template: '{% if is_state("sensor.denonsourcecheck", "Music") or is_state("sensor.denonsourcecheck", "MPLAY") or is_state("sensor.denonsourcecheck", "BD") or is_state("sensor.denonsourcecheck", "DVD") or is_state("sensor.denonsourcecheck", "AUX1") or is_state("sensor.denonsourcecheck", "USB/IPOD") %}true{% else %}false{% endif %}'
     condition:
       - condition: template
         value_template: '{{ is_state("switch.titan", "on") and is_state("media_player.denon", "on") }}'
@@ -126,7 +124,7 @@ automation:
   - alias: "Auto Double Subwoofer Off"
     trigger:
       - platform: template
-        value_template: '{% if is_state("sensor.denon_source", "SAT/CBL") or is_state("sensor.denon_source", "Game") or is_state("sensor.denon_source", "TV") or is_state("sensor.denon_source", "TUNER") or is_state("sensor.denon_source", "Internet Radio") or is_state("sensor.denon_source", "NET") %}true{% else %}false{% endif %}'
+        value_template: '{% if is_state("sensor.denonsourcecheck", "SAT/CBL") or is_state("sensor.denonsourcecheck", "Game") or is_state("sensor.denonsourcecheck", "TV") or is_state("sensor.denonsourcecheck", "TUNER") or is_state("sensor.denonsourcecheck", "Internet Radio") or is_state("sensor.denonsourcecheck", "NET") %}true{% else %}false{% endif %}'
       - platform: state
         entity_id: switch.titan
         from: 'on'

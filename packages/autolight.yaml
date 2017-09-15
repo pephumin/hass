@@ -9,6 +9,31 @@ script:
         value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
       - service: light.turn_on
         entity_id: light.pandora
+  welcome_light_off_pe:
+    alias: "Turn off welcome lights for Pe"
+    sequence:
+      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
+        data:
+          entity_id: light.lightstrip
+          transition: 1
+          brightness: 200
+          xy_color: [0.1794, 0.0964]
+      - delay: 00:00:05
+      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
+        data:
+          entity_id: light.hallway
+          transition: 1
+          brightness: 200
+          xy_color: [0.2951,0.2930]
+  welcome_light_off_jue:
+    alias: "Turn off welcome lights for Jue"
+    sequence:
+      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
+        data:
+          entity_id: light.hallway
+          transition: 1
+          brightness: 200
+          kelvin: 7000
 
 automation:
 
@@ -175,6 +200,51 @@ automation:
   - alias: "Autolight Home 2A"
     trigger:
       - platform: time
+        at: '20:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") }}'
+    action:
+      - service: light.turn_on
+        entity_id: light.calypso
+        data:
+          transition: 5
+          brightness: 200
+      - service: script.notifying
+        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          title: "Kitchen Light has been turned on at 20:00pm for home-mode"
+          message: 'Kitchen Light has been turned on at 20:00pm for home-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Autolight Home 2B"
+    trigger:
+      - platform: time
+        at: '20:30:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.calypso
+      - service: script.notifying
+        data:
+          email: "false"
+          tv: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          title: "Kitchen Light has been turned off at 20:30pm for home-mode"
+          message: 'Kitchen Light has been turned off at 20:30pm for home-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Autolight Home 3A"
+    trigger:
+      - platform: time
         at: '21:30:00'
     condition:
       - condition: template
@@ -196,7 +266,7 @@ automation:
           title: "Bedroom LW has been turned on at 21:30pm for home-mode"
           message: 'Bedroom LW has been turned on at 21:30pm for home-mode [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
-  - alias: "Autolight Home 2B"
+  - alias: "Autolight Home 3B"
     trigger:
       - platform: time
         at: '23:15:00'
@@ -681,18 +751,7 @@ automation:
       - condition: template
         value_template: '{{ is_state("light.hallway", "on") and is_state("light.lightstrip", "on") }}'
     action:
-      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
-        data:
-          entity_id: light.lightstrip
-          transition: 1
-          brightness: 200
-          xy_color: [0.1794, 0.0964]
-      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
-        data:
-          entity_id: light.hallway
-          transition: 1
-          brightness: 200
-          xy_color: [0.2951,0.2930]
+      - service: script.welcome_light_off_pe
 
   - alias: "Auto off Welcome light Jue"
     trigger:
@@ -708,9 +767,4 @@ automation:
       - condition: template
         value_template: '{{ is_state("light.hallway", "on") }}'
     action:
-      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
-        data:
-          entity_id: light.hallway
-          transition: 1
-          brightness: 200
-          kelvin: 7000
+      - service: script.welcome_light_off_jue

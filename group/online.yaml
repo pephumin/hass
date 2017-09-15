@@ -1,40 +1,16 @@
-# online:
-#   view: no
-#   name: "Online Status"
-#   entities:
-#     - binary_sensor.deeper
-#     - binary_sensor.higher
-#     - binary_sensor.pluto
-#     - binary_sensor.neptune
-#     - binary_sensor.uranus
-#     - binary_sensor.mercury
-#     - binary_sensor.broadlink_rm_pro
-#     - binary_sensor.broadlink_rm_mini
-#     - binary_sensor.foscam_black
-#     - binary_sensor.foscam_white
-#     - binary_sensor.moon
-#     - binary_sensor.printer
-#     - binary_sensor.titan
-#     - binary_sensor.europa
-#     - binary_sensor.callisto
-
 online_cr:
   view: no
   name: "Online Status Common Room"
   entities:
     - binary_sensor.deeper
-    - binary_sensor.higher
     - binary_sensor.pluto
+    - binary_sensor.higher
     - binary_sensor.broadlink_rm_pro
-    - binary_sensor.foscam_black
     - binary_sensor.titan
-    - binary_sensor.ganymede
-    - binary_sensor.callisto
     - binary_sensor.mimas
-    - binary_sensor.pandora
+    - binary_sensor.foscam_black
     - binary_sensor.denon
     - binary_sensor.android_box
-    - binary_sensor.apple_tv
     - binary_sensor.dune
     - binary_sensor.xdj_rx
 
@@ -44,8 +20,9 @@ online_br:
   entities:
     - binary_sensor.neptune
     - binary_sensor.broadlink_rm_mini
-    - binary_sensor.moon
     - binary_sensor.europa
+    - binary_sensor.pandora
+    - binary_sensor.moon
 
 online_ff:
   view: no
@@ -53,5 +30,11 @@ online_ff:
   entities:
     - binary_sensor.uranus
     - binary_sensor.mercury
+    - binary_sensor.apollo
+    - binary_sensor.sputnik
     - binary_sensor.foscam_white
-    - binary_sensor.printer
+    - binary_sensor.earth
+    - binary_sensor.ganymede
+    - binary_sensor.callisto
+    - binary_sensor.calypso
+    - binary_sensor.phoebe
