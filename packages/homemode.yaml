@@ -18,7 +18,6 @@ input_select:
 automation:
 
   - alias: "Set Home Mode"
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_boolean.presence_pe
@@ -49,14 +48,13 @@ automation:
       - service: script.motion_detection_deactivate
 
   - alias: "Set Away Mode 1"
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_boolean.presence_pe
         from: 'on'
         to: 'off'
         for:
-          minutes: 30
+          minutes: 5
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_jue", "off") and is_state("input_boolean.presence_benjy", "off") }}'
@@ -70,14 +68,13 @@ automation:
       - service: script.motion_detection_activate
 
   - alias: "Set Away Mode 2"
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_boolean.presence_jue
         from: 'on'
         to: 'off'
         for:
-          minutes: 30
+          minutes: 5
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_pe", "off") and is_state("input_boolean.presence_benjy", "off") }}'
@@ -91,7 +88,6 @@ automation:
       - service: script.motion_detection_activate
 
   - alias: "Set Vacation Mode 1"
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_boolean.presence_pe
@@ -112,7 +108,6 @@ automation:
       - service: script.motion_detection_activate
 
   - alias: "Set Vacation Mode 2"
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_boolean.presence_jue
@@ -133,14 +128,13 @@ automation:
       - service: script.motion_detection_activate
 
   - alias: "Set Visitor Mode"
-    hide_entity: True
     trigger:
       - platform: state
         entity_id: input_boolean.presence_benjy
         from: 'off'
         to: 'on'
         for:
-          minutes: 10
+          minutes: 5
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_pe", "on") and is_state("input_boolean.presence_jue", "on") }}'
@@ -149,3 +143,4 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Visitor'
+      - service: script.motion_detection_deactivate

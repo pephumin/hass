@@ -9,7 +9,7 @@ sensor:
     sensors:
       titan_current_consumption:
         friendly_name: "Common Room Power"
-        icon_template: mdi:power-socket
+        icon_template: mdi:power-socket-us
         value_template: '{% if not is_state_attr("switch.titan", "Current consumption", "") %}{{ states.switch.titan.attributes["Current consumption"].split(" ")[0] | round(1) }}{% endif %}'
         unit_of_measurement: 'Watts'
         entity_id:
@@ -32,7 +32,7 @@ sensor:
     sensors:
       europa_current_consumption:
         friendly_name: "Bedroom Power"
-        icon_template: mdi:power-socket
+        icon_template: mdi:power-socket-us
         value_template: '{% if not is_state_attr("switch.europa", "Current consumption", "") %}{{ states.switch.europa.attributes["Current consumption"].split(" ")[0] | round(1) }}{% endif %}'
         unit_of_measurement: 'Watts'
         entity_id:

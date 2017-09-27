@@ -8,3 +8,4 @@ daylight:
     - sun.sun
     - sensor.solar_angle
     - sensor.moon
+    - sensor.season

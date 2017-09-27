@@ -12,28 +12,39 @@ script:
   welcome_light_off_pe:
     alias: "Turn off welcome lights for Pe"
     sequence:
-      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
+      - delay: 00:03:00
+      - service: light.turn_off
+        entity_id: light.lightstrip
+      - service: light.turn_off
+        entity_id: light.hallway
+      - condition: template
+        value_template: '{{ is_state("sun.sun", "below_horizon") }}'
+      - service: light.turn_on
         data:
           entity_id: light.lightstrip
           transition: 1
-          brightness: 200
+          brightness: 125
           xy_color: [0.1794, 0.0964]
-      - delay: 00:00:05
-      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
+      - service: light.turn_on
         data:
           entity_id: light.hallway
           transition: 1
-          brightness: 200
+          brightness: 125
           xy_color: [0.2951,0.2930]
   welcome_light_off_jue:
     alias: "Turn off welcome lights for Jue"
     sequence:
-      - service_template: '{% if is_state("sun.sun", "above_horizon") %}light.turn_off{% else %}light.turn_on{% endif %}'
+      - delay: 00:03:00
+      - service: light.turn_off
+        entity_id: light.hallway
+      - condition: template
+        value_template: '{{ is_state("sun.sun", "below_horizon") }}'
+      - service: light.turn_on
         data:
           entity_id: light.hallway
           transition: 1
-          brightness: 200
-          kelvin: 7000
+          brightness: 125
+          xy_color: [0.2951,0.2930]
 
 automation:
 
@@ -739,32 +750,14 @@ automation:
 
   - alias: "Auto off Welcome light Pe"
     trigger:
-      - platform: state
-        entity_id: input_boolean.presence_pe
-        from: 'off'
-        to: 'on'
-        for:
-          minutes: 5
-    condition:
-      # - condition: template
-      #   value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "xy_color", "0.6203,0.2925")) and (is_state("light.lightstrip", "on") and is_state_attr("light.lightstrip", "xy_color", "0.6031,0.3046")) }}'
-      - condition: template
-        value_template: '{{ is_state("light.hallway", "on") and is_state("light.lightstrip", "on") }}'
+      - platform: template
+        value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (255,67,88))) and (is_state("light.lightstrip", "on") and is_state_attr("light.lightstrip", "rgb_color", (255,87,90))) }}'
     action:
       - service: script.welcome_light_off_pe
 
   - alias: "Auto off Welcome light Jue"
     trigger:
-      - platform: state
-        entity_id: input_boolean.presence_jue
-        from: 'off'
-        to: 'on'
-        for:
-          minutes: 5
-    condition:
-      # - condition: template
-      #   value_template: '{{ is_state("light.hallway", "on") and is_state_attr("light.hallway", "xy_color", "0.6203,0.2925") }}'
-      - condition: template
-        value_template: '{{ is_state("light.hallway", "on") }}'
+      - platform: template
+        value_template: '{{ is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (206,223,81)) }}'
     action:
       - service: script.welcome_light_off_jue

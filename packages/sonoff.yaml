@@ -4,36 +4,36 @@ switch:
     state_topic: "stat/ganymede/POWER"
     command_topic: "cmnd/ganymede/POWER"
     availability_topic: "tele/ganymede/LWT"
-    qos: 0
     payload_available: "Online"
     payload_not_available: "Offline"
+    qos: 0
     retain: true
   - platform: mqtt
     name: "Callisto"
     state_topic: "stat/callisto/POWER"
     command_topic: "cmnd/callisto/POWER"
     availability_topic: "tele/callisto/LWT"
-    qos: 0
     payload_available: "Online"
     payload_not_available: "Offline"
+    qos: 0
     retain: true
   - platform: mqtt
     name: "Mimas"
     state_topic: "stat/mimas/POWER"
     command_topic: "cmnd/mimas/POWER"
     availability_topic: "tele/mimas/LWT"
-    qos: 0
     payload_available: "Online"
     payload_not_available: "Offline"
+    qos: 0
     retain: true
   - platform: mqtt
     name: "Phoebe"
     state_topic: "stat/phoebe/POWER"
     command_topic: "cmnd/phoebe/POWER"
     availability_topic: "tele/phoebe/LWT"
-    qos: 0
     payload_available: "Online"
     payload_not_available: "Offline"
+    qos: 0
     retain: true
 
 light:
@@ -42,18 +42,18 @@ light:
     state_topic: "stat/pandora/POWER"
     command_topic: "cmnd/pandora/POWER"
     availability_topic: "tele/pandora/LWT"
-    qos: 0
     payload_available: "Online"
     payload_not_available: "Offline"
+    qos: 0
     retain: true
   - platform: mqtt
     name: "Calypso"
     state_topic: "stat/calypso/POWER"
     command_topic: "cmnd/calypso/POWER"
     availability_topic: "tele/calypso/LWT"
-    qos: 0
     payload_available: "Online"
     payload_not_available: "Offline"
+    qos: 0
     retain: true
 
 sensor:
@@ -107,13 +107,30 @@ sensor:
   - platform: statistics
     entity_id: sensor.pandora_humidity
     name: "Bedroom Humidity"
+  - platform: mqtt
+    name: "Calypso Temperature"
+    state_topic: "tele/calypso/SENSOR"
+    value_template: "{{ value_json['DHT22'].Temperature }}"
+    unit_of_measurement: "°C"
+  - platform: statistics
+    entity_id: sensor.calypso_temperature
+    name: "First Floor Temperature"
+  - platform: mqtt
+    name: "Calypso Humidity"
+    state_topic: "tele/calypso/SENSOR"
+    value_template: "{{ value_json['DHT22'].Humidity }}"
+    unit_of_measurement: "%"
+  - platform: statistics
+    entity_id: sensor.calypso_humidity
+    name: "First Floor Humidity"
 
 automation:
 
   - alias: "Auto Double Subwoofer On"
     trigger:
       - platform: template
-        value_template: '{% if is_state("sensor.denonsourcecheck", "Music") or is_state("sensor.denonsourcecheck", "MPLAY") or is_state("sensor.denonsourcecheck", "BD") or is_state("sensor.denonsourcecheck", "DVD") or is_state("sensor.denonsourcecheck", "AUX1") or is_state("sensor.denonsourcecheck", "USB/IPOD") %}true{% else %}false{% endif %}'
+        # value_template: '{% if is_state("sensor.denonsourcecheck", "Music") or is_state("sensor.denonsourcecheck", "MPLAY") or is_state("sensor.denonsourcecheck", "BD") or is_state("sensor.denonsourcecheck", "DVD") or is_state("sensor.denonsourcecheck", "AUX1") or is_state("sensor.denonsourcecheck", "USB/IPOD") %}true{% else %}false{% endif %}'
+        value_template: '{% if is_state("sensor.denon_source", "Music") or is_state("sensor.denon_source", "Apple TV") or is_state("sensor.denon_source", "Dune") or is_state("sensor.denon_source", "DVD") or is_state("sensor.denon_source", "AUX") or is_state("sensor.denonsourcecheck", "USB/IPOD") %}true{% else %}false{% endif %}'
     condition:
       - condition: template
         value_template: '{{ is_state("switch.titan", "on") and is_state("media_player.denon", "on") }}'
@@ -124,7 +141,8 @@ automation:
   - alias: "Auto Double Subwoofer Off"
     trigger:
       - platform: template
-        value_template: '{% if is_state("sensor.denonsourcecheck", "SAT/CBL") or is_state("sensor.denonsourcecheck", "Game") or is_state("sensor.denonsourcecheck", "TV") or is_state("sensor.denonsourcecheck", "TUNER") or is_state("sensor.denonsourcecheck", "Internet Radio") or is_state("sensor.denonsourcecheck", "NET") %}true{% else %}false{% endif %}'
+        # value_template: '{% if is_state("sensor.denonsourcecheck", "SAT/CBL") or is_state("sensor.denonsourcecheck", "Game") or is_state("sensor.denonsourcecheck", "TV") or is_state("sensor.denonsourcecheck", "TUNER") or is_state("sensor.denonsourcecheck", "Internet Radio") or is_state("sensor.denonsourcecheck", "NET") %}true{% else %}false{% endif %}'
+        value_template: '{% if is_state("sensor.denon_source", "Cable TV") or is_state("sensor.denon_source", "Game") or is_state("sensor.denon_source", "TV") or is_state("sensor.denon_source", "TUNER") or is_state("sensor.denonsourcecheck", "Internet Radio") or is_state("sensor.denonsourcecheck", "NET") %}true{% else %}false{% endif %}'
       - platform: state
         entity_id: switch.titan
         from: 'on'

@@ -29,13 +29,6 @@ sonoff:
   control: hidden
   entities:
     - switch.ganymede
-    - sensor.ganymede_power
-    - sensor.ganymede_power_factor
-    - sensor.ganymede_current
-    - sensor.ganymede_voltage
-    - sensor.ganymede_energy_today
-    - sensor.ganymede_energy_yesterday
-    - sensor.ganymede_energy_total
     - switch.callisto
     # - switch.mimas
     # - light.pandora
@@ -48,6 +41,7 @@ led:
   icon: mdi:led-strip
   entities:
     - light.wemos
+    # - input_select.wemos_effect
     - input_slider.wemos_animation_speed
 
 stats_cr:
@@ -60,6 +54,13 @@ stats_cr:
     - sensor.titan_current_consumption
     - sensor.titan_current
     - sensor.titan_voltage
+    - sensor.ganymede_power
+    - sensor.ganymede_power_factor
+    - sensor.ganymede_current
+    - sensor.ganymede_voltage
+    - sensor.ganymede_energy_today
+    - sensor.ganymede_energy_yesterday
+    - sensor.ganymede_energy_total
 
 stats_br:
   view: no

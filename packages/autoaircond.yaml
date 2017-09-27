@@ -1,7 +1,6 @@
 automation:
 
   - alias: "Auto Air-conditioning Bedroom 1"
-    hide_entity: True
     trigger:
       - platform: time
         at: '22:45:00'
@@ -16,7 +15,20 @@ automation:
           packet: "powerful"
 
   - alias: "Auto Air-conditioning Bedroom 2"
-    hide_entity: True
+    trigger:
+      - platform: time
+        at: '23:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.bedroom_air_cond
+      - service: script.bedroom_ac_control
+        data:
+          packet: 18
+
+  - alias: "Auto Air-conditioning Bedroom 3"
     trigger:
       - platform: time
         at: '01:00:00'
@@ -28,8 +40,7 @@ automation:
         data:
           packet: 21
 
-  - alias: "Auto Air-conditioning Bedroom 3"
-    hide_entity: True
+  - alias: "Auto Air-conditioning Bedroom 4"
     trigger:
       - platform: time
         at: '03:00:00'
@@ -41,8 +52,7 @@ automation:
         data:
           packet: 24
 
-  - alias: "Auto Air-conditioning Bedroom 4"
-    hide_entity: True
+  - alias: "Auto Air-conditioning Bedroom 5"
     trigger:
       - platform: time
         at: '04:30:00'
@@ -53,8 +63,7 @@ automation:
       - service: switch.turn_off
         entity_id: switch.bedroom_air_cond
 
-  - alias: "Auto Air-conditioning Bedroom 5"
-    hide_entity: True
+  - alias: "Auto Air-conditioning Bedroom 6"
     trigger:
       - platform: time
         at: '05:00:00'
@@ -68,8 +77,7 @@ automation:
         data:
           packet: 21
 
-  - alias: "Auto Air-conditioning Bedroom 6"
-    hide_entity: True
+  - alias: "Auto Air-conditioning Bedroom 7"
     trigger:
       - platform: time
         at: '07:00:00'
@@ -79,42 +87,3 @@ automation:
     action:
       - service: switch.turn_off
         entity_id: switch.bedroom_air_cond
-
-  # - alias: "Auto Air-conditioning Bedroom 7"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: time
-  #       at: '18:00:00'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-  #   action:
-  #     - service: script.bedroom_ac_control
-  #       data:
-  #         packet: 18
-  #
-  # - alias: "Auto Air-conditioning Bedroom 8"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: time
-  #       at: '18:00:15'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-  #   action:
-  #     - service: script.bedroom_ac_control
-  #       data:
-  #         packet: 24
-  #
-  # - alias: "Auto Air-conditioning Bedroom 9"
-  #   hide_entity: True
-  #   trigger:
-  #     - platform: time
-  #       at: '18:00:30'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-  #   action:
-  #     - service: script.bedroom_ac_control
-  #       data:
-  #         packet: 21

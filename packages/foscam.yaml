@@ -1,3 +1,10 @@
+counter:
+  foscammotion:
+    name: "Foscam Motion Activation"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+
 camera:
   - platform: synology
     url: !secret synology
@@ -70,6 +77,8 @@ script:
         entity_id: switch.foscam_black_motion
       - service: switch.turn_on
         entity_id: switch.foscam_white_motion
+      - service: counter.increment
+        entity_id: counter.foscammotion
   motion_detection_deactivate:
     alias: "Motion Detection Deactivate"
     sequence:

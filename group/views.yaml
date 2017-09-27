@@ -41,7 +41,7 @@ common_room:
     - media_player.living_room_apple_tv_airtunes_speaker
     - camera.foscam_black
     - group.control_cr
-    - group.sonoff
+    # - group.sonoff
     - group.kodi
     - group.led
     - group.stats_cr
@@ -73,4 +73,5 @@ first_floor:
     - camera.foscam_white
     - camera.current_location_pe
     - camera.current_location_jue
+    - group.control_ff
     - group.friends

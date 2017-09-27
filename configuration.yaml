@@ -50,15 +50,11 @@ mqtt:
   discovery: true
   discovery_prefix: homeassistant
   birth_message:
-    topic: "tele/hass/LWT"
+    topic: "hass/status"
     payload: "Online"
-    qos: 1
-    retain: true
   will_message:
-    topic: "tele/hass/LWT"
+    topic: "hass/status"
     payload: "Offline"
-    qos: 1
-    retain: true
 
 frontend:
   themes:
@@ -91,15 +87,15 @@ ifttt:
 # automation: !include_dir_merge_list automation/
 device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
-# history: !include config/logs.yaml
-# logbook: !include config/logs.yaml
 media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
-# recorder: !include config/recorder.yaml
 scene: !include config/scene.yaml
 script: !include config/script.yaml
 # sensor: !include_dir_merge_list sensor/
 
+# history: !include config/logs.yaml
+# logbook: !include config/logs.yaml
+# recorder: !include config/recorder.yaml
 history:
 logbook:
 recorder:
@@ -109,14 +105,14 @@ recorder:
 logger:
   default: critical
   logs:
+    # homeassistant.components.automation: debug
     homeassistant.components.automation: info
-    homeassistant.components.device_tracker.icloud: debug
+    # homeassistant.components.device_tracker.icloud: debug
     homeassistant.components.device_tracker: critical
     homeassistant.components.http: warning
     homeassistant.components.input_boolean: debug
     homeassistant.components.input_select: debug
     homeassistant.components.ios: debug
-    # homeassistant.components.mqtt: debug
     homeassistant.components.mqtt: info
     # homeassistant.components.media_player.mpd: debug
     homeassistant.components.media_player: critical

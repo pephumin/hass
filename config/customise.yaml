@@ -335,7 +335,7 @@ binary_sensor.uranus:
   friendly_name: "Airport Express Downstairs"
 binary_sensor.mercury:
   icon: mdi:wifi
-  friendly_name: "Airport Express Working Space"
+  friendly_name: "Airport Express Satellite"
 binary_sensor.apollo:
   icon: mdi:wifi
   friendly_name: "ASUStek RT-12+"
@@ -367,7 +367,7 @@ binary_sensor.europa:
   icon: mdi:power-socket-us
   friendly_name: "TP-Link Plug Bedroom"
 binary_sensor.ganymede:
-  icon: mdi:power-plug
+  icon: mdi:power-socket
   friendly_name: "Sonoff POW Ganymede"
 binary_sensor.callisto:
   icon: mdi:power-plug
@@ -459,13 +459,19 @@ sensor.pandora_temperature:
 sensor.pandora_humidity:
   icon: mdi:water-percent
   friendly_name: "Bedroom Humidity"
+light.calypso:
+  icon: mdi:lightbulb-on-outline
+  friendly_name: "Kitchen"
 switch.phoebe:
   icon: mdi:power-plug
   friendly_name: "Phoebe"
   assumed_state: true
-light.calypso:
-  icon: mdi:lightbulb-on-outline
-  friendly_name: "Kitchen"
+sensor.calypso_temperature:
+  icon: mdi:thermometer
+  friendly_name: "First Floor Temperature"
+sensor.calypso_humidity:
+  icon: mdi:water-percent
+  friendly_name: "First Floor Humidity"
 
 sensor.common_room_temperature_mean:
   icon: mdi:chart-line-stacked

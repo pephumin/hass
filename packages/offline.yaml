@@ -74,8 +74,27 @@ binary_sensor:
     host: 192.168.1.79
     name: "Foscam White"
 
-
 automation:
+
+  # - alias: 'Device status online'
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.broadlink_rm_pro, binary_sensor.broadlink_rm_mini, binary_sensor.moon, binary_sensor.earth, binary_sensor.foscam_black, binary_sensor.foscam_white
+  #       from: 'off'
+  #       to: 'on'
+  #       for:
+  #         minutes: 5
+  #   action:
+  #     - service: script.notifying
+  #       data_template:
+  #         email: "false"
+  #         tv: "true"
+  #         speak: "true"
+  #         audio: "sinewave"
+  #         light: "false"
+  #         mobile: "false"
+  #         title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }}'
+  #         message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: 'Device status offline'
     trigger:
@@ -91,31 +110,31 @@ automation:
           email: "false"
           tv: "true"
           speak: "true"
-          audio: "siren"
-          light: "false"
-          mobile: "false"
-          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }}'
-          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: 'Device status online'
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.broadlink_rm_pro, binary_sensor.broadlink_rm_mini, binary_sensor.moon, binary_sensor.earth, binary_sensor.foscam_black, binary_sensor.foscam_white
-        from: 'off'
-        to: 'on'
-        for:
-          minutes: 5
-    action:
-      - service: script.notifying
-        data_template:
-          email: "false"
-          tv: "true"
-          speak: "true"
           audio: "sinewave"
           light: "false"
           mobile: "false"
           title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }}'
           message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  # - alias: 'Router status online'
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.deeper, binary_sensor.pluto, binary_sensor.neptune, binary_sensor.uranus, binary_sensor.mercury, binary_sensor.apollo, binary_sensor.sputnik, binary_sensor.higher
+  #       from: 'off'
+  #       to: 'on'
+  #       for:
+  #         minutes: 5
+  #   action:
+  #     - service: script.notifying
+  #       data_template:
+  #         email: "false"
+  #         tv: "true"
+  #         speak: "true"
+  #         audio: "sinewave"
+  #         light: "false"
+  #         mobile: "false"
+  #         title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }}'
+  #         message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: 'Router status offline'
     trigger:
@@ -131,31 +150,31 @@ automation:
           email: "false"
           tv: "true"
           speak: "true"
-          audio: "siren"
-          light: "false"
-          mobile: "false"
-          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }}'
-          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: 'Router status online'
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.deeper, binary_sensor.pluto, binary_sensor.neptune, binary_sensor.uranus, binary_sensor.mercury, binary_sensor.apollo, binary_sensor.sputnik, binary_sensor.higher
-        from: 'off'
-        to: 'on'
-        for:
-          minutes: 5
-    action:
-      - service: script.notifying
-        data_template:
-          email: "false"
-          tv: "true"
-          speak: "true"
           audio: "sinewave"
           light: "false"
           mobile: "false"
           title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }}'
           message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  # - alias: 'Smart plug status online'
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.titan, binary_sensor.europa, binary_sensor.ganymede, binary_sensor.callisto, binary_sensor.mimas, binary_sensor.pandora, binary_sensor.phoebe, binary_sensor.calypso
+  #       from: 'off'
+  #       to: 'on'
+  #       for:
+  #         minutes: 5
+  #   action:
+  #     - service: script.notifying
+  #       data_template:
+  #         email: "false"
+  #         tv: "true"
+  #         speak: "true"
+  #         audio: "sinewave"
+  #         light: "false"
+  #         mobile: "false"
+  #         title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }}'
+  #         message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: 'Smart plug status offline'
     trigger:
@@ -163,26 +182,6 @@ automation:
         entity_id: binary_sensor.titan, binary_sensor.europa, binary_sensor.ganymede, binary_sensor.callisto, binary_sensor.mimas, binary_sensor.pandora, binary_sensor.phoebe, binary_sensor.calypso
         from: 'on'
         to: 'off'
-        for:
-          minutes: 5
-    action:
-      - service: script.notifying
-        data_template:
-          email: "false"
-          tv: "true"
-          speak: "true"
-          audio: "siren"
-          light: "false"
-          mobile: "false"
-          title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }}'
-          message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Offline" if trigger.to_state.state == "off" else "Online" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: 'Smart plug status online'
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.titan, binary_sensor.europa, binary_sensor.ganymede, binary_sensor.callisto, binary_sensor.mimas, binary_sensor.pandora, binary_sensor.phoebe, binary_sensor.calypso
-        from: 'off'
-        to: 'on'
         for:
           minutes: 5
     action:

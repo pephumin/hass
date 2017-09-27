@@ -101,6 +101,3 @@ sensor:
               {%- endif -%}
             {%- endif -%}
           {%- endif -%}
-  # - platform: statistics
-  #   entity_id: sensor.maximum_disk_temperature
-  #   name: "Maximum Disk Temperature"

@@ -29,6 +29,11 @@ zone:
     latitude: !secret latitude_centralbangna
     longitude: !secret longitude_centralbangna
     radius: 100
+  - name: Foodland
+    icon: mdi:food
+    latitude: !secret latitude_foodland
+    longitude: !secret longitude_foodland
+    radius: 100
 
 proximity:
   pe_home:
@@ -147,15 +152,13 @@ automation:
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_pe
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.presence_pe_benjawan
 
   - alias: "Pe is not at Luzern"
     trigger:
       - platform: template
         value_template: '{% if not is_state("device_tracker.pesiphone6", "home") and not is_state("device_tracker.user_pesiphone6", "home") %}true{% else %}false{% endif %}'
-      - platform: template
-        value_template: '{% if not is_state("device_tracker.ping_pesiphone6", "home") %}true{% else %}false{% endif %}'
+      # - platform: template
+      #   value_template: '{% if not is_state("device_tracker.ping_pesiphone6", "home") %}true{% else %}false{% endif %}'
       - platform: numeric_state
         entity_id: proximity.pe_home
         above: 1000
@@ -235,15 +238,13 @@ automation:
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_jue
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.presence_jue_malaiwan
 
   - alias: "Jue is not at Luzern"
     trigger:
       - platform: template
         value_template: '{% if not is_state("device_tracker.juesiphone6splus", "home") and not is_state("device_tracker.user_juesiphone6splus", "home") %}true{% else %}false{% endif %}'
-      - platform: template
-        value_template: '{% if not is_state("device_tracker.ping_juesiphone6splus", "home") %}true{% else %}false{% endif %}'
+      # - platform: template
+      #   value_template: '{% if not is_state("device_tracker.ping_juesiphone6splus", "home") %}true{% else %}false{% endif %}'
       - platform: numeric_state
         entity_id: proximity.jue_home
         above: 1000
@@ -321,8 +322,6 @@ automation:
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_jue_malaiwan
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.presence_jue
 
   - alias: "Jue is not at Malaiwan"
     trigger:
@@ -399,8 +398,6 @@ automation:
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_pe_benjawan
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.presence_pe
 
   - alias: "Pe is not at Benjawan"
     trigger:
@@ -572,6 +569,8 @@ automation:
     trigger:
       - platform: template
         value_template: '{% if is_state("device_tracker.benjy", "home") %}true{% else %}false{% endif %}'
+      - platform: template
+        value_template: '{% if is_state("device_tracker.ping_benjy", "home") %}true{% else %}false{% endif %}'
       - platform: zone
         entity_id: device_tracker.benjy
         zone: zone.home
@@ -650,3 +649,43 @@ automation:
           mobile: "both"
           title: "Benjy has left"
           message: 'Benjy has left [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: 'Presence mode changes 1'
+    trigger:
+      - platform: state
+        entity_id: input_select.presence_pe
+        from: 'off'
+        to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe_benjawan
+
+  - alias: 'Presence mode changes 2'
+    trigger:
+      - platform: state
+        entity_id: input_select.presence_jue
+        from: 'off'
+        to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue_malaiwan
+
+  - alias: 'Presence mode changes 3'
+    trigger:
+      - platform: state
+        entity_id: input_select.presence_pe_benjawan
+        from: 'off'
+        to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe
+
+  - alias: 'Presence mode changes 4'
+    trigger:
+      - platform: state
+        entity_id: input_select.presence_jue_malaiwan
+        from: 'off'
+        to: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue
