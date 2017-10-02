@@ -12,13 +12,12 @@ sensor:
         icon_template: mdi:weather-sunset
         value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
         unit_of_measurement: '°'
-  - platform: season
-    type: astronomical
+  # - platform: season
+  #   type: astronomical
 
 automation:
 
   - alias: "Sunset 1"
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset
@@ -39,7 +38,6 @@ automation:
           message: 'Sunset is expected in 30 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Sunset 2"
-    hide_entity: True
     trigger:
       - platform: sun
         event: sunset
@@ -58,3 +56,31 @@ automation:
           mobile: "false"
           title: "Sun is setting now"
           message: 'Sun is setting now [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  # - alias: "Theme Start Up"
+  #   initial_state: 'on'
+  #   trigger:
+  #     - platform: homeassistant
+  #       event: start
+  #   action:
+  #     - service: frontend.set_theme
+  #       data_template:
+  #         name: '{% if is_state("sun.sun", "above_horizon") %}green{% else %}darkgreen{% endif %}'
+  #
+  # - alias: "Theme Day Time"
+  #   trigger:
+  #     - platform: sun
+  #       event: sunrise
+  #   action:
+  #     - service: frontend.set_theme
+  #       data:
+  #         name: 'blue'
+  #
+  # - alias: "Theme Night Time"
+  #   trigger:
+  #     - platform: sun
+  #       event: sunset
+  #   action:
+  #     - service: frontend.set_theme
+  #       data:
+  #         name: 'darkblue'
