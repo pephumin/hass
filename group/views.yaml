@@ -75,3 +75,4 @@ first_floor:
     - camera.current_location_jue
     - group.control_ff
     - group.friends
+    - group.new_binary_sensor

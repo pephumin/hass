@@ -70,3 +70,56 @@ juesipadmini2:
     - device_tracker.juesipadmini2
     - device_tracker.ping_juesipadmini2
     - device_tracker.user_juesipadmini2
+
+pepe:
+  view: no
+  name: "Pe Macbook Pro"
+  entities:
+    - device_tracker.pepe
+    - device_tracker.ping_pepe
+
+pesipodtouch4:
+  view: no
+  name: "Pe iPod Touch 4"
+  entities:
+    - device_tracker.pesipodtouch4
+    - device_tracker.ping_pesipodtouch4
+
+xdj_rx:
+  view: no
+  name: "XDJ-RX"
+  entities:
+    - device_tracker.xdj_rx
+    - device_tracker.ping_xdj_rx
+
+dune:
+  view: no
+  name: "Dunes"
+  entities:
+    - device_tracker.dune
+    - device_tracker.ping_dune
+
+new_binary_sensor:
+  view: no
+  name: "New Binary Sensor"
+  entities:
+    - binary_sensor.device_tracker_pesiphone6
+    - binary_sensor.device_tracker_user_pesiphone6
+    - binary_sensor.device_tracker_ping_pesiphone6
+    - binary_sensor.device_tracker_pesipadmini2
+    - binary_sensor.device_tracker_user_pesipadmini2
+    - binary_sensor.device_tracker_ping_pesipadmini2
+    - binary_sensor.device_tracker_juesiphone6splus
+    - binary_sensor.device_tracker_user_juesiphone6splus
+    - binary_sensor.device_tracker_ping_juesiphone6splus
+    - binary_sensor.device_tracker_juesipadmini2
+    - binary_sensor.device_tracker_user_juesipadmini2
+    - binary_sensor.device_tracker_ping_juesipadmini2
+    - binary_sensor.device_tracker_pepe
+    - binary_sensor.device_tracker_ping_pepe
+    - binary_sensor.device_tracker_pesipodtouch4
+    - binary_sensor.device_tracker_ping_pesipodtouch4
+    - binary_sensor.device_tracker_xdj_rx
+    - binary_sensor.device_tracker_ping_xdj_rx
+    - binary_sensor.device_tracker_dune
+    - binary_sensor.device_tracker_ping_dune
