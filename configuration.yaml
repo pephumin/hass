@@ -58,16 +58,18 @@ mqtt:
 
 frontend:
   themes:
-    darkgreen:
-      primary-color: "#1abc9c"
-    green:
-      primary-color: "#2ecc71"
-    blue:
-      primary-color: "#3498db"
-    midnightblue:
-      primary-color: "#2c3e50"
     red:
-      primary-color: "#c0392b"
+      primary-color: "#C0392B"
+    green:
+      primary-color: "#2ECC71"
+    blue:
+      primary-color: "#3498DB"
+    darkred:
+      primary-color: "#601D16"
+    darkgreen:
+      primary-color: "#1ABC9C"
+    darkblue:
+      primary-color: "#2C3E50"
 
 apple_tv:
   name: "Apple TV"
