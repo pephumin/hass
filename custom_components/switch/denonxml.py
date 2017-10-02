@@ -7,10 +7,7 @@ from homeassistant.components.media_player import (PLATFORM_SCHEMA, MediaPlayerD
 from homeassistant.const import (CONF_HOST, CONF_PORT)
 import homeassistant.helpers.config_validation as cv
 
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
-    vol.Required(CONF_HOST): cv.string,
-    vol.Required(CONF_PORT): cv.string,
-})
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({ vol.Required(CONF_HOST): cv.string, vol.Required(CONF_PORT): cv.string, })
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
 
@@ -64,7 +61,7 @@ class DenonSensor(MediaPlayerDevice):
         root = ElementTree.fromstring(response.content)
 
         on_off = root.find('ZonePower').find('value').text
-        src    = root.find('InputFuncSelect').find('value').text
+        src = root.find('InputFuncSelect').find('value').text
         volume = root.find('MasterVolume').find('value').text
 
         self._state = on_off.lower()
