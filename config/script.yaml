@@ -241,6 +241,8 @@ s_light:
 notifying:
   alias: "Notify script"
   sequence:
+    - condition: template
+      value_template: '{{ is_state("script.notifying", "off") }}'
     - service: script.s_mbp
       data_template:
         title: '{{ title }}'
