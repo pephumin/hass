@@ -49,6 +49,7 @@ control_br:
     - script.mute_bedroom
     - script.dj_shuffle
     - script.soft_shuffle
+    - script.bedroom_ac_powerful
 
 control_ff:
   name: "First Floor Control Panel"

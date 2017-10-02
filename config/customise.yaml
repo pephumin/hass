@@ -265,21 +265,15 @@ script.mute_bedroom:
   icon: mdi:volume-mute
   friendly_name: "Mute Bedroom"
 
-script.dja_shuffle:
-  icon: mdi:music-box-outline
-  friendly_name: "Playlist DJA"
-script.djb_shuffle:
-  icon: mdi:music-box-outline
-  friendly_name: "Playlist DJB"
-script.djp_shuffle:
-  icon: mdi:music-box-outline
-  friendly_name: "Playlist DJP"
 script.dj_shuffle:
   icon: mdi:music-box-outline
   friendly_name: "Playlist DJ"
 script.soft_shuffle:
   icon: mdi:music-box-outline
   friendly_name: "Playlist Soft"
+script.bedroom_ac_powerful:
+  icon: mdi:dumbbell
+  friendly_name: "AC Powerful"
 
 sensor.owm_temperature:
   icon: mdi:thermometer
