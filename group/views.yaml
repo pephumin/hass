@@ -22,7 +22,7 @@ default_view:
     - group.lights_all
     - group.control
     - group.proximity
-    # - group.timer
+    - group.timer
     # - group.friends
 
 common_room:

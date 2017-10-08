@@ -7,7 +7,7 @@ control:
     - input_boolean.presence_jue
     - input_boolean.presence_benjy
     - input_select.homemode
-    - sensor.common_room_temperature
+    - sensor.mimas_temperature
     - sensor.pandora_temperature
     # - sensor.pandora_humidity
     - sensor.calypso_temperature
@@ -24,17 +24,18 @@ control_cr:
   icon: mdi:google-controller
   control: hidden
   entities:
-    - sensor.common_room_temperature
+    - sensor.mimas_temperature
+    - sensor.mimas_humidity
     - switch.common_room_air_cond
     - switch.common_room_fan
     - switch.hometheatre
-    # - sensor.denon_source
-    # - sensor.denonsourcecheck
     - input_select.denon_mode
     - switch.sonytv
     - switch.android_box
     - switch.mimas
     - script.mute_common_room
+    - sensor.denon_source
+    - sensor.denonsourcecheck
 
 control_br:
   name: "Bedroom Control Panel"
@@ -56,6 +57,6 @@ control_ff:
   icon: mdi:google-controller
   control: hidden
   entities:
-    - sensor.calypso_temperature
-    - sensor.calypso_humidity
+    # - sensor.calypso_temperature
+    # - sensor.calypso_humidity
     # - light.calypso

@@ -7,20 +7,6 @@ travel:
     - sensor.benjy_to_home
     - sensor.home_to_malaiwan
     - sensor.malaiwan_to_home
-    # - proximity.pe_home
-    # - sensor.distance_pe__home_mean
-    # - proximity.jue_home
-    # - sensor.distance_jue__home_mean
-
-# weather:
-#   view: no
-#   name: "Weather"
-#   icon: mdi:weather-cloudy
-#   entities:
-#     - sensor.owm_temperature
-#     - sensor.owm_condition
-#     - sensor.owm_cloud_coverage
-#     - sensor.owm_humidity
 
 sonoff:
   view: no
@@ -30,10 +16,10 @@ sonoff:
   entities:
     - switch.ganymede
     - switch.callisto
-    # - switch.mimas
-    # - light.pandora
-    # - sensor.pandora_temperature
-    # - sensor.pandora_humidity
+    - switch.mimas
+    - light.pandora
+    - light.phoebe
+    - switch.calypso
 
 led:
   view: no
@@ -44,31 +30,14 @@ led:
     # - input_select.wemos_effect
     - input_slider.wemos_animation_speed
 
-stats_cr:
+timer:
   view: no
-  name: "Statistics Common Room"
-  icon: mdi:chart-line-stacked
+  control: hidden
+  name: "Timer"
+  icon: mdi:timer
   entities:
-    - sensor.common_room_temperature_mean
-    - sensor.average_disk_temperature_mean
-    - sensor.titan_current_consumption
-    - sensor.titan_current
-    - sensor.titan_voltage
-    - sensor.ganymede_power
-    - sensor.ganymede_power_factor
-    - sensor.ganymede_current
-    - sensor.ganymede_voltage
-    - sensor.ganymede_energy_today
-    - sensor.ganymede_energy_yesterday
-    - sensor.ganymede_energy_total
-
-stats_br:
-  view: no
-  name: "Statistics Bedroom"
-  icon: mdi:chart-line-stacked
-  entities:
-    - sensor.bedroom_temperature_mean
-    - sensor.bedroom_humidity_mean
-    - sensor.europa_current_consumption
-    - sensor.europa_current
-    - sensor.europa_voltage
+    - input_boolean.timer_enable
+    - input_select.timer_source
+    - input_slider.timer_set
+    # - sensor.countdown
+    - script.timer
