@@ -22,6 +22,7 @@ http:
 config:
 conversation:
 discovery:
+# python_script:
 # shopping_list:
 sun:
 updater:
@@ -50,11 +51,17 @@ mqtt:
   discovery: true
   discovery_prefix: homeassistant
   birth_message:
-    topic: "hass/status"
+    # topic: "hass/status"
+    topic: "tele/hass/LWT"
     payload: "Online"
+    qos: 1
+    retain: true
   will_message:
-    topic: "hass/status"
+    # topic: "hass/status"
+    topic: "tele/hass/LWT"
     payload: "Offline"
+    qos: 1
+    retain: true
 
 frontend:
   themes:
