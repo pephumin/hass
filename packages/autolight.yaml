@@ -211,13 +211,13 @@ automation:
   - alias: "Autolight Home 2A"
     trigger:
       - platform: time
-        at: '20:00:00'
+        at: '19:30:00'
     condition:
       - condition: template
         value_template: '{{ is_state("input_select.homemode", "Home") }}'
     action:
       - service: light.turn_on
-        entity_id: light.calypso
+        entity_id: light.phoebe
         data:
           transition: 5
           brightness: 200
@@ -241,7 +241,7 @@ automation:
         value_template: '{{ is_state("input_select.homemode", "Home") }}'
     action:
       - service: light.turn_off
-        entity_id: light.calypso
+        entity_id: light.phoebe
       - service: script.notifying
         data:
           email: "false"
@@ -751,7 +751,7 @@ automation:
   - alias: "Auto off Welcome light Pe"
     trigger:
       - platform: template
-        value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (255,67,88))) and (is_state("light.lightstrip", "on") and is_state_attr("light.lightstrip", "rgb_color", (255,87,90))) }}'
+        value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (255,81,88))) or (is_state("light.lightstrip", "on") and is_state_attr("light.lightstrip", "rgb_color", (255,72,99))) }}'
     action:
       - service: script.welcome_light_off_pe
 

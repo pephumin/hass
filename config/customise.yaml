@@ -453,23 +453,35 @@ sensor.pandora_temperature:
 sensor.pandora_humidity:
   icon: mdi:water-percent
   friendly_name: "Bedroom Humidity"
-light.calypso:
+light.phoebe:
   icon: mdi:lightbulb-on-outline
   friendly_name: "Kitchen"
-switch.phoebe:
+switch.calypso:
   icon: mdi:power-plug
-  friendly_name: "Phoebe"
+  friendly_name: "Calypso"
   assumed_state: true
-sensor.calypso_temperature:
+sensor.mimas_temperature:
   icon: mdi:thermometer
-  friendly_name: "First Floor Temperature"
-sensor.calypso_humidity:
+  friendly_name: "Common Room Temperature"
+sensor.mimas_humidity:
   icon: mdi:water-percent
-  friendly_name: "First Floor Humidity"
+  friendly_name: "Common Room Humidity"
+# sensor.calypso_temperature:
+#   icon: mdi:thermometer
+#   friendly_name: "First Floor Temperature"
+# sensor.calypso_humidity:
+#   icon: mdi:water-percent
+#   friendly_name: "First Floor Humidity"
 
+sensor.rm_pro_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "RM Pro Temperature"
 sensor.common_room_temperature_mean:
   icon: mdi:chart-line-stacked
   friendly_name: "Common Room Temperature"
+sensor.common_room_humidity_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "Common Room Humidity"
 sensor.bedroom_temperature_mean:
   icon: mdi:chart-line-stacked
   friendly_name: "Bedroom Temperature"
