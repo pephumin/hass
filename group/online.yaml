@@ -7,6 +7,7 @@ online_cr:
     - binary_sensor.higher
     - binary_sensor.broadlink_rm_pro
     - binary_sensor.titan
+    - binary_sensor.ganymede
     - binary_sensor.mimas
     - binary_sensor.foscam_black
     - binary_sensor.denon
@@ -34,7 +35,6 @@ online_ff:
     - binary_sensor.sputnik
     - binary_sensor.foscam_white
     - binary_sensor.earth
-    - binary_sensor.ganymede
     - binary_sensor.callisto
     - binary_sensor.calypso
     - binary_sensor.phoebe

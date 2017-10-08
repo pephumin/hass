@@ -197,7 +197,7 @@ script:
     sequence:
       - service: switch.turn_on
         entity_id: switch.titan
-      - delay: 00:00:02
+      - delay: 00:00:05
       - service: switch.turn_on
         entity_id: switch.common_room_tv
       - delay: 00:00:05
@@ -212,15 +212,15 @@ script:
     sequence:
       - service: switch.turn_off
         entity_id: switch.common_room_android_box
-      - delay: 00:00:01
+      - delay: 00:00:05
       - service: switch.turn_off
         entity_id: switch.mimas
-      - delay: 00:00:10
+      - delay: 00:00:05
       - service: switch.turn_off
         entity_id: switch.common_room_tv
-      - delay: 00:00:10
+      - delay: 00:00:05
       - service: script.switch_to_off
-      - delay: 00:00:03
+      - delay: 00:00:05
       - service: switch.turn_off
         entity_id: switch.titan
 
@@ -288,8 +288,9 @@ script:
     alias: "Switch Media to Off"
     sequence:
       - condition: template
-        # value_template: '{{ not is_state("sensor.denonsourcecheck", "Off") }}'
-        value_template: '{{ not is_state("sensor.denon_source", "Off") }}'
+        value_template: '{{ is_state("script.switch_to_off", "off") }}'
+      - condition: template
+        value_template: '{{ not is_state("sensor.denon_source", "Off") or not is_state("sensor.denonsourcecheck", "") }}'
       - service: media_player.turn_off
         entity_id: media_player.denon
       - delay: 00:00:02
@@ -313,7 +314,7 @@ automation:
       - platform: state
         entity_id: input_select.denon_mode
     action:
-      - service_template: '{% if is_state("input_select.denon_mode", "Cable TV") %}script.switch_to_cabletv{% elif is_state("input_select.denon_mode", "Music") %}script.switch_to_music{% elif is_state("input_select.denon_mode", "Dune") %}script.switch_to_dune{% elif is_state("input_select.denon_mode", "Apple TV") %}script.switch_to_appletv{% elif is_state("input_select.denon_mode", "Off") %}script.switch_to_off{% else %}{% endif %}'
+      - service_template: '{% if is_state("input_select.denon_mode", "Cable TV") %}script.switch_to_cabletv{% elif is_state("input_select.denon_mode", "Music") %}script.switch_to_music{% elif is_state("input_select.denon_mode", "Dune") %}script.switch_to_dune{% elif is_state("input_select.denon_mode", "Apple TV") %}script.switch_to_appletv{% elif is_state("input_select.denon_mode", "Off") %}script.switch_to_off{% elif is_state("input_select.denon_mode", "Select a mode") %}false{% else %}false{% endif %}'
         data_template:
           newvolume: '{% if is_state("input_select.denon_mode", "Cable TV") %}50{% elif is_state("input_select.denon_mode", "Music") %}40{% elif is_state("input_select.denon_mode", "Dune") %}40{% elif is_state("input_select.denon_mode", "Apple TV") %}45{% else %}false{% endif %}'
 
@@ -323,7 +324,8 @@ automation:
         minutes: '/1'
         seconds: 00
       - platform: state
-        # entity_id: sensor.denonsourcecheck
+        entity_id: sensor.denonsourcecheck
+      - platform: state
         entity_id: sensor.denon_source
     condition:
       - condition: or
@@ -384,7 +386,7 @@ automation:
         value_template: '{% if is_state("device_tracker.dune", "home") or is_state("device_tracker.ping_dune", "home") or is_state("binary_sensor.dune", "on") %}true{% else %}false{% endif %}'
     condition:
       - condition: template
-        value_template: '{{ not is_state_attr("media_player.denon", "source", "BD") }}'
+        value_template: '{{ not is_state_attr("media_player.denon", "source", "Dune") }}'
     action:
       - service: script.switch_to_dune
         data:
@@ -396,7 +398,7 @@ automation:
         value_template: '{% if not is_state("device_tracker.dune", "home") or not is_state("device_tracker.ping_dune", "home") or is_state("binary_sensor.dune", "off") %}true{% else %}false{% endif %}'
     condition:
       - condition: template
-        value_template: '{{ is_state_attr("media_player.denon", "source", "BD") }}'
+        value_template: '{{ is_state_attr("media_player.denon", "source", "Dune") }}'
     action:
       - service: script.switch_to_cabletv
         data:

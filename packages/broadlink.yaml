@@ -50,18 +50,18 @@ script:
     sequence:
       - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" %}script.bedroom_ac_18{% elif packet == "powerful" %}script.bedroom_ac_powerful{% else %}{% endif %}'
 
-sensor:
-  - platform: broadlink
-    update_interval: 300
-    name: "Common Room"
-    host: !secret rmpro_ip
-    mac: !secret rmpro_mac
-    timeout: 30
-    monitored_conditions:
-      - temperature
-  - platform: statistics
-    entity_id: sensor.common_room_temperature
-    name: "Common Room Temperature"
+# sensor:
+#   - platform: broadlink
+#     update_interval: 300
+#     name: "RM Pro"
+#     host: !secret rmpro_ip
+#     mac: !secret rmpro_mac
+#     timeout: 30
+#     monitored_conditions:
+#       - temperature
+#   - platform: statistics
+#     entity_id: sensor.rm_pro_temperature
+#     name: "RM Pro Temperature"
 
 switch:
   - platform: broadlink

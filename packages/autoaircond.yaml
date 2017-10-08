@@ -73,3 +73,20 @@ automation:
     action:
       - service: switch.turn_off
         entity_id: switch.bedroom_air_cond
+
+  - alias: "Auto Air-conditioning Bedroom Powerful"
+    trigger:
+      - platform: state
+        entity_id: switch.bedroom_air_cond
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 2
+      # - platform: template
+      #   value_template: '{% if states.switch.bedroom_air_cond.last_changed %}{{ (as_timestamp(now()) - as_timestamp(states.switch.bedroom_air_cond.last_changed)) > 300 }}false{% else %}true{% endif %}'
+    condition:
+      - condition: template
+        value_template: '{{ states.sensor.pandora_temperature.state | float > 29 }}'
+    action:
+      - service: switch.turn_off
+        entity_id: switch.bedroom_air_cond

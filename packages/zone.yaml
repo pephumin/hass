@@ -496,6 +496,10 @@ automation:
         below: 3500
         above: 2500
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue_malaiwan
       - service: script.notifying
         data:
           email: "false"
@@ -514,6 +518,10 @@ automation:
         below: 2500
         above: 1500
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue_malaiwan
       - service: script.notifying
         data:
           email: "false"
@@ -532,6 +540,10 @@ automation:
         below: 1500
         above: 500
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue_malaiwan
       - service: script.notifying
         data:
           email: "false"
@@ -550,6 +562,10 @@ automation:
         below: 3500
         above: 2500
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe_benjawan
       - service: script.notifying
         data:
           email: "false"
@@ -568,6 +584,10 @@ automation:
         below: 2500
         above: 1500
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe_benjawan
       - service: script.notifying
         data:
           email: "false"
@@ -586,6 +606,10 @@ automation:
         below: 1500
         above: 500
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe_benjawan
       - service: script.notifying
         data:
           email: "false"
@@ -600,9 +624,7 @@ automation:
   - alias: "Benjy is at Luzern"
     trigger:
       - platform: template
-        value_template: '{% if is_state("device_tracker.benjy", "home") %}true{% else %}false{% endif %}'
-      - platform: template
-        value_template: '{% if is_state("device_tracker.ping_benjy", "home") %}true{% else %}false{% endif %}'
+        value_template: '{% if is_state("device_tracker.benjy", "home") and is_state("device_tracker.ping_benjy", "home") %}true{% else %}false{% endif %}'
       - platform: zone
         entity_id: device_tracker.benjy
         zone: zone.home
@@ -617,7 +639,7 @@ automation:
   - alias: "Benjy is not at Luzern"
     trigger:
       - platform: template
-        value_template: '{% if not is_state("device_tracker.benjy", "home") %}true{% else %}false{% endif %}'
+        value_template: '{% if not is_state("device_tracker.benjy", "home") and not is_state("device_tracker.ping_benjy", "home") %}true{% else %}false{% endif %}'
       - platform: zone
         entity_id: device_tracker.benjy
         zone: zone.home
@@ -681,43 +703,3 @@ automation:
           mobile: "both"
           title: "Benjy has left"
           message: 'Benjy has left [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: 'Presence mode changes 1'
-    trigger:
-      - platform: state
-        entity_id: input_select.presence_pe
-        from: 'off'
-        to: 'on'
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.presence_pe_benjawan
-
-  - alias: 'Presence mode changes 2'
-    trigger:
-      - platform: state
-        entity_id: input_select.presence_jue
-        from: 'off'
-        to: 'on'
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.presence_jue_malaiwan
-
-  - alias: 'Presence mode changes 3'
-    trigger:
-      - platform: state
-        entity_id: input_select.presence_pe_benjawan
-        from: 'off'
-        to: 'on'
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.presence_pe
-
-  - alias: 'Presence mode changes 4'
-    trigger:
-      - platform: state
-        entity_id: input_select.presence_jue_malaiwan
-        from: 'off'
-        to: 'on'
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.presence_jue
