@@ -4,13 +4,22 @@ input_boolean:
     initial: off
     icon: mdi:alarm
 
-input_slider:
+input_number:
   timer_set:
     name: "Timer set"
     initial: 0
     min: 0
     max: 30
     step: 1
+    # mode: box
+    unit_of_measurement: minutes
+
+# input_datetime:
+#   timer_set:
+#     name: "Timer set"
+#     has_date: false
+#     has_time: true
+#     # minute: 30
 
 input_select:
   timer_source:
@@ -24,7 +33,7 @@ input_select:
     icon: mdi:timer
 
 # shell_command:
-#   start_timer: '/bin/echo $(($(date +%s))) > /tmp/hass_timer ; /bin/echo {{ states.input_slider.timer_set.state | float | multiply(60) }} > /tmp/hass_timer_gap'
+#   start_timer: '/bin/echo $(($(date +%s))) > /tmp/hass_timer ; /bin/echo {{ states.input_datetime.timer_set.state | float | multiply(60) }} > /tmp/hass_timer_gap'
 #   stop_timer: '/bin/rm -f /tmp/hass_timer'
 #
 # sensor:
@@ -42,13 +51,13 @@ script:
     sequence:
       - service: script.turn_off
         entity_id: script.timer
-      - delay: '00:{{ states.input_slider.timer_set.state | int }}:00'
+      - delay: '00:{{ states.input_number.timer_set.state | int }}:00'
       - service_template: '{% if is_state("input_select.timer_source", "Titan") or is_state("input_select.timer_source", "Europa") or is_state("input_select.timer_source", "Calypso") %}switch.turn_off{% elif is_state("input_select.timer_source", "Pandora") or is_state("input_select.timer_source", "Phoebe") %}light.turn_off{% else %}{% endif %}'
         data_template:
           entity_id: '{% if is_state("input_select.timer_source", "Titan") %}switch.titan{% elif is_state("input_select.timer_source", "Europa") %}switch.europa{% elif is_state("input_select.timer_source", "Calypso") %}switch.calypso{% elif is_state("input_select.timer_source", "Pandora") %}light.pandora{% elif is_state("input_select.timer_source", "Phoebe") %}light.phoebe{% else %}{% endif %}'
-      - service: input_slider.select_value
+      - service: input_number.select_value
         data:
-          entity_id: input_slider.timer_set
+          entity_id: input_number.timer_set
           value: 0
       - service: input_boolean.turn_off
         entity_id: input_boolean.timer_enable
@@ -57,9 +66,9 @@ automation:
   - alias: "Timer Trigger"
     trigger:
       - platform: state
-        entity_id: input_slider.timer_set
+        entity_id: input_number.timer_set
     action:
-      - service_template: '{% if states.input_slider.timer_set.state | int == 0 %}input_boolean.turn_off{% else %}input_boolean.turn_on{% endif %}'
+      - service_template: '{% if states.input_number.timer_set.state | int == 0 %}input_boolean.turn_off{% else %}input_boolean.turn_on{% endif %}'
         entity_id: input_boolean.timer_enable
-      - service_template: '{% if states.input_slider.timer_set.state | int == 0 %}script.turn_off{% else %}script.turn_on{% endif %}'
+      - service_template: '{% if states.input_number.timer_set.state | int == 0 %}script.turn_off{% else %}script.turn_on{% endif %}'
         entity_id: script.timer
