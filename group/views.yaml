@@ -42,7 +42,7 @@ common_room:
     - camera.foscam_black
     - group.control_cr
     # - group.sonoff
-    - group.kodi
+    # - group.kodi
     - group.led
     - group.stats_cr
 
