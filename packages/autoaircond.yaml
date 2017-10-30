@@ -88,5 +88,6 @@ automation:
       - condition: template
         value_template: '{{ states.sensor.pandora_temperature.state | float > 29 }}'
     action:
-      - service: switch.turn_off
-        entity_id: switch.bedroom_air_cond
+      - service: script.bedroom_ac_control
+        data:
+          packet: "powerful"
