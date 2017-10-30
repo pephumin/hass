@@ -8,6 +8,7 @@ switch:
     payload_not_available: "Offline"
     qos: 1
     retain: true
+    optimistic: false
   - platform: mqtt
     name: "Callisto"
     state_topic: "stat/callisto/POWER"
@@ -17,6 +18,7 @@ switch:
     payload_not_available: "Offline"
     qos: 1
     retain: true
+    optimistic: false
   - platform: mqtt
     name: "Mimas"
     state_topic: "stat/mimas/POWER"
@@ -26,6 +28,7 @@ switch:
     payload_not_available: "Offline"
     qos: 1
     retain: true
+    optimistic: false
   - platform: mqtt
     name: "Calypso"
     state_topic: "stat/calypso/POWER"
@@ -35,6 +38,7 @@ switch:
     payload_not_available: "Offline"
     qos: 1
     retain: true
+    optimistic: false
 
 light:
   - platform: mqtt
@@ -46,6 +50,7 @@ light:
     payload_not_available: "Offline"
     qos: 1
     retain: true
+    optimistic: false
   - platform: mqtt
     name: "Phoebe"
     state_topic: "stat/phoebe/POWER"
@@ -55,6 +60,7 @@ light:
     payload_not_available: "Offline"
     qos: 1
     retain: true
+    optimistic: false
 
 sensor:
   - platform: mqtt
@@ -100,7 +106,6 @@ sensor:
   - platform: statistics
     entity_id: sensor.pandora_temperature
     name: "Bedroom Temperature"
-
   - platform: mqtt
     name: "Pandora Humidity"
     state_topic: "tele/pandora/SENSOR"
@@ -118,7 +123,6 @@ sensor:
   - platform: statistics
     entity_id: sensor.mimas_temperature
     name: "Common Room Temperature"
-
   - platform: mqtt
     name: "Mimas Humidity"
     state_topic: "tele/mimas/SENSOR"
