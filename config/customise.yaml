@@ -409,7 +409,7 @@ proximity.pe_benjawan:
 
 switch.ganymede:
   icon: mdi:power-socket
-  friendly_name: "Ganymede"
+  friendly_name: "Bedroom Online Switch"
   assumed_state: true
 sensor.ganymede_power:
   icon: mdi:power-socket
@@ -495,13 +495,10 @@ sensor.average_disk_temperature_mean:
   icon: mdi:chart-line-stacked
   friendly_name: "Average Saturn Temperature"
 
-light.wemos:
+light.led:
   icon: mdi:led-strip
   friendly_name: "LED Lightstrip"
-input_select.wemos_effect:
-  icon: mdi:animation
-  friendly_name: "LED Effect"
-input_slider.wemos_animation_speed:
+input_number.led_animation_speed:
   icon: mdi:fast-forward
   friendly_name: "Speed"
 
