@@ -9,13 +9,6 @@ stats_cr:
     - sensor.titan_current_consumption
     - sensor.titan_current
     - sensor.titan_voltage
-    - sensor.ganymede_power
-    - sensor.ganymede_power_factor
-    - sensor.ganymede_current
-    - sensor.ganymede_voltage
-    - sensor.ganymede_energy_today
-    - sensor.ganymede_energy_yesterday
-    - sensor.ganymede_energy_total
 
 stats_br:
   view: no
@@ -27,3 +20,10 @@ stats_br:
     - sensor.europa_current_consumption
     - sensor.europa_current
     - sensor.europa_voltage
+    - sensor.ganymede_power
+    - sensor.ganymede_power_factor
+    - sensor.ganymede_current
+    - sensor.ganymede_voltage
+    - sensor.ganymede_energy_today
+    - sensor.ganymede_energy_yesterday
+    - sensor.ganymede_energy_total

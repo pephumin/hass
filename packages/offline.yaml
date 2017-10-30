@@ -74,6 +74,16 @@ binary_sensor:
     host: 192.168.1.79
     name: "Foscam White"
 
+script:
+  ganymede_restart:
+    alias: "Bedroom Restart"
+    sequence:
+      - service: switch.turn_off
+        entity_id: switch.ganymede
+      - delay: '00:00:10'
+      - service: switch.turn_on
+        entity_id: switch.ganymede
+
 automation:
 
   # - alias: 'Device status online'
@@ -195,3 +205,24 @@ automation:
           mobile: "false"
           title: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }}'
           message: '{{ trigger.to_state.attributes.friendly_name }} is {{ "Online" if trigger.to_state.state == "on" else "Offline" }} [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: 'Bedroom offline restart'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.broadlink_rm_mini, binary_sensor.moon, binary_sensor.neptune
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+    action:
+      - service: script.ganymede_restart
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          speak: "false"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          title: 'Restarting Ganymede because {{ trigger.to_state.attributes.friendly_name }} is offline'
+          message: 'Restarting Ganymede because {{ trigger.to_state.attributes.friendly_name }} is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
