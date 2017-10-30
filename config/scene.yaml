@@ -74,6 +74,35 @@
     group.bedroom_lights_all:
       state: off
 
+- name: "Bedroom Very Bright"
+  entities:
+    light.bedroom_1:
+      state: on
+      transition: 1
+      brightness: 127
+      xy_color: [0.3145,0.3303]
+    light.bedroom_2:
+      state: on
+      transition: 1
+      brightness: 127
+      xy_color: [0.3145,0.3303]
+    light.bedroom_3:
+      state: on
+      transition: 1
+      brightness: 254
+      xy_color: [0.3145,0.3303]
+    light.bedroom_4:
+      state: on
+      transition: 1
+      brightness: 254
+      xy_color: [0.3145,0.3303]
+    light.bedroom_lw:
+      state: off
+    light.bedroom_lc:
+      state: off
+    light.pandora:
+      state: off
+
 - name: "Bedroom Bright"
   entities:
     light.bedroom_1:
@@ -89,12 +118,12 @@
     light.bedroom_3:
       state: on
       transition: 1
-      brightness: 123
+      brightness: 127
       xy_color: [0.2951,0.2930]
     light.bedroom_4:
       state: on
       transition: 1
-      brightness: 123
+      brightness: 127
       xy_color: [0.2951,0.2930]
     light.bedroom_lw:
       state: off
@@ -112,12 +141,12 @@
     light.bedroom_3:
       state: on
       transition: 1
-      brightness: 169
+      brightness: 170
       xy_color: [0.2723,0.2482]
     light.bedroom_4:
       state: on
       transition: 1
-      brightness: 169
+      brightness: 170
       xy_color: [0.2723,0.2482]
     light.bedroom_lw:
       state: off
