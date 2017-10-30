@@ -26,9 +26,8 @@ led:
   name: "LED"
   icon: mdi:led-strip
   entities:
-    - light.wemos
-    # - input_select.wemos_effect
-    - input_slider.wemos_animation_speed
+    - light.led
+    - input_number.led_animation_speed
 
 timer:
   view: no
@@ -38,6 +37,7 @@ timer:
   entities:
     - input_boolean.timer_enable
     - input_select.timer_source
-    - input_slider.timer_set
+    - input_number.timer_set
+    # - input_datetime.timer_set
     # - sensor.countdown
     - script.timer

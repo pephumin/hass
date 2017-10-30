@@ -1,32 +1,3 @@
-# sensor:
-#   - platform: template
-#     sensor:
-#       motion_summary:
-#         value_template: >
-#           {%-for state in states.binary_sensor
-#             if(state.attributes.device_class=="motion" and state.state=="on")-%}
-#               {%-if loop.last-%}
-#                 {%-if loop.index > 0-%}
-#                   {%-for state in states.binary_sensor if(state.attributes.device_class=="motion" and state.state =="on")-%}
-#                     {{state.name}}{%-if not loop.last -%}{%-if(loop.index+1==loop.length)%} & {%else%}, {%endif-%}{%-else%} active{%endif-%}
-#                   {%-endfor-%}
-#                 {%-endif-%}
-#               {%-endif-%}
-#             {%-else-%}
-#               all clear
-#           {%-endfor-%}
-#         icon_template: >
-#           {%-for state in states.binary_sensor
-#             if(state.attributes.device_class=="motion" and state.state=="on")-%}
-#               {%-if loop.last-%}
-#                 {%-if loop.index > 0-%}
-#                     mdi:alert
-#                 {%-endif-%}
-#               {%-endif-%}
-#             {%-else-%}
-#               mdi:check
-#           {%-endfor-%}
-
 # Fade the Light On Over 5 Seconds - light.turn_on
 #
 # {
@@ -61,80 +32,11 @@
 # 	"transition": "50"
 # }
 
-# light:
-#   - platform: mqtt
-#     name: "Wemos"
-#     command_topic: "wemos/setpower"
-#     state_topic: "wemos/setpowerpub"
-#     rgb_state_topic: "wemos/setcolorpub"
-#     rgb_command_topic: "wemos/setcolor"
-#     brightness_state_topic: "wemos/setbrightnesspub"
-#     brightness_command_topic: "wemos/setbrightness"
-#     optimistic: false
-#
-# input_select:
-#   wemos_effect:
-#     name: "Wemos Effect"
-#     options:
-#      - "BPM"
-#      - "Candy Cane"
-#      - "Confetti"
-#      - "Cyclon Rainbow"
-#      - "Dots"
-#      - "Fire"
-#      - "Glitter"
-#      - "Juggle"
-#      - "Lightning"
-#      - "Noise"
-#      - "Police All"
-#      - "Police One"
-#      - "Rainbow"
-#      - "Rainbow with Glitter"
-#      - "Ripple"
-#      - "Sinelon"
-#      - "Solid"
-#      - "Strobe"
-#      - "Twinkle"
-#     initial: "Solid"
-#
-# input_slider:
-#   wemos_animation_speed:
-#     name: "Wemos Animation Speed"
-#     initial: 150
-#     min: 1
-#     max: 150
-#     step: 10
-#
-# automation:
-#   - alias: "Wemos Input Effect"
-#     initial_state: True
-#     hide_entity: False
-#     trigger:
-#       - platform: state
-#         entity_id: input_select.wemos_effect
-#     action:
-#       - service: mqtt.publish
-#         data_template:
-#           topic: "wemos/seteffect"
-#           payload: '{{ trigger.to_state.state | string }}'
-#
-#   - alias: "Wemos Animation Speed"
-#     initial_state: True
-#     hide_entity: False
-#     trigger:
-#       - platform: state
-#         entity_id: input_slider.wemos_animation_speed
-#     action:
-#       - service: mqtt.publish
-#         data_template:
-#           topic: "wemos/setanimationspeed"
-#           payload: '{{ trigger.to_state.state | int }}'
-
 light:
   - platform: mqtt_json
-    name: "Wemos"
-    state_topic: "wemos/state"
-    command_topic: "wemos/set"
+    name: "LED"
+    state_topic: "led/state"
+    command_topic: "led/set"
     effect: true
     effect_list:
       - applause
@@ -147,39 +49,49 @@ light:
       - glitter
       - juggle
       - lightning
-      - noise
+      # - noise
       - police all
       - police one
       - rainbow
       - rainbow glitter
-      - ripple
+      # - ripple
       - sinelon
       - solid
       - strobe
       - twinkle
+    # brightness: true
+    # flash: true
+    # rgb: true
+    # optimistic: false
+    # qos: 0
     brightness: true
-    flash: true
-    rgb: true
+    color_temp: true
+    flash_time_long: 10
+    flash_time_short: 2
     optimistic: false
     qos: 0
+    # retain: true
+    rgb: true
+    white_value: false
+    xy: false
 
-input_slider:
-  wemos_animation_speed:
-    name: "Wemos Animation Speed"
-    initial: 150
+input_number:
+  led_animation_speed:
+    name: "Animation Speed"
+    initial: 5
     min: 1
-    max: 150
-    step: 10
+    max: 10
+    step: 1
 
 automation:
-  - alias: "Wemos Animation Speed"
-    initial_state: True
-    hide_entity: False
+  - alias: "LED Animation Speed"
+    initial_state: true
+    hide_entity: false
     trigger:
       - platform: state
-        entity_id: input_slider.wemos_animation_speed
+        entity_id: input_number.led_animation_speed
     action:
       - service: mqtt.publish
         data_template:
-          topic: "wemos/set"
+          topic: "led/set"
           payload: '{"transition": {{ trigger.to_state.state | int }}}'
