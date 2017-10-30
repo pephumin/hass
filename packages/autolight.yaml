@@ -12,7 +12,7 @@ script:
   welcome_light_off_pe:
     alias: "Turn off welcome lights for Pe"
     sequence:
-      - delay: 00:03:00
+      - delay: 00:10:00
       - service: light.turn_off
         entity_id: light.lightstrip
       - service: light.turn_off
@@ -34,7 +34,7 @@ script:
   welcome_light_off_jue:
     alias: "Turn off welcome lights for Jue"
     sequence:
-      - delay: 00:03:00
+      - delay: 00:10:00
       - service: light.turn_off
         entity_id: light.hallway
       - condition: template
@@ -180,7 +180,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
@@ -201,7 +201,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
@@ -225,7 +225,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
@@ -246,7 +246,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
@@ -270,7 +270,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
@@ -291,7 +291,7 @@ automation:
         data:
           email: "false"
           tv: "true"
-          speak: "true"
+          speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
@@ -751,7 +751,7 @@ automation:
   - alias: "Auto off Welcome light Pe"
     trigger:
       - platform: template
-        value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (255,81,88))) or (is_state("light.lightstrip", "on") and is_state_attr("light.lightstrip", "rgb_color", (255,72,99))) }}'
+        value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (255,81,88))) or (is_state("light.lightstrip", "on") and is_state_attr("light.lightstrip", "rgb_color", (255,80,89))) }}'
     action:
       - service: script.welcome_light_off_pe
 
@@ -761,3 +761,43 @@ automation:
         value_template: '{{ is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (206,223,81)) }}'
     action:
       - service: script.welcome_light_off_jue
+
+  - alias: "Auto off Reset Light Hallway"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (255,206,118)) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.hallway
+
+  - alias: "Auto off Reset Light Bedroom 1"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.bedroom_1", "on") and is_state_attr("light.bedroom_1", "rgb_color", (255,207,121)) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.bedroom_1
+
+  - alias: "Auto off Reset Light Bedroom 2"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.bedroom_2", "on") and is_state_attr("light.bedroom_2", "rgb_color", (255,206,118)) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.bedroom_2
+
+  - alias: "Auto off Reset Light Bedroom 3"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.bedroom_3", "on") and is_state_attr("light.bedroom_3", "rgb_color", (255,206,118)) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.bedroom_3
+
+  - alias: "Auto off Reset Light Bedroom 4"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.bedroom_4", "on") and is_state_attr("light.bedroom_4", "rgb_color", (255,206,118)) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.bedroom_4
