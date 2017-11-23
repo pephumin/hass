@@ -759,6 +759,7 @@ automation:
     trigger:
       - platform: template
         value_template: '{{ is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (206,223,81)) }}'
+        # value_template: '{{ is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (20,23,3)) }}'
     action:
       - service: script.welcome_light_off_jue
 

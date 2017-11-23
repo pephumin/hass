@@ -8,7 +8,7 @@ switch:
     payload_not_available: "Offline"
     qos: 1
     retain: true
-    optimistic: false
+    optimistic: true
   - platform: mqtt
     name: "Callisto"
     state_topic: "stat/callisto/POWER"
@@ -18,7 +18,7 @@ switch:
     payload_not_available: "Offline"
     qos: 1
     retain: true
-    optimistic: false
+    optimistic: true
   - platform: mqtt
     name: "Mimas"
     state_topic: "stat/mimas/POWER"
@@ -28,7 +28,7 @@ switch:
     payload_not_available: "Offline"
     qos: 1
     retain: true
-    optimistic: false
+    optimistic: true
   - platform: mqtt
     name: "Calypso"
     state_topic: "stat/calypso/POWER"
@@ -38,7 +38,7 @@ switch:
     payload_not_available: "Offline"
     qos: 1
     retain: true
-    optimistic: false
+    optimistic: true
 
 light:
   - platform: mqtt
@@ -50,7 +50,7 @@ light:
     payload_not_available: "Offline"
     qos: 1
     retain: true
-    optimistic: false
+    optimistic: true
   - platform: mqtt
     name: "Phoebe"
     state_topic: "stat/phoebe/POWER"
@@ -60,7 +60,7 @@ light:
     payload_not_available: "Offline"
     qos: 1
     retain: true
-    optimistic: false
+    optimistic: true
 
 sensor:
   - platform: mqtt
@@ -103,34 +103,34 @@ sensor:
     state_topic: "tele/pandora/SENSOR"
     value_template: "{{ value_json['DHT22'].Temperature }}"
     unit_of_measurement: "°C"
-  - platform: statistics
-    entity_id: sensor.pandora_temperature
-    name: "Bedroom Temperature"
+  # - platform: statistics
+  #   entity_id: sensor.pandora_temperature
+  #   name: "Bedroom Temperature"
   - platform: mqtt
     name: "Pandora Humidity"
     state_topic: "tele/pandora/SENSOR"
     value_template: "{{ value_json['DHT22'].Humidity }}"
     unit_of_measurement: "%"
-  - platform: statistics
-    entity_id: sensor.pandora_humidity
-    name: "Bedroom Humidity"
+  # - platform: statistics
+  #   entity_id: sensor.pandora_humidity
+  #   name: "Bedroom Humidity"
 
   - platform: mqtt
     name: "Mimas Temperature"
     state_topic: "tele/mimas/SENSOR"
     value_template: "{{ value_json['DHT22'].Temperature }}"
     unit_of_measurement: "°C"
-  - platform: statistics
-    entity_id: sensor.mimas_temperature
-    name: "Common Room Temperature"
+  # - platform: statistics
+  #   entity_id: sensor.mimas_temperature
+  #   name: "Common Room Temperature"
   - platform: mqtt
     name: "Mimas Humidity"
     state_topic: "tele/mimas/SENSOR"
     value_template: "{{ value_json['DHT22'].Humidity }}"
     unit_of_measurement: "%"
-  - platform: statistics
-    entity_id: sensor.mimas_humidity
-    name: "Common Room Humidity"
+  # - platform: statistics
+  #   entity_id: sensor.mimas_humidity
+  #   name: "Common Room Humidity"
 
 automation:
 

@@ -66,8 +66,9 @@
     ping_benjysmbp: 192.168.1.36
     ping_benjysipadmini2: 192.168.1.37
     ping_pepe: 192.168.1.200
-    ping_xdj_rx: 192.168.1.45
-    ping_dune: 192.168.1.77
+    ping_pepework: 192.168.1.202
+    # ping_xdj_rx: 192.168.1.45
+    # ping_dune: 192.168.1.77
   interval_seconds: 12
   consider_home: 0:00:30
   track_new_devices: True

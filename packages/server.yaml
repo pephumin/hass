@@ -68,9 +68,9 @@ sensor:
       - sensor.temperature_sdb
       - sensor.temperature_sdc
       - sensor.temperature_sdd
-  - platform: statistics
-    entity_id: sensor.average_disk_temperature
-    name: "Average Disk Temperature"
+  # - platform: statistics
+  #   entity_id: sensor.average_disk_temperature
+  #   name: "Average Disk Temperature"
   - platform: template
     sensors:
       average_disk_temperature:

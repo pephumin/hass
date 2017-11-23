@@ -447,6 +447,7 @@ switch.mimas:
 light.pandora:
   icon: mdi:lightbulb-on-outline
   friendly_name: "Bedroom Night Light"
+  assumed_state: false
 sensor.pandora_temperature:
   icon: mdi:thermometer
   friendly_name: "Bedroom Temperature"
@@ -456,6 +457,7 @@ sensor.pandora_humidity:
 light.phoebe:
   icon: mdi:lightbulb-on-outline
   friendly_name: "Kitchen"
+  assumed_state: false
 switch.calypso:
   icon: mdi:power-plug
   friendly_name: "Calypso"
@@ -472,6 +474,15 @@ sensor.mimas_humidity:
 # sensor.calypso_humidity:
 #   icon: mdi:water-percent
 #   friendly_name: "First Floor Humidity"
+
+group.lights_all:
+  assumed_state: false
+group.common_room_lights_all:
+  assumed_state: false
+group.bedroom_lights_all:
+  assumed_state: false
+group.first_floor_lights_all:
+  assumed_state: false
 
 sensor.rm_pro_temperature_mean:
   icon: mdi:chart-line-stacked
@@ -498,9 +509,30 @@ sensor.average_disk_temperature_mean:
 light.led:
   icon: mdi:led-strip
   friendly_name: "LED Lightstrip"
+  assumed_state: true
 input_number.led_animation_speed:
   icon: mdi:fast-forward
   friendly_name: "Speed"
+
+# binary_sensor.wemos-lite-a:
+#   icon: mdi:video-input-antenna
+#   friendly_name: "WeMos Lite A"
+# binary_sensor.wemos-lite-led:
+#   icon: mdi:video-input-antenna
+#   friendly_name: "WeMos Lite LED"
+# binary_sensor.wemos-pro:
+#   icon: mdi:video-input-antenna
+#   friendly_name: "WeMos Pro"
+# binary_sensor.nodemcu:
+#   icon: mdi:video-input-antenna
+#   friendly_name: "NodeMCU"
+# binary_sensor.wemos-a:
+#   icon: mdi:video-input-antenna
+#   friendly_name: "WeMos A"
+# binary_sensor.wemos-b:
+#   icon: mdi:video-input-antenna
+#   friendly_name: "WeMos B"
+
 
 ### hidden ###
 

@@ -12,10 +12,6 @@
   username: !secret my_username
   password: !secret my_password
 
-# - platform: lannouncer
-#   name: voicetv
-#   host: !secret kodi_ip
-
 - platform: smtp
   name: email
   server: !secret smtp_server
@@ -23,12 +19,12 @@
   sender: !secret smtp_sender
   recipient: phumin@sawasdee.org
 
-- platform: group
-  name: television
-  services:
-    - service: tv
-    - service: kodi
-    # - service: voicetv
+# - platform: group
+#   name: television
+#   services:
+#     - service: tv
+#     - service: kodi
+#     # - service: voicetv
 
 - platform: file
   name: file
@@ -43,11 +39,11 @@
 #   gcm_api_key: !secret gcm_api_key
 #   gcm_sender_id: !secret gcm_sender_id
 
-- platform: group
-  name: alert
-  services:
-    - service: tv
-    - service: email
+# - platform: group
+#   name: alert
+#   services:
+#     - service: tv
+#     - service: email
 
 - platform: gntp
   name: growl

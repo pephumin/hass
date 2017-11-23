@@ -4,6 +4,8 @@ default_view:
   name: Home
   # name: "New Home"
   entities:
+    - group.control
+    - group.proximity
     - group.daylight
     - group.devices
     - group.home_server
@@ -20,15 +22,16 @@ default_view:
     - camera.current_location_pe
     - camera.current_location_jue
     - group.lights_all
-    - group.control
-    - group.proximity
-    - group.timer
-    # - group.friends
+    # - group.timer
 
 common_room:
   view: yes
   name: "Common Room"
   entities:
+    - group.control_cr
+    - group.led
+    - media_player.kodi
+    - camera.foscam_black
     - group.home_server
     - group.online_cr
     - group.common_room_lights_all
@@ -36,43 +39,35 @@ common_room:
     - media_player.apple_tv
     - media_player.denon
     - media_player.dune
-    - media_player.kodi
     - media_player.avr2113_airtunes_speaker
     - media_player.living_room_apple_tv_airtunes_speaker
-    - camera.foscam_black
-    - group.control_cr
-    # - group.sonoff
-    # - group.kodi
-    - group.led
     - group.stats_cr
 
 bedroom:
   view: yes
   name: "Bedroom"
   entities:
+    - group.control_br
+    - media_player.itunes
     - group.online_br
     - group.bedroom_lights_all
     - group.bedroom_scenes
-    - media_player.itunes
     - media_player.music_player_daemon
     - media_player.bedroom_aex_airtunes_speaker
     - media_player.computer_airtunes_speaker
-    - group.control_br
-    # - group.alarmclock
     - group.stats_br
 
 first_floor:
   view: yes
   name: "First Floor"
   entities:
+    - group.control_ff
+    - camera.foscam_white
     - group.online_ff
     - group.first_floor_lights_all
     - group.first_floor_scenes
     - media_player.first_floor_aex_airtunes_speaker
     - media_player.satellite_aex_airtunes_speaker
-    - camera.foscam_white
     - camera.current_location_pe
     - camera.current_location_jue
-    - group.control_ff
     - group.friends
-    - group.new_binary_sensor

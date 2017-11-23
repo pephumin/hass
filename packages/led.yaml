@@ -49,39 +49,91 @@ light:
       - glitter
       - juggle
       - lightning
-      # - noise
       - police all
       - police one
       - rainbow
       - rainbow glitter
-      # - ripple
       - sinelon
       - solid
       - strobe
       - twinkle
-    # brightness: true
-    # flash: true
-    # rgb: true
-    # optimistic: false
-    # qos: 0
+      - animation
+      - template
+      - beatwave
+      - blendwave
+      - blur
+      - confetti again
+      - confetti pal
+      - dotbeat
+      - easing
+      - everynex
+      - fill grad
+      - inoise8 mover
+      - inoise8 pal
+      - noise 16_1
+      - noise 16_2
+      - noise 16_3
+      - one sine pal
+      - palette crossfade
+      - rainbow beat
+      - rainbow march
+      - sinelon again
     brightness: true
     color_temp: true
-    flash_time_long: 10
-    flash_time_short: 2
-    optimistic: false
-    qos: 0
-    # retain: true
+    flash_time_long: 15
+    flash_time_short: 5
+    optimistic: true
+    qos: 1
     rgb: true
     white_value: false
     xy: false
+  # - platform: mqtt_json
+  #   name: "Clock"
+  #   state_topic: "clock/state"
+  #   command_topic: "clock/set"
+  #   effect: true
+  #   effect_list:
+  #     - applause
+  #     - bpm
+  #     - candy cane
+  #     - confetti
+  #     - cyclone rainbow
+  #     - dots
+  #     - fire
+  #     - glitter
+  #     - juggle
+  #     - lightning
+  #     - police all
+  #     - police one
+  #     - rainbow
+  #     - rainbow glitter
+  #     - sinelon
+  #     - solid
+  #     - strobe
+  #     - twinkle
+  #   brightness: true
+  #   color_temp: true
+  #   flash_time_long: 15
+  #   flash_time_short: 5
+  #   optimistic: false
+  #   qos: 0
+  #   rgb: true
+  #   white_value: false
+  #   xy: false
 
 input_number:
   led_animation_speed:
     name: "Animation Speed"
-    initial: 5
+    initial: 100
     min: 1
-    max: 10
-    step: 1
+    max: 150
+    step: 10
+  # clock_animation_speed:
+  #   name: "Animation Speed"
+  #   initial: 100
+  #   min: 1
+  #   max: 150
+  #   step: 10
 
 automation:
   - alias: "LED Animation Speed"
@@ -95,3 +147,14 @@ automation:
         data_template:
           topic: "led/set"
           payload: '{"transition": {{ trigger.to_state.state | int }}}'
+  # - alias: "Clock Animation Speed"
+  #   initial_state: true
+  #   hide_entity: false
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_number.clock_animation_speed
+  #   action:
+  #     - service: mqtt.publish
+  #       data_template:
+  #         topic: "clock/set"
+  #         payload: '{"transition": {{ trigger.to_state.state | int }}}'

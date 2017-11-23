@@ -28,16 +28,18 @@ led:
   entities:
     - light.led
     - input_number.led_animation_speed
+    # - light.clock
+    # - input_number.clock_animation_speed
 
-timer:
-  view: no
-  control: hidden
-  name: "Timer"
-  icon: mdi:timer
-  entities:
-    - input_boolean.timer_enable
-    - input_select.timer_source
-    - input_number.timer_set
-    # - input_datetime.timer_set
-    # - sensor.countdown
-    - script.timer
+# timer:
+#   view: no
+#   control: hidden
+#   name: "Timer"
+#   icon: mdi:timer
+#   entities:
+#     - input_boolean.timer_enable
+#     - input_select.timer_source
+#     - input_number.timer_set
+#     # - input_datetime.timer_set
+#     # - sensor.countdown
+#     - script.timer

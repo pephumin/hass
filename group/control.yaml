@@ -10,8 +10,8 @@ control:
     - sensor.mimas_temperature
     - sensor.pandora_temperature
     # - sensor.pandora_humidity
-    - sensor.calypso_temperature
-    # - sensor.calypso_humidity
+    - sensor.mimas_temperature
+    # - sensor.mimas_humidity
     - input_boolean.mpd_silence
     - switch.foscam_black_motion
     - switch.foscam_white_motion
@@ -58,6 +58,6 @@ control_ff:
   icon: mdi:google-controller
   control: hidden
   entities:
-    # - sensor.calypso_temperature
-    # - sensor.calypso_humidity
-    # - light.calypso
+    # - sensor.mimas_temperature
+    # - sensor.mimas_humidity
+    # - light.mimas

@@ -16,8 +16,8 @@ http:
     - 127.0.0.1
     - ::1
     - 192.168.0.0/24
-  ip_ban_enabled: True
-  login_attempts_threshold: 3
+  # ip_ban_enabled: True
+  # login_attempts_threshold: 3
 
 config:
 conversation:
@@ -65,19 +65,20 @@ mqtt:
   #   retain: true
 
 frontend:
-  themes:
-    red:
-      primary-color: "#C0392B"
-    green:
-      primary-color: "#2ECC71"
-    blue:
-      primary-color: "#3498DB"
-    darkred:
-      primary-color: "#601D16"
-    darkgreen:
-      primary-color: "#1ABC9C"
-    darkblue:
-      primary-color: "#2C3E50"
+  javascript_version: latest
+  # themes:
+  #   red:
+  #     primary-color: "#C0392B"
+  #   green:
+  #     primary-color: "#2ECC71"
+  #   blue:
+  #     primary-color: "#3498DB"
+  #   darkred:
+  #     primary-color: "#601D16"
+  #   darkgreen:
+  #     primary-color: "#1ABC9C"
+  #   darkblue:
+  #     primary-color: "#2C3E50"
 
 apple_tv:
   name: "Apple TV"
@@ -91,8 +92,8 @@ apple_tv:
 #     latitude: !secret latitude_home
 #     longitude: !secret longitude_home
 
-ifttt:
-  key: !secret ifttt_key
+# ifttt:
+#   key: !secret ifttt_key
 
 # automation: !include_dir_merge_list automation/
 device_tracker: !include config/device_tracker.yaml
@@ -101,7 +102,7 @@ media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
 scene: !include config/scene.yaml
 script: !include config/script.yaml
-# sensor: !include_dir_merge_list sensor/
+sensor: !include_dir_merge_list sensor/
 
 # history: !include config/logs.yaml
 # logbook: !include config/logs.yaml
@@ -114,6 +115,7 @@ recorder:
   db_url: !secret db_url
 
 logger:
+  # default: warning
   default: critical
   logs:
     # homeassistant.components.automation: debug
