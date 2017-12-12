@@ -21,7 +21,7 @@ stats_br:
     - sensor.europa_current
     - sensor.europa_voltage
     - sensor.ganymede_power
-    - sensor.ganymede_power_factor
+    # - sensor.ganymede_power_factor
     - sensor.ganymede_current
     - sensor.ganymede_voltage
     - sensor.ganymede_energy_today

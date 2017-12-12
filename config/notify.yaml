@@ -4,6 +4,7 @@
   duration: 15
   transparency: "25%"
   color: "black"
+  icon: "/volume1/docker/homeassistant/www/pe.png"
 
 - platform: kodi
   name: kodi

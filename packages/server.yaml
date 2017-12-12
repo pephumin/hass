@@ -28,6 +28,14 @@ shell_command:
   wag160n_reboot: !secret wag160n_reboot
 
 sensor:
+  # - platform: currencylayer
+  #   api_key: 8c0e369d55d5bea5d9d5b71580eca4b5
+  #   base: USD
+  #   quote:
+  #     - EUR
+  #     - THB
+  #     - SGD
+  #     - PLZ
   - platform: synologydsm
     name: Saturn
     host: !secret synology_ip

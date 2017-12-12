@@ -5,10 +5,12 @@ online_cr:
     - binary_sensor.deeper
     - binary_sensor.pluto
     - binary_sensor.higher
-    - binary_sensor.broadlink_rm_pro
+    # - binary_sensor.broadlink_rm_pro
+    - binary_sensor.broadlink_rm_mini_b
     - binary_sensor.titan
     - binary_sensor.mimas
     - binary_sensor.foscam_black
+    - binary_sensor.wemosliteled
     - binary_sensor.denon
     - binary_sensor.android_box
     - binary_sensor.dune
@@ -19,7 +21,7 @@ online_br:
   name: "Online Status Bedroom"
   entities:
     - binary_sensor.neptune
-    - binary_sensor.broadlink_rm_mini
+    - binary_sensor.broadlink_rm_mini_a
     - binary_sensor.europa
     - binary_sensor.ganymede
     - binary_sensor.pandora
@@ -34,6 +36,7 @@ online_ff:
     - binary_sensor.apollo
     - binary_sensor.sputnik
     - binary_sensor.foscam_white
+    # - binary_sensor.wemosbell
     - binary_sensor.earth
     - binary_sensor.callisto
     - binary_sensor.calypso

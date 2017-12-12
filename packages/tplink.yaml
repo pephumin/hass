@@ -10,21 +10,21 @@ sensor:
       titan_current_consumption:
         friendly_name: "Common Room Power"
         icon_template: mdi:power-socket-us
-        value_template: '{% if not is_state_attr("switch.titan", "current_consumption", "") %}{{ states.switch.titan.attributes.current_consumption.split(" ")[0] | round(1) }}{% endif %}'
+        value_template: '{% if states.switch.titan.attributes.current_consumption %}{{ states.switch.titan.attributes.current_consumption.split(" ")[0] | round(1) }}{% else %}false{% endif %}'
         unit_of_measurement: 'Watts'
         entity_id:
           - switch.titan
       titan_current:
         friendly_name: "Common Room Current"
         icon_template: mdi:pulse
-        value_template: '{% if not is_state_attr("switch.titan", "current", "") %}{{ states.switch.titan.attributes.current.split(" ")[0] | round(2) }}{% endif %}'
+        value_template: '{% if states.switch.titan.attributes.current %}{{ states.switch.titan.attributes.current.split(" ")[0] | round(2) }}{% else %}false{% endif %}'
         unit_of_measurement: 'Amps'
         entity_id:
           - switch.titan
       titan_voltage:
         friendly_name: "Common Room Voltage"
         icon_template: mdi:tower-fire
-        value_template: '{% if not is_state_attr("switch.titan", "voltage", "") %}{{ states.switch.titan.attributes.voltage.split(" ")[0] | round(0) }}{% endif %}'
+        value_template: '{% if states.switch.titan.attributes.voltage %}{{ states.switch.titan.attributes.voltage.split(" ")[0] | round(0) }}{% else %}false{% endif %}'
         unit_of_measurement: 'Volts'
         entity_id:
           - switch.titan
@@ -33,21 +33,21 @@ sensor:
       europa_current_consumption:
         friendly_name: "Bedroom Power"
         icon_template: mdi:power-socket-us
-        value_template: '{% if not is_state_attr("switch.europa", "current_consumption", "") %}{{ states.switch.europa.attributes.current_consumption.split(" ")[0] | round(1) }}{% endif %}'
+        value_template: '{% if states.switch.europa.attributes.current_consumption %}{{ states.switch.europa.attributes.current_consumption.split(" ")[0] | round(1) }}{% else %}false{% endif %}'
         unit_of_measurement: 'Watts'
         entity_id:
           - switch.europa
       europa_current:
         friendly_name: "Bedroom Current"
         icon_template: mdi:pulse
-        value_template: '{% if not is_state_attr("switch.europa", "current", "") %}{{ states.switch.europa.attributes.current.split(" ")[0] | round(2) }}{% endif %}'
+        value_template: '{% if states.switch.europa.attributes.current %}{{ states.switch.europa.attributes.current.split(" ")[0] | round(2) }}{% else %}false{% endif %}'
         unit_of_measurement: 'Amps'
         entity_id:
           - switch.europa
       europa_voltage:
         friendly_name: "Bedroom Voltage"
         icon_template: mdi:tower-fire
-        value_template: '{% if not is_state_attr("switch.europa", "voltage", "") %}{{ states.switch.europa.attributes.voltage.split(" ")[0] | round(0) }}{% endif %}'
+        value_template: '{% if states.switch.europa.attributes.voltage %}{{ states.switch.europa.attributes.voltage.split(" ")[0] | round(0) }}{% else %}false{% endif %}'
         unit_of_measurement: 'Volts'
         entity_id:
           - switch.europa

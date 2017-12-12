@@ -26,16 +26,20 @@ control_cr:
   entities:
     - sensor.mimas_temperature
     - sensor.mimas_humidity
-    - switch.common_room_air_cond
-    - switch.common_room_fan
-    - switch.hometheatre
+    # - switch.common_room_air_cond
+    # - switch.common_room_fan
+    - switch.common_room_saijodenki
+    - switch.common_room_fanfan
+    - switch.common_room_hometheatre
     - input_select.denon_mode
     - switch.sonytv
     - switch.android_box
     - switch.mimas
     - script.mute_common_room
-    - sensor.denon_source
-    - sensor.denonsourcecheck
+    # - sensor.denon_source
+    # - sensor.denonsourcecheck
+    - binary_sensor.common_room_warmer
+    - binary_sensor.common_room_colder
 
 control_br:
   name: "Bedroom Control Panel"
@@ -45,13 +49,16 @@ control_br:
     - sensor.pandora_temperature
     - sensor.pandora_humidity
     - switch.bedroom_air_cond
+    # - switch.bedroom_daikin
     # - switch.bedroom_tv
     - switch.europa
     - script.mute_bedroom
-    - script.dj_shuffle
-    - script.soft_shuffle
+    # - script.dj_shuffle
+    # - script.soft_shuffle
     - script.bedroom_ac_powerful
     - switch.ganymede
+    - binary_sensor.bedroom_warmer
+    - binary_sensor.bedroom_colder
 
 control_ff:
   name: "First Floor Control Panel"
