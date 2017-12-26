@@ -1,8 +1,12 @@
 switch:
   - platform: tplink
     host: !secret tplink_ip_1
+    name: "titan"
+    enable_leds: True
   - platform: tplink
     host: !secret tplink_ip_2
+    name: "europa"
+    enable_leds: True
 
 sensor:
   - platform: template

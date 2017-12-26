@@ -14,7 +14,9 @@
     - 192.168.1.100
   interval_seconds: 12
   consider_home: 0:05:00
-  track_new_devices: True
+  new_device_defaults:
+    track_new_devices: True
+    hide_if_away: False
 
 # - platform: bluetooth_tracker
 #   home_interval: 5
@@ -25,7 +27,9 @@
   max_gps_accuracy: 100
   interval_seconds: 12
   consider_home: 0:05:00
-  track_new_devices: True
+  new_device_defaults:
+    track_new_devices: False
+    hide_if_away: False
 
 # - platform: mqtt
 #   devices:
@@ -44,7 +48,9 @@
   http_id: !secret tomato_http_id_1
   interval_seconds: 12
   consider_home: 0:05:00
-  track_new_devices: True
+  new_device_defaults:
+    track_new_devices: True
+    hide_if_away: False
 
 - platform: tomato
   host: 192.168.1.11
@@ -53,7 +59,9 @@
   http_id: !secret tomato_http_id_2
   interval_seconds: 12
   consider_home: 0:05:00
-  track_new_devices: True
+  new_device_defaults:
+    track_new_devices: True
+    hide_if_away: False
 
 - platform: ping
   hosts:
@@ -71,4 +79,6 @@
     # ping_dune: 192.168.1.77
   interval_seconds: 12
   consider_home: 0:00:30
-  track_new_devices: True
+  new_device_defaults:
+    track_new_devices: False
+    hide_if_away: False

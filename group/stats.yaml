@@ -5,6 +5,8 @@ stats_cr:
   entities:
     - sensor.common_room_temperature_mean
     - sensor.common_room_humidity_mean
+    - binary_sensor.common_room_warmer
+    - binary_sensor.common_room_colder
     - sensor.average_disk_temperature_mean
     - sensor.titan_current_consumption
     - sensor.titan_current
@@ -17,6 +19,8 @@ stats_br:
   entities:
     - sensor.bedroom_temperature_mean
     - sensor.bedroom_humidity_mean
+    - binary_sensor.bedroom_warmer
+    - binary_sensor.bedroom_colder
     - sensor.europa_current_consumption
     - sensor.europa_current
     - sensor.europa_voltage
