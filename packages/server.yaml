@@ -4,7 +4,14 @@ binary_sensor:
       saturn_temperature_up:
         friendly_name: 'HDDs Temperature Increasing'
         entity_id: sensor.average_temperature
+        sample_duration: 180
+        min_gradient: 0.00044444444
         device_class: heat
+      saturn_temperature_down:
+        friendly_name: 'HDDs Temperature Decreasing'
+        entity_id: sensor.average_temperature
+        sample_duration: 180
+        min_gradient: -0.00044444444
   - platform: threshold
     threshold: 41
     type: upper
@@ -12,30 +19,10 @@ binary_sensor:
     name: 'Saturn Disks are hot'
     device_class: heat
 
-# alert:
-#   hot_saturn:
-#     name: Alert when Saturn is hot
-#     done_message: Saturn has cooled down
-#     entity_id: binary_sensor.saturn_is_hot
-#     state: 'on'
-#     repeat: 30
-#     can_acknowledge: true
-#     skip_first: false
-#     notifiers:
-#       - alert
-
 shell_command:
   wag160n_reboot: !secret wag160n_reboot
 
 sensor:
-  # - platform: currencylayer
-  #   api_key: 8c0e369d55d5bea5d9d5b71580eca4b5
-  #   base: USD
-  #   quote:
-  #     - EUR
-  #     - THB
-  #     - SGD
-  #     - PLZ
   - platform: synologydsm
     name: Saturn
     host: !secret synology_ip
@@ -76,9 +63,6 @@ sensor:
       - sensor.temperature_sdb
       - sensor.temperature_sdc
       - sensor.temperature_sdd
-  # - platform: statistics
-  #   entity_id: sensor.average_disk_temperature
-  #   name: "Average Disk Temperature"
   - platform: template
     sensors:
       average_disk_temperature:
@@ -86,7 +70,6 @@ sensor:
         unit_of_measurement: '°C'
         icon_template: mdi:thermometer
         value_template: '{{ states.sensor.maximum_disk_temperature.attributes.mean }}'
-        # value_template: '{% if states.sensor.temperature_sda.state and states.sensor.temperature_sdb.state and states.sensor.temperature_sdc.state and states.sensor.temperature_sdd.state %}{{ (float(states.sensor.temperature_sda.state) + float(states.sensor.temperature_sdb.state) + float(states.sensor.temperature_sdc.state) + float(states.sensor.temperature_sdd.state)) / 4 | round(2) }}{% endif %}'
       uptime:
         friendly_name: Uptime
         icon_template: mdi:timelapse
