@@ -272,6 +272,13 @@ script.bedroom_ac_powerful:
   icon: mdi:dumbbell
   friendly_name: "AC Powerful"
 
+script.black_reboot:
+  icon: mdi:restart
+  friendly_name: "Restart Foscam Black"
+script.white_reboot:
+  icon: mdi:restart
+  friendly_name: "Restart Foscam White"
+
 # sensor.owm_temperature:
 #   icon: mdi:thermometer
 #   friendly_name: "Temperature"

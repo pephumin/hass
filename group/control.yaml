@@ -36,10 +36,9 @@ control_cr:
     - switch.android_box
     - switch.mimas
     - script.mute_common_room
+    - script.black_reboot
     # - sensor.denon_source
     # - sensor.denonsourcecheck
-    - binary_sensor.common_room_warmer
-    - binary_sensor.common_room_colder
 
 control_br:
   name: "Bedroom Control Panel"
@@ -57,8 +56,6 @@ control_br:
     # - script.soft_shuffle
     - script.bedroom_ac_powerful
     - switch.ganymede
-    - binary_sensor.bedroom_warmer
-    - binary_sensor.bedroom_colder
 
 control_ff:
   name: "First Floor Control Panel"
@@ -68,3 +65,4 @@ control_ff:
     # - sensor.mimas_temperature
     # - sensor.mimas_humidity
     # - light.mimas
+    - script.white_reboot
