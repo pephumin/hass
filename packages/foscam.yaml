@@ -69,72 +69,6 @@ switch:
         command_state: !secret foscam_white_command_state
         value_template: '{{ value == "1" }}'
 
-script:
-  motion_detection_activate:
-    alias: "Motion Detection Activate"
-    sequence:
-      # - condition: template
-      #   value_template: '{{ is_state("script.motion_detection_activate", "off") }}'
-      - service: switch.turn_on
-        entity_id: switch.foscam_black_motion
-      - service: switch.turn_on
-        entity_id: switch.foscam_white_motion
-      - service: counter.increment
-        entity_id: counter.foscammotion
-  motion_detection_deactivate:
-    alias: "Motion Detection Deactivate"
-    sequence:
-      - condition: template
-        value_template: '{{ is_state("script.motion_detection_deactivate", "off") }}'
-      - service: switch.turn_off
-        entity_id: switch.foscam_black_motion
-      - service: switch.turn_off
-        entity_id: switch.foscam_white_motion
-  black_scan:
-    alias: "Foscam Black Scan Starts"
-    sequence:
-      - service: shell_command.foscam_black_present_2
-      - delay: 00:00:25
-      - service: shell_command.foscam_black_present_3
-      - delay: 00:00:15
-      - service: shell_command.foscam_black_present_4
-      - service: script.black_scan_loop
-  black_scan_loop:
-    alias: "Foscam Black Scan Loops"
-    sequence:
-      - delay: 00:00:15
-      - service: script.black_scan
-  black_scan_stop:
-    alias: "Foscam Black Scan Stops"
-    sequence:
-      - service: script.turn_off
-        entity_id: script.black_scan
-      - service: script.turn_off
-        entity_id: script.black_scan_loop
-      - service: shell_command.foscam_black_present_1
-  white_scan:
-    alias: "Foscam White Scan Starts"
-    sequence:
-      - service: shell_command.foscam_white_present_2
-      - delay: 00:00:30
-      - service: shell_command.foscam_white_present_3
-      - delay: 00:00:15
-      - service: shell_command.foscam_white_present_4
-      - service: script.white_scan_loop
-  white_scan_loop:
-    alias: "Foscam White Scan Loops"
-    sequence:
-      - delay: 00:00:10
-      - service: script.white_scan
-  white_scan_stop:
-    alias: "Foscam White Scan Stops"
-    sequence:
-      - service: script.turn_off
-        entity_id: script.white_scan
-      - service: script.turn_off
-        entity_id: script.white_scan_loop
-      - service: shell_command.foscam_white_present_1
-
 automation:
 
   - alias: "Foscam Black Motion Detection Enable"
@@ -176,7 +110,7 @@ automation:
   - alias: "Auto Motion Detection Activation"
     trigger:
       - platform: template
-        value_template: '{% if is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") or is_state("input_select.homemode", "Visitor") %}true{% else %}false{% endif %}'
+        value_template: '{% if is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}true{% else %}false{% endif %}'
     condition:
       - condition: template
         value_template: '{{ is_state("switch.foscam_black_motion", "off") or is_state("switch.foscam_white_motion", "off") }}'
