@@ -26,10 +26,10 @@ control_cr:
   entities:
     - sensor.mimas_temperature
     - sensor.mimas_humidity
-    # - switch.common_room_air_cond
-    # - switch.common_room_fan
-    - switch.common_room_saijodenki
-    - switch.common_room_fanfan
+    - switch.common_room_air_cond
+    - switch.common_room_fan
+    # - switch.common_room_saijodenki
+    # - switch.common_room_fanfan
     - switch.common_room_hometheatre
     - input_select.denon_mode
     - switch.sonytv

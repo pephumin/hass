@@ -171,10 +171,11 @@
     light.bedroom_lw:
       state: off
     light.bedroom_lc:
-      state: on
-      transition: 1
-      brightness: 185
-      xy_color: [0.2536,0.2956]
+      state: off
+      # state: on
+      # transition: 1
+      # brightness: 185
+      # xy_color: [0.2536,0.2956]
     light.pandora:
       state: on
 
@@ -199,12 +200,13 @@
       transition: 1
       brightness: 6
     light.bedroom_lc:
-      state: on
-      transition: 1
-      brightness: 6
-      xy_color: [0.2850,0.1897]
+      state: off
+      # state: on
+      # transition: 1
+      # brightness: 6
+      # xy_color: [0.2850,0.1897]
     light.pandora:
-      state: on
+      state: off
 
 - name: "Bedroom Sleep"
   entities:

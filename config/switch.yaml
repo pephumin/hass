@@ -1,28 +1,30 @@
 - platform: template
   switches:
-    common_room_saijodenki:
-      value_template: '{% if (states.sensor.mimas_temperature.state | float > 20) and (states.sensor.mimas_temperature.state | float < 32) %}{% if (states.sensor.mimas_temperature.state | float > 25) and is_state("binary_sensor.common_room_colder", "on") %}true{% else %}false{% endif %}{% else %}false{% endif %}'
-      turn_on:
-        service: switch.turn_on
-        entity_id: switch.common_room_air_cond
-      turn_off:
-        service: switch.turn_off
-        entity_id: switch.common_room_air_cond
-    common_room_fanfan:
-      value_template: "{{ states.sensor.titan_current_consumption.state | float > 240 }}"
-      turn_on:
-        service: switch.turn_on
-        entity_id: switch.common_room_fan
-      turn_off:
-        service: switch.turn_off
-        entity_id: switch.common_room_fan
+    # common_room_saijodenki:
+    #   value_template: '{% if (states.sensor.mimas_temperature.state | float > 20) and (states.sensor.mimas_temperature.state | float < 32) %}{% if (states.sensor.mimas_temperature.state | float > 25) and is_state("binary_sensor.common_room_colder", "on") %}true{% else %}false{% endif %}{% else %}false{% endif %}'
+    #   turn_on:
+    #     service: switch.turn_on
+    #     entity_id: switch.common_room_air_cond
+    #   turn_off:
+    #     service: switch.turn_off
+    #     entity_id: switch.common_room_air_cond
+    # common_room_fanfan:
+    #   value_template: "{{ states.sensor.titan_current_consumption.state | float > 240 }}"
+    #   turn_on:
+    #     service: switch.turn_on
+    #     entity_id: switch.common_room_fan
+    #   turn_off:
+    #     service: switch.turn_off
+    #     entity_id: switch.common_room_fan
     common_room_hometheatre:
+      friendly_name: "Common Room Home Theatre"
       value_template: "{{ states.sensor.titan_current_consumption.state | float > 100 }}"
       turn_on:
         service: script.hometheatre_turnon
       turn_off:
         service: script.hometheatre_turnoff
     sonytv:
+      friendly_name: "Common Room TV"
       value_template: '{% if is_state("sensor.denon_source", "Off") %}false{% else %}{% if not is_state("sensor.titan_current_consumption", "") %}{{ states.sensor.titan_current_consumption.state | float > 100 }}{% endif %}{% endif %}'
       turn_on:
         service: switch.turn_on
@@ -31,6 +33,7 @@
         service: switch.turn_off
         entity_id: switch.common_room_tv
     android_box:
+      friendly_name: "Common Room Android TV"
       value_template: '{{ is_state("binary_sensor.android_box", "on") }}'
       turn_on:
         service: switch.turn_on
@@ -46,11 +49,11 @@
     #   turn_off:
     #     service: switch.turn_off
     #     entity_id: switch.bedroom_air_cond
-    bedroom_sound:
-      value_template: "{{ states.sensor.europa_current_consumption.state | float > 40 }}"
-      turn_on:
-        service: switch.turn_on
-        entity_id: switch.bedroom_denon
-      turn_off:
-        service: switch.turn_off
-        entity_id: switch.bedroom_denon
+    # bedroom_sound:
+    #   value_template: "{{ states.sensor.europa_current_consumption.state | float > 40 }}"
+    #   turn_on:
+    #     service: switch.turn_on
+    #     entity_id: switch.bedroom_denon
+    #   turn_off:
+    #     service: switch.turn_off
+    #     entity_id: switch.bedroom_denon

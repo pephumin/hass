@@ -23,24 +23,56 @@ cloud:
 config:
 conversation:
 discovery:
+history:
+logbook:
+map:
 # python_script:
 # shopping_list:
-map:
 sun:
 updater:
 zeroconf:
 
-light:
-  platform: hue
-  host: !secret hue_ip
-  allow_unreachable: true
-  allow_hue_groups: false
+apple_tv:
+  name: "Apple TV"
+  host: !secret apple_tv_ip
+  login_id: !secret apple_tv_login_id
+  credentials: 8BE9E6B8815126A9:5C6D48EDCF40E6CEF3551198D43BD98C541455F472731A5288F4813BDA6ED27C
 
-tts:
-  platform: google
-  cache: true
-  cache_dir: /tts
-  time_memory: 300
+frontend:
+  javascript_version: latest
+  # themes:
+  #   red:
+  #     primary-color: "#C0392B"
+  #   green:
+  #     primary-color: "#2ECC71"
+  #   blue:
+  #     primary-color: "#3498DB"
+  #   darkred:
+  #     primary-color: "#601D16"
+  #   darkgreen:
+  #     primary-color: "#1ABC9C"
+  #   darkblue:
+  #     primary-color: "#2C3E50"
+
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
+
+hue:
+  bridges:
+    - host: !secret hue_ip
+      filename: phue.conf
+      allow_unreachable: true
+      allow_in_emulated_hue: true
+      allow_hue_groups: false
+
+# ifttt:
+#   key: !secret ifttt_key
+
+# light:
+#   platform: hue
+#   host: !secret hue_ip
+#   allow_unreachable: true
+#   allow_hue_groups: false
 
 mqtt:
   broker: !secret mqtt_broker
@@ -65,27 +97,16 @@ mqtt:
   #   qos: 1
   #   retain: true
 
-frontend:
-  javascript_version: latest
-  # themes:
-  #   red:
-  #     primary-color: "#C0392B"
-  #   green:
-  #     primary-color: "#2ECC71"
-  #   blue:
-  #     primary-color: "#3498DB"
-  #   darkred:
-  #     primary-color: "#601D16"
-  #   darkgreen:
-  #     primary-color: "#1ABC9C"
-  #   darkblue:
-  #     primary-color: "#2C3E50"
+recorder:
+  purge_interval: 10
+  purge_keep_days: 30
+  db_url: !secret db_url
 
-apple_tv:
-  name: "Apple TV"
-  host: !secret apple_tv_ip
-  login_id: !secret apple_tv_login_id
-  credentials: 8BE9E6B8815126A9:5C6D48EDCF40E6CEF3551198D43BD98C541455F472731A5288F4813BDA6ED27C
+tts:
+  platform: google
+  cache: true
+  cache_dir: /tts
+  time_memory: 300
 
 # weather:
 #   - platform: openweathermap
@@ -93,8 +114,6 @@ apple_tv:
 #     latitude: !secret latitude_home
 #     longitude: !secret longitude_home
 
-# ifttt:
-#   key: !secret ifttt_key
 
 # automation: !include_dir_merge_list automation/
 device_tracker: !include config/device_tracker.yaml
@@ -106,19 +125,7 @@ script: !include config/script.yaml
 sensor: !include_dir_merge_list sensor/
 switch: !include config/switch.yaml
 
-# history: !include config/logs.yaml
-# logbook: !include config/logs.yaml
-# recorder: !include config/recorder.yaml
-history:
-logbook:
-recorder:
-  purge_interval: 10
-  purge_keep_days: 30
-  db_url: !secret db_url
-
 logger:
-  # default: debug
-  # default: warning
   default: critical
   logs:
     # homeassistant.components.automation: debug
@@ -135,7 +142,6 @@ logger:
     # homeassistant.components.media_player.denon: debug
     # homeassistant.components.media_player.denonavr: debug
     homeassistant.components.notify: warning
-    # homeassistant.components.notify: debug
     homeassistant.components.proximity: critical
     homeassistant.components.script: debug
     homeassistant.components.sensor: debug

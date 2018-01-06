@@ -75,39 +75,39 @@ camera:
     still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.juesiphone6splus.attributes.latitude }},{{ states.device_tracker.juesiphone6splus.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:P%7C{{ states.device_tracker.juesiphone6splus.attributes.latitude }},{{ states.device_tracker.juesiphone6splus.attributes.longitude }}
     limit_refetch_to_url_change: true
 
-# sensor:
-#   - platform: google_travel_time
-#     name: "Home to Benjy"
-#     api_key: !secret google_travel_time_api_key
-#     origin: zone.home
-#     destination: zone.benjawan
-#     options:
-#       mode: driving
-#       units: metric
-#   - platform: google_travel_time
-#     name: "Benjy to Home"
-#     api_key: !secret google_travel_time_api_key
-#     origin: zone.benjawan
-#     destination: zone.home
-#     options:
-#       mode: driving
-#       units: metric
-#   - platform: google_travel_time
-#     name: "Home to Malaiwan"
-#     api_key: !secret google_travel_time_api_key
-#     origin: zone.home
-#     destination: zone.malaiwan
-#     options:
-#       mode: driving
-#       units: metric
-#   - platform: google_travel_time
-#     name: "Malaiwan to Home"
-#     api_key: !secret google_travel_time_api_key
-#     origin: zone.malaiwan
-#     destination: zone.home
-#     options:
-#       mode: driving
-#       units: metric
+sensor:
+  - platform: google_travel_time
+    name: "Home to Benjy"
+    api_key: !secret google_travel_time_api_key
+    origin: zone.home
+    destination: zone.benjawan
+    options:
+      mode: driving
+      units: metric
+  - platform: google_travel_time
+    name: "Benjy to Home"
+    api_key: !secret google_travel_time_api_key
+    origin: zone.benjawan
+    destination: zone.home
+    options:
+      mode: driving
+      units: metric
+  - platform: google_travel_time
+    name: "Home to Malaiwan"
+    api_key: !secret google_travel_time_api_key
+    origin: zone.home
+    destination: zone.malaiwan
+    options:
+      mode: driving
+      units: metric
+  - platform: google_travel_time
+    name: "Malaiwan to Home"
+    api_key: !secret google_travel_time_api_key
+    origin: zone.malaiwan
+    destination: zone.home
+    options:
+      mode: driving
+      units: metric
 
 input_boolean:
   presence_pe:
@@ -130,38 +130,20 @@ input_boolean:
     name: "Jue at Malaiwan"
     initial: off
     icon: mdi:flower
+  mpd_silence:
+    name: "Disable Speeching"
+    initial: off
+    icon: mdi:microphone-off
 
-# binary_sensor:
-#   - platform: device_tracker_sensor
-#     entities:
-#       - device_tracker.pesiphone6
-#       - device_tracker.user_pesiphone6
-#       - device_tracker.ping_pesiphone6
-#       - device_tracker.pesipadmini2
-#       - device_tracker.user_pesipadmini2
-#       - device_tracker.ping_pesipadmini2
-#       - device_tracker.juesiphone6splus
-#       - device_tracker.user_juesiphone6splus
-#       - device_tracker.ping_juesiphone6splus
-#       - device_tracker.juesipadmini2
-#       - device_tracker.user_juesipadmini2
-#       - device_tracker.ping_juesipadmini2
-#       - device_tracker.pepe
-#       - device_tracker.ping_pepe
-#       - device_tracker.pesipodtouch4
-#       - device_tracker.ping_pesipodtouch4
-#       - device_tracker.xdj_rx
-#       - device_tracker.ping_xdj_rx
-#       - device_tracker.dune
-#       - device_tracker.ping_dune
-#       - device_tracker.benjy
-#       - device_tracker.ping_benjy
-#       - device_tracker.benjysmbp
-#       - device_tracker.ping_benjysmbp
-#       - device_tracker.benjysipadmini2
-#       - device_tracker.ping_benjysipadmini2
-#       - device_tracker.boom
-#       - device_tracker.ping_boom
+input_select:
+  homemode:
+    name: "Home Mode"
+    options:
+     - Home
+     - Away
+     - Vacation
+     - Visitor
+    icon: mdi:home-outline
 
 automation:
 
@@ -663,10 +645,6 @@ automation:
       - condition: template
         value_template: '{{ is_state("device_tracker.ping_benjy", "home") }}'
     action:
-      - service: input_select.select_option
-        data:
-          entity_id: input_select.homemode
-          option: Visitor
       - service: script.notifying
         data:
           email: "false"
@@ -690,9 +668,6 @@ automation:
       - condition: template
         value_template: '{{ is_state("device_tracker.ping_benjy", "not_home") }}'
     action:
-      - service: input_select.select_previous
-        data:
-          entity_id: input_select.homemode
       - service: script.notifying
         data:
           email: "false"
@@ -703,3 +678,131 @@ automation:
           mobile: "both"
           title: "Benjy has left"
           message: 'Benjy has left [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: "Set Home Mode"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_pe
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: input_boolean.presence_jue
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: input_boolean.presence_benjy
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_benjy", "off") }}'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: 'Home'
+      - service: script.motion_detection_deactivate
+
+  - alias: "Set Away Mode 1"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_pe
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_jue", "off") and is_state("input_boolean.presence_benjy", "off") }}'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: 'Away'
+      - service: light.turn_off
+        entity_id: group.all_lights
+      - service: script.motion_detection_activate
+
+  - alias: "Set Away Mode 2"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_jue
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_pe", "off") and is_state("input_boolean.presence_benjy", "off") }}'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: 'Away'
+      - service: light.turn_off
+        entity_id: group.all_lights
+      - service: script.motion_detection_activate
+
+  - alias: "Set Vacation Mode 1"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_pe
+        from: 'on'
+        to: 'off'
+        for:
+          hours: 20
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_jue", "off") and is_state("input_boolean.presence_benjy", "off") }}'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: 'Vacation'
+      - service: light.turn_off
+        entity_id: group.all_lights
+      - service: script.motion_detection_activate
+
+  - alias: "Set Vacation Mode 2"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_jue
+        from: 'on'
+        to: 'off'
+        for:
+          hours: 20
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_pe", "off") and is_state("input_boolean.presence_benjy", "off") }}'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: 'Vacation'
+      - service: light.turn_off
+        entity_id: group.all_lights
+      - service: script.motion_detection_activate
+
+  - alias: "Set Visitor Mode"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_benjy
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_pe", "on") and is_state("input_boolean.presence_jue", "on") }}'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.homemode
+          option: 'Visitor'
+      - service: script.motion_detection_deactivate

@@ -136,7 +136,7 @@ ganymede_restart:
       entity_id: switch.ganymede
 
 androidtv_ok:
-  alias: "Toogle Common Room TV"
+  alias: "Ok to Android TV"
   sequence:
     - service: broadlink.send_packet_192_168_1_15
       data:
@@ -264,8 +264,6 @@ hometheatre_turnon:
     - delay: 00:00:07
     - service: script.denon_turnon
     - service: script.switch_to_cabletv
-    - wait_template: '{{ is_state("binary_sensor.android_box", "on") }}'
-      timeout: 00:00:07
     - service: script.androidtv_ok
 
 hometheatre_turnoff:
@@ -289,7 +287,7 @@ switch_to_cabletv:
   alias: "Switch Media to Cable TV"
   sequence:
     - service: script.denon_turnon
-    - wait_template: '{{ is_state("script.denon_turnon", "on") }}'
+    - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
       timeout: 00:00:05
     - condition: template
       # value_template: '{{ not is_state("sensor.denonsourcecheck", "SAT/CBL") }}'
@@ -309,7 +307,7 @@ switch_to_music:
   alias: "Switch Media to Music"
   sequence:
     - service: script.denon_turnon
-    - wait_template: '{{ is_state("script.denon_turnon", "on") }}'
+    - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
       timeout: 00:00:05
     - condition: template
       # value_template: '{{ not is_state("sensor.denonsourcecheck", "Music") }}'
@@ -329,7 +327,7 @@ switch_to_dune:
   alias: "Switch Media to Dune"
   sequence:
     - service: script.denon_turnon
-    - wait_template: '{{ is_state("script.denon_turnon", "on") }}'
+    - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
       timeout: 00:00:05
     - condition: template
       # value_template: '{{ not is_state("sensor.denonsourcecheck", "BD") }}'
@@ -349,7 +347,7 @@ switch_to_appletv:
   alias: "Switch Media to Apple TV"
   sequence:
     - service: script.denon_turnon
-    - wait_template: '{{ is_state("script.denon_turnon", "on") }}'
+    - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
       timeout: 00:00:05
     - condition: template
       # value_template: '{{ not is_state("sensor.denonsourcecheck", "MPLAY") }}'
