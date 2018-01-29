@@ -33,7 +33,7 @@
 
 # - platform: mqtt
 #   devices:
-#     mqtt_pesiphone6: owntracks/user/pesiphone6
+#     mqtt_pesiphone7plus: owntracks/user/pesiphone7plus
 #     mqtt_juesiphone6splus: owntracks/user/juesiphone6splus
 #     mqtt_pesipadmini2: owntracks/user/pesipadmini2
 #     mqtt_juesipadmini2: owntracks/user/juesipadmini2
@@ -65,7 +65,7 @@
 
 - platform: ping
   hosts:
-    ping_pesiphone6: 192.168.1.30
+    ping_pesiphone7plus: 192.168.1.30
     ping_pesipadmini2: 192.168.1.31
     ping_juesiphone6splus: 192.168.1.32
     ping_juesipadmini2: 192.168.1.33

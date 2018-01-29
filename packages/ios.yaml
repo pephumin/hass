@@ -74,10 +74,10 @@ notify:
 # sensor:
 #   - platform: template
 #     sensors:
-#       battery_pesiphone6:
+#       battery_pesiphone7plus:
 #         friendly_name: "Battery on Pe iPhone 6"
-#         icon_template: '{% if is_state("sensor.battery_pesiphone6", "unknown") %}mdi:battery-unknown{% elif is_state_attr("device_tracker.pesiphone6", "battery_status", "Charging") %}mdi:battery-charging{% elif states.device_tracker.pesiphone6.attributes.battery <= 5 %}mdi:battery-outline{% elif states.device_tracker.pesiphone6.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.pesiphone6.attributes.battery|float / 10)|round*10}}{% endif %}'
-#         value_template: '{% if states.device_tracker.pesiphone6.attributes.battery %}{{ states.device_tracker.pesiphone6.attributes.battery|round }}{% else %}{{ states.sensor.battery_pesiphone6.state }}{% endif %}'
+#         icon_template: '{% if is_state("sensor.battery_pesiphone7plus", "unknown") %}mdi:battery-unknown{% elif is_state_attr("device_tracker.pesiphone7plus", "battery_status", "Charging") %}mdi:battery-charging{% elif states.device_tracker.pesiphone7plus.attributes.battery <= 5 %}mdi:battery-outline{% elif states.device_tracker.pesiphone7plus.attributes.battery >= 95 %}mdi:battery{% else %}mdi:battery-{{(states.device_tracker.pesiphone7plus.attributes.battery|float / 10)|round*10}}{% endif %}'
+#         value_template: '{% if states.device_tracker.pesiphone7plus.attributes.battery %}{{ states.device_tracker.pesiphone7plus.attributes.battery|round }}{% else %}{{ states.sensor.battery_pesiphone7plus.state }}{% endif %}'
 #         unit_of_measurement: '%'
 #       battery_pesipadmini2:
 #         friendly_name: "Battery on Pe iPad Mini 2"

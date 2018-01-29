@@ -3,8 +3,8 @@ devices:
   name: "Devices"
   icon: mdi:account
   entities:
-    - device_tracker.pesiphone6
-    - sensor.battery_pesiphone6
+    - device_tracker.pesiphone7plus
+    - sensor.battery_pesiphone7plus
     - device_tracker.pesipadmini2
     - sensor.battery_pesipadmini2
     - device_tracker.juesiphone6splus
@@ -35,13 +35,13 @@ proximity:
     - proximity.pe_benjawan
     - proximity.jue_malaiwan
 
-# pesiphone6:
+# pesiphone7plus:
 #   view: no
 #   name: "Pe iPhone 6"
 #   entities:
-#     - device_tracker.pesiphone6
-#     - device_tracker.ping_pesiphone6
-#     - device_tracker.user_pesiphone6
+#     - device_tracker.pesiphone7plus
+#     - device_tracker.ping_pesiphone7plus
+#     - device_tracker.user_pesiphone7plus
 #
 # pesipadmini2:
 #   view: no

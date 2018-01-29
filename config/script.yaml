@@ -135,6 +135,15 @@ ganymede_restart:
     - service: switch.turn_on
       entity_id: switch.ganymede
 
+callisto_restart:
+  alias: "First Floor Restart"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.callisto
+    - delay: '00:00:15'
+    - service: switch.turn_on
+      entity_id: switch.callisto
+
 androidtv_ok:
   alias: "Ok to Android TV"
   sequence:
@@ -386,10 +395,10 @@ denon_turnon:
     - service: media_player.turn_on
       entity_id: media_player.denon
 
-notify_pesiphone6:
+notify_pesiphone7plus:
   alias: "Notify iPhone Pe"
   sequence:
-    - service: notify.ios_pesiphone6
+    - service: notify.ios_pesiphone7plus
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
@@ -410,10 +419,10 @@ notify_juesiphone6splus:
             badge: 1
             category: "ALERT"
 
-notify_pesiphone6_juesiphone6splus:
+notify_pesiphone7plus_juesiphone6splus:
   alias: "Notify iPhone Pe & Jue"
   sequence:
-    - service: notify.ios_pesiphone6
+    - service: notify.ios_pesiphone7plus
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
@@ -614,7 +623,7 @@ s_mobile:
   sequence:
     - condition: template
       value_template: '{{ mobile != "false" }}'
-    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone6{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "both" %}script.notify_pesiphone6_juesiphone6splus{% else %}script.notify_pesiphone6{% endif %}'
+    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone7plus{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "both" %}script.notify_pesiphone7plus_juesiphone6splus{% else %}script.notify_pesiphone7plus{% endif %}'
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
