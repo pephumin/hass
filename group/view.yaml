@@ -71,3 +71,4 @@ first_floor:
     - camera.current_location_pe
     - camera.current_location_jue
     - group.friends
+    - group.stats_ff

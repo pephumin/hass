@@ -33,11 +33,11 @@ online_ff:
   entities:
     - binary_sensor.uranus
     - binary_sensor.mercury
-    - binary_sensor.apollo
-    - binary_sensor.sputnik
+    # - binary_sensor.apollo
+    # - binary_sensor.sputnik
     - binary_sensor.foscam_white
     # - binary_sensor.wemosbell
     - binary_sensor.earth
+    - binary_sensor.phoebe
     - binary_sensor.callisto
     - binary_sensor.calypso
-    - binary_sensor.phoebe

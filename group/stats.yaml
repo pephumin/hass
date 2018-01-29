@@ -31,3 +31,13 @@ stats_br:
     - sensor.ganymede_energy_today
     - sensor.ganymede_energy_yesterday
     - sensor.ganymede_energy_total
+
+stats_ff:
+  view: no
+  name: "Statistics First Floor"
+  icon: mdi:chart-line-stacked
+  entities:
+    - sensor.first_floor_temperature_mean
+    - sensor.first_floor_humidity_mean
+    - binary_sensor.first_floor_warmer
+    - binary_sensor.first_floor_colder

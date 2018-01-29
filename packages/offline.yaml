@@ -157,8 +157,12 @@ automation:
 
   - alias: 'Bedroom Broadlink offline restart'
     trigger:
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
+      - platform: state
+        entity_id: binary_sensor.broadlink_rm_mini_a
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 10
     action:
       - service: script.turn_on
         entity_id: script.ganymede_restart
@@ -180,7 +184,7 @@ automation:
         from: 'on'
         to: 'off'
         for:
-          minutes: 7
+          minutes: 10
     action:
       - service: script.turn_on
         entity_id: script.ganymede_restart
@@ -202,7 +206,7 @@ automation:
         from: 'on'
         to: 'off'
         for:
-          minutes: 7
+          minutes: 10
     action:
       - service: script.turn_on
         entity_id: script.ganymede_restart
@@ -216,3 +220,69 @@ automation:
           mobile: "false"
           title: 'Restarting Ganymede because Neptune is offline'
           message: 'Restarting Ganymede because Neptune is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: 'First Floor Uranus offline restart'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.uranus
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 10
+    action:
+      - service: script.turn_on
+        entity_id: script.callisto_restart
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          speak: "true"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          title: 'Restarting Callisto because Uranus is offline'
+          message: 'Restarting Callisto because Uranus is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: 'First Floor Earth offline restart'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.earth
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 20
+    action:
+      - service: script.turn_on
+        entity_id: script.callisto_restart
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          speak: "true"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          title: 'Restarting Callisto because Earth is offline'
+          message: 'Restarting Callisto because Earth is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+
+  - alias: 'First Floor Foscam Whites offline restart'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.foscam_white
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 7
+    action:
+      - service: script.turn_on
+        entity_id: script.callisto_restart
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          speak: "true"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          title: 'Restarting Callisto because Foscam White is offline'
+          message: 'Restarting Callisto because Foscam White is offline [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'

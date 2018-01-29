@@ -25,3 +25,6 @@
   name: "Music Player Daemon"
   host: !secret itunes_ip
   port: 6600
+
+- platform: cast
+  # host: !secret cast_ip

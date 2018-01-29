@@ -1,14 +1,14 @@
 ### icon ###
 
-device_tracker.pesiphone6:
+device_tracker.pesiphone7plus:
   icon: mdi:cellphone-iphone
-  friendly_name: "Pe iPhone 6"
-device_tracker.ping_pesiphone6:
+  friendly_name: "Pe iPhone 7 Plus"
+device_tracker.ping_pesiphone7plus:
   icon: mdi:cellphone-iphone
-  friendly_name: "Pe iPhone 6 (Ping)"
-device_tracker.user_pesiphone6:
+  friendly_name: "Pe iPhone 7 Plus (Ping)"
+device_tracker.user_pesiphone7plus:
   icon: mdi:cellphone-iphone
-  friendly_name: "Pe iPhone 6 (Owntracks)"
+  friendly_name: "Pe iPhone 7 Plus (Owntracks)"
 device_tracker.pesipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Pe iPad Mini 2"
@@ -455,12 +455,24 @@ sensor.ganymede_energy_total:
 
 switch.callisto:
   icon: mdi:power-plug
-  friendly_name: "Callisto"
+  friendly_name: "First Floor Online Switch"
   assumed_state: true
+sensor.callisto_temperature:
+  icon: mdi:thermometer
+  friendly_name: "First Floor Temperature"
+sensor.callisto_humidity:
+  icon: mdi:water-percent
+  friendly_name: "First Floor Humidity"
 switch.mimas:
   icon: mdi:speaker
   friendly_name: "Common Room Subwoofer"
   assumed_state: true
+sensor.mimas_temperature:
+  icon: mdi:thermometer
+  friendly_name: "Common Room Temperature"
+sensor.mimas_humidity:
+  icon: mdi:water-percent
+  friendly_name: "Common Room Humidity"
 light.pandora:
   icon: mdi:lightbulb-on-outline
   friendly_name: "Bedroom Night Light"
@@ -479,12 +491,6 @@ switch.calypso:
   icon: mdi:power-plug
   friendly_name: "Calypso"
   assumed_state: true
-sensor.mimas_temperature:
-  icon: mdi:thermometer
-  friendly_name: "Common Room Temperature"
-sensor.mimas_humidity:
-  icon: mdi:water-percent
-  friendly_name: "Common Room Humidity"
 
 group.lights_all:
   assumed_state: false
@@ -495,9 +501,15 @@ group.bedroom_lights_all:
 group.first_floor_lights_all:
   assumed_state: false
 
-sensor.rm_pro_temperature_mean:
+# sensor.rm_pro_temperature_mean:
+#   icon: mdi:chart-line-stacked
+#   friendly_name: "RM Pro Temperature"
+sensor.first_floor_temperature_mean:
   icon: mdi:chart-line-stacked
-  friendly_name: "RM Pro Temperature"
+  friendly_name: "First Floor Temperature"
+sensor.first_floor_humidity_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: "First Floor Humidity"
 sensor.common_room_temperature_mean:
   icon: mdi:chart-line-stacked
   friendly_name: "Common Room Temperature"

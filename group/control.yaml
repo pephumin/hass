@@ -5,8 +5,8 @@ control:
   entities:
     - input_boolean.presence_pe
     - input_boolean.presence_jue
-    - input_boolean.presence_benjy
     - input_select.homemode
+    - sensor.callisto_temperature
     - sensor.mimas_temperature
     - sensor.pandora_temperature
     # - sensor.pandora_humidity
@@ -16,6 +16,7 @@ control:
     - switch.foscam_black_motion
     - switch.foscam_white_motion
     - counter.foscammotion
+    - input_boolean.presence_benjy
     - input_boolean.presence_pe_benjawan
     - input_boolean.presence_jue_malaiwan
 
@@ -62,7 +63,8 @@ control_ff:
   icon: mdi:google-controller
   control: hidden
   entities:
-    # - sensor.mimas_temperature
-    # - sensor.mimas_humidity
+    - sensor.callisto_temperature
+    - sensor.callisto_humidity
     # - light.mimas
     - script.white_reboot
+    - switch.callisto
