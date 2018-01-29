@@ -4,7 +4,7 @@
   duration: 15
   transparency: "25%"
   color: "black"
-  icon: "/local/pe.png"
+  # icon: "/local/pe.png"
 
 - platform: kodi
   name: kodi

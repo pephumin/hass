@@ -12,6 +12,8 @@ sensor:
         icon_template: mdi:weather-sunset
         value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
         unit_of_measurement: '°'
+      sunrise:
+        value_template: "{{ states.sun.sun.attributes.next_rising }}"
   # - platform: season
   #   type: astronomical
 

@@ -30,8 +30,6 @@ sensor:
     sensors:
       denon_source:
         value_template: '{% if is_state("media_player.denon", "on") %}{% if not states.media_player.denon.attributes.source %}Off{% else %}{{ states.media_player.denon.attributes.source }}{% endif %}{% else %}Off{% endif %}'
-        entity_id:
-          - media_player.denon
   - platform: command_line
     command: !secret denon_sourcecheck
     name: denonsourcecheck
@@ -102,15 +100,17 @@ automation:
       - platform: state
         entity_id: input_select.denon_mode
     action:
-      - service_template: '{% if is_state("input_select.denon_mode", "Cable TV") %}script.switch_to_cabletv{% elif is_state("input_select.denon_mode", "Music") %}script.switch_to_music{% elif is_state("input_select.denon_mode", "Dune") %}script.switch_to_dune{% elif is_state("input_select.denon_mode", "Apple TV") %}script.switch_to_appletv{% elif is_state("input_select.denon_mode", "Off") %}script.switch_to_off{% elif is_state("input_select.denon_mode", "Select a mode") %}false{% else %}false{% endif %}'
+      # - service_template: '{% if is_state("input_select.denon_mode", "Cable TV") %}script.switch_to_cabletv{% elif is_state("input_select.denon_mode", "Music") %}script.switch_to_music{% elif is_state("input_select.denon_mode", "Dune") %}script.switch_to_dune{% elif is_state("input_select.denon_mode", "Apple TV") %}script.switch_to_appletv{% elif is_state("input_select.denon_mode", "Off") %}script.switch_to_off{% elif is_state("input_select.denon_mode", "Select a mode") %}false{% else %}false{% endif %}'
+      - service_template: '{% if trigger.to_state.state == "Cable TV" %}script.switch_to_cabletv{% elif trigger.to_state.state == "Music" %}script.switch_to_music{% elif trigger.to_state.state == "Dune" %}script.switch_to_dune{% elif trigger.to_state.state == "Apple TV" %}script.switch_to_appletv{% elif trigger.to_state.state == "Off" %}script.switch_to_off{% elif trigger.to_state.state == "Select a mode" %}false{% else %}false{% endif %}'
         data_template:
           newvolume: '{% if is_state("input_select.denon_mode", "Cable TV") %}50{% elif is_state("input_select.denon_mode", "Music") %}40{% elif is_state("input_select.denon_mode", "Dune") %}40{% elif is_state("input_select.denon_mode", "Apple TV") %}45{% else %}false{% endif %}'
 
   - alias: "Denon Mode aligns"
     trigger:
-      - platform: time
-        minutes: '/1'
-        seconds: 00
+      - platform: state
+        entity_id: sensor.denonsourcecheck
+      - platform: state
+        entity_id: sensor.denon_source
     condition:
       - condition: or
         conditions:
@@ -124,87 +124,84 @@ automation:
             value_template: '{{ is_state("sensor.denonsourcecheck", "MPLAY") and is_state("sensor.denon_source", "Apple TV") and not is_state("input_select.denon_mode", "Apple TV") }}'
           - condition: template
             value_template: '{{ is_state("sensor.denonsourcecheck", "") and is_state("sensor.denon_source", "Off") and not is_state("input_select.denon_mode", "Off") }}'
-          # - condition: template
-          #   value_template: '{{ is_state("sensor.denonsourcecheck", "USB/IPOD") or is_state("sensor.denonsourcecheck", "Internet Radio") or is_state("sensor.denonsourcecheck", "NET") }}'
-          # - condition: template
-          #   value_template: '{{ is_state("sensor.denon_source", "TV") or is_state("sensor.denon_source", "TUNER") or is_state("sensor.denon_source", "AUX") }}'
     action:
       - service: input_select.select_option
-        entity_id: input_select.denon_mode
         data_template:
-          option: '{% if is_state("sensor.denonsourcecheck", "SAT/CBL") and is_state("sensor.denon_source", "Cable TV") and not is_state("input_select.denon_mode", "Cable TV") %}Cable TV{% elif is_state("sensor.denonsourcecheck", "CD") and is_state("sensor.denon_source", "Music") and not is_state("input_select.denon_mode", "Music") %}Music{% elif is_state("sensor.denonsourcecheck", "BD") and is_state("sensor.denon_source", "Dune") and not is_state("input_select.denon_mode", "Dune") %}Dune{% elif is_state("sensor.denonsourcecheck", "MPLAY") and is_state("sensor.denon_source", "Apple TV") and not is_state("input_select.denon_mode", "Apple TV") %}Apple TV{% elif is_state("sensor.denonsourcecheck", "") and is_state("sensor.denon_source", "Off") and not is_state("input_select.denon_mode", "Off") %}Off{% endif %}'
+          entity_id: input_select.denon_mode
+          option: '{{ states("sensor.denon_source") }}'
+          # option: '{% if is_state("sensor.denonsourcecheck", "SAT/CBL") and is_state("sensor.denon_source", "Cable TV") and not is_state("input_select.denon_mode", "Cable TV") %}Cable TV{% elif is_state("sensor.denonsourcecheck", "CD") and is_state("sensor.denon_source", "Music") and not is_state("input_select.denon_mode", "Music") %}Music{% elif is_state("sensor.denonsourcecheck", "BD") and is_state("sensor.denon_source", "Dune") and not is_state("input_select.denon_mode", "Dune") %}Dune{% elif is_state("sensor.denonsourcecheck", "MPLAY") and is_state("sensor.denon_source", "Apple TV") and not is_state("input_select.denon_mode", "Apple TV") %}Apple TV{% elif is_state("sensor.denonsourcecheck", "") and is_state("sensor.denon_source", "Off") and not is_state("input_select.denon_mode", "Off") %}Off{% endif %}'
 
-  - alias: "Auto Switch XDJ-RX On"
-    trigger:
-      - platform: state
-        entity_id: device_tracker.xdj_rx
-        from: 'not_home'
-        to: 'home'
-      - platform: state
-        entity_id: binary_sensor.xdj_rx
-        from: 'off'
-        to: 'on'
-    condition:
-      - condition: template
-        value_template: '{{ not is_state("sensor.denonsourcecheck", "CD") or not is_state("sensor.denon_source", "Music") }}'
-    action:
-      - service: script.switch_to_music
-        data:
-          newvolume: 40
+  # - alias: "Auto Switch XDJ-RX On"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: device_tracker.xdj_rx
+  #       from: 'not_home'
+  #       to: 'home'
+  #     - platform: state
+  #       entity_id: binary_sensor.xdj_rx
+  #       from: 'off'
+  #       to: 'on'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ not is_state("sensor.denonsourcecheck", "CD") or not is_state("sensor.denon_source", "Music") }}'
+  #   action:
+  #     - service: script.switch_to_music
+  #       data:
+  #         newvolume: 40
 
-  - alias: "Auto Switch XDJ-RX Off"
-    trigger:
-      - platform: state
-        entity_id: device_tracker.xdj_rx
-        from: 'home'
-        to: 'not_home'
-      - platform: state
-        entity_id: binary_sensor.xdj_rx
-        from: 'on'
-        to: 'off'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("sensor.denonsourcecheck", "CD") or is_state("sensor.denon_source", "Music") }}'
-    action:
-      - service: script.switch_to_cabletv
-        data:
-          newvolume: 50
+  # - alias: "Auto Switch XDJ-RX Off"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: device_tracker.xdj_rx
+  #       from: 'home'
+  #       to: 'not_home'
+  #     - platform: state
+  #       entity_id: binary_sensor.xdj_rx
+  #       from: 'on'
+  #       to: 'off'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("sensor.denonsourcecheck", "CD") or is_state("sensor.denon_source", "Music") }}'
+  #   action:
+  #     - service: script.switch_to_cabletv
+  #       data:
+  #         newvolume: 50
 
-  - alias: "Auto Switch Dune On"
-    trigger:
-      - platform: state
-        entity_id: device_tracker.dune
-        from: 'not_home'
-        to: 'home'
-      - platform: state
-        entity_id: binary_sensor.dune
-        from: 'off'
-        to: 'on'
-    condition:
-      - condition: template
-        value_template: '{{ not is_state("sensor.denonsourcecheck", "BD") or not is_state("sensor.denon_source", "Dune") }}'
-    action:
-      - service: script.switch_to_dune
-        data:
-          newvolume: 40
+  # - alias: "Auto Switch Dune On"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: device_tracker.dune
+  #       from: 'not_home'
+  #       to: 'home'
+  #     - platform: state
+  #       entity_id: binary_sensor.dune
+  #       from: 'off'
+  #       to: 'on'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ not is_state("sensor.denonsourcecheck", "BD") or not is_state("sensor.denon_source", "Dune") }}'
+  #   action:
+  #     - service: script.switch_to_dune
+  #       data:
+  #         newvolume: 40
 
-  - alias: "Auto Switch Dune Off"
-    trigger:
-      - platform: state
-        entity_id: device_tracker.dune
-        from: 'home'
-        to: 'not_home'
-      - platform: state
-        entity_id: binary_sensor.dune
-        from: 'on'
-        to: 'off'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("sensor.denonsourcecheck", "BD") or is_state("sensor.denon_source", "Dune") }}'
-    action:
-      - service: script.switch_to_cabletv
-        data:
-          newvolume: 50
+  # - alias: "Auto Switch Dune Off"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: device_tracker.dune
+  #       from: 'home'
+  #       to: 'not_home'
+  #     - platform: state
+  #       entity_id: binary_sensor.dune
+  #       from: 'on'
+  #       to: 'off'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("sensor.denonsourcecheck", "BD") or is_state("sensor.denon_source", "Dune") }}'
+  #   action:
+  #     - service: script.switch_to_cabletv
+  #       data:
+  #         newvolume: 50
 
   # - alias: "Lights Dune Plays"
   #   trigger:
