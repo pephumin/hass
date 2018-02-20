@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -k -s http://192.168.1.66/goform/formMainZone_MainZoneXmlStatusLite.xml | grep InputFuncSelect | sed -e "s,.*<value>\([^<]*\)</value>.*,\1,g"

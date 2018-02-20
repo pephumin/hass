@@ -27,4 +27,4 @@
   port: 6600
 
 - platform: cast
-  # host: !secret cast_ip
+  host: !secret cast_ip

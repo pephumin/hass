@@ -6,7 +6,12 @@ homeassistant:
   unit_system: metric
   time_zone: Asia/Bangkok
   customize: !include config/customise.yaml
-  packages: !include_dir_named packages
+  packages: !include_dir_named packages/
+  customize_glob:
+    light.*:
+      custom_ui_state_card: state-card-custom-ui
+    cover.*:
+      custom_ui_state_card: state-card-custom-ui
 
 http:
   api_password: !secret my_password
@@ -19,6 +24,7 @@ http:
   # ip_ban_enabled: True
   # login_attempts_threshold: 3
 
+browser:
 cloud:
 config:
 conversation:
@@ -30,6 +36,7 @@ map:
 # shopping_list:
 sun:
 updater:
+wake_on_lan:
 zeroconf:
 
 apple_tv:
@@ -40,19 +47,12 @@ apple_tv:
 
 frontend:
   javascript_version: latest
-  # themes:
-  #   red:
-  #     primary-color: "#C0392B"
-  #   green:
-  #     primary-color: "#2ECC71"
-  #   blue:
-  #     primary-color: "#3498DB"
-  #   darkred:
-  #     primary-color: "#601D16"
-  #   darkgreen:
-  #     primary-color: "#1ABC9C"
-  #   darkblue:
-  #     primary-color: "#2C3E50"
+  extra_html_url:
+    - /local/custom_ui/state-card-custom-ui.html
+    - /local/custom_ui/state-card-mini-media-player.html
+  extra_html_url_es5:
+    - /local/custom_ui/state-card-custom-ui-es5.html
+    - /local/custom_ui/state-card-mini-media-player_es5.html
 
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg
@@ -65,14 +65,8 @@ hue:
       allow_in_emulated_hue: true
       allow_hue_groups: false
 
-# ifttt:
-#   key: !secret ifttt_key
-
-# light:
-#   platform: hue
-#   host: !secret hue_ip
-#   allow_unreachable: true
-#   allow_hue_groups: false
+ifttt:
+  key: !secret ifttt_key
 
 mqtt:
   broker: !secret mqtt_broker
@@ -82,7 +76,7 @@ mqtt:
   client_id: home-assistant
   keepalive: 60
   protocol: 3.1
-  discovery: true
+  discovery: false
   discovery_prefix: homeassistant
   # birth_message:
   #   # topic: "hass/status"
@@ -98,32 +92,82 @@ mqtt:
   #   retain: true
 
 recorder:
-  purge_interval: 10
-  purge_keep_days: 30
+  purge_interval: 7
+  purge_keep_days: 10
   db_url: !secret db_url
+  exclude:
+    domains:
+      - automation
+      - camera
+      - input_select
+      - input_slider
+      - input_boolean
+      - proximity
+      - scene
+      - script
+      - sensor
+      - zone
+    entities:
+      - binary_sensor.bedroom_colder
+      - binary_sensor.bedroom_warmer
+      - binary_sensor.common_room_colder
+      - binary_sensor.common_room_warmer
+      - binary_sensor.first_floor_colder
+      - binary_sensor.first_floor_warmer
+      - binary_sensor.saturn_disks_are_hot
+      - binary_sensor.saturn_temperature_down
+      - binary_sensor.saturn_temperature_up
+      - remote.apple_tv
+      - sun.sun
+  include:
+    domains:
+      - binary_sensor
+      - counter
+      - device_tracker
+      - media_player
+      - switch
+    entities:
+      - script.callisto_restart
+      - script.ganymede_restart
+      - script.hometheatre_turnoff
+      - script.hometheatre_turnon
+      - sensor.average_disk_temperature
+      - sensor.bedroom_humidity_mean
+      - sensor.bedroom_temperature_mean
+      - sensor.callisto_humidity
+      - sensor.callisto_temperature
+      - sensor.common_room_humidity_mean
+      - sensor.common_room_temperature_mean
+      - sensor.first_floor_humidity_mean
+      - sensor.first_floor_temperature_mean
+      - sensor.maximum_disk_temperature
+      - sensor.mimas_humidity
+      - sensor.mimas_temperature
+      - sensor.pandora_humidity
+      - sensor.pandora_temperature
+
+shell_command:
+  line_pe: '/config/command/line_pe "{{ message }}"'
+  line_jue: '/config/command/line_jue "{{ message }}"'
+  line_both: '/config/command/line_both "{{ message }}"'
+  # denon_checking: '/config/command/denon_checking'
 
 tts:
-  platform: google
-  cache: true
-  cache_dir: /tts
-  time_memory: 300
+  - platform: google
+    cache: true
+    cache_dir: /tts
+    time_memory: 300
 
-# weather:
-#   - platform: openweathermap
-#     api_key: !secret openweather_api
-#     latitude: !secret latitude_home
-#     longitude: !secret longitude_home
-
-
-# automation: !include_dir_merge_list automation/
 device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
 media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
 scene: !include config/scene.yaml
 script: !include config/script.yaml
-sensor: !include_dir_merge_list sensor/
 switch: !include config/switch.yaml
+
+# logger:
+#   default: debug
 
 logger:
   default: critical
@@ -142,6 +186,7 @@ logger:
     # homeassistant.components.media_player.denon: debug
     # homeassistant.components.media_player.denonavr: debug
     homeassistant.components.notify: warning
+    # homeassistant.components.notify.command_line: debug
     homeassistant.components.proximity: critical
     homeassistant.components.script: debug
     homeassistant.components.sensor: debug
@@ -150,3 +195,4 @@ logger:
     homeassistant.components.shell_command: debug
     homeassistant.components.switch: debug
     homeassistant.components.switch.command_line: critical
+    # homeassistant.components.templated_shell_command: debug

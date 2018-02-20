@@ -1,7 +1,8 @@
 travel:
-  view: no
   name: "Travel"
   icon: mdi:car
+  control: hidden
+  view: no
   entities:
     - sensor.home_to_benjy
     - sensor.benjy_to_home
@@ -9,10 +10,10 @@ travel:
     - sensor.malaiwan_to_home
 
 sonoff:
-  view: no
   name: "Sonoff"
   icon: mdi:power-plug
   control: hidden
+  view: no
   entities:
     - switch.ganymede
     - switch.callisto
@@ -22,24 +23,74 @@ sonoff:
     - switch.calypso
 
 led:
-  view: no
   name: "LED"
   icon: mdi:led-strip
+  control: hidden
+  view: no
   entities:
     - light.led
     - input_number.led_animation_speed
     # - light.clock
     # - input_number.clock_animation_speed
 
-# timer:
-#   view: no
-#   control: hidden
-#   name: "Timer"
-#   icon: mdi:timer
-#   entities:
-#     - input_boolean.timer_enable
-#     - input_select.timer_source
-#     - input_number.timer_set
-#     # - input_datetime.timer_set
-#     # - sensor.countdown
-#     - script.timer
+foscam:
+  name: "Foscam"
+  icon: mdi:webcam
+  control: hidden
+  view: no
+  entities:
+    - switch.foscam_black_motion
+    - switch.foscam_white_motion
+    - counter.foscammotion
+
+daylight:
+  name: "Daylight"
+  icon: mdi:weather-sunny
+  control: hidden
+  view: no
+  entities:
+    - sensor.date
+    - sensor.time
+    - sun.sun
+    - sensor.solar_angle
+    - sensor.moon
+
+home_server:
+  name: "Home Server"
+  icon: mdi:server-security
+  control: hidden
+  view: no
+  entities:
+    - sensor.uptime
+    - sensor.cpu_use
+    - sensor.ram_use
+    - sensor.disk_use_
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+    - sensor.average_disk_temperature
+    - sensor.maximum_disk_temperature
+    - binary_sensor.saturn_temperature_up
+    - binary_sensor.saturn_temperature_down
+
+playlists:
+  name: "Playlists"
+  icon: mdi:library-music
+  control: hidden
+  view: no
+  entities:
+    - script.dja_shuffle
+    - script.djb_shuffle
+    - script.djp_shuffle
+    - script.dj_shuffle
+    - script.soft_shuffle
+
+kodi:
+  name: "Kodi"
+  icon: mdi:kodi
+  control: hidden
+  view: no
+  entities:
+    - script.kodi_play_youtube_playlist
+    - script.kodi_play_music_dj
+    - script.kodi_update_audio_library
+    - script.kodi_update_video_library

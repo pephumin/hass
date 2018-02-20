@@ -1,8 +1,8 @@
 default_view:
-# new:
-  view: yes
   name: Home
-  # name: "New Home"
+  icon: mdi:home
+  control: hidden
+  view: yes
   entities:
     - group.control
     - group.proximity
@@ -11,8 +11,11 @@ default_view:
     - group.home_server
     - group.online
     - group.travel
+    - group.foscam
     - media_player.apple_tv
+    - media_player.biscuit
     - media_player.denon
+    - media_player.doughnut
     - media_player.dune
     - media_player.itunes
     - media_player.kodi
@@ -22,44 +25,52 @@ default_view:
     - camera.current_location_pe
     - camera.current_location_jue
     - group.lights_all
-    # - group.timer
 
 common_room:
-  view: yes
   name: "Common Room"
+  icon: mdi:television
+  control: hidden
+  view: yes
   entities:
     - group.control_cr
     - group.led
+    - media_player.apple_tv
+    - media_player.biscuit
+    - media_player.denon
+    - media_player.doughnut
+    - media_player.dune
     - media_player.kodi
+    - media_player.avr2113_airtunes_speaker
+    - media_player.living_room_apple_tv_airtunes_speaker
     - camera.foscam_black
     - group.home_server
     - group.online_cr
     - group.common_room_lights_all
     - group.common_room_scenes
-    - media_player.apple_tv
-    - media_player.denon
-    - media_player.dune
-    - media_player.avr2113_airtunes_speaker
-    - media_player.living_room_apple_tv_airtunes_speaker
     - group.stats_cr
 
 bedroom:
-  view: yes
   name: "Bedroom"
+  icon: mdi:hotel
+  control: hidden
+  view: yes
   entities:
     - group.control_br
     - media_player.itunes
     - group.online_br
     - group.bedroom_lights_all
     - group.bedroom_scenes
+    - media_player.itunes
     - media_player.music_player_daemon
     - media_player.bedroom_aex_airtunes_speaker
     - media_player.computer_airtunes_speaker
     - group.stats_br
 
 first_floor:
-  view: yes
   name: "First Floor"
+  icon: mdi:fridge
+  control: hidden
+  view: yes
   entities:
     - group.control_ff
     - camera.foscam_white
@@ -72,3 +83,4 @@ first_floor:
     - camera.current_location_jue
     - group.friends
     - group.stats_ff
+    - group.quick_timer

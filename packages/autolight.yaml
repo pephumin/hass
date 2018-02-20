@@ -17,8 +17,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: "All lights are off after midnight"
-          message: 'All lights are off after midnight [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: "All lights are off after midnight"
 
   - alias: "Autolight Sunset A"
     trigger:
@@ -31,20 +31,20 @@ automation:
     action:
       - service: light.turn_on
         data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.lightstrip{% elif is_state("input_select.homemode", "Away") %}light.garage{% endif %}'
-          transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}5{% endif %}'
-          brightness: '{% if is_state("input_select.homemode", "Home") %}200{% elif is_state("input_select.homemode", "Away") %}255{% endif %}'
-          xy_color: '{% if is_state("input_select.homemode", "Home") %}[0.1794, 0.0964]{% elif is_state("input_select.homemode", "Away") %}{% endif %}'
+          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.tv{% elif is_state("input_select.homemode", "Away") %}light.garage{% elif is_state("input_select.homemode", "Vacation") %}light.garage{% endif %}'
+          transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}5{% elif is_state("input_select.homemode", "Vacation") %}5{% endif %}'
+          brightness: '{% if is_state("input_select.homemode", "Home") %}255{% elif is_state("input_select.homemode", "Away") %}255{% elif is_state("input_select.homemode", "Vacation") %}255{% endif %}'
+          color_name: '{% if is_state("input_select.homemode", "Home") %}blue{% elif is_state("input_select.homemode", "Away") %}{% elif is_state("input_select.homemode", "Vacation") %}{% endif %}'
       - service: script.notifying
-        data:
+        data_template:
           email: "false"
           tv: "true"
           speak: "false"
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: '{% if is_state("input_select.homemode", "Home") %}Lightstrip{% elif is_state("input_select.homemode", "Away") %}Garage light{% endif %} has been turned on 15 minutes before sunset'
-          message: '{% if is_state("input_select.homemode", "Home") %}Lightstrip{% elif is_state("input_select.homemode", "Away") %}Garage light{% endif %} has been turned on 15 minutes before sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: '{% if is_state("input_select.homemode", "Home") %}Lightstrip TV{% elif is_state("input_select.homemode", "Away") %}Garage light{% endif %} has been turned on 15 minutes before sunset'
 
   - alias: "Autolight Sunset B"
     trigger:
@@ -53,11 +53,11 @@ automation:
         offset: "+01:00:00"
     condition:
       - condition: template
-        value_template: '{{ is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") }}'
+        value_template: '{{ is_state("light.tv", "on") or is_state("light.garage", "on") }}'
     action:
       - service: light.turn_off
         data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.lightstrip{% elif is_state("input_select.homemode", "Away") %}light.garage{% endif %}'
+          entity_id: '{% if is_state("light.tv", "on") %}light.tv{% elif is_state("light.garage", "on") %}light.garage{% endif %}'
       - service: script.notifying
         data_template:
           email: "false"
@@ -66,8 +66,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: '{% if is_state("input_select.homemode", "Home") %}Lightstrip{% elif is_state("input_select.homemode", "Away") %}Garage light{% endif %} has been turned off an hour after sunset'
-          message: '{% if is_state("input_select.homemode", "Home") %}Lightstrip{% elif is_state("input_select.homemode", "Away") %}Garage light{% endif %} has been turned off an hour after sunset [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn off {% if is_state("input_select.homemode", "Home") %}Lightstrip TV{% elif is_state("input_select.homemode", "Away") %}Garage light{% endif %} after sunset for 1 hour'
 
   - alias: "Autolight 1A"
     trigger:
@@ -79,7 +79,7 @@ automation:
     action:
       - service: light.turn_on
         data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.front_1{% elif is_state("input_select.homemode", "Away") %}light.garage{% elif is_state("input_select.homemode", "Vacation") %}light.front_2{% endif %}'
+          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.whites_B1{% elif is_state("input_select.homemode", "Away") %}light.garage{% elif is_state("input_select.homemode", "Vacation") %}light.whites_B2{% endif %}'
           transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}1{% elif is_state("input_select.homemode", "Vacation") %}1{% endif %}'
           brightness: '{% if is_state("input_select.homemode", "Home") %}200{% elif is_state("input_select.homemode", "Away") %}255{% elif is_state("input_select.homemode", "Vacation") %}255{% endif %}'
       - service: script.notifying
@@ -90,8 +90,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: '{% if is_state("input_select.homemode", "Home") %}Front 1 light{% elif is_state("input_select.homemode", "Away") %}Garage light{% elif is_state("input_select.homemode", "Vacation") %}Front 2 light{% endif %} has been turned on at 7:30pm'
-          message: '{% if is_state("input_select.homemode", "Home") %}Front 1 light{% elif is_state("input_select.homemode", "Away") %}Garage light{% elif is_state("input_select.homemode", "Vacation") %}Front 2 light{% endif %} has been turned on at 7:30pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn on {% if is_state("input_select.homemode", "Home") %}Front 1 light{% elif is_state("input_select.homemode", "Away") %}Garage light{% elif is_state("input_select.homemode", "Vacation") %}Front 2 light{% endif %} at 7:30pm'
 
   - alias: "Autolight 1B"
     trigger:
@@ -99,11 +99,11 @@ automation:
         at: '20:15:00'
     condition:
       - condition: template
-        value_template: '{{ is_state("light.front_1", "on") or is_state("light.garage", "on") or is_state("light.front_2", "on") }}'
+        value_template: '{{ is_state("light.whites_B1", "on") or is_state("light.garage", "on") or is_state("light.whites_B2", "on") }}'
     action:
       - service: light.turn_off
         data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.front_1{% elif is_state("input_select.homemode", "Away") %}light.garage{% elif is_state("input_select.homemode", "Vacation") %}light.front_2{% endif %}'
+          entity_id: '{% if is_state("light.whites_B1", "on") %}light.whites_B1{% elif is_state("light.garage", "on") %}light.garage{% elif is_state("light.whites_B2", "on") %}light.whites_B2{% endif %}'
       - service: script.notifying
         data_template:
           email: "false"
@@ -112,8 +112,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: '{% if is_state("input_select.homemode", "Home") %}Front 1 light{% elif is_state("input_select.homemode", "Away") %}Garage light{% elif is_state("input_select.homemode", "Vacation") %}Front 2 light{% endif %} has been turned off at 8:15pm'
-          message: '{% if is_state("input_select.homemode", "Home") %}Front 1 light{% elif is_state("input_select.homemode", "Away") %}Garage light{% elif is_state("input_select.homemode", "Vacation") %}Front 2 light{% endif %} has been turned off at 8:15pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn off {% if is_state("input_select.homemode", "Home") %}Front 1 light{% elif is_state("input_select.homemode", "Away") %}Garage light{% elif is_state("input_select.homemode", "Vacation") %}Front 2 light{% endif %} at 8:15pm'
 
   - alias: "Autolight 2A"
     trigger:
@@ -125,7 +125,7 @@ automation:
     action:
       - service: light.turn_on
         data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.phoebe{% elif is_state("input_select.homemode", "Away") %}light.front_2{% elif is_state("input_select.homemode", "Vacation") %}light.front_1{% endif %}'
+          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.phoebe{% elif is_state("input_select.homemode", "Away") %}light.whites_B2{% elif is_state("input_select.homemode", "Vacation") %}light.whites_B1{% endif %}'
           transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}1{% elif is_state("input_select.homemode", "Vacation") %}1{% endif %}'
           brightness: '{% if is_state("input_select.homemode", "Home") %}200{% elif is_state("input_select.homemode", "Away") %}255{% elif is_state("input_select.homemode", "Vacation") %}255{% endif %}'
       - service: script.notifying
@@ -136,8 +136,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: '{% if is_state("input_select.homemode", "Home") %}Kitchen light{% elif is_state("input_select.homemode", "Away") %}Front 2 light{% elif is_state("input_select.homemode", "Vacation") %}Front 1 light{% endif %} has been turned on at 8:00pm'
-          message: '{% if is_state("input_select.homemode", "Home") %}Kitchen light{% elif is_state("input_select.homemode", "Away") %}Front 2 light{% elif is_state("input_select.homemode", "Vacation") %}Front 1 light{% endif %} has been turned on at 8:00pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn on {% if is_state("input_select.homemode", "Home") %}Kitchen light{% elif is_state("input_select.homemode", "Away") %}Front 2 light{% elif is_state("input_select.homemode", "Vacation") %}Front 1 light{% endif %} at 8:00pm'
 
   - alias: "Autolight 2B"
     trigger:
@@ -145,11 +145,11 @@ automation:
         at: '21:00:00'
     condition:
       - condition: template
-        value_template: '{{ is_state("light.phoebe", "on") or is_state("light.front_2", "on") or is_state("light.front_1", "on") }}'
+        value_template: '{{ is_state("light.phoebe", "on") or is_state("light.whites_B2", "on") or is_state("light.whites_B1", "on") }}'
     action:
       - service: light.turn_off
         data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.phoebe{% elif is_state("input_select.homemode", "Away") %}light.front_2{% elif is_state("input_select.homemode", "Vacation") %}light.front_1{% endif %}'
+          entity_id: '{% if is_state("light.phoebe", "on") %}light.phoebe{% elif is_state("light.whites_B2", "on") %}light.whites_B2{% elif is_state("light.whites_B1", "on") %}light.whites_B1{% endif %}'
       - service: script.notifying
         data_template:
           email: "false"
@@ -158,8 +158,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: '{% if is_state("input_select.homemode", "Home") %}Kitchen light{% elif is_state("input_select.homemode", "Away") %}Front 2 light{% elif is_state("input_select.homemode", "Vacation") %}Front 1 light{% endif %} has been turned off at 9:00pm'
-          message: '{% if is_state("input_select.homemode", "Home") %}Kitchen light{% elif is_state("input_select.homemode", "Away") %}Front 2 light{% elif is_state("input_select.homemode", "Vacation") %}Front 1 light{% endif %} has been turned off at 9:00pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn off {% if is_state("input_select.homemode", "Home") %}Kitchen light{% elif is_state("input_select.homemode", "Away") %}Front 2 light{% elif is_state("input_select.homemode", "Vacation") %}Front 1 light{% endif %} at 9:00pm'
 
   - alias: "Autolight 3A"
     trigger:
@@ -171,7 +171,7 @@ automation:
     action:
       - service: light.turn_on
         data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.bedroom_lw{% elif is_state("input_select.homemode", "Away") %}light.bedroom_lw{% elif is_state("input_select.homemode", "Vacation") %}light.common_room_1{% endif %}'
+          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.whites_w{% elif is_state("input_select.homemode", "Away") %}light.whites_w{% elif is_state("input_select.homemode", "Vacation") %}light.whites_A1{% endif %}'
           transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}1{% elif is_state("input_select.homemode", "Vacation") %}1{% endif %}'
           brightness: '{% if is_state("input_select.homemode", "Home") %}100{% elif is_state("input_select.homemode", "Away") %}255{% elif is_state("input_select.homemode", "Vacation") %}255{% endif %}'
       - service: script.notifying
@@ -182,8 +182,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: '{% if is_state("input_select.homemode", "Home") %}Bedroom LW light{% elif is_state("input_select.homemode", "Away") %}Bedroom LW light{% elif is_state("input_select.homemode", "Vacation") %}Common room 1 light{% endif %} has been turned on at 9:30pm'
-          message: '{% if is_state("input_select.homemode", "Home") %}Bedroom LW light{% elif is_state("input_select.homemode", "Away") %}Bedroom LW light{% elif is_state("input_select.homemode", "Vacation") %}Common room 1 light{% endif %} has been turned on at 9:30pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn on {% if is_state("input_select.homemode", "Home") %}Warm light{% elif is_state("input_select.homemode", "Away") %}Warm light{% elif is_state("input_select.homemode", "Vacation") %}Common Room 1 light{% endif %} at 9:30pm'
 
   - alias: "Autolight 3B"
     trigger:
@@ -191,11 +191,11 @@ automation:
         at: '23:00:00'
     condition:
       - condition: template
-        value_template: '{{ is_state("light.bedroom_lw", "on") or is_state("light.common_room_1", "on") }}'
+        value_template: '{{ is_state("light.whites_w", "on") or is_state("light.whites_A1", "on") }}'
     action:
       - service: light.turn_off
         data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.bedroom_lw{% elif is_state("input_select.homemode", "Away") %}light.bedroom_lw{% elif is_state("input_select.homemode", "Vacation") %}light.common_room_1{% endif %}'
+          entity_id: '{% if is_state("light.whites_w", "on") %}light.whites_w{% elif is_state("light.whites_A1", "on") %}light.whites_A1{% endif %}'
       - service: script.notifying
         data_template:
           email: "false"
@@ -204,8 +204,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: '{% if is_state("input_select.homemode", "Home") %}Bedroom LW light{% elif is_state("input_select.homemode", "Away") %}Bedroom LW light{% elif is_state("input_select.homemode", "Vacation") %}Common room 1 light{% endif %} has been turned off at 11:00pm'
-          message: '{% if is_state("input_select.homemode", "Home") %}Bedroom LW light{% elif is_state("input_select.homemode", "Away") %}Bedroom LW light{% elif is_state("input_select.homemode", "Vacation") %}Common room 1 light{% endif %} has been turned off at 11:00pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn off {% if is_state("input_select.homemode", "Home") %}Warm light{% elif is_state("input_select.homemode", "Away") %}Warm light{% elif is_state("input_select.homemode", "Vacation") %}Common Room 1 light{% endif %} at 11:00pm'
 
   - alias: "Autolight Bedroom 1A"
     trigger:
@@ -225,8 +225,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: 'Bedroom night light has been turned on at 6:00pm'
-          message: 'Bedroom night light has been turned on at 6:00pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn on Bedroom Night light at 6:00pm'
 
   - alias: "Autolight Bedroom 1B"
     trigger:
@@ -246,8 +246,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: 'Bedroom night light has been turned off at 7:30pm'
-          message: 'Bedroom night light has been turned off at 7:30pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn off Bedroom Night light at 7:30pm'
 
   - alias: "Autolight Bedroom 2A"
     trigger:
@@ -267,8 +267,8 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: 'Bedroom night light has been turned on again at 10:30pm'
-          message: 'Bedroom night light has been turned on again at 10:30pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn on Bedroom Night light again at 10:30pm'
 
   - alias: "Autolight Bedroom 2B"
     trigger:
@@ -288,140 +288,49 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "false"
-          title: 'Bedroom night light has been turned off again at 11:00pm'
-          message: 'Bedroom night light has been turned off again at 11:00pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          line: "pe"
+          message: 'Turn off Bedroom Night light again at 11:00pm'
 
-  - alias: "Autolight Bedroom 3A"
-    trigger:
-      - platform: time
-        at: '23:00:01'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-    action:
-      - service: scene.turn_on
-        entity_id: scene.bedroom_night
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "false"
-          audio: "chime"
-          light: "false"
-          mobile: "false"
-          title: 'Bedroom night scene has been turned on at 11:00pm'
-          message: 'Bedroom night scene has been turned on at 11:00pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Autolight Bedroom 3B"
-    trigger:
-      - platform: time
-        at: '23:45:00'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") and is_state("light.bedroom_3", "on") }}'
-    action:
-      - service: light.turn_off
-        entity_id: light.bedroom_3
-      - service: light.turn_off
-        entity_id: light.bedroom_lc
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "false"
-          audio: "chime"
-          light: "false"
-          mobile: "false"
-          title: 'Bedroom LC and Bedroom 3 have been turned off at 11:45pm'
-          message: 'Bedroom LC and Bedroom 3 have been turned off at 11:45pm [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Autolight Bedroom 4A"
-    trigger:
-      - platform: time
-        at: '00:01:01'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("light.pandora", "off") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on")) }}'
-    action:
-      - service: light.turn_on
-        entity_id: light.pandora
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "false"
-          audio: "chime"
-          light: "false"
-          mobile: "false"
-          title: 'Bedroom night light has been turned on at 0:00am'
-          message: 'Bedroom night light has been turned on at 0:00am [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Autolight Bedroom 4B"
-    trigger:
-      - platform: time
-        at: '02:15:00'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("light.pandora", "on") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") and is_state("light.pandora", "on")) }}'
-    action:
-      - service: light.turn_off
-        entity_id: light.pandora
-      - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
-          speak: "false"
-          audio: "chime"
-          light: "false"
-          mobile: "false"
-          title: 'Bedroom night light has been turned off at 2:15am'
-          message: 'Bedroom night light has been turned off at 2:15am [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  - alias: "Auto off Welcome light Pe"
+  - alias: "Auto off Welcome light"
     trigger:
       - platform: template
-        value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (255,81,88))) or (is_state("light.lightstrip", "on") and is_state_attr("light.lightstrip", "rgb_color", (255,80,89))) }}'
-    action:
-      - service: script.welcome_light_off_pe
-
-  - alias: "Auto off Welcome light Jue"
-    trigger:
+        value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (255,106,88))) and (is_state("light.tv", "on") and is_state_attr("light.tv", "rgb_color", (255,104,92))) }}'
       - platform: template
-        value_template: '{{ is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (206,223,81)) }}'
+        value_template: '{{ (is_state("light.hallway", "on") and is_state_attr("light.hallway", "rgb_color", (220,239,68))) and (is_state("light.tv", "on") and is_state_attr("light.tv", "rgb_color", (162,255,93))) }}'
     action:
-      - service: script.welcome_light_off_jue
+      - service: script.welcome_light_off
 
   - alias: "Auto off Reset Light Bedroom 1"
     trigger:
       - platform: template
-        value_template: '{{ is_state("light.bedroom_1", "on") and is_state_attr("light.bedroom_1", "rgb_color", (255,207,120)) }}'
+        value_template: '{{ is_state("light.hue_1", "on") and is_state_attr("light.hue_1", "rgb_color", (255,207,120)) }}'
     action:
       - service: light.turn_off
-        entity_id: light.bedroom_1
+        entity_id: light.hue_1
 
   - alias: "Auto off Reset Light Bedroom 2"
     trigger:
       - platform: template
-        value_template: '{{ is_state("light.bedroom_2", "on") and is_state_attr("light.bedroom_2", "rgb_color", (255,207,120)) }}'
+        value_template: '{{ is_state("light.hue_2", "on") and is_state_attr("light.hue_2", "rgb_color", (255,207,120)) }}'
     action:
       - service: light.turn_off
-        entity_id: light.bedroom_2
+        entity_id: light.hue_2
 
   - alias: "Auto off Reset Light Bedroom 3"
     trigger:
       - platform: template
-        value_template: '{{ is_state("light.bedroom_3", "on") and is_state_attr("light.bedroom_3", "rgb_color", (255,207,120)) }}'
+        value_template: '{{ is_state("light.hue_3", "on") and is_state_attr("light.hue_3", "rgb_color", (255,207,120)) }}'
     action:
       - service: light.turn_off
-        entity_id: light.bedroom_3
+        entity_id: light.hue_3
 
   - alias: "Auto off Reset Light Bedroom 4"
     trigger:
       - platform: template
-        value_template: '{{ is_state("light.bedroom_4", "on") and is_state_attr("light.bedroom_4", "rgb_color", (255,207,120)) }}'
+        value_template: '{{ is_state("light.hue_4", "on") and is_state_attr("light.hue_4", "rgb_color", (255,207,120)) }}'
     action:
       - service: light.turn_off
-        entity_id: light.bedroom_4
+        entity_id: light.hue_4
 
   - alias: "Auto off Reset Light Hallway"
     trigger:

@@ -1,35 +1,44 @@
 online_cr:
-  view: no
   name: "Online Status Common Room"
+  icon: mdi:lan-connect
+  control: hidden
+  view: no
   entities:
     - binary_sensor.deeper
-    - binary_sensor.pluto
     - binary_sensor.higher
+    - binary_sensor.pluto
     # - binary_sensor.broadlink_rm_pro
     - binary_sensor.broadlink_rm_mini_b
+    - binary_sensor.google_home_mini
     - binary_sensor.titan
+    - binary_sensor.ganymede
     - binary_sensor.mimas
-    - binary_sensor.foscam_black
+    - binary_sensor.moon
     - binary_sensor.wemosliteled
+    - binary_sensor.foscam_black
     - binary_sensor.denon
     - binary_sensor.android_box
+    - binary_sensor.google_chromecast
     - binary_sensor.dune
     - binary_sensor.xdj_rx
 
 online_br:
-  view: no
   name: "Online Status Bedroom"
+  icon: mdi:lan-connect
+  control: hidden
+  view: no
   entities:
     - binary_sensor.neptune
     - binary_sensor.broadlink_rm_mini_a
     - binary_sensor.europa
-    - binary_sensor.ganymede
     - binary_sensor.pandora
-    - binary_sensor.moon
+    - binary_sensor.calypso
 
 online_ff:
-  view: no
   name: "Online Status First Floor"
+  icon: mdi:lan-connect
+  control: hidden
+  view: no
   entities:
     - binary_sensor.uranus
     - binary_sensor.mercury
@@ -38,6 +47,5 @@ online_ff:
     - binary_sensor.foscam_white
     # - binary_sensor.wemosbell
     - binary_sensor.earth
-    - binary_sensor.phoebe
     - binary_sensor.callisto
-    - binary_sensor.calypso
+    - binary_sensor.phoebe

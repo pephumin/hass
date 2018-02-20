@@ -10,61 +10,61 @@
 
 - name: "Common Room Bright"
   entities:
-    light.common_room_1:
-      state: on
-      transition: 1
-      brightness: 254
-    light.common_room_2:
-      state: on
-      transition: 1
-      brightness: 254
-    light.common_room_3:
+    light.whites_A1:
       state: on
       transition: 1
       brightness: 124
-    light.common_room_4:
+    light.whites_A2:
       state: on
       transition: 1
       brightness: 124
-    light.lightstrip:
+    light.whites_A3:
+      state: on
+      transition: 1
+      brightness: 254
+    light.whites_A4:
+      state: on
+      transition: 1
+      brightness: 254
+    light.tv:
       state: off
     light.hallway:
       state: off
 
-- name: "Common Room Alive"
-  entities:
-    light.common_room_1:
-      state: on
-      transition: 1
-      brightness: 131
-    light.common_room_2:
-      state: on
-      transition: 1
-      brightness: 131
-    light.common_room_3:
-      state: off
-    light.common_room_4:
-      state: off
-    light.lightstrip:
-      state: off
-    light.hallway:
-      state: off
+# - name: "Common Room Alive"
+#   entities:
+#     light.whites_A1:
+#       state: off
+#     light.whites_A2:
+#       state: off
+#     light.whites_A3:
+#       state: on
+#       transition: 1
+#       brightness: 131
+#     light.whites_A4:
+#       state: on
+#       transition: 1
+#       brightness: 131
+#     light.tv:
+#       state: off
+#     light.hallway:
+#       state: off
 
 - name: "Common Room Dim"
   entities:
-    light.common_room_1:
+    light.whites_A1:
+      state: off
+    light.whites_A2:
+      state: off
+    light.whites_A3:
       state: on
       transition: 1
       brightness: 35
-    light.common_room_2:
+    light.whites_A4:
       state: on
       transition: 1
       brightness: 35
-    light.common_room_3:
-      state: off
-    light.common_room_4:
-      state: off
-    light.lightstrip:
+    light.tv:
       state: off
     light.hallway:
       state: off
@@ -76,151 +76,143 @@
 
 - name: "Bedroom Very Bright"
   entities:
-    light.bedroom_1:
+    light.hue_1:
       state: on
       transition: 1
       brightness: 127
       xy_color: [0.3145,0.3303]
-    light.bedroom_2:
+    light.hue_2:
       state: on
       transition: 1
       brightness: 127
       xy_color: [0.3145,0.3303]
-    light.bedroom_3:
+    light.hue_3:
       state: on
       transition: 1
       brightness: 254
       xy_color: [0.3145,0.3303]
-    light.bedroom_4:
+    light.hue_4:
       state: on
       transition: 1
       brightness: 254
       xy_color: [0.3145,0.3303]
-    light.bedroom_lw:
+    light.whites_w:
       state: off
-    light.bedroom_lc:
+    light.mood:
       state: off
     light.pandora:
       state: off
 
 - name: "Bedroom Bright"
   entities:
-    light.bedroom_1:
+    light.hue_1:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.2951,0.2930]
-    light.bedroom_2:
+    light.hue_2:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.2951,0.2930]
-    light.bedroom_3:
+    light.hue_3:
       state: on
       transition: 1
       brightness: 127
       xy_color: [0.2951,0.2930]
-    light.bedroom_4:
+    light.hue_4:
       state: on
       transition: 1
       brightness: 127
       xy_color: [0.2951,0.2930]
-    light.bedroom_lw:
+    light.whites_w:
       state: off
-    light.bedroom_lc:
+    light.mood:
       state: off
     light.pandora:
       state: off
 
-- name: "Bedroom Alive"
-  entities:
-    light.bedroom_1:
-      state: off
-    light.bedroom_2:
-      state: off
-    light.bedroom_3:
-      state: on
-      transition: 1
-      brightness: 170
-      xy_color: [0.2723,0.2482]
-    light.bedroom_4:
-      state: on
-      transition: 1
-      brightness: 170
-      xy_color: [0.2723,0.2482]
-    light.bedroom_lw:
-      state: off
-    light.bedroom_lc:
-      state: off
-    light.pandora:
-      state: off
+# - name: "Bedroom Alive"
+#   entities:
+#     light.hue_1:
+#       state: off
+#     light.hue_2:
+#       state: off
+#     light.hue_3:
+#       state: on
+#       transition: 1
+#       brightness: 170
+#       xy_color: [0.2723,0.2482]
+#     light.hue_4:
+#       state: on
+#       transition: 1
+#       brightness: 170
+#       xy_color: [0.2723,0.2482]
+#     light.whites_w:
+#       state: off
+#     light.mood:
+#       state: off
+#     light.pandora:
+#       state: off
 
 - name: "Bedroom Night"
   entities:
-    light.bedroom_1:
+    light.hue_1:
       state: off
-    light.bedroom_2:
+    light.hue_2:
       state: off
-    light.bedroom_3:
+    light.hue_3:
       state: on
       transition: 1
       brightness: 220
       xy_color: [0.3685,0.3717]
-    light.bedroom_4:
+    light.hue_4:
       state: off
-    light.bedroom_lw:
+    light.whites_w:
       state: off
-    light.bedroom_lc:
+    light.mood:
       state: off
-      # state: on
-      # transition: 1
-      # brightness: 185
-      # xy_color: [0.2536,0.2956]
     light.pandora:
       state: on
 
-- name: "Bedroom Warm"
-  entities:
-    light.bedroom_1:
-      state: off
-    light.bedroom_2:
-      state: off
-    light.bedroom_3:
-      state: on
-      transition: 1
-      brightness: 6
-      xy_color: [0.4410,0.4379]
-    light.bedroom_4:
-      state: on
-      transition: 1
-      brightness: 6
-      xy_color: [0.4410,0.4379]
-    light.bedroom_lw:
-      state: on
-      transition: 1
-      brightness: 6
-    light.bedroom_lc:
-      state: off
-      # state: on
-      # transition: 1
-      # brightness: 6
-      # xy_color: [0.2850,0.1897]
-    light.pandora:
-      state: off
+# - name: "Bedroom Warm"
+#   entities:
+#     light.hue_1:
+#       state: off
+#     light.hue_2:
+#       state: off
+#     light.hue_3:
+#       state: on
+#       transition: 1
+#       brightness: 6
+#       xy_color: [0.4410,0.4379]
+#     light.hue_4:
+#       state: on
+#       transition: 1
+#       brightness: 6
+#       xy_color: [0.4410,0.4379]
+#     light.whites_w:
+#       state: on
+#       transition: 1
+#       brightness: 6
+#     light.mood:
+#       state: off
+#     light.pandora:
+#       state: off
 
 - name: "Bedroom Sleep"
   entities:
-    light.bedroom_1:
+    light.hue_1:
       state: off
-    light.bedroom_2:
+    light.hue_2:
       state: off
-    light.bedroom_3:
+    light.hue_3:
       state: off
-    light.bedroom_4:
+    light.hue_4:
       state: off
-    light.bedroom_lw:
+    light.whites_w:
       state: off
-    light.bedroom_lc:
+    light.mood:
       state: on
       transition: 1
       brightness: 70
@@ -228,234 +220,234 @@
     light.pandora:
       state: off
 
-- name: "Bedroom Concentrate"
-  entities:
-    light.bedroom_1:
-      state: on
-      transition: 1
-      brightness: 110
-      xy_color: [0.3685,0.3717]
-    light.bedroom_2:
-      state: on
-      transition: 1
-      brightness: 110
-      xy_color: [0.3685,0.3717]
-    light.bedroom_3:
-      state: on
-      transition: 1
-      brightness: 220
-      xy_color: [0.3685,0.3717]
-    light.bedroom_4:
-      state: on
-      transition: 1
-      brightness: 220
-      xy_color: [0.3685,0.3717]
-    light.bedroom_lw:
-      state: off
-    light.bedroom_lc:
-      state: off
-    light.pandora:
-      state: on
+# - name: "Bedroom Concentrate"
+#   entities:
+#     light.hue_1:
+#       state: on
+#       transition: 1
+#       brightness: 110
+#       xy_color: [0.3685,0.3717]
+#     light.hue_2:
+#       state: on
+#       transition: 1
+#       brightness: 110
+#       xy_color: [0.3685,0.3717]
+#     light.hue_3:
+#       state: on
+#       transition: 1
+#       brightness: 220
+#       xy_color: [0.3685,0.3717]
+#     light.hue_4:
+#       state: on
+#       transition: 1
+#       brightness: 220
+#       xy_color: [0.3685,0.3717]
+#     light.whites_w:
+#       state: off
+#     light.mood:
+#       state: off
+#     light.pandora:
+#       state: on
 
-- name: "Bedroom Energize"
-  entities:
-    light.bedroom_1:
-      state: on
-      transition: 1
-      brightness: 101
-      xy_color: [0.368,0.3686]
-    light.bedroom_2:
-      state: on
-      transition: 1
-      brightness: 101
-      xy_color: [0.368,0.3686]
-    light.bedroom_3:
-      state: on
-      transition: 1
-      brightness: 202
-      xy_color: [0.368,0.3686]
-    light.bedroom_4:
-      state: on
-      transition: 1
-      brightness: 202
-      xy_color: [0.368,0.3686]
-    light.bedroom_lw:
-      state: off
-    light.bedroom_lc:
-      state: off
-    light.pandora:
-      state: on
+# - name: "Bedroom Energize"
+#   entities:
+#     light.hue_1:
+#       state: on
+#       transition: 1
+#       brightness: 101
+#       xy_color: [0.368,0.3686]
+#     light.hue_2:
+#       state: on
+#       transition: 1
+#       brightness: 101
+#       xy_color: [0.368,0.3686]
+#     light.hue_3:
+#       state: on
+#       transition: 1
+#       brightness: 202
+#       xy_color: [0.368,0.3686]
+#     light.hue_4:
+#       state: on
+#       transition: 1
+#       brightness: 202
+#       xy_color: [0.368,0.3686]
+#     light.whites_w:
+#       state: off
+#     light.mood:
+#       state: off
+#     light.pandora:
+#       state: on
 
-- name: "Bedroom Read"
-  entities:
-    light.bedroom_1:
-      state: on
-      transition: 1
-      brightness: 120
-      xy_color: [0.4448,0.4066]
-    light.bedroom_2:
-      state: on
-      transition: 1
-      brightness: 120
-      xy_color: [0.4448,0.4066]
-    light.bedroom_3:
-      state: on
-      transition: 1
-      brightness: 240
-      xy_color: [0.4448,0.4066]
-    light.bedroom_4:
-      state: on
-      transition: 1
-      brightness: 240
-      xy_color: [0.4448,0.4066]
-    light.bedroom_lw:
-      state: off
-    light.bedroom_lc:
-      state: off
-    light.pandora:
-      state: on
+# - name: "Bedroom Read"
+#   entities:
+#     light.hue_1:
+#       state: on
+#       transition: 1
+#       brightness: 120
+#       xy_color: [0.4448,0.4066]
+#     light.hue_2:
+#       state: on
+#       transition: 1
+#       brightness: 120
+#       xy_color: [0.4448,0.4066]
+#     light.hue_3:
+#       state: on
+#       transition: 1
+#       brightness: 240
+#       xy_color: [0.4448,0.4066]
+#     light.hue_4:
+#       state: on
+#       transition: 1
+#       brightness: 240
+#       xy_color: [0.4448,0.4066]
+#     light.whites_w:
+#       state: off
+#     light.mood:
+#       state: off
+#     light.pandora:
+#       state: on
 
-- name: "Bedroom Relax"
-  entities:
-    light.bedroom_1:
-      state: on
-      transition: 1
-      brightness: 70
-      xy_color: [0.5119,0.4147]
-    light.bedroom_2:
-      state: on
-      transition: 1
-      brightness: 70
-      xy_color: [0.5119,0.4147]
-    light.bedroom_3:
-      state: on
-      transition: 1
-      brightness: 144
-      xy_color: [0.5119,0.4147]
-    light.bedroom_4:
-      state: on
-      transition: 1
-      brightness: 144
-      xy_color: [0.5119,0.4147]
-    light.bedroom_lw:
-      state: off
-    light.bedroom_lc:
-      state: off
-    light.pandora:
-      state: off
+# - name: "Bedroom Relax"
+#   entities:
+#     light.hue_1:
+#       state: on
+#       transition: 1
+#       brightness: 70
+#       xy_color: [0.5119,0.4147]
+#     light.hue_2:
+#       state: on
+#       transition: 1
+#       brightness: 70
+#       xy_color: [0.5119,0.4147]
+#     light.hue_3:
+#       state: on
+#       transition: 1
+#       brightness: 144
+#       xy_color: [0.5119,0.4147]
+#     light.hue_4:
+#       state: on
+#       transition: 1
+#       brightness: 144
+#       xy_color: [0.5119,0.4147]
+#     light.whites_w:
+#       state: off
+#     light.mood:
+#       state: off
+#     light.pandora:
+#       state: off
 
 - name: "Bedroom Blossom"
   entities:
-    light.bedroom_1:
+    light.hue_1:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.3944,0.2952]
-    light.bedroom_2:
+    light.hue_2:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.3944,0.2952]
-    light.bedroom_3:
+    light.hue_3:
       state: on
       transition: 1
       brightness: 123
       xy_color: [0.3944,0.2952]
-    light.bedroom_4:
+    light.hue_4:
       state: on
       transition: 1
       brightness: 123
       xy_color: [0.3944,0.2952]
-    light.bedroom_lw:
+    light.whites_w:
       state: off
-    light.bedroom_lc:
+    light.mood:
       state: off
     light.pandora:
       state: off
 
 - name: "Bedroom Savanna"
   entities:
-    light.bedroom_1:
+    light.hue_1:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.6406,0.3333]
-    light.bedroom_2:
+    light.hue_2:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.4640,0.4513]
-    light.bedroom_3:
+    light.hue_3:
       state: on
       transition: 1
       brightness: 123
       xy_color: [0.6406,0.3333]
-    light.bedroom_4:
+    light.hue_4:
       state: on
       transition: 1
       brightness: 123
       xy_color: [0.5888,0.3536]
-    light.bedroom_lw:
+    light.whites_w:
       state: off
-    light.bedroom_lc:
+    light.mood:
       state: off
     light.pandora:
       state: off
 
 - name: "Bedroom Twilight"
   entities:
-    light.bedroom_1:
+    light.hue_1:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.5997,0.3765]
-    light.bedroom_2:
+    light.hue_2:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.3581,0.2871]
-    light.bedroom_3:
+    light.hue_3:
       state: on
       transition: 1
       brightness: 123
       xy_color: [0.5993,0.3765]
-    light.bedroom_4:
+    light.hue_4:
       state: on
       transition: 1
       brightness: 123
       xy_color: [0.3581,0.2872]
-    light.bedroom_lw:
+    light.whites_w:
       state: off
-    light.bedroom_lc:
+    light.mood:
       state: off
     light.pandora:
       state: off
 
 - name: "Bedroom Aurora"
   entities:
-    light.bedroom_1:
+    light.hue_1:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.2351,0.1743]
-    light.bedroom_2:
+    light.hue_2:
       state: on
       transition: 1
       brightness: 88
       xy_color: [0.1684,0.0416]
-    light.bedroom_3:
+    light.hue_3:
       state: on
       transition: 1
       brightness: 123
       xy_color: [0.2916,0.2860]
-    light.bedroom_4:
+    light.hue_4:
       state: on
       transition: 1
       brightness: 123
       xy_color: [0.3108,0.3239]
-    light.bedroom_lw:
+    light.whites_w:
       state: off
-    light.bedroom_lc:
+    light.mood:
       state: off
     light.pandora:
       state: off
@@ -465,53 +457,53 @@
     group.first_floor_lights_all:
       state: off
 
-- name: "First Floor Concentrate"
-  entities:
-    group.first_floor_lights_main:
-      state: on
-      profile: "Concentrate"
-    light.garage:
-      state: off
-    light.calypso:
-      state: on
+# - name: "First Floor Concentrate"
+#   entities:
+#     group.first_floor_lights_main:
+#       state: on
+#       profile: "Concentrate"
+#     light.garage:
+#       state: off
+#     light.phoebe:
+#       state: on
 
-- name: "First Floor Energize"
-  entities:
-    group.first_floor_lights_main:
-      state: on
-      profile: "Energize"
-    light.garage:
-      state: off
-    light.calypso:
-      state: on
+# - name: "First Floor Energize"
+#   entities:
+#     group.first_floor_lights_main:
+#       state: on
+#       profile: "Energize"
+#     light.garage:
+#       state: off
+#     light.phoebe:
+#       state: on
 
-- name: "First Floor Read"
-  entities:
-    group.first_floor_lights_main:
-      state: on
-      profile: "Read"
-    light.garage:
-      state: off
-    light.calypso:
-      state: on
+# - name: "First Floor Read"
+#   entities:
+#     group.first_floor_lights_main:
+#       state: on
+#       profile: "Read"
+#     light.garage:
+#       state: off
+#     light.phoebe:
+#       state: on
 
-- name: "First Floor Relax"
-  entities:
-    group.first_floor_lights_main:
-      state: on
-      profile: "Relax"
-    light.garage:
-      state: off
-    light.calypso:
-      state: off
+# - name: "First Floor Relax"
+#   entities:
+#     group.first_floor_lights_main:
+#       state: on
+#       profile: "Relax"
+#     light.garage:
+#       state: off
+#     light.phoebe:
+#       state: off
 
 - name: "First Floor Bright"
   entities:
-    light.first_floor_1:
+    light.whites_B1:
       state: on
       transition: 1
       brightness: 254
-    light.first_floor_2:
+    light.whites_B2:
       state: on
       transition: 1
       brightness: 254
@@ -519,35 +511,35 @@
       state: on
       transition: 1
       brightness: 124
-    light.calypso:
+    light.phoebe:
       state: on
 
-- name: "First Floor Alive"
-  entities:
-    light.first_floor_1:
-      state: on
-      transition: 1
-      brightness: 131
-    light.first_floor_2:
-      state: on
-      transition: 1
-      brightness: 131
-    light.garage:
-      state: off
-    light.calypso:
-      state: off
+# - name: "First Floor Alive"
+#   entities:
+#     light.whites_B1:
+#       state: on
+#       transition: 1
+#       brightness: 131
+#     light.whites_B2:
+#       state: on
+#       transition: 1
+#       brightness: 131
+#     light.garage:
+#       state: off
+#     light.phoebe:
+#       state: off
 
 - name: "First Floor Dim"
   entities:
-    light.first_floor_1:
+    light.whites_B1:
       state: on
       transition: 1
       brightness: 35
-    light.first_floor_2:
+    light.whites_B2:
       state: on
       transition: 1
       brightness: 35
     light.garage:
       state: off
-    light.calypso:
+    light.phoebe:
       state: off

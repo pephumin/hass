@@ -1,7 +1,8 @@
 devices:
-  view: no
   name: "Devices"
   icon: mdi:account
+  control: hidden
+  view: no
   entities:
     - device_tracker.pesiphone7plus
     - sensor.battery_pesiphone7plus
@@ -17,80 +18,31 @@ devices:
     - sensor.battery_pepe
 
 friends:
-  view: no
   name: "Friends"
   icon: mdi:account-multiple
+  control: hidden
+  view: no
   entities:
     - device_tracker.benjy
+    - binary_sensor.benjy
     - device_tracker.benjysipadmini2
+    - binary_sensor.benjysipadmini2
     - device_tracker.benjysmbp
+    - binary_sensor.benjysmbp
     - device_tracker.boom
+    - binary_sensor.boom
 
 proximity:
-  view: no
   name: "Current Position"
+  control: hidden
+  view: no
   entities:
     - proximity.pe_home
     - proximity.jue_home
     - proximity.pe_benjawan
     - proximity.jue_malaiwan
-
-# pesiphone7plus:
-#   view: no
-#   name: "Pe iPhone 6"
-#   entities:
-#     - device_tracker.pesiphone7plus
-#     - device_tracker.ping_pesiphone7plus
-#     - device_tracker.user_pesiphone7plus
-#
-# pesipadmini2:
-#   view: no
-#   name: "Pe iPad Mini 2"
-#   entities:
-#     - device_tracker.pesipadmini2
-#     - device_tracker.ping_pesipadmini2
-#     - device_tracker.user_pesipadmini2
-#
-# juesiphone6splus:
-#   view: no
-#   name: "Jue iPhone 6s Plus"
-#   entities:
-#     - device_tracker.juesiphone6splus
-#     - device_tracker.ping_juesiphone6splus
-#     - device_tracker.user_juesiphone6splus
-#
-# juesipadmini2:
-#   view: no
-#   name: "Jue iPad Mini 2"
-#   entities:
-#     - device_tracker.juesipadmini2
-#     - device_tracker.ping_juesipadmini2
-#     - device_tracker.user_juesipadmini2
-#
-# pepe:
-#   view: no
-#   name: "Pe Macbook Pro"
-#   entities:
-#     - device_tracker.pepe
-#     - device_tracker.ping_pepe
-#
-# pesipodtouch4:
-#   view: no
-#   name: "Pe iPod Touch 4"
-#   entities:
-#     - device_tracker.pesipodtouch4
-#     - device_tracker.ping_pesipodtouch4
-#
-# xdj_rx:
-#   view: no
-#   name: "XDJ-RX"
-#   entities:
-#     - device_tracker.xdj_rx
-#     - device_tracker.ping_xdj_rx
-#
-# dune:
-#   view: no
-#   name: "Dune"
-#   entities:
-#     - device_tracker.dune
-#     - device_tracker.ping_dune
+    - input_boolean.presence_pe
+    - input_boolean.presence_jue
+    - input_boolean.presence_benjy
+    - input_boolean.presence_pe_benjawan
+    - input_boolean.presence_jue_malaiwan

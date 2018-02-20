@@ -1,79 +1,5 @@
 automation:
 
-  # - alias: "Auto Air-conditioning Bedroom 1"
-  #   trigger:
-  #     - platform: time
-  #       at: '22:45:00'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-  #   action:
-  #     - service: switch.turn_on
-  #       entity_id: switch.bedroom_air_cond
-  #     - service: script.bedroom_ac_control
-  #       data_template:
-  #         packet: '{% if states.sensor.pandora_temperature.state | float > 30 %}powerful{% else %}18{% endif %}'
-  #
-  # - alias: "Auto Air-conditioning Bedroom 2"
-  #   trigger:
-  #     - platform: time
-  #       at: '01:00:00'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-  #   action:
-  #     - service: script.bedroom_ac_control
-  #       data:
-  #         packet: 21
-  #
-  # - alias: "Auto Air-conditioning Bedroom 3"
-  #   trigger:
-  #     - platform: time
-  #       at: '03:00:00'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-  #   action:
-  #     - service: script.bedroom_ac_control
-  #       data:
-  #         packet: 24
-  #
-  # - alias: "Auto Air-conditioning Bedroom 4"
-  #   trigger:
-  #     - platform: time
-  #       at: '04:30:00'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-  #   action:
-  #     - service: switch.turn_off
-  #       entity_id: switch.bedroom_air_cond
-  #
-  # - alias: "Auto Air-conditioning Bedroom 5"
-  #   trigger:
-  #     - platform: time
-  #       at: '05:00:00'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-  #   action:
-  #     - service: switch.turn_on
-  #       entity_id: switch.bedroom_air_cond
-  #     - service: script.bedroom_ac_control
-  #       data:
-  #         packet: 21
-  #
-  # - alias: "Auto Air-conditioning Bedroom 6"
-  #   trigger:
-  #     - platform: time
-  #       at: '07:00:00'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
-  #   action:
-  #     - service: switch.turn_off
-  #       entity_id: switch.bedroom_air_cond
-
   - alias: "Auto Air-conditioning Bedroom Powerful"
     trigger:
       - platform: state
@@ -82,8 +8,6 @@ automation:
         to: 'on'
         for:
           minutes: 3
-      # - platform: template
-      #   value_template: '{% if states.switch.bedroom_air_cond.last_changed %}{{ (as_timestamp(now()) - as_timestamp(states.switch.bedroom_air_cond.last_changed)) > 300 }}false{% else %}true{% endif %}'
     condition:
       - condition: template
         value_template: '{{ states.sensor.pandora_temperature.state | float > 30 }}'

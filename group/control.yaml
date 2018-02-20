@@ -2,35 +2,24 @@ control:
   name: "Control Panel"
   icon: mdi:google-controller
   control: hidden
+  view: no
   entities:
-    - input_boolean.presence_pe
-    - input_boolean.presence_jue
     - input_select.homemode
     - sensor.callisto_temperature
     - sensor.mimas_temperature
     - sensor.pandora_temperature
-    # - sensor.pandora_humidity
-    - sensor.mimas_temperature
-    # - sensor.mimas_humidity
     - input_boolean.mpd_silence
-    - switch.foscam_black_motion
-    - switch.foscam_white_motion
-    - counter.foscammotion
-    - input_boolean.presence_benjy
-    - input_boolean.presence_pe_benjawan
-    - input_boolean.presence_jue_malaiwan
 
 control_cr:
   name: "Common Room Control Panel"
   icon: mdi:google-controller
   control: hidden
+  view: no
   entities:
     - sensor.mimas_temperature
     - sensor.mimas_humidity
     - switch.common_room_air_cond
     - switch.common_room_fan
-    # - switch.common_room_saijodenki
-    # - switch.common_room_fanfan
     - switch.common_room_hometheatre
     - input_select.denon_mode
     - switch.sonytv
@@ -38,33 +27,32 @@ control_cr:
     - switch.mimas
     - script.mute_common_room
     - script.black_reboot
-    # - sensor.denon_source
-    # - sensor.denonsourcecheck
+    - sensor.denon_source
+    - sensor.denonsourcecheck
 
 control_br:
   name: "Bedroom Control Panel"
   icon: mdi:google-controller
   control: hidden
+  view: no
   entities:
     - sensor.pandora_temperature
     - sensor.pandora_humidity
     - switch.bedroom_air_cond
-    # - switch.bedroom_daikin
-    # - switch.bedroom_tv
     - switch.europa
     - script.mute_bedroom
-    # - script.dj_shuffle
-    # - script.soft_shuffle
     - script.bedroom_ac_powerful
-    - switch.ganymede
+    - switch.calypso
+    - counter.bedroom
 
 control_ff:
   name: "First Floor Control Panel"
   icon: mdi:google-controller
   control: hidden
+  view: no
   entities:
     - sensor.callisto_temperature
     - sensor.callisto_humidity
-    # - light.mimas
     - script.white_reboot
     - switch.callisto
+    - counter.firstfloor

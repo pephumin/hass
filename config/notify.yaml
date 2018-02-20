@@ -27,10 +27,10 @@
 #     - service: kodi
 #     # - service: voicetv
 
-- platform: file
-  name: file
-  filename: !secret notify_file
-  timestamp: true
+# - platform: file
+#   name: file
+#   filename: !secret notify_file
+#   timestamp: true
 
 # - platform: pushbullet
 #   name: pushbullet

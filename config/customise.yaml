@@ -92,58 +92,64 @@ binary_sensor.xdj_rx:
   icon: mdi:music
   friendly_name: "XDJ-RX"
 
-light.bedroom_1:
+light.hue_1:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 1"
   # custom_ui_state_card: custom_light
-light.bedroom_2:
+light.hue_2:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 2"
   # custom_ui_state_card: custom_light
-light.bedroom_3:
+light.hue_3:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 3"
   # custom_ui_state_card: custom_light
-light.bedroom_4:
+light.hue_4:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 4"
   # custom_ui_state_card: custom_light
-light.bedroom_lc:
+light.mood:
   icon: mdi:spotlight
-  friendly_name: "Bedroom LC"
+  friendly_name: "Mood Light"
   # custom_ui_state_card: custom_light
-light.bedroom_lw:
+light.whites_w:
   icon: mdi:lamp
-  friendly_name: "Bedroom LW"
-light.common_room_1:
+  friendly_name: "Bedroom Warm"
+light.whites_A1:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 1"
-light.common_room_2:
+light.whites_A2:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 2"
-light.common_room_3:
+light.whites_A3:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 3"
-light.common_room_4:
+light.whites_A4:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 4"
-light.lightstrip:
+light.tv:
   icon: mdi:alarm-light
-  friendly_name: "Lightstrip"
+  friendly_name: "TV"
   # custom_ui_state_card: custom_light
 light.hallway:
   icon: mdi:spotlight-beam
   friendly_name: "Hallway"
   # custom_ui_state_card: custom_light
-light.front_1:
+light.whites_B1:
   icon: mdi:lightbulb-outline
-  friendly_name: "Front 1"
-light.front_2:
+  friendly_name: "First Floor 1"
+light.whites_B2:
   icon: mdi:lightbulb-outline
-  friendly_name: "Front 2"
+  friendly_name: "First Floor 2"
 light.garage:
   icon: mdi:spotlight
   friendly_name: "Garage"
+light.hue_w1:
+  icon: mdi:lightbulb-on
+  friendly_name: "White 1"
+light.hue_w2:
+  icon: mdi:lightbulb-on
+  friendly_name: "White 2"
 
 camera.foscam_black:
   icon: mdi:webcam
@@ -311,6 +317,9 @@ sensor.average_disk_temperature:
 sensor.denon_source:
   icon: mdi:amplifier
   friendly_name: "Common Room Denon"
+sensor.denonsourcecheck:
+  icon: mdi:amplifier
+  friendly_name: "Common Room Denon"
 
 # sensor.lastfm_pephumin:
 #   icon: mdi:lastfm
@@ -363,6 +372,12 @@ binary_sensor.broadlink_rm_mini_a:
 binary_sensor.broadlink_rm_mini_b:
   icon: mdi:remote
   friendly_name: "Broadlink RM Mini B"
+binary_sensor.google_home_mini:
+  icon: mdi:google-home
+  friendly_name: "Google Home Mini"
+binary_sensor.google_chromecast:
+  icon: mdi:google-chrome
+  friendly_name: "Google Chromecast"
 binary_sensor.earth:
   icon: mdi:printer
   friendly_name: "Samsung Printer"
@@ -426,7 +441,7 @@ proximity.pe_benjawan:
 
 switch.ganymede:
   icon: mdi:power-socket
-  friendly_name: "Bedroom Online Switch"
+  friendly_name: "POW Online Switch"
   assumed_state: true
 sensor.ganymede_power:
   icon: mdi:power-socket
@@ -489,17 +504,34 @@ light.phoebe:
   assumed_state: false
 switch.calypso:
   icon: mdi:power-plug
-  friendly_name: "Calypso"
+  friendly_name: "Bedroom Online Switch"
   assumed_state: true
 
-group.lights_all:
-  assumed_state: false
-group.common_room_lights_all:
-  assumed_state: false
-group.bedroom_lights_all:
-  assumed_state: false
-group.first_floor_lights_all:
-  assumed_state: false
+# group.lights_all:
+#   assumed_state: false
+# group.common_room_lights_all:
+#   assumed_state: false
+# group.common_room_lights_main:
+#   assumed_state: false
+# group.common_room_scenes:
+#   assumed_state: false
+# group.bedroom_lights_all:
+#   assumed_state: false
+# group.bedroom_lights_main:
+#   assumed_state: false
+# group.bedroom_scenes:
+#   assumed_state: false
+# group.first_floor_lights_all:
+#   assumed_state: false
+# group.first_floor_lights_main:
+#   assumed_state: false
+# group.first_floor_scenes:
+#   assumed_state: false
+# group.daylight:
+#   assumed_state: false
+# group.devices:
+#   assumed_state: false
+
 
 # sensor.rm_pro_temperature_mean:
 #   icon: mdi:chart-line-stacked
@@ -531,7 +563,7 @@ sensor.average_disk_temperature_mean:
 
 light.led:
   icon: mdi:led-strip
-  friendly_name: "LED Lightstrip"
+  friendly_name: "LED Party"
   assumed_state: true
 input_number.led_animation_speed:
   icon: mdi:fast-forward

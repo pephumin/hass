@@ -1,98 +1,111 @@
-lights_all:
-  view: no
+light.whites_lights_all:
   name: "Lights"
   icon: mdi:lightbulb-outline
+  # control: hidden
+  view: no
   entities:
-    - light.common_room_1
-    - light.common_room_2
-    - light.common_room_3
-    - light.common_room_4
+    - light.whites_A1
+    - light.whites_A2
+    - light.whites_A3
+    - light.whites_A4
     - light.hallway
-    - light.lightstrip
-    - light.bedroom_1
-    - light.bedroom_2
-    - light.bedroom_3
-    - light.bedroom_4
-    - light.bedroom_lc
-    - light.bedroom_lw
+    - light.tv
+    - light.hue_1
+    - light.hue_2
+    - light.hue_3
+    - light.hue_4
+    - light.mood
+    - light.whites_w
     - light.pandora
-    - light.front_1
-    - light.front_2
+    - light.whites_B1
+    - light.whites_B2
+    - light.hue_w1
+    - light.hue_w2
     - light.phoebe
     - light.garage
 
 common_room_lights_all:
-  view: no
   name: "Common Room Lights"
   icon: mdi:lightbulb-outline
+  # control: hidden
+  view: no
   entities:
-    - light.common_room_1
-    - light.common_room_2
-    - light.common_room_3
-    - light.common_room_4
+    - light.whites_A1
+    - light.whites_A2
+    - light.whites_A3
+    - light.whites_A4
     - light.hallway
-    - light.lightstrip
+    - light.tv
 
 common_room_lights_main:
-  view: no
   name: "Common Room Main Lights"
   icon: mdi:lightbulb
+  # control: hidden
+  view: no
   entities:
-    - light.common_room_1
-    - light.common_room_2
-    - light.common_room_3
-    - light.common_room_4
+    - light.whites_A1
+    - light.whites_A2
+    - light.whites_A3
+    - light.whites_A4
 
 bedroom_lights_all:
-  view: no
   name: "Bedroom Lights"
   icon: mdi:lightbulb-outline
+  # control: hidden
+  view: no
   entities:
-    - light.bedroom_1
-    - light.bedroom_2
-    - light.bedroom_3
-    - light.bedroom_4
-    - light.bedroom_lc
-    - light.bedroom_lw
+    - light.hue_1
+    - light.hue_2
+    - light.hue_3
+    - light.hue_4
+    - light.mood
+    - light.whites_w
     - light.pandora
 
 bedroom_lights_main:
-  view: no
   name: "Bedroom Main Lights"
   icon: mdi:lightbulb
+  # control: hidden
+  view: no
   entities:
-    - light.bedroom_1
-    - light.bedroom_2
-    - light.bedroom_3
-    - light.bedroom_4
+    - light.hue_1
+    - light.hue_2
+    - light.hue_3
+    - light.hue_4
 
 first_floor_lights_all:
-  view: no
   name: "First Floor Lights"
   icon: mdi:lightbulb-outline
+  # control: hidden
+  view: no
   entities:
-    - light.front_1
-    - light.front_2
+    - light.whites_B1
+    - light.whites_B2
+    - light.hue_w1
+    - light.hue_w2
     - light.phoebe
     - light.garage
 
 first_floor_lights_main:
-  view: no
   name: "First Floor Main Lights"
   icon: mdi:lightbulb
+  # control: hidden
+  view: no
   entities:
-    - light.front_1
-    - light.front_2
-    - light.phoebe
+    - light.whites_B1
+    - light.whites_B2
+    - light.hue_w1
+    - light.hue_w2
 
 flashlights:
-  view: no
   name: "Flash Lights"
   icon: mdi:alarm-light
+  # control: hidden
+  view: no
   entities:
-    - light.common_room_1
-    - light.common_room_2
-    - light.bedroom_3
-    - light.bedroom_4
-    - light.front_1
-    - light.front_2
+    - light.hue_3
+    - light.hue_4
+    - light.whites_A3
+    - light.whites_A4
+    - light.whites_B1
+    - light.whites_B2

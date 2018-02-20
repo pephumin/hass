@@ -1,74 +1,166 @@
-input_boolean:
-  timer_enable:
-    name: "Timer enable"
-    initial: off
-    icon: mdi:alarm
+# timer:
+#   second_30:
+#     duration: '00:00:30'
+#     icon: mdi:alarm
+#   minute_1:
+#     duration: '00:01:00'
+#     icon: mdi:alarm
+#   minute_3:
+#     duration: '00:03:00'
+#     icon: mdi:alarm
+#   minute_5:
+#     duration: '00:05:00'
+#     icon: mdi:alarm
+#   minute_10:
+#     duration: '00:10:00'
+#     icon: mdi:alarm
+#
+# automation:
+#
+#   - alias: "Start timer for Pandora"
+#     trigger:
+#       - platform: state
+#         entity_id: light.pandora
+#         from: 'off'
+#         to: 'on'
+#     action:
+#       - service: timer.start
+#         entity_id: timer.second_30
+#
+#   - alias: "Turn off Pandora when timer runs out"
+#     trigger:
+#       - platform: event
+#         event_type: timer.finished
+#         event_data:
+#           entity_id: timer.second_30
+#     action:
+#       - service: light.turn_off
+#         entity_id: light.pandora
+
+timer:
+  quick_timer:
+    name: Quick Timer
+    icon: mdi:clock-end
 
 input_number:
-  timer_set:
-    name: "Timer set"
+  timer_minutes:
+    name: Minutes
+    icon: mdi:timer
     initial: 0
     min: 0
-    max: 30
+    max: 60
     step: 1
-    # mode: box
-    unit_of_measurement: minutes
 
-# input_datetime:
-#   timer_set:
-#     name: "Timer set"
-#     has_date: false
-#     has_time: true
-#     # minute: 30
-
-input_select:
-  timer_source:
-    name: "Device to turn off"
-    options:
-      - 'Titan'
-      - 'Europa'
-      - 'Calypso'
-      - 'Pandora'
-      - 'Phoebe'
-    icon: mdi:timer
-
-# shell_command:
-#   start_timer: '/bin/echo $(($(date +%s))) > /tmp/hass_timer ; /bin/echo {{ states.input_datetime.timer_set.state | float | multiply(60) }} > /tmp/hass_timer_gap'
-#   stop_timer: '/bin/rm -f /tmp/hass_timer'
-#
-# sensor:
-#   - platform: command_line
-#     scan_interval: 1
-#     name: "Countdown"
-#     # command: 'if [ -e /tmp/hass_timer_gap ]; then b=$(($(</tmp/hass_timer_gap))); else b=0; if [ -e /tmp/hass_timer ]; then s=$(($(</tmp/hass_timer)-$(date +%s) + $b)); if [ $s -lt 0 ]; then s=0; fi; echo "$s"; fi; fi'
-#     command: 'b=$(($(</tmp/hass_timer_gap))); if [ -e /tmp/hass_timer ]; then s=$(($(</tmp/hass_timer)-$(date +%s) + $b)); if [ $s -lt 0 ]; then s=0; fi; echo "$s"; fi'
-#     unit_of_measurement: "seconds"
-#     value_template: '{{ value }}'
-
-script:
-  timer:
-    alias: "Timer Script"
-    sequence:
-      - service: script.turn_off
-        entity_id: script.timer
-      - delay: '00:{{ states.input_number.timer_set.state | int }}:00'
-      - service_template: '{% if is_state("input_select.timer_source", "Titan") or is_state("input_select.timer_source", "Europa") or is_state("input_select.timer_source", "Calypso") %}switch.turn_off{% elif is_state("input_select.timer_source", "Pandora") or is_state("input_select.timer_source", "Phoebe") %}light.turn_off{% else %}{% endif %}'
-        data_template:
-          entity_id: '{% if is_state("input_select.timer_source", "Titan") %}switch.titan{% elif is_state("input_select.timer_source", "Europa") %}switch.europa{% elif is_state("input_select.timer_source", "Calypso") %}switch.calypso{% elif is_state("input_select.timer_source", "Pandora") %}light.pandora{% elif is_state("input_select.timer_source", "Phoebe") %}light.phoebe{% else %}{% endif %}'
-      - service: input_number.select_value
-        data:
-          entity_id: input_number.timer_set
-          value: 0
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.timer_enable
+group:
+  quick_timer:
+    name: 'Timer'
+    entities:
+      - input_number.timer_minutes
+      - timer.quick_timer
 
 automation:
-  - alias: "Timer Trigger"
+  - alias: Timer set
+    initial_state: 'on'
     trigger:
-      - platform: state
-        entity_id: input_number.timer_set
+      platform: state
+      entity_id: input_number.timer_minutes
     action:
-      - service_template: '{% if states.input_number.timer_set.state | int == 0 %}input_boolean.turn_off{% else %}input_boolean.turn_on{% endif %}'
-        entity_id: input_boolean.timer_enable
-      - service_template: '{% if states.input_number.timer_set.state | int == 0 %}script.turn_off{% else %}script.turn_on{% endif %}'
-        entity_id: script.timer
+      - service: timer.cancel
+        entity_id: timer.quick_timer
+      - condition: template
+        value_template: '{{ states.input_number.timer_minutes.state | float != 0 }}'
+      - service: timer.start
+        entity_id: timer.quick_timer
+        data_template:
+          duration: '00:{{ states.input_number.timer_minutes.state | int }}:00'
+
+  - alias: Timer expired
+    initial_state: 'on'
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.quick_timer
+    action:
+      - service: shell_command.line_pe
+        data_template:
+          message: "The timer has expired, The timer has expired"
+      - service: input_number.set_value
+        entity_id: input_number.timer_minutes
+        data:
+          value: 0
+
+# input_boolean:
+#   timer_enable:
+#     name: "Timer enable"
+#     initial: off
+#     icon: mdi:alarm
+#
+# input_number:
+#   timer_set:
+#     name: "Timer set"
+#     initial: 0
+#     min: 0
+#     max: 30
+#     step: 1
+#     # mode: box
+#     unit_of_measurement: minutes
+#
+# # input_datetime:
+# #   timer_set:
+# #     name: "Timer set"
+# #     has_date: false
+# #     has_time: true
+# #     # minute: 30
+#
+# input_select:
+#   timer_source:
+#     name: "Device to turn off"
+#     options:
+#       - 'Titan'
+#       - 'Europa'
+#       - 'Calypso'
+#       - 'Pandora'
+#       - 'Phoebe'
+#     icon: mdi:timer
+#
+# # shell_command:
+# #   start_timer: '/bin/echo $(($(date +%s))) > /tmp/hass_timer ; /bin/echo {{ states.input_datetime.timer_set.state | float | multiply(60) }} > /tmp/hass_timer_gap'
+# #   stop_timer: '/bin/rm -f /tmp/hass_timer'
+# #
+# # sensor:
+# #   - platform: command_line
+# #     scan_interval: 1
+# #     name: "Countdown"
+# #     # command: 'if [ -e /tmp/hass_timer_gap ]; then b=$(($(</tmp/hass_timer_gap))); else b=0; if [ -e /tmp/hass_timer ]; then s=$(($(</tmp/hass_timer)-$(date +%s) + $b)); if [ $s -lt 0 ]; then s=0; fi; echo "$s"; fi; fi'
+# #     command: 'b=$(($(</tmp/hass_timer_gap))); if [ -e /tmp/hass_timer ]; then s=$(($(</tmp/hass_timer)-$(date +%s) + $b)); if [ $s -lt 0 ]; then s=0; fi; echo "$s"; fi'
+# #     unit_of_measurement: "seconds"
+# #     value_template: '{{ value }}'
+#
+# script:
+#   timer:
+#     alias: "Timer Script"
+#     sequence:
+#       - service: script.turn_off
+#         entity_id: script.timer
+#       - delay: '00:{{ states.input_number.timer_set.state | int }}:00'
+#       - service_template: '{% if is_state("input_select.timer_source", "Titan") or is_state("input_select.timer_source", "Europa") or is_state("input_select.timer_source", "Calypso") %}switch.turn_off{% elif is_state("input_select.timer_source", "Pandora") or is_state("input_select.timer_source", "Phoebe") %}light.turn_off{% else %}{% endif %}'
+#         data_template:
+#           entity_id: '{% if is_state("input_select.timer_source", "Titan") %}switch.titan{% elif is_state("input_select.timer_source", "Europa") %}switch.europa{% elif is_state("input_select.timer_source", "Calypso") %}switch.calypso{% elif is_state("input_select.timer_source", "Pandora") %}light.pandora{% elif is_state("input_select.timer_source", "Phoebe") %}light.phoebe{% else %}{% endif %}'
+#       - service: input_number.select_value
+#         data:
+#           entity_id: input_number.timer_set
+#           value: 0
+#       - service: input_boolean.turn_off
+#         entity_id: input_boolean.timer_enable
+#
+# automation:
+#   - alias: "Timer Trigger"
+#     trigger:
+#       - platform: state
+#         entity_id: input_number.timer_set
+#     action:
+#       - service_template: '{% if states.input_number.timer_set.state | int == 0 %}input_boolean.turn_off{% else %}input_boolean.turn_on{% endif %}'
+#         entity_id: input_boolean.timer_enable
+#       - service_template: '{% if states.input_number.timer_set.state | int == 0 %}script.turn_off{% else %}script.turn_on{% endif %}'
+#         entity_id: script.timer

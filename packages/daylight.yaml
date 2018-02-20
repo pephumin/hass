@@ -37,7 +37,8 @@ automation:
           light: "false"
           mobile: "false"
           title: "Sunset is expected in 30 minutes"
-          message: 'Sunset is expected in 30 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          message: "Sunset is expected in 30 minutes"
+          # message: 'Sunset is expected in 30 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Sunset 2"
     trigger:
@@ -57,7 +58,8 @@ automation:
           light: "false"
           mobile: "false"
           title: "Sun is setting now"
-          message: 'Sun is setting now [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
+          message: "Sun is setting now"
+          # message: 'Sun is setting now [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   # - alias: "Theme Start Up"
   #   initial_state: 'on'

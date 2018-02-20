@@ -18,7 +18,8 @@
     #     entity_id: switch.common_room_fan
     common_room_hometheatre:
       friendly_name: "Common Room Home Theatre"
-      value_template: "{{ states.sensor.titan_current_consumption.state | float > 100 }}"
+      # value_template: "{{ states.sensor.titan_current_consumption.state | float > 100 }}"
+      value_template: '{{ is_state("media_player.denon", "on") }}'
       turn_on:
         service: script.hometheatre_turnon
       turn_off:
