@@ -39,17 +39,9 @@ sensor:
   - platform: speedtest
     minute:
       - 0
-      - 5
-      - 10
       - 15
-      - 20
-      - 25
       - 30
-      - 35
-      - 40
       - 45
-      - 50
-      - 55
     monitored_conditions:
       - ping
       - download
@@ -92,3 +84,21 @@ sensor:
               {%- endif -%}
             {%- endif -%}
           {%- endif -%}
+
+group:
+  home_server:
+    name: "Home Server"
+    icon: mdi:server-security
+    control: hidden
+    entities:
+      - sensor.uptime
+      - sensor.cpu_use
+      - sensor.ram_use
+      - sensor.disk_use_
+      - sensor.speedtest_download
+      - sensor.speedtest_upload
+      - sensor.average_disk_temperature
+      - sensor.maximum_disk_temperature
+      - binary_sensor.saturn_temperature_up
+      - binary_sensor.saturn_temperature_down
+      - input_boolean.mpd_silence

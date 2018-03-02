@@ -2,9 +2,11 @@
   username: !secret icloud_username
   password: !secret icloud_password
   account_name: pe
-  # interval_seconds: 12
-  # consider_home: 0:05:00
-  # track_new_devices: True
+  interval_seconds: 12
+  consider_home: 0:10:00
+  new_device_defaults:
+    track_new_devices: True
+    hide_if_away: False
 
 - platform: nmap_tracker
   hosts: 192.168.1.1/24
@@ -12,8 +14,8 @@
   scan_options: "--unprivileged -sn"
   exclude:
     - 192.168.1.100
-  interval_seconds: 12
-  consider_home: 0:05:00
+  interval_seconds: 300
+  consider_home: 0:10:00
   new_device_defaults:
     track_new_devices: True
     hide_if_away: False
@@ -47,7 +49,7 @@
   password: !secret my_password
   http_id: !secret tomato_http_id_1
   interval_seconds: 600
-  consider_home: 0:03:00
+  consider_home: 0:10:00
   new_device_defaults:
     track_new_devices: True
     hide_if_away: False
@@ -58,7 +60,7 @@
   password: !secret my_password
   http_id: !secret tomato_http_id_2
   interval_seconds: 600
-  consider_home: 0:03:00
+  consider_home: 0:10:00
   new_device_defaults:
     track_new_devices: True
     hide_if_away: False
@@ -79,7 +81,7 @@
     # ping_xdj_rx: 192.168.1.45
     # ping_dune: 192.168.1.77
   interval_seconds: 12
-  consider_home: 0:00:30
+  consider_home: 0:05:00
   new_device_defaults:
     track_new_devices: False
     hide_if_away: False

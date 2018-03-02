@@ -193,6 +193,19 @@ binary_sensor:
         min_gradient: -0.00044444444
         device_class: cold
 
+group:
+  sonoff:
+    name: "Sonoff"
+    icon: mdi:power-plug
+    control: hidden
+    entities:
+      - switch.ganymede
+      - switch.callisto
+      - switch.mimas
+      - light.pandora
+      - light.phoebe
+      - switch.calypso
+
 automation:
 
   # - alias: "Auto Double Subwoofer On"

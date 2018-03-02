@@ -1,8 +1,6 @@
 devices:
   name: "Devices"
   icon: mdi:account
-  control: hidden
-  view: no
   entities:
     - device_tracker.pesiphone7plus
     - sensor.battery_pesiphone7plus
@@ -20,29 +18,16 @@ devices:
 friends:
   name: "Friends"
   icon: mdi:account-multiple
-  control: hidden
-  view: no
   entities:
     - device_tracker.benjy
-    - binary_sensor.benjy
     - device_tracker.benjysipadmini2
-    - binary_sensor.benjysipadmini2
     - device_tracker.benjysmbp
-    - binary_sensor.benjysmbp
     - device_tracker.boom
-    - binary_sensor.boom
 
 proximity:
   name: "Current Position"
-  control: hidden
-  view: no
   entities:
     - proximity.pe_home
     - proximity.jue_home
     - proximity.pe_benjawan
     - proximity.jue_malaiwan
-    - input_boolean.presence_pe
-    - input_boolean.presence_jue
-    - input_boolean.presence_benjy
-    - input_boolean.presence_pe_benjawan
-    - input_boolean.presence_jue_malaiwan

@@ -82,9 +82,12 @@ automation:
         event_data:
           entity_id: timer.quick_timer
     action:
-      - service: shell_command.line_pe
-        data_template:
-          message: "The timer has expired, The timer has expired"
+      - service: light.turn_on
+        entity_id: light.party
+        data:
+          color_name: "red"
+          brightness: 255
+          flash: "long"
       - service: input_number.set_value
         entity_id: input_number.timer_minutes
         data:

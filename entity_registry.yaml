@@ -79,3 +79,9 @@ sensor.pes_iphone_7_plus_battery_level:
 sensor.pes_ipad_mini_2_battery_state:
   platform: ios
   unique_id: state_pesipadmini2
+media_player.biscuit:
+  platform: cast
+  unique_id: 77f366b1-7e68-c760-9db2-c15733ea706a
+media_player.doughnut:
+  platform: cast
+  unique_id: 91246b42-5149-d03d-11b9-0f90d16fbfc9

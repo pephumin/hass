@@ -1,8 +1,8 @@
 light:
   - platform: mqtt_json
-    name: "LED"
-    state_topic: "led/state"
-    command_topic: "led/set"
+    name: "Party"
+    state_topic: "party/state"
+    command_topic: "party/set"
     effect: true
     effect_list:
       - applause
@@ -15,10 +15,12 @@ light:
       - glitter
       - juggle
       - lightning
+      - noise
       - police all
       - police one
       - rainbow
       - rainbow glitter
+      - ripple
       - sinelon
       - solid
       - strobe
@@ -34,12 +36,21 @@ light:
     xy: false
 
 input_number:
-  led_animation_speed:
+  party_animation_speed:
     name: "Animation Speed"
     initial: 100
     min: 1
     max: 150
     step: 10
+
+group:
+  party:
+    name: "Party Light"
+    icon: mdi:led-strip
+    control: hidden
+    entities:
+      - light.party
+      - input_number.party_animation_speed
 
 automation:
 
@@ -48,27 +59,27 @@ automation:
     hide_entity: false
     trigger:
       - platform: state
-        entity_id: input_number.led_animation_speed
+        entity_id: input_number.party_animation_speed
     action:
       - service: mqtt.publish
         data_template:
-          topic: "led/set"
+          topic: "party/set"
           payload: '{"transition": {{ trigger.to_state.state | int }}}'
 
   - alias: "Set LED Animation Speed"
     trigger:
       - platform: mqtt
-        topic: "led/set"
+        topic: "party/set"
     action:
       - service: input_number.set_value
         data_template:
-          entity_id: input_number.led_animation_speed
+          entity_id: input_number.party_animation_speed
           value: '{{ trigger.payload }}'
 
 # Fade the Light On Over 5 Seconds - light.turn_on
 #
 # {
-# 	"entity_id": "light.led",
+# 	"entity_id": "light.party",
 # 	"brightness": 150,
 # 	"color_name": "blue",
 # 	"transition": "5"
@@ -77,7 +88,7 @@ automation:
 # Flash The Light - light.turn_on
 #
 # {
-# 	"entity_id": "light.led",
+# 	"entity_id": "light.party",
 # 	"color_name": "green",
 # 	"brightness": 255,
 # 	"flash": "short"
@@ -86,7 +97,7 @@ automation:
 # Call Rainbow Effect with Slow Animation Speed - light.turn_on
 #
 # {
-# 	"entity_id": "light.led",
+# 	"entity_id": "light.party",
 # 	"transition": "50",
 # 	"brightness": 255,
 # 	"effect": "rainbow"
@@ -95,6 +106,6 @@ automation:
 # Fade the Light Off Over 5 Seconds - light.turn_off
 #
 # {
-# 	"entity_id": "light.led",
+# 	"entity_id": "light.party",
 # 	"transition": "50"
 # }

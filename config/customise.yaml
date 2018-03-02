@@ -95,50 +95,43 @@ binary_sensor.xdj_rx:
 light.hue_1:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 1"
-  # custom_ui_state_card: custom_light
 light.hue_2:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 2"
-  # custom_ui_state_card: custom_light
 light.hue_3:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 3"
-  # custom_ui_state_card: custom_light
 light.hue_4:
   icon: mdi:lightbulb
   friendly_name: "Bedroom 4"
-  # custom_ui_state_card: custom_light
 light.mood:
   icon: mdi:spotlight
-  friendly_name: "Mood Light"
-  # custom_ui_state_card: custom_light
+  friendly_name: "Bedroom Mood"
 light.whites_w:
   icon: mdi:lamp
   friendly_name: "Bedroom Warm"
-light.whites_A1:
+light.whites_a1:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 1"
-light.whites_A2:
+light.whites_a2:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 2"
-light.whites_A3:
+light.whites_a3:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 3"
-light.whites_A4:
+light.whites_a4:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 4"
 light.tv:
   icon: mdi:alarm-light
   friendly_name: "TV"
-  # custom_ui_state_card: custom_light
 light.hallway:
   icon: mdi:spotlight-beam
   friendly_name: "Hallway"
-  # custom_ui_state_card: custom_light
-light.whites_B1:
+light.whites_b1:
   icon: mdi:lightbulb-outline
   friendly_name: "First Floor 1"
-light.whites_B2:
+light.whites_b2:
   icon: mdi:lightbulb-outline
   friendly_name: "First Floor 2"
 light.garage:
@@ -238,7 +231,6 @@ switch.bedroom_air_cond:
   icon: mdi:air-conditioner
   friendly_name: "Bedroom Air Cond"
   assumed_state: true
-  # custom_ui_state_card: custom_aircond
 switch.bedroom_daikin:
   icon: mdi:air-conditioner
   friendly_name: "Bedroom Air Cond"
@@ -372,10 +364,10 @@ binary_sensor.broadlink_rm_mini_a:
 binary_sensor.broadlink_rm_mini_b:
   icon: mdi:remote
   friendly_name: "Broadlink RM Mini B"
-binary_sensor.google_home_mini:
+binary_sensor.doughnut:
   icon: mdi:google-home
   friendly_name: "Google Home Mini"
-binary_sensor.google_chromecast:
+binary_sensor.biscuit:
   icon: mdi:google-chrome
   friendly_name: "Google Chromecast"
 binary_sensor.earth:
@@ -410,19 +402,19 @@ binary_sensor.calypso:
 binary_sensor.nodemcu:
   icon: mdi:video-input-antenna
   friendly_name: "NodeMCU"
-binary_sensor.wemoslitea:
+binary_sensor.wemos_lite_a:
   icon: mdi:video-input-antenna
   friendly_name: "WeMos Lite A"
-binary_sensor.wemosliteled:
+binary_sensor.wemos_lite_led:
   icon: mdi:video-input-antenna
   friendly_name: "WeMos Lite LED"
-binary_sensor.wemospro:
+binary_sensor.wemos_pro:
   icon: mdi:video-input-antenna
   friendly_name: "WeMos Pro"
-binary_sensor.wemosbell:
+binary_sensor.wemos_bell:
   icon: mdi:video-input-antenna
   friendly_name: "WeMos Bell"
-binary_sensor.wemosb:
+binary_sensor.wemos_b:
   icon: mdi:video-input-antenna
   friendly_name: "WeMos B"
 
@@ -441,7 +433,7 @@ proximity.pe_benjawan:
 
 switch.ganymede:
   icon: mdi:power-socket
-  friendly_name: "POW Online Switch"
+  friendly_name: "Common Room Online Switch"
   assumed_state: true
 sensor.ganymede_power:
   icon: mdi:power-socket
@@ -490,7 +482,7 @@ sensor.mimas_humidity:
   friendly_name: "Common Room Humidity"
 light.pandora:
   icon: mdi:lightbulb-on-outline
-  friendly_name: "Bedroom Night Light"
+  friendly_name: "Bedroom Night"
   assumed_state: false
 sensor.pandora_temperature:
   icon: mdi:thermometer
@@ -507,30 +499,26 @@ switch.calypso:
   friendly_name: "Bedroom Online Switch"
   assumed_state: true
 
-# group.lights_all:
-#   assumed_state: false
-# group.common_room_lights_all:
-#   assumed_state: false
-# group.common_room_lights_main:
-#   assumed_state: false
-# group.common_room_scenes:
-#   assumed_state: false
-# group.bedroom_lights_all:
-#   assumed_state: false
-# group.bedroom_lights_main:
-#   assumed_state: false
-# group.bedroom_scenes:
-#   assumed_state: false
-# group.first_floor_lights_all:
-#   assumed_state: false
-# group.first_floor_lights_main:
-#   assumed_state: false
-# group.first_floor_scenes:
-#   assumed_state: false
-# group.daylight:
-#   assumed_state: false
-# group.devices:
-#   assumed_state: false
+group.hue_all:
+  assumed_state: false
+group.hue_common_room_all:
+  assumed_state: false
+group.hue_common_room_main:
+  assumed_state: false
+group.common_room_scenes:
+  assumed_state: false
+group.hue_bedroom_all:
+  assumed_state: false
+group.hue_bedroom_main:
+  assumed_state: false
+group.bedroom_scenes:
+  assumed_state: false
+group.hue_first_floor_all:
+  assumed_state: false
+group.hue_first_floor_main:
+  assumed_state: false
+group.first_floor_scenes:
+  assumed_state: false
 
 
 # sensor.rm_pro_temperature_mean:
@@ -561,10 +549,10 @@ sensor.average_disk_temperature_mean:
   icon: mdi:chart-line-stacked
   friendly_name: "Average Saturn Temperature"
 
-light.led:
+light.party:
   icon: mdi:led-strip
-  friendly_name: "LED Party"
-  assumed_state: true
+  friendly_name: "Party Light"
+  # assumed_state: true
 input_number.led_animation_speed:
   icon: mdi:fast-forward
   friendly_name: "Speed"

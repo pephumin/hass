@@ -1,0 +1,283 @@
+binary_sensor:
+  - platform: ping
+    host: 192.168.1.1
+    name: "Deeper"
+  - platform: ping
+    host: 192.168.1.2
+    name: "Pluto"
+  - platform: ping
+    host: 192.168.1.3
+    name: "Neptune"
+  - platform: ping
+    host: 192.168.1.4
+    name: "Uranus"
+  - platform: ping
+    host: 192.168.1.5
+    name: "Mercury"
+  - platform: ping
+    host: 192.168.1.6
+    name: "Apollo"
+  - platform: ping
+    host: 192.168.1.7
+    name: "Sputnik"
+  - platform: ping
+    host: 192.168.1.11
+    name: "Higher"
+
+  # - platform: ping
+  #   host: 192.168.1.13
+  #   name: "Broadlink RM Pro"
+  - platform: ping
+    host: 192.168.1.14
+    name: "Broadlink RM Mini A"
+  - platform: ping
+    host: 192.168.1.15
+    name: "Broadlink RM Mini B"
+  - platform: ping
+    host: 192.168.1.16
+    name: "Doughnut"
+  - platform: ping
+    host: 192.168.1.17
+    name: "Biscuit"
+
+  - platform: ping
+    host: 192.168.1.20
+    name: "Titan"
+  - platform: ping
+    host: 192.168.1.21
+    name: "Europa"
+
+  - platform: ping
+    host: 192.168.1.22
+    name: "Ganymede"
+  - platform: ping
+    host: 192.168.1.23
+    name: "Callisto"
+  - platform: ping
+    host: 192.168.1.24
+    name: "Mimas"
+  - platform: ping
+    host: 192.168.1.25
+    name: "Pandora"
+  - platform: ping
+    host: 192.168.1.26
+    name: "Phoebe"
+  - platform: ping
+    host: 192.168.1.27
+    name: "Calypso"
+
+  - platform: ping
+    host: 192.168.1.40
+    name: "Moon"
+  - platform: ping
+    host: 192.168.1.44
+    name: "Earth"
+
+  - platform: ping
+    host: 192.168.1.46
+    name: "Wemos Lite A"
+  - platform: ping
+    host: 192.168.1.47
+    name: "Wemos Lite LED"
+  - platform: ping
+    host: 192.168.1.48
+    name: "Wemos Pro"
+  - platform: ping
+    host: 192.168.1.49
+    name: "NodeMCU"
+  - platform: ping
+    host: 192.168.1.51
+    name: "Wemos Bell"
+  - platform: ping
+    host: 192.168.1.52
+    name: "Wemos B"
+
+  - platform: ping
+    host: 192.168.1.78
+    name: "Foscam Black"
+  - platform: ping
+    host: 192.168.1.79
+    name: "Foscam White"
+
+counter:
+  bedroom:
+    name: "Bedroom Reboot Counts"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+  commonroom:
+    name: "Common Room Reboot Counts"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+  firstfloor:
+    name: "Frst Floor Reboot Counts"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+
+group:
+  online_cr:
+    name: "Online Status Common Room"
+    icon: mdi:lan-connect
+    control: hidden
+    entities:
+      - binary_sensor.deeper
+      - binary_sensor.higher
+      - binary_sensor.pluto
+      # - binary_sensor.broadlink_rm_pro
+      - binary_sensor.broadlink_rm_mini_b
+      - binary_sensor.foscam_black
+      - binary_sensor.titan
+      - binary_sensor.ganymede
+      - binary_sensor.mimas
+      - binary_sensor.wemos_lite_led
+      - binary_sensor.denon
+      - binary_sensor.android_box
+      - binary_sensor.biscuit
+      - binary_sensor.dune
+      - binary_sensor.xdj_rx
+  online_br:
+    name: "Online Status Bedroom"
+    icon: mdi:lan-connect
+    control: hidden
+    entities:
+      - binary_sensor.neptune
+      - binary_sensor.broadlink_rm_mini_a
+      - binary_sensor.doughnut
+      - binary_sensor.moon
+      - binary_sensor.europa
+      - binary_sensor.pandora
+      - binary_sensor.calypso
+  online_ff:
+    name: "Online Status First Floor"
+    icon: mdi:lan-connect
+    control: hidden
+    entities:
+      - binary_sensor.uranus
+      # - binary_sensor.mercury
+      # - binary_sensor.apollo
+      # - binary_sensor.sputnik
+      - binary_sensor.foscam_white
+      # - binary_sensor.wemos_bell
+      - binary_sensor.earth
+      - binary_sensor.callisto
+      - binary_sensor.phoebe
+
+automation:
+
+  - alias: 'Bedroom online switch restart'
+    trigger:
+      - platform: time
+        minutes: '/15'
+        seconds: 00
+    condition:
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.moon", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
+    action:
+      - service: script.turn_on
+        entity_id: script.restart_calypso
+      - service: counter.increment
+        entity_id: counter.bedroom
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          speak: "true"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          line: "pe"
+          message: 'Restarting Calypso because {% if is_state("binary_sensor.moon", "off") %}Philips Hue Bridge{% elif is_state("binary_sensor.broadlink_rm_mini_a", "off") %}Broadlink Bedroom{% elif is_state("binary_sensor.neptune", "off") %}Neptune{% elif is_state("binary_sensor.doughnut", "off") %}Google Home Mini{% endif %} is offline'
+
+  - alias: 'Common Room switch restart'
+    trigger:
+      - platform: time
+        minutes: '/15'
+        seconds: 00
+    condition:
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
+          # - condition: template
+          #   value_template: '{{ is_state("binary_sensor.wemos_lite_led", "off") }}'
+    action:
+      - service: script.turn_on
+        entity_id: script.restart_ganymede
+      - service: counter.increment
+        entity_id: counter.commonroom
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          speak: "true"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          line: "pe"
+          message: 'Restarting Ganymede because {% if is_state("binary_sensor.foscam_black", "off") %}Foscam Black{% elif is_state("binary_sensor.broadlink_rm_mini_b", "off") %}Broadlink Common Room{% endif %} is offline'
+
+  # - alias: 'Common Room switch restart'
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.foscam_black
+  #       from: 'on'
+  #       to: 'off'
+  #       for:
+  #         minutes: 5
+  #   action:
+  #     - service: script.turn_on
+  #       entity_id: script.restart_ganymede
+  #     - service: counter.increment
+  #       entity_id: counter.commonroom
+  #     - service: script.notifying
+  #       data:
+  #         email: "true"
+  #         tv: "true"
+  #         speak: "true"
+  #         audio: "sinewave"
+  #         light: "false"
+  #         mobile: "false"
+  #         line: "pe"
+  #         message: 'Restarting Ganymede because Foscam Black is offline'
+
+  - alias: 'First Floor online switch restart'
+    trigger:
+      - platform: time
+        minutes: '/15'
+        seconds: 00
+    condition:
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.uranus", "off") }}'
+          # - condition: template
+          #   value_template: '{{ is_state("binary_sensor.mercury", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.foscam_white", "off") }}'
+    action:
+      - service: script.turn_on
+        entity_id: script.restart_callisto
+      - service: counter.increment
+        entity_id: counter.firstfloor
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          speak: "true"
+          audio: "sinewave"
+          light: "false"
+          mobile: "false"
+          line: "pe"
+          message: 'Restarting Callisto because {% if is_state("binary_sensor.uranus", "off") %}Uranus{% elif is_state("binary_sensor.mercury", "off") %}Mercury{% elif is_state("binary_sensor.foscam_white", "off") %}Foscam White{% endif %} is offline'

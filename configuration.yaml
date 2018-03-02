@@ -57,12 +57,15 @@ frontend:
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg
 
+homekit:
+  pincode: '666-88-999'
+
 hue:
   bridges:
     - host: !secret hue_ip
       filename: phue.conf
       allow_unreachable: true
-      allow_in_emulated_hue: true
+      allow_in_emulated_hue: false
       allow_hue_groups: false
 
 ifttt:
@@ -78,18 +81,6 @@ mqtt:
   protocol: 3.1
   discovery: false
   discovery_prefix: homeassistant
-  # birth_message:
-  #   # topic: "hass/status"
-  #   topic: "tele/hass/LWT"
-  #   payload: "Online"
-  #   qos: 1
-  #   retain: true
-  # will_message:
-  #   # topic: "hass/status"
-  #   topic: "tele/hass/LWT"
-  #   payload: "Offline"
-  #   qos: 1
-  #   retain: true
 
 recorder:
   purge_interval: 7
@@ -164,15 +155,10 @@ media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
 scene: !include config/scene.yaml
 script: !include config/script.yaml
-switch: !include config/switch.yaml
-
-# logger:
-#   default: debug
 
 logger:
   default: critical
   logs:
-    # homeassistant.components.automation: debug
     homeassistant.components.automation: info
     # homeassistant.components.device_tracker.icloud: debug
     homeassistant.components.device_tracker: critical
@@ -183,8 +169,6 @@ logger:
     homeassistant.components.mqtt: info
     # homeassistant.components.media_player.mpd: debug
     homeassistant.components.media_player: critical
-    # homeassistant.components.media_player.denon: debug
-    # homeassistant.components.media_player.denonavr: debug
     homeassistant.components.notify: warning
     # homeassistant.components.notify.command_line: debug
     homeassistant.components.proximity: critical
@@ -195,4 +179,3 @@ logger:
     homeassistant.components.shell_command: debug
     homeassistant.components.switch: debug
     homeassistant.components.switch.command_line: critical
-    # homeassistant.components.templated_shell_command: debug

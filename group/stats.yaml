@@ -2,7 +2,6 @@ stats_cr:
   name: "Statistics Common Room"
   icon: mdi:chart-line-stacked
   control: hidden
-  view: no
   entities:
     - sensor.common_room_temperature_mean
     - sensor.common_room_humidity_mean
@@ -13,7 +12,6 @@ stats_cr:
     - sensor.titan_current
     - sensor.titan_voltage
     - sensor.ganymede_power
-    # - sensor.ganymede_power_factor
     - sensor.ganymede_current
     - sensor.ganymede_voltage
     - sensor.ganymede_energy_today
@@ -24,7 +22,6 @@ stats_br:
   name: "Statistics Bedroom"
   icon: mdi:chart-line-stacked
   control: hidden
-  view: no
   entities:
     - sensor.bedroom_temperature_mean
     - sensor.bedroom_humidity_mean
@@ -38,7 +35,6 @@ stats_ff:
   name: "Statistics First Floor"
   icon: mdi:chart-line-stacked
   control: hidden
-  view: no
   entities:
     - sensor.first_floor_temperature_mean
     - sensor.first_floor_humidity_mean

@@ -27,7 +27,7 @@ switch:
     name: "RM Mini A"
     host: !secret rmmini_a_ip
     mac: !secret rmmini_a_mac
-    timeout: 30
+    timeout: 300
     switches:
       bedroom_air_cond:
         friendly_name: "Bedroom Air Cond"
@@ -46,7 +46,7 @@ switch:
     name: "RM Mini B"
     host: !secret rmmini_b_ip
     mac: !secret rmmini_b_mac
-    timeout: 30
+    timeout: 300
     switches:
       common_room_air_cond:
         friendly_name: "Common Room Air Cond"
@@ -58,7 +58,6 @@ switch:
         command_off: 'JgCSACkQJxAMKigQJxAMKg8oDSsNKg0qDSop6ykPKBALKygQJxAMKg0qDSoNKw0qDikp6ykPKA8MKikQJxANKQ4pDikOKQ4qDikp6ykPKA8NKSoOKQ8NKQ4pDikOKQ4pDikq6ioPKA8NKSoOKQ4NKQ8pDikOKQ4pDikq6ioPKA8NKSkPKQ4NKQ4pDykOKQ4pDikqAA0FAAAAAAAA'
       common_room_tv:
         friendly_name: "Common Room TV"
-        # command_on: 'JgDEAE0VKBMRFiYVExQnExIWExQnExIVFBMSFhQAA0pNFSgTExUnExMVJhQTExIWJxMUExQUERcRAANMThQoExIVKBMTFScTERYTFCYUEhYRFhEWFAADSk4VJxMUEygTExQoExMUERYoExEWExQTFBIAA0xQEycTFBQlFRMVJxMTFBMUKBMRFhMUExQUAANLTxMmFRMUJxMUEygTExQSFSgTExQTFBQTFAADS00VJhUTFCcTEhYlFRIVEhUmFRIVEhUSFhIADQUAAAAA'
         command_on: 'JgCMAFATKBIUFCcTFBMoExMUFBMoExMUExQUExUAA0lQEygSFBMoExQTKBMTFBMUKBMTFBMUExQUAANKTxQnExMUKBMTFCcUExQSFSgTEhUTFBIVEwADS1ATJxMUEygTExQoExMUExQoEhQUExQTFBQAA0pQEycTFBMoExMUKBMTFBMUKBIUFBMUExQUAA0FAAAAAAAAAAAAAAAA'
         command_off: 'JgCoAFATJhUTEygTExQoExMUExQmFREWERYTFBQAA0pOFScTFBMoExMUJhYQFhEWKBMTFRAXEBYUAANKUBMnExQUJxMUEygTERcRFSgTExQTFBIVFAADS08TKBMTFCcTEhUoExMUEhUmFRMUExQSFRMAA0tOFiYTFBQnExMUKBMTFRAWKBMTFBMUExQUAANKUBMmFBQTKBMSFSgTExQRFigTExQTFBIVFAANBQ=='
       common_room_android_box:
