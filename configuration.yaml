@@ -83,8 +83,8 @@ mqtt:
   discovery_prefix: homeassistant
 
 recorder:
-  purge_interval: 7
-  purge_keep_days: 10
+  purge_keep_days: 30
+  purge_interval: 1
   db_url: !secret db_url
   exclude:
     domains:

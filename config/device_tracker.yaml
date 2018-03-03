@@ -23,7 +23,10 @@
 # - platform: bluetooth_tracker
 #   home_interval: 5
 #   interval_seconds: 12
-#   consider_home: 300
+#   consider_home: 0:10:00
+#   new_device_defaults:
+#     track_new_devices: True
+#     hide_if_away: False
 
 - platform: owntracks
   max_gps_accuracy: 100
