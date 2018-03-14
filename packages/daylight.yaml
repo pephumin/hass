@@ -14,8 +14,6 @@ sensor:
         unit_of_measurement: '°'
       sunrise:
         value_template: "{{ states.sun.sun.attributes.next_rising }}"
-  # - platform: season
-  #   type: astronomical
 
 automation:
 
@@ -29,16 +27,15 @@ automation:
         value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
     action:
       - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "false"
-          audio: "pip"
+          audio: "chime"
           light: "false"
           mobile: "false"
-          title: "Sunset is expected in 30 minutes"
           message: "Sunset is expected in 30 minutes"
-          # message: 'Sunset is expected in 30 minutes [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
 
   - alias: "Sunset 2"
     trigger:
@@ -50,41 +47,12 @@ automation:
         value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
     action:
       - service: script.notifying
-        data:
-          email: "false"
-          tv: "true"
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "false"
-          audio: "pip"
+          audio: "chime"
           light: "false"
           mobile: "false"
-          title: "Sun is setting now"
           message: "Sun is setting now"
-          # message: 'Sun is setting now [{{now().strftime("%d.%m.%y")}} {{now().strftime("%H:%M")}}]'
-
-  # - alias: "Theme Start Up"
-  #   initial_state: 'on'
-  #   trigger:
-  #     - platform: homeassistant
-  #       event: start
-  #   action:
-  #     - service: frontend.set_theme
-  #       data_template:
-  #         name: '{% if is_state("sun.sun", "above_horizon") %}green{% else %}darkgreen{% endif %}'
-  #
-  # - alias: "Theme Day Time"
-  #   trigger:
-  #     - platform: sun
-  #       event: sunrise
-  #   action:
-  #     - service: frontend.set_theme
-  #       data:
-  #         name: 'blue'
-  #
-  # - alias: "Theme Night Time"
-  #   trigger:
-  #     - platform: sun
-  #       event: sunset
-  #   action:
-  #     - service: frontend.set_theme
-  #       data:
-  #         name: 'darkblue'

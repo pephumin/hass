@@ -1,87 +1,81 @@
-light.hue_2:
-  platform: hue
-  unique_id: 00:17:88:01:00:be:de:0d-0b
-light.whites_b2:
-  platform: hue
-  unique_id: 00:17:88:01:00:60:c5:a3-0f
-light.mood:
-  platform: hue
-  unique_id: 00:17:88:01:00:06:be:70-0b
-light.hallway:
-  platform: hue
-  unique_id: 00:17:88:01:00:e7:bd:d9-0b
-light.hue_4:
-  platform: hue
-  unique_id: 00:17:88:01:00:b2:c1:b2-0b
-light.tv:
-  platform: hue
-  unique_id: 00:17:88:01:00:cc:5f:4b-0b
-light.hue_1:
-  platform: hue
-  unique_id: 00:17:88:01:10:2a:02:5a-0b
-light.whites_b1:
-  platform: hue
-  unique_id: 00:17:88:01:00:64:a7:52-0f
-light.hue_w1:
-  platform: hue
-  unique_id: 00:17:88:01:03:13:82:e2-0b
-light.hue_3:
-  platform: hue
-  unique_id: 00:17:88:01:00:b2:ce:11-0b
-light.whites_a2:
-  platform: hue
-  unique_id: 00:17:88:01:00:64:be:83-0f
-light.hue_w2:
-  platform: hue
-  unique_id: 00:17:88:01:03:13:82:ce-0b
-light.whites_a3:
-  platform: hue
-  unique_id: 00:17:88:01:00:61:32:75-0f
-light.whites_a1:
-  platform: hue
-  unique_id: 00:17:88:01:00:64:ba:db-0f
-light.whites_a4:
-  platform: hue
-  unique_id: 00:17:88:01:00:64:bb:12-0f
-light.garage:
-  platform: hue
-  unique_id: 00:17:88:01:00:60:d0:91-0f
-light.whites_w:
-  platform: hue
-  unique_id: 00:17:88:01:00:60:ca:97-0f
 remote.apple_tv:
   platform: apple_tv
   unique_id: de8838000814009fc32142e4121a9599df8aa9d69ffbb72f7b9ecbb677904e82
+media_player.biscuit:
+  platform: cast
+  unique_id: 77f366b1-7e68-c760-9db2-c15733ea706a
 media_player.apple_tv:
   platform: apple_tv
   unique_id: de8838000814009fc32142e4121a9599df8aa9d69ffbb72f7b9ecbb677904e82
+sensor.pes_iphone_7_plus_battery_state:
+  platform: ios
+  unique_id: state_pesiphone7plus
+sensor.pes_iphone_7_plus_battery_level:
+  platform: ios
+  unique_id: level_pesiphone7plus
+sensor.jues_ipad_mini_2_battery_state:
+  platform: ios
+  unique_id: state_juesipadmini2
 sensor.jues_iphone_6s_plus_battery_level:
   platform: ios
   unique_id: level_juesiphone6splus
 sensor.jues_iphone_6s_plus_battery_state:
   platform: ios
   unique_id: state_juesiphone6splus
-sensor.pes_iphone_7_plus_battery_state:
-  platform: ios
-  unique_id: state_pesiphone7plus
 sensor.pes_ipad_mini_2_battery_level:
   platform: ios
   unique_id: level_pesipadmini2
-sensor.jues_ipad_mini_2_battery_level:
-  platform: ios
-  unique_id: level_juesipadmini2
-sensor.jues_ipad_mini_2_battery_state:
-  platform: ios
-  unique_id: state_juesipadmini2
-sensor.pes_iphone_7_plus_battery_level:
-  platform: ios
-  unique_id: level_pesiphone7plus
 sensor.pes_ipad_mini_2_battery_state:
   platform: ios
   unique_id: state_pesipadmini2
-media_player.biscuit:
-  platform: cast
-  unique_id: 77f366b1-7e68-c760-9db2-c15733ea706a
+sensor.jues_ipad_mini_2_battery_level:
+  platform: ios
+  unique_id: level_juesipadmini2
 media_player.doughnut:
   platform: cast
   unique_id: 91246b42-5149-d03d-11b9-0f90d16fbfc9
+light.whites_a4:
+  platform: hue
+  unique_id: 00:17:88:01:00:64:bb:12-0f
+light.hue_3:
+  platform: hue
+  unique_id: 00:17:88:01:00:b2:ce:11-0b
+light.hue_1:
+  platform: hue
+  unique_id: 00:17:88:01:10:2a:02:5a-0b
+light.garage:
+  platform: hue
+  unique_id: 00:17:88:01:03:13:82:ce-0b
+light.whites_b1:
+  platform: hue
+  unique_id: 00:17:88:01:00:64:a7:52-0f
+light.hue_4:
+  platform: hue
+  unique_id: 00:17:88:01:00:b2:c1:b2-0b
+light.tv:
+  platform: hue
+  unique_id: 00:17:88:01:00:cc:5f:4b-0b
+light.whites_a3:
+  platform: hue
+  unique_id: 00:17:88:01:00:61:32:75-0f
+light.whites_a1:
+  platform: hue
+  unique_id: 00:17:88:01:00:64:ba:db-0f
+light.warm:
+  platform: hue
+  unique_id: 00:17:88:01:03:13:82:e2-0b
+light.mood:
+  platform: hue
+  unique_id: 00:17:88:01:00:06:be:70-0b
+light.hue_2:
+  platform: hue
+  unique_id: 00:17:88:01:00:be:de:0d-0b
+light.hallway:
+  platform: hue
+  unique_id: 00:17:88:01:00:e7:bd:d9-0b
+light.whites_b2:
+  platform: hue
+  unique_id: 00:17:88:01:00:60:c5:a3-0f
+light.whites_a2:
+  platform: hue
+  unique_id: 00:17:88:01:00:64:be:83-0f

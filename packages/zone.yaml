@@ -104,6 +104,34 @@ sensor:
     options:
       mode: driving
       units: metric
+  # - platform: template
+  #   sensors:
+  #     pesiphone7plus_:
+  #       value_template: '{% if states.group.pesiphone7plus.state == "on" or states.group.pesiphone7plus.state == "home" %}home{% elif states.group.pesiphone7plus.state == "off" or states.group.pesiphone7plus.state == "not_home" %}away{% endif %}'
+  #     pesipadmini2_:
+  #       value_template: '{% if states.group.pesipadmini2.state == "on" or states.group.pesipadmini2.state == "home" %}home{% elif states.group.pesipadmini2.state == "off" or states.group.pesipadmini2.state == "not_home" %}away{% endif %}'
+  #     juesiphone6splus_:
+  #       value_template: '{% if states.group.juesiphone6splus.state == "on" or states.group.juesiphone6splus.state == "home" %}home{% elif states.group.juesiphone6splus.state == "off" or states.group.juesiphone6splus.state == "not_home" %}away{% endif %}'
+  #     juesipadmini2_:
+  #       value_template: '{% if states.group.juesipadmini2.state == "on" or states.group.juesipadmini2.state == "home" %}home{% elif states.group.juesipadmini2.state == "off" or states.group.juesipadmini2.state == "not_home" %}away{% endif %}'
+  #     pesipodtouch4_:
+  #       value_template: '{% if states.group.pesipodtouch4.state == "on" or states.group.pesipodtouch4.state == "home" %}home{% elif states.group.pesipodtouch4.state == "off" or states.group.pesipodtouch4.state == "not_home" %}away{% endif %}'
+  #     pepe_:
+  #       value_template: '{% if states.group.pepe.state == "on" or states.group.pepe.state == "home" %}home{% elif states.group.pepe.state == "off" or states.group.pepe.state == "not_home" %}away{% endif %}'
+  #     pepework_:
+  #       value_template: '{% if states.group.pepework.state == "on" or states.group.pepework.state == "home" %}home{% elif states.group.pepework.state == "off" or states.group.pepework.state == "not_home" %}away{% endif %}'
+  #     benjy_:
+  #       value_template: '{% if states.group.benjy.state == "on" or states.group.benjy.state == "home" %}home{% elif states.group.benjy.state == "off" or states.group.benjy.state == "not_home" %}away{% endif %}'
+  #     benjysipadmini2_:
+  #       value_template: '{% if states.group.benjysipadmini2.state == "on" or states.group.benjysipadmini2.state == "home" %}home{% elif states.group.benjysipadmini2.state == "off" or states.group.benjysipadmini2.state == "not_home" %}away{% endif %}'
+  #     benjysmbp_:
+  #       value_template: '{% if states.group.benjysmbp.state == "on" or states.group.benjysmbp.state == "home" %}home{% elif states.group.benjysmbp.state == "off" or states.group.benjysmbp.state == "not_home" %}away{% endif %}'
+  #     boom_:
+  #       value_template: '{% if states.group.boom.state == "on" or states.group.boom.state == "home" %}home{% elif states.group.boom.state == "off" or states.group.boom.state == "not_home" %}away{% endif %}'
+  #     dune_:
+  #       value_template: '{% if states.group.dune.state == "on" or states.group.dune.state == "home" %}home{% elif states.group.dune.state == "off" or states.group.dune.state == "not_home" %}away{% endif %}'
+  #     xdj_rx_:
+  #       value_template: '{% if states.group.xdj_rx.state == "on" or states.group.xdj_rx.state == "home" %}home{% elif states.group.xdj_rx.state == "off" or states.group.xdj_rx.state == "not_home" %}away{% endif %}'
 
 binary_sensor:
   - platform: ping
@@ -112,13 +140,53 @@ binary_sensor:
     count: 2
     scan_interval: 30
   - platform: ping
+    host: 192.168.1.31
+    name: "pesipadmini2"
+    count: 2
+    scan_interval: 30
+  - platform: ping
     host: 192.168.1.32
     name: "juesiphone6splus"
     count: 2
     scan_interval: 30
   - platform: ping
+    host: 192.168.1.33
+    name: "juesipadmini2"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.34
+    name: "pesipodtouch4"
+    count: 2
+    scan_interval: 30
+  - platform: ping
     host: 192.168.1.36
     name: "benjy"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.37
+    name: "benjysmbp"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.38
+    name: "benjysipadmini2"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.39
+    name: "boom"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.200
+    name: "pepe"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.202
+    name: "pepework"
     count: 2
     scan_interval: 30
 
@@ -157,6 +225,15 @@ input_select:
      - Vacation
      - Visitor
     icon: mdi:home-outline
+
+group:
+  proximity:
+    name: "Current Position"
+    entities:
+      - proximity.pe_home
+      - proximity.jue_home
+      - proximity.pe_benjawan
+      - proximity.jue_malaiwan
 
 automation:
 
@@ -201,15 +278,15 @@ automation:
       - condition: template
         value_template: '{{ is_state("binary_sensor.pesiphone7plus", "on") and is_state("input_boolean.presence_jue", "off") }}'
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "chime"
           light: "once"
           mobile: "jue"
-          line: "false"
           message: "Pe has arrived home"
 
   - alias: "Pe Leaves Home"
@@ -223,17 +300,17 @@ automation:
           seconds: 30
     condition:
       - condition: template
-        value_template: '{{ not is_state("binary_sensor.pesiphone7plus", "on") and is_state("input_boolean.presence_jue", "off") }}'
+        value_template: '{{ is_state("binary_sensor.pesiphone7plus", "off") and is_state("input_boolean.presence_jue", "off") }}'
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "chime"
           light: "once"
           mobile: "jue"
-          line: "false"
           message: "Pe has left home"
 
   - alias: "Jue is at Luzern"
@@ -277,15 +354,15 @@ automation:
       - condition: template
         value_template: '{{ is_state("binary_sensor.juesiphone6splus", "on") and is_state("input_boolean.presence_pe", "off") }}'
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "chime"
           light: "once"
           mobile: "pe"
-          line: "false"
           message: "Jue has arrived home"
 
   - alias: "Jue Leaves Home"
@@ -299,17 +376,17 @@ automation:
           seconds: 30
     condition:
       - condition: template
-        value_template: '{{ not is_state("binary_sensor.juesiphone6splus", "on") and is_state("input_boolean.presence_pe", "off") }}'
+        value_template: '{{ is_state("binary_sensor.juesiphone6splus", "off") and is_state("input_boolean.presence_pe", "off") }}'
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "chime"
           light: "once"
           mobile: "pe"
-          line: "false"
           message: "Jue has left home"
 
   - alias: "Jue is at Malaiwan"
@@ -348,15 +425,15 @@ automation:
           minutes: 1
           seconds: 30
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "pip"
           light: "short"
           mobile: "pe"
-          line: "false"
           message: "Jue has arrived Malaiwan"
 
   - alias: "Jue Leaves Malaiwan"
@@ -369,15 +446,15 @@ automation:
           minutes: 1
           seconds: 30
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "pip"
           light: "short"
           mobile: "pe"
-          line: "false"
           message: "Jue has left Malaiwan"
 
   - alias: "Pe is at Benjawan"
@@ -416,15 +493,15 @@ automation:
           minutes: 1
           seconds: 30
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "pip"
           light: "short"
           mobile: "jue"
-          line: "false"
           message: "Pe has arrived Benjawan"
 
   - alias: "Pe Leaves Benjawan"
@@ -437,15 +514,15 @@ automation:
           minutes: 1
           seconds: 30
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "pip"
           light: "short"
           mobile: "jue"
-          line: "false"
           message: "Pe has left Benjawan"
 
   - alias: "Jue is away from Luzern"
@@ -464,15 +541,15 @@ automation:
       - service: ifttt.trigger
         data_template:
           event: '{% if (states.proximity.jue_home.state | float > 2500) and (states.proximity.jue_home.state | float < 3500) %}red_3{% elif (states.proximity.jue_home.state | float > 1500) and (states.proximity.jue_home.state | float < 2500) %}red_2{% elif (states.proximity.jue_home.state | float > 500) and (states.proximity.jue_home.state | float < 1500) %}red_1{% endif %}'
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
+      - service: script.notifying
         data_template:
-          email: "false"
-          tv: "true"
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "chime"
           light: "once"
           mobile: "pe"
-          line: "false"
           message: 'Jue is {% if (states.proximity.jue_home.state | float > 2500) and (states.proximity.jue_home.state | float < 3500) %}3km{% elif (states.proximity.jue_home.state | float > 1500) and (states.proximity.jue_home.state | float < 2500) %}2km{% elif (states.proximity.jue_home.state | float > 500) and (states.proximity.jue_home.state | float < 1500) %}1km{% endif %} away from Home'
 
   - alias: "Pe is away from Luzern"
@@ -491,15 +568,15 @@ automation:
       - service: ifttt.trigger
         data_template:
           event: '{% if (states.proximity.pe_home.state | float > 2500) and (states.proximity.pe_home.state | float < 3500) %}red_3{% elif (states.proximity.pe_home.state | float > 1500) and (states.proximity.pe_home.state | float < 2500) %}red_2{% elif (states.proximity.pe_home.state | float > 500) and (states.proximity.pe_home.state | float < 1500) %}red_1{% endif %}'
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
+      - service: script.notifying
         data_template:
-          email: "false"
-          tv: "true"
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "chime"
           light: "once"
           mobile: "jue"
-          line: "false"
           message: 'Pe is {% if (states.proximity.pe_home.state | float > 2500) and (states.proximity.pe_home.state | float < 3500) %}3km{% elif (states.proximity.pe_home.state | float > 1500) and (states.proximity.pe_home.state | float < 2500) %}2km{% elif (states.proximity.pe_home.state | float > 500) and (states.proximity.pe_home.state | float < 1500) %}1km{% endif %} away from Home'
 
   - alias: "Benjy is at Luzern"
@@ -539,15 +616,15 @@ automation:
       - condition: template
         value_template: '{{ is_state("binary_sensor.benjy", "on") }}'
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "siren"
           light: "short"
           mobile: "both"
-          line: "false"
           message: "Benjy visits and she has arrived"
 
   - alias: "Benjy Leaves Home"
@@ -561,17 +638,17 @@ automation:
           seconds: 30
     condition:
       - condition: template
-        value_template: '{{ not is_state("binary_sensor.benjy", "on") }}'
+        value_template: '{{ is_state("binary_sensor.benjy", "off") }}'
     action:
-      - service_template: '{% if is_state("script.notifying", "off") %}script.notifying{% endif %}'
-        data:
-          email: "false"
-          tv: "true"
+      - service: script.notifying
+        data_template:
+          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
+          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
+          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
           speak: "true"
           audio: "siren"
           light: "short"
           mobile: "both"
-          line: "false"
           message: "Beny has left"
 
   - alias: "Set Home Mode"
@@ -602,7 +679,7 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Home'
-      - service_template: '{% if is_state("script.motion_detection_deactivate", "off") %}script.motion_detection_deactivate{% endif %}'
+      - service: script.motion_detection_deactivate
 
   - alias: "Set Away Mode 1"
     trigger:
@@ -622,7 +699,7 @@ automation:
           option: 'Away'
       - service: light.turn_off
         entity_id: group.hue_all
-      - service_template: '{% if is_state("script.motion_detection_activate", "off") %}script.motion_detection_activate{% endif %}'
+      - service: script.motion_detection_activate
 
   - alias: "Set Away Mode 2"
     trigger:
@@ -642,7 +719,7 @@ automation:
           option: 'Away'
       - service: light.turn_off
         entity_id: group.hue_all
-      - service_template: '{% if is_state("script.motion_detection_activate", "off") %}script.motion_detection_activate{% endif %}'
+      - service: script.motion_detection_activate
 
   - alias: "Set Vacation Mode 1"
     trigger:
@@ -662,7 +739,7 @@ automation:
           option: 'Vacation'
       - service: light.turn_off
         entity_id: group.hue_all
-      - service_template: '{% if is_state("script.motion_detection_activate", "off") %}script.motion_detection_activate{% endif %}'
+      - service: script.motion_detection_activate
 
   - alias: "Set Vacation Mode 2"
     trigger:
@@ -682,7 +759,7 @@ automation:
           option: 'Vacation'
       - service: light.turn_off
         entity_id: group.hue_all
-      - service_template: '{% if is_state("script.motion_detection_activate", "off") %}script.motion_detection_activate{% endif %}'
+      - service: script.motion_detection_activate
 
   - alias: "Set Visitor Mode"
     trigger:
@@ -700,4 +777,4 @@ automation:
         data:
           entity_id: input_select.homemode
           option: 'Visitor'
-      - service_template: '{% if is_state("script.motion_detection_deactivate", "off") %}script.motion_detection_deactivate{% endif %}'
+      - service: script.motion_detection_deactivate

@@ -7,14 +7,45 @@ homeassistant:
   time_zone: Asia/Bangkok
   customize: !include config/customise.yaml
   packages: !include_dir_named packages/
-  customize_glob:
-    light.*:
-      custom_ui_state_card: state-card-custom-ui
-    cover.*:
-      custom_ui_state_card: state-card-custom-ui
+  # customize_glob:
+  #   light.*:
+  #     custom_ui_state_card: state-card-custom-ui
+    # "*.*":
+    #   custom_ui_state_card: state-card-custom-ui
+    # cover.*:
+    #   custom_ui_state_card: state-card-custom-ui
+    # automation.*:
+    #   extra_data_template: >-
+    #     if (!attributes.last_triggered) return null;
+    #     var t,s=(new Date()-new Date(attributes.last_triggered))/1e3;
+    #     return(
+    #     (t=Math.floor(s/86400))?t+(t>1?" days":" day"):
+    #     (t=Math.floor(s/3600))?t+(t>1?" hours":" hour"):
+    #     (t=Math.floor(s/60))?t+(t>1?" minutes":" minute"):
+    #     (t=Math.floor(s))!==1?t+" seconds":" second")+" ago";
+    # script.*:
+    #   extra_data_template: >-
+    #     if (!attributes.last_triggered)return null;
+    #     var t,s=(new Date()-new Date(attributes.last_triggered))/1e3;
+    #     return(
+    #     (t=Math.floor(s/86400))?t+(t>1?" days":" day"):
+    #     (t=Math.floor(s/3600))?t+(t>1?" hours":" hour"):
+    #     (t=Math.floor(s/60))?t+(t>1?" minutes":" minute"):
+    #     (t=Math.floor(s))!==1?t+" seconds":" second")+" ago";
+# if(!attributes.last_triggered)return null;
+# var d,h,m,s=(new Date()-new Date(attributes.last_triggered))/1e3;
+# d=Math.floor(s/86400);
+# s=s-(d*86400);
+# h=Math.floor(s/3600);
+# s=s-(h*3600);
+# m=Math.floor(s/60);
+# s=Math.floor(s-(m*60));
+# return((d>0?d+'d ':'')+(h>0?h+'h ':'')+(m>0?m+'m ':'')+(s>0?s +'s':''));
 
 http:
   api_password: !secret my_password
+  # ssl_certificate: !secret ssl_certificate
+  # ssl_key: !secret ssl_key
   base_url: !secret base_url
   use_x_forwarded_for: True
   trusted_networks:
@@ -79,7 +110,7 @@ mqtt:
   client_id: home-assistant
   keepalive: 60
   protocol: 3.1
-  discovery: false
+  discovery: true
   discovery_prefix: homeassistant
 
 recorder:
@@ -137,11 +168,20 @@ recorder:
       - sensor.pandora_humidity
       - sensor.pandora_temperature
 
+rest_command:
+  dj:
+    url: !secret dj
+    method: PUT
+    payload: '{ "shuffle": true }'
+  soft:
+    url: !secret soft
+    method: PUT
+    payload: '{ "shuffle": true }'
+
 shell_command:
   line_pe: '/config/command/line_pe "{{ message }}"'
   line_jue: '/config/command/line_jue "{{ message }}"'
   line_both: '/config/command/line_both "{{ message }}"'
-  # denon_checking: '/config/command/denon_checking'
 
 tts:
   - platform: google
@@ -153,7 +193,6 @@ device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
 media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
-scene: !include config/scene.yaml
 script: !include config/script.yaml
 
 logger:
@@ -177,5 +216,6 @@ logger:
     homeassistant.components.sensor.command_line: warning
     homeassistant.components.sensor.speedtest: warning
     homeassistant.components.shell_command: debug
-    homeassistant.components.switch: debug
+    # homeassistant.components.switch: warning
+    # homeassistant.components.switch.tplink: warning
     homeassistant.components.switch.command_line: critical

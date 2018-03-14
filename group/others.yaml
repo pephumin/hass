@@ -21,11 +21,8 @@ playlists:
   name: "Playlists"
   icon: mdi:library-music
   entities:
-    - script.dja_shuffle
-    - script.djb_shuffle
-    - script.djp_shuffle
-    - script.dj_shuffle
-    - script.soft_shuffle
+    - script.shuffle_playlist_dj
+    - script.shuffle_playlist_soft
 
 kodi:
   name: "Kodi"

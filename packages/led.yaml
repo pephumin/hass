@@ -76,6 +76,24 @@ automation:
           entity_id: input_number.party_animation_speed
           value: '{{ trigger.payload }}'
 
+#   - alias: "Party Brightness Control mqtt"
+#     trigger:
+#       - platform: mqtt
+#         topic: "party"
+#         # Optional
+#         # payload: "on"
+#     action:
+#       - service_template: light.turn_{{ trigger.payload_json.action }}
+#         data_template:
+#           entity_id: light.{{ trigger.payload_json.device }}
+#           brightness: '{{ trigger.payload_json.brightness }}'
+#
+# {
+# 	"device": "party ",
+# 	"action": "on",
+# 	"brightness": 30
+# }
+
 # Fade the Light On Over 5 Seconds - light.turn_on
 #
 # {

@@ -28,7 +28,6 @@ control_cr:
     - switch.android_box
     - switch.mimas
     - script.mute_common_room
-    - script.black_reboot
     - sensor.denon_source
     - sensor.denonsourcecheck
     - switch.ganymede
@@ -55,6 +54,5 @@ control_ff:
   entities:
     - sensor.callisto_temperature
     - sensor.callisto_humidity
-    - script.white_reboot
     - switch.callisto
     - counter.firstfloor

@@ -39,6 +39,26 @@ switch:
     qos: 1
     retain: true
     optimistic: true
+  - platform: mqtt
+    name: "SVA"
+    state_topic: "stat/sva/POWER"
+    command_topic: "cmnd/sva/POWER"
+    availability_topic: "tele/sva/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+  - platform: mqtt
+    name: "SVB"
+    state_topic: "stat/svb/POWER"
+    command_topic: "cmnd/svb/POWER"
+    availability_topic: "tele/svb/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
 
 light:
   - platform: mqtt
@@ -205,6 +225,8 @@ group:
       - light.pandora
       - light.phoebe
       - switch.calypso
+      - switch.sva
+      - switch.svb
 
 automation:
 

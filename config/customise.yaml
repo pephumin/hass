@@ -9,6 +9,9 @@ device_tracker.ping_pesiphone7plus:
 device_tracker.user_pesiphone7plus:
   icon: mdi:cellphone-iphone
   friendly_name: "Pe iPhone 7 Plus (Owntracks)"
+binary_sensor.pesiphone7plus:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Pe iPhone 7 Plus"
 device_tracker.pesipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Pe iPad Mini 2"
@@ -18,24 +21,36 @@ device_tracker.ping_pesipadmini2:
 device_tracker.user_pesipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Pe iPad Mini 2 (Owntracks)"
+binary_sensor.pesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: "Pe iPad Mini 2"
 device_tracker.pepe:
   icon: mdi:laptop-mac
   friendly_name: "Pe Macbook Pro"
 device_tracker.ping_pepe:
   icon: mdi:laptop-mac
   friendly_name: "Pe Macbook Pro (Ping)"
+binary_sensor.pepe:
+  icon: mdi:laptop-mac
+  friendly_name: "Pe Macbook Pro"
 device_tracker.pepework:
   icon: mdi:laptop-windows
   friendly_name: "Pe Dell Laptop"
 device_tracker.ping_pepework:
   icon: mdi:laptop-windows
   friendly_name: "Pe Dell Laptop (Ping)"
+binary_sensor.pepework:
+  icon: mdi:laptop-windows
+  friendly_name: "Pe Dell Laptop"
 device_tracker.pesipodtouch4:
   icon: mdi:cellphone-dock
   friendly_name: "iPod Touch BMW"
 device_tracker.ping_pesipodtouch4:
   icon: mdi:cellphone-dock
   friendly_name: "iPod Touch BMW (Ping)"
+binary_sensor.pesipodtouch4:
+  icon: mdi:cellphone-dock
+  friendly_name: "iPod Touch BMW"
 device_tracker.juesiphone6splus:
   icon: mdi:cellphone-iphone
   friendly_name: "Jue iPhone 6s Plus"
@@ -45,6 +60,9 @@ device_tracker.ping_juesiphone6splus:
 device_tracker.user_juesiphone6splus:
   icon: mdi:cellphone-iphone
   friendly_name: "Jue iPhone 6s Plus (Owntracks)"
+binary_sensor.juesiphone6splus:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Jue iPhone 6s Plus"
 device_tracker.juesipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Jue iPad Mini 2"
@@ -54,40 +72,58 @@ device_tracker.ping_juesipadmini2:
 device_tracker.user_juesipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Jue iPad Mini 2 (Owntracks)"
+binary_sensor.juesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: "Jue iPad Mini 2"
 device_tracker.benjy:
   icon: mdi:cellphone-iphone
   friendly_name: "Benjy"
 device_tracker.ping_benjy:
   icon: mdi:cellphone-iphone
   friendly_name: "Benjy (Ping)"
+binary_sensor.benjy:
+  icon: mdi:cellphone-iphone
+  friendly_name: "Benjy"
 device_tracker.benjysipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Benjy iPad Mini 2"
 device_tracker.ping_benjysipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: "Benjy iPad Mini 2 (Ping)"
+binary_sensor.benjysipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: "Benjy iPad Mini 2"
 device_tracker.benjysmbp:
   icon: mdi:laptop-mac
   friendly_name: "Benjy Macbook Pro"
 device_tracker.ping_benjysmbp:
   icon: mdi:laptop-mac
   friendly_name: "Benjy Macbook Pro (Ping)"
+binary_sensor.benjysmbp:
+  icon: mdi:laptop-mac
+  friendly_name: "Benjy Macbook Pro"
 device_tracker.boom:
   icon: mdi:cellphone-android
   friendly_name: "Boom"
-device_tracker.ping_boom:
+binary_sensor.boom:
   icon: mdi:cellphone-android
-  friendly_name: "Boom (Ping)"
+  friendly_name: "Boom"
 
 device_tracker.dune:
   icon: mdi:movie-roll
   friendly_name: "Dune Base"
+device_tracker.ping_dune:
+  icon: mdi:movie-roll
+  friendly_name: "Dune Base (Ping)"
 binary_sensor.dune:
   icon: mdi:movie-roll
   friendly_name: "Dune Base"
 device_tracker.xdj_rx:
   icon: mdi:music
   friendly_name: "Pioneer XDJ-RX"
+device_tracker.ping_xdj_rx:
+  icon: mdi:music
+  friendly_name: "Pioneer XDJ-RX (Ping)"
 binary_sensor.xdj_rx:
   icon: mdi:music
   friendly_name: "XDJ-RX"
@@ -107,7 +143,7 @@ light.hue_4:
 light.mood:
   icon: mdi:spotlight
   friendly_name: "Bedroom Mood"
-light.whites_w:
+light.warm:
   icon: mdi:lamp
   friendly_name: "Bedroom Warm"
 light.whites_a1:
@@ -137,12 +173,6 @@ light.whites_b2:
 light.garage:
   icon: mdi:spotlight
   friendly_name: "Garage"
-light.hue_w1:
-  icon: mdi:lightbulb-on
-  friendly_name: "White 1"
-light.hue_w2:
-  icon: mdi:lightbulb-on
-  friendly_name: "White 2"
 
 camera.foscam_black:
   icon: mdi:webcam
@@ -374,6 +404,10 @@ binary_sensor.earth:
   icon: mdi:printer
   friendly_name: "Samsung Printer"
 
+binary_sensor.bmw:
+  icon: mdi:car-sports
+  friendly_name: "BMW"
+
 binary_sensor.titan:
   icon: mdi:power-socket-us
   friendly_name: "TP-Link Plug Common Room"
@@ -498,28 +532,6 @@ switch.calypso:
   icon: mdi:power-plug
   friendly_name: "Bedroom Online Switch"
   assumed_state: true
-
-group.hue_all:
-  assumed_state: false
-group.hue_common_room_all:
-  assumed_state: false
-group.hue_common_room_main:
-  assumed_state: false
-group.common_room_scenes:
-  assumed_state: false
-group.hue_bedroom_all:
-  assumed_state: false
-group.hue_bedroom_main:
-  assumed_state: false
-group.bedroom_scenes:
-  assumed_state: false
-group.hue_first_floor_all:
-  assumed_state: false
-group.hue_first_floor_main:
-  assumed_state: false
-group.first_floor_scenes:
-  assumed_state: false
-
 
 # sensor.rm_pro_temperature_mean:
 #   icon: mdi:chart-line-stacked

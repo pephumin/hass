@@ -88,22 +88,14 @@ all_lights_off_but_pandora:
     - service: light.turn_on
       entity_id: light.pandora
 
-welcome_light_off:
-  alias: "Turn off welcome lights"
+welcome_light_off_hallway:
+  alias: "Turn off Welcome Lights Hallway"
   sequence:
     - delay: 00:05:00
     - service: light.turn_off
-      entity_id:
-        - light.tv
-        - light.hallway
+      entity_id: light.hallway
     - condition: template
       value_template: '{{ is_state("sun.sun", "below_horizon") }}'
-    - service: light.turn_on
-      data:
-        entity_id: light.tv
-        transition: 1
-        brightness: 125
-        xy_color: [0.1794, 0.0964]
     - service: light.turn_on
       data:
         entity_id: light.hallway
@@ -114,7 +106,7 @@ welcome_light_off:
 distance_light_off:
   alias: "Turn off distance light"
   sequence:
-    - delay: 00:00:30
+    - delay: 00:01:30
     - service: light.turn_off
       entity_id: light.hallway
 
@@ -123,35 +115,42 @@ restart_ganymede:
   sequence:
     - service: switch.turn_off
       entity_id: switch.ganymede
-    - delay: '00:00:15'
+    - delay: '00:00:20'
     - service: switch.turn_on
       entity_id: switch.ganymede
+    - service: script.flashing_party
+      data:
+        color_name: "green"
+        brightness: 150
+        flash: "short"
 
 restart_callisto:
   alias: "Restart First Floor online switch"
   sequence:
     - service: switch.turn_off
       entity_id: switch.callisto
-    - delay: '00:00:15'
+    - delay: '00:00:20'
     - service: switch.turn_on
       entity_id: switch.callisto
+    - service: script.flashing_party
+      data:
+        color_name: "green"
+        brightness: 150
+        flash: "short"
 
 restart_calypso:
   alias: "Restart Bedroom online switch"
   sequence:
     - service: switch.turn_off
       entity_id: switch.calypso
-    - delay: '00:00:15'
+    - delay: '00:00:20'
     - service: switch.turn_on
       entity_id: switch.calypso
-
-# androidtv_ok:
-#   alias: "Ok to Android TV"
-#   sequence:
-#     - service: switch.broadlink_send_packet_192_168_1_15
-#       data:
-#         packet:
-#           - 'JgBYAAABJ5MTEhMSExITEhM2FBITEhMSEzYUNhM3EzcTEhM3EzcTNxM3ExITEhMSExITERQ2ExITEhM3EzcTNxM3EzcTEhM3EwAFFAABJ0kUAAxLAAEnShMADQU='
+    - service: script.flashing_party
+      data:
+        color_name: "green"
+        brightness: 150
+        flash: "short"
 
 mute_common_room:
   alias: "Mute Common Room"
@@ -210,6 +209,16 @@ bedroom_ac_control:
   sequence:
     - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" %}script.bedroom_ac_18{% elif packet == "powerful" %}script.bedroom_ac_powerful{% else %}{% endif %}'
 
+shuffle_playlist_dj:
+  alias: "Shuffle DJ"
+  sequence:
+    - service: rest_command.dj
+
+shuffle_playlist_soft:
+  alias: "Shuffle Soft"
+  sequence:
+    - service: rest_command.soft
+
 kodi_play_youtube_playlist:
   alias: "Kodi Play Music DJ"
   sequence:
@@ -266,8 +275,6 @@ hometheatre_turnon:
     - delay: 00:00:07
     - service: switch.turn_on
       entity_id: switch.common_room_tv
-    # - service: script.turn_on
-    #   entity_id: script.toogle_common_room_tv
     - delay: 00:00:07
     - service: switch.turn_on
       entity_id: switch.common_room_android_box
@@ -275,8 +282,6 @@ hometheatre_turnon:
     - service: script.denon_turnon
     - delay: 00:00:05
     - service: script.switch_to_cabletv
-    # - delay: 00:00:10
-    # - service: script.androidtv_ok
 
 hometheatre_turnoff:
   alias: "Home Theatre Turns Off"
@@ -460,7 +465,7 @@ notify_pesiphone7plus_juesiphone6splus:
             category: "ALERT"
 
 flashing_long:
-  alias: "Light Flash Long"
+  alias: "Flashing Light Long"
   sequence:
     - service: light.turn_on
       entity_id: group.flashlights
@@ -470,7 +475,7 @@ flashing_long:
         flash: long
 
 flashing_short:
-  alias: "Light Flash Short"
+  alias: "Flashing Light Short"
   sequence:
     - service: light.turn_on
       entity_id: group.flashlights
@@ -508,7 +513,7 @@ flashing_short:
         flash: short
 
 flashing_once:
-  alias: "Light Flash Once"
+  alias: "Flashing Light Once"
   sequence:
     - service: light.turn_on
       entity_id: group.flashlights
@@ -516,6 +521,16 @@ flashing_once:
         transition: 1
         brightness: 250
         flash: short
+
+flashing_party:
+  alias: "Flashing Party Light"
+  sequence:
+    - service: light.turn_on
+      entity_id: light.party
+      data_template:
+        color_name: '{{ color_name }}'
+        brightness: '{{ brightness }}'
+        flash: '{{ flash if (flash == "long" or flash == "short") else "false" }}'
 
 ss_volume_down:
   alias: "Volume Fade Down"
@@ -604,7 +619,7 @@ s_speak:
     - service: tts.google_say
       data_template:
         entity_id: media_player.music_player_daemon
-        message: '{{ message }} [{{now().strftime("%d %b %Y")}} {{now().strftime("%H:%M")}}]'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
     - delay: 00:00:03
     - service: script.ss_volume_up
 
@@ -616,7 +631,7 @@ s_email:
     - service: notify.email
       data_template:
         title: '{{ title if title else message }}'
-        message: '{{ message }} [{{now().strftime("%d %b %Y")}} {{now().strftime("%H:%M")}}]'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
 s_line:
   alias: "Sub-notify script LINE"
@@ -625,7 +640,7 @@ s_line:
       value_template: '{{ line != "false" }}'
     - service_template: '{% if line == "pe" %}shell_command.line_pe{% elif line == "jue" %}shell_command.line_jue{% elif line == "both" %}shell_command.line_both{% endif %}'
       data_template:
-        message: '{{ message }} [{{now().strftime("%d %b %Y")}} {{now().strftime("%H:%M")}}]'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
 s_mbp:
   alias: "Sub-notify script Macbook Pro"
@@ -635,7 +650,7 @@ s_mbp:
     - service: notify.growl
       data_template:
         title: '{{ title if title else message }}'
-        message: '{{ message }} [{{now().strftime("%d %b %Y")}} {{now().strftime("%H:%M")}}]'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
 s_tv:
   alias: "Sub-notify script TV"
@@ -645,7 +660,7 @@ s_tv:
     - service: notify.tv
       data_template:
         title: '{{ title if title else message }}'
-        message: '{{ message }} [{{now().strftime("%d %b %Y")}} {{now().strftime("%H:%M")}}]'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
 s_mobile:
   alias: "Sub-notify script Mobile"
@@ -655,7 +670,7 @@ s_mobile:
     - service_template: '{% if mobile == "pe" %}script.notify_pesiphone7plus{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "both" %}script.notify_pesiphone7plus_juesiphone6splus{% endif %}'
       data_template:
         title: '{{ title if title else message }}'
-        message: '{{ message }} [{{now().strftime("%d %b %Y")}} {{now().strftime("%H:%M")}}]'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
 s_light:
   alias: "Sub-notify script Light"
@@ -664,11 +679,23 @@ s_light:
       value_template: '{{ light != "false" }}'
     - service_template: '{% if light == "long" %}script.flashing_long{% elif light == "short" %}script.flashing_short{% elif light == "once" %}script.flashing_once{% endif %}'
 
+# s_file:
+#   alias: "Sub-notify script File"
+#   sequence:
+#     - service: notify.file
+#       data_template:
+#         title: '{{ title if title else message }}'
+#         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+
 notifying:
   alias: "Notify script"
   sequence:
     - condition: template
       value_template: '{{ is_state("script.notifying", "off") }}'
+    # - service: script.s_file
+    #   data_template:
+    #     title: '{{ title }}'
+    #     message: '{{ message }}'
     - service: script.s_mbp
       data_template:
         title: '{{ title }}'

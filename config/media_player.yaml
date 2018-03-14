@@ -3,9 +3,6 @@
 #   host: !secret apple_tv_ip
 #   login_id: !secret apple_tv_login_id
 
-# - platform: denon
-#   host: !secret denon_ip
-
 - platform: denonavr
   name: "Denon"
   host: !secret denon_ip
@@ -20,6 +17,10 @@
   username: !secret my_username
   password: !secret my_password
   turn_off_action: quit
+
+- platform: itunes
+  name: iTunes
+  host: !secret itunes_ip
 
 - platform: mpd
   name: "Music Player Daemon"

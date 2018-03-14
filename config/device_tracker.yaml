@@ -3,35 +3,28 @@
   password: !secret icloud_password
   account_name: pe
   interval_seconds: 12
-  consider_home: 0:10:00
+  consider_home: 180
   new_device_defaults:
     track_new_devices: True
     hide_if_away: False
 
 - platform: nmap_tracker
   hosts: 192.168.1.1/24
-  home_interval: 5
+  home_interval: 10
   scan_options: "--unprivileged -sn"
   exclude:
     - 192.168.1.100
-  interval_seconds: 300
-  consider_home: 0:10:00
   new_device_defaults:
     track_new_devices: True
     hide_if_away: False
 
 # - platform: bluetooth_tracker
-#   home_interval: 5
-#   interval_seconds: 12
-#   consider_home: 0:10:00
 #   new_device_defaults:
 #     track_new_devices: True
 #     hide_if_away: False
 
 - platform: owntracks
   max_gps_accuracy: 100
-  interval_seconds: 12
-  consider_home: 0:05:00
   new_device_defaults:
     track_new_devices: False
     hide_if_away: False
@@ -42,17 +35,15 @@
 #     mqtt_juesiphone6splus: owntracks/user/juesiphone6splus
 #     mqtt_pesipadmini2: owntracks/user/pesipadmini2
 #     mqtt_juesipadmini2: owntracks/user/juesipadmini2
-#   interval_seconds: 12
-#   consider_home: 0:05:00
-#   track_new_devices: True
+#   new_device_defaults:
+#     track_new_devices: False
+#     hide_if_away: False
 
 - platform: tomato
   host: 192.168.1.1
   username: !secret my_username
   password: !secret my_password
   http_id: !secret tomato_http_id_1
-  interval_seconds: 600
-  consider_home: 0:10:00
   new_device_defaults:
     track_new_devices: True
     hide_if_away: False
@@ -62,8 +53,6 @@
   username: !secret my_username
   password: !secret my_password
   http_id: !secret tomato_http_id_2
-  interval_seconds: 600
-  consider_home: 0:10:00
   new_device_defaults:
     track_new_devices: True
     hide_if_away: False
@@ -78,13 +67,12 @@
     ping_benjy: 192.168.1.36
     ping_benjysmbp: 192.168.1.37
     ping_benjysipadmini2: 192.168.1.38
+    ping_boom: 192.168.1.39
     ping_pepe: 192.168.1.200
     ping_pepe_phumin: 192.168.1.201
     ping_pepework: 192.168.1.202
-    # ping_xdj_rx: 192.168.1.45
-    # ping_dune: 192.168.1.77
-  interval_seconds: 12
-  consider_home: 0:05:00
+    ping_xdj_rx: 192.168.1.45
+    ping_dune: 192.168.1.77
   new_device_defaults:
     track_new_devices: False
     hide_if_away: False

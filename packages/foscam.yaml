@@ -78,6 +78,8 @@ group:
       - switch.foscam_black_motion
       - switch.foscam_white_motion
       - counter.foscammotion
+      - script.black_reboot
+      - script.white_reboot
 
 automation:
 
@@ -125,8 +127,7 @@ automation:
       - condition: template
         value_template: '{{ is_state("switch.foscam_black_motion", "off") or is_state("switch.foscam_white_motion", "off") }}'
     action:
-      # - service: script.motion_detection_activate
-      - service_template: '{% if is_state("script.motion_detection_activate", "off") %}script.motion_detection_activate{% endif %}'
+      - service: script.motion_detection_activate
 
   - alias: "Auto Motion Detection Deactivation"
     trigger:
@@ -136,5 +137,4 @@ automation:
       - condition: template
         value_template: '{{ is_state("switch.foscam_black_motion", "on") or is_state("switch.foscam_white_motion", "on") }}'
     action:
-      # - service: script.motion_detection_deactivate
-      - service_template: '{% if is_state("script.motion_detection_deactivate", "off") %}script.motion_detection_deactivate{% endif %}'
+      - service: script.motion_detection_deactivate
