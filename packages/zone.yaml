@@ -280,9 +280,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "chime"
           light: "once"
@@ -304,9 +304,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "chime"
           light: "once"
@@ -356,9 +356,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "chime"
           light: "once"
@@ -380,9 +380,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "chime"
           light: "once"
@@ -427,9 +427,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "pip"
           light: "short"
@@ -448,9 +448,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "pip"
           light: "short"
@@ -495,9 +495,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "pip"
           light: "short"
@@ -516,9 +516,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "pip"
           light: "short"
@@ -543,9 +543,9 @@ automation:
           event: '{% if (states.proximity.jue_home.state | float > 2500) and (states.proximity.jue_home.state | float < 3500) %}red_3{% elif (states.proximity.jue_home.state | float > 1500) and (states.proximity.jue_home.state | float < 2500) %}red_2{% elif (states.proximity.jue_home.state | float > 500) and (states.proximity.jue_home.state | float < 1500) %}red_1{% endif %}'
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "chime"
           light: "once"
@@ -570,9 +570,9 @@ automation:
           event: '{% if (states.proximity.pe_home.state | float > 2500) and (states.proximity.pe_home.state | float < 3500) %}red_3{% elif (states.proximity.pe_home.state | float > 1500) and (states.proximity.pe_home.state | float < 2500) %}red_2{% elif (states.proximity.pe_home.state | float > 500) and (states.proximity.pe_home.state | float < 1500) %}red_1{% endif %}'
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "chime"
           light: "once"
@@ -618,9 +618,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "siren"
           light: "short"
@@ -642,9 +642,9 @@ automation:
     action:
       - service: script.notifying
         data_template:
-          email: '{% if is_state("input_boolean.presence_pe", "off") %}true{% else %}false{% endif %}'
-          tv: '{% if is_state("binary_sensor.android_box", "on") %}true{% else %}false{% endif %}'
-          line: '{% if is_state("input_boolean.presence_pe", "off") %}pe{% else %}false{% endif %}'
+          email: "true"
+          tv: "true"
+          line: "true"
           speak: "true"
           audio: "siren"
           light: "short"
