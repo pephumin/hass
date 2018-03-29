@@ -59,6 +59,26 @@ switch:
     qos: 1
     retain: true
     optimistic: true
+  - platform: mqtt
+    name: "Charon"
+    state_topic: "stat/charon/POWER"
+    command_topic: "cmnd/charon/POWER"
+    availability_topic: "tele/charon/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+  # - platform: mqtt
+  #   name: "Naked"
+  #   state_topic: "stat/naked/POWER"
+  #   command_topic: "cmnd/naked/POWER"
+  #   availability_topic: "tele/naked/LWT"
+  #   payload_available: "Online"
+  #   payload_not_available: "Offline"
+  #   qos: 1
+  #   retain: true
+  #   optimistic: true
 
 light:
   - platform: mqtt
@@ -227,6 +247,8 @@ group:
       - switch.calypso
       - switch.sva
       - switch.svb
+      - switch.charon
+      # - switch.naked
 
 automation:
 

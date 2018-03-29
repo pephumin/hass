@@ -44,7 +44,8 @@ control_br:
     - switch.europa
     - script.mute_bedroom
     - script.bedroom_ac_powerful
-    - switch.calypso
+    - switch.charon
+    # - switch.calypso
     - counter.bedroom
 
 control_ff:
@@ -56,3 +57,6 @@ control_ff:
     - sensor.callisto_humidity
     - switch.callisto
     - counter.firstfloor
+    - switch.sva
+    - switch.svb
+    # - switch.naked
