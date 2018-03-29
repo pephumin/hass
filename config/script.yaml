@@ -3,6 +3,7 @@ motion_detection_activate:
   sequence:
     - service: switch.turn_on
       entity_id:
+        - switch.foscam_r2_motion
         - switch.foscam_black_motion
         - switch.foscam_white_motion
     - service: counter.increment
@@ -15,17 +16,48 @@ motion_detection_deactivate:
       value_template: '{{ is_state("script.motion_detection_deactivate", "off") }}'
     - service: switch.turn_off
       entity_id:
+        - switch.foscam_r2_motion
         - switch.foscam_black_motion
         - switch.foscam_white_motion
+
+r2_scan:
+  alias: "Foscam R2 Scan Starts"
+  sequence:
+    - service: shell_command.foscam_r2_preset_2
+    - delay: 00:00:25
+    - service: shell_command.foscam_r2_preset_3
+    - delay: 00:00:15
+    - service: shell_command.foscam_r2_preset_4
+    - service: script.r2_scan_loop
+
+r2_scan_loop:
+  alias: "Foscam R2 Scan Loops"
+  sequence:
+    - delay: 00:00:15
+    - service: script.r2_scan
+
+r2_scan_stop:
+  alias: "Foscam R2 Scan Stops"
+  sequence:
+    - service: script.turn_off
+      entity_id:
+        - script.r2_scan
+        - script.r2_scan_loop
+    - service: shell_command.foscam_r2_preset_1
+
+r2_reboot:
+  alias: "Foscam R2 Reboots"
+  sequence:
+    - service: shell_command.foscam_r2_reboot
 
 black_scan:
   alias: "Foscam Black Scan Starts"
   sequence:
-    - service: shell_command.foscam_black_present_2
+    - service: shell_command.foscam_black_preset_2
     - delay: 00:00:25
-    - service: shell_command.foscam_black_present_3
+    - service: shell_command.foscam_black_preset_3
     - delay: 00:00:15
-    - service: shell_command.foscam_black_present_4
+    - service: shell_command.foscam_black_preset_4
     - service: script.black_scan_loop
 
 black_scan_loop:
@@ -41,7 +73,7 @@ black_scan_stop:
       entity_id:
         - script.black_scan
         - script.black_scan_loop
-    - service: shell_command.foscam_black_present_1
+    - service: shell_command.foscam_black_preset_1
 
 black_reboot:
   alias: "Foscam Black Reboots"
@@ -51,11 +83,11 @@ black_reboot:
 white_scan:
   alias: "Foscam White Scan Starts"
   sequence:
-    - service: shell_command.foscam_white_present_2
+    - service: shell_command.foscam_white_preset_2
     - delay: 00:00:30
-    - service: shell_command.foscam_white_present_3
+    - service: shell_command.foscam_white_preset_3
     - delay: 00:00:15
-    - service: shell_command.foscam_white_present_4
+    - service: shell_command.foscam_white_preset_4
     - service: script.white_scan_loop
 
 white_scan_loop:
@@ -71,7 +103,7 @@ white_scan_stop:
       entity_id:
         - script.white_scan
         - script.white_scan_loop
-    - service: shell_command.foscam_white_present_1
+    - service: shell_command.foscam_white_preset_1
 
 white_reboot:
   alias: "Foscam White Reboots"
@@ -120,8 +152,8 @@ restart_ganymede:
       entity_id: switch.ganymede
     - service: script.flashing_party
       data:
-        color_name: "green"
-        brightness: 150
+        color_name: "blue"
+        brightness: 50
         flash: "short"
 
 restart_callisto:
@@ -134,8 +166,8 @@ restart_callisto:
       entity_id: switch.callisto
     - service: script.flashing_party
       data:
-        color_name: "green"
-        brightness: 150
+        color_name: "magenta"
+        brightness: 50
         flash: "short"
 
 restart_calypso:
@@ -149,7 +181,21 @@ restart_calypso:
     - service: script.flashing_party
       data:
         color_name: "green"
-        brightness: 150
+        brightness: 50
+        flash: "short"
+
+restart_charon:
+  alias: "Restart Bedroom online switch"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.charon
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.charon
+    - service: script.flashing_party
+      data:
+        color_name: "green"
+        brightness: 50
         flash: "short"
 
 mute_common_room:
@@ -627,7 +673,7 @@ s_email:
   alias: "Sub-notify script Email"
   sequence:
     - condition: template
-      value_template: '{{ email != "false" }}'
+      value_template: '{{ email != "false" and is_state("input_boolean.presence_pe", "off") }}'
     - service: notify.email
       data_template:
         title: '{{ title if title else message }}'
@@ -637,7 +683,7 @@ s_line:
   alias: "Sub-notify script LINE"
   sequence:
     - condition: template
-      value_template: '{{ line != "false" }}'
+      value_template: '{{ line != "false" and is_state("input_boolean.presence_pe", "off") }}'
     - service_template: '{% if line == "pe" %}shell_command.line_pe{% elif line == "jue" %}shell_command.line_jue{% elif line == "both" %}shell_command.line_both{% endif %}'
       data_template:
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
@@ -656,7 +702,7 @@ s_tv:
   alias: "Sub-notify script TV"
   sequence:
     - condition: template
-      value_template: '{{ tv != "false" and is_state("media_player.denon", "on") }}'
+      value_template: '{{ tv != "false" and is_state("binary_sensor.android_box", "on") }}'
     - service: notify.tv
       data_template:
         title: '{{ title if title else message }}'

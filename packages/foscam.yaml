@@ -12,27 +12,41 @@ camera:
     password: !secret my_longer_password
     timeout: 15
     verify_ssl: false
+  - platform: foscam
+    name: "Foscam R2"
+    ip: !secret foscam_r2_ip
+    port: !secret foscam_r2_port
+    username: !secret my_r2_username
+    password: !secret my_password
   # - platform: foscam
-  #   name: "Common Room"
+  #   name: "Foscam Common Room"
   #   ip: !secret foscam_black_ip
   #   port: !secret foscam_black_port
   #   username: !secret my_username
   #   password: !secret my_password
   # - platform: foscam
-  #   name: "First Floor"
+  #   name: "Foscam First Floor"
   #   ip: !secret foscam_white_ip
   #   port: !secret foscam_white_port
   #   username: !secret my_username
   #   password: !secret my_password
 
 shell_command:
+  foscam_r2_command_on: !secret foscam_black_command_on
+  foscam_r2_command_off: !secret foscam_black_command_off
+  foscam_r2_command_state: !secret foscam_black_command_state
+  foscam_r2_preset_1: !secret foscam_black_preset_1
+  foscam_r2_preset_2: !secret foscam_black_preset_2
+  foscam_r2_preset_3: !secret foscam_black_preset_3
+  foscam_r2_preset_4: !secret foscam_black_preset_4
+  foscam_r2_reboot: !secret foscam_black_reboot
   foscam_black_command_on: !secret foscam_black_command_on
   foscam_black_command_off: !secret foscam_black_command_off
   foscam_black_command_state: !secret foscam_black_command_state
-  foscam_black_present_1: !secret foscam_black_present_1
-  foscam_black_present_2: !secret foscam_black_present_2
-  foscam_black_present_3: !secret foscam_black_present_3
-  foscam_black_present_4: !secret foscam_black_present_4
+  foscam_black_preset_1: !secret foscam_black_preset_1
+  foscam_black_preset_2: !secret foscam_black_preset_2
+  foscam_black_preset_3: !secret foscam_black_preset_3
+  foscam_black_preset_4: !secret foscam_black_preset_4
   foscam_black_reboot: !secret foscam_black_reboot
   foscam_black_scan_0: !secret foscam_black_scan_0
   foscam_black_scan_1: !secret foscam_black_scan_1
@@ -41,10 +55,10 @@ shell_command:
   foscam_white_command_on: !secret foscam_white_command_on
   foscam_white_command_off: !secret foscam_white_command_off
   foscam_white_command_state: !secret foscam_white_command_state
-  foscam_white_present_1: !secret foscam_white_present_1
-  foscam_white_present_2: !secret foscam_white_present_2
-  foscam_white_present_3: !secret foscam_white_present_3
-  foscam_white_present_4: !secret foscam_white_present_4
+  foscam_white_preset_1: !secret foscam_white_preset_1
+  foscam_white_preset_2: !secret foscam_white_preset_2
+  foscam_white_preset_3: !secret foscam_white_preset_3
+  foscam_white_preset_4: !secret foscam_white_preset_4
   foscam_white_reboot: !secret foscam_white_reboot
   foscam_white_scan_0: !secret foscam_white_scan_0
   foscam_white_scan_1: !secret foscam_white_scan_1
@@ -52,6 +66,14 @@ shell_command:
   foscam_white_scan_3: !secret foscam_white_scan_3
 
 switch:
+  - platform: command_line
+    name: "Foscam R2 Motion Detection"
+    switches:
+      foscam_r2_motion:
+        command_on: !secret foscam_r2_command_on
+        command_off: !secret foscam_r2_command_off
+        command_state: !secret foscam_r2_command_state
+        value_template: '{{ value == "1" }}'
   - platform: command_line
     name: "Foscam Black Motion Detection"
     switches:
@@ -75,13 +97,33 @@ group:
     icon: mdi:webcam
     control: hidden
     entities:
+      - switch.foscam_r2_motion
       - switch.foscam_black_motion
       - switch.foscam_white_motion
       - counter.foscammotion
+      - script.r2_reboot
       - script.black_reboot
       - script.white_reboot
 
 automation:
+
+  - alias: "Foscam R2 Motion Detection Enable"
+    trigger:
+      - platform: state
+        entity_id: switch.foscam_r2_motion
+        from: 'off'
+        to: 'on'
+    action:
+      - service: script.r2_scan
+
+  - alias: "Foscam R2 Motion Detection Disable"
+    trigger:
+      - platform: state
+        entity_id: switch.foscam_r2_motion
+        from: 'on'
+        to: 'off'
+    action:
+      - service: script.r2_scan_stop
 
   - alias: "Foscam Black Motion Detection Enable"
     trigger:
@@ -125,7 +167,7 @@ automation:
         value_template: '{{ is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("switch.foscam_black_motion", "off") or is_state("switch.foscam_white_motion", "off") }}'
+        value_template: '{{ is_state("switch.foscam_r2_motion", "off") or is_state("switch.foscam_black_motion", "off") or is_state("switch.foscam_white_motion", "off") }}'
     action:
       - service: script.motion_detection_activate
 
@@ -135,6 +177,6 @@ automation:
         value_template: '{{ is_state("input_boolean.presence_pe", "on") or is_state("input_boolean.presence_jue", "on") or is_state("input_select.homemode", "Home") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("switch.foscam_black_motion", "on") or is_state("switch.foscam_white_motion", "on") }}'
+        value_template: '{{ is_state("switch.foscam_r2_motion", "on") or is_state("switch.foscam_black_motion", "on") or is_state("switch.foscam_white_motion", "on") }}'
     action:
       - service: script.motion_detection_deactivate

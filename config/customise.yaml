@@ -174,6 +174,12 @@ light.garage:
   icon: mdi:spotlight
   friendly_name: "Garage"
 
+camera.foscam_r2:
+  icon: mdi:webcam
+  friendly_name: "Foscam R2"
+binary_sensor.foscam_r2:
+  icon: mdi:webcam
+  friendly_name: "Foscam R2"
 camera.foscam_black:
   icon: mdi:webcam
   friendly_name: "Foscam Black"
@@ -274,6 +280,10 @@ switch.bedroom_sound:
   friendly_name: "Bedroom Denon"
   assumed_state: true
 
+switch.foscam_r2_motion:
+  icon: mdi:account-alert
+  friendly_name: "Foscam R2 Motion Detection"
+  assumed_state: true
 switch.foscam_black_motion:
   icon: mdi:account-alert
   friendly_name: "Foscam Black Motion Detection"
@@ -300,6 +310,9 @@ script.bedroom_ac_powerful:
   icon: mdi:dumbbell
   friendly_name: "AC Powerful"
 
+script.r2_reboot:
+  icon: mdi:restart
+  friendly_name: "Restart Foscam R2"
 script.black_reboot:
   icon: mdi:restart
   friendly_name: "Restart Foscam Black"
@@ -432,19 +445,31 @@ binary_sensor.phoebe:
 binary_sensor.calypso:
   icon: mdi:power-plug
   friendly_name: "Sonoff Basic Calypso"
+binary_sensor.sva:
+  icon: mdi:video-input-antenna
+  friendly_name: "Sonoff SV A"
+binary_sensor.svb:
+  icon: mdi:video-input-antenna
+  friendly_name: "Sonoff SV B"
+binary_sensor.charon:
+  icon: mdi:power-socket-us
+  friendly_name: "Sonoff S20 Charon"
+binary_sensor.naked:
+  icon: mdi:power-plug
+  friendly_name: "Sonoff Basic Naked"
 
 binary_sensor.nodemcu:
   icon: mdi:video-input-antenna
   friendly_name: "NodeMCU"
-binary_sensor.wemos_lite_a:
+binary_sensor.wemos_pir:
   icon: mdi:video-input-antenna
-  friendly_name: "WeMos Lite A"
+  friendly_name: "WeMos PIR"
 binary_sensor.wemos_lite_led:
   icon: mdi:video-input-antenna
   friendly_name: "WeMos Lite LED"
-binary_sensor.wemos_pro:
+binary_sensor.wemos_pro_bmw:
   icon: mdi:video-input-antenna
-  friendly_name: "WeMos Pro"
+  friendly_name: "WeMos Pro BMW"
 binary_sensor.wemos_bell:
   icon: mdi:video-input-antenna
   friendly_name: "WeMos Bell"
@@ -531,6 +556,22 @@ light.phoebe:
 switch.calypso:
   icon: mdi:power-plug
   friendly_name: "Bedroom Online Switch"
+  assumed_state: true
+switch.sva:
+  icon: mdi:video-input-antenna
+  friendly_name: "Safe Voltage A Switch"
+  assumed_state: true
+switch.svb:
+  icon: mdi:video-input-antenna
+  friendly_name: "Safe Voltage B Switch"
+  assumed_state: true
+switch.charon:
+  icon: mdi:power-socket-us
+  friendly_name: "Bedroom Online Switch"
+  assumed_state: true
+switch.nakeds:
+  icon: mdi:power-plug
+  friendly_name: "Naked"
   assumed_state: true
 
 # sensor.rm_pro_temperature_mean:
