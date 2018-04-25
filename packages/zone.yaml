@@ -60,6 +60,34 @@ proximity:
       - device_tracker.pesiphone7plus
     tolerance: 20
     unit_of_measurement: m
+  seaconsquare:
+    zone: seacon_square
+    devices:
+      - device_tracker.pesiphone7plus
+      - device_tracker.juesiphone6splus
+    tolerance: 20
+    unit_of_measurement: m
+  paradisepark:
+    zone: paradise_park
+    devices:
+      - device_tracker.pesiphone7plus
+      - device_tracker.juesiphone6splus
+    tolerance: 20
+    unit_of_measurement: m
+  centralbangna:
+    zone: central_bangna
+    devices:
+      - device_tracker.pesiphone7plus
+      - device_tracker.juesiphone6splus
+    tolerance: 20
+    unit_of_measurement: m
+  foodland:
+    zone: foodland
+    devices:
+      - device_tracker.pesiphone7plus
+      - device_tracker.juesiphone6splus
+    tolerance: 20
+    unit_of_measurement: m
 
 camera:
   - platform: generic
@@ -234,6 +262,13 @@ group:
       - proximity.jue_home
       - proximity.pe_benjawan
       - proximity.jue_malaiwan
+  proximity_others:
+    name: "Other Places"
+    entities:
+      - proximity.seaconsquare
+      - proximity.paradisepark
+      - proximity.centralbangna
+      - proximity.foodland
 
 automation:
 

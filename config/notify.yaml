@@ -1,9 +1,9 @@
 - platform: nfandroidtv
   name: tv
   host: !secret kodi_ip
-  duration: 15
-  transparency: "25%"
-  color: "black"
+  # duration: 15
+  # transparency: "25%"
+  # color: "black"
   # icon: "/local/pe.png"
 
 - platform: kodi

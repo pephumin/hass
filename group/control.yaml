@@ -24,14 +24,16 @@ control_cr:
     - switch.common_room_fan
     - switch.common_room_hometheatre
     - input_select.denon_mode
-    - switch.sonytv
-    - switch.android_box
+    # - switch.sonytv
+    # - switch.android_box
     - switch.mimas
     - script.mute_common_room
     - sensor.denon_source
-    - sensor.denonsourcecheck
     - switch.ganymede
     - counter.commonroom
+    - switch.hyperion
+    - switch.sva
+    - switch.svb
 
 control_br:
   name: "Bedroom Control Panel"
@@ -44,7 +46,7 @@ control_br:
     - switch.europa
     - script.mute_bedroom
     - script.bedroom_ac_powerful
-    - switch.charon
+    - switch.calypso
     # - switch.calypso
     - counter.bedroom
 
@@ -55,8 +57,6 @@ control_ff:
   entities:
     - sensor.callisto_temperature
     - sensor.callisto_humidity
-    - switch.callisto
+    - switch.charon
     - counter.firstfloor
-    - switch.sva
-    - switch.svb
     # - switch.naked

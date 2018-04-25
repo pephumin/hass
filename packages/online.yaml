@@ -66,6 +66,11 @@ binary_sensor:
 
   - platform: ping
     host: 192.168.1.18
+    name: "Hyperion"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.19
     name: "Charon"
     count: 2
     scan_interval: 30
@@ -128,6 +133,21 @@ binary_sensor:
     count: 2
     scan_interval: 30
   - platform: ping
+    host: 192.168.1.41
+    name: "Wemos Lite Party"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.42
+    name: "NodeMCU Matrix Clock"
+    count: 2
+    scan_interval: 30
+  # - platform: ping
+  #   host: 192.168.1.43
+  #   name: ""
+  #   count: 2
+  #   scan_interval: 30
+  - platform: ping
     host: 192.168.1.44
     name: "Earth"
     count: 2
@@ -138,21 +158,21 @@ binary_sensor:
     name: "Wemos PIR"
     count: 2
     scan_interval: 30
-  - platform: ping
-    host: 192.168.1.47
-    name: "Wemos Lite LED"
-    count: 2
-    scan_interval: 30
+  # - platform: ping
+  #   host: 192.168.1.47
+  #   name: ""
+  #   count: 2
+  #   scan_interval: 30
   - platform: ping
     host: 192.168.1.48
     name: "Wemos Pro BMW"
     count: 2
     scan_interval: 30
-  - platform: ping
-    host: 192.168.1.49
-    name: "NodeMCU"
-    count: 2
-    scan_interval: 30
+  # - platform: ping
+  #   host: 192.168.1.49
+  #   name: ""
+  #   count: 2
+  #   scan_interval: 30
   # - platform: ping
   #   host: 192.168.1.51
   #   name: "Naked"
@@ -211,10 +231,12 @@ group:
       - binary_sensor.foscam_r2
       - binary_sensor.foscam_black
       - binary_sensor.titan
+      - binary_sensor.hyperion
       - binary_sensor.ganymede
       - binary_sensor.mimas
-      - binary_sensor.svb
-      - binary_sensor.wemos_lite_led
+      - binary_sensor.sva
+      - binary_sensor.wemos_lite_party
+      - binary_sensor.nodemcu_matrix_clock
       - binary_sensor.denon
       - binary_sensor.android_box
       - binary_sensor.biscuit
@@ -231,10 +253,9 @@ group:
       - binary_sensor.doughnut
       - binary_sensor.moon
       - binary_sensor.europa
-      - binary_sensor.charon
       - binary_sensor.pandora
-      # - binary_sensor.calypso
-      - binary_sensor.sva
+      - binary_sensor.calypso
+      - binary_sensor.svb
   online_ff:
     name: "Online Status First Floor"
     icon: mdi:lan-connect
@@ -247,45 +268,56 @@ group:
       - binary_sensor.foscam_white
       # - binary_sensor.wemos_bell
       - binary_sensor.earth
+      - binary_sensor.charon
       - binary_sensor.callisto
       - binary_sensor.phoebe
       - binary_sensor.bmw
 
 automation:
 
-  - alias: 'Bedroom online switch restart'
-    trigger:
-      - platform: time
-        minutes: '/60'
-        seconds: 00
-    condition:
-      - condition: or
-        conditions:
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.moon", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
-    action:
-      - service: script.turn_on
-        entity_id: script.restart_charon
-      - service: counter.increment
-        entity_id: counter.bedroom
-      # - service: script.notifying
-      #   data_template:
-      #     email: "true"
-      #     tv: "true"
-      #     line: "true"
-      #     speak: "true"
-      #     audio: "sinewave"
-      #     light: "false"
-      #     mobile: "false"
-      #     message: 'Restarting Calypso because {% if is_state("binary_sensor.moon", "off") %}Philips Hue Bridge{% elif is_state("binary_sensor.broadlink_rm_mini_a", "off") %}Broadlink RM Mini Bedroom{% elif is_state("binary_sensor.neptune", "off") %}Neptune{% elif is_state("binary_sensor.doughnut", "off") %}Google Home Mini{% endif %} is offline'
+  # - alias: 'Bedroom online switch restart'
+  #   trigger:
+  #     - platform: time
+  #       minutes: '/60'
+  #       seconds: 00
+  #   condition:
+  #     - condition: or
+  #       conditions:
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.moon", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
+  #   action:
+  #     - service: script.turn_on
+  #       entity_id: script.restart_calypso
+  #     - service: counter.increment
+  #       entity_id: counter.bedroom
 
-  - alias: 'Common Room switch restart'
+  # - alias: 'Common Room RM mini restart'
+  #   trigger:
+  #     - platform: time
+  #       minutes: '/10'
+  #       seconds: 00
+  #   condition:
+  #     - condition: or
+  #       conditions:
+  #         # - condition: template
+  #         #   value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
+  #         # - condition: template
+  #         #   value_template: '{{ is_state("binary_sensor.wemos_lite_party", "off") }}'
+  #   action:
+  #     - service: script.turn_on
+  #       entity_id: script.restart_sva
+  #     - service: counter.increment
+  #       entity_id: counter.commonroom
+
+  - alias: 'Common Room Foscam Black restart'
     trigger:
       - platform: time
         minutes: '/60'
@@ -298,22 +330,12 @@ automation:
           # - condition: template
           #   value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
           # - condition: template
-          #   value_template: '{{ is_state("binary_sensor.wemos_lite_led", "off") }}'
+          #   value_template: '{{ is_state("binary_sensor.wemos_lite_party", "off") }}'
     action:
       - service: script.turn_on
         entity_id: script.restart_ganymede
       - service: counter.increment
         entity_id: counter.commonroom
-      # - service: script.notifying
-      #   data_template:
-      #     email: "true"
-      #     tv: "true"
-      #     line: "true"
-      #     speak: "true"
-      #     audio: "sinewave"
-      #     light: "false"
-      #     mobile: "false"
-      #     message: 'Restarting Ganymede because {% if is_state("binary_sensor.foscam_black", "off") %}Foscam Black{% elif is_state("binary_sensor.broadlink_rm_mini_b", "off") %}Broadlink RM Mini Common Room{% elif is_state("binary_sensor.wemos_lite_led", "off") %}Wemos Lite LED{% endif %} is offline'
 
   - alias: 'First Floor online switch restart'
     trigger:
@@ -333,19 +355,9 @@ automation:
           #   value_template: '{{ is_state("binary_sensor.mercury", "off") }}'
     action:
       - service: script.turn_on
-        entity_id: script.restart_callisto
+        entity_id: script.restart_charon
       - service: counter.increment
         entity_id: counter.firstfloor
-      # - service: script.notifying
-      #   data_template:
-      #     email: "true"
-      #     tv: "true"
-      #     line: "true"
-      #     speak: "true"
-      #     audio: "sinewave"
-      #     light: "false"
-      #     mobile: "false"
-      #     message: 'Restarting Callisto because {% if is_state("binary_sensor.foscam_white", "off") %}Foscam White{% elif is_state("binary_sensor.earth", "off") %}Samsung Printer{% elif is_state("binary_sensor.uranus", "off") %}Uranus{% elif is_state("binary_sensor.mercury", "off") %}Mercury{% endif %} is offline'
 
   - alias: "BMW Online"
     trigger:

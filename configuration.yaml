@@ -32,15 +32,36 @@ homeassistant:
     #     (t=Math.floor(s/3600))?t+(t>1?" hours":" hour"):
     #     (t=Math.floor(s/60))?t+(t>1?" minutes":" minute"):
     #     (t=Math.floor(s))!==1?t+" seconds":" second")+" ago";
-# if(!attributes.last_triggered)return null;
-# var d,h,m,s=(new Date()-new Date(attributes.last_triggered))/1e3;
-# d=Math.floor(s/86400);
-# s=s-(d*86400);
-# h=Math.floor(s/3600);
-# s=s-(h*3600);
-# m=Math.floor(s/60);
-# s=Math.floor(s-(m*60));
-# return((d>0?d+'d ':'')+(h>0?h+'h ':'')+(m>0?m+'m ':'')+(s>0?s +'s':''));
+
+apple_tv:
+  name: "Apple TV"
+  host: !secret apple_tv_ip
+  login_id: !secret apple_tv_login_id
+  credentials: 8BE9E6B8815126A9:5C6D48EDCF40E6CEF3551198D43BD98C541455F472731A5288F4813BDA6ED27C
+
+browser:
+
+cloud:
+
+config:
+
+conversation:
+
+discovery:
+
+frontend:
+  javascript_version: latest
+  extra_html_url:
+    - /local/custom_ui/state-card-custom-ui.html
+    - /local/custom_ui/state-card-mini-media-player.html
+  extra_html_url_es5:
+    - /local/custom_ui/state-card-custom-ui-es5.html
+    - /local/custom_ui/state-card-mini-media-player_es5.html
+
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
+
+history:
 
 http:
   api_password: !secret my_password
@@ -55,52 +76,82 @@ http:
   # ip_ban_enabled: True
   # login_attempts_threshold: 3
 
-browser:
-cloud:
-config:
-conversation:
-discovery:
-history:
-logbook:
-map:
-# python_script:
-# shopping_list:
-sun:
-updater:
-wake_on_lan:
-zeroconf:
-
-apple_tv:
-  name: "Apple TV"
-  host: !secret apple_tv_ip
-  login_id: !secret apple_tv_login_id
-  credentials: 8BE9E6B8815126A9:5C6D48EDCF40E6CEF3551198D43BD98C541455F472731A5288F4813BDA6ED27C
-
-frontend:
-  javascript_version: latest
-  extra_html_url:
-    - /local/custom_ui/state-card-custom-ui.html
-    - /local/custom_ui/state-card-mini-media-player.html
-  extra_html_url_es5:
-    - /local/custom_ui/state-card-custom-ui-es5.html
-    - /local/custom_ui/state-card-mini-media-player_es5.html
-
-ffmpeg:
-  ffmpeg_bin: /usr/bin/ffmpeg
-
 homekit:
-  pincode: '666-88-999'
+  filter:
+    exclude_domains:
+      - input_boolean
+      - script
+    exclude_entities:
+      - sensor.jues_ipad_mini_2_battery_level
+      - sensor.jues_ipad_mini_2_battery_state
+      - sensor.jues_iphone_6s_plus_battery_level
+      - sensor.jues_iphone_6s_plus_battery_state
+      - sensor.pes_ipad_mini_2_battery_level
+      - sensor.pes_ipad_mini_2_battery_state
+      - sensor.pes_iphone_7_plus_battery_level
+      - sensor.pes_iphone_7_plus_battery_state
+      - sensor.battery_juesipadmini2
+      - sensor.battery_juesiphone6splus
+      - sensor.battery_pesipadmini2
+      - sensor.battery_pesiphone7plus
+      - light.discoagroup
+      - light.discoagroupeven
+      - light.discoagroupodd
+      - sensor.processor_use
+      - sensor.memory_use_percent
+      - sensor.bedroom_temperature_mean
+      - sensor.bedroom_humidity_mean
+      - sensor.common_room_temperature_mean
+      - sensor.common_room_humidity_mean
+      - sensor.firstfloor_temperature_mean
+      - sensor.firstfloor_humidity_mean
+      - sensor.earth
+      - sensor.earth_toner_black
+      - sensor.earth_drum_black
+      - sensor.earth_output_tray_0
+      - sensor.earth_tray_1
+      - sensor.samsung_m267x_287x_series_192168144
+      - sensor.samsung_m267x_287x_series_192168144_toner_black
+      - sensor.samsung_m267x_287x_series_192168144_drum_black
+      - sensor.samsung_m267x_287x_series_192168144_output_tray_0
+      - sensor.samsung_m267x_287x_series_192168144_tray_1
 
 hue:
   bridges:
     - host: !secret hue_ip
-      filename: phue.conf
-      allow_unreachable: true
-      allow_in_emulated_hue: false
-      allow_hue_groups: false
+      # filename: phue.conf
+      # allow_unreachable: true
+      # allow_hue_groups: false
 
 ifttt:
   key: !secret ifttt_key
+
+logbook:
+
+logger:
+  default: critical
+  logs:
+    homeassistant.components.automation: info
+    homeassistant.components.device_tracker: critical
+    homeassistant.components.http: warning
+    homeassistant.components.hue: debug
+    homeassistant.components.input_boolean: debug
+    homeassistant.components.input_select: debug
+    homeassistant.components.ios: debug
+    homeassistant.components.mqtt: info
+    homeassistant.components.media_player: critical
+    homeassistant.components.notify: warning
+    homeassistant.components.proximity: critical
+    homeassistant.components.script: debug
+    homeassistant.components.sensor: debug
+    homeassistant.components.sensor.command_line: warning
+    homeassistant.components.sensor.speedtest: warning
+    homeassistant.components.shell_command: debug
+    homeassistant.components.switch.command_line: critical
+
+map:
+
+media_extractor:
 
 mqtt:
   broker: !secret mqtt_broker
@@ -113,8 +164,10 @@ mqtt:
   discovery: true
   discovery_prefix: homeassistant
 
+# python_script:
+
 recorder:
-  purge_keep_days: 30
+  purge_keep_days: 15
   purge_interval: 1
   db_url: !secret db_url
   exclude:
@@ -169,12 +222,16 @@ recorder:
       - sensor.pandora_temperature
 
 rest_command:
-  dj:
-    url: !secret dj
+  shuffle_itunes_dj:
+    url: !secret shuffle_itunes_dj
     method: PUT
     payload: '{ "shuffle": true }'
-  soft:
-    url: !secret soft
+  shuffle_itunes_soft:
+    url: !secret shuffle_itunes_soft
+    method: PUT
+    payload: '{ "shuffle": true }'
+  shuffle_itunes_others:
+    url: !secret shuffle_itunes_others
     method: PUT
     payload: '{ "shuffle": true }'
 
@@ -183,39 +240,24 @@ shell_command:
   line_jue: '/config/command/line_jue "{{ message }}"'
   line_both: '/config/command/line_both "{{ message }}"'
 
+# shopping_list:
+
+sun:
+
 tts:
   - platform: google
     cache: true
     cache_dir: /tts
     time_memory: 300
 
+updater:
+
+wake_on_lan:
+
+zeroconf:
+
 device_tracker: !include config/device_tracker.yaml
 group: !include_dir_merge_named group/
 media_player: !include config/media_player.yaml
 notify: !include config/notify.yaml
 script: !include config/script.yaml
-
-logger:
-  default: critical
-  logs:
-    homeassistant.components.automation: info
-    # homeassistant.components.device_tracker.icloud: debug
-    homeassistant.components.device_tracker: critical
-    homeassistant.components.http: warning
-    homeassistant.components.input_boolean: debug
-    homeassistant.components.input_select: debug
-    homeassistant.components.ios: debug
-    homeassistant.components.mqtt: info
-    # homeassistant.components.media_player.mpd: debug
-    homeassistant.components.media_player: critical
-    homeassistant.components.notify: warning
-    # homeassistant.components.notify.command_line: debug
-    homeassistant.components.proximity: critical
-    homeassistant.components.script: debug
-    homeassistant.components.sensor: debug
-    homeassistant.components.sensor.command_line: warning
-    homeassistant.components.sensor.speedtest: warning
-    homeassistant.components.shell_command: debug
-    # homeassistant.components.switch: warning
-    # homeassistant.components.switch.tplink: warning
-    homeassistant.components.switch.command_line: critical

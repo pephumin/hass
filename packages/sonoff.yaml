@@ -10,10 +10,10 @@ switch:
     retain: true
     optimistic: true
   - platform: mqtt
-    name: "Callisto"
-    state_topic: "stat/callisto/POWER"
-    command_topic: "cmnd/callisto/POWER"
-    availability_topic: "tele/callisto/LWT"
+    name: "Calypso"
+    state_topic: "stat/calypso/POWER"
+    command_topic: "cmnd/calypso/POWER"
+    availability_topic: "tele/calypso/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
     qos: 1
@@ -30,10 +30,10 @@ switch:
     retain: true
     optimistic: true
   - platform: mqtt
-    name: "Calypso"
-    state_topic: "stat/calypso/POWER"
-    command_topic: "cmnd/calypso/POWER"
-    availability_topic: "tele/calypso/LWT"
+    name: "Phoebe"
+    state_topic: "stat/phoebe/POWER"
+    command_topic: "cmnd/phoebe/POWER"
+    availability_topic: "tele/phoebe/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
     qos: 1
@@ -69,6 +69,16 @@ switch:
     qos: 1
     retain: true
     optimistic: true
+  - platform: mqtt
+    name: "Hyperion"
+    state_topic: "stat/hyperion/POWER"
+    command_topic: "cmnd/hyperion/POWER"
+    availability_topic: "tele/hyperion/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
   # - platform: mqtt
   #   name: "Naked"
   #   state_topic: "stat/naked/POWER"
@@ -92,10 +102,10 @@ light:
     retain: true
     optimistic: true
   - platform: mqtt
-    name: "Phoebe"
-    state_topic: "stat/phoebe/POWER"
-    command_topic: "cmnd/phoebe/POWER"
-    availability_topic: "tele/phoebe/LWT"
+    name: "Callisto"
+    state_topic: "stat/callisto/POWER"
+    command_topic: "cmnd/callisto/POWER"
+    availability_topic: "tele/callisto/LWT"
     payload_available: "Online"
     payload_not_available: "Offline"
     qos: 1
@@ -240,11 +250,11 @@ group:
     control: hidden
     entities:
       - switch.ganymede
-      - switch.callisto
+      - light.callisto
       - switch.mimas
       - light.pandora
-      - light.phoebe
       - switch.calypso
+      - switch.phoebe
       - switch.sva
       - switch.svb
       - switch.charon

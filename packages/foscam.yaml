@@ -65,6 +65,17 @@ shell_command:
   foscam_white_scan_2: !secret foscam_white_scan_2
   foscam_white_scan_3: !secret foscam_white_scan_3
 
+rest_command:
+  synology_check_homemode:
+    url: !secret synology_homemode_check
+    method: get
+  synology_enable_homemode:
+    url: !secret synology_homemode_on
+    method: get
+  synology_disable_homemode:
+    url: !secret synology_homemode_off
+    method: get
+
 switch:
   - platform: command_line
     name: "Foscam R2 Motion Detection"

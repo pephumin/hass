@@ -84,7 +84,14 @@ sensor:
               {%- endif -%}
             {%- endif -%}
           {%- endif -%}
-
+  - platform: syncthru
+    resource: !secret earth
+    name: "Earth"
+    monitored_conditions:
+        - toner_black
+        - drum_black
+        - output_tray_0
+        - tray_1
 group:
   home_server:
     name: "Home Server"
@@ -102,3 +109,14 @@ group:
       - binary_sensor.saturn_temperature_up
       - binary_sensor.saturn_temperature_down
       - input_boolean.mpd_silence
+      - sensor.samsung_m267x_287x_series_192168144
+  printer:
+    name: "Earth"
+    icon: mdi:printer
+    control: hidden
+    entities:
+      - sensor.samsung_m267x_287x_series_192168144
+      - sensor.samsung_m267x_287x_series_192168144_toner_black
+      - sensor.samsung_m267x_287x_series_192168144_drum_black
+      - sensor.samsung_m267x_287x_series_192168144_output_tray_0
+      - sensor.samsung_m267x_287x_series_192168144_tray_1

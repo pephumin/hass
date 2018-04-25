@@ -8,6 +8,7 @@ motion_detection_activate:
         - switch.foscam_white_motion
     - service: counter.increment
       entity_id: counter.foscammotion
+    # - service: rest_command.synology_disable_homemode
 
 motion_detection_deactivate:
   alias: "Motion Detection Deactivate"
@@ -19,6 +20,7 @@ motion_detection_deactivate:
         - switch.foscam_r2_motion
         - switch.foscam_black_motion
         - switch.foscam_white_motion
+    # - service: rest_command.synology_enable_homemode
 
 r2_scan:
   alias: "Foscam R2 Scan Starts"
@@ -142,6 +144,34 @@ distance_light_off:
     - service: light.turn_off
       entity_id: light.hallway
 
+restart_sva:
+  alias: "Restart Common Room SV switch"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.sva
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.sva
+    - service: script.flashing_party
+      data:
+        color_name: "yellow"
+        brightness: 50
+        flash: "short"
+
+restart_svb:
+  alias: "Restart Bedroom SV switch"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.svb
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.svb
+    - service: script.flashing_party
+      data:
+        color_name: "yellow"
+        brightness: 50
+        flash: "short"
+
 restart_ganymede:
   alias: "Restart Common Room online switch"
   sequence:
@@ -156,20 +186,6 @@ restart_ganymede:
         brightness: 50
         flash: "short"
 
-restart_callisto:
-  alias: "Restart First Floor online switch"
-  sequence:
-    - service: switch.turn_off
-      entity_id: switch.callisto
-    - delay: '00:00:20'
-    - service: switch.turn_on
-      entity_id: switch.callisto
-    - service: script.flashing_party
-      data:
-        color_name: "magenta"
-        brightness: 50
-        flash: "short"
-
 restart_calypso:
   alias: "Restart Bedroom online switch"
   sequence:
@@ -180,12 +196,12 @@ restart_calypso:
       entity_id: switch.calypso
     - service: script.flashing_party
       data:
-        color_name: "green"
+        color_name: "magenta"
         brightness: 50
         flash: "short"
 
 restart_charon:
-  alias: "Restart Bedroom online switch"
+  alias: "Restart First Floor online switch"
   sequence:
     - service: switch.turn_off
       entity_id: switch.charon
@@ -258,12 +274,17 @@ bedroom_ac_control:
 shuffle_playlist_dj:
   alias: "Shuffle DJ"
   sequence:
-    - service: rest_command.dj
+    - service: rest_command.shuffle_itunes_dj
 
 shuffle_playlist_soft:
   alias: "Shuffle Soft"
   sequence:
-    - service: rest_command.soft
+    - service: rest_command.shuffle_itunes_soft
+
+shuffle_playlist_other:
+  alias: "Shuffle Others"
+  sequence:
+    - service: rest_command.shuffle_itunes_others
 
 kodi_play_youtube_playlist:
   alias: "Kodi Play Music DJ"
@@ -353,7 +374,7 @@ switch_to_cabletv:
     - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
       timeout: 00:00:05
     - condition: template
-      value_template: '{{ not is_state("sensor.denon_source", "Cable TV") }}'
+      value_template: '{{ not is_state("sensor.denon_source", "SAT/CBL") }}'
     - service: shell_command.denon_source_satcbl
     - delay: 00:00:01
     - service: input_select.select_option
@@ -372,7 +393,7 @@ switch_to_music:
     - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
       timeout: 00:00:05
     - condition: template
-      value_template: '{{ not is_state("sensor.denon_source", "Music") }}'
+      value_template: '{{ not is_state("sensor.denon_source", "CD") }}'
     - service: shell_command.denon_source_music
     - delay: 00:00:01
     - service: input_select.select_option
@@ -391,7 +412,7 @@ switch_to_dune:
     - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
       timeout: 00:00:05
     - condition: template
-      value_template: '{{ not is_state("sensor.denon_source", "Dune") }}'
+      value_template: '{{ not is_state("sensor.denon_source", "BD") }}'
     - service: shell_command.denon_source_dune
     - delay: 00:00:01
     - service: input_select.select_option
@@ -410,7 +431,7 @@ switch_to_appletv:
     - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
       timeout: 00:00:05
     - condition: template
-      value_template: '{{ not is_state("sensor.denon_source", "Apple TV") }}'
+      value_template: '{{ not is_state("sensor.denon_source", "MPLAY") }}'
     - service: shell_command.denon_source_appletv
     - delay: 00:00:01
     - service: input_select.select_option
@@ -429,7 +450,7 @@ switch_to_biscuit:
     - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
       timeout: 00:00:05
     - condition: template
-      value_template: '{{ not is_state("sensor.denon_source", "Biscuit") }}'
+      value_template: '{{ not is_state("sensor.denon_source", "GAME") }}'
     - service: shell_command.denon_source_biscuit
     - delay: 00:00:01
     - service: input_select.select_option

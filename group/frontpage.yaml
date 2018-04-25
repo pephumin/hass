@@ -81,3 +81,5 @@ first_floor:
     - group.friends
     - group.stats_ff
     - group.quick_timer
+    - group.printer
+    - group.proximity_others

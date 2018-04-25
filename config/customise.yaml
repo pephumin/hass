@@ -454,19 +454,22 @@ binary_sensor.svb:
 binary_sensor.charon:
   icon: mdi:power-socket-us
   friendly_name: "Sonoff S20 Charon"
+binary_sensor.hyperion:
+  icon: mdi:power-socket-us
+  friendly_name: "Sonoff S20 Hyperion"
 binary_sensor.naked:
   icon: mdi:power-plug
   friendly_name: "Sonoff Basic Naked"
 
-binary_sensor.nodemcu:
-  icon: mdi:video-input-antenna
-  friendly_name: "NodeMCU"
 binary_sensor.wemos_pir:
   icon: mdi:video-input-antenna
   friendly_name: "WeMos PIR"
-binary_sensor.wemos_lite_led:
+binary_sensor.wemos_lite_party:
   icon: mdi:video-input-antenna
-  friendly_name: "WeMos Lite LED"
+  friendly_name: "WeMos Lite Party"
+binary_sensor.nodemcu_matrix_clock:
+  icon: mdi:video-input-antenna
+  friendly_name: "NodeMCU Matrix Clock"
 binary_sensor.wemos_pro_bmw:
   icon: mdi:video-input-antenna
   friendly_name: "WeMos Pro BMW"
@@ -478,17 +481,25 @@ binary_sensor.wemos_b:
   friendly_name: "WeMos B"
 
 proximity.jue_home:
-  # icon: mdi:compass-outline
   friendly_name: "Jue from Home"
 proximity.pe_home:
-  # icon: mdi:compass-outline
   friendly_name: "Pe from Home"
 proximity.jue_malaiwan:
-  # icon: mdi:compass-outline
   friendly_name: "Jue from Malaiwan"
 proximity.pe_benjawan:
-  # icon: mdi:compass-outline
   friendly_name: "Pe from Benjy"
+# proximity.jue_seaconsquare:
+#   friendly_name: "Jue from Seacon Square"
+# proximity.pe_seaconsquare:
+#   friendly_name: "Pe from Seacon Square"
+proximity.seaconsquare:
+  friendly_name: "Seacon Square"
+proximity.paradisepark:
+  friendly_name: "Paradise Park"
+proximity.centralbangna:
+  friendly_name: "Central Bangna"
+proximity.foodland:
+  friendly_name: "Foodland"
 
 switch.ganymede:
   icon: mdi:power-socket
@@ -519,10 +530,10 @@ sensor.ganymede_energy_total:
   icon: mdi:chart-areaspline
   friendly_name: "Ganymede Energy Total"
 
-switch.callisto:
-  icon: mdi:power-plug
-  friendly_name: "First Floor Online Switch"
-  assumed_state: true
+light.callisto:
+  icon: mdi:lightbulb-on-outline
+  friendly_name: "Kitchen"
+  assumed_state: false
 sensor.callisto_temperature:
   icon: mdi:thermometer
   friendly_name: "First Floor Temperature"
@@ -549,9 +560,9 @@ sensor.pandora_temperature:
 sensor.pandora_humidity:
   icon: mdi:water-percent
   friendly_name: "Bedroom Humidity"
-light.phoebe:
-  icon: mdi:lightbulb-on-outline
-  friendly_name: "Kitchen"
+switch.phoebe:
+  icon: mdi:power-plug
+  friendly_name: "Bedroom Online Switch"
   assumed_state: false
 switch.calypso:
   icon: mdi:power-plug
@@ -567,7 +578,11 @@ switch.svb:
   assumed_state: true
 switch.charon:
   icon: mdi:power-socket-us
-  friendly_name: "Bedroom Online Switch"
+  friendly_name: "First Floor Online Switch"
+  assumed_state: true
+switch.hyperion:
+  icon: mdi:power-socket-us
+  friendly_name: "Common Room Online Switch"
   assumed_state: true
 switch.nakeds:
   icon: mdi:power-plug
@@ -609,6 +624,23 @@ light.party:
 input_number.led_animation_speed:
   icon: mdi:fast-forward
   friendly_name: "Speed"
+
+sensor.samsung_m267x_287x_series_192168144:
+  icon: mdi:printer
+  friendly_name: "Earth"
+sensor.samsung_m267x_287x_series_192168144_toner_black:
+  icon: mdi:printer
+  friendly_name: "Earth Toner"
+sensor.samsung_m267x_287x_series_192168144_drum_black:
+  icon: mdi:printer
+  friendly_name: "Earth Drum"
+sensor.samsung_m267x_287x_series_192168144_output_tray_0:
+  icon: mdi:printer
+  friendly_name: "Earth Output Tray 0"
+sensor.samsung_m267x_287x_series_192168144_tray_1:
+  icon: mdi:printer
+  friendly_name: "Earth Tray 1"
+
 
 sensor.last_boot:
   hidden: true
