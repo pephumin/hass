@@ -80,7 +80,3 @@
   new_device_defaults:
     track_new_devices: False
     hide_if_away: False
-
-- platform: google_maps
-  username: phumin@gmail.com
-  password: !secret googlepassword

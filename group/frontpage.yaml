@@ -8,7 +8,7 @@ default_view:
     - group.daylight
     - group.devices
     - group.home_server
-    - group.travel
+    # - group.travel
     - media_player.apple_tv
     - media_player.biscuit
     - media_player.denon

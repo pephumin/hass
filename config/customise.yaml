@@ -158,10 +158,10 @@ light.whites_a3:
 light.whites_a4:
   icon: mdi:ceiling-light
   friendly_name: "Common Room 4"
-light.tv:
+light.strip:
   icon: mdi:alarm-light
   friendly_name: "TV"
-light.hallway:
+light.hue_hallway:
   icon: mdi:spotlight-beam
   friendly_name: "Hallway"
 light.whites_b1:
@@ -170,7 +170,7 @@ light.whites_b1:
 light.whites_b2:
   icon: mdi:lightbulb-outline
   friendly_name: "First Floor 2"
-light.garage:
+light.warm_garage:
   icon: mdi:spotlight
   friendly_name: "Garage"
 

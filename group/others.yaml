@@ -1,11 +1,11 @@
-travel:
-  name: "Travel"
-  icon: mdi:car
-  entities:
-    - sensor.home_to_benjy
-    - sensor.benjy_to_home
-    - sensor.home_to_malaiwan
-    - sensor.malaiwan_to_home
+# travel:
+#   name: "Travel"
+#   icon: mdi:car
+#   entities:
+#     - sensor.home_to_benjy
+#     - sensor.benjy_to_home
+#     - sensor.home_to_malaiwan
+#     - sensor.malaiwan_to_home
 
 daylight:
   name: "Daylight"
