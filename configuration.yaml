@@ -148,6 +148,7 @@ logger:
     homeassistant.components.sensor.speedtest: warning
     homeassistant.components.shell_command: debug
     homeassistant.components.switch.command_line: critical
+    homeassistant.components.switch.broadlink: debug
 
 map:
 
