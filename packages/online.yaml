@@ -158,14 +158,14 @@ binary_sensor:
     name: "Wemos PIR"
     count: 2
     scan_interval: 30
-  # - platform: ping
-  #   host: 192.168.1.47
-  #   name: ""
-  #   count: 2
-  #   scan_interval: 30
+  - platform: ping
+    host: 192.168.1.47
+    name: "Wemos BMW"
+    count: 2
+    scan_interval: 30
   - platform: ping
     host: 192.168.1.48
-    name: "Wemos BMW"
+    name: "Wemos Bluebird"
     count: 2
     scan_interval: 30
   - platform: ping
@@ -272,6 +272,7 @@ group:
       - binary_sensor.callisto
       - binary_sensor.phoebe
       - binary_sensor.bmw
+      - binary_sensor.bluebird
       - binary_sensor.freed
 
 automation:
@@ -328,6 +329,8 @@ automation:
         conditions:
           - condition: template
             value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.foscam_r2", "off") }}'
           # - condition: template
           #   value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
           # - condition: template
@@ -360,10 +363,19 @@ automation:
       - service: counter.increment
         entity_id: counter.firstfloor
 
-  - alias: "BMW Online"
+  - alias: "Car Online"
     trigger:
       - platform: state
         entity_id: binary_sensor.bmw
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: binary_sensor.bluebird
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id: binary_sensor.freed
+        from: 'off'
         to: 'on'
     condition:
       - condition: template
@@ -372,36 +384,23 @@ automation:
       - service: light.turn_on
         entity_id: light.warm_garage
 
-  - alias: "BMW Offline"
+  - alias: "Car Offline"
     trigger:
       - platform: state
         entity_id: binary_sensor.bmw
+        from: 'on'
         to: 'off'
         for:
           minutes: 1
-    condition:
-      - condition: template
-        value_template: '{{ is_state("light.warm_garage", "on") }}'
-    action:
-      - service: light.turn_off
-        entity_id: light.warm_garage
-
-  - alias: "Freed Online"
-    trigger:
+      - platform: state
+        entity_id: binary_sensor.bluebird
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 1
       - platform: state
         entity_id: binary_sensor.freed
-        to: 'on'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("light.warm_garage", "off") and is_state("sun.sun", "below_horizon") }}'
-    action:
-      - service: light.turn_on
-        entity_id: light.warm_garage
-
-  - alias: "Freed Offline"
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.freed
+        from: 'on'
         to: 'off'
         for:
           minutes: 1

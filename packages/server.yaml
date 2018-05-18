@@ -1,23 +1,23 @@
 binary_sensor:
-  - platform: trend
-    sensors:
-      saturn_temperature_up:
-        friendly_name: 'HDDs Temperature Increasing'
-        entity_id: sensor.average_temperature
-        sample_duration: 180
-        min_gradient: 0.00044444444
-        device_class: heat
-      saturn_temperature_down:
-        friendly_name: 'HDDs Temperature Decreasing'
-        entity_id: sensor.average_temperature
-        sample_duration: 180
-        min_gradient: -0.00044444444
-  - platform: threshold
-    threshold: 41
-    type: upper
-    entity_id: sensor.average_temperature
-    name: 'Saturn Disks are hot'
-    device_class: heat
+  # - platform: trend
+  #   sensors:
+  #     saturn_temperature_up:
+  #       friendly_name: 'HDDs Temperature Increasing'
+  #       entity_id: sensor.average_temperature
+  #       sample_duration: 180
+  #       min_gradient: 0.00044444444
+  #       device_class: heat
+  #     saturn_temperature_down:
+  #       friendly_name: 'HDDs Temperature Decreasing'
+  #       entity_id: sensor.average_temperature
+  #       sample_duration: 180
+  #       min_gradient: -0.00044444444
+  # - platform: threshold
+  #   threshold: 41
+  #   type: upper
+  #   entity_id: sensor.average_temperature
+  #   name: 'Saturn Disks are hot'
+  #   device_class: heat
 
 shell_command:
   wag160n_reboot: !secret wag160n_reboot
@@ -106,8 +106,8 @@ group:
       - sensor.speedtest_upload
       - sensor.average_disk_temperature
       - sensor.maximum_disk_temperature
-      - binary_sensor.saturn_temperature_up
-      - binary_sensor.saturn_temperature_down
+      # - binary_sensor.saturn_temperature_up
+      # - binary_sensor.saturn_temperature_down
       - input_boolean.mpd_silence
       - sensor.samsung_m267x_287x_series_192168144
   printer:

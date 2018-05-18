@@ -112,110 +112,6 @@ group:
       - scene.first_floor_bright
       - scene.first_floor_dim
 
-# light:
-#   - platform: group
-#     name: "All"
-#     entities:
-#       - light.whites_a1
-#       - light.whites_a2
-#       - light.whites_a3
-#       - light.whites_a4
-#       - light.hue_hallway
-#       - light.strip
-#       - light.hue_1
-#       - light.hue_2
-#       - light.hue_3
-#       - light.hue_4
-#       - light.mood
-#       - light.warm
-#       - light.pandora
-#       - light.whites_b1
-#       - light.whites_b2
-#       - light.callisto
-#       - light.warm_garage
-#   - platform: group
-#     name: "Bedroom"
-#     entities:
-#       - light.hue_1
-#       - light.hue_2
-#       - light.hue_3
-#       - light.hue_4
-#       - light.mood
-#       - light.warm
-#       - light.pandora
-#   - platform: group
-#     name: "Bedroom Hue"
-#     entities:
-#       - light.hue_1
-#       - light.hue_2
-#       - light.hue_3
-#       - light.hue_4
-#   - platform: group
-#     name: "Bedroom Hue T"
-#     entities:
-#       - light.hue_1
-#       - light.hue_2
-#   - platform: group
-#     name: "Bedroom Hue TT"
-#     entities:
-#       - light.hue_3
-#       - light.hue_4
-#   - platform: group
-#     name: "Balcony"
-#     entities:
-#       - light.mood
-#       - light.warm
-#       - light.pandora
-#   - platform: group
-#     name: "Common Room"
-#     entities:
-#       - light.whites_a1
-#       - light.whites_a2
-#       - light.whites_a3
-#       - light.whites_a4
-#       - light.hue_hallway
-#       - light.strip
-#   - platform: group
-#     name: "Common Room Whites"
-#     entities:
-#       - light.whites_a1
-#       - light.whites_a2
-#       - light.whites_a3
-#       - light.whites_a4
-#   - platform: group
-#     name: "Common Room Whites T"
-#     entities:
-#       - light.whites_a1
-#       - light.whites_a2
-#   - platform: group
-#     name: "Common Room Whites TT"
-#     entities:
-#       - light.whites_a3
-#       - light.whites_a4
-#   - platform: group
-#     name: "First Floor"
-#     entities:
-#       - light.whites_b1
-#       - light.whites_b2
-#       - light.callisto
-#       - light.warm_garage
-#   - platform: group
-#     name: "First Floor Whites"
-#     entities:
-#       - light.whites_b1
-#       - light.whites_b2
-#   - platform: group
-#     name: "Sonoff"
-#     entities:
-#       - light.pandora
-#       - light.callisto
-
-# input_boolean:
-#   looptv:
-#     name: "Loop TV Lightstrip"
-#     initial: off
-#     icon: mdi:alarm-light
-
 sensor:
   - platform: random
     name: "Random Sensor 1"
@@ -233,39 +129,27 @@ sensor:
 scene:
   - name: "All Lights Off"
     entities:
-      light.all:
+      group.hue_all:
         state: off
-      # group.hue_all:
-      #   state: off
   - name: "Common Room Off"
     entities:
-      light.common_room_whites:
+      group.hue_common_room_all:
         state: off
-      # group.hue_common_room_all:
-      #   state: off
   - name: "Common Room Bright"
     entities:
-      # light.whites_a1:
-      #   state: on
-      #   transition: 1
-      #   brightness: 124
-      # light.whites_a2:
-      #   state: on
-      #   transition: 1
-      #   brightness: 124
-      # light.whites_a3:
-      #   state: on
-      #   transition: 1
-      #   brightness: 254
-      # light.whites_a4:
-      #   state: on
-      #   transition: 1
-      #   brightness: 254
-      light.common_room_whites_t:
+      light.whites_a1:
         state: on
         transition: 1
         brightness: 124
-      light.common_room_whites_tt:
+      light.whites_a2:
+        state: on
+        transition: 1
+        brightness: 124
+      light.whites_a3:
+        state: on
+        transition: 1
+        brightness: 254
+      light.whites_a4:
         state: on
         transition: 1
         brightness: 254
@@ -275,21 +159,15 @@ scene:
         state: off
   - name: "Common Room Dim"
     entities:
-      # light.whites_a1:
-      #   state: off
-      # light.whites_a2:
-      #   state: off
-      # light.whites_a3:
-      #   state: on
-      #   transition: 1
-      #   brightness: 35
-      # light.whites_a4:
-      #   state: on
-      #   transition: 1
-      #   brightness: 35
-      light.common_room_whites_t:
+      light.whites_a1:
         state: off
-      light.common_room_whites_tt:
+      light.whites_a2:
+        state: off
+      light.whites_a3:
+        state: on
+        transition: 1
+        brightness: 35
+      light.whites_a4:
         state: on
         transition: 1
         brightness: 35
@@ -299,38 +177,26 @@ scene:
         state: off
   - name: "Bedroom Off"
     entities:
-      light.bedroom:
+      group.hue_bedroom_all:
         state: off
-      # group.hue_bedroom_all:
-      #   state: off
   - name: "Bedroom Very Bright"
     entities:
-      # light.hue_1:
-      #   state: on
-      #   transition: 1
-      #   brightness: 127
-      #   xy_color: [0.3145,0.3303]
-      # light.hue_2:
-      #   state: on
-      #   transition: 1
-      #   brightness: 127
-      #   xy_color: [0.3145,0.3303]
-      # light.hue_3:
-      #   state: on
-      #   transition: 1
-      #   brightness: 254
-      #   xy_color: [0.3145,0.3303]
-      # light.hue_4:
-      #   state: on
-      #   transition: 1
-      #   brightness: 254
-      #   xy_color: [0.3145,0.3303]
-      light.bedroom_hue_t:
+      light.hue_1:
         state: on
         transition: 1
         brightness: 127
         xy_color: [0.3145,0.3303]
-      light.bedroom_hue_tt:
+      light.hue_2:
+        state: on
+        transition: 1
+        brightness: 127
+        xy_color: [0.3145,0.3303]
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 254
+        xy_color: [0.3145,0.3303]
+      light.hue_4:
         state: on
         transition: 1
         brightness: 254
@@ -343,32 +209,22 @@ scene:
         state: off
   - name: "Bedroom Bright"
     entities:
-      # light.hue_1:
-      #   state: on
-      #   transition: 1
-      #   brightness: 88
-      #   xy_color: [0.2951,0.2930]
-      # light.hue_2:
-      #   state: on
-      #   transition: 1
-      #   brightness: 88
-      #   xy_color: [0.2951,0.2930]
-      # light.hue_3:
-      #   state: on
-      #   transition: 1
-      #   brightness: 127
-      #   xy_color: [0.2951,0.2930]
-      # light.hue_4:
-      #   state: on
-      #   transition: 1
-      #   brightness: 127
-      #   xy_color: [0.2951,0.2930]
-      light.bedroom_hue_t:
+      light.hue_1:
         state: on
         transition: 1
         brightness: 88
         xy_color: [0.2951,0.2930]
-      light.bedroom_hue_tt:
+      light.hue_2:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.2951,0.2930]
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 127
+        xy_color: [0.2951,0.2930]
+      light.hue_4:
         state: on
         transition: 1
         brightness: 127
@@ -381,11 +237,9 @@ scene:
         state: off
   - name: "Bedroom Night"
     entities:
-      # light.hue_1:
-      #   state: off
-      # light.hue_2:
-      #   state: off
-      light.bedroom_hue_t:
+      light.hue_1:
+        state: off
+      light.hue_2:
         state: off
       light.hue_3:
         state: on
@@ -402,15 +256,13 @@ scene:
         state: on
   - name: "Bedroom Sleep"
     entities:
-      # light.hue_1:
-      #   state: off
-      # light.hue_2:
-      #   state: off
-      # light.hue_3:
-      #   state: off
-      # light.hue_4:
-      #   state: off
-      light.bedroom_hue:
+      light.hue_1:
+        state: off
+      light.hue_2:
+        state: off
+      light.hue_3:
+        state: off
+      light.hue_4:
         state: off
       light.warm:
         state: off
@@ -423,32 +275,22 @@ scene:
         state: off
   - name: "Bedroom Blossom"
     entities:
-      # light.hue_1:
-      #   state: on
-      #   transition: 1
-      #   brightness: 88
-      #   xy_color: [0.3944,0.2952]
-      # light.hue_2:
-      #   state: on
-      #   transition: 1
-      #   brightness: 88
-      #   xy_color: [0.3944,0.2952]
-      # light.hue_3:
-      #   state: on
-      #   transition: 1
-      #   brightness: 123
-      #   xy_color: [0.3944,0.2952]
-      # light.hue_4:
-      #   state: on
-      #   transition: 1
-      #   brightness: 123
-      #   xy_color: [0.3944,0.2952]
-      light.bedroom_hue_t:
+      light.hue_1:
         state: on
         transition: 1
         brightness: 88
         xy_color: [0.3944,0.2952]
-      light.bedroom_hue_tt:
+      light.hue_2:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.3944,0.2952]
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 123
+        xy_color: [0.3944,0.2952]
+      light.hue_4:
         state: on
         transition: 1
         brightness: 123
@@ -549,15 +391,11 @@ scene:
         state: off
   - name: "First Floor Bright"
     entities:
-      # light.whites_b1:
-      #   state: on
-      #   transition: 1
-      #   brightness: 254
-      # light.whites_b2:
-      #   state: on
-      #   transition: 1
-      #   brightness: 254
-      light.first_floor_whites:
+      light.whites_b1:
+        state: on
+        transition: 1
+        brightness: 254
+      light.whites_b2:
         state: on
         transition: 1
         brightness: 254
@@ -569,15 +407,11 @@ scene:
         state: on
   - name: "First Floor Dim"
     entities:
-      # light.whites_b1:
-      #   state: on
-      #   transition: 1
-      #   brightness: 35
-      # light.whites_b2:
-      #   state: on
-      #   transition: 1
-      #   brightness: 35
-      light.first_floor_whites:
+      light.whites_b1:
+        state: on
+        transition: 1
+        brightness: 35
+      light.whites_b2:
         state: on
         transition: 1
         brightness: 35

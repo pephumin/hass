@@ -420,6 +420,12 @@ binary_sensor.earth:
 binary_sensor.bmw:
   icon: mdi:car-sports
   friendly_name: "BMW"
+binary_sensor.bluebird:
+  icon: mdi:car-sports
+  friendly_name: "Bluebird"
+binary_sensor.freed:
+  icon: mdi:car-sports
+  friendly_name: "Freed"
 
 binary_sensor.titan:
   icon: mdi:power-socket-us
@@ -503,7 +509,7 @@ proximity.foodland:
 
 switch.ganymede:
   icon: mdi:power-socket
-  friendly_name: "Common Room Online Switch"
+  friendly_name: "Foscam Online Switch"
   assumed_state: true
 sensor.ganymede_power:
   icon: mdi:power-socket

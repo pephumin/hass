@@ -199,49 +199,49 @@ sensor:
     entity_id: sensor.pandora_humidity
     name: "Bedroom Humidity"
 
-binary_sensor:
-  - platform: trend
-    sensors:
-      common_room_warmer:
-        friendly_name: 'Common Room Warmer'
-        entity_id: sensor.mimas_temperature
-        sample_duration: 180
-        min_gradient: 0.00044444444
-        device_class: heat
-      common_room_colder:
-        friendly_name: 'Common Room Colder'
-        entity_id: sensor.mimas_temperature
-        sample_duration: 180
-        min_gradient: -0.00044444444
-        device_class: cold
-  - platform: trend
-    sensors:
-      first_floor_warmer:
-        friendly_name: 'First Floor Warmer'
-        entity_id: sensor.callisto_temperature
-        sample_duration: 180
-        min_gradient: 0.00044444444
-        device_class: heat
-      first_floor_colder:
-        friendly_name: 'First Floor Colder'
-        entity_id: sensor.callisto_temperature
-        sample_duration: 180
-        min_gradient: -0.00044444444
-        device_class: cold
-  - platform: trend
-    sensors:
-      bedroom_warmer:
-        friendly_name: 'Bedroom Warmer'
-        entity_id: sensor.pandora_temperature
-        sample_duration: 180
-        min_gradient: 0.00044444444
-        device_class: heat
-      bedroom_colder:
-        friendly_name: 'Bedroom Colder'
-        entity_id: sensor.pandora_temperature
-        sample_duration: 180
-        min_gradient: -0.00044444444
-        device_class: cold
+# binary_sensor:
+#   - platform: trend
+#     sensors:
+#       common_room_warmer:
+#         friendly_name: 'Common Room Warmer'
+#         entity_id: sensor.mimas_temperature
+#         sample_duration: 180
+#         min_gradient: 0.00044444444
+#         device_class: heat
+#       common_room_colder:
+#         friendly_name: 'Common Room Colder'
+#         entity_id: sensor.mimas_temperature
+#         sample_duration: 180
+#         min_gradient: -0.00044444444
+#         device_class: cold
+#   - platform: trend
+#     sensors:
+#       first_floor_warmer:
+#         friendly_name: 'First Floor Warmer'
+#         entity_id: sensor.callisto_temperature
+#         sample_duration: 180
+#         min_gradient: 0.00044444444
+#         device_class: heat
+#       first_floor_colder:
+#         friendly_name: 'First Floor Colder'
+#         entity_id: sensor.callisto_temperature
+#         sample_duration: 180
+#         min_gradient: -0.00044444444
+#         device_class: cold
+#   - platform: trend
+#     sensors:
+#       bedroom_warmer:
+#         friendly_name: 'Bedroom Warmer'
+#         entity_id: sensor.pandora_temperature
+#         sample_duration: 180
+#         min_gradient: 0.00044444444
+#         device_class: heat
+#       bedroom_colder:
+#         friendly_name: 'Bedroom Colder'
+#         entity_id: sensor.pandora_temperature
+#         sample_duration: 180
+#         min_gradient: -0.00044444444
+#         device_class: cold
 
 group:
   sonoff:
