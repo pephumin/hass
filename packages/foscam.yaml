@@ -12,12 +12,12 @@ camera:
     password: !secret my_longer_password
     timeout: 15
     verify_ssl: false
-  - platform: foscam
-    name: "Foscam R2"
-    ip: !secret foscam_r2_ip
-    port: !secret foscam_r2_port
-    username: !secret my_r2_username
-    password: !secret my_password
+  # - platform: foscam
+  #   name: "Foscam R2"
+  #   ip: !secret foscam_r2_ip
+  #   port: !secret foscam_r2_port
+  #   username: !secret my_r2_username
+  #   password: !secret my_password
   # - platform: foscam
   #   name: "Foscam Common Room"
   #   ip: !secret foscam_black_ip

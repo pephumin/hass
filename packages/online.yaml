@@ -235,6 +235,7 @@ group:
       - binary_sensor.ganymede
       - binary_sensor.mimas
       - binary_sensor.sva
+      - binary_sensor.svb
       - binary_sensor.wemos_lite_party
       - binary_sensor.nodemcu_matrix_clock
       - binary_sensor.denon
@@ -255,7 +256,6 @@ group:
       - binary_sensor.europa
       - binary_sensor.pandora
       - binary_sensor.calypso
-      - binary_sensor.svb
   online_ff:
     name: "Online Status First Floor"
     icon: mdi:lan-connect
@@ -340,6 +340,24 @@ automation:
         entity_id: script.restart_ganymede
       - service: counter.increment
         entity_id: counter.commonroom
+
+  - alias: 'Bedroom online switch restart'
+    trigger:
+      - platform: time
+        minutes: '/60'
+        seconds: 00
+    condition:
+      - condition: or
+        conditions:
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
+    action:
+      - service: script.turn_on
+        entity_id: script.restart_calypso
+      - service: counter.increment
+        entity_id: counter.bedroom
 
   - alias: 'First Floor online switch restart'
     trigger:
