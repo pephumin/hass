@@ -380,7 +380,7 @@ binary_sensor.mercury:
   friendly_name: "Airport Express Satellite"
 binary_sensor.apollo:
   icon: mdi:wifi
-  friendly_name: "ASUStek RT-12+"
+  friendly_name: "ASUS RT-N12+"
 binary_sensor.sputnik:
   icon: mdi:wifi
   friendly_name: "Ubiquiti Rocket M2"

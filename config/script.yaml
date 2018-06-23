@@ -200,6 +200,20 @@ restart_calypso:
         brightness: 50
         flash: "short"
 
+restart_phoebe:
+  alias: "Restart Phoebe"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.phoebe
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.phoebe
+    - service: script.flashing_party
+      data:
+        color_name: "magenta"
+        brightness: 50
+        flash: "short"
+
 restart_charon:
   alias: "Restart First Floor online switch"
   sequence:
@@ -213,6 +227,28 @@ restart_charon:
         color_name: "green"
         brightness: 50
         flash: "short"
+
+restart_hyperion:
+  alias: "Restart Hyperion"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.hyperion
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.hyperion
+    - service: script.flashing_party
+      data:
+        color_name: "green"
+        brightness: 50
+        flash: "short"
+
+android_box_ok:
+  alias: "Android Box OK"
+  sequence:
+    - service: switch.broadlink_send_packet_192_168_1_15
+      data:
+        packet:
+          - 'JgBYAAABKJMUEhMSExITEhM3ExITEhQRFDYUNxM3EzcTEhM3FDYUNhQ3ExITEhMSExITEhM3FBEUEhM3EzcTNxM3EzcUERQ2FAAFGAABKEoRAAxYAAEmTBEADQU='
 
 mute_common_room:
   alias: "Mute Common Room"
@@ -349,6 +385,8 @@ hometheatre_turnon:
     - service: script.denon_turnon
     - delay: 00:00:05
     - service: script.switch_to_cabletv
+    - delay: 00:00:07
+    - service: script.android_box_ok
 
 hometheatre_turnoff:
   alias: "Home Theatre Turns Off"
@@ -371,8 +409,6 @@ switch_to_cabletv:
   alias: "Switch Media to Cable TV"
   sequence:
     - service: script.denon_turnon
-    - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
-      timeout: 00:00:05
     - condition: template
       value_template: '{{ not is_state("sensor.denon_source", "SAT/CBL") }}'
     - service: shell_command.denon_source_satcbl
@@ -390,8 +426,6 @@ switch_to_music:
   alias: "Switch Media to Music"
   sequence:
     - service: script.denon_turnon
-    - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
-      timeout: 00:00:05
     - condition: template
       value_template: '{{ not is_state("sensor.denon_source", "CD") }}'
     - service: shell_command.denon_source_music
@@ -409,8 +443,6 @@ switch_to_dune:
   alias: "Switch Media to Dune"
   sequence:
     - service: script.denon_turnon
-    - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
-      timeout: 00:00:05
     - condition: template
       value_template: '{{ not is_state("sensor.denon_source", "BD") }}'
     - service: shell_command.denon_source_dune
@@ -428,8 +460,6 @@ switch_to_appletv:
   alias: "Switch Media to Apple TV"
   sequence:
     - service: script.denon_turnon
-    - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
-      timeout: 00:00:05
     - condition: template
       value_template: '{{ not is_state("sensor.denon_source", "MPLAY") }}'
     - service: shell_command.denon_source_appletv
@@ -447,8 +477,6 @@ switch_to_biscuit:
   alias: "Switch Media to Biscuit"
   sequence:
     - service: script.denon_turnon
-    - wait_template: '{{ is_state("script.denon_turnon", "off") }}'
-      timeout: 00:00:05
     - condition: template
       value_template: '{{ not is_state("sensor.denon_source", "GAME") }}'
     - service: shell_command.denon_source_biscuit

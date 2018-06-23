@@ -3,6 +3,9 @@ light:
     name: "Party"
     state_topic: "party/state"
     command_topic: "party/set"
+    qos: 1
+    flash_time_long: 15
+    flash_time_short: 5
     effect: true
     effect_list:
       - applause
@@ -28,13 +31,12 @@ light:
       - twinkle
     brightness: true
     color_temp: true
-    flash_time_long: 15
-    flash_time_short: 5
-    optimistic: true
-    qos: 1
     rgb: true
+    optimistic: false
     white_value: false
     xy: false
+    hs: false
+    retain: false
 
 input_number:
   party_animation_speed:

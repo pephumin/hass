@@ -31,9 +31,6 @@ control_cr:
     - sensor.denon_source
     - switch.ganymede
     - counter.commonroom
-    - switch.hyperion
-    - switch.sva
-    - switch.svb
 
 control_br:
   name: "Bedroom Control Panel"
@@ -60,3 +57,6 @@ control_ff:
     - switch.charon
     - counter.firstfloor
     # - switch.naked
+    - switch.hyperion
+    - switch.sva
+    - switch.svb

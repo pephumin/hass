@@ -224,7 +224,8 @@ group:
     control: hidden
     entities:
       - binary_sensor.deeper
-      - binary_sensor.higher
+      - binary_sensor.apollo
+      # - binary_sensor.higher
       - binary_sensor.pluto
       # - binary_sensor.broadlink_rm_pro
       - binary_sensor.broadlink_rm_mini_b
@@ -234,8 +235,9 @@ group:
       - binary_sensor.hyperion
       - binary_sensor.ganymede
       - binary_sensor.mimas
-      - binary_sensor.sva
-      - binary_sensor.svb
+      - binary_sensor.phoebe
+      # - binary_sensor.sva
+      # - binary_sensor.svb
       - binary_sensor.wemos_lite_party
       - binary_sensor.nodemcu_matrix_clock
       - binary_sensor.denon
@@ -263,14 +265,12 @@ group:
     entities:
       - binary_sensor.uranus
       # - binary_sensor.mercury
-      # - binary_sensor.apollo
       # - binary_sensor.sputnik
       - binary_sensor.foscam_white
       # - binary_sensor.wemos_bell
       - binary_sensor.earth
       - binary_sensor.charon
       - binary_sensor.callisto
-      - binary_sensor.phoebe
       - binary_sensor.bmw
       - binary_sensor.bluebird
       - binary_sensor.freed
@@ -319,7 +319,21 @@ automation:
   #     - service: counter.increment
   #       entity_id: counter.commonroom
 
-  - alias: 'Common Room Foscam Black restart'
+  - alias: 'Common Room RM restart'
+    trigger:
+      - platform: time
+        minutes: '/60'
+        seconds: 00
+    condition:
+      - condition: template
+        value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
+    action:
+      - service: script.turn_on
+        entity_id: script.restart_phoebe
+      # - service: counter.increment
+      #   entity_id: counter.commonroom
+
+  - alias: 'Common Room Foscam Black & R2 restart'
     trigger:
       - platform: time
         minutes: '/60'
@@ -353,6 +367,8 @@ automation:
             value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
           - condition: template
             value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.moon", "off") }}'
     action:
       - service: script.turn_on
         entity_id: script.restart_calypso
@@ -401,6 +417,16 @@ automation:
     action:
       - service: light.turn_on
         entity_id: light.warm_garage
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn off Garage light because {{ trigger.from_state.attributes.friendly_name }} has gone online'
 
   - alias: "Car Offline"
     trigger:
@@ -428,3 +454,13 @@ automation:
     action:
       - service: light.turn_off
         entity_id: light.warm_garage
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn off Garage light because {{ trigger.from_state.attributes.friendly_name }} has gone offline'
