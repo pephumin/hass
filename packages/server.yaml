@@ -64,7 +64,7 @@ sensor:
             {%- endif -%}
           {%- endif -%}
   - platform: syncthru
-    resource: !secret earth
+    resource: !secret earth_ip
     name: "Earth"
     monitored_conditions:
         - toner_black
