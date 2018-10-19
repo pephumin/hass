@@ -1,0 +1,856 @@
+motion_detection_activate:
+  alias: "Motion Detection Activate"
+  sequence:
+    - service: switch.turn_on
+      entity_id:
+        - switch.foscam_r2_motion
+        - switch.foscam_black_motion
+        - switch.foscam_white_motion
+    - service: counter.increment
+      entity_id: counter.foscammotion
+    # - service: rest_command.synology_disable_homemode
+
+motion_detection_deactivate:
+  alias: "Motion Detection Deactivate"
+  sequence:
+    - condition: template
+      value_template: '{{ is_state("script.motion_detection_deactivate", "off") }}'
+    - service: switch.turn_off
+      entity_id:
+        - switch.foscam_r2_motion
+        - switch.foscam_black_motion
+        - switch.foscam_white_motion
+    # - service: rest_command.synology_enable_homemode
+
+r2_scan:
+  alias: "Foscam R2 Scan Starts"
+  sequence:
+    - service: shell_command.foscam_r2_preset_2
+    - delay: 00:00:25
+    - service: shell_command.foscam_r2_preset_3
+    - delay: 00:00:15
+    - service: shell_command.foscam_r2_preset_4
+    - service: script.r2_scan_loop
+
+r2_scan_loop:
+  alias: "Foscam R2 Scan Loops"
+  sequence:
+    - delay: 00:00:15
+    - service: script.r2_scan
+
+r2_scan_stop:
+  alias: "Foscam R2 Scan Stops"
+  sequence:
+    - service: script.turn_off
+      entity_id:
+        - script.r2_scan
+        - script.r2_scan_loop
+    - service: shell_command.foscam_r2_preset_1
+
+r2_reboot:
+  alias: "Foscam R2 Reboots"
+  sequence:
+    - service: shell_command.foscam_r2_reboot
+
+black_scan:
+  alias: "Foscam Black Scan Starts"
+  sequence:
+    - service: shell_command.foscam_black_preset_2
+    - delay: 00:00:25
+    - service: shell_command.foscam_black_preset_3
+    - delay: 00:00:15
+    - service: shell_command.foscam_black_preset_4
+    - service: script.black_scan_loop
+
+black_scan_loop:
+  alias: "Foscam Black Scan Loops"
+  sequence:
+    - delay: 00:00:15
+    - service: script.black_scan
+
+black_scan_stop:
+  alias: "Foscam Black Scan Stops"
+  sequence:
+    - service: script.turn_off
+      entity_id:
+        - script.black_scan
+        - script.black_scan_loop
+    - service: shell_command.foscam_black_preset_1
+
+black_reboot:
+  alias: "Foscam Black Reboots"
+  sequence:
+    - service: shell_command.foscam_black_reboot
+
+white_scan:
+  alias: "Foscam White Scan Starts"
+  sequence:
+    - service: shell_command.foscam_white_preset_2
+    - delay: 00:00:30
+    - service: shell_command.foscam_white_preset_3
+    - delay: 00:00:15
+    - service: shell_command.foscam_white_preset_4
+    - service: script.white_scan_loop
+
+white_scan_loop:
+  alias: "Foscam White Scan Loops"
+  sequence:
+    - delay: 00:00:10
+    - service: script.white_scan
+
+white_scan_stop:
+  alias: "Foscam White Scan Stops"
+  sequence:
+    - service: script.turn_off
+      entity_id:
+        - script.white_scan
+        - script.white_scan_loop
+    - service: shell_command.foscam_white_preset_1
+
+white_reboot:
+  alias: "Foscam White Reboots"
+  sequence:
+    - service: shell_command.foscam_white_reboot
+
+all_lights_off_but_pandora:
+  alias: "Turn off all lights but Pandora if Pe is home"
+  sequence:
+    - service: light.turn_off
+      entity_id: group.hue_all
+    - condition: template
+      value_template: '{{ is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on") }}'
+    - service: light.turn_on
+      entity_id: light.pandora
+
+welcome_light_off_hallway:
+  alias: "Turn off Welcome Lights Hallway"
+  sequence:
+    - delay: 00:05:00
+    - service: light.turn_off
+      entity_id: light.hallway
+    - condition: template
+      value_template: '{{ is_state("sun.sun", "below_horizon") }}'
+    - service: light.turn_on
+      data:
+        entity_id: light.hallway
+        transition: 1
+        brightness: 125
+        xy_color: [0.2951, 0.2930]
+
+distance_light_off:
+  alias: "Turn off distance light"
+  sequence:
+    - delay: 00:01:30
+    - service: light.turn_off
+      entity_id: light.hallway
+
+restart_sva:
+  alias: "Restart Common Room SV switch"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.sva
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.sva
+    - service: script.flashing_party
+      data:
+        color_name: "yellow"
+        brightness: 50
+        flash: "short"
+
+restart_svb:
+  alias: "Restart Bedroom SV switch"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.svb
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.svb
+    - service: script.flashing_party
+      data:
+        color_name: "yellow"
+        brightness: 50
+        flash: "short"
+
+restart_ganymede:
+  alias: "Restart Common Room online switch"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.ganymede
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.ganymede
+    - service: script.flashing_party
+      data:
+        color_name: "blue"
+        brightness: 50
+        flash: "short"
+
+restart_calypso:
+  alias: "Restart Bedroom online switch"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.calypso
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.calypso
+    - service: script.flashing_party
+      data:
+        color_name: "magenta"
+        brightness: 50
+        flash: "short"
+
+restart_phoebe:
+  alias: "Restart Phoebe"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.phoebe
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.phoebe
+    - service: script.flashing_party
+      data:
+        color_name: "magenta"
+        brightness: 50
+        flash: "short"
+
+restart_charon:
+  alias: "Restart First Floor online switch"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.charon
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.charon
+    - service: script.flashing_party
+      data:
+        color_name: "green"
+        brightness: 50
+        flash: "short"
+
+restart_hyperion:
+  alias: "Restart Hyperion"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.hyperion
+    - delay: '00:00:20'
+    - service: switch.turn_on
+      entity_id: switch.hyperion
+    - service: script.flashing_party
+      data:
+        color_name: "green"
+        brightness: 50
+        flash: "short"
+
+android_box_ok:
+  alias: "Android Box OK"
+  sequence:
+    - service: switch.broadlink_send_packet_192_168_1_15
+      data:
+        packet:
+          - 'JgBYAAABKJMUEhMSExITEhM3ExITEhQRFDYUNxM3EzcTEhM3FDYUNhQ3ExITEhMSExITEhM3FBEUEhM3EzcTNxM3EzcUERQ2FAAFGAABKEoRAAxYAAEmTBEADQU='
+
+mute_common_room:
+  alias: "Mute Common Room"
+  sequence:
+    - service: switch.broadlink_send_packet_192_168_1_15
+      data:
+        packet:
+          - 'JgAyAXA2Dg4NDg8pDQ4PKQ0ODykNDg4ODygODg4ODikPKQ0ODg4ODg0ODg4NDw0ODg4OKQ4ODygODg4ODQ4ODg8oDg4ODg4pDykOKQ4ODikODg0PDQ4ODg4pDykNDg8pDikOKQ4ODgAJkm83DQ4ODg8oDg4PKA4ODykNDg4ODikODg4ODikPKA4ODg4NDw0ODg4NDw0ODg4OKQ4ODikODg4ODQ4ODg4pDg4ODg4pDykOKQ4ODikODg0ODg4ODg4pDykNDg8pDikPKQ0ODAAJlHA2DQ8LEA8pDQ4PKQ0ODykNDg4ODygODg4ODikPKQ0ODg4ODg0ODg4ODg0ODg4OKQ4ODykNDg4ODQ8NDg8pDQ4ODg8oDykOKQ4ODikODg4ODQ4ODg4pDykNDg8pDikPKQ0ODgANBQAAAAAAAA=='
+
+mute_bedroom:
+  alias: "Mute Bedroom"
+  sequence:
+    - service: switch.broadlink_send_packet_192_168_1_14
+      data:
+        packet:
+          - 'JgDMAAgaCjsKGQkZChkJGgkZCRoJGQk8CTwJPAk8CRkKGQkABZ8KGQk8CxcJGgkZCTwKOwo7CTwJGgkZCRoJGQk8CTwKAAWeChkJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwLGAkZCRoJPAk7CjsMOQwXCRkKGQkZCjsKOwwABZ0KGAo7CRoJGQkaCRkJGgkZCRoJPAk8CTwJPAkZCRoJAAWfChgKOwoZCRkKGQk8CTwJPAs6CRkKGQkZChkJPAk8CwANBQAAAAAAAAAAAAAAAA=='
+
+bedroom_ac_24:
+  alias: "Bedroom Air Condition 24"
+  sequence:
+    - service: switch.broadlink_send_packet_192_168_1_14
+      data:
+        packet:
+          - 'JgC8AXA5DyoODg4ODg8NKw4ODg8NDw4ODisODg4rDSsODw0rDisNKw4rDSsPDg0PDioPDg0PDg4ODg4PDQ8OKw0rDyoNKw8NDg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODisODg4ODg4ODw0PDg4OAAPMcTkPKg0PDg4ODg4rDg4ODg4PDQ8OKw0PDioOKw4ODisNKw4rDioPKg4ODg4OKw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4rDg4ODg4ODisOKg8ODQ8ODg4PDQ8ODg4rDSsPDg0PDQ8ODg4PDQ8ODg4ODg8NDw4rDSsPKg4qDg4OKw4ODisOKg8qDioOKw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NKw4rDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4OKw4ODg4ODw0rDisOKg4rDgANBQAAAAAAAAAAAAAAAA=='
+
+bedroom_ac_21:
+  alias: "Bedroom Air Condition 21"
+  sequence:
+    - service: switch.broadlink_send_packet_192_168_1_14
+      data:
+        packet:
+          - 'JgC8AXE5DioPDQ4PDQ8OKw4ODg4ODg4PDSsPDQ4rDyoNDw4qDyoOKg8qDyoODg4ODisODg4ODg8NDw0PDg4OKw4qDisOKw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODisODg4PDQ8NDw4ODg8NAAPNcDkOKw4ODg4ODw0rDg8NDw0PDg4OKw4ODisOKg8ODSsOKw4qDisOKg4PDQ8OKg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4rDg4ODg4PDSsOKw0PDg4ODw0rDw0OKw8NDisODg4ODg8NDw4ODg8NDw0PDg4ODw0rDyoNKw8qDQ8OKw0PDioOKw4rDSsPKg4ODg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4qDw4NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8OKg4rDg4OKw4ODisNKw8qDgANBQAAAAAAAAAAAAAAAA=='
+
+bedroom_ac_18:
+  alias: "Bedroom Air Condition 18"
+  sequence:
+    - service: switch.broadlink_send_packet_192_168_1_14
+      data:
+        packet:
+          - 'JgC8AXA5DyoODg4ODg8NKw8ODQ8ODg4ODisODg4rDioPDg0rDisOKg4rDioPDg0PDioPDg0PDg4ODw0PDg4OKw0rDyoNKw8ODQ8ODg4ODg8NDw4ODw4NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODisNDw4ODg8NDw4ODg4OAAPMcTkPKg0PDg4ODg4rDg4ODw0PDg4OKw4ODioOKw8NDisOKg8qDioOKw4ODg8NKw4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4rDg4ODg4ODisOKg8ODg4ODg4PDSsODg4PDSsODw0PDg4ODg4PDQ8ODg4PDQ8NDw4rDioPKg4qDw4NKw8NDisOKg4rDyoOKg8NDg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8OKg8qDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4ODisNDw4ODisOKg8qDgANBQAAAAAAAAAAAAAAAA=='
+
+bedroom_ac_powerful:
+  alias: "Bedroom Air Condition Powerful"
+  sequence:
+    - service: script.bedroom_ac_18
+    - delay: 00:00:15
+    - service: switch.broadlink_send_packet_192_168_1_14
+      data:
+        packet:
+          - 'JgC8AXE5DioPDQ8ODQ8PKg4ODg4PDQ8ODioODg4rDyoODg4qDyoOKg8qDykPDg4ODisNDw4ODg4ODw0PDw0PKg4qDyoOKg8ODQ8PDQ4PDQ8ODg4ODg8ODg4ODw0PDg4ODw0PDg0PDg4ODg8ODQ8ODg4ODg8NDw8NDisODg4ODw4NDw4ODg4OAAPMcTkPKg0PDg4ODg8qDg4ODw4ODg4OKw4ODioPKg8NDisOKg4rDioPKg8NDw4NKw8NDw4ODg4ODw0ODw4ODw0PDg0PDg4PDQ8ODg4ODg8NDw4ODg4rDg4ODg8NDyoOKg4PDg4PDQ8ODg4OKg8ODSsPDQ8ODg4ODg8ODg4ODg4ODg8NDw4qDyoPKg4qDw0OKw8NDisOKg8qDioPKg8NDw0ODw4ODw0PDg0PDg4ODg8ODg4PDQ4ODw4ODg4ODw4ODg4ODg4PDg4ODw0PDQ4PDg4ODg4PDioPDQ4PDg4ODg4PDQ8ODg8NDw4ODg4ODw0ODw4ODg4PDg4ODQ8PDQ4PDg4OKg8qDw0PDg4ODg4PDQ4PDg4ODg4ODw4ODg8NDw4NDw0PDw0PDg4qDw0PKg8NDisOKg4rDgANBQAAAAAAAAAAAAAAAA=='
+    - delay: 00:10:00
+    - service: script.bedroom_ac_18
+
+bedroom_ac_control:
+  alias: "Bedroom Air Condition Control"
+  sequence:
+    - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" %}script.bedroom_ac_18{% elif packet == "powerful" %}script.bedroom_ac_powerful{% else %}{% endif %}'
+
+shuffle_playlist_dj:
+  alias: "Shuffle DJ"
+  sequence:
+    - service: rest_command.shuffle_itunes_dj
+
+shuffle_playlist_soft:
+  alias: "Shuffle Soft"
+  sequence:
+    - service: rest_command.shuffle_itunes_soft
+
+shuffle_playlist_other:
+  alias: "Shuffle Others"
+  sequence:
+    - service: rest_command.shuffle_itunes_others
+
+kodi_play_youtube_playlist:
+  alias: "Kodi Play Music DJ"
+  sequence:
+    - service: media_player.play_media
+      data_template:
+        entity_id: media_player.kodi
+        media_content_id: '{% if playlist != "" %}plugin://plugin.video.youtube/play/?playlist_id={{ playlist }}&order=default&play=1&repeat=all{% endif %}'
+        media_content_type: 'video'
+
+kodi_play_music_dj:
+  alias: "Kodi Play Music DJ"
+  sequence:
+    - service: media_player.kodi_call_method
+      data:
+        entity_id: media_player.kodi
+        method: VideoLibrary.Player.SetPartymode
+        properties:
+          - title
+          - year
+          - file
+          - lastplayed
+
+kodi_update_audio_library:
+  alias: Update Kodi Audio Library
+  sequence:
+    - service: media_player.kodi_call_method
+      data:
+        entity_id: media_player.kodi
+        method: AudioLibrary.Scan
+    - delay: 00:01:00
+    - service: media_player.kodi_call_method
+      data:
+        entity_id: media_player.kodi
+        method: AudioLibrary.Clean
+
+kodi_update_video_library:
+  alias: Update Kodi VDO Library
+  sequence:
+    - service: media_player.kodi_call_method
+      data:
+        entity_id: media_player.kodi
+        method: VideoLibrary.Scan
+    - delay: 00:01:00
+    - service: media_player.kodi_call_method
+      data:
+        entity_id: media_player.kodi
+        method: VideoLibrary.Clean
+
+hometheatre_turnon:
+  alias: "Home Theatre Turns On"
+  sequence:
+    - service: switch.turn_on
+      entity_id: switch.titan
+    - delay: 00:00:07
+    - service: switch.turn_on
+      entity_id: switch.common_room_tv
+    - delay: 00:00:07
+    - service: switch.turn_on
+      entity_id: switch.common_room_android_box
+    - delay: 00:00:07
+    - service: script.denon_turnon
+    - delay: 00:00:05
+    - service: script.switch_to_cabletv
+    - delay: 00:00:07
+    - service: script.android_box_ok
+
+hometheatre_turnoff:
+  alias: "Home Theatre Turns Off"
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.common_room_android_box
+    - delay: 00:00:07
+    - service: switch.turn_off
+      entity_id: switch.mimas
+    - delay: 00:00:07
+    - service: switch.turn_off
+      entity_id: switch.common_room_tv
+    - delay: 00:00:07
+    - service: script.switch_to_off
+    - delay: 00:00:07
+    - service: switch.turn_off
+      entity_id: switch.titan
+
+switch_to_cabletv:
+  alias: "Switch Media to Cable TV"
+  sequence:
+    - service: script.denon_turnon
+    - condition: template
+      value_template: '{{ not is_state("sensor.denon_source", "SAT/CBL") }}'
+    - service: shell_command.denon_source_satcbl
+    - delay: 00:00:01
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.denon_mode
+        option: 'Cable TV'
+    - delay: 00:00:07
+    - condition: template
+      value_template: '{{ "true" if newvolume != "" else "false" }}'
+    - service_template: shell_command.denon_volume_{{ newvolume }}
+
+switch_to_music:
+  alias: "Switch Media to Music"
+  sequence:
+    - service: script.denon_turnon
+    - condition: template
+      value_template: '{{ not is_state("sensor.denon_source", "CD") }}'
+    - service: shell_command.denon_source_music
+    - delay: 00:00:01
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.denon_mode
+        option: 'Music'
+    - delay: 00:00:07
+    - condition: template
+      value_template: '{{ "true" if newvolume != "" else "false" }}'
+    - service_template: shell_command.denon_volume_{{ newvolume }}
+
+switch_to_dune:
+  alias: "Switch Media to Dune"
+  sequence:
+    - service: script.denon_turnon
+    - condition: template
+      value_template: '{{ not is_state("sensor.denon_source", "BD") }}'
+    - service: shell_command.denon_source_dune
+    - delay: 00:00:01
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.denon_mode
+        option: 'Dune'
+    - delay: 00:00:07
+    - condition: template
+      value_template: '{{ "true" if newvolume != "" else "false" }}'
+    - service_template: shell_command.denon_volume_{{ newvolume }}
+
+switch_to_appletv:
+  alias: "Switch Media to Apple TV"
+  sequence:
+    - service: script.denon_turnon
+    - condition: template
+      value_template: '{{ not is_state("sensor.denon_source", "MPLAY") }}'
+    - service: shell_command.denon_source_appletv
+    - delay: 00:00:01
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.denon_mode
+        option: 'Apple TV'
+    - delay: 00:00:07
+    - condition: template
+      value_template: '{{ "true" if newvolume != "" else "false" }}'
+    - service_template: shell_command.denon_volume_{{ newvolume }}
+
+switch_to_biscuit:
+  alias: "Switch Media to Biscuit"
+  sequence:
+    - service: script.denon_turnon
+    - condition: template
+      value_template: '{{ not is_state("sensor.denon_source", "GAME") }}'
+    - service: shell_command.denon_source_biscuit
+    - delay: 00:00:01
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.denon_mode
+        option: 'Biscuit'
+    - delay: 00:00:07
+    - condition: template
+      value_template: '{{ "true" if newvolume != "" else "false" }}'
+    - service_template: shell_command.denon_volume_{{ newvolume }}
+
+switch_to_off:
+  alias: "Switch Media to Off"
+  sequence:
+    - condition: template
+      value_template: '{{ not is_state("sensor.denon_source", "Off") }}'
+    - service: media_player.turn_off
+      entity_id: media_player.denon
+    - delay: 00:00:02
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.denon_mode
+        option: 'Off'
+    - condition: template
+      value_template: '{{ is_state("switch.mimas", "on") }}'
+    - service: switch.turn_off
+      entity_id: switch.mimas
+
+denon_turnon:
+  alias: "Turn on Denon when it is Off"
+  sequence:
+    - condition: template
+      value_template: '{{ is_state("switch.titan", "on") and is_state("media_player.denon", "off") }}'
+    - service: media_player.turn_on
+      entity_id: media_player.denon
+
+notify_pesiphone7plus:
+  alias: "Notify iPhone Pe"
+  sequence:
+    - service: notify.ios_pesiphone7plus
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            badge: 1
+            category: "ALERT"
+
+notify_juesiphone6splus:
+  alias: "Notify iPhone Jue"
+  sequence:
+    - service: notify.ios_juesiphone6splus
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            badge: 1
+            category: "ALERT"
+
+notify_pesiphone7plus_juesiphone6splus:
+  alias: "Notify iPhone Pe & Jue"
+  sequence:
+    - service: notify.ios_pesiphone7plus
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            badge: 1
+            category: "ALERT"
+    - service: notify.ios_juesiphone6splus
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+        data:
+          push:
+            badge: 1
+            category: "ALERT"
+
+flashing_long:
+  alias: "Flashing Light Long"
+  sequence:
+    - service: light.turn_on
+      entity_id: group.flashlights
+      data:
+        transition: 1
+        brightness: 250
+        flash: long
+
+flashing_short:
+  alias: "Flashing Light Short"
+  sequence:
+    - service: light.turn_on
+      entity_id: group.flashlights
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - delay: 00:00:01
+    - service: light.turn_on
+      entity_id: group.flashlights
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - delay: 00:00:01
+    - service: light.turn_on
+      entity_id: group.flashlights
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - delay: 00:00:01
+    - service: light.turn_on
+      entity_id: group.flashlights
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+    - delay: 00:00:01
+    - service: light.turn_on
+      entity_id: group.flashlights
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+
+flashing_once:
+  alias: "Flashing Light Once"
+  sequence:
+    - service: light.turn_on
+      entity_id: group.flashlights
+      data:
+        transition: 1
+        brightness: 250
+        flash: short
+
+flashing_party:
+  alias: "Flashing Party Light"
+  sequence:
+    - service: light.turn_on
+      entity_id: light.party
+      data_template:
+        color_name: '{{ color_name }}'
+        brightness: '{{ brightness }}'
+        flash: '{{ flash if (flash == "long" or flash == "short") else "false" }}'
+
+ss_volume_down:
+  alias: "Volume Fade Down"
+  sequence:
+    - condition: template
+      value_template: '{{ (is_state("media_player.itunes", "playing") and is_state("input_boolean.mpd_silence", "off")) }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level - 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level - 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level - 0.02 }}{% endif %}'
+
+ss_volume_up:
+  alias: "Volume Fade Up"
+  sequence:
+    - condition: template
+      value_template: '{{ (is_state("media_player.itunes", "playing") and is_state("input_boolean.mpd_silence", "off")) }}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+    - service: media_player.volume_set
+      entity_id: media_player.itunes
+      data_template:
+        volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
+
+s_speak1:
+  alias: "Sub-notify script Speak 1"
+  sequence:
+    - condition: template
+      value_template: '{{ speak != "false" and is_state("device_tracker.sinbad", "home") }}'
+    - service: script.ss_volume_down
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.music_player_daemon
+        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}1.0{% endif%}'
+    - service: media_player.play_media
+      data_template:
+        entity_id: media_player.music_player_daemon
+        media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
+        media_content_type: "audio/mp3"
+    - delay: 00:00:01
+    - service: tts.google_say
+      data_template:
+        entity_id: media_player.music_player_daemon
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+    - delay: 00:00:03
+    - service: script.ss_volume_up
+
+s_speak2:
+  alias: "Sub-notify script Speak 2"
+  sequence:
+    - condition: template
+      value_template: '{{ speak != "false" and is_state("binary_sensor.cookie", "on") }}'
+    # - service: script.ss_volume_down
+    - service: media_player.volume_set
+      data_template:
+        entity_id: media_player.mpd_raspberry_pi
+        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}1.0{% endif%}'
+    - service: media_player.play_media
+      data_template:
+        entity_id: media_player.mpd_raspberry_pi
+        media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
+        media_content_type: "audio/mp3"
+    - delay: 00:00:01
+    - service: tts.google_say
+      data_template:
+        entity_id: media_player.mpd_raspberry_pi
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+    - delay: 00:00:03
+    # - service: script.ss_volume_up
+
+s_email:
+  alias: "Sub-notify script Email"
+  sequence:
+    - condition: template
+      value_template: '{{ email != "false" and is_state("input_boolean.presence_pe", "off") }}'
+    - service: notify.email
+      data_template:
+        title: '{{ title if title else message }}'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+
+s_line:
+  alias: "Sub-notify script LINE"
+  sequence:
+    - condition: template
+      value_template: '{{ line != "false" and is_state("input_boolean.presence_pe", "off") }}'
+    - service_template: '{% if line == "pe" %}shell_command.line_pe{% elif line == "jue" %}shell_command.line_jue{% elif line == "both" %}shell_command.line_both{% endif %}'
+      data_template:
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+
+s_mbp:
+  alias: "Sub-notify script Macbook Pro"
+  sequence:
+    - condition: template
+      value_template: '{{ is_state("device_tracker.pepe", "home") }}'
+    - service: notify.growl
+      data_template:
+        title: '{{ title if title else message }}'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+
+s_tv:
+  alias: "Sub-notify script TV"
+  sequence:
+    - condition: template
+      value_template: '{{ tv != "false" and is_state("binary_sensor.android_box", "on") }}'
+    - service: notify.tv
+      data_template:
+        title: '{{ title if title else message }}'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+
+s_mobile:
+  alias: "Sub-notify script Mobile"
+  sequence:
+    - condition: template
+      value_template: '{{ mobile != "false" }}'
+    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone7plus{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "both" %}script.notify_pesiphone7plus_juesiphone6splus{% endif %}'
+      data_template:
+        title: '{{ title if title else message }}'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+
+s_light:
+  alias: "Sub-notify script Light"
+  sequence:
+    - condition: template
+      value_template: '{{ light != "false" }}'
+    - service_template: '{% if light == "long" %}script.flashing_long{% elif light == "short" %}script.flashing_short{% elif light == "once" %}script.flashing_once{% endif %}'
+
+# s_file:
+#   alias: "Sub-notify script File"
+#   sequence:
+#     - service: notify.file
+#       data_template:
+#         title: '{{ title if title else message }}'
+#         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+
+notifying:
+  alias: "Notify script"
+  sequence:
+    - condition: template
+      value_template: '{{ is_state("script.notifying", "off") }}'
+    # - service: script.s_file
+    #   data_template:
+    #     title: '{{ title }}'
+    #     message: '{{ message }}'
+    - service: script.s_mbp
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.s_light
+      data_template:
+        light: '{{ light if (light == "long" or light == "short" or light == "once" or light == "false") else "false" }}'
+    - delay: 00:00:02
+    - service: script.s_email
+      data_template:
+        email: '{{ email if (email == "true" or email == "false") else "true" }}'
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.s_line
+      data_template:
+        line: '{{ line if (line == "pe" or line == "jue" or line == "both" or line == "false") else "false" }}'
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.s_tv
+      data_template:
+        tv: '{{ tv if (tv == "true" or tv == "false") else "true" }}'
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.s_speak1
+      data_template:
+        speak: '{{ speak if (speak == "true" or speak == "false") else "true" }}'
+        audio: '{{ audio if (audio == "siren" or audio == "pip" or audio == "chime" or audio == "horn" or audio == "sinewave") else "sinewave" }}'
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.s_speak2
+      data_template:
+        speak: '{{ speak if (speak == "true" or speak == "false") else "true" }}'
+        audio: '{{ audio if (audio == "siren" or audio == "pip" or audio == "chime" or audio == "horn" or audio == "sinewave") else "sinewave" }}'
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.s_mobile
+      data_template:
+        mobile: '{{ mobile if (mobile == "pe" or mobile == "jue" or mobile == "both" or mobile == "false") else "false" }}'
+        title: '{{ title }}'
+        message: '{{ message }}'

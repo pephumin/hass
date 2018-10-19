@@ -27,10 +27,10 @@
 #     - service: kodi
 #     # - service: voicetv
 
-- platform: file
-  name: file
-  filename: !secret notify_file
-  timestamp: true
+# - platform: file
+#   name: file
+#   filename: !secret notify_file
+#   timestamp: true
 
 # - platform: pushbullet
 #   name: pushbullet
@@ -48,7 +48,7 @@
 
 - platform: gntp
   name: growl
-  hostname: 192.168.1.200
+  hostname: 192.168.1.250
   password: !secret my_password
 
 # - platform: facebook

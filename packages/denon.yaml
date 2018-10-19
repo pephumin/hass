@@ -73,24 +73,17 @@ shell_command:
   denon_source_mediaserver: !secret denon_source_mediaserver
   denon_source_mode_auto: !secret denon_source_mode_auto
   denon_source_mode_analog: !secret denon_source_mode_analog
-  # kodi_playpause: !secret kodi_playpause
-  # kodi_prev: !secret kodi_prev
-  # kodi_next: !secret kodi_next
-  # kodi_pe: !secret kodi_pe
-  # kodi_up: !secret kodi_up
-  # kodi_movies: !secret kodi_movies
-  # kodi_vol: !secret kodi_vol
   dune_off: !secret dune_off
   dune_on: !secret dune_on
   dune_play: !secret dune_play
-  dune_pause: !secret dune_pause
-  dune_stop: !secret dune_stop
-  dune_info: !secret dune_info
-  dune_popup: !secret dune_popup
-  dune_top: !secret dune_top
-  dune_return: !secret dune_return
-  dune_audio: !secret dune_audio
-  dune_subtitle: !secret dune_subtitle
+  # dune_pause: !secret dune_pause
+  # dune_stop: !secret dune_stop
+  # dune_info: !secret dune_info
+  # dune_popup: !secret dune_popup
+  # dune_top: !secret dune_top
+  # dune_return: !secret dune_return
+  # dune_audio: !secret dune_audio
+  # dune_subtitle: !secret dune_subtitle
 
 switch:
   - platform: template

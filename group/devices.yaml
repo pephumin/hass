@@ -15,6 +15,7 @@ devices:
     - device_tracker.pepe
     # - sensor.battery_pepe
     - device_tracker.pepework
+    - device_tracker.sinbad
 
 # devices_sensors:
 #   name: "Devices"

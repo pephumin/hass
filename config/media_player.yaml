@@ -25,9 +25,14 @@
   host: !secret itunes_ip
 
 - platform: mpd
+  name: "MPD Raspberry Pi"
+  host: !secret cookie_ip
+  port: 6600
+
+- platform: mpd
   name: "Music Player Daemon"
   host: !secret itunes_ip
   port: 6600
 
 - platform: cast
-  host: !secret cast_ip
+  host: !secret biscuit_ip

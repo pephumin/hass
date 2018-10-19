@@ -17,6 +17,7 @@ default_view:
     - media_player.itunes
     - media_player.kodi
     - media_player.music_player_daemon
+    - media_player.mpd_raspberry_pi
     - group.foscam
     - camera.foscam_r2
     - camera.foscam_black
@@ -35,11 +36,11 @@ common_room:
     - media_player.apple_tv
     - media_player.biscuit
     - media_player.denon
-    - media_player.doughnut
     - media_player.dune
     - media_player.kodi
     - media_player.avr2113_airtunes_speaker
     - media_player.living_room_apple_tv_airtunes_speaker
+    - media_player.mpd_raspberry_pi
     - camera.foscam_r2
     - camera.foscam_black
     - group.home_server
@@ -58,8 +59,10 @@ bedroom:
     - group.online_br
     - group.hue_bedroom_all
     - group.bedroom_scenes
+    - media_player.doughnut
     - media_player.itunes
     - media_player.music_player_daemon
+    - media_player.mpd_raspberry_pi
     - media_player.bedroom_aex_airtunes_speaker
     - media_player.computer_airtunes_speaker
     - group.stats_br
@@ -76,6 +79,7 @@ first_floor:
     - group.first_floor_scenes
     - media_player.first_floor_aex_airtunes_speaker
     - media_player.satellite_aex_airtunes_speaker
+    - media_player.mpd_raspberry_pi
     - camera.current_location_pe
     - camera.current_location_jue
     - group.friends

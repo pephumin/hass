@@ -1,5 +1,5 @@
-shell_command:
-  wag160n_reboot: !secret wag160n_reboot
+# shell_command:
+#   wag160n_reboot: !secret wag160n_reboot
 
 sensor:
   - platform: synologydsm

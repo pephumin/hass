@@ -40,45 +40,55 @@ proximity:
     zone: home
     devices:
       - device_tracker.pesiphone7plus
+      - device_tracker.hass_pesiphone7plus
     tolerance: 20
     unit_of_measurement: m
   jue_home:
     zone: home
     devices:
       - device_tracker.juesiphone6splus
+      - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   jue_malaiwan:
     zone: malaiwan
     devices:
       - device_tracker.juesiphone6splus
+      - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   pe_benjawan:
     zone: benjawan
     devices:
       - device_tracker.pesiphone7plus
+      - device_tracker.hass_pesiphone7plus
     tolerance: 20
     unit_of_measurement: m
   seaconsquare:
     zone: seacon_square
     devices:
       - device_tracker.pesiphone7plus
+      - device_tracker.hass_pesiphone7plus
       - device_tracker.juesiphone6splus
+      - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   paradisepark:
     zone: paradise_park
     devices:
       - device_tracker.pesiphone7plus
+      - device_tracker.hass_pesiphone7plus
       - device_tracker.juesiphone6splus
+      - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   centralbangna:
     zone: central_bangna
     devices:
       - device_tracker.pesiphone7plus
+      - device_tracker.hass_pesiphone7plus
       - device_tracker.juesiphone6splus
+      - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   foodland:
@@ -189,12 +199,12 @@ binary_sensor:
     scan_interval: 30
   - platform: ping
     host: 192.168.1.36
-    name: "benjy"
+    name: "benjysiphone6"
     count: 2
     scan_interval: 30
   - platform: ping
     host: 192.168.1.37
-    name: "benjysmbp"
+    name: "benjawan"
     count: 2
     scan_interval: 30
   - platform: ping
@@ -275,9 +285,11 @@ automation:
   - alias: "Pe is at Luzern"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.pesiphone7plus", "home") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone7plus", "home") or is_state("device_tracker.hass_pesiphone7plus", "home") }}'
       - platform: template
         value_template: '{{ is_state("device_tracker.ping_pesiphone7plus", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.pesiphone7plus", "on") }}'
       - platform: template
         value_template: '{{ states.proximity.pe_home.state | float < 50 }}'
     condition:
@@ -290,7 +302,11 @@ automation:
   - alias: "Pe is not at Luzern"
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.pesiphone7plus", "home") and not is_state("device_tracker.ping_pesiphone7plus", "home") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone7plus", "not_home") and is_state("device_tracker.hass_pesiphone7plus", "not_home") }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.ping_pesiphone7plus", "not_home") }}'
+      - platform: template
+        value_template: '{{ is_state("boinary_sensor.pesiphone7plus", "off") }}'
       - platform: template
         value_template: '{{ states.proximity.pe_home.state | float > 500 }}'
     condition:
@@ -351,9 +367,11 @@ automation:
   - alias: "Jue is at Luzern"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.juesiphone6splus", "home") }}'
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "home") or is_state("device_tracker.hass_juesiphone6splus", "home") }}'
       - platform: template
         value_template: '{{ is_state("device_tracker.ping_juesiphone6splus", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.juesiphone6splus", "on") }}'
       - platform: template
         value_template: '{{ states.proximity.jue_home.state | float < 50 }}'
     condition:
@@ -366,7 +384,11 @@ automation:
   - alias: "Jue is not at Luzern"
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.juesiphone6splus", "home") and not is_state("device_tracker.ping_juesiphone6splus", "home") }}'
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "not_home") and is_state("device_tracker.hass_juesiphone6splus", "not_home") }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.ping_juesiphone6splus", "not_home") }}'
+      - platform: template
+        value_template: '{{ is_state("boinary_sensor.juesiphone6splus", "off") }}'
       - platform: template
         value_template: '{{ states.proximity.jue_home.state | float > 500 }}'
     condition:
@@ -575,7 +597,7 @@ automation:
           - input_boolean.presence_jue_malaiwan
       - service: ifttt.trigger
         data_template:
-          event: '{% if (states.proximity.jue_home.state | float > 2500) and (states.proximity.jue_home.state | float < 3500) %}red_3{% elif (states.proximity.jue_home.state | float > 1500) and (states.proximity.jue_home.state | float < 2500) %}red_2{% elif (states.proximity.jue_home.state | float > 500) and (states.proximity.jue_home.state | float < 1500) %}red_1{% endif %}'
+          event: '{% if (states.proximity.jue_home.state | float > 2500) and (states.proximity.jue_home.state | float < 3500) %}3km{% elif (states.proximity.jue_home.state | float > 1500) and (states.proximity.jue_home.state | float < 2500) %}2km{% elif (states.proximity.jue_home.state | float > 500) and (states.proximity.jue_home.state | float < 1500) %}1km{% endif %}'
       - service: script.notifying
         data_template:
           email: "true"
@@ -602,7 +624,7 @@ automation:
           - input_boolean.presence_pe_benjawan
       - service: ifttt.trigger
         data_template:
-          event: '{% if (states.proximity.pe_home.state | float > 2500) and (states.proximity.pe_home.state | float < 3500) %}red_3{% elif (states.proximity.pe_home.state | float > 1500) and (states.proximity.pe_home.state | float < 2500) %}red_2{% elif (states.proximity.pe_home.state | float > 500) and (states.proximity.pe_home.state | float < 1500) %}red_1{% endif %}'
+          event: '{% if (states.proximity.pe_home.state | float > 2500) and (states.proximity.pe_home.state | float < 3500) %}3km{% elif (states.proximity.pe_home.state | float > 1500) and (states.proximity.pe_home.state | float < 2500) %}2km{% elif (states.proximity.pe_home.state | float > 500) and (states.proximity.pe_home.state | float < 1500) %}1km{% endif %}'
       - service: script.notifying
         data_template:
           email: "true"
@@ -617,9 +639,9 @@ automation:
   - alias: "Benjy is at Luzern"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.ping_benjy", "home") }}'
+        value_template: '{{ is_state("device_tracker.ping_benjysiphone6", "home") }}'
       - platform: template
-        value_template: '{{ is_state("device_tracker.benjy", "home") }}'
+        value_template: '{{ is_state("device_tracker.benjysiphone6", "home") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_benjy", "off") }}'
@@ -630,7 +652,7 @@ automation:
   - alias: "Benjy is not at Luzern"
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.benjy", "home") and not is_state("device_tracker.ping_benjy", "home") }}'
+        value_template: '{{ not is_state("device_tracker.benjysiphone6", "home") and not is_state("device_tracker.ping_benjysiphone6", "home") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_benjy", "on") }}'
