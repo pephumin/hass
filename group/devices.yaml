@@ -49,22 +49,24 @@ friends:
     - device_tracker.benjysmbp
     - device_tracker.boom
 
-# pesiphone7plus:
-#   name: "Pe iPhone 7 Plus"
-#   icon: mdi:cellphone-iphone
-#   entities:
-#     - device_tracker.pesiphone7plus
-#     - device_tracker.ping_pesiphone7plus
-#     - binary_sensor.pesiphone7plus
-#
-# pesipadmini2:
-#   name: "Pe iPad Mini 2"
-#   icon: mdi:tablet-ipad
-#   entities:
-#     - device_tracker.pesipadmini2
-#     - device_tracker.ping_pesipadmini2
-#     - binary_sensor.pesipadmini2
-#
+pesiphone7plus:
+  name: "Pe iPhone 7 Plus"
+  icon: mdi:cellphone-iphone
+  entities:
+   - device_tracker.pesiphone7plus
+   - device_tracker.hass_pesiphone7plus
+   - device_tracker.ping_pesiphone7plus
+   - binary_sensor.pesiphone7plus
+
+pesipadmini2:
+  name: "Pe iPad Mini 2"
+  icon: mdi:tablet-ipad
+  entities:
+  - device_tracker.pesipadmini2
+  - device_tracker.hass_pesipadmini2
+  - device_tracker.ping_pesipadmini2
+  - binary_sensor.pesipadmini2
+
 # juesiphone6splus:
 #   name: "Jue iPhone 6s Plus"
 #   icon: mdi:cellphone-iphone

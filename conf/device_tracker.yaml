@@ -1,0 +1,85 @@
+- platform: icloud
+  username: !secret icloud_username
+  password: !secret icloud_password
+  account_name: pe
+  interval_seconds: 12
+  consider_home: 180
+  new_device_defaults:
+    track_new_devices: True
+    hide_if_away: False
+
+- platform: nmap_tracker
+  hosts: 192.168.1.1/24
+  home_interval: 10
+  scan_options: "--unprivileged -sn"
+  exclude:
+    - 192.168.1.100
+  consider_home: 180
+  new_device_defaults:
+    track_new_devices: True
+    hide_if_away: False
+
+# - platform: bluetooth_tracker
+#   new_device_defaults:
+#     track_new_devices: True
+#     hide_if_away: False
+
+- platform: owntracks
+  max_gps_accuracy: 100
+  waypoints: True
+  mqtt_topic: "owntracks/#"
+  new_device_defaults:
+    track_new_devices: False
+    hide_if_away: False
+
+# - platform: mqtt
+#   devices:
+#     mqtt_pesiphone7plus: owntracks/user/pesiphone7plus
+#     mqtt_juesiphone6splus: owntracks/user/juesiphone6splus
+#     mqtt_pesipadmini2: owntracks/user/pesipadmini2
+#     mqtt_juesipadmini2: owntracks/user/juesipadmini2
+#   new_device_defaults:
+#     track_new_devices: False
+#     hide_if_away: False
+
+- platform: tomato
+  host: 192.168.1.1
+  username: !secret my_username
+  password: !secret my_password
+  http_id: !secret tomato_http_id_1
+  consider_home: 180
+  new_device_defaults:
+    track_new_devices: True
+    hide_if_away: False
+
+# - platform: tomato
+#   host: 192.168.1.11
+#   username: !secret my_username
+#   password: !secret my_password
+#   http_id: !secret tomato_http_id_2
+#   consider_home: 180
+#   new_device_defaults:
+#     track_new_devices: True
+#     hide_if_away: False
+
+- platform: ping
+  hosts:
+    ping_pesiphone7plus: 192.168.1.30
+    ping_pesipadmini2: 192.168.1.31
+    ping_juesiphone6splus: 192.168.1.32
+    ping_juesipadmini2: 192.168.1.33
+    ping_pesipodtouch4: 192.168.1.34
+    ping_benjysiphone6: 192.168.1.36
+    ping_benjyawan: 192.168.1.37
+    ping_benjysipadmini2: 192.168.1.38
+    ping_boom: 192.168.1.39
+    ping_pepe: 192.168.1.200
+    ping_pepe_phumin: 192.168.1.201
+    ping_pepework: 192.168.1.202
+    ping_sinbad: 192.168.1.250
+    ping_xdj_rx: 192.168.1.45
+    ping_dune: 192.168.1.77
+  consider_home: 180
+  new_device_defaults:
+    track_new_devices: False
+    hide_if_away: False

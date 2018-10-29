@@ -727,7 +727,7 @@ s_speak2:
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.mpd_raspberry_pi
-        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}1.0{% endif%}'
+        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}0.8{% endif%}'
     - service: media_player.play_media
       data_template:
         entity_id: media_player.mpd_raspberry_pi

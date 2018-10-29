@@ -44,6 +44,7 @@ browser:
 
 cast:
   media_player:
+    - host: !secret candy_ip
     - host: !secret biscuit_ip
     - host: !secret doughnut_ip
 
@@ -76,10 +77,13 @@ history:
 http:
   api_password: !secret my_password
   base_url: !secret base_url
-  # ssl_certificate: /ssl/fullchain.pem
-  # ssl_key: /ssl/privkey.pem
-    # use_x_forwarded_for: True
-  # trusted_networks:
+  #ssl_certificate: !secret ssl_certificate
+  #ssl_key: !secret ssl_key
+  # cors_allowed_origins:
+  #   - https://google.com
+  #   - https://www.home-assistant.io
+  # use_x_forwarded_for: true
+  # trusted_proxies:
   #   - 127.0.0.1
   #   - ::1
   #   - 192.168.0.0/24
@@ -124,15 +128,19 @@ homekit:
       - sensor.samsung_m267x_287x_series_192168144_output_tray_0
       - sensor.samsung_m267x_287x_series_192168144_tray_1
 
-hue:
-  bridges:
-    - host: !secret hue_ip
-      # filename: phue.conf
-      # allow_unreachable: true
-      # allow_hue_groups: false
+# hue:
+#   bridges:
+#     - host: !secret hue_ip
+#       filename: phue.conf
+#       # allow_unreachable: true
+#       # allow_hue_groups: false
 
 ifttt:
   key: !secret ifttt_key
+
+light:
+  platform: hue
+  host: !secret hue_ip
 
 logbook:
 
@@ -163,8 +171,8 @@ map:
 media_extractor:
 
 mqtt:
-  broker: core-mosquitto
-  # broker: !secret mqtt_broker
+  # broker: core-mosquitto
+  broker: !secret mqtt_broker
   port: !secret mqtt_port
   username: !secret mqtt_username
   password: !secret my_password
@@ -263,7 +271,7 @@ sun:
 tts:
   - platform: google
     cache: true
-    cache_dir: /tts
+    cache_dir: /config/www/tts
     time_memory: 300
 
 updater:
@@ -272,9 +280,11 @@ wake_on_lan:
 
 zeroconf:
 
-device_tracker: !include config/device_tracker.yaml
+device_tracker: !include conf/device_tracker.yaml
 group: !include_dir_merge_named group/
-media_player: !include config/media_player.yaml
-notify: !include config/notify.yaml
+media_player: !include conf/media_player.yaml
+notify: !include conf/notify.yaml
 script: !include scripts.yaml
 script old: !include scripts_old.yaml
+automation: !include automations.yaml
+#automation old: !include_dir_merge_list packages/

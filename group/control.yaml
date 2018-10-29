@@ -24,12 +24,11 @@ control_cr:
     - switch.common_room_fan
     - switch.common_room_hometheatre
     - input_select.denon_mode
-    # - switch.sonytv
-    # - switch.android_box
     - switch.mimas
     - script.mute_common_room
     - sensor.denon_source
     - switch.ganymede
+    - switch.phoebe
     - counter.commonroom
 
 control_br:
@@ -43,7 +42,7 @@ control_br:
     - switch.europa
     - script.mute_bedroom
     - script.bedroom_ac_powerful
-    - switch.calypso
+    - switch.hyperion
     # - switch.calypso
     - counter.bedroom
 
@@ -56,7 +55,3 @@ control_ff:
     - sensor.callisto_humidity
     - switch.charon
     - counter.firstfloor
-    # - switch.naked
-    - switch.hyperion
-    - switch.sva
-    - switch.svb

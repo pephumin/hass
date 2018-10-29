@@ -409,7 +409,10 @@ binary_sensor.broadlink_rm_mini_b:
   friendly_name: "Broadlink RM Mini B"
 binary_sensor.doughnut:
   icon: mdi:google-home
-  friendly_name: "Google Home Mini"
+  friendly_name: "Google Home Mini Bedroom"
+binary_sensor.candy:
+  icon: mdi:google-home
+  friendly_name: "Google Home Mini Common Room"
 binary_sensor.biscuit:
   icon: mdi:google-chrome
   friendly_name: "Google Chromecast"
@@ -568,19 +571,7 @@ sensor.pandora_humidity:
   friendly_name: "Bedroom Humidity"
 switch.phoebe:
   icon: mdi:power-plug
-  friendly_name: "Bedroom Online Switch"
-  assumed_state: false
-switch.calypso:
-  icon: mdi:power-plug
-  friendly_name: "Bedroom Online Switch"
-  assumed_state: true
-switch.sva:
-  icon: mdi:video-input-antenna
-  friendly_name: "Safe Voltage A Switch"
-  assumed_state: true
-switch.svb:
-  icon: mdi:video-input-antenna
-  friendly_name: "Safe Voltage B Switch"
+  friendly_name: "Common Room Online Switch"
   assumed_state: true
 switch.charon:
   icon: mdi:power-socket-us
@@ -588,7 +579,7 @@ switch.charon:
   assumed_state: true
 switch.hyperion:
   icon: mdi:power-socket-us
-  friendly_name: "Common Room Online Switch"
+  friendly_name: "Bedroom Online Switch"
   assumed_state: true
 switch.nakeds:
   icon: mdi:power-plug

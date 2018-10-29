@@ -44,6 +44,11 @@ binary_sensor:
     name: "Cookie"
     count: 2
     scan_interval: 30
+  - platform: ping
+    host: 192.168.1.13
+    name: "Candy"
+    count: 2
+    scan_interval: 30
 
   # - platform: ping
   #   host: 192.168.1.13
@@ -237,7 +242,7 @@ group:
       - binary_sensor.foscam_r2
       - binary_sensor.foscam_black
       - binary_sensor.titan
-      - binary_sensor.hyperion
+      # - binary_sensor.hyperion
       - binary_sensor.ganymede
       - binary_sensor.mimas
       - binary_sensor.phoebe
@@ -248,6 +253,7 @@ group:
       - binary_sensor.denon
       - binary_sensor.android_box
       - binary_sensor.biscuit
+      - binary_sensor.candy
       - binary_sensor.apple_tv
       - binary_sensor.dune
       - binary_sensor.xdj_rx
@@ -262,14 +268,14 @@ group:
       - binary_sensor.moon
       - binary_sensor.europa
       - binary_sensor.pandora
-      - binary_sensor.calypso
+      - binary_sensor.hyperion
   online_ff:
     name: "Online Status First Floor"
     icon: mdi:lan-connect
     control: hidden
     entities:
       - binary_sensor.uranus
-      # - binary_sensor.mercury
+      - binary_sensor.mercury
       # - binary_sensor.sputnik
       - binary_sensor.foscam_white
       # - binary_sensor.wemos_bell
@@ -304,63 +310,64 @@ automation:
   #     - service: counter.increment
   #       entity_id: counter.bedroom
 
-  - alias: 'Common Room RM mini restart'
-    trigger:
-       - platform: time
-         minutes: '/60'
-         seconds: 00
-    condition:
-       - condition: or
-         conditions:
-           - condition: template
-             value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
-           - condition: template
-             value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
-           - condition: template
-             value_template: '{{ is_state("binary_sensor.wemos_lite_party", "off") }}'
-    action:
-       - service: script.turn_on
-         entity_id: script.restart_sva
-       - service: counter.increment
-         entity_id: counter.commonroom
-
-  - alias: 'Common Room RM restart'
+  - alias: 'Common Room Online Switch Restart'
     trigger:
       - platform: time
         minutes: '/60'
         seconds: 00
-    condition:
-      - condition: template
-        value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
-    action:
-      - service: script.turn_on
-        entity_id: script.restart_phoebe
-      # - service: counter.increment
-      #   entity_id: counter.commonroom
-
-  - alias: 'Common Room Foscam Black & R2 restart'
-    trigger:
-      - platform: time
-        minutes: '/60'
-        seconds: 00
-    condition:
       - condition: or
         conditions:
           - condition: template
             value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
           - condition: template
             value_template: '{{ is_state("binary_sensor.foscam_r2", "off") }}'
-          # - condition: template
-          #   value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
-          # - condition: template
-          #   value_template: '{{ is_state("binary_sensor.wemos_lite_party", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.candy", "off") }}'
     action:
-      - service: script.turn_on
-        entity_id: script.restart_ganymede
-      - service: counter.increment
-        entity_id: counter.commonroom
+       - service: script.turn_on
+         entity_id: script.restart_ganymede
+       - service: counter.increment
+         entity_id: counter.commonroom
 
-  - alias: 'Bedroom online switch restart'
+  # - alias: 'Common Room RM restart'
+  #   trigger:
+  #     - platform: time
+  #       minutes: '/60'
+  #       seconds: 00
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
+  #   action:
+  #     - service: script.turn_on
+  #       entity_id: script.restart_phoebe
+  #     # - service: counter.increment
+  #     #   entity_id: counter.commonroom
+  #
+  # - alias: 'Common Room Foscam Black & R2 restart'
+  #   trigger:
+  #     - platform: time
+  #       minutes: '/60'
+  #       seconds: 00
+  #   condition:
+  #     - condition: or
+  #       conditions:
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.foscam_r2", "off") }}'
+  #         # - condition: template
+  #         #   value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
+  #         # - condition: template
+  #         #   value_template: '{{ is_state("binary_sensor.wemos_lite_party", "off") }}'
+  #   action:
+  #     - service: script.turn_on
+  #       entity_id: script.restart_ganymede
+  #     - service: counter.increment
+  #       entity_id: counter.commonroom
+
+  - alias: 'Bedroom Online Switch Restart'
     trigger:
       - platform: time
         minutes: '/60'
@@ -374,13 +381,15 @@ automation:
             value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
           - condition: template
             value_template: '{{ is_state("binary_sensor.moon", "off") }}'
+          - condition: template
+            value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
     action:
       - service: script.turn_on
-        entity_id: script.restart_calypso
+        entity_id: script.restart_hyperion
       - service: counter.increment
         entity_id: counter.bedroom
 
-  - alias: 'First Floor online switch restart'
+  - alias: 'First Floor Online Switch Restart'
     trigger:
       - platform: time
         minutes: '/60'
