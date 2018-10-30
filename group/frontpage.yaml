@@ -7,6 +7,8 @@ default_view:
     - group.proximity
     - group.daylight
     - group.devices
+    - group.friends
+    - group.cars
     - group.home_server
     # - group.travel
     - media_player.apple_tv
@@ -83,6 +85,7 @@ first_floor:
     - camera.current_location_pe
     - camera.current_location_jue
     - group.friends
+    - group.cars
     - group.stats_ff
     - group.quick_timer
     - group.printer

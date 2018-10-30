@@ -44,10 +44,18 @@ friends:
   name: "Friends"
   icon: mdi:account-multiple
   entities:
-    - device_tracker.benjy
+    - device_tracker.benjysiphone6
     - device_tracker.benjysipadmini2
-    - device_tracker.benjysmbp
+    - device_tracker.benjawan
     - device_tracker.boom
+
+cas:
+  name: "Cars"
+  icon: mdi:car
+  entities:
+    - binary_sensor.bmw
+    - binary_sensor.bluebird
+    - binary_sensor.freed
 
 pesiphone7plus:
   name: "Pe iPhone 7 Plus"
