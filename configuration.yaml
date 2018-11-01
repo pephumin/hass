@@ -135,8 +135,8 @@ homekit:
 #       # allow_unreachable: true
 #       # allow_hue_groups: false
 
-ifttt:
-  key: !secret ifttt_key
+# ifttt:
+#   key: !secret ifttt_key
 
 light:
   platform: hue

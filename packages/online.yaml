@@ -216,16 +216,19 @@ counter:
     initial: 0
     step: 1
     icon: mdi:counter
+    restore: false
   commonroom:
     name: "Common Room Reboot Counts"
     initial: 0
     step: 1
     icon: mdi:counter
+    restore: false
   firstfloor:
     name: "Frst Floor Reboot Counts"
     initial: 0
     step: 1
     icon: mdi:counter
+    restore: false
 
 group:
   online_cr:
