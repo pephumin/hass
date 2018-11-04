@@ -37,6 +37,7 @@ light:
     xy: false
     hs: false
     retain: false
+    unique_id: 411dabf4-aaa9-4012-977c-73f836b4695e
 
 input_number:
   party_animation_speed:

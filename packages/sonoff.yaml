@@ -9,6 +9,7 @@ switch:
     qos: 1
     retain: true
     optimistic: true
+    unique_id: 758b4c1a-943d-45b6-ab58-24a41a357cc2
   - platform: mqtt
     name: "Calypso"
     state_topic: "stat/calypso/POWER"
@@ -19,6 +20,7 @@ switch:
     qos: 1
     retain: true
     optimistic: true
+    unique_id: f92b1ce3-3cd8-4f0c-8b0e-d7f5201c8084
   - platform: mqtt
     name: "Mimas"
     state_topic: "stat/mimas/POWER"
@@ -29,6 +31,7 @@ switch:
     qos: 1
     retain: true
     optimistic: true
+    unique_id: 35cad35f-4f70-49fa-9c3c-ac8c84791ba4
   - platform: mqtt
     name: "Phoebe"
     state_topic: "stat/phoebe/POWER"
@@ -39,6 +42,7 @@ switch:
     qos: 1
     retain: true
     optimistic: true
+    unique_id: 3ae0dad4-400d-45c1-8364-cb69c15f4876
   - platform: mqtt
     name: "Charon"
     state_topic: "stat/charon/POWER"
@@ -49,6 +53,7 @@ switch:
     qos: 1
     retain: true
     optimistic: true
+    unique_id: f8ce62d8-0a9f-4af6-9b7d-369910fd1472
   - platform: mqtt
     name: "Hyperion"
     state_topic: "stat/hyperion/POWER"
@@ -59,6 +64,7 @@ switch:
     qos: 1
     retain: true
     optimistic: true
+    unique_id: d5e177a9-f336-4b13-8608-480b15e66518
 
 light:
   - platform: mqtt
@@ -71,6 +77,7 @@ light:
     qos: 1
     retain: true
     optimistic: true
+    unique_id: 9f398da5-7908-4254-8c1c-548629e45e5a
   - platform: mqtt
     name: "Callisto"
     state_topic: "stat/callisto/POWER"
@@ -81,6 +88,7 @@ light:
     qos: 1
     retain: true
     optimistic: true
+    unique_id: e216ff53-ad8b-4c2d-8acc-aabe35f4329c
 
 sensor:
   - platform: mqtt

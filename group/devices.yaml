@@ -2,20 +2,20 @@ devices:
   name: "Devices"
   icon: mdi:account
   entities:
-    - device_tracker.pesiphone7plus
-    - sensor.battery_pesiphone7plus
-    - device_tracker.pesipadmini2
-    - sensor.battery_pesipadmini2
-    - device_tracker.juesiphone6splus
-    - sensor.battery_juesiphone6splus
-    - device_tracker.juesipadmini2
-    - sensor.battery_juesipadmini2
-    - device_tracker.pesipodtouch4
+    - group.pesiphone7plus
+    # - sensor.battery_pesiphone7plus
+    - group.pesipadmini2
+    # - sensor.battery_pesipadmini2
+    - group.juesiphone6splus
+    # - sensor.battery_juesiphone6splus
+    - group.juesipadmini2
+    # - sensor.battery_juesipadmini2
+    # - device_tracker.pesipodtouch4
     # - sensor.battery_pesipodtouch4
-    - device_tracker.pepe
+    - group.pepe
     # - sensor.battery_pepe
-    - device_tracker.pepework
-    - device_tracker.sinbad
+    - group.pepework
+    - group.sinbad
 
 # devices_sensors:
 #   name: "Devices"
@@ -44,10 +44,10 @@ friends:
   name: "Friends"
   icon: mdi:account-multiple
   entities:
-    - device_tracker.benjysiphone6
-    - device_tracker.benjysipadmini2
-    - device_tracker.benjawan
-    - device_tracker.boom
+    - group.benjysiphone6
+    - group.benjysipadmini2
+    - group.benjawan
+    - group.boom
 
 cas:
   name: "Cars"
@@ -75,90 +75,100 @@ pesipadmini2:
   - device_tracker.ping_pesipadmini2
   - binary_sensor.pesipadmini2
 
-# juesiphone6splus:
-#   name: "Jue iPhone 6s Plus"
-#   icon: mdi:cellphone-iphone
-#   entities:
-#     - device_tracker.juesiphone6splus
-#     - device_tracker.ping_juesiphone6splus
-#     - binary_sensor.juesiphone6splus
-#
-# juesipadmini2:
-#   name: "Jue iPad Mini 2"
-#   icon: mdi:tablet-ipad
-#   entities:
-#     - device_tracker.juesipadmini2
-#     - device_tracker.ping_juesipadmini2
-#     - binary_sensor.juesipadmini2
-#
-# pepe:
-#   name: "Pe Macbook Pro"
-#   icon: mdi:laptop-mac
-#   entities:
-#     - device_tracker.pepe
-#     - device_tracker.ping_pepe
-#     - binary_sensor.pepe
-#
-# pepework:
-#   name: "Pe Dell Laptop"
-#   icon: mdi:laptop-windows
-#   entities:
-#     - device_tracker.pepework
-#     - device_tracker.ping_pepework
-#     - binary_sensor.pepework
-#
-# pesipodtouch4:
-#   name: "iPod Touch BMW"
-#   icon: mdi:cellphone-dock
-#   entities:
-#     - device_tracker.pesipodtouch4
-#     - device_tracker.ping_pesipodtouch4
-#     - binary_sensor.pesipodtouch4
-#
-# benjy:
-#   name: "Benjy"
-#   icon: mdi:cellphone-iphone
-#   entities:
-#     - device_tracker.benjy
-#     - device_tracker.ping_benjy
-#     - binary_sensor.benjy
-#
-# benjysipadmini2:
-#   name: "Benjy iPad Mini 2"
-#   icon: mdi:tablet-ipad
-#   entities:
-#     - device_tracker.benjysipadmini2
-#     - device_tracker.ping_benjysipadmini2
-#     - binary_sensor.benjysipadmini2
-#
-# benjysmbp:
-#   name: "Benjy Macbook Pro"
-#   icon: mdi:laptop-mac
-#   entities:
-#     - device_tracker.benjysmbp
-#     - device_tracker.ping_benjysmbp
-#     - binary_sensor.benjysmbp
-#
-# boom:
-#   name: "Boom"
-#   icon: mdi:cellphone-android
-#   entities:
-#     - device_tracker.boom
-#     - device_tracker.ping_boom
-#     - binary_sensor.boom
-#
-# dune:
-#   name: "Dune Base"
-#   icon: mdi:movie-roll
-#   entities:
-#     - device_tracker.dune
-#     - device_tracker.ping_dune
-#     - binary_sensor.dune
-#
-# xdj_rx:
-#   name: "XDJ-RX"
-#   icon: mdi:music
-#   entities:
-#     - device_tracker.xdj_rx
-#     - device_tracker.ping_xdj_rx
-#     - binary_sensor.xdj_rx
+juesiphone6splus:
+  name: "Jue iPhone 6s Plus"
+  icon: mdi:cellphone-iphone
+  entities:
+    - device_tracker.juesiphone6splus
+    - device_tracker.hass_juesiphone6splus
+    - device_tracker.ping_juesiphone6splus
+    - binary_sensor.juesiphone6splus
+
+juesipadmini2:
+  name: "Jue iPad Mini 2"
+  icon: mdi:tablet-ipad
+  entities:
+    - device_tracker.juesipadmini2
+    - device_tracker.hass_juesipadmini2
+    - device_tracker.ping_juesipadmini2
+    - binary_sensor.juesipadmini2
+
+pepe:
+  name: "Pe Macbook Pro"
+  icon: mdi:laptop-mac
+  entities:
+    - device_tracker.pepe
+    - device_tracker.ping_pepe
+    - binary_sensor.pepe
+
+sinbad:
+  name: "Pe Newc Macbook Pro"
+  icon: mdi:laptop-mac
+  entities:
+    - device_tracker.sinbad
+    - device_tracker.ping_sinbad
+    - binary_sensor.sinbad
+
+pepework:
+  name: "Pe Dell Laptop"
+  icon: mdi:laptop-windows
+  entities:
+    - device_tracker.pepework
+    - device_tracker.ping_pepework
+    - binary_sensor.pepework
+
+pesipodtouch4:
+  name: "iPod Touch BMW"
+  icon: mdi:cellphone-dock
+  entities:
+    - device_tracker.pesipodtouch4
+    - device_tracker.ping_pesipodtouch4
+    - binary_sensor.pesipodtouch4
+
+benjysiphone6:
+  name: "Benjys iPhone 6"
+  icon: mdi:cellphone-iphone
+  entities:
+    - device_tracker.benjysiphone6
+    - device_tracker.ping_benjysiphone6
+    - binary_sensor.benjysiphone6
+
+benjysipadmini2:
+  name: "Benjy iPad Mini 2"
+  icon: mdi:tablet-ipad
+  entities:
+    - device_tracker.benjysipadmini2
+    - device_tracker.ping_benjysipadmini2
+    - binary_sensor.benjysipadmini2
+
+benjawan:
+  name: "Benjy Macbook Pro"
+  icon: mdi:laptop-mac
+  entities:
+    - device_tracker.benjawan
+    - device_tracker.ping_benjawan
+    - binary_sensor.benjawan
+
+boom:
+  name: "Boom"
+  icon: mdi:cellphone-android
+  entities:
+    - device_tracker.boom
+    - device_tracker.ping_boom
+    - binary_sensor.boom
+
+dune:
+  name: "Dune Base"
+  icon: mdi:movie-roll
+  entities:
+    - device_tracker.dune
+    - device_tracker.ping_dune
+    - binary_sensor.dune
+
+xdj_rx:
+  name: "XDJ-RX"
+  icon: mdi:music
+  entities:
+    - device_tracker.xdj_rx
+    - device_tracker.ping_xdj_rx
+    - binary_sensor.xdj_rx
