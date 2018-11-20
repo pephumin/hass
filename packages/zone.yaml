@@ -262,10 +262,6 @@ automation:
     trigger:
       - platform: template
         value_template: '{{ is_state("device_tracker.pesiphone7plus", "not_home") and is_state("device_tracker.hass_pesiphone7plus", "not_home") and is_state("device_tracker.ping_pesiphone7plus", "not_home") }}'
-      # - platform: template
-      #   value_template: '{{ is_state("device_tracker.ping_pesiphone7plus", "not_home") }}'
-      # # - platform: template
-      #   value_template: '{{  }}'
       - platform: template
         value_template: '{{ states.proximity.pe_home.state | float > 500 }}'
     condition:
@@ -329,8 +325,6 @@ automation:
         value_template: '{{ is_state("device_tracker.juesiphone6splus", "home") or is_state("device_tracker.hass_juesiphone6splus", "home") }}'
       - platform: template
         value_template: '{{ is_state("device_tracker.ping_juesiphone6splus", "home") }}'
-      # - platform: template
-      #   value_template: '{{  }}'
       - platform: template
         value_template: '{{ states.proximity.jue_home.state | float < 50 }}'
     condition:
@@ -555,9 +549,6 @@ automation:
           color_name: '{% if (states.proximity.jue_home.state | float > 2500) and (states.proximity.jue_home.state | float < 3500) %}blue{% elif (states.proximity.jue_home.state | float > 1500) and (states.proximity.jue_home.state | float < 2500) %}orange{% elif (states.proximity.jue_home.state | float > 500) and (states.proximity.jue_home.state | float < 1500) %}red{% endif %}'
           brightness: 50
           flash: "short"
-      # - service: ifttt.trigger
-      #   data_template:
-      #     event: '{% if (states.proximity.jue_home.state | float > 2500) and (states.proximity.jue_home.state | float < 3500) %}3km{% elif (states.proximity.jue_home.state | float > 1500) and (states.proximity.jue_home.state | float < 2500) %}2km{% elif (states.proximity.jue_home.state | float > 500) and (states.proximity.jue_home.state | float < 1500) %}1km{% endif %}'
       - service: script.notifying
         data_template:
           email: "true"
@@ -587,9 +578,6 @@ automation:
           color_name: '{% if (states.proximity.pe_home.state | float > 2500) and (states.proximity.pe_home.state | float < 3500) %}blue{% elif (states.proximity.pe_home.state | float > 1500) and (states.proximity.pe_home.state | float < 2500) %}orange{% elif (states.proximity.pe_home.state | float > 500) and (states.proximity.pe_home.state | float < 1500) %}red{% endif %}'
           brightness: 50
           flash: "short"
-      # - service: ifttt.trigger
-      #   data_template:
-      #     event: '{% if (states.proximity.pe_home.state | float > 2500) and (states.proximity.pe_home.state | float < 3500) %}3km{% elif (states.proximity.pe_home.state | float > 1500) and (states.proximity.pe_home.state | float < 2500) %}2km{% elif (states.proximity.pe_home.state | float > 500) and (states.proximity.pe_home.state | float < 1500) %}1km{% endif %}'
       - service: script.notifying
         data_template:
           email: "true"
@@ -620,58 +608,58 @@ automation:
         value_template: '{{ is_state("device_tracker.benjysiphone6", "not_home") and is_state("device_tracker.ping_benjysiphone6", "not_home") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.presence_benjy", "on") and and is_state("binary_sensor.benjysiphone6", "off")  }}'
+        value_template: '{{ is_state("input_boolean.presence_benjy", "on") and is_state("binary_sensor.benjysiphone6", "off")  }}'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.presence_benjy
 
-  # - alias: "Benjy Arrives Home"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: input_boolean.presence_benjy
-  #       from: 'off'
-  #       to: 'on'
-  #       for:
-  #         minutes: 1
-  #         seconds: 30
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("binary_sensor.benjy", "on") }}'
-  #   action:
-  #     - service: script.notifying
-  #       data_template:
-  #         email: "true"
-  #         tv: "true"
-  #         line: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "short"
-  #         mobile: "both"
-  #         message: "Benjy visits and she has arrived"
-  #
-  # - alias: "Benjy Leaves Home"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: input_boolean.presence_benjy
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 1
-  #         seconds: 30
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("binary_sensor.benjy", "off") }}'
-  #   action:
-  #     - service: script.notifying
-  #       data_template:
-  #         email: "true"
-  #         tv: "true"
-  #         line: "true"
-  #         speak: "true"
-  #         audio: "siren"
-  #         light: "short"
-  #         mobile: "both"
-  #         message: "Beny has left"
+  - alias: "Benjy Arrives Home"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_benjy
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 1
+          seconds: 30
+    condition:
+      - condition: template
+        value_template: '{{ is_state("binary_sensor.benjy", "on") }}'
+    action:
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "siren"
+          light: "short"
+          mobile: "both"
+          message: "Benjy visits and she has arrived"
+
+  - alias: "Benjy Leaves Home"
+    trigger:
+      - platform: state
+        entity_id: input_boolean.presence_benjy
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 1
+          seconds: 30
+    condition:
+      - condition: template
+        value_template: '{{ is_state("binary_sensor.benjy", "off") }}'
+    action:
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "siren"
+          light: "short"
+          mobile: "both"
+          message: "Beny has left"
 
   - alias: "Set Home Mode"
     trigger:
