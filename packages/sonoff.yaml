@@ -206,7 +206,7 @@ group:
       - switch.sva
       - switch.svb
 
-automation:
+# automation:
 
   # - alias: "Auto Double Subwoofer On"
   #   trigger:

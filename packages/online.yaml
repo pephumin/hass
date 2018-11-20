@@ -286,69 +286,103 @@ group:
       - binary_sensor.charon
       - binary_sensor.callisto
       - binary_sensor.bmw
-      - binary_sensor.bluebird
+      - binary_sensor.pong
       - binary_sensor.freed
 
 automation:
 
-  # - alias: 'Bedroom online switch restart'
-  #   trigger:
-  #     - platform: time
-  #       minutes: '/60'
-  #       seconds: 00
-  #   condition:
-  #     - condition: or
-  #       conditions:
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.moon", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
-  #   action:
-  #     - service: script.turn_on
-  #       entity_id: script.restart_calypso
-  #     - service: counter.increment
-  #       entity_id: counter.bedroom
-
   - alias: 'Common Room Online Switch Restart'
     trigger:
-      - platform: time
-        minutes: '/60'
-        seconds: 00
-      - condition: or
-        conditions:
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.foscam_r2", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.candy", "off") }}'
+      - platform: state
+        entity_id: binary_sensor.foscam_black
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: binary_sensor.foscam_r2
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: binary_sensor.broadlink_rm_mini_b
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: binary_sensor.candy
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ is_state("switch.ganymede", "on") and (is_state("binary_sensor.foscam_r2", "off") or is_state("binary_sensor.broadlink_rm_mini_b", "off") or is_state("binary_sensor.candy", "off")) }}'
     action:
        - service: script.turn_on
          entity_id: script.restart_ganymede
        - service: counter.increment
          entity_id: counter.commonroom
 
-  # - alias: 'Common Room RM restart'
+  # - alias: 'Common Room Online Switch Restart'
   #   trigger:
   #     - platform: time
   #       minutes: '/60'
   #       seconds: 00
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
+  #     - condition: or
+  #       conditions:
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.foscam_r2", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.candy", "off") }}'
   #   action:
-  #     - service: script.turn_on
-  #       entity_id: script.restart_phoebe
-  #     # - service: counter.increment
-  #     #   entity_id: counter.commonroom
-  #
-  # - alias: 'Common Room Foscam Black & R2 restart'
+  #      - service: script.turn_on
+  #        entity_id: script.restart_ganymede
+  #      - service: counter.increment
+  #        entity_id: counter.commonroom
+
+  - alias: 'Bedroom Online Switch Restart'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.neptune
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: binary_sensor.moon
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: binary_sensor.broadlink_rm_mini_a
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: binary_sensor.doughnut
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{{ is_state("switch.hyperion", "on") and (is_state("binary_sensor.moon", "off") or is_state("binary_sensor.broadlink_rm_mini_a", "off") or is_state("binary_sensor.doughnut", "off")) }}'
+    action:
+       - service: script.turn_on
+         entity_id: script.restart_hyperion
+       - service: counter.increment
+         entity_id: counter.bedroom
+
+  # - alias: 'Bedroom Online Switch Restart'
   #   trigger:
   #     - platform: time
   #       minutes: '/60'
@@ -357,62 +391,69 @@ automation:
   #     - condition: or
   #       conditions:
   #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
+  #           value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
   #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.foscam_r2", "off") }}'
-  #         # - condition: template
-  #         #   value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
-  #         # - condition: template
-  #         #   value_template: '{{ is_state("binary_sensor.wemos_lite_party", "off") }}'
+  #           value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.moon", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
   #   action:
   #     - service: script.turn_on
-  #       entity_id: script.restart_ganymede
+  #       entity_id: script.restart_hyperion
   #     - service: counter.increment
-  #       entity_id: counter.commonroom
-
-  - alias: 'Bedroom Online Switch Restart'
-    trigger:
-      - platform: time
-        minutes: '/60'
-        seconds: 00
-    condition:
-      - condition: or
-        conditions:
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.moon", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
-    action:
-      - service: script.turn_on
-        entity_id: script.restart_hyperion
-      - service: counter.increment
-        entity_id: counter.bedroom
+  #       entity_id: counter.bedroom
 
   - alias: 'First Floor Online Switch Restart'
     trigger:
-      - platform: time
-        minutes: '/60'
-        seconds: 00
+      - platform: state
+        entity_id: binary_sensor.foscam_white
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: binary_sensor.earth
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: binary_sensor.uranus
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
     condition:
-      - condition: or
-        conditions:
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.foscam_white", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.earth", "off") }}'
-          - condition: template
-            value_template: '{{ is_state("binary_sensor.uranus", "off") }}'
-          # - condition: template
-          #   value_template: '{{ is_state("binary_sensor.mercury", "off") }}'
+      - condition: template
+        value_template: '{{ is_state("switch.charon", "on") and (is_state("binary_sensor.foscam_white", "off") or is_state("binary_sensor.earth", "off") or is_state("binary_sensor.uranus", "off")) }}'
     action:
-      - service: script.turn_on
-        entity_id: script.restart_charon
-      - service: counter.increment
-        entity_id: counter.firstfloor
+       - service: script.turn_on
+         entity_id: script.restart_charon
+       - service: counter.increment
+         entity_id: counter.firstfloor
+
+  # - alias: 'First Floor Online Switch Restart'
+  #   trigger:
+  #     - platform: time
+  #       minutes: '/60'
+  #       seconds: 00
+  #   condition:
+  #     - condition: or
+  #       conditions:
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.foscam_white", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.earth", "off") }}'
+  #         - condition: template
+  #           value_template: '{{ is_state("binary_sensor.foscam_white", "off") }}'
+  #         # - condition: template
+  #         #   value_template: '{{ is_state("binary_sensor.mercury", "off") }}'
+  #   action:
+  #     - service: script.turn_on
+  #       entity_id: script.restart_charon
+  #     - service: counter.increment
+  #       entity_id: counter.firstfloor
 
   - alias: "Car Online"
     trigger:
@@ -421,7 +462,7 @@ automation:
         from: 'off'
         to: 'on'
       - platform: state
-        entity_id: binary_sensor.bluebird
+        entity_id: binary_sensor.pong
         from: 'off'
         to: 'on'
       - platform: state
@@ -454,7 +495,7 @@ automation:
         for:
           minutes: 1
       - platform: state
-        entity_id: binary_sensor.bluebird
+        entity_id: binary_sensor.pong
         from: 'on'
         to: 'off'
         for:

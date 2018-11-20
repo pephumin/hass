@@ -2,20 +2,20 @@ devices:
   name: "Devices"
   icon: mdi:account
   entities:
-    - group.pesiphone7plus
+    - device_tracker.pesiphone7plus
     # - sensor.battery_pesiphone7plus
-    - group.pesipadmini2
+    - device_tracker.pesipadmini2
     # - sensor.battery_pesipadmini2
-    - group.juesiphone6splus
+    - device_tracker.juesiphone6splus
     # - sensor.battery_juesiphone6splus
-    - group.juesipadmini2
+    - device_tracker.juesipadmini2
     # - sensor.battery_juesipadmini2
     # - device_tracker.pesipodtouch4
     # - sensor.battery_pesipodtouch4
-    - group.pepe
+    - device_tracker.pepe
     # - sensor.battery_pepe
-    - group.pepework
-    - group.sinbad
+    - device_tracker.pepework
+    - device_tracker.sinbad
 
 # devices_sensors:
 #   name: "Devices"
@@ -44,10 +44,10 @@ friends:
   name: "Friends"
   icon: mdi:account-multiple
   entities:
-    - group.benjysiphone6
-    - group.benjysipadmini2
-    - group.benjawan
-    - group.boom
+    - binary_sensor.benjysiphone6
+    - binary_sensor.benjysipadmini2
+    - binary_sensor.benjawan
+    - binary_sensor.boom
 
 cas:
   name: "Cars"
