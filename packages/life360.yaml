@@ -1,12 +1,12 @@
-device_tracker:
-  - platform: life360
-    username: phumin
-    password: !secret my_password
-    interval_seconds: 10
-    filename: life360.conf
-    show_as_state: places, driving, moving
-    max_update_wait:
-      minutes: 30
+# device_tracker:
+#   - platform: life360
+#     username: phumin
+#     password: !secret my_password
+#     interval_seconds: 10
+#     filename: life360.conf
+#     show_as_state: places, driving, moving
+#     max_update_wait:
+#       minutes: 30
 
 automation:
 
