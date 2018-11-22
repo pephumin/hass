@@ -1,3 +1,7 @@
+- platform: ios
+  name: iOSApp
+  target: 'PHUMIN'
+
 - platform: nfandroidtv
   name: tv
   host: !secret kodi_ip
@@ -47,7 +51,12 @@
 #     - service: email
 
 - platform: gntp
-  name: growl
+  name: growl1
+  hostname: 192.168.1.200
+  password: !secret my_password
+
+- platform: gntp
+  name: growl2
   hostname: 192.168.1.250
   password: !secret my_password
 

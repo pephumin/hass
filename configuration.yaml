@@ -137,6 +137,7 @@ homekit:
 
 # ifttt:
 #   key: !secret ifttt_key
+ios:
 
 light:
   platform: hue
@@ -149,6 +150,7 @@ logger:
   logs:
     homeassistant.components.automation: info
     homeassistant.components.device_tracker: critical
+    homeassistant.components.device_tracker.life360: debug
     homeassistant.components.http: warning
     homeassistant.components.hue: debug
     homeassistant.components.input_boolean: debug
@@ -156,8 +158,9 @@ logger:
     homeassistant.components.ios: debug
     homeassistant.components.mqtt: info
     homeassistant.components.media_player: critical
-    homeassistant.components.notify: warning
+    homeassistant.components.notify: debug
     homeassistant.components.proximity: critical
+    homeassistant.components.recorder: debug
     homeassistant.components.script: debug
     homeassistant.components.sensor: debug
     homeassistant.components.sensor.command_line: warning

@@ -12,6 +12,7 @@ control:
     - input_boolean.presence_benjy
     - input_boolean.presence_pe_benjawan
     - input_boolean.presence_jue_malaiwan
+    - input_boolean.presence_xdj_rx
 
 control_cr:
   name: "Common Room Control Panel"

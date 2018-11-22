@@ -760,12 +760,22 @@ s_line:
       data_template:
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
-s_mbp:
+s_mbp1:
   alias: "Sub-notify script Macbook Pro"
   sequence:
     - condition: template
       value_template: '{{ is_state("device_tracker.pepe", "home") }}'
-    - service: notify.growl
+    - service: notify.growl1
+      data_template:
+        title: '{{ title if title else message }}'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+
+s_mbp2:
+  alias: "Sub-notify script the New Macbook Pro"
+  sequence:
+    - condition: template
+      value_template: '{{ is_state("device_tracker.sinbad", "home") }}'
+    - service: notify.growl2
       data_template:
         title: '{{ title if title else message }}'
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
@@ -814,7 +824,11 @@ notifying:
     #   data_template:
     #     title: '{{ title }}'
     #     message: '{{ message }}'
-    - service: script.s_mbp
+    - service: script.s_mbp1
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
+    - service: script.s_mbp2
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'
