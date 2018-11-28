@@ -50,15 +50,15 @@
 #     - service: tv
 #     - service: email
 
-- platform: gntp
-  name: growl1
-  hostname: 192.168.1.200
-  password: !secret my_password
+# - platform: gntp
+#   name: growl1
+#   hostname: 192.168.1.200
+#   password: !secret my_password
 
-- platform: gntp
-  name: growl2
-  hostname: 192.168.1.250
-  password: !secret my_password
+# - platform: gntp
+#   name: growl2
+#   hostname: 192.168.1.250
+#   password: !secret my_password
 
 # - platform: facebook
 #   name: facebook
