@@ -24,6 +24,7 @@ default_view:
     - camera.foscam_r2
     - camera.foscam_black
     - camera.foscam_white
+    - camera.foscam_common_room
     - camera.current_location_pe
     - camera.current_location_jue
     - group.hue_all
