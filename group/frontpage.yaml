@@ -21,12 +21,10 @@ default_view:
     - media_player.music_player_daemon
     - media_player.mpd_raspberry_pi
     - group.foscam
-    - camera.foscam_r2
+    # - camera.foscam_r2
     - camera.foscam_black
     - camera.foscam_white
     - camera.foscam_common_room
-    - camera.current_location_pe
-    - camera.current_location_jue
     - group.hue_all
 
 common_room:
@@ -44,7 +42,8 @@ common_room:
     - media_player.avr2113_airtunes_speaker
     - media_player.living_room_apple_tv_airtunes_speaker
     - media_player.mpd_raspberry_pi
-    - camera.foscam_r2
+    # - camera.foscam_r2
+    - camera.foscam_common_room
     - camera.foscam_black
     - group.home_server
     - group.online_cr
@@ -83,8 +82,6 @@ first_floor:
     - media_player.first_floor_aex_airtunes_speaker
     - media_player.satellite_aex_airtunes_speaker
     - media_player.mpd_raspberry_pi
-    - camera.current_location_pe
-    - camera.current_location_jue
     - group.friends
     - group.cars
     - group.stats_ff
