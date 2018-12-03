@@ -765,20 +765,20 @@ s_mbp1:
   sequence:
     - condition: template
       value_template: '{{ is_state("device_tracker.pepe", "home") }}'
-    - service: notify.growl1
-      data_template:
-        title: '{{ title if title else message }}'
-        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+    # - service: notify.growl1
+    #   data_template:
+    #     title: '{{ title if title else message }}'
+    #     message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
 s_mbp2:
   alias: "Sub-notify script the New Macbook Pro"
   sequence:
     - condition: template
       value_template: '{{ is_state("device_tracker.sinbad", "home") }}'
-    - service: notify.growl2
-      data_template:
-        title: '{{ title if title else message }}'
-        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+    # - service: notify.growl2
+    #   data_template:
+    #     title: '{{ title if title else message }}'
+    #     message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
 s_tv:
   alias: "Sub-notify script TV"
@@ -824,14 +824,14 @@ notifying:
     #   data_template:
     #     title: '{{ title }}'
     #     message: '{{ message }}'
-    - service: script.s_mbp1
-      data_template:
-        title: '{{ title }}'
-        message: '{{ message }}'
-    - service: script.s_mbp2
-      data_template:
-        title: '{{ title }}'
-        message: '{{ message }}'
+    # - service: script.s_mbp1
+    #   data_template:
+    #     title: '{{ title }}'
+    #     message: '{{ message }}'
+    # - service: script.s_mbp2
+    #   data_template:
+    #     title: '{{ title }}'
+    #     message: '{{ message }}'
     - service: script.s_light
       data_template:
         light: '{{ light if (light == "long" or light == "short" or light == "once" or light == "false") else "false" }}'
