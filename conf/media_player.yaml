@@ -1,7 +1,7 @@
-# - platform: apple_tv
-#   name: "Apple TV"
-#   host: !secret apple_tv_ip
-#   login_id: !secret apple_tv_login_id
+- platform: apple_tv
+  name: "Apple TV"
+  host: !secret apple_tv_ip
+  login_id: !secret apple_tv_login_id
 
 - platform: denonavr
   name: "Denon"
