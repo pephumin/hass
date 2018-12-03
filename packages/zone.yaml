@@ -40,94 +40,54 @@ proximity:
     zone: home
     devices:
       - device_tracker.pesiphone7plus
-      # - device_tracker.hass_pesiphone7plus
     tolerance: 20
     unit_of_measurement: m
   jue_home:
     zone: home
     devices:
       - device_tracker.juesiphone6splus
-      # - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   jue_malaiwan:
     zone: malaiwan
     devices:
       - device_tracker.juesiphone6splus
-      # - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   pe_benjawan:
     zone: benjawan
     devices:
       - device_tracker.pesiphone7plus
-      # - device_tracker.hass_pesiphone7plus
     tolerance: 20
     unit_of_measurement: m
   seaconsquare:
     zone: seacon_square
     devices:
       - device_tracker.pesiphone7plus
-      # - device_tracker.hass_pesiphone7plus
       - device_tracker.juesiphone6splus
-      # - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   paradisepark:
     zone: paradise_park
     devices:
       - device_tracker.pesiphone7plus
-      # - device_tracker.hass_pesiphone7plus
       - device_tracker.juesiphone6splus
-      # - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   centralbangna:
     zone: central_bangna
     devices:
       - device_tracker.pesiphone7plus
-      # - device_tracker.hass_pesiphone7plus
       - device_tracker.juesiphone6splus
-      # - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
   foodland:
     zone: foodland
     devices:
       - device_tracker.pesiphone7plus
-      # - device_tracker.hass_pesiphone7plus
       - device_tracker.juesiphone6splus
-      # - device_tracker.hass_juesiphone6splus
     tolerance: 20
     unit_of_measurement: m
-
-camera:
-  - platform: generic
-    name: Current Location Pe
-    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.pesiphone7plus.attributes.latitude }},{{ states.device_tracker.pesiphone7plus.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:P%7C{{ states.device_tracker.pesiphone7plus.attributes.latitude }},{{ states.device_tracker.pesiphone7plus.attributes.longitude }}
-    limit_refetch_to_url_change: true
-  - platform: generic
-    name: Current Location Jue
-    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.juesiphone6splus.attributes.latitude }},{{ states.device_tracker.juesiphone6splus.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:red%7Clabel:P%7C{{ states.device_tracker.juesiphone6splus.attributes.latitude }},{{ states.device_tracker.juesiphone6splus.attributes.longitude }}
-    limit_refetch_to_url_change: true
-
-# sensor:
-#    - platform: template
-#      sensors:
-#        group_pesiphone7plus:
-#          value_template: '{% if states.group.pesiphone7plus.state == "Malaiwan" %}Malaiwan{% elif states.group.pesiphone7plus.state == "Benjawan" %}Benjawan{% elif states.group.pesiphone7plus.state == "Home" %}Home{% else %}Away{% endif %}'
-#        group_pesipadmini2:
-#          value_template: '{% if states.group.pesipadmini2.state == "Malaiwan" %}Malaiwan{% elif states.group.pesipadmini2.state == "Benjawan" %}Benjawan{% elif states.group.pesipadmini2.state == "Home" %}Home{% else %}Away{% endif %}'
-#        group_juesiphone6splus:
-#          value_template: '{% if states.group.juesiphone6splus.state == "Malaiwan" %}Malaiwan{% elif states.group.juesiphone6splus.state == "Benjawan" %}Benjawan{% elif states.group.juesiphone6splus.state == "Home" %}Home{% else %}Away{% endif %}'
-#        group_jueipadmini2:
-#          value_template: '{% if states.group.juesipadmini2.state == "Malaiwan" %}Malaiwan{% elif states.group.juesipadmini2.state == "Benjawan" %}Benjawan{% elif states.group.juesipadmini2.state == "Home" %}Home{% else %}Away{% endif %}'
-#        group_pepe:
-#          value_template: '{% if states.group.pepe.state == "Malaiwan" %}Malaiwan{% elif states.group.pepe.state == "Benjawan" %}Benjawan{% elif states.group.pepe.state == "Home" %}Home{% else %}Away{% endif %}'
-#        group_pepework:
-#          value_template: '{% if states.group.pepework.state == "Malaiwan" %}Malaiwan{% elif states.group.pepework.state == "Benjawan" %}Benjawan{% elif states.group.pepework.state == "Home" %}Home{% else %}Away{% endif %}'
-#        group_sinbad:
-#          value_template: '{% if states.group.sinbad.state == "Malaiwan" %}Malaiwan{% elif states.group.sinbad.state == "Benjawan" %}Benjawan{% elif states.group.sinbad.state == "Home" %}Home{% else %}Away{% endif %}'
 
 binary_sensor:
   - platform: ping
@@ -201,7 +161,11 @@ input_boolean:
     initial: on
     icon: mdi:owl
   presence_benjy:
-    name: "Benjy Visits"
+    name: "Benjy at Home"
+    initial: off
+    icon: mdi:robot
+  presence_boom:
+    name: "Boom at Home"
     initial: off
     icon: mdi:robot
   presence_pe_benjawan:
@@ -247,10 +211,16 @@ automation:
 
   - alias: "Pe is at Luzern"
     trigger:
+      # - platform: template
+      #   value_template: '{{ is_state("device_tracker.pesiphone7plus", "home") and is_state("device_tracker.hass_pesiphone7plus", "home") }}'
       - platform: template
-        value_template: '{{ is_state("device_tracker.pesiphone7plus", "home") or is_state("device_tracker.hass_pesiphone7plus", "home") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone7plus", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.hass_pesiphone7plus", "home") }}'
       - platform: template
         value_template: '{{ is_state("device_tracker.ping_pesiphone7plus", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.pesiphone7plus", "on") }}'
       - platform: template
         value_template: '{{ states.proximity.pe_home.state | float < 50 }}'
     condition:
@@ -332,10 +302,16 @@ automation:
 
   - alias: "Jue is at Luzern"
     trigger:
+      # - platform: template
+      #   value_template: '{{ is_state("device_tracker.juesiphone6splus", "home") or is_state("device_tracker.hass_juesiphone6splus", "home") }}'
       - platform: template
-        value_template: '{{ is_state("device_tracker.juesiphone6splus", "home") or is_state("device_tracker.hass_juesiphone6splus", "home") }}'
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "home")}}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.hass_juesiphone6splus", "home")}}'
       - platform: template
         value_template: '{{ is_state("device_tracker.ping_juesiphone6splus", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.juesiphone6splus", "on") }}'
       - platform: template
         value_template: '{{ states.proximity.jue_home.state | float < 50 }}'
     condition:
@@ -417,8 +393,12 @@ automation:
 
   - alias: "Jue is at Malaiwan"
     trigger:
+      # - platform: template
+      #   value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") or is_state("device_tracker.hass_juesiphone6splus", "Malaiwan") }}'
       - platform: template
-        value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") or is_state("device_tracker.hass_juesiphone6splus", "Malaiwan") }}'
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.hass_juesiphone6splus", "Malaiwan") }}'
       - platform: template
         value_template: '{{ states.proximity.jue_malaiwan.state | float < 50 }}'
     condition:
@@ -427,11 +407,13 @@ automation:
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_jue_malaiwan
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_jue
 
   - alias: "Jue is not at Malaiwan"
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Malaiwan") or not is_state("device_tracker.hass_juesiphone6splus", "Malaiwan") }}'
+        value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Malaiwan") and not is_state("device_tracker.hass_juesiphone6splus", "Malaiwan") }}'
       - platform: template
         value_template: '{{ states.proximity.jue_malaiwan.state | float > 500 }}'
     condition:
@@ -461,15 +443,6 @@ automation:
           light: "short"
           mobile: "pe"
           message: "Jue has arrived Malaiwan"
-      # - service: notify_pesiphone7plus
-      #   data:
-      #     message: "Pe has arrived Malaiwan"
-      #     data:
-      #       push:
-      #         category: map
-      #       action_data:
-      #         latitude: !secret latitude_malaiwan
-      #         longitude: !secret longitude_malaiwan
 
   - alias: "Jue Leaves Malaiwan"
     trigger:
@@ -494,8 +467,12 @@ automation:
 
   - alias: "Pe is at Benjawan"
     trigger:
+      # - platform: template
+      #   value_template: '{{ is_state("device_tracker.pesiphone7plus", "Benjawan") or is_state("device_tracker.hass_pesiphone7plus", "Benjawan") }}'
       - platform: template
-        value_template: '{{ is_state("device_tracker.pesiphone7plus", "Benjawan") or is_state("device_tracker.hass_pesiphone7plus", "Benjawan") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone7plus", "Benjawan")  }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.hass_pesiphone7plus", "Benjawan") }}'
       - platform: template
         value_template: '{{ states.proximity.pe_benjawan.state | float < 50 }}'
     condition:
@@ -504,11 +481,13 @@ automation:
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_pe_benjawan
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pe
 
   - alias: "Pe is not at Benjawan"
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.pesiphone7plus", "Benjawan") or not is_state("device_tracker.hass_pesiphone7plus", "Benjawan") }}'
+        value_template: '{{ not is_state("device_tracker.pesiphone7plus", "Benjawan") and not is_state("device_tracker.hass_pesiphone7plus", "Benjawan") }}'
       - platform: template
         value_template: '{{ states.proximity.pe_benjawan.state | float > 500 }}'
     condition:
@@ -538,15 +517,6 @@ automation:
           light: "short"
           mobile: "jue"
           message: "Pe has arrived Benjawan"
-      # - service: notify_pesiphone7plus
-      #   data:
-      #     message: "Pe has arrived Benjawan"
-      #     data:
-      #       push:
-      #         category: map
-      #       action_data:
-      #         latitude: !secret latitude_benjawan
-      #         longitude: !secret longitude_benjawan
 
   - alias: "Pe Leaves Benjawan"
     trigger:
@@ -629,11 +599,17 @@ automation:
 
   - alias: "Benjy is at Luzern"
     trigger:
+      # - platform: template
+      #   value_template: '{{ is_state("device_tracker.benjysiphone6", "home") and is_state("binary_sensor.benjysiphone6", "on") }}'
       - platform: template
-        value_template: '{{ is_state("device_tracker.benjysiphone6", "home") and is_state("device_tracker.ping_benjysiphone6", "home") }}'
+        value_template: '{{ is_state("device_tracker.benjysiphone6", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.ping_benjysiphone6", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.benjysiphone6", "on") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.presence_benjy", "off") and is_state("binary_sensor.benjysiphone6", "on") }}'
+        value_template: '{{ is_state("input_boolean.presence_benjy", "off") }}'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.presence_benjy
@@ -641,13 +617,45 @@ automation:
   - alias: "Benjy is not at Luzern"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.benjysiphone6", "not_home") and is_state("device_tracker.ping_benjysiphone6", "not_home") }}'
+        value_template: '{{ is_state("device_tracker.benjysiphone6", "not_home") and is_state("device_tracker.ping_benjysiphone6", "not_home") and is_state("binary_sensor.benjysiphone6", "off") }}'
+      # - platform: template
+      #   value_template: '{{ is_state("device_tracker.ping_benjysiphone6", "not_home") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.presence_benjy", "on") and is_state("binary_sensor.benjysiphone6", "off") }}'
+        value_template: '{{ is_state("input_boolean.presence_benjy", "on") }}'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.presence_benjy
+
+  - alias: "Boom is at Luzern"
+    trigger:
+      # - platform: template
+      #   value_template: '{{ is_state("device_tracker.boom", "home") or  is_state("binary_sensor.boom", "on") }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.boom", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.ping_boom", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.boom", "on") }}'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_boom", "off") }}'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.presence_boom
+
+  - alias: "Boom is not at Luzern"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("device_tracker.boom", "not_home") and is_state("device_tracker.ping_boom", "not_home") and is_state("binary_sensor.boom", "off")  }}'
+      # - platform: template
+      #   value_template: '{{ is_state("device_tracker.ping_boom", "not_home") }}'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.presence_boom", "on") }}'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_boom
 
   - alias: "Set Home Mode"
     trigger:
@@ -669,9 +677,15 @@ automation:
         to: 'off'
         for:
           minutes: 3
+      - platform: state
+        entity_id: input_boolean.presence_boom
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 3
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.presence_benjy", "off") }}'
+        value_template: '{{ is_state("input_boolean.presence_benjy", "off") and is_state("input_boolean.presence_boom", "off") }}'
     action:
       - service: input_select.select_option
         data:
@@ -763,6 +777,12 @@ automation:
     trigger:
       - platform: state
         entity_id: input_boolean.presence_benjy
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 3
+      - platform: state
+        entity_id: input_boolean.presence_boom
         from: 'off'
         to: 'on'
         for:

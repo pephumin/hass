@@ -10,6 +10,7 @@ control:
     - sensor.mimas_temperature
     - sensor.pandora_temperature
     - input_boolean.presence_benjy
+    - input_boolean.presence_boom
     - input_boolean.presence_pe_benjawan
     - input_boolean.presence_jue_malaiwan
     - input_boolean.presence_xdj_rx
