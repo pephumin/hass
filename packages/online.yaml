@@ -248,7 +248,7 @@ group:
       - binary_sensor.ganymede
       - binary_sensor.mimas
       - binary_sensor.phoebe
-      # - binary_sensor.sva
+      - binary_sensor.sva
       # - binary_sensor.svb
       - binary_sensor.wemos_lite_party
       - binary_sensor.nodemcu_matrix_clock
@@ -284,6 +284,7 @@ group:
       - binary_sensor.earth
       - binary_sensor.charon
       - binary_sensor.callisto
+      - binary_sensor.front_door
       - binary_sensor.bmw
       - binary_sensor.pong
       - binary_sensor.freed
@@ -483,7 +484,7 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "pe"
-          message: 'Turn off Garage light because {{ trigger.from_state.attributes.friendly_name }} has gone online'
+          message: 'Turn on Garage light because {{ trigger.from_state.attributes.friendly_name }} gets online'
 
   - alias: "Car Offline"
     trigger:
@@ -525,7 +526,7 @@ automation:
   - alias: "XDJ-RX is online"
     trigger:
       - platform: template
-        value_template: '{{ is_state("binary_sensor.xdj_rx", "on") }}'
+        value_template: '{{ is_state("device_tracker.ping_xdj_rx", "home") and is_state("binary_sensor.xdj_rx", "on") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_xdj_rx", "off")  }}'
@@ -536,7 +537,7 @@ automation:
   - alias: "XDJ-RX is offline"
     trigger:
       - platform: template
-        value_template: '{{ is_state("binary_sensor.xdj_rx", "off") }}'
+        value_template: '{{ is_state("device_tracker.ping_xdj_rx", "not_home") and is_state("binary_sensor.xdj_rx", "off") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_xdj_rx", "on") }}'
@@ -564,7 +565,7 @@ automation:
           line: "true"
           speak: "true"
           audio: "chime"
-          light: "once"
+          light: "false"
           mobile: "pe"
           message: "XDJ-RX is now on!!!"
       # - service: notify_pesiphone7plus
@@ -597,6 +598,6 @@ automation:
           line: "true"
           speak: "true"
           audio: "chime"
-          light: "once"
+          light: "false"
           mobile: "pe"
           message: "XDJ-RX is now off!!!"
