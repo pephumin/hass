@@ -18,22 +18,22 @@ zone:
     icon: mdi:shopping
     latitude: !secret latitude_seaconsquare
     longitude: !secret longitude_seaconsquare
-    radius: 100
+    radius: 200
   - name: Paradise Park
     icon: mdi:shopping
     latitude: !secret latitude_paradisepark
     longitude: !secret longitude_paradisepark
-    radius: 100
+    radius: 200
   - name: Central Bangna
     icon: mdi:shopping
     latitude: !secret latitude_centralbangna
     longitude: !secret longitude_centralbangna
-    radius: 100
+    radius: 200
   - name: Foodland
     icon: mdi:food
     latitude: !secret latitude_foodland
     longitude: !secret longitude_foodland
-    radius: 100
+    radius: 150
 
 proximity:
   pe_home:
@@ -599,10 +599,6 @@ automation:
 
   - alias: "Benjy is at Luzern"
     trigger:
-      # - platform: template
-      #   value_template: '{{ is_state("device_tracker.benjysiphone6", "home") and is_state("binary_sensor.benjysiphone6", "on") }}'
-      - platform: template
-        value_template: '{{ is_state("device_tracker.benjysiphone6", "home") }}'
       - platform: template
         value_template: '{{ is_state("device_tracker.ping_benjysiphone6", "home") }}'
       - platform: template
@@ -617,9 +613,7 @@ automation:
   - alias: "Benjy is not at Luzern"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.benjysiphone6", "not_home") and is_state("device_tracker.ping_benjysiphone6", "not_home") and is_state("binary_sensor.benjysiphone6", "off") }}'
-      # - platform: template
-      #   value_template: '{{ is_state("device_tracker.ping_benjysiphone6", "not_home") }}'
+        value_template: '{{ is_state("device_tracker.ping_benjysiphone6", "not_home") and is_state("binary_sensor.benjysiphone6", "off") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_benjy", "on") }}'
@@ -629,10 +623,6 @@ automation:
 
   - alias: "Boom is at Luzern"
     trigger:
-      # - platform: template
-      #   value_template: '{{ is_state("device_tracker.boom", "home") or  is_state("binary_sensor.boom", "on") }}'
-      - platform: template
-        value_template: '{{ is_state("device_tracker.boom", "home") }}'
       - platform: template
         value_template: '{{ is_state("device_tracker.ping_boom", "home") }}'
       - platform: template
@@ -647,9 +637,7 @@ automation:
   - alias: "Boom is not at Luzern"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.boom", "not_home") and is_state("device_tracker.ping_boom", "not_home") and is_state("binary_sensor.boom", "off")  }}'
-      # - platform: template
-      #   value_template: '{{ is_state("device_tracker.ping_boom", "not_home") }}'
+        value_template: '{{ is_state("device_tracker.ping_boom", "not_home") and is_state("binary_sensor.boom", "off") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_boom", "on") }}'
