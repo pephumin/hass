@@ -727,7 +727,7 @@ s_speak2:
     - service: media_player.volume_set
       data_template:
         entity_id: media_player.mpd_raspberry_pi
-        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}0.8{% endif%}'
+        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}1.0{% endif%}'
     - service: media_player.play_media
       data_template:
         entity_id: media_player.mpd_raspberry_pi
@@ -760,32 +760,32 @@ s_line:
       data_template:
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
-s_mbp1:
-  alias: "Sub-notify script Macbook Pro"
-  sequence:
-    - condition: template
-      value_template: '{{ is_state("device_tracker.pepe", "home") }}'
-    # - service: notify.growl1
-    #   data_template:
-    #     title: '{{ title if title else message }}'
-    #     message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+# s_mbp1:
+#   alias: "Sub-notify script Macbook Pro"
+#   sequence:
+#     - condition: template
+#       value_template: '{{ is_state("device_tracker.pepe", "home") }}'
+#     - service: notify.growl1
+#       data_template:
+#         title: '{{ title if title else message }}'
+#         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
 s_mbp2:
   alias: "Sub-notify script the New Macbook Pro"
   sequence:
     - condition: template
-      value_template: '{{ is_state("device_tracker.sinbad", "home") }}'
-    # - service: notify.growl2
-    #   data_template:
-    #     title: '{{ title if title else message }}'
-    #     message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
+      value_template: '{{ is_state("binary_sensor.sinbad", "on") }}'
+    - service: notify.growl2
+      data_template:
+        title: '{{ title if title else message }}'
+        message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
-s_tv:
-  alias: "Sub-notify script TV"
+s_television:
+  alias: "Sub-notify script Television"
   sequence:
     - condition: template
       value_template: '{{ tv != "false" and is_state("binary_sensor.android_box", "on") }}'
-    - service: notify.tv
+    - service: notify.television
       data_template:
         title: '{{ title if title else message }}'
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
@@ -818,8 +818,8 @@ s_light:
 notifying:
   alias: "Notify script"
   sequence:
-    - condition: template
-      value_template: '{{ is_state("script.notifying", "off") }}'
+    # - condition: template
+    #   value_template: '{{ is_state("script.notifying", "off") }}'
     # - service: script.s_file
     #   data_template:
     #     title: '{{ title }}'
@@ -828,10 +828,10 @@ notifying:
     #   data_template:
     #     title: '{{ title }}'
     #     message: '{{ message }}'
-    # - service: script.s_mbp2
-    #   data_template:
-    #     title: '{{ title }}'
-    #     message: '{{ message }}'
+    - service: script.s_mbp2
+      data_template:
+        title: '{{ title }}'
+        message: '{{ message }}'
     - service: script.s_light
       data_template:
         light: '{{ light if (light == "long" or light == "short" or light == "once" or light == "false") else "false" }}'
@@ -846,7 +846,7 @@ notifying:
         line: '{{ line if (line == "pe" or line == "jue" or line == "both" or line == "false") else "false" }}'
         title: '{{ title }}'
         message: '{{ message }}'
-    - service: script.s_tv
+    - service: script.s_television
       data_template:
         tv: '{{ tv if (tv == "true" or tv == "false") else "true" }}'
         title: '{{ title }}'
