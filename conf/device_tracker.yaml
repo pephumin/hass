@@ -45,13 +45,13 @@
 #     track_new_devices: True
 #     hide_if_away: False
 
-- platform: owntracks
-  max_gps_accuracy: 100
-  waypoints: True
-  mqtt_topic: "owntracks/#"
-  new_device_defaults:
-    track_new_devices: False
-    hide_if_away: False
+# - platform: owntracks
+#   max_gps_accuracy: 100
+#   waypoints: True
+#   mqtt_topic: "owntracks/#"
+#   new_device_defaults:
+#     track_new_devices: False
+#     hide_if_away: False
 
 # - platform: mqtt
 #   devices:
