@@ -89,6 +89,44 @@ light:
     retain: true
     optimistic: true
     unique_id: e216ff53-ad8b-4c2d-8acc-aabe35f4329c
+  - platform: mqtt
+    name: "SVA1"
+    state_topic: "stat/sva/POWER1"
+    command_topic: "cmnd/sva/POWER1"
+    availability_topic: "tele/sva/LWT"
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: 3c95ae74-31a1-43b6-8a42-40198326207c
+  - platform: mqtt
+    name: "SVA2"
+    state_topic: "stat/sva/POWER2"
+    command_topic: "cmnd/sva/POWER2"
+    availability_topic: "tele/sva/LWT"
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: c1efe643-46d6-4087-9171-b7997818d11c
+
+binary_sensor:
+  - platform: mqtt
+    name: "Front Door"
+    state_topic: "cmnd/sva/POWER2"
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: door
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: a2c81956-bdcd-4b00-8bad-977d3bce825b
 
 sensor:
   - platform: mqtt
@@ -203,7 +241,8 @@ group:
       - switch.calypso
       - switch.phoebe
       - switch.charon
-      - switch.sva
+      - switch.sva1
+      - switch.sva2
       - switch.svb
 
 # automation:

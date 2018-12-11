@@ -57,3 +57,7 @@ control_ff:
     - sensor.callisto_humidity
     - switch.charon
     - counter.firstfloor
+    - switch.sva
+    - switch.sva1
+    - switch.sva2
+    - binary_sensor.front_door
