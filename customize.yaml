@@ -474,9 +474,9 @@ binary_sensor.earth:
 binary_sensor.bmw:
   icon: mdi:car-sports
   friendly_name: BMW
-binary_sensor.bluebird:
+binary_sensor.pong:
   icon: mdi:car-sports
-  friendly_name: Bluebird
+  friendly_name: Pong
 binary_sensor.freed:
   icon: mdi:car-sports
   friendly_name: Freed
@@ -732,7 +732,3 @@ sensor.temperature_sdc:
   hidden: true
 sensor.temperature_sdd:
   hidden: true
-binary_sensor.pong:
-  device_class: connectivity
-  friendly_name: Pong
-  icon: car

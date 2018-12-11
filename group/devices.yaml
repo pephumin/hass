@@ -54,7 +54,7 @@ cas:
   icon: mdi:car
   entities:
     - binary_sensor.bmw
-    - binary_sensor.bluebird
+    - binary_sensor.pong
     - binary_sensor.freed
 
 pesiphone7plus:
