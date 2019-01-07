@@ -1,0 +1,837 @@
+group:
+  hue_all:
+    name: "Lights"
+    icon: mdi:lightbulb-outline
+    entities:
+      - light.whites_a1
+      - light.whites_a2
+      - light.whites_a3
+      - light.whites_a4
+      - light.hue_hallway
+      - light.strip
+      - light.hue_1
+      - light.hue_2
+      - light.hue_3
+      - light.hue_4
+      - light.mood
+      - light.warm
+      - light.pandora
+      - light.whites_b1
+      - light.whites_b2
+      - light.callisto
+      - light.warm_garage
+  hue_common_room_all:
+    name: "Common Room Lights"
+    icon: mdi:lightbulb-outline
+    entities:
+      - light.whites_a1
+      - light.whites_a2
+      - light.whites_a3
+      - light.whites_a4
+      - light.mood
+      - light.hue_hallway
+      - light.strip
+  hue_common_room_main:
+    name: "Common Room Main Lights"
+    icon: mdi:lightbulb
+    entities:
+      - light.whites_a1
+      - light.whites_a2
+      - light.whites_a3
+      - light.whites_a4
+  hue_bedroom_all:
+    name: "Bedroom Lights"
+    icon: mdi:lightbulb-outline
+    entities:
+      - light.hue_1
+      - light.hue_2
+      - light.hue_3
+      - light.hue_4
+      - light.warm
+      - light.pandora
+  hue_bedroom_main:
+    name: "Bedroom Main Lights"
+    icon: mdi:lightbulb
+    entities:
+      - light.hue_1
+      - light.hue_2
+      - light.hue_3
+      - light.hue_4
+  hue_first_floor_all:
+    name: "First Floor Lights"
+    icon: mdi:lightbulb-outline
+    entities:
+      - light.whites_b1
+      - light.whites_b2
+      - light.callisto
+      - light.warm_garage
+  hue_first_floor_main:
+    name: "First Floor Main Lights"
+    icon: mdi:lightbulb
+    entities:
+      - light.whites_b1
+      - light.whites_b2
+  flashlights:
+    name: "Flash Lights"
+    icon: mdi:alarm-light
+    entities:
+      - light.hue_3
+      - light.hue_4
+      - light.whites_a3
+      - light.whites_a4
+      - light.whites_b1
+      - light.whites_b2
+  common_room_scenes:
+    name: "Common Room Light Scenes"
+    icon: mdi:duck
+    control: hidden
+    entities:
+      - scene.common_room_off
+      - scene.common_room_bright
+      - scene.common_room_dim
+  bedroom_scenes:
+    name: "Bedroom Light Scenes"
+    icon: mdi:duck
+    control: hidden
+    entities:
+      - scene.bedroom_off
+      - scene.bedroom_very_bright
+      - scene.bedroom_bright
+      - scene.bedroom_night
+      - scene.bedroom_sleep
+      - scene.bedroom_blossom
+      - scene.bedroom_savanna
+      - scene.bedroom_twilight
+      - scene.bedroom_aurora
+  first_floor_scenes:
+    name: First Floor Light Scenes
+    icon: mdi:duck
+    control: hidden
+    entities:
+      - scene.first_floor_off
+      - scene.first_floor_bright
+      - scene.first_floor_dim
+
+sensor:
+  - platform: random
+    name: "Random Sensor 1"
+    minimum: 0
+    maximum: 255
+  - platform: random
+    name: "Random Sensor 2"
+    minimum: 0
+    maximum: 255
+  - platform: random
+    name: "Random Sensor 3"
+    minimum: 0
+    maximum: 255
+
+scene:
+  - name: "All Lights Off"
+    entities:
+      group.hue_all:
+        state: off
+  - name: "Common Room Off"
+    entities:
+      group.hue_common_room_all:
+        state: off
+  - name: "Common Room Bright"
+    entities:
+      light.whites_a1:
+        state: on
+        transition: 1
+        brightness: 124
+      light.whites_a2:
+        state: on
+        transition: 1
+        brightness: 124
+      light.whites_a3:
+        state: on
+        transition: 1
+        brightness: 254
+      light.whites_a4:
+        state: on
+        transition: 1
+        brightness: 254
+      light.strip:
+        state: off
+      light.hue_hallway:
+        state: off
+  - name: "Common Room Dim"
+    entities:
+      light.whites_a1:
+        state: off
+      light.whites_a2:
+        state: off
+      light.whites_a3:
+        state: on
+        transition: 1
+        brightness: 35
+      light.whites_a4:
+        state: on
+        transition: 1
+        brightness: 35
+      light.strip:
+        state: off
+      light.hue_hallway:
+        state: off
+  - name: "Bedroom Off"
+    entities:
+      group.hue_bedroom_all:
+        state: off
+  - name: "Bedroom Very Bright"
+    entities:
+      light.hue_1:
+        state: on
+        transition: 1
+        brightness: 127
+        xy_color: [0.3145,0.3303]
+      light.hue_2:
+        state: on
+        transition: 1
+        brightness: 127
+        xy_color: [0.3145,0.3303]
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 254
+        xy_color: [0.3145,0.3303]
+      light.hue_4:
+        state: on
+        transition: 1
+        brightness: 254
+        xy_color: [0.3145,0.3303]
+      light.warm:
+        state: off
+      light.mood:
+        state: off
+      light.pandora:
+        state: off
+  - name: "Bedroom Bright"
+    entities:
+      light.hue_1:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.2951,0.2930]
+      light.hue_2:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.2951,0.2930]
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 127
+        xy_color: [0.2951,0.2930]
+      light.hue_4:
+        state: on
+        transition: 1
+        brightness: 127
+        xy_color: [0.2951,0.2930]
+      light.warm:
+        state: off
+      light.mood:
+        state: off
+      light.pandora:
+        state: off
+  - name: "Bedroom Night"
+    entities:
+      light.hue_1:
+        state: off
+      light.hue_2:
+        state: off
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 220
+        xy_color: [0.3685,0.3717]
+      light.hue_4:
+        state: off
+      light.warm:
+        state: off
+      light.mood:
+        state: off
+      light.pandora:
+        state: on
+  - name: "Bedroom Sleep"
+    entities:
+      light.hue_1:
+        state: off
+      light.hue_2:
+        state: off
+      light.hue_3:
+        state: off
+      light.hue_4:
+        state: off
+      light.warm:
+        state: off
+      light.mood:
+        state: on
+        transition: 1
+        brightness: 70
+        xy_color: [0.3227,0.5086]
+      light.pandora:
+        state: off
+  - name: "Bedroom Blossom"
+    entities:
+      light.hue_1:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.3944,0.2952]
+      light.hue_2:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.3944,0.2952]
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 123
+        xy_color: [0.3944,0.2952]
+      light.hue_4:
+        state: on
+        transition: 1
+        brightness: 123
+        xy_color: [0.3944,0.2952]
+      light.warm:
+        state: off
+      light.mood:
+        state: off
+      light.pandora:
+        state: off
+  - name: "Bedroom Savanna"
+    entities:
+      light.hue_1:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.6406,0.3333]
+      light.hue_2:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.4640,0.4513]
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 123
+        xy_color: [0.6406,0.3333]
+      light.hue_4:
+        state: on
+        transition: 1
+        brightness: 123
+        xy_color: [0.5888,0.3536]
+      light.warm:
+        state: off
+      light.mood:
+        state: off
+      light.pandora:
+        state: off
+  - name: "Bedroom Twilight"
+    entities:
+      light.hue_1:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.5997,0.3765]
+      light.hue_2:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.3581,0.2871]
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 123
+        xy_color: [0.5993,0.3765]
+      light.hue_4:
+        state: on
+        transition: 1
+        brightness: 123
+        xy_color: [0.3581,0.2872]
+      light.warm:
+        state: off
+      light.mood:
+        state: off
+      light.pandora:
+        state: off
+  - name: "Bedroom Aurora"
+    entities:
+      light.hue_1:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.2351,0.1743]
+      light.hue_2:
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.1684,0.0416]
+      light.hue_3:
+        state: on
+        transition: 1
+        brightness: 123
+        xy_color: [0.2916,0.2860]
+      light.hue_4:
+        state: on
+        transition: 1
+        brightness: 123
+        xy_color: [0.3108,0.3239]
+      light.warm:
+        state: off
+      light.mood:
+        state: off
+      light.pandora:
+        state: off
+  - name: "First Floor Off"
+    entities:
+      group.hue_first_floor_all:
+        state: off
+  - name: "First Floor Bright"
+    entities:
+      light.whites_b1:
+        state: on
+        transition: 1
+        brightness: 254
+      light.whites_b2:
+        state: on
+        transition: 1
+        brightness: 254
+      light.warm_garage:
+        state: on
+        transition: 1
+        brightness: 124
+      light.callisto:
+        state: on
+  - name: "First Floor Dim"
+    entities:
+      light.whites_b1:
+        state: on
+        transition: 1
+        brightness: 35
+      light.whites_b2:
+        state: on
+        transition: 1
+        brightness: 35
+      light.warm_garage:
+        state: off
+      light.callisto:
+        state: off
+
+automation:
+
+  # - alias: "Autolight All Off"
+  #   trigger:
+  #     - platform: time
+  #       at: '00:01:00'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ not is_state("input_select.homemode", "Visitor") }}'
+  #   action:
+  #     - service: script.all_lights_off_but_pandora
+  #     - service: script.notifying
+  #       data_template:
+  #         email: "true"
+  #         tv: "true"
+  #         line: "true"
+  #         speak: "true"
+  #         audio: "chime"
+  #         light: "false"
+  #         mobile: "false"
+  #         message: "All lights are off after midnight"
+
+  - alias: "Autolight Sunset A"
+    initial_state: "on"
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: "-00:15:00"
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") }}'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.strip{% elif is_state("input_select.homemode", "Away") %}light.warm_garage{% elif is_state("input_select.homemode", "Vacation") %}light.warm_garage{% endif %}'
+          transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}5{% elif is_state("input_select.homemode", "Vacation") %}5{% endif %}'
+          brightness: '{% if is_state("input_select.homemode", "Home") %}255{% elif is_state("input_select.homemode", "Away") %}255{% elif is_state("input_select.homemode", "Vacation") %}255{% endif %}'
+          color_name: '{% if is_state("input_select.homemode", "Home") %}blue{% elif is_state("input_select.homemode", "Away") %}{% elif is_state("input_select.homemode", "Vacation") %}{% endif %}'
+          # rgb_color: '{% if is_state("input_select.homemode", "Home") %}({{ range(0,254)|random|int }}, {{ range(0,254)|random|int }}, {{ range(0,254)|random|int }}){% elif is_state("input_select.homemode", "Away") %}{% elif is_state("input_select.homemode", "Vacation") %}{% endif %}'
+          # xy_color: '{% if is_state("input_select.homemode", "Home") %}[{{ range(1,10000)|random/10000|float }}, {{ range(1,10000)|random/10000|float }}]{% elif is_state("input_select.homemode", "Away") %}{% elif is_state("input_select.homemode", "Vacation") %}{% endif %}'
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: '{% if is_state("input_select.homemode", "Home") %}Lightstrip TV{% elif is_state("input_select.homemode", "Away") %}Garage light{% endif %} has been turned on 15 minutes before sunset'
+      - service: light.turn_on
+        data:
+          entity_id: light.strip
+          effect: 'colorloop'
+          transition: 5
+          brightness: 255
+
+  - alias: "Autolight Sunset B"
+    initial_state: "on"
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: "+01:00:00"
+    condition:
+      - condition: template
+        value_template: '{{ is_state("light.strip", "on") or is_state("light.warm_garage", "on") }}'
+    action:
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn off {% if is_state("light.strip", "on") %}TV{% elif is_state("light.warm_garage", "on") %}Garage{% endif %} light after sunset for 1 hour'
+      - service: light.turn_off
+        entity_id: light.strip, light.warm_garage
+        # data_template:
+        #   entity_id: '{% if is_state("input_select.homemode", "Home") %}light.strip{% elif is_state("input_select.homemode", "Away") %}light.warm_garage{% elif is_state("input_select.homemode", "Vacation") %}light.warm_garage{% endif %}'
+
+  - alias: "Autolight 1A"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '19:30:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") }}'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.whites_b1{% elif is_state("input_select.homemode", "Away") %}light.warm_garage{% elif is_state("input_select.homemode", "Vacation") %}light.whites_b2{% endif %}'
+          transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}1{% elif is_state("input_select.homemode", "Vacation") %}1{% endif %}'
+          brightness: '{% if is_state("input_select.homemode", "Home") %}200{% elif is_state("input_select.homemode", "Away") %}255{% elif is_state("input_select.homemode", "Vacation") %}255{% endif %}'
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn on {% if is_state("input_select.homemode", "Home") %}Front 1{% elif is_state("input_select.homemode", "Away") %}Garage{% elif is_state("input_select.homemode", "Vacation") %}Front 2{% endif %} light at 7:30pm'
+
+  - alias: "Autolight 1B"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '20:15:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("light.whites_b1", "on") or is_state("light.warm_garage", "on") or is_state("light.whites_b2", "on") }}'
+    action:
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          # message: 'Turn off {% if is_state("input_select.homemode", "Home") %}Front 1{% elif is_state("input_select.homemode", "Away") %}Garage{% elif is_state("input_select.homemode", "Vacation") %}Front 2{% endif %} light at 8:15pm'
+          message: 'Turn off {% if is_state("light.whites_b1", "on") %}Front 1{% elif is_state("light.warm_garage", "on") %}Garage{% elif is_state("light.whites_b2", "on") %}Front 2{% endif %} light at 8:15pm'
+      - service: light.turn_off
+        entity_id: light.whites_b1, light.warm_garage, light.whites_b2
+        # data_template:
+        #   entity_id: '{% if is_state("input_select.homemode", "Home") %}light.whites_b1{% elif is_state("input_select.homemode", "Away") %}light.warm_garage{% elif is_state("input_select.homemode", "Vacation") %}light.whites_b2{% endif %}'
+
+  - alias: "Autolight 2A"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '20:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") }}'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.callisto{% elif is_state("input_select.homemode", "Away") %}light.whites_b2{% elif is_state("input_select.homemode", "Vacation") %}light.whites_b1{% endif %}'
+          transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}1{% elif is_state("input_select.homemode", "Vacation") %}1{% endif %}'
+          brightness: '{% if is_state("input_select.homemode", "Home") %}200{% elif is_state("input_select.homemode", "Away") %}255{% elif is_state("input_select.homemode", "Vacation") %}255{% endif %}'
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn on {% if is_state("input_select.homemode", "Home") %}Kitchen{% elif is_state("input_select.homemode", "Away") %}Front 2{% elif is_state("input_select.homemode", "Vacation") %}Front 1{% endif %} light at 8:00pm'
+
+  - alias: "Autolight 2B"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '21:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("light.callisto", "on") or is_state("light.whites_b2", "on") or is_state("light.whites_b1", "on") }}'
+    action:
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          # message: 'Turn off {% if is_state("input_select.homemode", "Home") %}Kitchen{% elif is_state("input_select.homemode", "Away") %}Front 2{% elif is_state("input_select.homemode", "Vacation") %}Front 1{% endif %} light at 9:00pm'
+          message: 'Turn off {% if is_state("light.callisto", "on") %}Kitchen{% elif is_state("light.whites_b2", "on") %}Front 2{% elif is_state("light.whites_b1", "on") %}Front 1{% endif %} light at 9:00pm'
+      - service: light.turn_off
+        entity_id: light.callisto, light.whites_b2, light.whites_b1
+        # data_template:
+        #   entity_id: '{% if is_state("input_select.homemode", "Home") %}light.callisto{% elif is_state("input_select.homemode", "Away") %}light.whites_b2{% elif is_state("input_select.homemode", "Vacation") %}light.whites_b1{% endif %}'
+
+  - alias: "Autolight 3A"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '21:30:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") }}'
+    action:
+      - service: light.turn_on
+        data_template:
+          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.warm{% elif is_state("input_select.homemode", "Away") %}light.warm{% elif is_state("input_select.homemode", "Vacation") %}light.whites_a1{% endif %}'
+          transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}1{% elif is_state("input_select.homemode", "Vacation") %}1{% endif %}'
+          brightness: '{% if is_state("input_select.homemode", "Home") %}100{% elif is_state("input_select.homemode", "Away") %}255{% elif is_state("input_select.homemode", "Vacation") %}255{% endif %}'
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn on {% if is_state("input_select.homemode", "Home") %}Warm{% elif is_state("input_select.homemode", "Away") %}Warm{% elif is_state("input_select.homemode", "Vacation") %}Common Room 1{% endif %} light at 9:30pm'
+
+  - alias: "Autolight 3B"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '23:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("light.warm", "on") or is_state("light.whites_a1", "on") }}'
+    action:
+      - service: script.notifying
+        data_template:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          # message: 'Turn off {% if is_state("input_select.homemode", "Home") %}Warm{% elif is_state("input_select.homemode", "Away") %}Warm{% elif is_state("input_select.homemode", "Vacation") %}Common Room 1{% endif %} light at 11:00pm'
+          message: 'Turn off {% if is_state("light.warm", "on") %}Warm{% elif is_state("light.whites_a1", "on") %}Common Room 1{% endif %} light at 9:00pm'
+      - service: light.turn_off
+        entity_id: light.warm, light.whites_a1
+        # data_template:
+        #   entity_id: '{% if is_state("input_select.homemode", "Home") %}light.warm{% elif is_state("input_select.homemode", "Away") %}light.warm{% elif is_state("input_select.homemode", "Vacation") %}light.whites_a1{% endif %}'
+
+  - alias: "Autolight Bedroom 1A"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '18:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("light.pandora", "off") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on")) }}'
+    action:
+      - service: light.turn_on
+        entity_id: light.pandora
+      - service: script.notifying
+        data:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn on Bedroom Night light at 6:00pm'
+
+  - alias: "Autolight Bedroom 1B"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '19:30:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("light.pandora", "on") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on")) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.pandora
+      - service: script.notifying
+        data:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn off Bedroom Night light at 7:30pm'
+
+  - alias: "Autolight Bedroom 2A"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '22:30:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("light.pandora", "off") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on")) }}'
+    action:
+      - service: light.turn_on
+        entity_id: light.pandora
+      - service: script.notifying
+        data:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn on Bedroom Night light again at 10:30pm'
+
+  - alias: "Autolight Bedroom 2B"
+    initial_state: "on"
+    trigger:
+      - platform: time
+        at: '23:00:00'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("light.pandora", "on") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.presence_pe", "on")) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.pandora
+      - service: script.notifying
+        data:
+          email: "true"
+          tv: "true"
+          line: "true"
+          speak: "true"
+          audio: "chime"
+          light: "false"
+          mobile: "false"
+          message: 'Turn off Bedroom Night light again at 11:00pm'
+
+  - alias: "Auto off Welcome light Hallway"
+    initial_state: "on"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (255,106,88)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (220,239,68)) }}'
+    action:
+      - service: script.welcome_light_off_hallway
+
+  # - alias: "Auto off Welcome light TV"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{{ is_state("light.strip", "on") and is_state_attr("light.strip", "rgb_color", (255,104,92)) }}'
+  #     - platform: template
+  #       value_template: '{{ is_state("light.strip", "on") and is_state_attr("light.strip", "rgb_color", (163,255,93)) }}'
+  #     - platform: template
+  #       value_template: '{{ is_state("light.strip", "on") and is_state_attr("light.strip", "rgb_color", (162,255,93)) }}'
+  #   action:
+  #     - service: script.welcome_light_off_tv
+
+  - alias: "Auto off Distance light"
+    initial_state: "on"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (255,0,0)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (255,70,0)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (0,255,88)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (241,255,0)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (235,255,67)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (255,165,39)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (255,68,0)) }}'
+    action:
+      - service: script.distance_light_off
+
+  - alias: "Auto off Reset Light Bedroom 1"
+    initial_state: "on"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.hue_1", "on") and is_state_attr("light.hue_1", "rgb_color", (255,207,120)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_1", "on") and is_state_attr("light.hue_1", "color_temp", 366) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.hue_1
+
+  - alias: "Auto off Reset Light Bedroom 2"
+    initial_state: "on"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.hue_2", "on") and is_state_attr("light.hue_2", "rgb_color", (255,207,120)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_2", "on") and is_state_attr("light.hue_2", "color_temp", 366) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.hue_2
+
+  - alias: "Auto off Reset Light Bedroom 3"
+    initial_state: "on"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.hue_3", "on") and is_state_attr("light.hue_3", "rgb_color", (255,207,120)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_3", "on") and is_state_attr("light.hue_3", "color_temp", 366) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.hue_3
+
+  - alias: "Auto off Reset Light Bedroom 4"
+    initial_state: "on"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.hue_4", "on") and is_state_attr("light.hue_4", "rgb_color", (255,207,120)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_4", "on") and is_state_attr("light.hue_4", "color_temp", 366) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.hue_4
+
+  - alias: "Auto off Reset Light Hallway"
+    initial_state: "on"
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "rgb_color", (255,207,120)) }}'
+      - platform: template
+        value_template: '{{ is_state("light.hue_hallway", "on") and is_state_attr("light.hue_hallway", "color_temp", 366) }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.hue_hallway

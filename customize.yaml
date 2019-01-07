@@ -1,0 +1,745 @@
+device_tracker.pesiphone7plus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Pe iPhone 7 Plus
+device_tracker.ping_pesiphone7plus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Pe iPhone 7 Plus (Ping)
+device_tracker.user_pesiphone7plus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Pe iPhone 7 Plus (Owntracks)
+binary_sensor.pesiphone7plus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Pe iPhone 7 Plus
+group.pesiphone7plus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Pe iPhone 7 Plus
+  assumed_state: false
+sensor.group_pesiphone7plus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Pe iPhone 7 Plus
+device_tracker.pesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Pe iPad Mini 2
+device_tracker.ping_pesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Pe iPad Mini 2 (Ping)
+device_tracker.user_pesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Pe iPad Mini 2 (Owntracks)
+binary_sensor.pesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Pe iPad Mini 2
+group.pesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Pe iPad Mini 2
+  assumed_state: false
+sensor.group_pesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Pe iPad Mini 2
+  assumed_state: false
+# device_tracker.pepe:
+#   icon: mdi:laptop-mac
+#   friendly_name: Pe Macbook Pro
+# device_tracker.ping_pepe:
+#   icon: mdi:laptop-mac
+#   friendly_name: Pe Macbook Pro (Ping)
+# binary_sensor.pepe:
+#   icon: mdi:laptop-mac
+#   friendly_name: Pe Macbook Pro
+# group.pepe:
+#   icon: mdi:laptop-mac
+#   friendly_name: Pe Macbook Pro
+#   assumed_state: false
+# sensor.group_pepe:
+#   icon: mdi:laptop-mac
+#   friendly_name: Pe Macbook Pro
+device_tracker.pepework:
+  icon: mdi:laptop-windows
+  friendly_name: Pe Dell Laptop
+device_tracker.ping_pepework:
+  icon: mdi:laptop-windows
+  friendly_name: Pe Dell Laptop (Ping)
+binary_sensor.pepework:
+  icon: mdi:laptop-windows
+  friendly_name: Pe Dell Laptop
+group.pepework:
+  icon: mdi:laptop-windows
+  friendly_name: Pe Dell Laptop
+  assumed_state: false
+sensor.group_pepework:
+  icon: mdi:laptop-windows
+  friendly_name: Pe Dell Laptop
+device_tracker.sinbad:
+  icon: mdi:laptop-mac
+  friendly_name: Pe Macbook Pro
+device_tracker.ping_sinbad:
+  icon: mdi:laptop-mac
+  friendly_name: Pe Macbook Pro (Ping)
+binary_sensor.sinbad:
+  icon: mdi:laptop-mac
+  friendly_name: Pe Macbook Pro
+group.sinbad:
+  icon: mdi:laptop-mac
+  friendly_name: Pe Macbook Pro
+sensor.group_sinbad:
+  icon: mdi:laptop-mac
+  friendly_name: Pe Macbook Pro
+  assumed_state: false
+device_tracker.pesipodtouch4:
+  icon: mdi:cellphone-dock
+  friendly_name: iPod Touch BMW
+device_tracker.ping_pesipodtouch4:
+  icon: mdi:cellphone-dock
+  friendly_name: iPod Touch BMW (Ping)
+binary_sensor.pesipodtouch4:
+  icon: mdi:cellphone-dock
+  friendly_name: iPod Touch BMW
+group.pesipodtouch4:
+  icon: mdi:cellphone-dock
+  friendly_name: iPod Touch BMW
+  assumed_state: false
+device_tracker.juesiphone6splus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Jue iPhone 6s Plus
+device_tracker.ping_juesiphone6splus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Jue iPhone 6s Plus (Ping)
+device_tracker.user_juesiphone6splus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Jue iPhone 6s Plus (Owntracks)
+binary_sensor.juesiphone6splus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Jue iPhone 6s Plus
+group.juesiphone6splus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Jue iPhone 6s Plus
+  assumed_state: false
+sensor.group_juesiphone6splus:
+  icon: mdi:cellphone-iphone
+  friendly_name: Jue iPhone 6s Plus
+device_tracker.juesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Jue iPad Mini 2
+device_tracker.ping_juesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Jue iPad Mini 2 (Ping)
+device_tracker.user_juesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Jue iPad Mini 2 (Owntracks)
+binary_sensor.juesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Jue iPad Mini 2
+group.juesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Jue iPad Mini 2
+  assumed_state: false
+sensor.group_juesipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Jue iPad Mini 2
+device_tracker.benjysiphone6:
+  icon: mdi:cellphone-iphone
+  friendly_name: BenjysiPhone6
+device_tracker.ping_benjysiphone6:
+  icon: mdi:cellphone-iphone
+  friendly_name: BenjysiPhone6 (Ping)
+binary_sensor.benjysiphone6:
+  icon: mdi:cellphone-iphone
+  friendly_name: BenjysiPhone6
+group.benjysiphone6:
+  icon: mdi:cellphone-iphone
+  friendly_name: BenjysiPhone6
+  assumed_state: false
+sensor.group_benjysiphone6:
+  icon: mdi:cellphone-iphone
+  friendly_name: BenjysiPhone6
+device_tracker.benjysipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Benjy iPad Mini 2
+device_tracker.ping_benjysipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Benjy iPad Mini 2 (Ping)
+binary_sensor.benjysipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Benjy iPad Mini 2
+group.benjysipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Benjy iPad Mini 2
+  assumed_state: false
+sensor.group_benjysipadmini2:
+  icon: mdi:tablet-ipad
+  friendly_name: Benjy iPad Mini 2
+device_tracker.benjawan:
+  icon: mdi:laptop-mac
+  friendly_name: Benjy Macbook Pro
+device_tracker.ping_benjawan:
+  icon: mdi:laptop-mac
+  friendly_name: Benjy Macbook Pro (Ping)
+binary_sensor.benjawan:
+  icon: mdi:laptop-mac
+  friendly_name: Benjy Macbook Pro
+group.benjawan:
+  icon: mdi:laptop-mac
+  friendly_name: Benjy Macbook Pro
+  assumed_state: false
+sensor.group_benjawan:
+  icon: mdi:laptop-mac
+  friendly_name: Benjy Macbook Pro
+device_tracker.boom:
+  icon: mdi:cellphone-android
+  friendly_name: Boom
+binary_sensor.boom:
+  icon: mdi:cellphone-android
+  friendly_name: Boom
+group.boom:
+  icon: mdi:cellphone-android
+  friendly_name: Boom
+  assumed_state: false
+sensor.group_boom:
+  icon: mdi:cellphone-android
+  friendly_name: Boom
+device_tracker.dune:
+  icon: mdi:movie-roll
+  friendly_name: Dune Base
+device_tracker.ping_dune:
+  icon: mdi:movie-roll
+  friendly_name: Dune Base (Ping)
+binary_sensor.dune:
+  icon: mdi:movie-roll
+  friendly_name: Dune Base
+device_tracker.xdj_rx:
+  icon: mdi:music
+  friendly_name: Pioneer XDJ-RX
+device_tracker.ping_xdj_rx:
+  icon: mdi:music
+  friendly_name: Pioneer XDJ-RX (Ping)
+binary_sensor.xdj_rx:
+  icon: mdi:music
+  friendly_name: XDJ-RX
+light.hue_1:
+  icon: mdi:lightbulb
+  friendly_name: Bedroom 1
+light.hue_2:
+  icon: mdi:lightbulb
+  friendly_name: Bedroom 2
+light.hue_3:
+  icon: mdi:lightbulb
+  friendly_name: Bedroom 3
+light.hue_4:
+  icon: mdi:lightbulb
+  friendly_name: Bedroom 4
+light.mood:
+  icon: mdi:spotlight
+  friendly_name: Bedroom Mood
+light.warm:
+  icon: mdi:lamp
+  friendly_name: Bedroom Warm
+light.whites_a1:
+  icon: mdi:ceiling-light
+  friendly_name: Common Room 1
+light.whites_a2:
+  icon: mdi:ceiling-light
+  friendly_name: Common Room 2
+light.whites_a3:
+  icon: mdi:ceiling-light
+  friendly_name: Common Room 3
+light.whites_a4:
+  icon: mdi:ceiling-light
+  friendly_name: Common Room 4
+light.strip:
+  icon: mdi:alarm-light
+  friendly_name: TV
+light.hue_hallway:
+  icon: mdi:spotlight-beam
+  friendly_name: Hallway
+light.whites_b1:
+  icon: mdi:lightbulb-outline
+  friendly_name: First Floor 1
+light.whites_b2:
+  icon: mdi:lightbulb-outline
+  friendly_name: First Floor 2
+light.warm_garage:
+  icon: mdi:spotlight
+  friendly_name: Garage
+camera.foscam_r2:
+  icon: mdi:webcam
+  friendly_name: Foscam R2
+binary_sensor.foscam_r2:
+  icon: mdi:webcam
+  friendly_name: Foscam R2
+camera.foscam_black:
+  icon: mdi:webcam
+  friendly_name: Foscam Black
+binary_sensor.foscam_black:
+  icon: mdi:webcam
+  friendly_name: Foscam Black
+camera.foscam_white:
+  icon: mdi:webcam
+  friendly_name: Foscam White
+binary_sensor.foscam_white:
+  icon: mdi:webcam
+  friendly_name: Foscam White
+sensor.home_to_benjy:
+  icon: mdi:car
+  friendly_name: Home to Benjy
+sensor.benjy_to_home:
+  icon: mdi:car
+  friendly_name: Benjy to Home
+sensor.home_to_malaiwan:
+  icon: mdi:car
+  friendly_name: Home to Malaiwan
+sensor.malaiwan_to_home:
+  icon: mdi:car
+  friendly_name: Malaiwan to Home
+sensor.common_room_temperature:
+  icon: mdi:thermometer
+  friendly_name: Common Room Temperature
+switch.titan:
+  icon: mdi:surround-sound
+  friendly_name: Common Room Home Theatre
+  assumed_state: true
+switch.europa:
+  icon: mdi:surround-sound
+  friendly_name: Bedroom Sound System
+  assumed_state: true
+switch.hometheatre:
+  icon: mdi:surround-sound
+  friendly_name: Common Room Home Theatre
+  assumed_state: true
+switch.common_room_hometheatre:
+  icon: mdi:surround-sound
+  friendly_name: Common Room Home Theatre
+  assumed_state: true
+switch.sonytv:
+  icon: mdi:television
+  friendly_name: Common Room TV
+  assumed_state: true
+switch.android_box:
+  icon: mdi:android
+  friendly_name: Common Room Android Box
+  assumed_state: true
+switch.common_room_air_cond:
+  icon: mdi:air-conditioner
+  friendly_name: Common Room Air Cond
+  assumed_state: true
+switch.common_room_fan:
+  icon: mdi:fan
+  friendly_name: Common Room Fan
+  assumed_state: true
+switch.common_room_saijodenki:
+  icon: mdi:air-conditioner
+  friendly_name: Common Room Air Cond
+  assumed_state: true
+switch.common_room_fanfan:
+  icon: mdi:fan
+  friendly_name: Common Room Fan
+  assumed_state: true
+switch.common_room_tv:
+  icon: mdi:television
+  friendly_name: Common Room TV
+  assumed_state: true
+switch.common_room_android_box:
+  icon: mdi:android
+  friendly_name: Common Room Android Box
+  assumed_state: true
+switch.bedroom_air_cond:
+  icon: mdi:air-conditioner
+  friendly_name: Bedroom Air Cond
+  assumed_state: true
+switch.bedroom_daikin:
+  icon: mdi:air-conditioner
+  friendly_name: Bedroom Air Cond
+  assumed_state: true
+switch.bedroom_tv:
+  icon: mdi:television
+  friendly_name: Bedroom TV
+  assumed_state: true
+switch.bedroom_sound:
+  icon: mdi:amplifier
+  friendly_name: Bedroom Denon
+  assumed_state: true
+switch.foscam_r2_motion:
+  icon: mdi:account-alert
+  friendly_name: Foscam R2 Motion Detection
+  assumed_state: true
+switch.foscam_black_motion:
+  icon: mdi:account-alert
+  friendly_name: Foscam Black Motion Detection
+  assumed_state: true
+switch.foscam_white_motion:
+  icon: mdi:account-alert
+  friendly_name: Foscam White Motion Detection
+  assumed_state: true
+script.mute_common_room:
+  icon: mdi:volume-mute
+  friendly_name: Mute Common Room
+script.mute_bedroom:
+  icon: mdi:volume-mute
+  friendly_name: Mute Bedroom
+script.dj_shuffle:
+  icon: mdi:music-box-outline
+  friendly_name: Playlist DJ
+script.soft_shuffle:
+  icon: mdi:music-box-outline
+  friendly_name: Playlist Soft
+script.bedroom_ac_powerful:
+  icon: mdi:dumbbell
+  friendly_name: AC Powerful
+script.r2_reboot:
+  icon: mdi:restart
+  friendly_name: Restart Foscam R2
+script.black_reboot:
+  icon: mdi:restart
+  friendly_name: Restart Foscam Black
+script.white_reboot:
+  icon: mdi:restart
+  friendly_name: Restart Foscam White
+sensor.cpu_use:
+  icon: mdi:chip
+  friendly_name: CPU Usage
+sensor.ram_use:
+  icon: mdi:memory
+  friendly_name: RAM Usage
+sensor.disk_use_:
+  icon: mdi:harddisk
+  friendly_name: HDD Usage
+sensor.maximum_disk_temperature:
+  icon: mdi:thermometer-lines
+  friendly_name: Maximum Disk Temperature
+sensor.average_disk_temperature:
+  icon: mdi:thermometer
+  friendly_name: Average Disk Temperature
+sensor.denon_source:
+  icon: mdi:amplifier
+  friendly_name: Common Room Denon
+sensor.denonsourcecheck:
+  icon: mdi:amplifier
+  friendly_name: Common Room Denon
+binary_sensor.deeper:
+  icon: mdi:router-wireless
+  friendly_name: Primary Gateway
+binary_sensor.higher:
+  icon: mdi:router-wireless
+  friendly_name: Secondary Gateway
+binary_sensor.pluto:
+  icon: mdi:wifi
+  friendly_name: Airport Extreme
+binary_sensor.neptune:
+  icon: mdi:wifi
+  friendly_name: Airport Express Bedroom
+binary_sensor.uranus:
+  icon: mdi:wifi
+  friendly_name: Airport Express Downstairs
+binary_sensor.mercury:
+  icon: mdi:wifi
+  friendly_name: Airport Express Satellite
+binary_sensor.apollo:
+  icon: mdi:wifi
+  friendly_name: ASUS RT-N12+
+binary_sensor.sputnik:
+  icon: mdi:wifi
+  friendly_name: Ubiquiti Rocket M2
+binary_sensor.apple_tv:
+  icon: mdi:apple
+  friendly_name: Apple TV
+binary_sensor.denon:
+  icon: mdi:amplifier
+  friendly_name: Denon AVR-2113
+binary_sensor.android_box:
+  icon: mdi:android
+  friendly_name: Android Box
+binary_sensor.moon:
+  icon: mdi:orbit
+  friendly_name: Philips Hue
+binary_sensor.broadlink_rm_pro:
+  icon: mdi:remote
+  friendly_name: Broadlink RM Pro
+binary_sensor.broadlink_rm_mini_a:
+  icon: mdi:remote
+  friendly_name: Broadlink RM Mini A
+binary_sensor.broadlink_rm_mini_b:
+  icon: mdi:remote
+  friendly_name: Broadlink RM Mini B
+binary_sensor.doughnut:
+  icon: mdi:google-home
+  friendly_name: Google Home Mini Bedroom
+binary_sensor.candy:
+  icon: mdi:google-home
+  friendly_name: Google Home Mini Common Room
+binary_sensor.biscuit:
+  icon: mdi:google-chrome
+  friendly_name: Google Chromecast
+binary_sensor.earth:
+  icon: mdi:printer
+  friendly_name: Samsung Printer
+binary_sensor.bmw:
+  icon: mdi:car-sports
+  friendly_name: BMW
+binary_sensor.pong:
+  icon: mdi:car-sports
+  friendly_name: Pong
+binary_sensor.freed:
+  icon: mdi:car-sports
+  friendly_name: Freed
+binary_sensor.titan:
+  icon: mdi:power-socket-us
+  friendly_name: TP-Link Plug Common Room
+binary_sensor.europa:
+  icon: mdi:power-socket-us
+  friendly_name: TP-Link Plug Bedroom
+binary_sensor.ganymede:
+  icon: mdi:power-socket
+  friendly_name: Sonoff POW Ganymede
+binary_sensor.callisto:
+  icon: mdi:power-plug
+  friendly_name: Sonoff Basic Callisto
+binary_sensor.mimas:
+  icon: mdi:power-plug
+  friendly_name: Sonoff Basic Mimas
+binary_sensor.pandora:
+  icon: mdi:power-plug
+  friendly_name: Sonoff Basic Pandora
+binary_sensor.phoebe:
+  icon: mdi:power-plug
+  friendly_name: Sonoff Basic Phoebe
+binary_sensor.calypso:
+  icon: mdi:power-plug
+  friendly_name: Sonoff Basic Calypso
+binary_sensor.sva:
+  icon: mdi:video-input-antenna
+  friendly_name: Sonoff SV A
+binary_sensor.svb:
+  icon: mdi:video-input-antenna
+  friendly_name: Sonoff SV B
+binary_sensor.charon:
+  icon: mdi:power-socket-us
+  friendly_name: Sonoff S20 Charon
+binary_sensor.hyperion:
+  icon: mdi:power-socket-us
+  friendly_name: Sonoff S20 Hyperion
+binary_sensor.naked:
+  icon: mdi:power-plug
+  friendly_name: Sonoff Basic Naked
+binary_sensor.wemos_pir:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos PIR
+binary_sensor.wemos_lite_party:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos Lite Party
+binary_sensor.nodemcu_matrix_clock:
+  icon: mdi:video-input-antenna
+  friendly_name: NodeMCU Matrix Clock
+binary_sensor.wemos_pro_bmw:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos Pro BMW
+binary_sensor.wemos_bell:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos Bell
+binary_sensor.wemos_b:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos B
+proximity.jue_home:
+  friendly_name: Jue from Home
+proximity.pe_home:
+  friendly_name: Pe from Home
+proximity.benjy_home:
+  friendly_name: Benjy from Home
+proximity.jue_malaiwan:
+  friendly_name: Jue from Malaiwan
+proximity.pe_benjawan:
+  friendly_name: Pe from Benjy
+proximity.seaconsquare:
+  friendly_name: Seacon Square
+proximity.paradisepark:
+  friendly_name: Paradise Park
+proximity.centralbangna:
+  friendly_name: Central Bangna
+proximity.foodland:
+  friendly_name: Foodland
+switch.ganymede:
+  icon: mdi:power-socket
+  friendly_name: Foscam Online Switch
+  assumed_state: true
+sensor.ganymede_power:
+  icon: mdi:power-socket
+  friendly_name: Ganymede Power
+sensor.ganymede_power_factor:
+  icon: mdi:power-socket
+  friendly_name: Ganymede Power Factor
+sensor.ganymede_current:
+  icon: mdi:pulse
+  friendly_name: Ganymede Current
+sensor.ganymede_voltage:
+  icon: mdi:tower-fire
+  friendly_name: Ganymede Voltage
+sensor.ganymede_uptime:
+  icon: mdi:timelapse
+  friendly_name: Ganymede Uptime
+sensor.ganymede_energy_today:
+  icon: mdi:chart-areaspline
+  friendly_name: Ganymede Energy Today
+sensor.ganymede_energy_yesterday:
+  icon: mdi:chart-areaspline
+  friendly_name: Ganymede Energy Yesterday
+sensor.ganymede_energy_total:
+  icon: mdi:chart-areaspline
+  friendly_name: Ganymede Energy Total
+light.callisto:
+  icon: mdi:lightbulb-on-outline
+  friendly_name: Kitchen
+  assumed_state: false
+sensor.callisto_temperature:
+  icon: mdi:thermometer
+  friendly_name: First Floor Temperature
+sensor.callisto_humidity:
+  icon: mdi:water-percent
+  friendly_name: First Floor Humidity
+switch.mimas:
+  icon: mdi:speaker
+  friendly_name: Common Room Subwoofer
+  assumed_state: true
+sensor.mimas_temperature:
+  icon: mdi:thermometer
+  friendly_name: Common Room Temperature
+sensor.mimas_humidity:
+  icon: mdi:water-percent
+  friendly_name: Common Room Humidity
+light.pandora:
+  icon: mdi:lightbulb-on-outline
+  friendly_name: Bedroom Night
+  assumed_state: false
+sensor.pandora_temperature:
+  icon: mdi:thermometer
+  friendly_name: Bedroom Temperature
+sensor.pandora_humidity:
+  icon: mdi:water-percent
+  friendly_name: Bedroom Humidity
+switch.phoebe:
+  icon: mdi:power-plug
+  friendly_name: Common Room Online Switch
+  assumed_state: true
+switch.charon:
+  icon: mdi:power-socket-us
+  friendly_name: First Floor Online Switch
+  assumed_state: true
+switch.hyperion:
+  icon: mdi:power-socket-us
+  friendly_name: Bedroom Online Switch
+  assumed_state: true
+switch.nakeds:
+  icon: mdi:power-plug
+  friendly_name: Naked
+  assumed_state: true
+sensor.first_floor_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: First Floor Temperature
+sensor.first_floor_humidity_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: First Floor Humidity
+sensor.common_room_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: Common Room Temperature
+sensor.common_room_humidity_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: Common Room Humidity
+sensor.bedroom_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: Bedroom Temperature
+sensor.bedroom_humidity_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: Bedroom Humidity
+sensor.maximum_disk_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: Maximum Saturn Temperature
+sensor.average_disk_temperature_mean:
+  icon: mdi:chart-line-stacked
+  friendly_name: Average Saturn Temperature
+script.android_box_ok:
+  icon: mdi:checkbox-marked-circle
+  friendly_name: Ok Android TV Box
+binary_sensor.front_door:
+  icon: mdi:door
+  friendly_name: Front Door
+light.party:
+  icon: mdi:led-strip
+  friendly_name: Party Light
+light.party_3:
+  icon: mdi:led-strip
+  friendly_name: Party Light
+input_number.led_animation_speed:
+  icon: mdi:fast-forward
+  friendly_name: Speed
+sensor.samsung_m267x_287x_series_192168144:
+  icon: mdi:printer
+  friendly_name: Earth
+sensor.samsung_m267x_287x_series_192168144_toner_black:
+  icon: mdi:printer
+  friendly_name: Earth Toner
+sensor.samsung_m267x_287x_series_192168144_drum_black:
+  icon: mdi:printer
+  friendly_name: Earth Drum
+sensor.samsung_m267x_287x_series_192168144_output_tray_0:
+  icon: mdi:printer
+  friendly_name: Earth Output Tray 0
+sensor.samsung_m267x_287x_series_192168144_tray_1:
+  icon: mdi:printer
+  friendly_name: Earth Tray 1
+sensor.last_boot:
+  hidden: true
+sensor.since_last_boot:
+  hidden: true
+sensor.pes_iphone_6_battery_level:
+  hidden: true
+sensor.pes_iphone_6_battery_level_2:
+  hidden: true
+sensor.pes_iphone_6_battery_level_3:
+  hidden: true
+sensor.pes_iphone_6_battery_state:
+  hidden: true
+sensor.pes_iphone_6_battery_state_2:
+  hidden: true
+sensor.pes_iphone_6_battery_state_3:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_level:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_level_2:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_level_3:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_state:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_state_2:
+  hidden: true
+sensor.jues_iphone_6s_plus_battery_state_3:
+  hidden: true
+sensor.jues_iphone6s_plus_battery_level:
+  hidden: true
+sensor.jues_iphone6s_plus_battery_level_2:
+  hidden: true
+sensor.jues_iphone6s_plus_battery_state:
+  hidden: true
+sensor.jues_iphone6s_plus_battery_state_2:
+  hidden: true
+sensor.pes_ipad_mini_2_battery_level:
+  hidden: true
+sensor.pes_ipad_mini_2_battery_level_2:
+  hidden: true
+sensor.pes_ipad_mini_2_battery_state:
+  hidden: true
+sensor.pes_ipad_mini_2_battery_state_2:
+  hidden: true
+sensor.jues_ipad_mini_2_battery_level:
+  hidden: true
+sensor.jues_ipad_mini_2_battery_level_2:
+  hidden: true
+sensor.jues_ipad_mini_2_battery_state:
+  hidden: true
+sensor.jues_ipad_mini_2_battery_state_2:
+  hidden: true
+sensor.temperature_sda:
+  hidden: true
+sensor.temperature_sdb:
+  hidden: true
+sensor.temperature_sdc:
+  hidden: true
+sensor.temperature_sdd:
+  hidden: true

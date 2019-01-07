@@ -1,0 +1,64 @@
+control:
+  name: "Control Panel"
+  icon: mdi:google-controller
+  control: hidden
+  entities:
+    - input_boolean.presence_pe
+    - input_boolean.presence_jue
+    - input_select.homemode
+    - sensor.callisto_temperature
+    - sensor.mimas_temperature
+    - sensor.pandora_temperature
+    - input_boolean.presence_benjy
+    - input_boolean.presence_boom
+    - input_boolean.presence_pe_benjawan
+    - input_boolean.presence_jue_malaiwan
+    - input_boolean.presence_xdj_rx
+
+control_cr:
+  name: "Common Room Control Panel"
+  icon: mdi:google-controller
+  control: hidden
+  entities:
+    - sensor.mimas_temperature
+    - sensor.mimas_humidity
+    - switch.common_room_air_cond
+    - switch.common_room_fan
+    - switch.common_room_hometheatre
+    - input_select.denon_mode
+    - switch.mimas
+    - script.mute_common_room
+    - script.android_box_ok
+    - sensor.denon_source
+    - switch.ganymede
+    - switch.phoebe
+    - counter.commonroom
+
+control_br:
+  name: "Bedroom Control Panel"
+  icon: mdi:google-controller
+  control: hidden
+  entities:
+    - sensor.pandora_temperature
+    - sensor.pandora_humidity
+    - switch.bedroom_air_cond
+    - switch.europa
+    - script.mute_bedroom
+    - script.bedroom_ac_powerful
+    - switch.hyperion
+    # - switch.calypso
+    - counter.bedroom
+
+control_ff:
+  name: "First Floor Control Panel"
+  icon: mdi:google-controller
+  control: hidden
+  entities:
+    - sensor.callisto_temperature
+    - sensor.callisto_humidity
+    - switch.charon
+    - counter.firstfloor
+    - switch.sva
+    - switch.sva1
+    - switch.sva2
+    - binary_sensor.frontdoor

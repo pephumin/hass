@@ -1,0 +1,90 @@
+default_view:
+  name: Home
+  icon: mdi:home
+  view: yes
+  entities:
+    - group.control
+    - group.proximity
+    - group.daylight
+    - group.devices
+    - group.friends
+    - group.cars
+    - group.home_server
+    # - group.travel
+    - media_player.apple_tv
+    - media_player.biscuit
+    - media_player.denon
+    - media_player.doughnut
+    - media_player.dune
+    - media_player.itunes
+    - media_player.kodi
+    - media_player.music_player_daemon
+    - media_player.mpd_raspberry_pi
+    - group.foscam
+    # - camera.foscam_r2
+    - camera.foscam_black
+    - camera.foscam_white
+    - camera.foscam_common_room
+    - group.hue_all
+
+common_room:
+  name: "Common Room"
+  icon: mdi:television
+  view: yes
+  entities:
+    - group.control_cr
+    - group.party
+    - media_player.apple_tv
+    - media_player.biscuit
+    - media_player.denon
+    - media_player.dune
+    - media_player.kodi
+    - media_player.avr2113_airtunes_speaker
+    - media_player.living_room_apple_tv_airtunes_speaker
+    - media_player.mpd_raspberry_pi
+    # - camera.foscam_r2
+    - camera.foscam_common_room
+    - camera.foscam_black
+    - group.home_server
+    - group.online_cr
+    - group.hue_common_room_all
+    - group.common_room_scenes
+    - group.stats_cr
+
+bedroom:
+  name: "Bedroom"
+  icon: mdi:hotel
+  view: yes
+  entities:
+    - group.control_br
+    - media_player.itunes
+    - group.online_br
+    - group.hue_bedroom_all
+    - group.bedroom_scenes
+    - media_player.doughnut
+    - media_player.itunes
+    - media_player.music_player_daemon
+    - media_player.mpd_raspberry_pi
+    - media_player.bedroom_aex_airtunes_speaker
+    - media_player.computer_airtunes_speaker
+    - group.stats_br
+
+first_floor:
+  name: "First Floor"
+  icon: mdi:fridge
+  view: yes
+  entities:
+    - group.control_ff
+    - camera.foscam_white
+    - group.online_ff
+    - group.hue_first_floor_all
+    - group.first_floor_scenes
+    - media_player.first_floor_aex_airtunes_speaker
+    - media_player.satellite_aex_airtunes_speaker
+    - media_player.mpd_raspberry_pi
+    - group.friends
+    - group.cars
+    - group.stats_ff
+    - group.quick_timer
+    - group.printer
+    - group.proximity_others

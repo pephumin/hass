@@ -1,0 +1,314 @@
+switch:
+  - platform: mqtt
+    name: "Ganymede"
+    state_topic: "stat/ganymede/POWER"
+    command_topic: "cmnd/ganymede/POWER"
+    availability_topic: "tele/ganymede/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: 758b4c1a-943d-45b6-ab58-24a41a357cc2
+  - platform: mqtt
+    name: "Calypso"
+    state_topic: "stat/calypso/POWER"
+    command_topic: "cmnd/calypso/POWER"
+    availability_topic: "tele/calypso/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: f92b1ce3-3cd8-4f0c-8b0e-d7f5201c8084
+  - platform: mqtt
+    name: "Mimas"
+    state_topic: "stat/mimas/POWER"
+    command_topic: "cmnd/mimas/POWER"
+    availability_topic: "tele/mimas/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: 35cad35f-4f70-49fa-9c3c-ac8c84791ba4
+  - platform: mqtt
+    name: "Phoebe"
+    state_topic: "stat/phoebe/POWER"
+    command_topic: "cmnd/phoebe/POWER"
+    availability_topic: "tele/phoebe/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: 3ae0dad4-400d-45c1-8364-cb69c15f4876
+  - platform: mqtt
+    name: "Charon"
+    state_topic: "stat/charon/POWER"
+    command_topic: "cmnd/charon/POWER"
+    availability_topic: "tele/charon/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: f8ce62d8-0a9f-4af6-9b7d-369910fd1472
+  - platform: mqtt
+    name: "Hyperion"
+    state_topic: "stat/hyperion/POWER"
+    command_topic: "cmnd/hyperion/POWER"
+    availability_topic: "tele/hyperion/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: d5e177a9-f336-4b13-8608-480b15e66518
+
+light:
+  - platform: mqtt
+    name: "Pandora"
+    state_topic: "stat/pandora/POWER"
+    command_topic: "cmnd/pandora/POWER"
+    availability_topic: "tele/pandora/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: 9f398da5-7908-4254-8c1c-548629e45e5a
+  - platform: mqtt
+    name: "Callisto"
+    state_topic: "stat/callisto/POWER"
+    command_topic: "cmnd/callisto/POWER"
+    availability_topic: "tele/callisto/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: e216ff53-ad8b-4c2d-8acc-aabe35f4329c
+  # - platform: mqtt
+  #   name: "SVA1"
+  #   state_topic: "stat/sva/POWER1"
+  #   command_topic: "cmnd/sva/POWER1"
+  #   availability_topic: "tele/sva/LWT"
+  #   payload_on: "ON"
+  #   payload_off: "OFF"
+  #   payload_available: "Online"
+  #   payload_not_available: "Offline"
+  #   qos: 1
+  #   retain: true
+  #   optimistic: true
+  #   unique_id: 3c95ae74-31a1-43b6-8a42-40198326207c
+  # - platform: mqtt
+  #   name: "SVA2"
+  #   state_topic: "stat/sva/POWER2"
+  #   command_topic: "cmnd/sva/POWER2"
+  #   availability_topic: "tele/sva/LWT"
+  #   payload_on: "ON"
+  #   payload_off: "OFF"
+  #   payload_available: "Online"
+  #   payload_not_available: "Offline"
+  #   qos: 1
+  #   retain: true
+  #   optimistic: true
+  #   unique_id: c1efe643-46d6-4087-9171-b7997818d11c
+
+binary_sensor:
+  - platform: mqtt
+    name: "Front Door"
+    state_topic: "cmnd/frontdoor/switch2"
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: door
+    qos: 1
+    retain: true
+    optimistic: true
+    unique_id: a2c81956-bdcd-4b00-8bad-977d3bce825b
+
+sensor:
+  - platform: mqtt
+    name: "Ganymede Energy Today"
+    state_topic: "tele/ganymede/SENSOR"
+    value_template: "{{ value_json.ENERGY.Today | round(1) }}"
+    unit_of_measurement: "kWh"
+    # device_class: none
+  - platform: mqtt
+    name: "Ganymede Energy Yesterday"
+    state_topic: "tele/ganymede/SENSOR"
+    value_template: "{{ value_json.ENERGY.Yesterday | round(1) }}"
+    unit_of_measurement: "kWh"
+    # device_class: none
+  - platform: mqtt
+    name: "Ganymede Energy Total"
+    state_topic: "tele/ganymede/SENSOR"
+    value_template: "{{ value_json.ENERGY.Total | round(1) }}"
+    unit_of_measurement: "kWh"
+    # device_class: none
+  - platform: mqtt
+    name: "Ganymede Power"
+    state_topic: "tele/ganymede/SENSOR"
+    value_template: "{{ value_json.ENERGY.Power | round(1) }}"
+    unit_of_measurement: "Watts"
+    # device_class: none
+  - platform: mqtt
+    name: "Ganymede Power Factor"
+    state_topic: "tele/ganymede/SENSOR"
+    value_template: "{{ value_json.ENERGY.Factor | round(2) }}"
+    # device_class: none
+  - platform: mqtt
+    name: "Ganymede Current"
+    state_topic: "tele/ganymede/SENSOR"
+    value_template: "{{ value_json.ENERGY.Current | round(2) }}"
+    unit_of_measurement: "Amps"
+    # device_class: none
+  - platform: mqtt
+    name: "Ganymede Voltage"
+    state_topic: "tele/ganymede/SENSOR"
+    value_template: "{{ value_json.ENERGY.Voltage | round(0) }}"
+    unit_of_measurement: "Volts"
+    # device_class: none
+
+  - platform: mqtt
+    name: "Callisto Temperature"
+    state_topic: "tele/callisto/SENSOR"
+    value_template: "{{ value_json['DHT22'].Temperature }}"
+    unit_of_measurement: "°C"
+    device_class: temperature
+  # - platform: statistics
+  #   entity_id: sensor.callisto_temperature
+  #   name: "First Floor Temperature"
+  - platform: mqtt
+    name: "Callisto Humidity"
+    state_topic: "tele/callisto/SENSOR"
+    value_template: "{{ value_json['DHT22'].Humidity }}"
+    unit_of_measurement: "%"
+    device_class: humidity
+  # - platform: statistics
+  #   entity_id: sensor.callisto_humidity
+  #   name: "First Floor Humidity"
+
+  - platform: mqtt
+    name: "Mimas Temperature"
+    state_topic: "tele/mimas/SENSOR"
+    value_template: "{{ value_json['DHT22'].Temperature }}"
+    unit_of_measurement: "°C"
+    device_class: temperature
+  # - platform: statistics
+  #   entity_id: sensor.mimas_temperature
+  #   name: "Common Room Temperature"
+  - platform: mqtt
+    name: "Mimas Humidity"
+    state_topic: "tele/mimas/SENSOR"
+    value_template: "{{ value_json['DHT22'].Humidity }}"
+    unit_of_measurement: "%"
+    device_class: humidity
+  # - platform: statistics
+  #   entity_id: sensor.mimas_humidity
+  #   name: "Common Room Humidity"
+
+  - platform: mqtt
+    name: "Pandora Temperature"
+    state_topic: "tele/pandora/SENSOR"
+    value_template: "{{ value_json['DHT22'].Temperature }}"
+    unit_of_measurement: "°C"
+    device_class: temperature
+  # - platform: statistics
+  #   entity_id: sensor.pandora_temperature
+  #   name: "Bedroom Temperature"
+  - platform: mqtt
+    name: "Pandora Humidity"
+    state_topic: "tele/pandora/SENSOR"
+    value_template: "{{ value_json['DHT22'].Humidity }}"
+    unit_of_measurement: "%"
+    device_class: humidity
+  # - platform: statistics
+  #   entity_id: sensor.pandora_humidity
+  #   name: "Bedroom Humidity"
+
+group:
+  sonoff:
+    name: "Sonoff"
+    icon: mdi:power-plug
+    control: hidden
+    entities:
+      - switch.ganymede
+      - light.callisto
+      - switch.mimas
+      - light.pandora
+      - switch.calypso
+      - switch.phoebe
+      - switch.charon
+      - switch.sva1
+      - switch.sva2
+      - switch.svb
+
+############## 3-WAY SWITCH ##############
+# switch:
+#   - platform: mqtt
+#     name: "Light Connected"
+#     command_topic: "cmnd/sonoff/power"
+#     state_topic: "stat/sonoff/POWER"
+#     qos: 1
+#     payload_on: "ON"
+#     payload_off: "OFF"
+#     retain: true
+#   - platform: mqtt
+#     name: "Sonoff2"
+#     command_topic: "cmnd/sonoff2/power"
+#     state_topic: "stat/sonoff2/POWER"
+#     qos: 1
+#     payload_on: "ON"
+#     payload_off: "OFF"
+#     hidden: true
+#     retain: true
+#
+# automation:
+#   - alias: "Multi Switch Hall Lights"
+#     trigger:
+#       - platform: state
+#         entity_id: switch.sonoff_11
+#         from: 'off'
+#         to: 'on'
+#       - platform: state
+#         entity_id: switch.sonoff_11
+#         from: 'on'
+#         to: 'off'
+#       - platform: state
+#         entity_id: media_player.denon
+#         from: 'on'
+#         to: 'off'
+#     action:
+#       - service: switch.toggle
+#         entity_id: switch.mimas
+
+# automation:
+
+  # - alias: "Auto Double Subwoofer On"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{% if is_state("sensor.denon_source", "Music") or is_state("sensor.denon_source", "Apple TV") or is_state("sensor.denon_source", "Dune") or is_state("sensor.denon_source", "Biscuit") or is_state("sensor.denon_source", "DVD") or is_state("sensor.denon_source", "AUX") or is_state("sensor.denonsourcecheck", "USB/IPOD") %}true{% else %}false{% endif %}'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("switch.titan", "on") and is_state("media_player.denon", "on") }}'
+  #   action:
+  #     - service: switch.turn_on
+  #       entity_id: switch.mimas
+
+  # - alias: "Auto Double Subwoofer Off"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{% if is_state("sensor.denon_source", "Cable TV") or is_state("sensor.denon_source", "TV") or is_state("sensor.denon_source", "TUNER") or is_state("sensor.denonsourcecheck", "Internet Radio") or is_state("sensor.denonsourcecheck", "NET") %}true{% else %}false{% endif %}'
+  #     - platform: state
+  #       entity_id: switch.titan
+  #       from: 'on'
+  #       to: 'off'
+  #     - platform: state
+  #       entity_id: media_player.denon
+  #       from: 'on'
+  #       to: 'off'
+  #   action:
+  #     - service: switch.turn_off
+  #       entity_id: switch.mimas

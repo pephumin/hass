@@ -1,0 +1,261 @@
+homeassistant:
+  name: Home
+  latitude: !secret latitude_home
+  longitude: !secret longitude_home
+  elevation: -21
+  unit_system: metric
+  time_zone: Asia/Bangkok
+  customize: !include customize.yaml
+  packages: !include_dir_named packages/
+
+apple_tv:
+  name: "Apple TV"
+  host: !secret apple_tv_ip
+  login_id: !secret apple_tv_login_id
+  start_off: false
+  credentials: !secret apple_tv_credentials
+
+browser:
+
+cast:
+  media_player:
+    - host: !secret candy_ip
+    - host: !secret biscuit_ip
+    - host: !secret doughnut_ip
+
+cloud:
+
+config:
+
+conversation:
+
+discovery:
+
+duckdns:
+  domain: phumin
+  access_token: !secret duckdnstoken
+
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
+
+history:
+
+http:
+  api_password: !secret my_password
+  base_url: !secret base_url
+
+homekit:
+  filter:
+    exclude_domains:
+      - input_boolean
+      - script
+    exclude_entities:
+      - sensor.jues_ipad_mini_2_battery_level
+      - sensor.jues_ipad_mini_2_battery_state
+      - sensor.jues_iphone_6s_plus_battery_level
+      - sensor.jues_iphone_6s_plus_battery_state
+      - sensor.pes_ipad_mini_2_battery_level
+      - sensor.pes_ipad_mini_2_battery_state
+      - sensor.pes_iphone_7_plus_battery_level
+      - sensor.pes_iphone_7_plus_battery_state
+      - sensor.battery_juesipadmini2
+      - sensor.battery_juesiphone6splus
+      - sensor.battery_pesipadmini2
+      - sensor.battery_pesiphone7plus
+      - light.discoagroup
+      - light.discoagroupeven
+      - light.discoagroupodd
+      - sensor.processor_use
+      - sensor.memory_use_percent
+      - sensor.bedroom_temperature_mean
+      - sensor.bedroom_humidity_mean
+      - sensor.common_room_temperature_mean
+      - sensor.common_room_humidity_mean
+      - sensor.firstfloor_temperature_mean
+      - sensor.firstfloor_humidity_mean
+      - sensor.earth
+      - sensor.earth_toner_black
+      - sensor.earth_drum_black
+      - sensor.earth_output_tray_0
+      - sensor.earth_tray_1
+      - sensor.samsung_m267x_287x_series_192168144
+      - sensor.samsung_m267x_287x_series_192168144_toner_black
+      - sensor.samsung_m267x_287x_series_192168144_drum_black
+      - sensor.samsung_m267x_287x_series_192168144_output_tray_0
+      - sensor.samsung_m267x_287x_series_192168144_tray_1
+
+hue:
+  bridges:
+    - host: !secret hue_ip
+      filename: phue.conf
+      allow_unreachable: false
+      allow_hue_groups: false
+
+ifttt:
+  key: !secret ifttt_key
+
+ios:
+
+# light:
+#   platform: hue
+#   host: !secret hue_ip
+
+logbook:
+
+logger:
+  default: critical
+  logs:
+    homeassistant.components.automation: info
+    homeassistant.components.device_tracker: critical
+    homeassistant.components.device_tracker.life360: debug
+    homeassistant.components.http: warning
+    homeassistant.components.hue: debug
+    homeassistant.components.input_boolean: debug
+    homeassistant.components.input_select: debug
+    # homeassistant.components.ios: debug
+    # homeassistant.components.mqtt: debug
+    homeassistant.components.media_player: critical
+    # homeassistant.components.notify: debug
+    homeassistant.components.notify.gntp: debug
+    homeassistant.components.proximity: critical
+    homeassistant.components.recorder: debug
+    homeassistant.components.script: debug
+    homeassistant.components.sensor: debug
+    homeassistant.components.sensor.command_line: warning
+    homeassistant.components.sensor.speedtest: warning
+    # :homeassistant.components.mqtt: debug
+    homeassistant.components.sensoer.systemmonitor: debug
+    homeassistant.components.switch.command_line: critical
+    # homeassistant.components.switch.broadlink: debug
+    # homeassistant.components.tts: debug
+
+map:
+
+media_extractor:
+
+mqtt:
+  broker: !secret mqtt_broker
+  port: !secret mqtt_port
+  username: !secret mqtt_username
+  password: !secret my_password
+  client_id: home-assistant
+  keepalive: 60
+  protocol: 3.1.1
+  discovery: true
+  discovery_prefix: homeassistant
+
+owntracks:
+  max_gps_accuracy: 100
+  waypoints: True
+  mqtt_topic: "owntracks/#"
+  new_device_defaults:
+    track_new_devices: False
+    hide_if_away: False
+
+# python_script:
+
+recorder:
+  purge_keep_days: 15
+  purge_interval: 1
+  db_url: !secret db_url
+  exclude:
+    domains:
+      - automation
+      - camera
+      - input_select
+      - input_slider
+      - input_boolean
+      - proximity
+      - scene
+      - script
+      - sensor
+      - zone
+    entities:
+      - binary_sensor.bedroom_colder
+      - binary_sensor.bedroom_warmer
+      - binary_sensor.common_room_colder
+      - binary_sensor.common_room_warmer
+      - binary_sensor.first_floor_colder
+      - binary_sensor.first_floor_warmer
+      - binary_sensor.saturn_disks_are_hot
+      - binary_sensor.saturn_temperature_down
+      - binary_sensor.saturn_temperature_up
+      - remote.apple_tv
+      - sun.sun
+  include:
+    domains:
+      - binary_sensor
+      - counter
+      - device_tracker
+      - media_player
+      - switch
+    entities:
+      - script.callisto_restart
+      - script.ganymede_restart
+      - script.hometheatre_turnoff
+      - script.hometheatre_turnon
+      - sensor.average_disk_temperature
+      - sensor.bedroom_humidity_mean
+      - sensor.bedroom_temperature_mean
+      - sensor.callisto_humidity
+      - sensor.callisto_temperature
+      - sensor.common_room_humidity_mean
+      - sensor.common_room_temperature_mean
+      - sensor.first_floor_humidity_mean
+      - sensor.first_floor_temperature_mean
+      - sensor.maximum_disk_temperature
+      - sensor.mimas_humidity
+      - sensor.mimas_temperature
+      - sensor.pandora_humidity
+      - sensor.pandora_temperature
+
+panel_iframe:
+  configurator:
+    title: Configurator
+    icon: mdi:wrench
+    url: http://192.168.1.10:3218
+
+# rest_command:
+#   shuffle_itunes_dj:
+#     url: !secret shuffle_itunes_dj
+#     method: PUT
+#     payload: '{ "shuffle": true }'
+#   shuffle_itunes_soft:
+#     url: !secret shuffle_itunes_soft
+#     method: PUT
+#     payload: '{ "shuffle": true }'
+#   shuffle_itunes_others:
+#     url: !secret shuffle_itunes_others
+#     method: PUT
+#     payload: '{ "shuffle": true }'
+
+# shell_command:
+#   line_pe: '/config/command/line_pe "{{ message }}"'
+#   line_jue: '/config/command/line_jue "{{ message }}"'
+#   line_both: '/config/command/line_both "{{ message }}"'
+
+# shopping_list:
+
+sun:
+
+tts:
+  - platform: google
+    base_url: 'http://phumin.synology.me:7575'
+    cache: true
+    cache_dir: /config/www/tts
+    time_memory: 300
+
+updater:
+
+wake_on_lan:
+
+zeroconf:
+
+device_tracker: !include conf/device_tracker.yaml
+group: !include_dir_merge_named group/
+media_player: !include conf/media_player.yaml
+notify: !include conf/notify.yaml
+script: !include scripts.yaml
+script old: !include scripts_old.yaml
+automation: !include automations.yaml
+#automation old: !include_dir_merge_list packages/
