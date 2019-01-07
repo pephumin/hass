@@ -7,27 +7,26 @@
 #   max_update_wait:
 #     minutes: 30
 
-# - platform: icloud
-#   username: !secret icloud_username
-#   password: !secret icloud_password
-#   account_name: pe
-#   interval_seconds: 12
-#   consider_home: 180
-#   new_device_defaults:
-#     track_new_devices: True
-#     hide_if_away: False
-
-- platform: icloud2
+- platform: icloud
   username: !secret icloud_username
   password: !secret icloud_password
   account_name: pe
-  filter_devices: ‘phone’
   interval_seconds: 12
   consider_home: 180
   new_device_defaults:
     track_new_devices: True
     hide_if_away: False
 
+# - platform: icloud2
+#   username: !secret icloud_username
+#   password: !secret icloud_password
+#   account_name: pe
+#   filter_devices: ‘phone’
+#   interval_seconds: 12
+#   consider_home: 180
+#   new_device_defaults:
+#     track_new_devices: True
+#     hide_if_away: False
 
 - platform: nmap_tracker
   hosts: 192.168.1.1/24
@@ -100,7 +99,8 @@
     ping_sinbad: 192.168.1.250
     ping_xdj_rx: 192.168.1.45
     ping_dune: 192.168.1.77
-  consider_home: 180
+  consider_home: 1200
+  interval_seconds: 30
   new_device_defaults:
     track_new_devices: False
     hide_if_away: False
