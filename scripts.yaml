@@ -753,12 +753,8 @@ s_speak1:
   alias: "Sub-notify script Speak 1"
   sequence:
     - condition: template
-      value_template: '{{ speak != "false" and is_state("device_tracker.sinbad", "home") }}'
+      value_template: '{{ (speak != "false" or is_state("input_boolean.mpd_silence", "off")) and is_state("device_tracker.sinbad", "home") }}'
     - service: script.ss_volume_down
-    - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.music_player_daemon
-        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}1.0{% endif%}'
     - service: media_player.play_media
       data_template:
         entity_id: media_player.music_player_daemon
@@ -776,26 +772,17 @@ s_speak2:
   alias: "Sub-notify script Speak 2"
   sequence:
     - condition: template
-      value_template: '{{ speak != "false" and is_state("binary_sensor.cookie", "on") }}'
-    - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.mpd_raspberry_pi
-        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}0.3{% endif%}'
+      value_template: '{{ (speak != "false" or is_state("input_boolean.mpd_silence", "off")) and is_state("binary_sensor.cookie", "on") }}'
     - service: media_player.play_media
       data_template:
         entity_id: media_player.mpd_raspberry_pi
         media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
         media_content_type: "audio/mp3"
     - delay: 00:00:01
-    - service: media_player.volume_set
-      data_template:
-        entity_id: media_player.mpd_raspberry_pi
-        volume_level: '{% if is_state("input_boolean.mpd_silence", "on") %}0.0{% else %}0.7{% endif%}'
     - service: tts.google_say
       data_template:
         entity_id: media_player.mpd_raspberry_pi
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
-    - delay: 00:00:03
 
 s_email:
   alias: "Sub-notify script Email"
@@ -816,18 +803,8 @@ s_line:
       data_template:
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
 
-# s_mbp1:
-#   alias: "Sub-notify script Macbook Pro"
-#   sequence:
-#     - condition: template
-#       value_template: '{{ is_state("device_tracker.pepe", "home") }}'
-#     - service: notify.growl1
-#       data_template:
-#         title: '{{ title if title else message }}'
-#         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
-
-s_mbp2:
-  alias: "Sub-notify script the New Macbook Pro"
+s_mbp:
+  alias: "Sub-notify script Macbook Pro"
   sequence:
     - condition: template
       value_template: '{{ is_state("binary_sensor.sinbad", "on") }}'
@@ -880,11 +857,7 @@ notifying:
     #   data_template:
     #     title: '{{ title }}'
     #     message: '{{ message }}'
-    # - service: script.s_mbp1
-    #   data_template:
-    #     title: '{{ title }}'
-    #     message: '{{ message }}'
-    - service: script.s_mbp2
+    - service: script.s_mbp
       data_template:
         title: '{{ title }}'
         message: '{{ message }}'

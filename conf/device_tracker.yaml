@@ -28,6 +28,10 @@
 #     track_new_devices: True
 #     hide_if_away: False
 
+- platform: xiaomi_miio
+  host: !secret mi_repeater2_ip
+  token: !secret mi_repeater2_token
+
 - platform: nmap_tracker
   hosts: 192.168.1.1/24
   home_interval: 10

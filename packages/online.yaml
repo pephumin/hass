@@ -203,23 +203,20 @@ group:
   online_cr:
     name: "Online Status Common Room"
     icon: mdi:lan-connect
+    view: false
     control: hidden
     entities:
       - binary_sensor.deeper
       - binary_sensor.apollo
-      # - binary_sensor.higher
       - binary_sensor.pluto
-      # - binary_sensor.broadlink_rm_pro
       - binary_sensor.broadlink_rm_mini_b
       - binary_sensor.foscam_r2
       - binary_sensor.foscam_black
       - binary_sensor.titan
-      # - binary_sensor.hyperion
       - binary_sensor.ganymede
       - binary_sensor.mimas
       - binary_sensor.phoebe
-      - binary_sensor.sva
-      # - binary_sensor.svb
+      - binary_sensor.svb
       - binary_sensor.wemos_lite_party
       - binary_sensor.nodemcu_matrix_clock
       - binary_sensor.denon
@@ -232,6 +229,7 @@ group:
   online_br:
     name: "Online Status Bedroom"
     icon: mdi:lan-connect
+    view: false
     control: hidden
     entities:
       - binary_sensor.neptune
@@ -244,17 +242,17 @@ group:
   online_ff:
     name: "Online Status First Floor"
     icon: mdi:lan-connect
+    view: false
     control: hidden
     entities:
       - binary_sensor.uranus
       - binary_sensor.mercury
-      # - binary_sensor.sputnik
       - binary_sensor.foscam_white
-      # - binary_sensor.wemos_bell
       - binary_sensor.earth
       - binary_sensor.charon
       - binary_sensor.callisto
       - binary_sensor.front_door
+      - binary_sensor.window
       - binary_sensor.bmw
       - binary_sensor.pong
       - binary_sensor.freed

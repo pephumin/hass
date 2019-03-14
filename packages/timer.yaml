@@ -54,6 +54,8 @@ input_number:
 group:
   quick_timer:
     name: 'Timer'
+    icon: mdi:timer
+    view: false
     entities:
       - input_number.timer_minutes
       - timer.quick_timer

@@ -134,30 +134,28 @@ automation:
         data_template:
           newvolume: '{% if trigger.to_state.state == "Cable TV" %}50{% elif trigger.to_state.state == "Music" or trigger.to_state.state == "Dune" %}40{% elif trigger.to_state.state == "Apple TV" or trigger.to_state.state == "Biscuit" %}45{% else %}false{% endif %}'
 
-  - alias: "Denon Mode aligns"
-    initial_state: "on"
-    trigger:
-      - platform: time
-        minutes: '/5'
-        seconds: 00
-    condition:
-      - condition: or
-        conditions:
-          - condition: template
-            value_template: '{{ is_state("sensor.denon_source", "SAT/CBL") and not is_state("input_select.denon_mode", "Cable TV") }}'
-          - condition: template
-            value_template: '{{ is_state("sensor.denon_source", "CD") and not is_state("input_select.denon_mode", "Music") }}'
-          - condition: template
-            value_template: '{{ is_state("sensor.denon_source", "BD") and not is_state("input_select.denon_mode", "Dune") }}'
-          - condition: template
-            value_template: '{{ is_state("sensor.denon_source", "MPLAY") and not is_state("input_select.denon_mode", "Apple TV") }}'
-          - condition: template
-            value_template: '{{ is_state("sensor.denon_source", "GAME") and not is_state("input_select.denon_mode", "Biscuit") }}'
-          - condition: template
-            value_template: '{{ is_state("sensor.denon_source", "") and not is_state("input_select.denon_mode", "Off") }}'
-    action:
-      - service: input_select.select_option
-        data_template:
-          entity_id: input_select.denon_mode
-          option: '{% if is_state("sensor.denon_source", "SAT/CBL") %}Cable TV{% elif is_state("sensor.denon_source", "CD") %}Music{% elif is_state("sensor.denon_source", "BD") %}Dune{% elif is_state("sensor.denon_source", "MPLAY") %}Apple TV{% elif is_state("sensor.denon_source", "GAME") %}Biscuit{% elif is_state("sensor.denon_source", "") %}Off{% endif %}'
-          # option: '{{ states.sensor.denon_source.state }}'
+  # - alias: "Denon Mode aligns"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: time
+  #       minutes: '/5'
+  #       seconds: 00
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("sensor.denon_source", "SAT/CBL") and not is_state("input_select.denon_mode", "Cable TV") }}'
+  #     - condition: template
+  #       value_template: '{{ is_state("sensor.denon_source", "CD") and not is_state("input_select.denon_mode", "Music") }}'
+  #     - condition: template
+  #       value_template: '{{ is_state("sensor.denon_source", "BD") and not is_state("input_select.denon_mode", "Dune") }}'
+  #     - condition: template
+  #       value_template: '{{ is_state("sensor.denon_source", "MPLAY") and not is_state("input_select.denon_mode", "Apple TV") }}'
+  #     - condition: template
+  #       value_template: '{{ is_state("sensor.denon_source", "GAME") and not is_state("input_select.denon_mode", "Biscuit") }}'
+  #     - condition: template
+  #       value_template: '{{ is_state("sensor.denon_source", "") and not is_state("input_select.denon_mode", "Off") }}'
+  #   action:
+  #     - service: input_select.select_option
+  #       data_template:
+  #         entity_id: input_select.denon_mode
+  #         option: '{% if is_state("sensor.denon_source", "SAT/CBL") %}Cable TV{% elif is_state("sensor.denon_source", "CD") %}Music{% elif is_state("sensor.denon_source", "BD") %}Dune{% elif is_state("sensor.denon_source", "MPLAY") %}Apple TV{% elif is_state("sensor.denon_source", "GAME") %}Biscuit{% elif is_state("sensor.denon_source", "") %}Off{% endif %}'
+  #         # option: '{{ states.sensor.denon_source.state }}'

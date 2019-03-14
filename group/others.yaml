@@ -10,6 +10,7 @@
 daylight:
   name: "Daylight"
   icon: mdi:weather-sunny
+  view: false
   entities:
     - sensor.date
     - sensor.time
@@ -20,6 +21,7 @@ daylight:
 playlists:
   name: "Playlists"
   icon: mdi:library-music
+  view: false
   entities:
     - script.shuffle_playlist_dj
     - script.shuffle_playlist_soft
@@ -27,6 +29,7 @@ playlists:
 kodi:
   name: "Kodi"
   icon: mdi:kodi
+  view: false
   entities:
     - script.kodi_play_youtube_playlist
     - script.kodi_play_music_dj

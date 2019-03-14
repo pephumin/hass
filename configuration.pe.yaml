@@ -5,7 +5,7 @@ homeassistant:
   elevation: -21
   unit_system: metric
   time_zone: Asia/Bangkok
-  customize: !include customize.yaml
+  customize: !include customise.yaml
   packages: !include_dir_named packages/
 
 apple_tv:
@@ -30,19 +30,30 @@ config:
 conversation:
 
 discovery:
+  # ignore:
+  #   - philips_hue
+  #   - homekit
 
 duckdns:
   domain: phumin
   access_token: !secret duckdnstoken
 
 ffmpeg:
-  ffmpeg_bin: /usr/bin/ffmpeg
 
 history:
 
 http:
   api_password: !secret my_password
   base_url: !secret base_url
+  # trusted_proxies: 172.16.0.0/12
+  # trusted_networks: 192.168.1.0/12
+  use_x_forwarded_for: true
+  ip_ban_enabled: true
+  login_attempts_threshold: 3
+  # trusted_networks:
+  #   - 127.0.0.1
+  #   - ::1
+  #   - 192.168.1.0/24
 
 homekit:
   filter:
@@ -87,8 +98,8 @@ homekit:
 hue:
   bridges:
     - host: !secret hue_ip
-      filename: phue.conf
-      allow_unreachable: false
+      filename: /config/phue.conf
+      allow_unreachable: true
       allow_hue_groups: false
 
 ifttt:
@@ -109,10 +120,10 @@ logger:
     homeassistant.components.device_tracker: critical
     homeassistant.components.device_tracker.life360: debug
     homeassistant.components.http: warning
-    homeassistant.components.hue: debug
     homeassistant.components.input_boolean: debug
     homeassistant.components.input_select: debug
     # homeassistant.components.ios: debug
+    homeassistant.components.lights.hue: debug
     # homeassistant.components.mqtt: debug
     homeassistant.components.media_player: critical
     # homeassistant.components.notify: debug
@@ -122,6 +133,7 @@ logger:
     homeassistant.components.script: debug
     homeassistant.components.sensor: debug
     homeassistant.components.sensor.command_line: warning
+    homeassistant.components.glances2: debug
     homeassistant.components.sensor.speedtest: warning
     # :homeassistant.components.mqtt: debug
     homeassistant.components.sensoer.systemmonitor: debug
@@ -171,15 +183,6 @@ recorder:
       - sensor
       - zone
     entities:
-      - binary_sensor.bedroom_colder
-      - binary_sensor.bedroom_warmer
-      - binary_sensor.common_room_colder
-      - binary_sensor.common_room_warmer
-      - binary_sensor.first_floor_colder
-      - binary_sensor.first_floor_warmer
-      - binary_sensor.saturn_disks_are_hot
-      - binary_sensor.saturn_temperature_down
-      - binary_sensor.saturn_temperature_up
       - remote.apple_tv
       - sun.sun
   include:
@@ -194,7 +197,6 @@ recorder:
       - script.ganymede_restart
       - script.hometheatre_turnoff
       - script.hometheatre_turnon
-      - sensor.average_disk_temperature
       - sensor.bedroom_humidity_mean
       - sensor.bedroom_temperature_mean
       - sensor.callisto_humidity
@@ -203,7 +205,6 @@ recorder:
       - sensor.common_room_temperature_mean
       - sensor.first_floor_humidity_mean
       - sensor.first_floor_temperature_mean
-      - sensor.maximum_disk_temperature
       - sensor.mimas_humidity
       - sensor.mimas_temperature
       - sensor.pandora_humidity
@@ -214,6 +215,10 @@ panel_iframe:
     title: Configurator
     icon: mdi:wrench
     url: http://192.168.1.10:3218
+  glances:
+    title: Glances
+    icon: mdi:speedometer
+    url: http://192.168.1.10:61208
 
 # rest_command:
 #   shuffle_itunes_dj:
@@ -237,6 +242,8 @@ panel_iframe:
 # shopping_list:
 
 sun:
+
+system_health:
 
 tts:
   - platform: google

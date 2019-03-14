@@ -1,7 +1,6 @@
 sensor:
   - platform: moon
   - platform: time_date
-    name: Date & Time
     display_options:
       - 'time'
       - 'date'
@@ -10,10 +9,14 @@ sensor:
       solar_angle:
         friendly_name: 'Sun Angle'
         icon_template: mdi:weather-sunset
-        value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
-        unit_of_measurement: '°'
+        # value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
+        value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+        unit_of_measurement: 'degrees'
+        # unit_of_measurement: '°'
       sunrise:
-        value_template: "{{ states.sun.sun.attributes.next_rising }}"
+        friendly_name: 'Sun Rise'
+        # value_template: "{{ states.sun.sun.attributes.next_rising }}"
+        value_template: "{{ state_attr('sun.sun', 'next_rising') }}"
 
 automation:
 

@@ -24,7 +24,7 @@ switch:
   #       command_off: 'JgBcAAgACe4AASiSFBAUERMSFBEUNhMTEhIUERQ2FDcSNxM2FBEUNhQ2EzcTNxMTFTQTNxM2FBEUNhQSExIUNxESExMTEhQ1ExITNxMABRMAAShKEgAMSgABJ0oTAA0FAAAAAAAAAAAAAAAA'
 
   - platform: broadlink
-    name: "RM Mini A"
+    # name: "RM Mini A"
     host: !secret rmmini_a_ip
     mac: !secret rmmini_a_mac
     timeout: 300
@@ -43,7 +43,7 @@ switch:
         command_off: 'JgDMAAcbCTwJGQoZCRkKGQk8CRkKGQkZCjsJPAo7CRoJGQoABZ4KGQk8CRkKGQkZCjsJGgk8CTwJPAkZCRoJGQk8CTwJAAWfCRoJPAkZChkJGQoZCTwJGQoZCRkJPAk8CTwJGgkZCQAFnwoZCTwJGQoZCRkKOwkaCTwJOwo7ChkJGQoZCTwJPAkABZ8JGgk8CRkJGgkZChkJOwoZCRoJGQk8CTwJPAkZChkJAAWfCRoJOwoZCRoJGQo7CRkKOwo7CjoLGQkZChkJPAk8CQANBQAAAAAAAAAAAAAAAA=='
 
   - platform: broadlink
-    name: "RM Mini B"
+    # name: "RM Mini B"
     host: !secret rmmini_b_ip
     mac: !secret rmmini_b_mac
     timeout: 300

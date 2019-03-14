@@ -290,9 +290,6 @@ sensor.home_to_malaiwan:
 sensor.malaiwan_to_home:
   icon: mdi:car
   friendly_name: Malaiwan to Home
-sensor.common_room_temperature:
-  icon: mdi:thermometer
-  friendly_name: Common Room Temperature
 switch.titan:
   icon: mdi:surround-sound
   friendly_name: Common Room Home Theatre
@@ -393,21 +390,6 @@ script.black_reboot:
 script.white_reboot:
   icon: mdi:restart
   friendly_name: Restart Foscam White
-sensor.cpu_use:
-  icon: mdi:chip
-  friendly_name: CPU Usage
-sensor.ram_use:
-  icon: mdi:memory
-  friendly_name: RAM Usage
-sensor.disk_use_:
-  icon: mdi:harddisk
-  friendly_name: HDD Usage
-sensor.maximum_disk_temperature:
-  icon: mdi:thermometer-lines
-  friendly_name: Maximum Disk Temperature
-sensor.average_disk_temperature:
-  icon: mdi:thermometer
-  friendly_name: Average Disk Temperature
 sensor.denon_source:
   icon: mdi:amplifier
   friendly_name: Common Room Denon
@@ -417,9 +399,6 @@ sensor.denonsourcecheck:
 binary_sensor.deeper:
   icon: mdi:router-wireless
   friendly_name: Primary Gateway
-binary_sensor.higher:
-  icon: mdi:router-wireless
-  friendly_name: Secondary Gateway
 binary_sensor.pluto:
   icon: mdi:wifi
   friendly_name: Airport Extreme
@@ -450,9 +429,6 @@ binary_sensor.android_box:
 binary_sensor.moon:
   icon: mdi:orbit
   friendly_name: Philips Hue
-binary_sensor.broadlink_rm_pro:
-  icon: mdi:remote
-  friendly_name: Broadlink RM Pro
 binary_sensor.broadlink_rm_mini_a:
   icon: mdi:remote
   friendly_name: Broadlink RM Mini A
@@ -516,27 +492,12 @@ binary_sensor.charon:
 binary_sensor.hyperion:
   icon: mdi:power-socket-us
   friendly_name: Sonoff S20 Hyperion
-binary_sensor.naked:
-  icon: mdi:power-plug
-  friendly_name: Sonoff Basic Naked
-binary_sensor.wemos_pir:
-  icon: mdi:video-input-antenna
-  friendly_name: WeMos PIR
 binary_sensor.wemos_lite_party:
   icon: mdi:video-input-antenna
   friendly_name: WeMos Lite Party
 binary_sensor.nodemcu_matrix_clock:
   icon: mdi:video-input-antenna
   friendly_name: NodeMCU Matrix Clock
-binary_sensor.wemos_pro_bmw:
-  icon: mdi:video-input-antenna
-  friendly_name: WeMos Pro BMW
-binary_sensor.wemos_bell:
-  icon: mdi:video-input-antenna
-  friendly_name: WeMos Bell
-binary_sensor.wemos_b:
-  icon: mdi:video-input-antenna
-  friendly_name: WeMos B
 proximity.jue_home:
   friendly_name: Jue from Home
 proximity.pe_home:
@@ -583,34 +544,34 @@ sensor.ganymede_energy_yesterday:
 sensor.ganymede_energy_total:
   icon: mdi:chart-areaspline
   friendly_name: Ganymede Energy Total
-light.callisto:
+switch.callisto:
   icon: mdi:lightbulb-on-outline
   friendly_name: Kitchen
   assumed_state: false
-sensor.callisto_temperature:
+sensor.callisto_am2301_temperature:
   icon: mdi:thermometer
   friendly_name: First Floor Temperature
-sensor.callisto_humidity:
+sensor.callisto_am2301_humidity:
   icon: mdi:water-percent
   friendly_name: First Floor Humidity
 switch.mimas:
   icon: mdi:speaker
   friendly_name: Common Room Subwoofer
   assumed_state: true
-sensor.mimas_temperature:
+sensor.mimas_am2301_temperature:
   icon: mdi:thermometer
   friendly_name: Common Room Temperature
-sensor.mimas_humidity:
+sensor.mimas_am2301_humidity:
   icon: mdi:water-percent
   friendly_name: Common Room Humidity
-light.pandora:
+switch.pandora:
   icon: mdi:lightbulb-on-outline
   friendly_name: Bedroom Night
   assumed_state: false
-sensor.pandora_temperature:
+sensor.pandora_a2301_temperature:
   icon: mdi:thermometer
   friendly_name: Bedroom Temperature
-sensor.pandora_humidity:
+sensor.pandora_a2301_humidity:
   icon: mdi:water-percent
   friendly_name: Bedroom Humidity
 switch.phoebe:
@@ -625,34 +586,6 @@ switch.hyperion:
   icon: mdi:power-socket-us
   friendly_name: Bedroom Online Switch
   assumed_state: true
-switch.nakeds:
-  icon: mdi:power-plug
-  friendly_name: Naked
-  assumed_state: true
-sensor.first_floor_temperature_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: First Floor Temperature
-sensor.first_floor_humidity_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: First Floor Humidity
-sensor.common_room_temperature_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: Common Room Temperature
-sensor.common_room_humidity_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: Common Room Humidity
-sensor.bedroom_temperature_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: Bedroom Temperature
-sensor.bedroom_humidity_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: Bedroom Humidity
-sensor.maximum_disk_temperature_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: Maximum Saturn Temperature
-sensor.average_disk_temperature_mean:
-  icon: mdi:chart-line-stacked
-  friendly_name: Average Saturn Temperature
 script.android_box_ok:
   icon: mdi:checkbox-marked-circle
   friendly_name: Ok Android TV Box

@@ -200,6 +200,8 @@ input_select:
 group:
   proximity:
     name: "Current Position"
+    icon: mdi:compass
+    view: false
     entities:
       - proximity.pe_home
       - proximity.jue_home
@@ -208,6 +210,8 @@ group:
       - proximity.jue_malaiwan
   proximity_others:
     name: "Other Places"
+    icon: mdi:compass
+    view: false
     entities:
       - proximity.seaconsquare
       - proximity.paradisepark
@@ -242,7 +246,7 @@ automation:
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.pesiphone7plus", "not_home") and is_state("device_tracker.hass_pesiphone7plus", "not_home") and is_state("device_tracker.ping_pesiphone7plus", "not_home") }}'
+        value_template: '{{ not is_state("device_tracker.pesiphone7plus", "home") and not is_state("device_tracker.hass_pesiphone7plus", "home") and not is_state("device_tracker.ping_pesiphone7plus", "home") }}'
       - platform: template
         value_template: '{{ states.proximity.pe_home.state | float > 500 }}'
     condition:
@@ -337,7 +341,9 @@ automation:
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.juesiphone6splus", "not_home") and is_state("device_tracker.hass_juesiphone6splus", "not_home") and is_state("device_tracker.ping_juesiphone6splus", "not_home") }}'
+        value_template: '{{ not is_state("device_tracker.juesiphone6splus", "home") and not is_state("device_tracker.hass_juesiphone6splus", "home") and not is_state("device_tracker.ping_juesiphone6splus", "home") }}'
+      - platform: template
+        value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
       - platform: template
         value_template: '{{ states.proximity.jue_home.state | float > 500 }}'
     condition:
@@ -675,7 +681,7 @@ automation:
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.benjys_iphone_6", "not_home") and is_state("device_tracker.ping_benjysiphone6", "not_home") }}'
+        value_template: '{{ not is_state("device_tracker.benjys_iphone_6", "home") and not is_state("device_tracker.ping_benjysiphone6", "home") }}'
       - platform: template
         value_template: '{{ states.proximity.benjy_home.state | float > 500 }}'
     condition:
@@ -753,7 +759,7 @@ automation:
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.ping_boom", "not_home") and is_state("binary_sensor.boom", "off") }}'
+        value_template: '{{ not is_state("device_tracker.ping_boom", "home") and is_state("binary_sensor.boom", "off") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.presence_boom", "on") }}'

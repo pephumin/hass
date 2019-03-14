@@ -1,7 +1,7 @@
 default_view:
   name: Home
   icon: mdi:home
-  view: yes
+  view: true
   entities:
     - group.control
     - group.proximity
@@ -21,16 +21,24 @@ default_view:
     - media_player.music_player_daemon
     - media_player.mpd_raspberry_pi
     - group.foscam
-    # - camera.foscam_r2
-    - camera.foscam_black
-    - camera.foscam_white
     - camera.foscam_common_room
+    - camera.foscam_white
+    - camera.foscam_black
+    - camera.foscam_r2
+    - camera.boxie
+    - camera.boxie2
+    - camera.boxie3
+    - camera.b1
+    - camera.b2
+    - camera.b3
+    - camera.b4
+    - camera.b5
     - group.hue_all
 
 common_room:
   name: "Common Room"
   icon: mdi:television
-  view: yes
+  view: true
   entities:
     - group.control_cr
     - group.party
@@ -45,6 +53,14 @@ common_room:
     # - camera.foscam_r2
     - camera.foscam_common_room
     - camera.foscam_black
+    - camera.boxie
+    - camera.boxie2
+    - camera.boxie3
+    - camera.b1
+    - camera.b2
+    - camera.b3
+    - camera.b4
+    - camera.b5
     - group.home_server
     - group.online_cr
     - group.hue_common_room_all
@@ -54,7 +70,7 @@ common_room:
 bedroom:
   name: "Bedroom"
   icon: mdi:hotel
-  view: yes
+  view: true
   entities:
     - group.control_br
     - media_player.itunes
@@ -72,7 +88,7 @@ bedroom:
 first_floor:
   name: "First Floor"
   icon: mdi:fridge
-  view: yes
+  view: true
   entities:
     - group.control_ff
     - camera.foscam_white
@@ -88,3 +104,5 @@ first_floor:
     - group.quick_timer
     - group.printer
     - group.proximity_others
+    - group.sonoff
+    - group.boxie

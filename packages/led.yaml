@@ -9,8 +9,8 @@ light:
     # brightness_state_topic: "party/brightnessstate"
     # brightness_command_topic: "party/setbrightness"
     qos: 1
-    flash_time_long: 15
-    flash_time_short: 5
+    # flash_time_long: 15
+    # flash_time_short: 5
     brightness: true
     color_temp: true
     rgb: true
@@ -71,9 +71,10 @@ group:
   party:
     name: "Party Light"
     icon: mdi:led-strip
+    view: false
     control: hidden
     entities:
-      - light.party_3
+      - light.party
       - input_select.party_effect
       - input_number.party_animation_speed
 

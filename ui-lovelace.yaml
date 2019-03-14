@@ -14,18 +14,21 @@ views:
           - input_boolean.presence_pe
           - input_boolean.presence_jue
           - input_select.homemode
-          - sensor.callisto_temperature
-          - sensor.mimas_temperature
-          - sensor.pandora_temperature
+          - sensor.callisto_am2301_temperature
+          - sensor.mimas_am2301_temperature
+          - sensor.pandora_am2301_temperature
           - input_boolean.presence_benjy
+          - input_boolean.presence_boom
           - input_boolean.presence_pe_benjawan
           - input_boolean.presence_jue_malaiwan
+          - input_boolean.presence_xdj_rx
       - type: entities
         title: Current Position
         show_header_toggle: true
         entities:
           - proximity.pe_home
           - proximity.jue_home
+          - proximity.benjy_home
           - proximity.pe_benjawan
           - proximity.jue_malaiwan
       - type: entities
@@ -38,91 +41,29 @@ views:
           - sensor.solar_angle
           - sensor.moon
       - type: entities
-        title: Pe iPhone 7 Plus
+        title: Devices
         show_header_toggle: true
         entities:
           - device_tracker.pesiphone7plus
-          - device_tracker.hass_pesiphone7plus
-          - device_tracker.ping_pesiphone7plus
-          - binary_sensor.pesiphone7plus
-      - type: entities
-        title: Pe iPad Mini 2
-        show_header_toggle: true
-        entities:
           - device_tracker.pesipadmini2
-          - device_tracker.hass_pesipadmini2
-          - device_tracker.ping_pesipadmini2
-          - binary_sensor.pesipadmini2
-      - type: entities
-        title: Jue iPhone 6s Plus
-        show_header_toggle: true
-        entities:
           - device_tracker.juesiphone6splus
-          - device_tracker.hass_juesiphone6splus
-          - device_tracker.ping_juesiphone6splus
-          - binary_sensor.juesiphone6splus
-      - type: entities
-        title: Jue iPad Mini 2
-        show_header_toggle: true
-        entities:
           - device_tracker.juesipadmini2
-          - device_tracker.ping_juesipadmini2
-          - binary_sensor.juesipadmini2
-      - type: entities
-        title: Pe Macbook Pro
-        show_header_toggle: true
-        entities:
-          - device_tracker.pepe
-          - device_tracker.ping_pepe
-          - binary_sensor.pepe
-      - type: entities
-        title: Pe Dell Laptop
-        show_header_toggle: true
-        entities:
-          - binary_sensor.pepework
-      - type: entities
-        title: Pe New Macbook Pro
-        show_header_toggle: true
-        entities:
           - device_tracker.sinbad
-          - device_tracker.ping_sinbad
-          - binary_sensor.sinbad
       - type: entities
-        title: BenjysiPhone6
+        title: Friends
         show_header_toggle: true
         entities:
           - device_tracker.benjysiphone6
-          - device_tracker.ping_benjysiphone6
-          - binary_sensor.benjysiphone6
-      - type: entities
-        title: Benjy iPad Mini 2
-        show_header_toggle: true
-        entities:
           - binary_sensor.benjysipadmini2
-      - type: entities
-        title: Benjy Macbook Pro
-        show_header_toggle: true
-        entities:
-          - device_tracker.ping_benjawan
           - binary_sensor.benjawan
-      - type: entities
-        title: Boom
-        show_header_toggle: true
-        entities:
-          - device_tracker.boom
-          - device_tracker.ping_boom
           - binary_sensor.boom
       - type: entities
         title: Home Server
         show_header_toggle: false
         entities:
-          - sensor.uptime
           - sensor.speedtest_download
           - sensor.speedtest_upload
-          - sensor.average_disk_temperature
-          - sensor.maximum_disk_temperature
           - input_boolean.mpd_silence
-          - sensor.samsung_m267x_287x_series_192168144
       - type: media-control
         entity: media_player.biscuit
       - type: media-control
@@ -147,15 +88,9 @@ views:
           - script.black_reboot
           - script.white_reboot
       - type: picture-entity
-        title: Foscam R2
-        entity: camera.foscam_r2
-        camera_image: camera.foscam_r2
-        show_info: true
-        tap_action: dialog
-      - type: picture-entity
-        title: Foscam Black
-        entity: camera.foscam_black
-        camera_image: camera.foscam_black
+        title: Foscam Common Room
+        entity: camera.foscam_common_room
+        camera_image: camera.foscam_common_room
         show_info: true
         tap_action: dialog
       - type: picture-entity
@@ -165,38 +100,23 @@ views:
         show_info: true
         tap_action: dialog
       - type: picture-entity
-        title: Current Location Pe
-        entity: camera.current_location_pe
-        camera_image: camera.current_location_pe
+        title: Foscam Black
+        entity: camera.foscam_black
+        camera_image: camera.foscam_black
         show_info: true
         tap_action: dialog
       - type: picture-entity
-        title: Current Location Jue
-        entity: camera.current_location_jue
-        camera_image: camera.current_location_jue
+        title: Foscam R2
+        entity: camera.foscam_r2
+        camera_image: camera.foscam_r2
         show_info: true
         tap_action: dialog
       - type: entities
         title: Lights
         show_header_toggle: true
         entities:
-          - light.whites_a1
-          - light.whites_a2
-          - light.whites_a3
-          - light.whites_a4
-          - light.hue_hallway
-          - light.strip
-          - light.hue_1
-          - light.hue_2
-          - light.hue_3
-          - light.hue_4
-          - light.mood
-          - light.warm
-          - light.pandora
-          - light.whites_b1
-          - light.whites_b2
-          - light.callisto
-          - light.warm_garage
+          - switch.pandora
+          - switch.callisto
   - title: Common Room
     icon: mdi:television
     cards:
@@ -204,14 +124,15 @@ views:
         title: Common Room Control Panel
         show_header_toggle: false
         entities:
-          - sensor.mimas_temperature
-          - sensor.mimas_humidity
+          - sensor.mimas_am2301_temperature
+          - sensor.mimas_am2301_humidity
           - switch.common_room_air_cond
           - switch.common_room_fan
           - switch.common_room_hometheatre
           - input_select.denon_mode
           - switch.mimas
           - script.mute_common_room
+          - script.android_box_ok
           - sensor.denon_source
           - switch.ganymede
           - switch.phoebe
@@ -221,6 +142,7 @@ views:
         show_header_toggle: false
         entities:
           - light.party
+          - input_select.party_effect
           - input_number.party_animation_speed
       - type: media-control
         entity: media_player.biscuit
@@ -229,15 +151,13 @@ views:
       - type: media-control
         entity: media_player.kodi
       - type: media-control
-        entity: media_player.avr2113_airtunes_speaker
-      - type: media-control
         entity: media_player.living_room_apple_tv_airtunes_speaker
       - type: media-control
         entity: media_player.mpd_raspberry_pi
       - type: picture-entity
-        title: Foscam R2
-        entity: camera.foscam_r2
-        camera_image: camera.foscam_r2
+        title: Foscam Common Room
+        entity: camera.foscam_common_room
+        camera_image: camera.foscam_common_room
         show_info: true
         tap_action: dialog
       - type: picture-entity
@@ -250,13 +170,9 @@ views:
         title: Home Server
         show_header_toggle: false
         entities:
-          - sensor.uptime
           - sensor.speedtest_download
           - sensor.speedtest_upload
-          - sensor.average_disk_temperature
-          - sensor.maximum_disk_temperature
           - input_boolean.mpd_silence
-          - sensor.samsung_m267x_287x_series_192168144
       - type: entities
         title: Online Status Common Room
         show_header_toggle: false
@@ -271,6 +187,7 @@ views:
           - binary_sensor.ganymede
           - binary_sensor.mimas
           - binary_sensor.phoebe
+          - binary_sensor.svb
           - binary_sensor.wemos_lite_party
           - binary_sensor.nodemcu_matrix_clock
           - binary_sensor.denon
@@ -280,16 +197,6 @@ views:
           - binary_sensor.apple_tv
           - binary_sensor.dune
           - binary_sensor.xdj_rx
-      - type: entities
-        title: Common Room Lights
-        show_header_toggle: true
-        entities:
-          - light.whites_a1
-          - light.whites_a2
-          - light.whites_a3
-          - light.whites_a4
-          - light.hue_hallway
-          - light.strip
       - type: entities
         title: Common Room Light Scenes
         show_header_toggle: false
@@ -304,9 +211,6 @@ views:
           - sensor.titan_current_consumption
           - sensor.titan_current
           - sensor.titan_voltage
-          - sensor.ganymede_power
-          - sensor.ganymede_current
-          - sensor.ganymede_voltage
           - sensor.ganymede_energy_today
           - sensor.ganymede_energy_yesterday
           - sensor.ganymede_energy_total
@@ -317,8 +221,8 @@ views:
         title: Bedroom Control Panel
         show_header_toggle: false
         entities:
-          - sensor.pandora_temperature
-          - sensor.pandora_humidity
+          - sensor.pandora_am2301_temperature
+          - sensor.pandora_am2301_humidity
           - switch.bedroom_air_cond
           - switch.europa
           - script.mute_bedroom
@@ -342,13 +246,7 @@ views:
         title: Bedroom Lights
         show_header_toggle: true
         entities:
-          - light.hue_1
-          - light.hue_2
-          - light.hue_3
-          - light.hue_4
-          - light.mood
-          - light.warm
-          - light.pandora
+          - switch.pandora
       - type: entities
         title: Bedroom Light Scenes
         show_header_toggle: false
@@ -384,10 +282,16 @@ views:
         title: First Floor Control Panel
         show_header_toggle: false
         entities:
-          - sensor.callisto_temperature
-          - sensor.callisto_humidity
+          - sensor.callisto_am2301_temperature
+          - sensor.callisto_am2301_humidity
           - switch.charon
           - counter.firstfloor
+          - switch.phoebe
+          - switch.svb
+          - binary_sensor.front_door
+          - switch.front_door
+          - binary_sensor.window
+          - switch.window
       - type: picture-entity
         title: Foscam White
         entity: camera.foscam_white
@@ -404,14 +308,15 @@ views:
           - binary_sensor.earth
           - binary_sensor.charon
           - binary_sensor.callisto
+          - binary_sensor.front_door
+          - binary_sensor.window
+          - binary_sensor.pong
+          - binary_sensor.freed
       - type: entities
         title: First Floor Lights
         show_header_toggle: true
         entities:
-          - light.whites_b1
-          - light.whites_b2
-          - light.callisto
-          - light.warm_garage
+          - switch.callisto
       - type: entities
         title: First Floor Light Scenes
         show_header_toggle: false
@@ -423,42 +328,13 @@ views:
         entity: media_player.first_floor_aex_airtunes_speaker
       - type: media-control
         entity: media_player.mpd_raspberry_pi
-      - type: picture-entity
-        title: Current Location Pe
-        entity: camera.current_location_pe
-        camera_image: camera.current_location_pe
-        show_info: true
-        tap_action: dialog
-      - type: picture-entity
-        title: Current Location Jue
-        entity: camera.current_location_jue
-        camera_image: camera.current_location_jue
-        show_info: true
-        tap_action: dialog
       - type: entities
-        title: BenjysiPhone6
+        title: Friends
         show_header_toggle: true
         entities:
           - device_tracker.benjysiphone6
-          - device_tracker.ping_benjysiphone6
-          - binary_sensor.benjysiphone6
-      - type: entities
-        title: Benjy iPad Mini 2
-        show_header_toggle: true
-        entities:
           - binary_sensor.benjysipadmini2
-      - type: entities
-        title: Benjy Macbook Pro
-        show_header_toggle: true
-        entities:
-          - device_tracker.ping_benjawan
           - binary_sensor.benjawan
-      - type: entities
-        title: Boom
-        show_header_toggle: true
-        entities:
-          - device_tracker.boom
-          - device_tracker.ping_boom
           - binary_sensor.boom
       - type: entities
         title: Timer
@@ -467,15 +343,6 @@ views:
           - input_number.timer_minutes
           - timer.quick_timer
       - type: entities
-        title: Earth
-        show_header_toggle: false
-        entities:
-          - sensor.samsung_m267x_287x_series_192168144
-          - sensor.samsung_m267x_287x_series_192168144_toner_black
-          - sensor.samsung_m267x_287x_series_192168144_drum_black
-          - sensor.samsung_m267x_287x_series_192168144_output_tray_0
-          - sensor.samsung_m267x_287x_series_192168144_tray_1
-      - type: entities
         title: Other Places
         show_header_toggle: true
         entities:
@@ -483,3 +350,19 @@ views:
           - proximity.paradisepark
           - proximity.centralbangna
           - proximity.foodland
+      - type: entities
+        title: Sonoff
+        show_header_toggle: false
+        entities:
+          - switch.ganymede
+          - switch.phoebe
+          - switch.charon
+          - switch.hyperion
+          - switch.callisto
+          - switch.mimas
+          - switch.pandora
+          - switch.calypso
+          - switch.svb
+          - switch.front_door
+          - switch.wemos
+          - switch.window

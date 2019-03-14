@@ -1,77 +1,25 @@
 # shell_command:
 #   wag160n_reboot: !secret wag160n_reboot
 
+speedtestdotnet:
+  scan_interval:
+    minutes: 30
+  monitored_conditions:
+    - ping
+    - download
+    - upload
+
 sensor:
   - platform: synologydsm
-    name: Saturn
+    # name: Saturn
     host: !secret synology_ip
     username: !secret my_username
     password: !secret my_longer_password
     monitored_conditions:
       - disk_temp
-  - platform: systemmonitor
-    resources:
-      - type: processor_use
-      - type: memory_use_percent
-      - type: disk_use_percent
-        arg: /
-      - type: network_in
-        arg: eth0
-      - type: network_out
-        arg: eth0
-  - platform: speedtest
-    minute:
-      - 0
-      - 15
-      - 30
-      - 45
-    monitored_conditions:
-      - ping
-      - download
-      - upload
-  # - platform: min_max
-  #   type: max
-  #   name: "Maximum Disk Temperature"
-  #   round_digits: 1
-  #   entity_ids:
-  #     - sensor.temperature_sda
-  #     - sensor.temperature_sdb
-  #     - sensor.temperature_sdc
-  #     - sensor.temperature_sdd
-  # - platform: command_line
-  #     name: "CPU Temp"
-  #     command: "cat /sys/class/thermal/thermal_zone0/temp"
-  #     unit_of_measurement: "°C"
-  #     value_template: '{{ value | multiply(0.001) }}'
-  # - platform: template
-  #   sensors:
-  #     average_disk_temperature:
-  #      friendly_name: 'Average Disk Temperature'
-  #      unit_of_measurement: '°C'
-  #       icon_template: mdi:thermometer
-  #      value_template: '{{ states.sensor.maximum_disk_temperature.attributes.mean }}'
-  #    uptime:
-  #      friendly_name: Uptime
-  #      icon_template: mdi:timelapse
-  #      value_template: >-
-  #        {%- if states.sensor.since_last_boot.state -%}
-  #          {%- set slb = states.sensor.since_last_boot.state.split(' ') -%}
-  #          {%- set count = slb | length -%}
-  #          {%- set hms = slb[count - 1] -%}
-  #          {%- set hms_trimmed = hms.split('.')[0] -%}
-  #          {%- set hms_split = hms_trimmed.split(':') -%}
-  #          {%- set hours = hms_split[0] | int -%}
-  #          {%- if count == 3 -%}
-  #            {{ slb[0] ~ ' ' ~ slb[1] ~ ' ' }}
-  #          {%- endif -%}
-  #          {%- if hours > 0 -%}
-  #            {%- if hours == 1 -%}
-  #              1 hour
-  #            {%- else -%}
-  #              {{ hours }} hours
-  #            {%- endif -%}
-  #          {%- endif -%}
-  #        {%- endif -%}
+      - cpu_total_load
+      - memory_real_usage
+      - network_up
   - platform: syncthru
     resource: !secret earth_ip
     name: "Earth"
@@ -84,24 +32,18 @@ group:
   home_server:
     name: "Home Server"
     icon: mdi:server-security
+    view: false
     control: hidden
     entities:
-      # - sensor.uptime
-      # - sensor.cpu_use
-      # - sensor.ram_use
-      - sensor.processor_use
-      - sensor.disk_use_percent_
-      - sensor.memory_use_percent
-      - sensor.disk_use_
       - sensor.speedtest_download
       - sensor.speedtest_upload
-      - sensor.average_disk_temperature
-      - sensor.maximum_disk_temperature
+      - sensor.speedtest_ping
       - input_boolean.mpd_silence
-      - sensor.samsung_m267x_287x_series_192168144
+      - input_text.clear_mqtt_topic
   printer:
     name: "Earth"
     icon: mdi:printer
+    view: false
     control: hidden
     entities:
       - sensor.samsung_m267x_287x_series_192168144
@@ -109,3 +51,35 @@ group:
       - sensor.samsung_m267x_287x_series_192168144_drum_black
       - sensor.samsung_m267x_287x_series_192168144_output_tray_0
       - sensor.samsung_m267x_287x_series_192168144_tray_1
+
+input_text:
+  clear_mqtt_topic:
+    name: "MQTT Topic to Clear"
+    mode: text
+    initial: ''
+
+automation:
+
+  - alias: "Let's Encrypt Renewal"
+    initial_state: 'on'
+    trigger:
+      - platform: time
+        at: '00:00:00'
+    action:
+      - service: hassio.addon_restart
+        data:
+          addon: core_letsencrypt
+
+  - alias: "Clear MQTT Topics"
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: input_text.clear_mqtt_topic
+    condition:
+      - condition: template
+        value_template: "{{ 'homeassistant/sensor/' in states.input_text.clear_mqtt_topic.state }}"
+    action:
+      - service: mqtt.publish
+        data_template:
+          topic: "{{ states.input_text.clear_mqtt_topic.state }}"
+          retain: true
