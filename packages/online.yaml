@@ -172,6 +172,11 @@ binary_sensor:
     name: "Foscam R2"
     count: 2
     scan_interval: 30
+  - platform: ping
+    host: 192.168.1.81
+    name: "Boxie"
+    count: 2
+    scan_interval: 30
 
 input_boolean:
   presence_xdj_rx:
@@ -211,19 +216,18 @@ group:
       - binary_sensor.pluto
       - binary_sensor.broadlink_rm_mini_b
       - binary_sensor.foscam_r2
-      - binary_sensor.foscam_black
+      - binary_sensor.candy
       - binary_sensor.titan
       - binary_sensor.ganymede
       - binary_sensor.mimas
       - binary_sensor.phoebe
-      - binary_sensor.svb
       - binary_sensor.wemos_lite_party
       - binary_sensor.nodemcu_matrix_clock
       - binary_sensor.denon
       - binary_sensor.android_box
       - binary_sensor.biscuit
-      - binary_sensor.candy
       - binary_sensor.apple_tv
+      - binary_sensor.svb
       - binary_sensor.dune
       - binary_sensor.xdj_rx
   online_br:
@@ -259,175 +263,185 @@ group:
 
 automation:
 
-  - alias: 'Common Room Online Switch Restart'
-    initial_state: "on"
+  - alias: 'Webcam Switch Restart'
+    initial_state: 'on'
     trigger:
-      - platform: state
-        entity_id: binary_sensor.foscam_black
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
-      - platform: state
-        entity_id: binary_sensor.foscam_r2
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
-      - platform: state
-        entity_id: binary_sensor.broadlink_rm_mini_b
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
-      - platform: state
-        entity_id: binary_sensor.candy
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.foscam_r2", "off") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.boxie", "off") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("switch.ganymede", "on") and (is_state("binary_sensor.foscam_r2", "off") or is_state("binary_sensor.broadlink_rm_mini_b", "off") or is_state("binary_sensor.candy", "off")) }}'
+        # value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.webcam_switch_restart.last_triggered))/60 > 5 }}'
+        value_template: '{% if states.automation.webcam_switch_restart.attributes.last_triggered == "None" %}{{ (as_timestamp(now())-as_timestamp(states.automation.webcam_switch_restart.last_updated))/60 > 5 }}{% else %}{{ (as_timestamp(now())-as_timestamp(states.automation.webcam_switch_restart.attributes.last_triggered))/60 > 5 }}{% endif %}'
     action:
-       - service: script.turn_on
-         entity_id: script.restart_ganymede
-       - service: counter.increment
-         entity_id: counter.commonroom
+      - service: script.turn_on
+        entity_id: script.restart_ganymede
+      - service: counter.increment
+        entity_id: counter.commonroom
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "false"
+          line: "false"
+          speak: "true"
+          audio: "false"
+          light: "false"
+          mobile: "pe"
+          message: "Restarting Webcam (Ganymede)"
 
-  # - alias: 'Common Room Online Switch Restart'
-  #   trigger:
-  #     - platform: time
-  #       minutes: '/60'
-  #       seconds: 00
-  #     - condition: or
-  #       conditions:
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.foscam_black", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.foscam_r2", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.candy", "off") }}'
-  #   action:
-  #      - service: script.turn_on
-  #        entity_id: script.restart_ganymede
-  #      - service: counter.increment
-  #        entity_id: counter.commonroom
-
-  - alias: 'Bedroom Online Switch Restart'
-    initial_state: "on"
+  - alias: 'Hyperion Switch Restart'
+    initial_state: 'on'
     trigger:
-      - platform: state
-        entity_id: binary_sensor.neptune
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
-      - platform: state
-        entity_id: binary_sensor.moon
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
-      - platform: state
-        entity_id: binary_sensor.broadlink_rm_mini_a
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
-      - platform: state
-        entity_id: binary_sensor.doughnut
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.moon", "off") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("switch.hyperion", "on") and (is_state("binary_sensor.moon", "off") or is_state("binary_sensor.broadlink_rm_mini_a", "off") or is_state("binary_sensor.doughnut", "off")) }}'
+        # value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.hyperion_switch_restart.last_changed))/60 > 5 }}'
+        value_template: '{% if states.automation.hyperion_switch_restart.attributes.last_triggered == "None" %}{{ (as_timestamp(now())-as_timestamp(states.automation.hyperion_switch_restart.last_updated))/60 > 5 }}{% else %}{{ (as_timestamp(now())-as_timestamp(states.automation.hyperion_switch_restart.attributes.last_triggered))/60 > 5 }}{% endif %}'
     action:
-       - service: script.turn_on
-         entity_id: script.restart_hyperion
-       - service: counter.increment
-         entity_id: counter.bedroom
+      - service: script.turn_on
+        entity_id: script.restart_hyperion
+      - service: counter.increment
+        entity_id: counter.bedroom
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "false"
+          line: "false"
+          speak: "true"
+          audio: "false"
+          light: "false"
+          mobile: "pe"
+          message: "Restarting Hyperion"
 
-  # - alias: 'Bedroom Online Switch Restart'
-  #   trigger:
-  #     - platform: time
-  #       minutes: '/60'
-  #       seconds: 00
-  #   condition:
-  #     - condition: or
-  #       conditions:
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.moon", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
-  #   action:
-  #     - service: script.turn_on
-  #       entity_id: script.restart_hyperion
-  #     - service: counter.increment
-  #       entity_id: counter.bedroom
-
-  - alias: 'First Floor Online Switch Restart'
-    initial_state: "on"
+  - alias: 'Charon Switch Restart'
+    initial_state: 'on'
     trigger:
-      - platform: state
-        entity_id: binary_sensor.foscam_white
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
-      - platform: state
-        entity_id: binary_sensor.earth
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
-      - platform: state
-        entity_id: binary_sensor.uranus
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 5
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.foscam_white", "off") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.earth", "off") }}'
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.mercury", "off") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("switch.charon", "on") and (is_state("binary_sensor.foscam_white", "off") or is_state("binary_sensor.earth", "off") or is_state("binary_sensor.uranus", "off")) }}'
+        # value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.charon_switch_restart.last_changed))/60 > 5 }}'
+        value_template: '{% if states.automation.charon_switch_restart.attributes.last_triggered == "None" %}{{ (as_timestamp(now())-as_timestamp(states.automation.charon_switch_restart.last_updated))/60 > 5 }}{% else %}{{ (as_timestamp(now())-as_timestamp(states.automation.charon_switch_restart.attributes.last_triggered))/60 > 5 }}{% endif %}'
     action:
-       - service: script.turn_on
-         entity_id: script.restart_charon
-       - service: counter.increment
-         entity_id: counter.firstfloor
+      - service: script.turn_on
+        entity_id: script.restart_charon
+      - service: counter.increment
+        entity_id: counter.firstfloor
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "false"
+          line: "false"
+          speak: "true"
+          audio: "false"
+          light: "false"
+          mobile: "pe"
+          message: "Restarting Charon"
 
-  # - alias: 'First Floor Online Switch Restart'
-  #   trigger:
-  #     - platform: time
-  #       minutes: '/60'
-  #       seconds: 00
-  #   condition:
-  #     - condition: or
-  #       conditions:
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.foscam_white", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.earth", "off") }}'
-  #         - condition: template
-  #           value_template: '{{ is_state("binary_sensor.foscam_white", "off") }}'
-  #         # - condition: template
-  #         #   value_template: '{{ is_state("binary_sensor.mercury", "off") }}'
-  #   action:
-  #     - service: script.turn_on
-  #       entity_id: script.restart_charon
-  #     - service: counter.increment
-  #       entity_id: counter.firstfloor
+  - alias: 'Hyperion Switch Always On'
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("switch.hyperion", "off") }}'
+    condition:
+      - condition: template
+        value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.hyperion_switch_always_on.last_changed))/60 > 5 }}'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.hyperion
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "false"
+          line: "false"
+          speak: "true"
+          audio: "false"
+          light: "false"
+          mobile: "pe"
+          message: "Get Hyperion Online"
+
+  - alias: 'Charon Switch Always On'
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("switch.charon", "off") }}'
+    condition:
+      - condition: template
+        value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.charon_switch_always_on.last_changed))/60 > 5 }}'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.charon
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "false"
+          line: "false"
+          speak: "true"
+          audio: "false"
+          light: "false"
+          mobile: "pe"
+          message: "Get Charon Online"
+
+  - alias: 'Genymede Switch Always On'
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("switch.ganymede", "off") }}'
+    condition:
+      - condition: template
+        value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.ganymede_switch_always_on.last_changed))/60 > 5 }}'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.ganymede
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "false"
+          line: "false"
+          speak: "true"
+          audio: "false"
+          light: "false"
+          mobile: "pe"
+          message: "Get Ganymede Online"
+
+  - alias: 'Calypso Switch Always On'
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template: '{{ is_state("switch.calypso", "off") }}'
+    condition:
+      - condition: template
+        value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.calypso_switch_always_on.last_changed))/60 > 5 }}'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.calypso
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "false"
+          line: "false"
+          speak: "true"
+          audio: "false"
+          light: "false"
+          mobile: "pe"
+          message: "Get Calypso Online"
 
   - alias: "Car Online"
-    initial_state: "on"
+    initial_state: 'on'
     trigger:
       - platform: state
         entity_id: binary_sensor.bmw
@@ -443,10 +457,10 @@ automation:
         to: 'on'
     condition:
       - condition: template
-        value_template: '{{ is_state("light.warm_garage", "off") and is_state("sun.sun", "below_horizon") }}'
+        value_template: '{{ is_state("light.white_garage", "off") and is_state("sun.sun", "below_horizon") }}'
     action:
       - service: light.turn_on
-        entity_id: light.warm_garage
+        entity_id: light.white_garage
       - service: script.notifying
         data_template:
           email: "false"
@@ -459,7 +473,7 @@ automation:
           message: 'Turn on Garage light because {{ trigger.from_state.attributes.friendly_name }} gets online'
 
   - alias: "Car Offline"
-    initial_state: "on"
+    initial_state: 'on'
     trigger:
       - platform: state
         entity_id: binary_sensor.bmw
@@ -481,10 +495,10 @@ automation:
           minutes: 1
     condition:
       - condition: template
-        value_template: '{{ is_state("light.warm_garage", "on") }}'
+        value_template: '{{ is_state("light.white_garage", "on") }}'
     action:
       - service: light.turn_off
-        entity_id: light.warm_garage
+        entity_id: light.white_garage
       - service: script.notifying
         data_template:
           email: "false"
@@ -497,7 +511,7 @@ automation:
           message: 'Turn off Garage light because {{ trigger.from_state.attributes.friendly_name }} has gone offline'
 
   - alias: "XDJ-RX is online"
-    initial_state: "on"
+    initial_state: 'on'
     trigger:
       - platform: template
         value_template: '{{ is_state("device_tracker.ping_xdj_rx", "home") and is_state("binary_sensor.xdj_rx", "on") }}'
@@ -509,7 +523,7 @@ automation:
         entity_id: input_boolean.presence_xdj_rx
 
   - alias: "XDJ-RX is offline"
-    initial_state: "on"
+    initial_state: 'on'
     trigger:
       - platform: template
         value_template: '{{ is_state("device_tracker.ping_xdj_rx", "not_home") and is_state("binary_sensor.xdj_rx", "off") }}'
@@ -539,10 +553,10 @@ automation:
           tv: "true"
           line: "true"
           speak: "true"
-          audio: "chime"
+          audio: "pip"
           light: "false"
           mobile: "pe"
-          message: "XDJ-RX is now on!!!"
+          message: "XDJ-RX has been turned on!"
 
   - alias: "XDJ-RX is off"
     trigger:
@@ -563,7 +577,7 @@ automation:
           tv: "true"
           line: "true"
           speak: "true"
-          audio: "chime"
+          audio: "pip"
           light: "false"
           mobile: "pe"
-          message: "XDJ-RX is now off!!!"
+          message: "XDJ-RX has been turned off!"

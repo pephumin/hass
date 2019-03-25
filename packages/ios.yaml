@@ -1,23 +1,145 @@
+# ios:
+#   push_categories:
+#     - name: Alert
+#       identifier: 'ALERT'
+#       actions:
+#         - identifier: 'SOUND_ALERT'
+#           title: 'Sound Alert'
+#           activationMode: 'background'
+#           authenticationRequired: yes
+#           destructive: yes
+#           behavior: 'default'
+#           # context: 'default'
+#         - identifier: 'SILENCE_ALERT'
+#           title: 'Silence Alert'
+#           activationMode: 'background'
+#           authenticationRequired: yes
+#           destructive: no
+#           behavior: 'TextInput'
+#           # context: 'default'
+#           textInputButtonTitle: 'Silence!'
+#           textInputPlaceholder: '...'
+#           # parameters:
+#           #   UIUserNotificationTextInputActionButtonTitleKey: "Silence!"
+
 ios:
-  push_categories:
-    - name: Alert
-      identifier: 'ALERT'
-      actions:
-        - identifier: 'SOUND_ALERT'
-          title: 'Sound Alert'
-          activationMode: 'background'
-          authenticationRequired: yes
-          destructive: yes
-          behavior: 'default'
-          # context: 'default'
-        - identifier: 'SILENCE_ALERT'
-          title: 'Silence Alert'
-          activationMode: 'background'
-          authenticationRequired: yes
-          destructive: no
-          behavior: 'TextInput'
-          # context: 'default'
-          textInputButtonTitle: 'Silence!'
-          textInputPlaceholder: '...'
-          # parameters:
-          #   UIUserNotificationTextInputActionButtonTitleKey: "Silence!"
+  push:
+    categories:
+      - name: cameras
+        identifier: 'camera'
+        actions:
+          - identifier: 'A1'
+            title: 'Turn on Hue 1'
+            destructive: 'true'
+          - identifier: 'A2'
+            title: 'Turn on Night Light'
+          - identifier: 'A3'
+            title: 'Turn on Hue 4'
+          - identifier: 'A4'
+            title: 'Say a text message'
+            behavior: 'textInput'
+            textInputButtonTitle: 'TTS'
+            textInputPlaceholder: 'Type a text message'
+
+
+input_boolean:
+  test_ios:
+    name: "Test iOS Action"
+    initial: off
+    icon: mdi:duck
+
+automation:
+
+  - alias: 'Camera Actionable Notification'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: input_boolean.test_ios
+    action:
+      - service: notify.ios_pesiphone7plus
+        data_template:
+          title: 'ALERT'
+          message: 'Notion Detected'
+          data:
+            attachment:
+              content-type: jpeg
+            push:
+              category: 'camera'
+            entity_id: camera.boxie
+
+  - alias: 'Home Security System'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.office_pir
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: template
+        value_template: '{{ states.device_tracker.drzzs.state != ''home'' }}'
+    action:
+      - service: notify.ios_pesiphone7plus
+        data_template:
+          title: 'PIR active'
+          message: 'Detect an action'
+          data:
+            attachment:
+              content-type: jpeg
+            push:
+              category: 'camera'
+            entity_id: camera.boxie
+
+  - alias: 'A1 Turn on Hue 1'
+    initial_state: 'on'
+    trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: 'A1'
+    action:
+      - service: light.turn_on
+        entity_id: light.hue_1
+      - delay: 00:03:00
+      - service: light.turn_off
+        entity_id: light.hue_1
+
+  - alias: 'A2 Turn on Night Light'
+    initial_state: 'on'
+    trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: 'A2'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.pandora
+      - delay: 00:03:00
+      - service: switch.turn_off
+        entity_id: switch.pandora
+
+  - alias: 'A3 Turn on Hue 4'
+    initial_state: 'on'
+    trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: 'A3'
+    action:
+      - service: light.turn_on
+        entity_id: light.hue_4
+      - delay: 00:03:00
+      - service: light.turn_off
+        entity_id: light.hue_4
+
+  - alias: 'A4 Say a text message'
+    initial_state: 'on'
+    trigger:
+      - platform: event
+        event_type: ios.notification_action_fired
+        event_data:
+          actionName: 'A4'
+    action:
+      - service: tts.google_say
+        data_template:
+          entity_id: media_player.music_player_daemon
+          message: '{{ trigger.event.data["textInput"] }}'

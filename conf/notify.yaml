@@ -65,6 +65,3 @@
     - service: growl1
     - service: growl2
 
-# - platform: facebook
-#   name: facebook
-#   page_access_token: EAALoCfMkvQYBANSlyd0rq3PG9XpPA3wI8H2vESTDQR5BbBTpWIfZBbDFzYoBt1UHQLuKKnQlyANhHCsq2xQbPv6R67P1FYNCsyfxktbEKX40W4bqFtaZCQOD02lsNAQW8OZC8c4pMjRsByKlxtZBwna9YUX4xo8ewY3ZBcDcuOgZDZD

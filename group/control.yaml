@@ -7,9 +7,9 @@ control:
     - input_boolean.presence_pe
     - input_boolean.presence_jue
     - input_select.homemode
-    - sensor.callisto_temperature
-    - sensor.mimas_temperature
-    - sensor.pandora_temperature
+    - sensor.callisto_am2301_temperature
+    - sensor.mimas_am2301_temperature
+    - sensor.pandora_am2301_temperature
     - input_boolean.presence_benjy
     - input_boolean.presence_boom
     - input_boolean.presence_pe_benjawan
@@ -22,8 +22,8 @@ control_cr:
   view: false
   control: hidden
   entities:
-    - sensor.mimas_temperature
-    - sensor.mimas_humidity
+    - sensor.mimas_am2301_temperature
+    - sensor.mimas_am2301_humidity
     - switch.common_room_air_cond
     - switch.common_room_fan
     - switch.common_room_hometheatre
@@ -42,8 +42,8 @@ control_br:
   view: false
   control: hidden
   entities:
-    - sensor.pandora_temperature
-    - sensor.pandora_humidity
+    - sensor.pandora_am2301_temperature
+    - sensor.pandora_am2301_humidity
     - switch.bedroom_air_cond
     - switch.europa
     - script.mute_bedroom
@@ -58,8 +58,8 @@ control_ff:
   view: false
   control: hidden
   entities:
-    - sensor.callisto_temperature
-    - sensor.callisto_humidity
+    - sensor.callisto_am2301_temperature
+    - sensor.callisto_am2301_humidity
     - switch.charon
     - counter.firstfloor
     - switch.phoebe
@@ -68,3 +68,4 @@ control_ff:
     - switch.front_door
     - binary_sensor.window
     - switch.window
+    - input_boolean.test_ios

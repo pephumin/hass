@@ -518,18 +518,18 @@ proximity.foodland:
   friendly_name: Foodland
 switch.ganymede:
   icon: mdi:power-socket
-  friendly_name: Foscam Online Switch
+  friendly_name: Webcam Online Switch
   assumed_state: true
-sensor.ganymede_power:
+sensor.ganymede_energy_power:
   icon: mdi:power-socket
   friendly_name: Ganymede Power
-sensor.ganymede_power_factor:
+sensor.ganymede_energy_factor:
   icon: mdi:power-socket
-  friendly_name: Ganymede Power Factor
-sensor.ganymede_current:
+  friendly_name: Ganymede Factor
+sensor.ganymede_energy_current:
   icon: mdi:pulse
   friendly_name: Ganymede Current
-sensor.ganymede_voltage:
+sensor.ganymede_energy_voltage:
   icon: mdi:tower-fire
   friendly_name: Ganymede Voltage
 sensor.ganymede_uptime:

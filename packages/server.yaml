@@ -60,15 +60,15 @@ input_text:
 
 automation:
 
-  - alias: "Let's Encrypt Renewal"
-    initial_state: 'on'
-    trigger:
-      - platform: time
-        at: '00:00:00'
-    action:
-      - service: hassio.addon_restart
-        data:
-          addon: core_letsencrypt
+#  - alias: "Let's Encrypt Renewal"
+#    initial_state: 'on'
+#    trigger:
+#      - platform: time
+#        at: '00:00:00'
+#    action:
+#      - service: hassio.addon_restart
+#        data:
+#          addon: core_letsencrypt
 
   - alias: "Clear MQTT Topics"
     initial_state: 'on'

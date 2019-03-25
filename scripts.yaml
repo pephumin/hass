@@ -749,17 +749,35 @@ ss_volume_up:
       data_template:
         volume_level: '{% if states.media_player.itunes.attributes.volume_level > 0.3 %}{{ states.media_player.itunes.attributes.volume_level + 0.03 }}{% elif states.media_player.itunes.attributes.volume_level < 0.2 %}{{ states.media_player.itunes.attributes.volume_level + 0.01 }}{% else %}{{ states.media_player.itunes.attributes.volume_level + 0.02 }}{% endif %}'
 
+ss_sound1:
+  alias: "Sub-notify script Sound"
+  sequence:
+    - condition: template
+      value_template: '{{ audio != "false" }}'
+    - service: media_player.play_media
+      data_template:
+        entity_id: media_player.music_player_daemon
+        media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
+        media_content_type: "audio/mp3"
+
+ss_sound2:
+  alias: "Sub-notify script Sound"
+  sequence:
+    - condition: template
+      value_template: '{{ audio != "false" }}'
+    - service: media_player.play_media
+      data_template:
+        entity_id: media_player.mpd_raspberry_pi
+        media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
+        media_content_type: "audio/mp3"
+
 s_speak1:
   alias: "Sub-notify script Speak 1"
   sequence:
     - condition: template
       value_template: '{{ (speak != "false" or is_state("input_boolean.mpd_silence", "off")) and is_state("device_tracker.sinbad", "home") }}'
     - service: script.ss_volume_down
-    - service: media_player.play_media
-      data_template:
-        entity_id: media_player.music_player_daemon
-        media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
-        media_content_type: "audio/mp3"
+    - service: script.ss_sound1
     - delay: 00:00:01
     - service: tts.google_say
       data_template:
@@ -773,11 +791,7 @@ s_speak2:
   sequence:
     - condition: template
       value_template: '{{ (speak != "false" or is_state("input_boolean.mpd_silence", "off")) and is_state("binary_sensor.cookie", "on") }}'
-    - service: media_player.play_media
-      data_template:
-        entity_id: media_player.mpd_raspberry_pi
-        media_content_id: '{% if audio == "pip "%}http://phumin.synology.me:7575/local/sounds/pip.mp3{% elif audio == "horn" %}http://phumin.synology.me:7575/local/sounds/horn.mp3{% elif audio == "siren" %}http://phumin.synology.me:7575/local/sounds/siren.mp3{% elif audio == "chime" %}http://phumin.synology.me:7575/local/sounds/chime.mp3{% else %}http://phumin.synology.me:7575/local/sounds/sinewave.mp3{% endif %}'
-        media_content_type: "audio/mp3"
+    - service: script.ss_sound2
     - delay: 00:00:01
     - service: tts.google_say
       data_template:

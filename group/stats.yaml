@@ -9,9 +9,10 @@ stats_cr:
     - sensor.titan_voltage
     - sensor.titan_today_energy
     - sensor.titan_total_energy
-    - sensor.ganymede_power
-    - sensor.ganymede_current
-    - sensor.ganymede_voltage
+    - sensor.ganymede_energy_power
+    - sensor.ganymede_energy_factor
+    - sensor.ganymede_energy_current
+    - sensor.ganymede_energy_voltage
     - sensor.ganymede_energy_today
     - sensor.ganymede_energy_yesterday
     - sensor.ganymede_energy_total

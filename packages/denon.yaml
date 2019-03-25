@@ -125,7 +125,7 @@ switch:
 automation:
 
   - alias: "Denon Mode changes"
-    initial_state: "on"
+    initial_state: 'on'
     trigger:
       - platform: state
         entity_id: input_select.denon_mode
@@ -135,7 +135,7 @@ automation:
           newvolume: '{% if trigger.to_state.state == "Cable TV" %}50{% elif trigger.to_state.state == "Music" or trigger.to_state.state == "Dune" %}40{% elif trigger.to_state.state == "Apple TV" or trigger.to_state.state == "Biscuit" %}45{% else %}false{% endif %}'
 
   # - alias: "Denon Mode aligns"
-  #   initial_state: "on"
+  #   initial_state: 'on'
   #   trigger:
   #     - platform: time
   #       minutes: '/5'

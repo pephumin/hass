@@ -21,7 +21,7 @@ sensor:
 automation:
 
   - alias: "Sunset 1"
-    initial_state: "on"
+    initial_state: 'on'
     trigger:
       - platform: sun
         event: sunset
@@ -42,7 +42,7 @@ automation:
           message: "Sunset is expected in 30 minutes"
 
   - alias: "Sunset 2"
-    initial_state: "on"
+    initial_state: 'on'
     trigger:
       - platform: sun
         event: sunset

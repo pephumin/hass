@@ -32,28 +32,20 @@
   host: !secret mi_repeater2_ip
   token: !secret mi_repeater2_token
 
-- platform: nmap_tracker
-  hosts: 192.168.1.1/24
-  home_interval: 10
-  scan_options: "--unprivileged -sn"
-  exclude:
-    - 192.168.1.100
-  consider_home: 180
-  new_device_defaults:
-    track_new_devices: True
-    hide_if_away: False
+#- platform: nmap_tracker
+#  hosts: 192.168.1.1/24
+#  home_interval: 10
+#  scan_options: "--unprivileged -sn"
+#  exclude:
+#    - 192.168.1.100
+#  consider_home: 180
+#  new_device_defaults:
+#    track_new_devices: True
+#    hide_if_away: False
 
 # - platform: bluetooth_tracker
 #   new_device_defaults:
 #     track_new_devices: True
-#     hide_if_away: False
-
-# - platform: owntracks
-#   max_gps_accuracy: 100
-#   waypoints: True
-#   mqtt_topic: "owntracks/#"
-#   new_device_defaults:
-#     track_new_devices: False
 #     hide_if_away: False
 
 # - platform: mqtt

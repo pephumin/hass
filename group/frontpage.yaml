@@ -23,16 +23,8 @@ default_view:
     - group.foscam
     - camera.foscam_common_room
     - camera.foscam_white
-    - camera.foscam_black
     - camera.foscam_r2
     - camera.boxie
-    - camera.boxie2
-    - camera.boxie3
-    - camera.b1
-    - camera.b2
-    - camera.b3
-    - camera.b4
-    - camera.b5
     - group.hue_all
 
 common_room:
@@ -50,17 +42,8 @@ common_room:
     - media_player.avr2113_airtunes_speaker
     - media_player.living_room_apple_tv_airtunes_speaker
     - media_player.mpd_raspberry_pi
-    # - camera.foscam_r2
     - camera.foscam_common_room
-    - camera.foscam_black
     - camera.boxie
-    - camera.boxie2
-    - camera.boxie3
-    - camera.b1
-    - camera.b2
-    - camera.b3
-    - camera.b4
-    - camera.b5
     - group.home_server
     - group.online_cr
     - group.hue_common_room_all
@@ -105,4 +88,3 @@ first_floor:
     - group.printer
     - group.proximity_others
     - group.sonoff
-    - group.boxie
