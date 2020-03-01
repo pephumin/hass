@@ -101,7 +101,7 @@ logger:
     homeassistant.components.ios: debug
     homeassistant.components.lights: debug
     homeassistant.components.recorder: debug
-    homeassistant.components.script: warning
+    homeassistant.components.script: debug
     homeassistant.components.sensor: debug
     homeassistant.components.sensor.command_line: critical
     homeassistant.components.sensor.speedtest: warning
