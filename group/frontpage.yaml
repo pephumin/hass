@@ -4,28 +4,25 @@ default_view:
   view: true
   entities:
     - group.control
-    - group.proximity
     - group.daylight
     - group.devices
     - group.friends
     - group.cars
     - group.home_server
-    # - group.travel
-    - media_player.apple_tv
+    - whether.home
+    - media_player.living_room_apple_tv
     - media_player.biscuit
     - media_player.denon
     - media_player.doughnut
     - media_player.dune
     - media_player.itunes
     - media_player.kodi
-    - media_player.music_player_daemon
-    - media_player.mpd_raspberry_pi
-    - group.foscam
+    - media_player.mpd_macbook_pro
     - camera.foscam_common_room
-    - camera.foscam_white
-    - camera.foscam_r2
+    - camera.mini_cam
     - camera.boxie
-    - group.hue_all
+    - camera.foscam_garage
+    - group.lights_all
 
 common_room:
   name: "Common Room"
@@ -34,21 +31,23 @@ common_room:
   entities:
     - group.control_cr
     - group.party
-    - media_player.apple_tv
+    - media_player.living_room_apple_tv
     - media_player.biscuit
     - media_player.denon
     - media_player.dune
     - media_player.kodi
     - media_player.avr2113_airtunes_speaker
     - media_player.living_room_apple_tv_airtunes_speaker
-    - media_player.mpd_raspberry_pi
     - camera.foscam_common_room
-    - camera.boxie
+    - camera.mini_cam
     - group.home_server
     - group.online_cr
-    - group.hue_common_room_all
+    - group.lights_common_room_all
+    - group.lights_neopixel
+    - group.lights_roundclock
     - group.common_room_scenes
     - group.stats_cr
+    - group.glances
 
 bedroom:
   name: "Bedroom"
@@ -58,12 +57,12 @@ bedroom:
     - group.control_br
     - media_player.itunes
     - group.online_br
-    - group.hue_bedroom_all
+    - group.lights_bedroom_all
+    - group.lights_bedroom_main
     - group.bedroom_scenes
     - media_player.doughnut
     - media_player.itunes
-    - media_player.music_player_daemon
-    - media_player.mpd_raspberry_pi
+    - media_player.mpd_macbook_pro
     - media_player.bedroom_aex_airtunes_speaker
     - media_player.computer_airtunes_speaker
     - group.stats_br
@@ -74,17 +73,18 @@ first_floor:
   view: true
   entities:
     - group.control_ff
-    - camera.foscam_white
+    - camera.boxie
+    - camera.foscam_garage
     - group.online_ff
-    - group.hue_first_floor_all
+    - group.lights_firstfloor_all
+    - group.lights_front
+    - group.lights_kitchen
     - group.first_floor_scenes
     - media_player.first_floor_aex_airtunes_speaker
     - media_player.satellite_aex_airtunes_speaker
-    - media_player.mpd_raspberry_pi
     - group.friends
     - group.cars
     - group.stats_ff
     - group.quick_timer
     - group.printer
-    - group.proximity_others
     - group.sonoff

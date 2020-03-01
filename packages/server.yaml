@@ -12,7 +12,7 @@ speedtestdotnet:
 sensor:
   - platform: synologydsm
     # name: Saturn
-    host: !secret synology_ip
+    host: !secret synology2_ip
     username: !secret my_username
     password: !secret my_longer_password
     monitored_conditions:
@@ -20,66 +20,65 @@ sensor:
       - cpu_total_load
       - memory_real_usage
       - network_up
-  - platform: syncthru
-    resource: !secret earth_ip
-    name: "Earth"
-    monitored_conditions:
-        - toner_black
-        - drum_black
-        - output_tray_0
-        - tray_1
+
 group:
   home_server:
     name: "Home Server"
     icon: mdi:server-security
-    view: false
     control: hidden
+    view: false
     entities:
       - sensor.speedtest_download
       - sensor.speedtest_upload
       - sensor.speedtest_ping
-      - input_boolean.mpd_silence
-      - input_text.clear_mqtt_topic
   printer:
     name: "Earth"
     icon: mdi:printer
-    view: false
     control: hidden
+    view: false
     entities:
-      - sensor.samsung_m267x_287x_series_192168144
-      - sensor.samsung_m267x_287x_series_192168144_toner_black
-      - sensor.samsung_m267x_287x_series_192168144_drum_black
-      - sensor.samsung_m267x_287x_series_192168144_output_tray_0
-      - sensor.samsung_m267x_287x_series_192168144_tray_1
+      - sensor.samsung_m267x_287x_series_192_168_1_44
+      - sensor.samsung_m267x_287x_series_192_168_1_44_toner_black
+      - sensor.samsung_m267x_287x_series_192_168_1_44_drum_black
+      - sensor.samsung_m267x_287x_series_192_168_1_44_output_tray_0
+      - sensor.samsung_m267x_287x_series_192_168_1_44_tray_1
+  deeper:
+    name: "Deeper"
+    icon: mdi:server-network
+    control: hidden
+    view: false
+    entities:
+      - sensor.deeper_router_bytes_received
+      - sensor.deeper_router_bytes_sent
+      - sensor.deeper_router_kbyte_sec_received
+      - sensor.deeper_router_kbyte_sec_sent
+      # - sensor.deeper_router_packets_received
+      # - sensor.deeper_router_packets_sent
+      # - sensor.deeper_router_packets_sec_received
+      # - sensor.deeper_router_packets_sec_sent
+  glances:
+    name: "Jupiter"
+    icon: mdi:server-network
+    control: hidden
+    view: false
+    entities:
+      - sensor.glances_ram_used
+      - sensor.glances_containers_ram_used
+      - sensor.glances_thread
+      - sensor.glances_cpu_temp
+      - sensor.glances_sleeping
+      - sensor.glances_disk_used
+      - sensor.glances_disk_free
+      - sensor.glances_ram_used_percent
+      - sensor.glances_swap_used
+      - sensor.glances_swap_free
+      - sensor.glances_cpu_used
+      - sensor.glances_running
+      - sensor.glances_containers_active
+      - sensor.glances_total
+      - sensor.glances_disk_used_percent
+      - sensor.glances_containers_cpu_used
+      - sensor.glances_cpu_load
+      - sensor.glances_ram_free
+      - sensor.glances_swap_used_percent
 
-input_text:
-  clear_mqtt_topic:
-    name: "MQTT Topic to Clear"
-    mode: text
-    initial: ''
-
-automation:
-
-#  - alias: "Let's Encrypt Renewal"
-#    initial_state: 'on'
-#    trigger:
-#      - platform: time
-#        at: '00:00:00'
-#    action:
-#      - service: hassio.addon_restart
-#        data:
-#          addon: core_letsencrypt
-
-  - alias: "Clear MQTT Topics"
-    initial_state: 'on'
-    trigger:
-      - platform: state
-        entity_id: input_text.clear_mqtt_topic
-    condition:
-      - condition: template
-        value_template: "{{ 'homeassistant/sensor/' in states.input_text.clear_mqtt_topic.state }}"
-    action:
-      - service: mqtt.publish
-        data_template:
-          topic: "{{ states.input_text.clear_mqtt_topic.state }}"
-          retain: true

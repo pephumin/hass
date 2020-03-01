@@ -9,19 +9,29 @@ sensor:
       solar_angle:
         friendly_name: 'Sun Angle'
         icon_template: mdi:weather-sunset
-        # value_template: '{{ "%+.1f"|format(states.sun.sun.attributes.elevation) }}'
         value_template: "{{ state_attr('sun.sun', 'elevation') }}"
         unit_of_measurement: 'degrees'
-        # unit_of_measurement: '°'
       sunrise:
         friendly_name: 'Sun Rise'
-        # value_template: "{{ states.sun.sun.attributes.next_rising }}"
         value_template: "{{ state_attr('sun.sun', 'next_rising') }}"
+
+group:
+  daylight:
+    name: "Daylight"
+    icon: mdi:weather-sunny
+    control: "hidden"
+    view: false
+    entities:
+      - sensor.date
+      - sensor.time
+      - sun.sun
+      - sensor.solar_angle
+      - sensor.moon
 
 automation:
 
   - alias: "Sunset 1"
-    initial_state: 'on'
+    # initial_state: 'on'
     trigger:
       - platform: sun
         event: sunset
@@ -42,7 +52,7 @@ automation:
           message: "Sunset is expected in 30 minutes"
 
   - alias: "Sunset 2"
-    initial_state: 'on'
+    # initial_state: 'on'
     trigger:
       - platform: sun
         event: sunset

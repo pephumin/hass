@@ -1,30 +1,42 @@
-# switch:
-#   - platform: template
-#     switches:
-#       common_room_saijodenki:
-#         value_template: '{% if (states.sensor.mimas_temperature.state | float > 20) and (states.sensor.mimas_temperature.state | float < 32) %}{% if (states.sensor.mimas_temperature.state | float > 25) and is_state("binary_sensor.common_room_colder", "on") %}true{% else %}false{% endif %}{% else %}false{% endif %}'
-#         turn_on:
-#           service: switch.turn_on
-#           entity_id: switch.common_room_air_cond
-#         turn_off:
-#           service: switch.turn_off
-#           entity_id: switch.common_room_air_cond
-#       common_room_fanfan:
-#         value_template: "{{ states.sensor.titan_current_consumption.state | float > 240 }}"
-#         turn_on:
-#           service: switch.turn_on
-#           entity_id: switch.common_room_fan
-#         turn_off:
-#           service: switch.turn_off
-#           entity_id: switch.common_room_fan
-#       bedroom_daikin:
-#         value_template: '{% if (states.sensor.pandora_temperature.state | float > 20) and (states.sensor.pandora_temperature.state | float < 30) %}{% if (states.sensor.pandora_temperature.state | float > 25) and is_state("binary_sensor.bedroom_colder", "on") %}true{% else %}false{% endif %}{% else %}false{% endif %}'
-#         turn_on:
-#           service: switch.turn_on
-#           entity_id: switch.bedroom_air_cond
-#         turn_off:
-#           service: switch.turn_off
-#           entity_id: switch.bedroom_air_cond
+switch:
+  - platform: template
+    switches:
+      common_room_haier:
+        value_template: '{{ (states.sensor.ganymede_am2301_temperature.state | float > 25) and (states.sensor.ganymede_am2301_temperature.state | float < 35) }}'
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.common_room_air_cond
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.common_room_air_cond
+      common_room_fanfan:
+        value_template: "{{ states.sensor.titan_current_consumption.state | float > 240 }}"
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.common_room_fan
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.common_room_fan
+      bedroom_daikin:
+        value_template: '{{ (states.sensor.pandora_am2301_temperature.state | float > 20) and (states.sensor.pandora_am2301_temperature.state | float < 30) }}'
+        # value_template: '{% if (states("sensor.pandora_am2301_temperature") | float > 20) and (states("sensor.pandora_am2301_temperature") | float < 30) %}{% if (states("sensor.pandora_am2301_temperature") | float < 23) %}true{% else %}false{% endif %}{% else %}false{% endif %}'
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.bedroom_air_cond
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.bedroom_air_cond
+      # bedroom_aircond:
+      #   friendly_name: "Bedroom Air Cond"
+      #   value_template: '{{ states.sensor.pandora_am2301_temperature.state | float < 27 }}'
+      #   turn_on:
+      #     service: switch.turn_on
+      #     data:
+      #       entity_id: switch.bedroom_air_cond
+      #   turn_off:
+      #     service: switch.turn_off
+      #     data:
+      #       entity_id: switch.bedroom_air_cond
 
 automation:
 
@@ -39,7 +51,7 @@ automation:
           minutes: 3
     condition:
       - condition: template
-        value_template: '{{ states("sensor.pandora_temperature") | float > 30 }}'
+        value_template: '{{ states("sensor.pandora_am2301_temperature") | float > 30 }}'
     action:
       - service: script.bedroom_ac_control
         data:

@@ -4,16 +4,16 @@ control:
   view: false
   control: hidden
   entities:
-    - input_boolean.presence_pe
-    - input_boolean.presence_jue
+    # - input_boolean.presence_pe
+    # - input_boolean.presence_jue
     - input_select.homemode
-    - sensor.callisto_am2301_temperature
-    - sensor.mimas_am2301_temperature
+    - sensor.calypso_am2301_temperature
+    - sensor.ganymede_am2301_temperature
     - sensor.pandora_am2301_temperature
-    - input_boolean.presence_benjy
-    - input_boolean.presence_boom
-    - input_boolean.presence_pe_benjawan
-    - input_boolean.presence_jue_malaiwan
+    # - input_boolean.presence_benjy
+    # - input_boolean.presence_boom
+    # - input_boolean.presence_pe_benjawan
+    # - input_boolean.presence_jue_malaiwan
     - input_boolean.presence_xdj_rx
 
 control_cr:
@@ -22,19 +22,20 @@ control_cr:
   view: false
   control: hidden
   entities:
-    - sensor.mimas_am2301_temperature
-    - sensor.mimas_am2301_humidity
-    - switch.common_room_air_cond
-    - switch.common_room_fan
+    - sensor.ganymede_am2301_temperature
+    - sensor.ganymede_am2301_humidity
+    - switch.common_room_haier
+    # - switch.common_room_fan
     - switch.common_room_hometheatre
-    - input_select.denon_mode
     - switch.mimas
+    - switch.sva
     - script.mute_common_room
     - script.android_box_ok
-    - sensor.denon_source
     - switch.ganymede
-    - switch.phoebe
+    - counter.camera
+    - switch.callisto
     - counter.commonroom
+    - switch.c4ll1st0
 
 control_br:
   name: "Bedroom Control Panel"
@@ -44,12 +45,11 @@ control_br:
   entities:
     - sensor.pandora_am2301_temperature
     - sensor.pandora_am2301_humidity
-    - switch.bedroom_air_cond
+    - switch.bedroom_daikin
     - switch.europa
     - script.mute_bedroom
     - script.bedroom_ac_powerful
     - switch.hyperion
-    # - switch.calypso
     - counter.bedroom
 
 control_ff:
@@ -58,14 +58,12 @@ control_ff:
   view: false
   control: hidden
   entities:
-    - sensor.callisto_am2301_temperature
-    - sensor.callisto_am2301_humidity
-    - switch.charon
+    - sensor.calypso_am2301_temperature
+    - sensor.calypso_am2301_humidity
     - counter.firstfloor
     - switch.phoebe
-    - switch.svb
-    - binary_sensor.front_door
-    - switch.front_door
-    - binary_sensor.window
-    - switch.window
-    - input_boolean.test_ios
+    - light.calypso
+    - light.svb
+    - binary_sensor.front_door_sensor
+    - switch.front_door_reed_switch
+    # - input_boolean.test_ios

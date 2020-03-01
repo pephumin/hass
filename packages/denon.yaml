@@ -122,6 +122,26 @@ switch:
       #     service: switch.turn_off
       #     entity_id: switch.bedroom_denon
 
+group:
+  playlists:
+    name: "Playlists"
+    icon: mdi:library-music
+    control: "hidden"
+    view: false
+    entities:
+      - script.shuffle_playlist_dj
+      - script.shuffle_playlist_soft
+  kodi:
+    name: "Kodi"
+    icon: mdi:kodi
+    control: "hidden"
+    view: false
+    entities:
+      - script.kodi_play_youtube_playlist
+      - script.kodi_play_music_dj
+      - script.kodi_update_audio_library
+      - script.kodi_update_video_library
+
 automation:
 
   - alias: "Denon Mode changes"

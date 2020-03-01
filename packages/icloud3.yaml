@@ -1,0 +1,501 @@
+input_select:
+  icloud3_commands:
+    name: iCloud3 Commands
+    options:
+      - Pause
+      - Resume
+      - Waze On/Off
+      - Pause pesiphone7plus
+      - Resume pesiphone7plus
+      - Pause juesiphone6splus
+      - Resume juesiphone6splus
+    icon: mdi:apple-keyboard-command
+    initial: Waze On/Off
+  icloud3_set_interval:
+    name: iCloud3 Set Interval
+    options:
+      - 15 sec
+      - 1 min
+      - 3 min
+      - 5 min
+      - 10 min
+      - 20 min
+      - 30 min
+      - 1 hr
+      - 2 hrs
+    initial: 1 min
+    icon: mdi:clock
+  icloud3_debug_commands:
+    name: iCloud Debug Command
+    options:
+      - info logger
+      - info interval
+      - debug gps
+      - debug old
+    icon: mdi:android-debug-bridge
+    initial: info interval
+
+automation:
+
+  - alias: "Pe Arrives Home"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone7plus
+        # from: 'not_home'
+        to: 'home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.peathome
+        state: 'off'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/pe' 
+          payload: 'home'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "jue"
+          message: 'Pe Has Arrived Home'
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.peathome
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: pesiphone7plus
+          command: 'zone home'
+      
+  - alias: "Pe Leaves Home"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone7plus
+        from: 'home'
+        # to: 'not_home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.peathome
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/pe' 
+          payload: 'not_home'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "jue"
+          message: 'Pe Has Left Home'
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peathome
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: pesiphone7plus
+          command: 'zone not_home'
+
+  - alias: "Jue Arrives Home"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        # from: 'not_home'
+        to: 'home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jueathome
+        state: 'off'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/jue' 
+          payload: 'home'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "pe"
+          message: 'Jue Has Arrived Home'
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.jueathome
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: juesiphone6splus
+          command: 'zone home'
+      
+  - alias: "Jue Leaves Home"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        from: 'home'
+        # to: 'not_home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jueathome
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/jue' 
+          payload: 'not_home'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "pe"
+          message: 'Jue Has Left Home'
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.jueathome
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: juesiphone6splus
+          command: 'zone not_home'
+
+  - alias: "Jue Arrives Malaiwan"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        # from: 'not_home'
+        to: 'Malaiwan'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jueatmalaiwan
+        state: 'off'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/jue' 
+          payload: 'malaiwan'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "pe"
+          message: 'Jue Has Arrived Malaiwan [Distance: {% if states.device_tracker.juesiphone6splus.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphone6splus.attributes["calc_distance"] }}{% endif %} km.]'
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.jueatmalaiwan
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: juesiphone6splus
+          command: 'zone malaiwan'
+
+  - alias: "Jue Leaves Malaiwan"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        from: 'Malaiwan'
+        # to: 'not_home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jueatmalaiwan
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/jue' 
+          payload: 'not_home'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "pe"
+          message: 'Jue Has Left Malaiwan [Distance: {% if states.device_tracker.juesiphone6splus.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphone6splus.attributes["calc_distance"] }}{% endif %} km.]'
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.jueatmalaiwan
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: juesiphone6splus
+          command: 'zone not_home'
+      
+  - alias: "Pe Arrives Pause 103"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone7plus
+        # from: 'not_home'
+        to: 'Pause 103'
+    condition:
+      - condition: state
+        entity_id: input_boolean.peatpause
+        state: 'off'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/pe' 
+          payload: 'pause103' 
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "jue"
+          message: 'Pe Has Arrived Pause 103'
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.peatpause
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: pesiphone7plus
+          command: 'zone pause103'
+
+  - alias: "Pe Leaves Pause 103"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone7plus
+        from: 'Pause 103'
+        # to: 'not_home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.peatpause
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/pe' 
+          payload: 'not_home'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "jue"
+          message: 'Pe Has Left Pause 103'
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peatpause
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: pesiphone7plus
+          command: 'zone not_home'
+
+  - alias: "Pe Arrives Big C Extra On-Nut"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone7plus
+        # from: 'not_home'
+        to: 'Big C Extra On-Nut'
+    condition:
+      - condition: state
+        entity_id: input_boolean.peatbigc
+        state: 'off'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/pe' 
+          payload: 'bigc' 
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "jue"
+          message: 'Pe Has Arrived Big C Extra On-Nut'
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.peatbigc
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: pesiphone7plus
+          command: 'zone bigc'
+
+  - alias: "Pe Leaves Big C Extra On-Nut"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.pesiphone7plus
+        from: 'Big C Extra On-Nut'
+        # to: 'not_home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.peatbigc
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/pe' 
+          payload: 'not_home'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "jue"
+          message: 'Pe Has Left Big C Extra On-Nut'
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peatbigc
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: pesiphone7plus
+          command: 'zone not_home'
+
+  - alias: "Jue Arrives Big C Extra On-Nut"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        # from: 'not_home'
+        to: 'Big C Extra On-Nut'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jueatbigc
+        state: 'off'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/jue' 
+          payload: 'bigc' 
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "pe"
+          message: 'Jue Has Arrived Big C Extra On-Nut [Distance: {% if states.device_tracker.juesiphone6splus.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphone6splus.attributes["calc_distance"] }}{% endif %} km.]'
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.jueatbigc
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: juesiphone6splus
+          command: 'zone bigc'
+
+  - alias: "Jue Leaves Big C Extra On-Nut"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        from: 'Big C Extra On-Nut'
+        # to: 'not_home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jueatbigc
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/jue' 
+          payload: 'not_home'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "pe"
+          message: 'Jue Has Left Big C Extra On-Nut [Distance: {% if states.device_tracker.juesiphone6splus.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphone6splus.attributes["calc_distance"] }}{% endif %} km.]'
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.jueatbigc
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: juesiphone6splus
+          command: 'zone not_home'
+
+  - alias: "Jue Arrives Pause 103"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        # from: 'not_home'
+        to: 'Pause 103'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jueatpause
+        state: 'off'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/jue' 
+          payload: 'pause103'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "pe"
+          message: 'Jue Has Arrived Pause 103'
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.jueatpause
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: juesiphone6splus
+          command: 'zone pause103'
+
+  - alias: "Jue Leaves Pause 103"
+    trigger:
+      - platform: state
+        entity_id: device_tracker.juesiphone6splus
+        from: 'Pause 103'
+        # to: 'not_home'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jueatpause
+        state: 'on'
+    action:
+      - service: mqtt.publish
+        data:
+          topic: 'location/jue' 
+          payload: 'not_home'
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "true"
+          line: "false"
+          speak: "true"
+          audio: "horn"
+          light: "false"
+          mobile: "pe"
+          message: 'Jue Has Left Pause 103'
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.jueatpause
+      - service: device_tracker.icloud3_update
+        data:
+          device_name: juesiphone6splus
+          command: 'zone not_home'
+

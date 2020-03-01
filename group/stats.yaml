@@ -1,27 +1,20 @@
 stats_cr:
   name: "Statistics Common Room"
   icon: mdi:chart-line-stacked
+  control: "hidden"
   view: false
-  control: hidden
   entities:
     - sensor.titan_current_consumption
     - sensor.titan_current
     - sensor.titan_voltage
     - sensor.titan_today_energy
     - sensor.titan_total_energy
-    - sensor.ganymede_energy_power
-    - sensor.ganymede_energy_factor
-    - sensor.ganymede_energy_current
-    - sensor.ganymede_energy_voltage
-    - sensor.ganymede_energy_today
-    - sensor.ganymede_energy_yesterday
-    - sensor.ganymede_energy_total
 
 stats_br:
   name: "Statistics Bedroom"
   icon: mdi:chart-line-stacked
+  control: "hidden"
   view: false
-  control: hidden
   entities:
     - sensor.europa_current_consumption
     - sensor.europa_current

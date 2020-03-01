@@ -1,5 +1,5 @@
 homeassistant:
-  name: Home
+  name: Luzern
   latitude: !secret latitude_home
   longitude: !secret longitude_home
   elevation: -21
@@ -23,12 +23,41 @@ cast:
     - host: !secret biscuit_ip
     - host: !secret doughnut_ip
 
-cloud:
+# cloud:
 
 config:
 
 conversation:
 
+device_tracker:
+  - platform: icloud
+    username: !secret icloud_username
+    password: !secret icloud_password
+    account_name: pe
+  - platform: icloud3
+    username: !secret icloud_username
+    password: !secret icloud_password
+    tracking_method: famshr
+    # tracking_method: fmf
+    track_devices:
+      - pesiphone7plus > phumin@sawasdee.org, pe.jpg
+      - pesipadmini5 > phumin@sawasdee.org, pe.jpg
+      - juesiphone6splus > malaiwan@gamil.com, jue.jpg
+      - juesipadmini4 > malaiwan@gmail.com, jue.jpg
+      - sinbad > phumin@sawasdee.org, pe.jpg
+      - benjysiphone6 > benjy.p@gmail.com, pe.jpg
+    group: family
+    unit_of_measurement: km
+    distance_method: calc
+    gps_accuracy_threshold: 100
+    inzone_interval: '5 min'
+    stationary_inzone_interval: '1 min'
+    stationary_still_time: '3 min'
+    old_location_threshold: '2 min'
+    ignore_gps_accuracy_inzone: False
+    travel_time_factor: .6
+    log_level: debug, eventlog
+  
 discovery:
 
 # duckdns:
@@ -36,61 +65,28 @@ discovery:
 #   access_token: !secret duckdnstoken
 
 ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
+
+# hacs:
+#   token: !secret github_token
+#   sidepanel_title: Community
+#   sidepanel_icon: "mdi:alpha-c-box"
+#   appdaemon: "False"
+#   python_script: "False"
+#   theme: "False"
+
+group: !include_dir_merge_named group/
 
 history:
 
 http:
   base_url: !secret base_url
-  server_port: 8123
-
-# homekit:
-#   filter:
-#     exclude_domains:
-#       - input_boolean
-#       - script
-#     exclude_entities:
-#       - sensor.jues_ipad_mini_2_battery_level
-#       - sensor.jues_ipad_mini_2_battery_state
-#       - sensor.jues_iphone_6s_plus_battery_level
-#       - sensor.jues_iphone_6s_plus_battery_state
-#       - sensor.pes_ipad_mini_2_battery_level
-#       - sensor.pes_ipad_mini_2_battery_state
-#       - sensor.pes_iphone_7_plus_battery_level
-#       - sensor.pes_iphone_7_plus_battery_state
-#       - sensor.battery_juesipadmini2
-#       - sensor.battery_juesiphone6splus
-#       - sensor.battery_pesipadmini2
-#       - sensor.battery_pesiphone7plus
-#       - light.discoagroup
-#       - light.discoagroupeven
-#       - light.discoagroupodd
-#       - sensor.processor_use
-#       - sensor.memory_use_percent
-#       - sensor.bedroom_temperature_mean
-#       - sensor.bedroom_humidity_mean
-#       - sensor.common_room_temperature_mean
-#       - sensor.common_room_humidity_mean
-#       - sensor.firstfloor_temperature_mean
-#       - sensor.firstfloor_humidity_mean
-#       - sensor.earth
-#       - sensor.earth_toner_black
-#       - sensor.earth_drum_black
-#       - sensor.earth_output_tray_0
-#       - sensor.earth_tray_1
-#       - sensor.samsung_m267x_287x_series_192168144
-#       - sensor.samsung_m267x_287x_series_192168144_toner_black
-#       - sensor.samsung_m267x_287x_series_192168144_drum_black
-#       - sensor.samsung_m267x_287x_series_192168144_output_tray_0
-#       - sensor.samsung_m267x_287x_series_192168144_tray_1
 
 hue:
   bridges:
     - host: !secret hue_ip
       allow_unreachable: true
       allow_hue_groups: false
-
-# ifttt:
-#   key: !secret ifttt_key
 
 ios:
 
@@ -101,34 +97,52 @@ logger:
   logs:
     homeassistant.components.automation: debug
     homeassistant.components.device_tracker: critical
-    # homeassistant.components.device_tracker.life360: debug
     homeassistant.components.http: warning
-    # homeassistant.components.http.ban: warning
-    homeassistant.components.input_boolean: debug
-    homeassistant.components.input_select: debug
-    # homeassistant.components.ios: debug
-    homeassistant.components.lights.hue: debug
-    # homeassistant.components.mqtt: debug
-    homeassistant.components.media_player: critical
-    # homeassistant.components.notify: debug
-    homeassistant.components.notify.gntp: debug
-    homeassistant.components.owntracks: debug
-    homeassistant.components.proximity: critical
+    homeassistant.components.ios: debug
+    homeassistant.components.lights: debug
     homeassistant.components.recorder: debug
-    homeassistant.components.script: debug
+    homeassistant.components.script: warning
     homeassistant.components.sensor: debug
     homeassistant.components.sensor.command_line: critical
-    homeassistant.components.glances2: debug
     homeassistant.components.sensor.speedtest: warning
-    # :homeassistant.components.mqtt: debug
     homeassistant.components.sensoer.systemmonitor: debug
     homeassistant.components.switch.command_line: critical
-    # homeassistant.components.switch.broadlink: debug
-    # homeassistant.components.tts: debug
+    homeassistant.components.tplink: critical
+    custom_components.notify.gntp: debug
+    custom_components.sensor.places: debug  
 
 map:
 
-media_extractor:
+media_player:
+  - platform: apple_tv
+    name: "Apple TV"
+    host: !secret apple_tv_ip
+    login_id: !secret apple_tv_login_id
+  - platform: denonavr
+    name: "Denon"
+    host: !secret denon_ip
+    show_all_sources: True
+    timeout: 10
+  - platform: dunehd
+    name: Dune
+    host: !secret dune_ip
+  - platform: kodi
+    name: "Kodi"
+    host: !secret kodi_ip
+    username: !secret my_username
+    password: !secret my_password
+    turn_off_action: quit
+  - platform: itunes
+    name: iTunes
+    host: !secret itunes_ip
+  - platform: mpd
+    name: "MPD MacBook Pro"
+    host: !secret itunes_ip
+    port: 6600
+
+# media_extractor:
+
+mobile_app:
 
 mqtt:
   broker: !secret mqtt_broker
@@ -136,66 +150,67 @@ mqtt:
   username: !secret mqtt_username
   password: !secret my_password
   client_id: home-assistant
-  keepalive: 60
-  protocol: 3.1.1
   discovery: true
   discovery_prefix: homeassistant
 
-owntracks:
+notify:
+  - platform: ios
+    name: iOSApp
+    target: 'PHUMIN'
+  - platform: nfandroidtv
+    name: tv
+    host: !secret kodi_ip
+  - platform: kodi
+    name: kodi
+    host: !secret kodi_ip
+    port: 8080
+    username: !secret my_username
+    password: !secret my_password
+  - platform: smtp
+    name: email
+    server: !secret smtp_server
+    port: !secret smtp_port
+    sender: !secret smtp_sender
+    recipient: phumin@sawasdee.org
+  - platform: group
+    name: television
+    services:
+      - service: tv
+      - service: kodi
+  - platform: gntp
+    name: growl
+    hostname: !secret itunes_ip
+    password: !secret my_password
+  - platform: group
+    name: pe
+    services:
+      - service: mobile_app_pes_iphone_7_plus
+      - service: mobile_app_pes_ipad_mini_5
+  - platform: group
+    name: jue
+    services:
+      - service: mobile_app_jues_iphone_6s_plus
+      - service: mobile_app_jues_ipad_mini_4
 
 recorder:
-  purge_keep_days: 15
+  purge_keep_days: 10
   purge_interval: 1
-  db_url: !secret db_url
-  exclude:
-    domains:
-      - automation
-      - camera
-      - input_select
-      - input_slider
-      - input_boolean
-      - proximity
-      - scene
-      - script
-      - sensor
-      - zone
-    entities:
-      - remote.apple_tv
-      - sun.sun
-  include:
-    domains:
-      - binary_sensor
-      - counter
-      - device_tracker
-      - media_player
-      - switch
-    entities:
-      - script.callisto_restart
-      - script.ganymede_restart
-      - script.hometheatre_turnoff
-      - script.hometheatre_turnon
-      - sensor.bedroom_humidity_mean
-      - sensor.bedroom_temperature_mean
-      - sensor.callisto_humidity
-      - sensor.callisto_temperature
-      - sensor.common_room_humidity_mean
-      - sensor.common_room_temperature_mean
-      - sensor.first_floor_humidity_mean
-      - sensor.first_floor_temperature_mean
-      - sensor.mimas_humidity
-      - sensor.mimas_temperature
-      - sensor.pandora_humidity
-      - sensor.pandora_temperature
+  # db_url: !secret db_url
+  # exclude:
 
 panel_iframe:
   configurator:
     title: 'Editor'
     icon: mdi:wrench
-    url: !secret configurator_url
+    url: !secret url_configurator
   glances:
     title: 'Statistics'
     icon: mdi:speedometer
-    url: !secret stats_url
+    url: !secret url_stats
+
+# python_scripts:
+
+script: !include scripts.yaml
 
 stream:
 
@@ -203,24 +218,25 @@ sun:
 
 system_health:
 
-tplink:
-
 tts:
-  - platform: google
+  - platform: google_translate
     base_url: !secret base_url
     cache: true
     cache_dir: /config/www/tts
     time_memory: 300
+    service_name: google_say
 
 updater:
+
+upnp:
+  sensors: true
+  local_ip: !secret mqtt_broker
+  port_mapping: true
+  ports:
+    hass: 7575
+    8080: 8080
 
 wake_on_lan:
 
 zeroconf:
 
-device_tracker: !include conf/device_tracker.yaml
-group: !include_dir_merge_named group/
-media_player: !include conf/media_player.yaml
-notify: !include conf/notify.yaml
-script: !include scripts.yaml
-# automation: !include automations.yaml

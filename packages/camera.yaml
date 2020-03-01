@@ -7,271 +7,118 @@ counter:
     restore: false
 
 camera:
-  - platform: synology
-    url: !secret synology
-    username: !secret my_username
-    password: !secret my_longer_password
-    timeout: 15
+  - platform: ffmpeg
+    name: Boxie
+    input: -rtsp_transport tcp -i rtsp://192.168.1.81:8554/unicast
+  - platform: mjpeg
+    name: "Foscam Garage"
+    mjpeg_url: !secret foscam_white_mjpeg_url
+    still_image_url: !secret foscam_white_still_image_url
+    authentication: basic
     verify_ssl: false
-  # - platform: foscam
-  #   name: "Foscam Common Room"
-  #   ip: !secret foscam_r2_ip
-  #   port: !secret foscam_r2_port
-  #   username: !secret my_r2_username
-  #   password: !secret my_password
-  # - platform: foscam
-  #   name: "Foscam B"
-  #   ip: !secret foscam_black_ip
-  #   port: !secret foscam_black_port
-  #   username: !secret my_username
-  #   password: !secret my_password
-  #- platform: generic
-  #  still_image_url: !secret boxie_still_image_url
-  #  name: "Boxie"
-  #  username: !secret boxie_username
-  #  password: !secret my_password
-  #  authentication: basic
-  #  content_type: image/jpeg
-  #  framerate: 30
-  #  verify_ssl: false
+  - platform: foscam
+    name: "Foscam Common Room"
+    ip: !secret foscam_r2_ip
+    port: !secret foscam_r2_port
+    username: !secret my_username
+    password: !secret my_password
+  - platform: generic
+    name: "Mini Cam"
+    still_image_url: "http://192.168.1.82/capture?_cb=1577330941882"
+    stream_source: http://192.168.1.82
+    authentication: basic
+    verify_ssl: false
 
-  # - platform: mqtt
-  #   name: "Boxie Common Room RTSP"
-  #   state_topic: "common_room/boxie/status"
-  #   value_template: "{% if value_json[\"RTSP-Server\"] == 'running' %}h264_noseg_start{% else %}rtsp_stop{% endif %}"
-  #   command_topic: "Downstairs/HomeCamera1/set"
-  #   payload_on: "h264_noseg_start"
-  #   payload_off: "rtsp_stop"
-  #   # optimistic: false
-  # - platform: mqtt
-  #   name: "Boxie Common Room Up Down"
-  #   command_topic: "common_room/boxie/set"
-  #   payload_off: "motor_up"
-  #   payload_on: "motor_down"
-  #   # optimistic: false
-  # - platform: mqtt
-  #   name: "Boxie Common Room Left Right"
-  #   command_topic: "common_room/boxie/set"
-  #   payload_off: "motor_left"
-  #   payload_on: "motor_right"
-  #   # optimistic: false
+# switch:
+#   - platform: mqtt
+#     name: "Boxie H264 RTSP"
+#     state_topic: "boxie/status"
+#     value_template: "{% if value_json[\"RTSP-Server\"] == 'running' %}h264_noseg_start{% else %}rtsp_stop{% endif %}"
+#     command_topic: "boxie/set"
+#     payload_on: "h264_noseg_start"
+#     payload_off: "rtsp_stop"
+#   - platform: mqtt
+#     name: "Boxie H264 RTSP"
+#     state_topic: "boxie/status"
+#     value_template: "{% if value_json[\"RTSP-Server\"] == 'running' %}h264_noseg_start{% else %}rtsp_stop{% endif %}"
+#     command_topic: "boxie/set"
+#     payload_on: "h264_noseg_start"
+#     payload_off: "rtsp_stop"
+#   - platform: mqtt
+#     name: "Boxie Up Down"
+#     command_topic: "boxie/set"
+#     payload_off: "motor_up"
+#     payload_on: "motor_down"
+#   - platform: mqtt
+#     name: "Boxie Left Right"
+#     command_topic: "boxie/set"
+#     payload_off: "motor_left"
+#     payload_on: "motor_right"
+#   - platform: command_line
+#     switches:
+#       foscam_r2_motion:
+#         command_on: !secret foscam_r2_command_on
+#         command_off: !secret foscam_r2_command_off
+#         command_state: !secret foscam_r2_command_state
+#         value_template: '{{ value == "1" }}'
+#         friendly_name: "Foscam R2 Motion Detection"
+#       # foscam_white_motion:
+#       #   command_on: !secret foscam_white_command_on
+#       #   command_off: !secret foscam_white_command_off
+#       #   command_state: !secret foscam_white_command_state
+#       #   value_template: '{{ value == "1" }}'
+#       #   friendly_name: "Foscam White Motion Detection"
 
-light:
-  - platform: mqtt
-    name: "Dafang Living Room Blue LED"
-    state_topic: "common_room/boxie/status"
-    value_template: "{% if value_json.LEDs.Blue == 'on' %}blue_led_on{% else %}blue_led_off{% endif %}"
-    command_topic: "common_room/boxie/set"
-    payload_on: "blue_led_on"
-    payload_off: "blue_led_off"
-    # optimistic: false
-  - platform: mqtt
-    name: "Dafang Living Room Yellow LED"
-    state_topic: "common_room/boxie/status"
-    value_template: "{% if value_json.LEDs.Yellow == 'on' %}yellow_led_on{% else %}yellow_led_off{% endif %}"
-    command_topic: "common_room/boxie/set"
-    payload_on: "yellow_led_on"
-    payload_off: "yellow_led_off"
-    # optimistic: false
+# light:
+#   - platform: mqtt
+#     name: "Boxie Blue LED"
+#     state_topic: "boxie/status"
+#     value_template: "{% if value_json.LEDs.Blue == 'on' %}blue_led_on{% else %}blue_led_off{% endif %}"
+#     command_topic: "oxie/set"
+#     payload_on: "blue_led_on"
+#     payload_off: "blue_led_off"
+#   - platform: mqtt
+#     name: "Boxie Yellow LED"
+#     state_topic: "boxie/status"
+#     value_template: "{% if value_json.LEDs.Yellow == 'on' %}yellow_led_on{% else %}yellow_led_off{% endif %}"
+#     command_topic: "boxie/set"
+#     payload_on: "yellow_led_on"
+#     payload_off: "yellow_led_off"
 
-shell_command:
-  foscam_r2_command_on: !secret foscam_black_command_on
-  foscam_r2_command_off: !secret foscam_black_command_off
-  foscam_r2_command_state: !secret foscam_black_command_state
-  foscam_r2_preset_1: !secret foscam_black_preset_1
-  foscam_r2_preset_2: !secret foscam_black_preset_2
-  foscam_r2_preset_3: !secret foscam_black_preset_3
-  foscam_r2_preset_4: !secret foscam_black_preset_4
-  foscam_r2_reboot: !secret foscam_black_reboot
-  foscam_black_command_on: !secret foscam_black_command_on
-  foscam_black_command_off: !secret foscam_black_command_off
-  foscam_black_command_state: !secret foscam_black_command_state
-  foscam_black_preset_1: !secret foscam_black_preset_1
-  foscam_black_preset_2: !secret foscam_black_preset_2
-  foscam_black_preset_3: !secret foscam_black_preset_3
-  foscam_black_preset_4: !secret foscam_black_preset_4
-  foscam_black_reboot: !secret foscam_black_reboot
-  foscam_black_scan_0: !secret foscam_black_scan_0
-  foscam_black_scan_1: !secret foscam_black_scan_1
-  foscam_black_scan_2: !secret foscam_black_scan_2
-  foscam_black_scan_3: !secret foscam_black_scan_3
-  foscam_white_command_on: !secret foscam_white_command_on
-  foscam_white_command_off: !secret foscam_white_command_off
-  foscam_white_command_state: !secret foscam_white_command_state
-  foscam_white_preset_1: !secret foscam_white_preset_1
-  foscam_white_preset_2: !secret foscam_white_preset_2
-  foscam_white_preset_3: !secret foscam_white_preset_3
-  foscam_white_preset_4: !secret foscam_white_preset_4
-  foscam_white_reboot: !secret foscam_white_reboot
-  foscam_white_scan_0: !secret foscam_white_scan_0
-  foscam_white_scan_1: !secret foscam_white_scan_1
-  foscam_white_scan_2: !secret foscam_white_scan_2
-  foscam_white_scan_3: !secret foscam_white_scan_3
-
-rest_command:
-  synology_check_homemode:
-    url: !secret synology_homemode_check
-    method: get
-  synology_enable_homemode:
-    url: !secret synology_homemode_on
-    method: get
-  synology_disable_homemode:
-    url: !secret synology_homemode_off
-    method: get
-
-switch:
-  - platform: command_line
-    switches:
-      foscam_r2_motion:
-        command_on: !secret foscam_r2_command_on
-        command_off: !secret foscam_r2_command_off
-        command_state: !secret foscam_r2_command_state
-        value_template: '{{ value == "1" }}'
-        friendly_name: "Foscam R2 Motion Detection"
-      foscam_black_motion:
-        command_on: !secret foscam_black_command_on
-        command_off: !secret foscam_black_command_off
-        command_state: !secret foscam_black_command_state
-        value_template: '{{ value == "1" }}'
-        friendly_name: "Foscam Black Motion Detection"
-      foscam_white_motion:
-        command_on: !secret foscam_white_command_on
-        command_off: !secret foscam_white_command_off
-        command_state: !secret foscam_white_command_state
-        value_template: '{{ value == "1" }}'
-        friendly_name: "Foscam White Motion Detection"
-
-group:
-  foscam:
-    name: "Foscam"
-    icon: mdi:webcam
-    control: hidden
-    view: false
-    entities:
-      - switch.foscam_r2_motion
-      # - switch.foscam_black_motion
-      - switch.foscam_white_motion
-      - counter.foscammotion
-      - script.r2_reboot
-      - script.black_reboot
-      - script.white_reboot
-  Boxie:
-    name: "Boxie"
-    icon: mdi:webcam
-    control: hidden
-    view: false
-    entities:
-      - camera.boxie
-      - switch.boxie_h264_rtsp_server
-      - switch.boxie_mjpeg_rtsp_server
-      - sensor.boxie
-      # - device_tracker.boxie2
-      - sensor.boxie_light_sensor
-      - switch.boxie_ir_filter
-      - switch.boxie_ir_led
-      - switch.boxie_night_mode
-      - switch.boxie_night_mode_auto
-      - switch.boxie_blue_led
-      - switch.boxie_yellow_led
-      - switch.boxie_motion_detection
-      - switch.boxie_motion_tracking
-      - camera.boxie_motion_snapshot
-      - binary_sensor.boxie_motion_sensor
-      - cover.boxie_move_left_right
-      - cover.boxie_move_up_down
-
-automation:
-
-  # - alias: "Foscam R2 Motion Detection Enable"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: switch.foscam_r2_motion
-  #       from: 'off'
-  #       to: 'on'
-  #   action:
-  #     - service: script.r2_scan
-  #
-  # - alias: "Foscam R2 Motion Detection Disable"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: switch.foscam_r2_motion
-  #       from: 'on'
-  #       to: 'off'
-  #   action:
-  #     - service: script.r2_scan_stop
-  #
-  # - alias: "Foscam Black Motion Detection Enable"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: switch.foscam_black_motion
-  #       from: 'off'
-  #       to: 'on'
-  #   action:
-  #     - service: script.black_scan
-  #
-  # - alias: "Foscam Black Motion Detection Disable"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: switch.foscam_black_motion
-  #       from: 'on'
-  #       to: 'off'
-  #   action:
-  #     - service: script.black_scan_stop
-  #
-  # - alias: "Foscam White Motion Detection Enable"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: switch.foscam_white_motion
-  #       from: 'off'
-  #       to: 'on'
-  #   action:
-  #     - service: script.white_scan
-  #
-  # - alias: "Foscam White Motion Detection Disable"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: state
-  #       entity_id: switch.foscam_white_motion
-  #       from: 'on'
-  #       to: 'off'
-  #   action:
-  #     - service: script.white_scan_stop
-  #
-  # - alias: "Auto Motion Detection Activation"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("switch.foscam_r2_motion", "off") or is_state("switch.foscam_black_motion", "off") or is_state("switch.foscam_white_motion", "off") }}'
-  #   action:
-  #     - service: script.motion_detection_activate
-  #
-  # - alias: "Auto Motion Detection Deactivation"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ is_state("input_boolean.presence_pe", "on") or is_state("input_boolean.presence_jue", "on") or is_state("input_select.homemode", "Home") }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("switch.foscam_r2_motion", "on") or is_state("switch.foscam_black_motion", "on") or is_state("switch.foscam_white_motion", "on") }}'
-  #   action:
-  #     - service: script.motion_detection_deactivate
-
-  # - alias: "Boxie motion detected"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: mqtt
-  #       payload: 'ON'
-  #       topic: "myhome/mycamera/motion"
-  #   action:
-  #     - service: script.notify_pesiphone7plus
-  #       data:
-  #         title: "Motion detected"
-  #         message: "Motion detected"
+# group:
+#   foscam:
+#     name: "Foscam"
+#     icon: mdi:webcam
+#     control: hidden
+#     view: false
+#     entities:
+#       - switch.foscam_r2_motion
+#       - switch.foscam_white_motion
+#       - counter.foscammotion
+#       - script.r2_reboot
+#       - script.white_reboot
+#   boxie:
+#     name: "Boxie"
+#     icon: mdi:webcam
+#     control: hidden
+#     view: false
+#     entities:
+#       - camera.boxie
+#       - switch.boxie_h264_rtsp
+#       # - switch.boxie_mjpeg_rtsp_server
+#       # - switch.boxie_ir_filter
+#       # - switch.boxie_ir_led
+#       # - switch.boxie_night_mode
+#       # - switch.boxie_night_mode_auto
+#       # - switch.boxie_blue_led
+#       # - switch.boxie_yellow_led
+#       # - switch.boxie_motion_detection
+#       # - switch.boxie_motion_tracking
+#       # - sensor.boxie
+#       # - sensor.boxie_light_sensor
+#       # - camera.boxie_motion_snapshot
+#       # - binary_sensor.boxie_motion_sensor
+#       - switch.boxie_left_right
+#       - switch.boxie_up_down
+#       - light.boxie.yellow_led
+#       - light.boxie.blue_led

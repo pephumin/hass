@@ -3,75 +3,67 @@ binary_sensor:
     host: 192.168.1.1
     name: "Deeper"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.2
     name: "Pluto"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.3
     name: "Sun"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.4
     name: "Uranus"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.5
     name: "Neptune"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.6
     name: "Mercury"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.7
     name: "Apollo"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.8
     name: "Sputnik"
     count: 2
-    scan_interval: 30
-  - platform: ping
-    host: 192.168.1.10
-    name: "Cookie"
-    count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.13
     name: "Candy"
     count: 2
-    scan_interval: 30
-  # - platform: ping
-  #   host: 192.168.1.13
-  #   name: "Broadlink RM Pro"
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.14
     name: "Broadlink RM Mini A"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.15
     name: "Broadlink RM Mini B"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.16
     name: "Doughnut"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.17
     name: "Biscuit"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.18
     name: "Hyperion"
@@ -83,15 +75,15 @@ binary_sensor:
     count: 2
     scan_interval: 30
   - platform: ping
-    host: 192.168.1.20
+    host: 192.168.1.120
     name: "Titan"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
-    host: 192.168.1.21
+    host: 192.168.1.121
     name: "Europa"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.22
     name: "Ganymede"
@@ -101,22 +93,22 @@ binary_sensor:
     host: 192.168.1.23
     name: "Callisto"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.24
     name: "Mimas"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.25
     name: "Pandora"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.26
     name: "Phoebe"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.27
     name: "Calypso"
@@ -126,55 +118,160 @@ binary_sensor:
     host: 192.168.1.28
     name: "SVA"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.29
     name: "SVB"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.30
+    name: "pesiphone7plus"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.31
+    name: "pesipadmini5"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.32
+    name: "juesiphone6splus"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.33
+    name: "juesipadmini4"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.34
+    name: "pesipodtouch4"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.36
+    name: "benjysiphone6"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.37
+    name: "benjawan"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.38
+    name: "benjysipadmini2"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.39
+    name: "boom"
     count: 2
     scan_interval: 30
   - platform: ping
     host: 192.168.1.40
     name: "Moon"
     count: 2
-    scan_interval: 30
-  - platform: ping
-    host: 192.168.1.41
-    name: "Wemos Lite Party"
-    count: 2
-    scan_interval: 30
+    scan_interval: 120
+  # - platform: ping
+  #   host: 192.168.1.41
+  #   name: "Wemos Lite Party"
+  #   count: 2
+  #   scan_interval: 120
   - platform: ping
     host: 192.168.1.42
     name: "NodeMCU Matrix Clock"
     count: 2
-    scan_interval: 30
-  # - platform: ping
-  #   host: 192.168.1.43
-  #   name: ""
-  #   count: 2
-  #   scan_interval: 30
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.43
+    name: "Wemos Ring Clock"
+    count: 2
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.44
     name: "Earth"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.46
+    name: "Comet"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.52
+    name: "Wemos ButtonBox"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.61
+    name: "Wemos WLED RC"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.62
+    name: "Wemos WLED B"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.63
+    name: "Wemos WLED C"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.64
+    name: "Wemos WLED D"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.65
+    name: "Wemos WLED Party"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.71
+    name: "Wemos WLED E"
+    count: 2
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.78
     name: "Foscam Black"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.79
     name: "Foscam White"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.80
     name: "Foscam R2"
     count: 2
-    scan_interval: 30
+    scan_interval: 120
   - platform: ping
     host: 192.168.1.81
     name: "Boxie"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.82
+    name: "ESP32 Cam"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.200
+    name: "pepe"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.202
+    name: "pepework"
+    count: 2
+    scan_interval: 30
+  - platform: ping
+    host: 192.168.1.250
+    name: "sinbad"
     count: 2
     scan_interval: 30
 
@@ -203,31 +300,51 @@ counter:
     step: 1
     icon: mdi:counter
     restore: false
+  workstation:
+    name: "WorkStation Reboot Counts"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+    restore: false
+  camera:
+    name: "Camera Reboot Counts"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+    restore: false
 
 group:
   online_cr:
     name: "Online Status Common Room"
     icon: mdi:lan-connect
-    view: false
     control: hidden
+    view: false
     entities:
       - binary_sensor.deeper
       - binary_sensor.apollo
       - binary_sensor.pluto
       - binary_sensor.broadlink_rm_mini_b
       - binary_sensor.foscam_r2
+      - binary_sensor.esp32_cam
       - binary_sensor.candy
+      - binary_sensor.moon
       - binary_sensor.titan
       - binary_sensor.ganymede
+      - binary_sensor.callisto
       - binary_sensor.mimas
-      - binary_sensor.phoebe
-      - binary_sensor.wemos_lite_party
+      - binary_sensor.sva
       - binary_sensor.nodemcu_matrix_clock
+      - binary_sensor.wemos_ring_clock
+      - binary_sensor.wemos_wled_rc
+      - binary_sensor.wemos_wled_b
+      - binary_sensor.wemos_wled_c
+      - binary_sensor.wemos_wled_d
+      - binary_sensor.wemos_wled_e
+      - binary_sensor.wemos_wled_party
       - binary_sensor.denon
       - binary_sensor.android_box
       - binary_sensor.biscuit
       - binary_sensor.apple_tv
-      - binary_sensor.svb
       - binary_sensor.dune
       - binary_sensor.xdj_rx
   online_br:
@@ -239,10 +356,10 @@ group:
       - binary_sensor.neptune
       - binary_sensor.broadlink_rm_mini_a
       - binary_sensor.doughnut
-      - binary_sensor.moon
       - binary_sensor.europa
       - binary_sensor.pandora
       - binary_sensor.hyperion
+      - binary_sensor.wemos_buttonbox
   online_ff:
     name: "Online Status First Floor"
     icon: mdi:lan-connect
@@ -250,35 +367,88 @@ group:
     control: hidden
     entities:
       - binary_sensor.uranus
-      - binary_sensor.mercury
-      - binary_sensor.foscam_white
+      - binary_sensor.boxie
       - binary_sensor.earth
-      - binary_sensor.charon
-      - binary_sensor.callisto
-      - binary_sensor.front_door
-      - binary_sensor.window
+      - binary_sensor.svb
+      - binary_sensor.phoebe
+      - binary_sensor.calypso
+      - binary_sensor.comet
       - binary_sensor.bmw
       - binary_sensor.pong
       - binary_sensor.freed
 
 automation:
 
-  - alias: 'Webcam Switch Restart'
+  - alias: 'Camera Online Switch Restart'
     initial_state: 'on'
     trigger:
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.foscam_r2", "off") }}'
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_b", "off") }}'
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.boxie", "off") }}'
+      - platform: state
+        entity_id: binary_sensor.foscam_r2, binary_sensor.broadlink_rm_mini_b
+        to: "off"
+        for:
+          minutes: 5
     condition:
       - condition: template
-        # value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.webcam_switch_restart.last_triggered))/60 > 5 }}'
-        value_template: '{% if states.automation.webcam_switch_restart.attributes.last_triggered == "None" %}{{ (as_timestamp(now())-as_timestamp(states.automation.webcam_switch_restart.last_updated))/60 > 5 }}{% else %}{{ (as_timestamp(now())-as_timestamp(states.automation.webcam_switch_restart.attributes.last_triggered))/60 > 5 }}{% endif %}'
+        value_template: '{% if state_attr("automation.camera_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.camera_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.camera_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
     action:
       - service: script.turn_on
         entity_id: script.restart_ganymede
+      - service: counter.increment
+        entity_id: counter.camera
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "false"
+          line: "false"
+          speak: "true"
+          audio: "false"
+          light: "false"
+          mobile: "pe"
+          title: "Restarting Camera Online Switch (Ganymede)"
+          message: 'Camera Online Switch (Ganymede) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
+
+  - alias: 'ESP32 Camera Online Switch Restart'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.esp32_cam
+        to: "off"
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{% if state_attr("automation.esp32_camera_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.esp32_camera_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.esp32_camera_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
+    action:
+      - service: script.turn_on
+        entity_id: script.restart_sva
+      # - service: counter.increment
+      #   entity_id: counter.camera
+      - service: script.notifying
+        data_template:
+          email: "false"
+          tv: "false"
+          line: "false"
+          speak: "true"
+          audio: "false"
+          light: "false"
+          mobile: "pe"
+          title: "Restarting ESP32 Camera Online Switch (SVA)"
+          message: 'ESP32 Camera Online Switch (SVA) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
+
+  - alias: 'Common Room Online Switch Restart'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.candy
+        to: "off"
+        for:
+          minutes: 5
+    condition:
+      - condition: template
+        value_template: '{% if state_attr("automation.common_room_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.common_room_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.common_room_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
+    action:
+      - service: script.turn_on
+        entity_id: script.restart_callisto
       - service: counter.increment
         entity_id: counter.commonroom
       - service: script.notifying
@@ -290,23 +460,20 @@ automation:
           audio: "false"
           light: "false"
           mobile: "pe"
-          message: "Restarting Webcam (Ganymede)"
+          title: "Restarting Common Room online switch (Callisto)"
+          message: 'Common Room Online Switch (Phoebe) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
-  - alias: 'Hyperion Switch Restart'
+  - alias: 'Bedroom Online Switch Restart'
     initial_state: 'on'
     trigger:
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.neptune", "off") }}'
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.moon", "off") }}'
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.broadlink_rm_mini_a", "off") }}'
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.doughnut", "off") }}'
+      - platform: state
+        entity_id: binary_sensor.neptune, binary_sensor.broadlink_rm_mini_a, binary_sensor.doughnut
+        to: "off"
+        for:
+          minutes: 5
     condition:
       - condition: template
-        # value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.hyperion_switch_restart.last_changed))/60 > 5 }}'
-        value_template: '{% if states.automation.hyperion_switch_restart.attributes.last_triggered == "None" %}{{ (as_timestamp(now())-as_timestamp(states.automation.hyperion_switch_restart.last_updated))/60 > 5 }}{% else %}{{ (as_timestamp(now())-as_timestamp(states.automation.hyperion_switch_restart.attributes.last_triggered))/60 > 5 }}{% endif %}'
+        value_template: '{% if state_attr("automation.bedroom_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.bedroom_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.bedroom_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
     action:
       - service: script.turn_on
         entity_id: script.restart_hyperion
@@ -321,24 +488,23 @@ automation:
           audio: "false"
           light: "false"
           mobile: "pe"
-          message: "Restarting Hyperion"
+          title: "Restarting Bedroom online switch (Hyperion)"
+          message: 'Bedroom Online Switch (Hyperion) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
-  - alias: 'Charon Switch Restart'
+  - alias: 'First Floor Online Switch Restart'
     initial_state: 'on'
     trigger:
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.foscam_white", "off") }}'
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.earth", "off") }}'
-      - platform: template
-        value_template: '{{ is_state("binary_sensor.mercury", "off") }}'
+      - platform: state
+        entity_id: binary_sensor.uranus, binary_sensor.boxie
+        to: "off"
+        for:
+          minutes: 5
     condition:
       - condition: template
-        # value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.charon_switch_restart.last_changed))/60 > 5 }}'
-        value_template: '{% if states.automation.charon_switch_restart.attributes.last_triggered == "None" %}{{ (as_timestamp(now())-as_timestamp(states.automation.charon_switch_restart.last_updated))/60 > 5 }}{% else %}{{ (as_timestamp(now())-as_timestamp(states.automation.charon_switch_restart.attributes.last_triggered))/60 > 5 }}{% endif %}'
+        value_template: '{% if state_attr("automation.first_floor_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.first_floor_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.first_floor_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
     action:
       - service: script.turn_on
-        entity_id: script.restart_charon
+        entity_id: script.restart_phoebe
       - service: counter.increment
         entity_id: counter.firstfloor
       - service: script.notifying
@@ -350,109 +516,14 @@ automation:
           audio: "false"
           light: "false"
           mobile: "pe"
-          message: "Restarting Charon"
-
-  - alias: 'Hyperion Switch Always On'
-    initial_state: 'on'
-    trigger:
-      - platform: template
-        value_template: '{{ is_state("switch.hyperion", "off") }}'
-    condition:
-      - condition: template
-        value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.hyperion_switch_always_on.last_changed))/60 > 5 }}'
-    action:
-      - service: switch.turn_on
-        entity_id: switch.hyperion
-      - service: script.notifying
-        data_template:
-          email: "false"
-          tv: "false"
-          line: "false"
-          speak: "true"
-          audio: "false"
-          light: "false"
-          mobile: "pe"
-          message: "Get Hyperion Online"
-
-  - alias: 'Charon Switch Always On'
-    initial_state: 'on'
-    trigger:
-      - platform: template
-        value_template: '{{ is_state("switch.charon", "off") }}'
-    condition:
-      - condition: template
-        value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.charon_switch_always_on.last_changed))/60 > 5 }}'
-    action:
-      - service: switch.turn_on
-        entity_id: switch.charon
-      - service: script.notifying
-        data_template:
-          email: "false"
-          tv: "false"
-          line: "false"
-          speak: "true"
-          audio: "false"
-          light: "false"
-          mobile: "pe"
-          message: "Get Charon Online"
-
-  - alias: 'Genymede Switch Always On'
-    initial_state: 'on'
-    trigger:
-      - platform: template
-        value_template: '{{ is_state("switch.ganymede", "off") }}'
-    condition:
-      - condition: template
-        value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.ganymede_switch_always_on.last_changed))/60 > 5 }}'
-    action:
-      - service: switch.turn_on
-        entity_id: switch.ganymede
-      - service: script.notifying
-        data_template:
-          email: "false"
-          tv: "false"
-          line: "false"
-          speak: "true"
-          audio: "false"
-          light: "false"
-          mobile: "pe"
-          message: "Get Ganymede Online"
-
-  - alias: 'Calypso Switch Always On'
-    initial_state: 'on'
-    trigger:
-      - platform: template
-        value_template: '{{ is_state("switch.calypso", "off") }}'
-    condition:
-      - condition: template
-        value_template: '{{ (as_timestamp(now())-as_timestamp(states.automation.calypso_switch_always_on.last_changed))/60 > 5 }}'
-    action:
-      - service: switch.turn_on
-        entity_id: switch.calypso
-      - service: script.notifying
-        data_template:
-          email: "false"
-          tv: "false"
-          line: "false"
-          speak: "true"
-          audio: "false"
-          light: "false"
-          mobile: "pe"
-          message: "Get Calypso Online"
+          title: "Restarting First Floor online switch (Phoebe)"
+          message: 'First Floor Online Switch (Phoebe) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
   - alias: "Car Online"
     initial_state: 'on'
     trigger:
       - platform: state
-        entity_id: binary_sensor.bmw
-        from: 'off'
-        to: 'on'
-      - platform: state
-        entity_id: binary_sensor.pong
-        from: 'off'
-        to: 'on'
-      - platform: state
-        entity_id: binary_sensor.freed
+        entity_id: binary_sensor.bmw, binary_sensor.pong, binary_sensor.freed
         from: 'off'
         to: 'on'
     condition:
@@ -470,25 +541,13 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "pe"
-          message: 'Turn on Garage light because {{ trigger.from_state.attributes.friendly_name }} gets online'
+          message: 'Turn on {{ trigger.to_state.attributes.friendly_name }} because {{ trigger.from_state.attributes.friendly_name }} gets online'
 
   - alias: "Car Offline"
     initial_state: 'on'
     trigger:
       - platform: state
-        entity_id: binary_sensor.bmw
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 1
-      - platform: state
-        entity_id: binary_sensor.pong
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 1
-      - platform: state
-        entity_id: binary_sensor.freed
+        entity_id: binary_sensor.bmw, binary_sensor.pong, binary_sensor.freed
         from: 'on'
         to: 'off'
         for:
@@ -508,7 +567,7 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "pe"
-          message: 'Turn off Garage light because {{ trigger.from_state.attributes.friendly_name }} has gone offline'
+          message: 'Turn off {{ trigger.to_state.attributes.friendly_name }} because {{ trigger.from_state.attributes.friendly_name }} has gone offline'
 
   - alias: "XDJ-RX is online"
     initial_state: 'on'
