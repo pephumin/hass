@@ -1,7 +1,6 @@
 default_view:
   name: Home
   icon: mdi:home
-  view: true
   entities:
     - group.control
     - group.daylight
@@ -27,7 +26,6 @@ default_view:
 common_room:
   name: "Common Room"
   icon: mdi:television
-  view: true
   entities:
     - group.control_cr
     - group.party
@@ -52,7 +50,6 @@ common_room:
 bedroom:
   name: "Bedroom"
   icon: mdi:hotel
-  view: true
   entities:
     - group.control_br
     - media_player.itunes
@@ -70,7 +67,6 @@ bedroom:
 first_floor:
   name: "First Floor"
   icon: mdi:fridge
-  view: true
   entities:
     - group.control_ff
     - camera.boxie

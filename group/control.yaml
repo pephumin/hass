@@ -1,31 +1,22 @@
 control:
   name: "Control Panel"
   icon: mdi:google-controller
-  view: false
   control: hidden
   entities:
-    # - input_boolean.presence_pe
-    # - input_boolean.presence_jue
     - input_select.homemode
     - sensor.calypso_am2301_temperature
     - sensor.ganymede_am2301_temperature
     - sensor.pandora_am2301_temperature
-    # - input_boolean.presence_benjy
-    # - input_boolean.presence_boom
-    # - input_boolean.presence_pe_benjawan
-    # - input_boolean.presence_jue_malaiwan
     - input_boolean.presence_xdj_rx
 
 control_cr:
   name: "Common Room Control Panel"
   icon: mdi:google-controller
-  view: false
   control: hidden
   entities:
     - sensor.ganymede_am2301_temperature
     - sensor.ganymede_am2301_humidity
     - switch.common_room_haier
-    # - switch.common_room_fan
     - switch.common_room_hometheatre
     - switch.mimas
     - switch.sva
@@ -40,7 +31,6 @@ control_cr:
 control_br:
   name: "Bedroom Control Panel"
   icon: mdi:google-controller
-  view: false
   control: hidden
   entities:
     - sensor.pandora_am2301_temperature
@@ -55,7 +45,6 @@ control_br:
 control_ff:
   name: "First Floor Control Panel"
   icon: mdi:google-controller
-  view: false
   control: hidden
   entities:
     - sensor.calypso_am2301_temperature
@@ -64,6 +53,3 @@ control_ff:
     - switch.phoebe
     - light.calypso
     - light.svb
-    - binary_sensor.front_door_sensor
-    - switch.front_door_reed_switch
-    # - input_boolean.test_ios

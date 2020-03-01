@@ -407,6 +407,6 @@ script:
       - service: mqtt.publish
         data:
           topic: "smartdimmer/cmnd/Backlog"
-          payload: "Rule1 1; DimmerRange 100,1000;"
+          payload: "Rule1 0; DimmerRange 100,1000;"
 
 
