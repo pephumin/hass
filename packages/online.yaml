@@ -205,6 +205,11 @@ binary_sensor:
     count: 2
     scan_interval: 120
   - platform: ping
+    host: 192.168.1.53
+    name: "Wemos WLED A"
+    count: 2
+    scan_interval: 120
+  - platform: ping
     host: 192.168.1.61
     name: "Wemos WLED RC"
     count: 2
@@ -336,6 +341,7 @@ group:
       - binary_sensor.nodemcu_matrix_clock
       - binary_sensor.wemos_ring_clock
       - binary_sensor.wemos_wled_rc
+      - binary_sensor.wemos_wled_a
       - binary_sensor.wemos_wled_b
       - binary_sensor.wemos_wled_c
       - binary_sensor.wemos_wled_d
