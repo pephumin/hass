@@ -7,13 +7,20 @@ counter:
     restore: false
 
 camera:
-  - platform: ffmpeg
-    name: Boxie
-    input: -rtsp_transport tcp -i rtsp://192.168.1.81:8554/unicast
-  - platform: mjpeg
-    name: "Foscam Garage"
-    mjpeg_url: !secret foscam_white_mjpeg_url
-    still_image_url: !secret foscam_white_still_image_url
+  - platform: generic
+    name: BoxieB1
+    still_image_url: !secret boxieb1_still_image_url
+    stream_source: !secret boxieb1_stream_source
+    username: !secret boxieb1_username
+    password: !secret my_password
+    authentication: basic
+    verify_ssl: false
+  - platform: generic
+    name: BoxieB2
+    still_image_url: !secret boxieb2_still_image_url
+    stream_source: !secret boxieb2_stream_source
+    username: !secret boxieb2_username
+    password: !secret my_password
     authentication: basic
     verify_ssl: false
   - platform: foscam
@@ -22,103 +29,23 @@ camera:
     port: !secret foscam_r2_port
     username: !secret my_username
     password: !secret my_password
+#  - platform: ffmpeg
+#    name: BoxieB1
+#    input: -rtsp_transport tcp -i rtsp://192.168.1.81:8554/unicast
+#  - platform: ffmpeg
+#    name: BoxieB2
+#    input: -rtsp_transport tcp -i rtsp://192.168.1.82:8554/unicast
   - platform: generic
-    name: "Mini Cam"
-    still_image_url: "http://192.168.1.82/capture?_cb=1577330941882"
-    stream_source: http://192.168.1.82
+    name: "Foscam Garage"
+    stream_source: !secret foscam_white_mjpeg_url
+    still_image_url: !secret foscam_white_still_image_url
+    username: !secret my_username
+    password: !secret my_password
     authentication: basic
     verify_ssl: false
-
-# switch:
-#   - platform: mqtt
-#     name: "Boxie H264 RTSP"
-#     state_topic: "boxie/status"
-#     value_template: "{% if value_json[\"RTSP-Server\"] == 'running' %}h264_noseg_start{% else %}rtsp_stop{% endif %}"
-#     command_topic: "boxie/set"
-#     payload_on: "h264_noseg_start"
-#     payload_off: "rtsp_stop"
-#   - platform: mqtt
-#     name: "Boxie H264 RTSP"
-#     state_topic: "boxie/status"
-#     value_template: "{% if value_json[\"RTSP-Server\"] == 'running' %}h264_noseg_start{% else %}rtsp_stop{% endif %}"
-#     command_topic: "boxie/set"
-#     payload_on: "h264_noseg_start"
-#     payload_off: "rtsp_stop"
-#   - platform: mqtt
-#     name: "Boxie Up Down"
-#     command_topic: "boxie/set"
-#     payload_off: "motor_up"
-#     payload_on: "motor_down"
-#   - platform: mqtt
-#     name: "Boxie Left Right"
-#     command_topic: "boxie/set"
-#     payload_off: "motor_left"
-#     payload_on: "motor_right"
-#   - platform: command_line
-#     switches:
-#       foscam_r2_motion:
-#         command_on: !secret foscam_r2_command_on
-#         command_off: !secret foscam_r2_command_off
-#         command_state: !secret foscam_r2_command_state
-#         value_template: '{{ value == "1" }}'
-#         friendly_name: "Foscam R2 Motion Detection"
-#       # foscam_white_motion:
-#       #   command_on: !secret foscam_white_command_on
-#       #   command_off: !secret foscam_white_command_off
-#       #   command_state: !secret foscam_white_command_state
-#       #   value_template: '{{ value == "1" }}'
-#       #   friendly_name: "Foscam White Motion Detection"
-
-# light:
-#   - platform: mqtt
-#     name: "Boxie Blue LED"
-#     state_topic: "boxie/status"
-#     value_template: "{% if value_json.LEDs.Blue == 'on' %}blue_led_on{% else %}blue_led_off{% endif %}"
-#     command_topic: "oxie/set"
-#     payload_on: "blue_led_on"
-#     payload_off: "blue_led_off"
-#   - platform: mqtt
-#     name: "Boxie Yellow LED"
-#     state_topic: "boxie/status"
-#     value_template: "{% if value_json.LEDs.Yellow == 'on' %}yellow_led_on{% else %}yellow_led_off{% endif %}"
-#     command_topic: "boxie/set"
-#     payload_on: "yellow_led_on"
-#     payload_off: "yellow_led_off"
-
-# group:
-#   foscam:
-#     name: "Foscam"
-#     icon: mdi:webcam
-#     control: hidden
-#     view: false
-#     entities:
-#       - switch.foscam_r2_motion
-#       - switch.foscam_white_motion
-#       - counter.foscammotion
-#       - script.r2_reboot
-#       - script.white_reboot
-#   boxie:
-#     name: "Boxie"
-#     icon: mdi:webcam
-#     control: hidden
-#     view: false
-#     entities:
-#       - camera.boxie
-#       - switch.boxie_h264_rtsp
-#       # - switch.boxie_mjpeg_rtsp_server
-#       # - switch.boxie_ir_filter
-#       # - switch.boxie_ir_led
-#       # - switch.boxie_night_mode
-#       # - switch.boxie_night_mode_auto
-#       # - switch.boxie_blue_led
-#       # - switch.boxie_yellow_led
-#       # - switch.boxie_motion_detection
-#       # - switch.boxie_motion_tracking
-#       # - sensor.boxie
-#       # - sensor.boxie_light_sensor
-#       # - camera.boxie_motion_snapshot
-#       # - binary_sensor.boxie_motion_sensor
-#       - switch.boxie_left_right
-#       - switch.boxie_up_down
-#       - light.boxie.yellow_led
-#       - light.boxie.blue_led
+  - platform: generic
+    name: "Mini Cam"
+    still_image_url: "http://192.168.1.83/capture?_cb=1577330941882"
+    stream_source: http://192.168.1.83
+    authentication: basic
+    verify_ssl: false

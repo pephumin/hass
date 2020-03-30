@@ -490,9 +490,6 @@ binary_sensor.titan:
 binary_sensor.europa:
   icon: mdi:power-socket-us
   friendly_name: TP-Link Plug Bedroom
-# binary_sensor.charon:
-#   icon: mdi:power-socket-us
-#   friendly_name: Sonoff S20 Charon
 binary_sensor.hyperion:
   icon: mdi:power-socket-us
   friendly_name: Sonoff S20 Hyperion
@@ -515,10 +512,10 @@ binary_sensor.calypso:
   icon: mdi:power-socket-us
   friendly_name: Sonoff S20 Calypso
 binary_sensor.sva:
-  icon:  mdi:power-plug
+  icon: mdi:power-plug
   friendly_name: Sonoff SV A
 binary_sensor.svb:
-  icon:  mdi:power-plug
+  icon: mdi:power-plug
   friendly_name: Sonoff SV B
 binary_sensor.nodemcu_matrix_clock:
   icon: mdi:video-input-antenna
@@ -562,10 +559,6 @@ sensor.ganymede_am2301_temperature:
 sensor.ganymede_am2301_humidity:
   icon: mdi:water-percent
   friendly_name: Common Room Humidity
-# switch.calypso:
-#   icon: mdi:lightbulb-on-outline
-#   friendly_name: Kitchen
-#   assumed_state: false
 switch.sva:
   icon: mdi:power-socket
   friendly_name: SVA
@@ -602,10 +595,6 @@ switch.phoebe:
   icon: mdi:power-plug
   friendly_name: First Floor Door Online Switch
   assumed_state: true
-# switch.charon:
-#   icon: mdi:power-socket-us
-#   friendly_name: First Floor Online Switch
-#   assumed_state: true
 switch.hyperion:
   icon: mdi:power-socket-us
   friendly_name: Bedroom Online Switch
@@ -619,46 +608,6 @@ binary_sensor.front_door:
 light.party:
   icon: mdi:led-strip
   friendly_name: Party
-# input_number.led_animation_speed:
-#   icon: mdi:fast-forward
-#   friendly_name: Speed
-# input_boolean.pe_on_the_go:
-#   friendly_name: Pe On the Go
-#   # icon: mdi:car
-#   templates:
-#     icon_color:   "if (state === 'on') return 'red'; else return 'dodgerblue';"
-#     icon:         "if (state === 'on') return 'mdi:checkbox-marked-outline'; else return 'mdi:close-box-outline';"
-# input_boolean.pe_far_away:
-#   friendly_name: Pe Far Away
-#   # icon: mdi:train-car
-#   templates:
-#     icon_color:   "if (state === 'on') return 'red'; else return 'dodgerblue';"
-#     icon:         "if (state === 'on') return 'mdi:checkbox-marked-outline'; else return 'mdi:close-box-outline';"
-# input_boolean.pe_zone_change:
-#   friendly_name: Pe Zone Changes
-#   # icon: mdi:checkbox-marked-outline
-#   templates:
-#     icon_color:   "if (state === 'on') return 'red'; else return 'dodgerblue';"
-#     icon:         "if (state === 'on') return 'mdi:checkbox-marked-outline'; else return 'mdi:close-box-outline';"
-# input_boolean.jue_on_the_go:
-#   friendly_name: Jue On the Go
-#   # icon: mdi:car
-#   templates:
-#     icon_color:   "if (state === 'on') return 'red'; else return 'dodgerblue';"
-#     icon:         "if (state === 'on') return 'mdi:checkbox-marked-outline'; else return 'mdi:close-box-outline';"
-# input_boolean.jue_far_away:
-#   friendly_name: Jue Far Away
-#   # icon: mdi:train-car
-#   templates:
-#     icon_color:   "if (state === 'on') return 'red'; else return 'dodgerblue';"
-#     icon:         "if (state === 'on') return 'mdi:checkbox-marked-outline'; else return 'mdi:close-box-outline';"
-# input_boolean.jue_zone_change:
-#   friendly_name: Jue Zone Changes
-#   # icon: mdi:checkbox-marked-outline
-#   templates:
-#     icon_color:   "if (state === 'on') return 'red'; else return 'dodgerblue';"
-#     icon:         "if (state === 'on') return 'mdi:checkbox-marked-outline'; else return 'mdi:close-box-outline';"
-
 sensor.samsung_m267x_287x_series_192168144:
   icon: mdi:printer
   friendly_name: Earth
@@ -767,4 +716,26 @@ sensor.deeper_router_packets_sec_received:
 sensor.deeper_router_packets_sec_sent:
   icon: mdi:speedometer
   friendly_name: Speed packets sent
-
+binary_sensor.boxie_b1:
+  icon: mdi:webcam
+binary_sensor.boxie_b2:
+  icon: mdi:webcam
+camera.boxieb1:
+  access_token: f1f63f180bbd90e794d2652a6efabb9cfd8b97305cd0ae15a164e811cd59dd9c
+  entity_picture: /api/camera_proxy/camera.boxieb1?token=f1f63f180bbd90e794d2652a6efabb9cfd8b97305cd0ae15a164e811cd59dd9c
+  friendly_name: Boxie B1
+  icon: mdi:webcam
+  supported_features: 2
+camera.boxieb2:
+  access_token: 6fd349d56c3632d577d4a5878b6cc6ea3d501d86fe2fbc2be1ad88611a63bf5b
+  friendly_name: Boxie B2
+  icon: mdi:webcam
+light.smartdimmer:
+  friendly_name: SmartDimmer
+  icon: mdi:light-switch
+binary_sensor.wemos_ring_clock:
+  friendly_name: Wemos Ring Clock
+  icon: mdi:video-input-antenna
+binary_sensor.wemos_wled_rc:
+  friendly_name: Wemos WLED RC
+  icon: mdi:video-input-antenna

@@ -40,28 +40,33 @@ binary_sensor:
     count: 2
     scan_interval: 120
   - platform: ping
+    host: 192.168.1.12
+    name: "Biscuit"
+    count: 2
+    scan_interval: 120
+  - platform: ping
     host: 192.168.1.13
     name: "Candy"
     count: 2
     scan_interval: 120
   - platform: ping
     host: 192.168.1.14
-    name: "Broadlink RM Mini A"
-    count: 2
-    scan_interval: 120
-  - platform: ping
-    host: 192.168.1.15
-    name: "Broadlink RM Mini B"
-    count: 2
-    scan_interval: 120
-  - platform: ping
-    host: 192.168.1.16
     name: "Doughnut"
     count: 2
     scan_interval: 120
   - platform: ping
+    host: 192.168.1.15
+    name: "Broadlink RM Mini A"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.16
+    name: "Broadlink RM Mini B"
+    count: 2
+    scan_interval: 120
+  - platform: ping
     host: 192.168.1.17
-    name: "Biscuit"
+    name: "Broadlink RM Mini C"
     count: 2
     scan_interval: 120
   - platform: ping
@@ -205,11 +210,6 @@ binary_sensor:
     count: 2
     scan_interval: 120
   - platform: ping
-    host: 192.168.1.53
-    name: "Wemos WLED A"
-    count: 2
-    scan_interval: 120
-  - platform: ping
     host: 192.168.1.61
     name: "Wemos WLED RC"
     count: 2
@@ -235,8 +235,63 @@ binary_sensor:
     count: 2
     scan_interval: 120
   - platform: ping
+    host: 192.168.1.66
+    name: "Denon"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.67
+    name: "Downlight Black1"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.68
+    name: "Downlight Black2"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.69
+    name: "Downlight Black3"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.70
+    name: "Downlight Black4"
+    count: 2
+    scan_interval: 120
+  - platform: ping
     host: 192.168.1.71
     name: "Wemos WLED E"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.72
+    name: "Smart Dimmer"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.73
+    name: "Downlight Black4"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.74
+    name: "Downlight Black6"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.75
+    name: "Downlight Black7"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.76
+    name: "Downlight Black8"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.77
+    name: "Dune"
     count: 2
     scan_interval: 120
   - platform: ping
@@ -256,11 +311,16 @@ binary_sensor:
     scan_interval: 120
   - platform: ping
     host: 192.168.1.81
-    name: "Boxie"
+    name: "Boxie B1"
     count: 2
     scan_interval: 120
   - platform: ping
     host: 192.168.1.82
+    name: "Boxie B2"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.83
     name: "ESP32 Cam"
     count: 2
     scan_interval: 120
@@ -329,7 +389,7 @@ group:
       - binary_sensor.apollo
       - binary_sensor.pluto
       - binary_sensor.broadlink_rm_mini_b
-      - binary_sensor.foscam_r2
+      - binary_sensor.boxie_b2
       - binary_sensor.esp32_cam
       - binary_sensor.candy
       - binary_sensor.moon
@@ -341,7 +401,6 @@ group:
       - binary_sensor.nodemcu_matrix_clock
       - binary_sensor.wemos_ring_clock
       - binary_sensor.wemos_wled_rc
-      - binary_sensor.wemos_wled_a
       - binary_sensor.wemos_wled_b
       - binary_sensor.wemos_wled_c
       - binary_sensor.wemos_wled_d
@@ -373,7 +432,9 @@ group:
     control: hidden
     entities:
       - binary_sensor.uranus
-      - binary_sensor.boxie
+      - binary_sensor.broadlink_rm_mini_c
+      - binary_sensor.boxie_b1
+      - binary_sensor.foscam_white
       - binary_sensor.earth
       - binary_sensor.svb
       - binary_sensor.phoebe
