@@ -111,22 +111,10 @@ sensor places_jue:
     home_zone: zone.home
     api_key: !secret email_pe
 
-# sensor places_benjy:
-#   - platform: places
-#     name: benjy
-#     devicetracker_id: device_tracker.benjysiphone6
-#     options: zone, place, street, city, country
-#     map_provider: google
-#     map_zoom: 19
-#     home_zone: zone.home
-#     api_key: !secret email_pe
-
 group:
   devices:
     name: "Devices"
     icon: mdi:account
-    view: false
-    control: hidden
     entities:
       - device_tracker.pesiphone7plus
       - device_tracker.pesipadmini5
@@ -143,14 +131,51 @@ group:
       - input_boolean.jueatbigc
       - sensor.pe
       - sensor.jue
-      # - sensor.benjy
-      # - input_select.icloud3_commands
-      # - input_select.icloud3_set_interval
-      # - input_select.icloud3_debug_commands
 
+# sensor:
+#   - platform: history_stats
+#     name: "Denon On Today"
+#     entity_id: media_player.denon
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0, minute=0, second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: "Downlightblack8" On Today"
+#     entity_id: light.downlightblack8
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0, minute=0, second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: "TV On Today"
+#     entity_id: binary_sensor.smart_tv
+#     state: 'on'
+#     type: time
+#     start: '{{ now().replace(hour=0, minute=0, second=0) }}'
+#     end: '{{ now() }}'
+#   - platform: history_stats
+#     name: "No. of times MPD turned ON last 7 days"
+#     entity_id: media_player.mpd_macbook_pro
+#     state: 'on'
+#     type: count
+#     type: time
+#     end: '{{ now().replace(hour=0, minute=0, second=0) }}'
+#     duration:
+#       days: 7
+  # - platform: history_stats
+  #   name: Number of times inngangsdor opened yesterday
+  #   entity_id: sensor.inngangsdor
+  #   state: 'open'
+  #   type: count
+  #   end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+  #   duration:
+  #     hours: 24
+      
 automation:
 
   - alias: "Set Home Mode"
+    initial_state: "on"
     trigger:
       - platform: template
         value_template:  '{{ is_state("input_boolean.peathome", "on") and is_state("input_boolean.jueathome", "on") }}'
@@ -164,6 +189,7 @@ automation:
           option: 'Home'
 
   - alias: "Set Away Mode Pe"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: input_boolean.peathome
@@ -189,6 +215,7 @@ automation:
       - service: script.switch_to_off
 
   - alias: "Set Away Mode Jue"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: input_boolean.jueathome
@@ -250,6 +277,7 @@ automation:
   #       entity_id: group.hue_all
 
   - alias: "Set Vacation Mode Pe"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: input_boolean.peathome
@@ -272,6 +300,7 @@ automation:
         entity_id: group.hue_all
 
   - alias: "Set Vacation Mode Jue"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: input_boolean.jueathome
@@ -294,6 +323,7 @@ automation:
         entity_id: group.hue_all
 
   - alias: "Set Visitor Mode"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: input_boolean.benjyathome
@@ -317,6 +347,7 @@ automation:
           option: 'Visitor'
 
   - alias: "Pe is at Home"
+    initial_state: "on"
     trigger:
       - platform: template
         value_template: '{{ is_state("device_tracker.pesiphone7plus", "home") }}'
@@ -333,7 +364,7 @@ automation:
           payload: 'home'
 
   - alias: "Pe is not at Home"
-    # initial_state: 'on'
+    initial_state: 'on'
     trigger:
       - platform: template
         value_template: '{{ not is_state("device_tracker.pesiphone7plus", "home") }}'
@@ -350,6 +381,7 @@ automation:
           payload: 'not_home'
 
   - alias: "Jue is at Home"
+    initial_state: "on"
     trigger:
       - platform: template
         value_template: '{{ is_state("device_tracker.juesiphone6splus", "home") }}'
@@ -366,6 +398,7 @@ automation:
           payload: 'home'
       
   - alias: "Jue is not at Home"
+    initial_state: "on"
     trigger:
       - platform: template
         value_template: '{{ not is_state("device_tracker.juesiphone6splus", "home") }}'
@@ -416,6 +449,7 @@ automation:
   #         payload: 'not_home'
 
   - alias: "Jue is at Malaiwan"
+    initial_state: "on"
     trigger:
       - platform: template
         value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
@@ -432,6 +466,7 @@ automation:
           payload: 'malaiwan'
       
   - alias: "Jue is not at Malaiwan"
+    initial_state: "on"
     trigger:
       - platform: template
         value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
@@ -448,7 +483,7 @@ automation:
           payload: 'not_home'
 
   - alias: "Pe is at Big C On-Nut"
-    # initial_state: 'on'
+    initial_state: 'on'
     trigger:
       - platform: template
         value_template: '{{ is_state("device_tracker.pesiphone7plus", "Big C Extra On-Nut") }}'
@@ -467,7 +502,7 @@ automation:
           payload: 'bigc'
       
   - alias: "Pe is not at Big C On-Nut"
-    # initial_state: 'on'
+    initial_state: 'on'
     trigger:
       - platform: template
         value_template: '{{ not is_state("device_tracker.pesiphone7plus", "Big C Extra On-Nut") }}'
@@ -486,6 +521,7 @@ automation:
           payload: 'not_home'
 
   - alias: "Jue is at Big C On-Nut"
+    initial_state: "on"
     trigger:
       - platform: template
         value_template: '{{ is_state("device_tracker.juesiphone6splus", "Big C Extra On-Nut") }}'
@@ -504,6 +540,7 @@ automation:
           payload: 'bigc'
       
   - alias: "Jue is not at Big C On-Nut"
+    initial_state: "on"
     trigger:
       - platform: template
         value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Big C Extra On-Nut") }}'

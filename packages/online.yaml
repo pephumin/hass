@@ -35,8 +35,8 @@ binary_sensor:
     count: 2
     scan_interval: 120
   - platform: ping
-    host: 192.168.1.8
-    name: "Sputnik"
+    host: 192.168.1.10
+    name: "Cookie"
     count: 2
     scan_interval: 120
   - platform: ping
@@ -181,7 +181,7 @@ binary_sensor:
     scan_interval: 120
   # - platform: ping
   #   host: 192.168.1.41
-  #   name: "Wemos Lite Party"
+  #   name: "Wemos WLED M"
   #   count: 2
   #   scan_interval: 120
   - platform: ping
@@ -209,24 +209,24 @@ binary_sensor:
     name: "Wemos ButtonBox"
     count: 2
     scan_interval: 120
-  - platform: ping
-    host: 192.168.1.61
-    name: "Wemos WLED RC"
-    count: 2
-    scan_interval: 120
-  - platform: ping
-    host: 192.168.1.62
-    name: "Wemos WLED B"
-    count: 2
-    scan_interval: 120
+  # - platform: ping
+  #   host: 192.168.1.61
+  #   name: "Wemos WLED RC"
+  #   count: 2
+  #   scan_interval: 120
+  # - platform: ping
+  #   host: 192.168.1.62
+  #   name: "Wemos WLED B"
+  #   count: 2
+  #   scan_interval: 120
   - platform: ping
     host: 192.168.1.63
-    name: "Wemos WLED C"
+    name: "Wemos WLED SA"
     count: 2
     scan_interval: 120
   - platform: ping
     host: 192.168.1.64
-    name: "Wemos WLED D"
+    name: "Wemos WLED SB"
     count: 2
     scan_interval: 120
   - platform: ping
@@ -259,11 +259,11 @@ binary_sensor:
     name: "Downlight Black4"
     count: 2
     scan_interval: 120
-  - platform: ping
-    host: 192.168.1.71
-    name: "Wemos WLED E"
-    count: 2
-    scan_interval: 120
+  # - platform: ping
+  #   host: 192.168.1.71
+  #   name: "Wemos WLED E"
+  #   count: 2
+  #   scan_interval: 120
   - platform: ping
     host: 192.168.1.72
     name: "Smart Dimmer"
@@ -271,7 +271,7 @@ binary_sensor:
     scan_interval: 120
   - platform: ping
     host: 192.168.1.73
-    name: "Downlight Black4"
+    name: "Downlight Black5"
     count: 2
     scan_interval: 120
   - platform: ping
@@ -325,6 +325,21 @@ binary_sensor:
     count: 2
     scan_interval: 120
   - platform: ping
+    host: 192.168.1.86
+    name: "Smart TV"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.87
+    name: "pSat"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.88
+    name: "Android TV"
+    count: 2
+    scan_interval: 120
+  - platform: ping
     host: 192.168.1.200
     name: "pepe"
     count: 2
@@ -348,31 +363,19 @@ input_boolean:
 
 counter:
   bedroom:
-    name: "Bedroom Reboot Counts"
+    name: "Bedroom Reboot Counter"
     initial: 0
     step: 1
     icon: mdi:counter
     restore: false
   commonroom:
-    name: "Common Room Reboot Counts"
+    name: "Common Room Reboot Counter"
     initial: 0
     step: 1
     icon: mdi:counter
     restore: false
   firstfloor:
-    name: "Frst Floor Reboot Counts"
-    initial: 0
-    step: 1
-    icon: mdi:counter
-    restore: false
-  workstation:
-    name: "WorkStation Reboot Counts"
-    initial: 0
-    step: 1
-    icon: mdi:counter
-    restore: false
-  camera:
-    name: "Camera Reboot Counts"
+    name: "Frst Floor Reboot Counter"
     initial: 0
     step: 1
     icon: mdi:counter
@@ -382,8 +385,6 @@ group:
   online_cr:
     name: "Online Status Common Room"
     icon: mdi:lan-connect
-    control: hidden
-    view: false
     entities:
       - binary_sensor.deeper
       - binary_sensor.apollo
@@ -401,10 +402,8 @@ group:
       - binary_sensor.nodemcu_matrix_clock
       - binary_sensor.wemos_ring_clock
       - binary_sensor.wemos_wled_rc
-      - binary_sensor.wemos_wled_b
-      - binary_sensor.wemos_wled_c
-      - binary_sensor.wemos_wled_d
-      - binary_sensor.wemos_wled_e
+      - binary_sensor.wemos_wled_sa
+      - binary_sensor.wemos_wled_sb
       - binary_sensor.wemos_wled_party
       - binary_sensor.denon
       - binary_sensor.android_box
@@ -415,8 +414,6 @@ group:
   online_br:
     name: "Online Status Bedroom"
     icon: mdi:lan-connect
-    view: false
-    control: hidden
     entities:
       - binary_sensor.neptune
       - binary_sensor.broadlink_rm_mini_a
@@ -428,8 +425,6 @@ group:
   online_ff:
     name: "Online Status First Floor"
     icon: mdi:lan-connect
-    view: false
-    control: hidden
     entities:
       - binary_sensor.uranus
       - binary_sensor.broadlink_rm_mini_c
@@ -446,22 +441,22 @@ group:
 
 automation:
 
-  - alias: 'Camera Online Switch Restart'
-    initial_state: 'on'
+  - alias: 'Common Room Online Switch Restart'
+    initial_state: "on"
     trigger:
       - platform: state
-        entity_id: binary_sensor.foscam_r2, binary_sensor.broadlink_rm_mini_b
+        entity_id: binary_sensor.broadlink_rm_mini_b, binary_sensor.boxie_b2, binary_sensor.candy, binary_sensor.cookie
         to: "off"
         for:
           minutes: 5
     condition:
       - condition: template
-        value_template: '{% if state_attr("automation.camera_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.camera_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.camera_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
+        value_template: '{% if state_attr("automation.common_room_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.common_room_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.camera_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
     action:
       - service: script.turn_on
-        entity_id: script.restart_ganymede
+        entity_id: script.restart_callisto
       - service: counter.increment
-        entity_id: counter.camera
+        entity_id: counter.commonroom
       - service: script.notifying
         data_template:
           email: "false"
@@ -471,8 +466,8 @@ automation:
           audio: "false"
           light: "false"
           mobile: "pe"
-          title: "Restarting Camera Online Switch (Ganymede)"
-          message: 'Camera Online Switch (Ganymede) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
+          title: "Restarting Common Room Online Switch (Callisto)"
+          message: 'Camera Online Switch (Callisto) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
   - alias: 'ESP32 Camera Online Switch Restart'
     initial_state: 'on'
@@ -488,8 +483,6 @@ automation:
     action:
       - service: script.turn_on
         entity_id: script.restart_sva
-      # - service: counter.increment
-      #   entity_id: counter.camera
       - service: script.notifying
         data_template:
           email: "false"
@@ -502,33 +495,33 @@ automation:
           title: "Restarting ESP32 Camera Online Switch (SVA)"
           message: 'ESP32 Camera Online Switch (SVA) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
-  - alias: 'Common Room Online Switch Restart'
-    initial_state: 'on'
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.candy
-        to: "off"
-        for:
-          minutes: 5
-    condition:
-      - condition: template
-        value_template: '{% if state_attr("automation.common_room_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.common_room_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.common_room_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
-    action:
-      - service: script.turn_on
-        entity_id: script.restart_callisto
-      - service: counter.increment
-        entity_id: counter.commonroom
-      - service: script.notifying
-        data_template:
-          email: "false"
-          tv: "false"
-          line: "false"
-          speak: "true"
-          audio: "false"
-          light: "false"
-          mobile: "pe"
-          title: "Restarting Common Room online switch (Callisto)"
-          message: 'Common Room Online Switch (Phoebe) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
+  # - alias: 'Common Room Online Switch Restart'
+  #   initial_state: 'on'
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.candy
+  #       to: "off"
+  #       for:
+  #         minutes: 5
+  #   condition:
+  #     - condition: template
+  #       value_template: '{% if state_attr("automation.common_room_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.common_room_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.common_room_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
+  #   action:
+  #     - service: script.turn_on
+  #       entity_id: script.restart_callisto
+  #     - service: counter.increment
+  #       entity_id: counter.commonroom
+  #     - service: script.notifying
+  #       data_template:
+  #         email: "false"
+  #         tv: "false"
+  #         line: "false"
+  #         speak: "true"
+  #         audio: "false"
+  #         light: "false"
+  #         mobile: "pe"
+  #         title: "Restarting Common Room online switch (Callisto)"
+  #         message: 'Common Room Online Switch (Phoebe) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
   - alias: 'Bedroom Online Switch Restart'
     initial_state: 'on'
@@ -562,7 +555,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: state
-        entity_id: binary_sensor.uranus, binary_sensor.boxie
+        entity_id: binary_sensor.uranus, binary_sensor.boxie_b1
         to: "off"
         for:
           minutes: 5
@@ -661,6 +654,7 @@ automation:
         entity_id: input_boolean.presence_xdj_rx
 
   - alias: "XDJ-RX is on"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: input_boolean.presence_xdj_rx
@@ -685,6 +679,7 @@ automation:
           message: "XDJ-RX has been turned on!"
 
   - alias: "XDJ-RX is off"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: input_boolean.presence_xdj_rx

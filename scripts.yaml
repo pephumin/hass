@@ -115,38 +115,6 @@ restart_svb:
     - delay: 00:00:20
     - service: switch.turn_on
       entity_id: switch.svb
-restart_ganymede:
-  alias: Restart Camera Online Switch
-  sequence:
-    - service: switch.turn_off
-      entity_id: switch.ganymede
-    - delay: 00:00:20
-    - service: switch.turn_on
-      entity_id: switch.ganymede
-restart_phoebe:
-  alias: Restart First Floor Online Switch
-  sequence:
-    - service: switch.turn_off
-      entity_id: switch.phoebe
-    - delay: 00:00:20
-    - service: switch.turn_on
-      entity_id: switch.phoebe
-restart_charon:
-  alias: Restart WorkStation Online Switch
-  sequence:
-    - service: switch.turn_off
-      entity_id: switch.charon
-    - delay: 00:00:20
-    - service: switch.turn_on
-      entity_id: switch.charon
-restart_hyperion:
-  alias: Restart Bedroom Online Switch
-  sequence:
-    - service: switch.turn_off
-      entity_id: switch.hyperion
-    - delay: 00:00:20
-    - service: switch.turn_on
-      entity_id: switch.hyperion
 restart_callisto:
   alias: Restart Common Room Online Switch
   sequence:
@@ -155,12 +123,28 @@ restart_callisto:
     - delay: 00:00:20
     - service: switch.turn_on
       entity_id: switch.callisto
+restart_phoebe:
+  alias: Restart First Floor Online Switch
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.phoebe
+    - delay: 00:00:20
+    - service: switch.turn_on
+      entity_id: switch.phoebe
+restart_hyperion:
+  alias: Restart Bedroom Online Switch
+  sequence:
+    - service: switch.turn_off
+      entity_id: switch.hyperion
+    - delay: 00:00:20
+    - service: switch.turn_on
+      entity_id: switch.hyperion
 android_box_ok:
   alias: Android Box OK
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.15
+        host: 192.168.1.16
         packet:
         - JgBYAAABKJMUEhMSExITEhM3ExITEhQRFDYUNxM3EzcTEhM3FDYUNhQ3ExITEhMSExITEhM3FBEUEhM3EzcTNxM3EzcUERQ2FAAFGAABKEoRAAxYAAEmTBEADQU=
 mute_common_room:
@@ -168,7 +152,7 @@ mute_common_room:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.15
+        host: 192.168.1.16
         packet:
         - JgAyAXA2Dg4NDg8pDQ4PKQ0ODykNDg4ODygODg4ODikPKQ0ODg4ODg0ODg4NDw0ODg4OKQ4ODygODg4ODQ4ODg8oDg4ODg4pDykOKQ4ODikODg0PDQ4ODg4pDykNDg8pDikOKQ4ODgAJkm83DQ4ODg8oDg4PKA4ODykNDg4ODikODg4ODikPKA4ODg4NDw0ODg4NDw0ODg4OKQ4ODikODg4ODQ4ODg4pDg4ODg4pDykOKQ4ODikODg0ODg4ODg4pDykNDg8pDikPKQ0ODAAJlHA2DQ8LEA8pDQ4PKQ0ODykNDg4ODygODg4ODikPKQ0ODg4ODg0ODg4ODg0ODg4OKQ4ODykNDg4ODQ8NDg8pDQ4ODg8oDykOKQ4ODikODg4ODQ4ODg4pDykNDg8pDikPKQ0ODgANBQAAAAAAAA==
 mute_bedroom:
@@ -176,7 +160,7 @@ mute_bedroom:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.14
+        host: 192.168.1.15
         packet:
         - JgDMAAgaCjsKGQkZChkJGgkZCRoJGQk8CTwJPAk8CRkKGQkABZ8KGQk8CxcJGgkZCTwKOwo7CTwJGgkZCRoJGQk8CTwKAAWeChkJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwLGAkZCRoJPAk7CjsMOQwXCRkKGQkZCjsKOwwABZ0KGAo7CRoJGQkaCRkJGgkZCRoJPAk8CTwJPAkZCRoJAAWfChgKOwoZCRkKGQk8CTwJPAs6CRkKGQkZChkJPAk8CwANBQAAAAAAAAAAAAAAAA==
 bedroom_ac_24:
@@ -184,7 +168,7 @@ bedroom_ac_24:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.14
+        host: 192.168.1.15
         packet:
         - JgC8AXA5DyoODg4ODg8NKw4ODg8NDw4ODisODg4rDSsODw0rDisNKw4rDSsPDg0PDioPDg0PDg4ODg4PDQ8OKw0rDyoNKw8NDg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODisODg4ODg4ODw0PDg4OAAPMcTkPKg0PDg4ODg4rDg4ODg4PDQ8OKw0PDioOKw4ODisNKw4rDioPKg4ODg4OKw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4rDg4ODg4ODisOKg8ODQ8ODg4PDQ8ODg4rDSsPDg0PDQ8ODg4PDQ8ODg4ODg8NDw4rDSsPKg4qDg4OKw4ODisOKg8qDioOKw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NKw4rDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4OKw4ODg4ODw0rDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
 bedroom_ac_21:
@@ -192,7 +176,7 @@ bedroom_ac_21:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.14
+        host: 192.168.1.15
         packet:
         - JgC8AXE5DioPDQ4PDQ8OKw4ODg4ODg4PDSsPDQ4rDyoNDw4qDyoOKg8qDyoODg4ODisODg4ODg8NDw0PDg4OKw4qDisOKw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODisODg4PDQ8NDw4ODg8NAAPNcDkOKw4ODg4ODw0rDg8NDw0PDg4OKw4ODisOKg8ODSsOKw4qDisOKg4PDQ8OKg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4rDg4ODg4PDSsOKw0PDg4ODw0rDw0OKw8NDisODg4ODg8NDw4ODg8NDw0PDg4ODw0rDyoNKw8qDQ8OKw0PDioOKw4rDSsPKg4ODg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4qDw4NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8OKg4rDg4OKw4ODisNKw8qDgANBQAAAAAAAAAAAAAAAA==
 bedroom_ac_18:
@@ -200,7 +184,7 @@ bedroom_ac_18:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.14
+        host: 192.168.1.15
         packet:
         - JgC8AXA5DyoODg4ODg8NKw8ODQ8ODg4ODisODg4rDioPDg0rDisOKg4rDioPDg0PDioPDg0PDg4ODw0PDg4OKw0rDyoNKw8ODQ8ODg4ODg8NDw4ODw4NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODisNDw4ODg8NDw4ODg4OAAPMcTkPKg0PDg4ODg4rDg4ODw0PDg4OKw4ODioOKw8NDisOKg8qDioOKw4ODg8NKw4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4rDg4ODg4ODisOKg8ODg4ODg4PDSsODg4PDSsODw0PDg4ODg4PDQ8ODg4PDQ8NDw4rDioPKg4qDw4NKw8NDisOKg4rDyoOKg8NDg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8OKg8qDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4ODisNDw4ODisOKg8qDgANBQAAAAAAAAAAAAAAAA==
 bedroom_ac_powerful:
@@ -210,7 +194,7 @@ bedroom_ac_powerful:
     - delay: 00:00:15
     - service: broadlink.send
       data:
-        host: 192.168.1.14
+        host: 192.168.1.15
         packet:
         - JgC8AXE5DioPDQ8ODQ8PKg4ODg4PDQ8ODioODg4rDyoODg4qDyoOKg8qDykPDg4ODisNDw4ODg4ODw0PDw0PKg4qDyoOKg8ODQ8PDQ4PDQ8ODg4ODg8ODg4ODw0PDg4ODw0PDg0PDg4ODg8ODQ8ODg4ODg8NDw8NDisODg4ODw4NDw4ODg4OAAPMcTkPKg0PDg4ODg8qDg4ODw4ODg4OKw4ODioPKg8NDisOKg4rDioPKg8NDw4NKw8NDw4ODg4ODw0ODw4ODw0PDg0PDg4PDQ8ODg4ODg8NDw4ODg4rDg4ODg8NDyoOKg4PDg4PDQ8ODg4OKg8ODSsPDQ8ODg4ODg8ODg4ODg4ODg8NDw4qDyoPKg4qDw0OKw8NDisOKg8qDioPKg8NDw0ODw4ODw0PDg0PDg4ODg8ODg4PDQ4ODw4ODg4ODw4ODg4ODg4PDg4ODw0PDQ4PDg4ODg4PDioPDQ4PDg4ODg4PDQ8ODg8NDw4ODg4ODw0ODw4ODg4PDg4ODQ8PDQ4PDg4OKg8qDw0PDg4ODg4PDQ4PDg4ODg4ODw4ODg8NDw4NDw0PDw0PDg4qDw0PKg8NDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
     - delay: 00:10:00
@@ -219,18 +203,18 @@ bedroom_ac_control:
   alias: "Bedroom Air Condition Control"
   sequence:
     - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" %}script.bedroom_ac_18{% elif packet == "powerful" %}script.bedroom_ac_powerful{% else %}{% endif %}'
-shuffle_playlist_dj:
-  alias: Shuffle DJ
-  sequence:
-    - service: rest_command.shuffle_itunes_dj
-shuffle_playlist_soft:
-  alias: Shuffle Soft
-  sequence:
-    - service: rest_command.shuffle_itunes_soft
-shuffle_playlist_other:
-  alias: Shuffle Others
-  sequence:
-    - service: rest_command.shuffle_itunes_others
+# shuffle_playlist_dj:
+#   alias: Shuffle DJ
+#   sequence:
+#     - service: rest_command.shuffle_itunes_dj
+# shuffle_playlist_soft:
+#   alias: Shuffle Soft
+#   sequence:
+#     - service: rest_command.shuffle_itunes_soft
+# shuffle_playlist_other:
+#   alias: Shuffle Others
+#   sequence:
+#     - service: rest_command.shuffle_itunes_others
 kodi_play_youtube_playlist:
   alias: Kodi Play Music DJ
   sequence:
@@ -505,72 +489,6 @@ notify_juesiphone6splus_benjysiphone6:
           push:
             badge: 0
             category: ALERT
-# flashing_long:
-#   alias: Flashing Light Long
-#   sequence:
-#     - service: light.turn_on
-#       entity_id: group.flashlights
-#       data:
-#         transition: 1
-#         brightness: 250
-#         flash: long
-# flashing_short:
-#   alias: Flashing Light Short
-#   sequence:
-#     - service: light.turn_on
-#       entity_id: group.flashlights
-#       data:
-#         transition: 1
-#         brightness: 250
-#         flash: short
-#     - delay: 00:00:01
-#     - service: light.turn_on
-#       entity_id: group.flashlights
-#       data:
-#         transition: 1
-#         brightness: 250
-#         flash: short
-#     - delay: 00:00:01
-#     - service: light.turn_on
-#       entity_id: group.flashlights
-#       data:
-#         transition: 1
-#         brightness: 250
-#         flash: short
-#     - delay: 00:00:01
-#     - service: light.turn_on
-#       entity_id: group.flashlights
-#       data:
-#         transition: 1
-#         brightness: 250
-#         flash: short
-#     - delay: 00:00:01
-#     - service: light.turn_on
-#       entity_id: group.flashlights
-#       data:
-#         transition: 1
-#         brightness: 250
-#         flash: short
-# flashing_once:
-#   alias: Flashing Light Once
-#   sequence:
-#     - service: light.turn_on
-#       entity_id: group.flashlights
-#       data:
-#         transition: 1
-#         brightness: 250
-#         flash: short
-# flashing_party:
-#   alias: Flashing Party Light
-#   sequence:
-#     - service: light.turn_on
-#       entity_id: light.party
-#       data_template:
-#         color_name: '{{ color_name }}'
-#         brightness: '{{ brightness }}'
-#         flash: '{{ flash if (flash == "long" or flash == "short") else "false" }}'
-#     - service: light.turn_off
-#       entity_id: light.party
 ss_volume_down:
   alias: Volume Fade Down
   sequence:
@@ -815,17 +733,10 @@ notifying:
         mobile: '{{ mobile if (mobile == "pe" or mobile == "jue" or mobile == "both" or mobile == "false") else "false" }}'
         title: '{{ title }}'
         message: '{{ message }}'
-
 icloud3_command_restart:
   alias: 'iCloud3 Restart'
   sequence:
     - service: device_tracker.icloud3_restart
-# icloud3_command_restart:
-#   alias: 'Restart iCloud (Command)'
-#   sequence:
-#     - service: device_tracker.icloud3_update
-#       data:
-#         command: restart
 icloud3_command_resume_polling:
   alias: 'Resume Polling'
   sequence:
@@ -903,43 +814,43 @@ icloud3_command_loglevel_info:
       data:
         command: log_level info
 icloud3_set_interval_15_sec:
-  alias: 'Set interval to 15 sec'
+  alias: 'Set interval to 15 seconds'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
         interval: '15 sec'
 icloud3_set_interval_30_sec:
-  alias: 'Set interval to 30 sec'
+  alias: 'Set interval to 30 seconds'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
         interval: '30 sec'
 icloud3_set_interval_1_min:
-  alias: 'Set interval to 1 min'
+  alias: 'Set interval to 1 minute'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
         interval: 1
 icloud3_set_interval_3_min:
-  alias: 'Set interval to 3 min'
+  alias: 'Set interval to 3 minutes'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
         interval: 3
 icloud3_set_interval_5_min:
-  alias: 'Set interval to 5 min'
+  alias: 'Set interval to 5 minutes'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
         interval: 5
 icloud3_set_interval_10_min:
-  alias: 'Set interval to 10 min'
+  alias: 'Set interval to 10 minutes'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
         interval: '10 min'
 icloud3_set_interval_5_hrs:
-  alias: 'Set interval to 5 hrs'
+  alias: 'Set interval to 5 hours'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
@@ -971,14 +882,14 @@ icloud3_command_pause_polling_pe:
         device_name: 'pesiphone7plus'
         command: 'pause'
 icloud3_set_interval_10_min_pe:
-  alias: 'Set interval to 10 min (Pe)'
+  alias: 'Set interval to 10 minutes (Pe)'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
         device_name: 'pesiphone7plus'
         interval: '10 min'
 icloud3_set_interval_2_min_pe:
-  alias: 'Set interval to 2 min (Pe)'
+  alias: 'Set interval to 2 minutes (Pe)'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
@@ -1008,14 +919,6 @@ icloud3_command_pesiphone7plus_zone_home:
       data:
         device_name: 'pesiphone7plus'
         command: 'zone home'
-# icloud3_command_pesiphone7plus_zone_quail:
-#   alias: 'Set Zone Quail (Pe)'
-#   sequence:
-#     - service: device_tracker.icloud3_update
-#       data:
-#         device_name: 'pesiphone7plus'
-#         command: 'zone Quail'         
-
 icloud3_command_pesiphone7plus_zone_not_home:
   alias: 'Set Zone Away (Pe)'
   sequence:
@@ -1045,14 +948,14 @@ icloud3_command_pause_polling_jue:
         device_name: juesiphone6splus
         command: 'pause'
 icloud3_set_interval_10_min_jue:
-  alias: 'Set interval to 10 min (Jue)'
+  alias: 'Set interval to 10 minutes (Jue)'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
         device_name: juesiphone6splus
         interval: '10 min'
 icloud3_set_interval_2_min_jue:
-  alias: 'Set interval to 2 min (Jue)'
+  alias: 'Set interval to 2 minutes (Jue)'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
@@ -1089,13 +992,6 @@ icloud3_command_juesiphone6splus_zone_malaiwan:
       data:
         device_name: juesiphone6splus
         command: 'zone malaiwan'
-# icloud3_command_juesiphone6splus_zone_quail:
-#   alias: 'Set Zone Quail (Jue)'
-#   sequence:
-#     - service: device_tracker.icloud3_update
-#       data:
-#         device_name: juesiphone6splus
-#         command: 'zone Quail'
 icloud3_command_juesiphone6splus_zone_not_home:
   alias: 'Set Zone Away (Jue)'
   sequence:

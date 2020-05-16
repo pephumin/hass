@@ -113,29 +113,17 @@ switch:
         turn_off:
           service: switch.hometheatre_turnoff
           entity_id: switch.common_room_android_box
-      # bedroom_sound:
-      #   value_template: "{{ states.sensor.europa_current_consumption.state | float > 40 }}"
-      #   turn_on:
-      #     service: switch.turn_on
-      #     entity_id: switch.bedroom_denon
-      #   turn_off:
-      #     service: switch.turn_off
-      #     entity_id: switch.bedroom_denon
 
 group:
   playlists:
     name: "Playlists"
     icon: mdi:library-music
-    control: "hidden"
-    view: false
     entities:
       - script.shuffle_playlist_dj
       - script.shuffle_playlist_soft
   kodi:
     name: "Kodi"
     icon: mdi:kodi
-    control: "hidden"
-    view: false
     entities:
       - script.kodi_play_youtube_playlist
       - script.kodi_play_music_dj

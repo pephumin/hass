@@ -38,6 +38,7 @@ input_select:
 automation:
 
   - alias: "Pe Arrives Home"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone7plus
@@ -71,6 +72,7 @@ automation:
           command: 'zone home'
       
   - alias: "Pe Leaves Home"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone7plus
@@ -104,6 +106,7 @@ automation:
           command: 'zone not_home'
 
   - alias: "Jue Arrives Home"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
@@ -137,6 +140,7 @@ automation:
           command: 'zone home'
       
   - alias: "Jue Leaves Home"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
@@ -170,6 +174,7 @@ automation:
           command: 'zone not_home'
 
   - alias: "Jue Arrives Malaiwan"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
@@ -203,6 +208,7 @@ automation:
           command: 'zone malaiwan'
 
   - alias: "Jue Leaves Malaiwan"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
@@ -236,6 +242,7 @@ automation:
           command: 'zone not_home'
       
   - alias: "Pe Arrives Pause 103"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone7plus
@@ -269,6 +276,7 @@ automation:
           command: 'zone pause103'
 
   - alias: "Pe Leaves Pause 103"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone7plus
@@ -302,6 +310,7 @@ automation:
           command: 'zone not_home'
 
   - alias: "Pe Arrives Big C Extra On-Nut"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone7plus
@@ -335,6 +344,7 @@ automation:
           command: 'zone bigc'
 
   - alias: "Pe Leaves Big C Extra On-Nut"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.pesiphone7plus
@@ -368,6 +378,7 @@ automation:
           command: 'zone not_home'
 
   - alias: "Jue Arrives Big C Extra On-Nut"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
@@ -401,6 +412,7 @@ automation:
           command: 'zone bigc'
 
   - alias: "Jue Leaves Big C Extra On-Nut"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
@@ -434,6 +446,7 @@ automation:
           command: 'zone not_home'
 
   - alias: "Jue Arrives Pause 103"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus
@@ -467,6 +480,7 @@ automation:
           command: 'zone pause103'
 
   - alias: "Jue Leaves Pause 103"
+    initial_state: "on"
     trigger:
       - platform: state
         entity_id: device_tracker.juesiphone6splus

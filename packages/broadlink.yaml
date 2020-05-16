@@ -1,30 +1,5 @@
 switch:
-
-  # - platform: broadlink
-  #   name: "RM Pro"
-  #   host: !secret rmpro_ip
-  #   mac: !secret rmpro_mac
-  #   timeout: 30
-  #   switches:
-  #     common_room_air_cond:
-  #       friendly_name: "Common Room Air Cond"
-  #       command_on: 'JgCaAAc0AAEnlhQ4FhEUORMSFRIUExURFRIUOBQTFBMTOBUSFBQTExQSFDgUEhY3FBIUExQ4FBIWERQTFDcVOBQSFTcVExM5FBIUEhQTFBIVOBQ3FjcVNhUSFhEVEhQTFDcUExQSFTcWEhMSFRIUExQ4FTcUORU2FhAVOBQ4FTcVNxU3FTcUORM4FDgUOBQTFDgUNxU4FREUERUADQUAAAAAAAAAAAAAAAAAAA=='
-  #       command_off: 'JgCcAAABKJYTOBUSFDkTEhUSFBQTEhQTFREUExURFRMTFBQSFBIVEhQ3FRIVNxUSFBMVNhUSFRMTExQ3FjgTEhQ4FBMUOBUTExIUExQTEzgWNhU4ExQVERQSFRIVEhQ3FhITExU4FBIUEhUSFBIUOBQ4FjYUFBMSFTkTORM4FTcUORM4FDgUOBYRFBMUNxURFjYVEhQTFDYVAAWNCAANBQAAAAAAAAAAAAAAAA=='
-  #     common_room_fan:
-  #       friendly_name: "Common Room Fan"
-  #       command_on: 'JgAiASoNKQ0QJysNKQ4OKRAnECgOKg0qDSkr6ioNKQ0QKCoNKwwPKA8oDygPKQ0rDycq6ikOKg0PKSkNLAsQKQ4oDygQKA4pDigq6ioOKwwQJysNKgwRJg8pDygPKQ4qDicq7CgOKQ0RJyoNKg4OKA8pDycPKQ8pDycq6ioOKQ4OKCoNLAwOKg4pDigOKg8oDygr6SkOKQ4PKSkOKQ0QKQ0pDioNKRAoDigs6SkOKg0PKCoNKw0OKQ4pDygOKQ4pDygq6isMKw0QJysMKg4NKREmECcQKA8oDykp6yoNKgwQKCoOKQ0PKQ8oDigPKBAoECgq6ioMKw0PKCkNKwwQKA8oDygOKQ8qDSkp6iwNKA4PKCoNKw0PKA4pDikOKQ4rDCoqAA0FAAAAAAAA'
-  #       command_off: 'JgDyACsOKgwPKSkNKwwPKQ4pDikOKQ4pDiks6SwKKg8OKCkPKwwOKA8pDioOKA8oDikr6SoNKg0PKCsNKQ4PKA8pDSoPKA8oECcs6SkNKw0OKCsMLQsPKQ4oECcOKQ8qDigr6SoNKg0QKSoLKg0PKg4pDycOKg0pDygr6ioMLAwPKCoNKw0OKBAnECkOKA4pDygq6isMKw0QJykOKg0OKRAnECkOKA8oDykq6isLLA0MKSoNKg4PKA8oECgPKQ4oDygq6iwLKg0PKCsMKg0QKQ4oDykOKQ8pDicq6isNKg4PJyoNKwwQJxEnDygPKA4pECgpAA0FAAAAAAAA'
-  #     common_room_tv:
-  #       friendly_name: "Common Room TV"
-  #       command_on: 'JgDkAAYAAdxQEikTFBEqERUTKBMUDhoRKhEVExMVExMUAANKURIpERYRKREWEykSExQUEioQFRIXEhQSFgADSFASKxAUFCgSFRIpEhQSFRMpExQTExIVExUAA0lQEioRFBMpEhUSKhAVExQTKBIUExUSFRMWAANJURApEhYRKxETEygTFBIVEysQFBMUExQTFgADSVEQKhEVEioRFBMpEhQTFBMpERUUExMUExYAA0hREikRFRQoERUTKRIUExQSKREWEhYRFRIWAANKUBEpEhYSKRAVEisQFRIWEikRFRIWERUSFgANBQAAAAA='
-  #       command_off: 'JgDEAFATKhAUFCgSFBQoEhUSFBMqEBUUExMWERUAA0pRESgTFRIpERYRKhEVExQTKBIVEhQTFRMVAANKTxMpERQTKBIWESkTFBIWEycSFBMUExUTFgADSFATKRITFCgRFRMoExQTFBIqERQTFRMUEhYAA0lRESoRFBQoEhQTKREWERUTKBMTFBMTFRMUAANKUBIpEhQTKhEUEygSFRIVEikSFBQUEhUUFAADSVASKRIUEykRFRQnExQTFBIqERQTFBQUExUADQUAAAAA'
-  #     common_room_android_box:
-  #       friendly_name: "Common Room Android Box"
-  #       command_on: 'JgBYAAABKJIUERYPFBEUERU1ExIUERMSEzgSNxQ1FTUUERU1FDYTNxM3FBEUNhM4EjYUERQ3ExISEhU1FBETEhMSEzgUEBQ3EgAFEwABJ0sSAAxKAAEpSRMADQU='
-  #       command_off: 'JgBcAAgACe4AASiSFBAUERMSFBEUNhMTEhIUERQ2FDcSNxM2FBEUNhQ2EzcTNxMTFTQTNxM2FBEUNhQSExIUNxESExMTEhQ1ExITNxMABRMAAShKEgAMSgABJ0oTAA0FAAAAAAAAAAAAAAAA'
-
   - platform: broadlink
-    # name: "RM Mini A"
     host: !secret rmmini_a_ip
     mac: !secret rmmini_a_mac
     timeout: 300
@@ -41,9 +16,7 @@ switch:
         friendly_name: "Bedroom Denon"
         command_on: 'JgCIAAcbCTwJGQoZCRkKOwoZCRkKGQkZCTwJPAk8CRoJGQkABZ8JGgk8CRkKGQkZChkJPAk8CTwJOwoZChkJGQk8CTwJAAWfCRoJOwoZCRoJGQk8CRoJGQoZCRkJPAk8CTwJGQoZCQAFnwkaCTwJGQkaCRkJGgk8CTsKOwo7ChkJGQoZCTwJPAkADQU='
         command_off: 'JgDMAAcbCTwJGQoZCRkKGQk8CRkKGQkZCjsJPAo7CRoJGQoABZ4KGQk8CRkKGQkZCjsJGgk8CTwJPAkZCRoJGQk8CTwJAAWfCRoJPAkZChkJGQoZCTwJGQoZCRkJPAk8CTwJGgkZCQAFnwoZCTwJGQoZCRkKOwkaCTwJOwo7ChkJGQoZCTwJPAkABZ8JGgk8CRkJGgkZChkJOwoZCRoJGQk8CTwJPAkZChkJAAWfCRoJOwoZCRoJGQo7CRkKOwo7CjoLGQkZChkJPAk8CQANBQAAAAAAAAAAAAAAAA=='
-
   - platform: broadlink
-    # name: "RM Mini B"
     host: !secret rmmini_b_ip
     mac: !secret rmmini_b_mac
     timeout: 300
@@ -58,21 +31,71 @@ switch:
         command_off: 'JgDCACoNKQ8MKyoNKQ8MKw4pDSoPKQ4pDSoq6yoOKA8MKygPKQ8OKQ8oDykOKQ4pDykq6isNKA8NKioOKA8NKg8pDikOKQ8pDikq6isNKA8OKikOKA8PKA0rDikOKQ8pDikq6yoNKBAOKSoNKBAMKw4pDikPKQ4pDCsq6ygPKQ8MKyoNKQ8MKw4pDykOKQ4pDykq6ioOKA8MKygQKA8MKw4pDykOKQ4pDSsq6ioOKA8NKikPKA8NKg8pDikOKQ8pDikqAA0FAAAAAAAA'
       common_room_tv:
         friendly_name: "Common Room TV"
-        command_on: 'JgDgAE4VJhQSFiYUEhYmFBIWEhUmFRIVEhUSFhMAA05OFSYUExUmFBIWJhQSFhIVJhUSFRIVEhYSAANPThUmFBIWJhQSFiYUExUSFSYVEhUSFRMVEwADTk4VJhQTFSYVEhUmFRIVEhUnFBIVEhUTFRMAA05OFSYUExUmFRIVJhUSFRIVJxQSFRIVExUTAANOThUmFBMVJhUSFSYVEhUSFScUEhUSFRMVEwADTk4VJhUSFSYVEhUmFBMVEhUnFBIVEhUTFRMAA05OFSYUExUmFRIVJhUSFRIVJxQSFRIVExUTAA0FAAAAAAAAAAA='
-        command_off: 'JgDgAE8UJxQSFScUEhUnFBIVEhUnFBIVExUSFRMAA05OFSYVEhUmFRIVJhUSFRIVJxQSFRIVExUTAANOThUmFBMVJhQTFSYUExUSFSYVEhUSFRIWEwADTk4VJhQTFSYUEhYmFBIWEhUmFRIVEhUSFRMAA09OFCcUEhUnFBIWJhQSFhIVJhUSFRIVEhUTAANPThQnFBIVJxQSFScUEhUSFiYUExUSFRIVEwADTk8UJxQSFScUEhUnFBIVEhYmFBIWEhUSFRMAA05PFCYVEhUnFBIVJxQSFRIVJxQSFRMVEhUTAA0FAAAAAAAAAAA='
+        command_on: 'JgBYAAABKZIUERMRFBETERMRFBETNhQREzcTNhQ2EzcTNhM3ExEUNhMRFDYTERQREzYUERMRFBETNhQREzYUNhMRFDYTNxM2FAAFLQABKUgUAAxYAAEpSBQADQU='
+        command_off: 'JgBYAAABKZIUERMRExEUERMRFBAUNhQREzYUNhM2FDYUNhM2FBETNhQREzYUERMRFDYTERQRExEUNhMRFDYTNhQREzcTNhQ2EwAFLgABKEkTAAxZAAEoSRMADQU='
       common_room_android_box:
         friendly_name: "Common Room Android Box"
         command_on: 'JgBYAAABJpYRFBEUERQRFBI4EhMSExITEjkRORE5EjgSExI4EjkRORE5ERQSOBI4EjgSFBE5ERQRFBE5EhMSExITEjkRFBE5EgAFGgABJksSAAxYAAEmTBEADQU='
         command_off: 'JgBYAAABJpUSExIUERQRFBE5ERQSExITEjgSOBI5ETkRFBE5EjgSOBI4EhQRORE5ETkSExI4EhQRFBE5ERQRFBEUEjgSExI4EgAFGgABJkwRAAxYAAEnSxIADQU='
-
   - platform: broadlink
-    # name: "RM Mini C"
     host: !secret rmmini_c_ip
     mac: !secret rmmini_c_mac
     timeout: 300
     switches:
       first_floor_air_cond:
         friendly_name: "First Floor Air Cond"
-        command_on: 'JgDoAGVkZZETNhMREzYTEhISEzYSNxISEzYTEhISExETNhM2ExETEhISExISEhMRExISEhMSEhITERMSEhITEhISEhITEhISExETNhMSEhITEhISEhITEhISExETNhMSEhITEhISEhITEhISExISEhISExISEhMRExISEhM2ExETEhISExISEhMRExISEhMSEhISEhMSEhITEhISERMTEhISERMTEhISExISEhMRExISEhMSEhISEhMSEhITERMSEhITEhISExETEhISExISEhMRExISNxISEzYTERM2EzYTEhI2ExISEhMADQU='
-        command_off: 'JgDoAGVjZZETNhMSEzYTERMSEjYTNhMSEzUTEhMSEhITERMSEhITERMSExETEhISExETEhISExISEhMRExISEhMRExISEhMSEhITERMSEhITEhISExETEhISExETNhMSEhITEhISEhITEhISExETEhISExISEhMRExISEhM2ExESExMRExISEhMRExISEhMSEhITERMSEhISExISEhISExISExETEhETEhMRExISEhMRExITERMSEhITERMSEhITERMSExETEhISExETEhMRExISEjcSExE3EhMROBE4ERMSNxISETgROBIADQU='
+        command_on: 'JgC8AXM4DykPDg8NDw4OKg8ODw0PDQ8ODykPDg8qDykPDg8pDyoPKg8qDykPDg8NDisPDQ8ODw0ODg8ODw0PKg8qDykPKg8NDw4PDQ8ODw0PDQ8ODw0PDQ8ODw0PDg8NDw0PDg8NDw0PDg8NDw4PDQ8NDw4PDQ8NDyoPDg8NDw0PDg8NDw0PAAPPcjgPKg8NDw4PDQ8qDw0PDRANDw0PKg8NDyoPKg8NDyoPKRApDyoPKg8NDw4PKQ8ODw0PDRANDw0PDRANDw0PDg8NDw0PDg8NDw0QDQ8NDw4PDQ8qDw0PDRANDykQKQ8ODw0PDRApDw4PKQ8ODykQDQ8NDw0QDQ8NDw4PDQ8NEA0PDQ8qDykQKRApDw0QKQ8ODykQDQ8NDw0QDQ8NDw4PDQ8NDw4PDQ8NEA0PDQ8NEA0PDQ8ODw0PDRANDw0PDRANDw0PDg8NDw0PDg8NDw0QDQ8NDw4PDQ8NDw4PDQ8NDw4PDQ8NEA0PDQ8ODw0PDQ8ODw0PDQ8ODw0PDg8NDw0PKg8qDw0PDg4ODw0PDg8NDw0PDg8NDw0PDg4ODw4PDQ8NDw4PDQ8NDyoPKg8qDw0PKg8pEAANBQAAAAAAAAAAAAAAAA=='
+        command_off: 'JgC8AXI5DioODw8NDg4PKg8ODg4ODg4PDioPDg4qECkODw8pDyoPKg4rDioPDg8NDisPDQ8ODg4ODg4PDg4OKw4qDyoOKw4ODw4ODg4PDg4ODg4PDg4ODg4PDg4ODg8ODg4ODw4ODg4ODw4ODg4PDg4ODg8ODg4ODisODg8ODg4ODw4ODg4OAAPQcTkPKg8NDw0QDQ8pEA0PDQ8ODw0PKg8NDyoPKg8NDyoPKRApDyoPKg8NDw0QKQ8ODw0PDRANDw0PDRANDw0PDg8NDw0QDQ8NDw0QDQ8NDw0QDQ8NDw4PDQ8NECkPKg8NDw4PDQ8qDw0PKg8NDyoPDRANDw0PDRANDw0PDRANDw0PDg8pECkPKg8pEA0PKg8NDyoPDQ8ODw0PDQ8ODw0PDRANDw0PDg8NDw0PDg8NDw0QDQ8NDw0QDQ8NDw4PDQ8NEA0PDQ8NEA0PDQ8ODw0PDQ8ODw0PDRANDw0PDg8NDw0PDg8NDw0QDQ8NDw4PDQ8NDw4PDQ8NEA0PDQ8NEA0PKRApDw4PDQ8NEA0PDQ8ODw0PDQ8ODw0PDRANDw0PDg8NDw0PKg8qDw0PKg8qDw0PKg8pEAANBQAAAAAAAAAAAAAAAA=='
+  - platform: template
+    switches:
+      common_room_haier:
+        value_template: '{{ (states.sensor.ganymede_am2301_temperature.state | float > 25) and (states.sensor.ganymede_am2301_temperature.state | float < 35) }}'
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.common_room_air_cond
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.common_room_air_cond
+      # common_room_fanfan:
+      #   value_template: "{{ states.sensor.titan_current_consumption.state | float > 240 }}"
+      #   turn_on:
+      #     service: switch.turn_on
+      #     entity_id: switch.common_room_fan
+      #   turn_off:
+      #     service: switch.turn_off
+      #     entity_id: switch.common_room_fan
+      bedroom_daikin:
+        value_template: '{{ (states.sensor.hyperion_am2301_temperature.state | float > 20) and (states.sensor.hyperion_am2301_temperature.state | float < 30) }}'
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.bedroom_air_cond
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.bedroom_air_cond
+      ff_daikin:
+        value_template: '{{ (states.sensor.phoebe_am2301_temperature.state | float > 20) and (states.sensor.phoebe_am2301_temperature.state | float < 30) }}'
+        turn_on:
+          service: switch.turn_on
+          entity_id: switch.first_floor_air_cond
+        turn_off:
+          service: switch.turn_off
+          entity_id: switch.first_floor_air_cond
 
+automation:
+
+  - alias: "Auto Air-conditioning Bedroom Powerful"
+    initial_state: "on"
+    trigger:
+      - platform: state
+        entity_id: switch.bedroom_air_cond
+        from: 'off'
+        to: 'on'
+        for:
+          minutes: 3
+    condition:
+      - condition: template
+        value_template: '{{ states("sensor.hyperion_am2301_temperature") | float > 30 }}'
+    action:
+      - service: script.bedroom_ac_control
+        data:
+          packet: "powerful"

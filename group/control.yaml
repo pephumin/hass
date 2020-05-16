@@ -1,18 +1,16 @@
 control:
   name: "Control Panel"
   icon: mdi:google-controller
-  control: hidden
   entities:
     - input_select.homemode
     - sensor.calypso_am2301_temperature
     - sensor.ganymede_am2301_temperature
-    - sensor.pandora_am2301_temperature
+    - sensor.hyperion_am2301_temperature
     - input_boolean.presence_xdj_rx
 
 control_cr:
   name: "Common Room Control Panel"
   icon: mdi:google-controller
-  control: hidden
   entities:
     - sensor.ganymede_am2301_temperature
     - sensor.ganymede_am2301_humidity
@@ -31,10 +29,9 @@ control_cr:
 control_br:
   name: "Bedroom Control Panel"
   icon: mdi:google-controller
-  control: hidden
   entities:
-    - sensor.pandora_am2301_temperature
-    - sensor.pandora_am2301_humidity
+    - sensor.hyperion_am2301_temperature
+    - sensor.hyperion_am2301_humidity
     - switch.bedroom_daikin
     - switch.europa
     - script.mute_bedroom
@@ -45,7 +42,6 @@ control_br:
 control_ff:
   name: "First Floor Control Panel"
   icon: mdi:google-controller
-  control: hidden
   entities:
     - sensor.calypso_am2301_temperature
     - sensor.calypso_am2301_humidity

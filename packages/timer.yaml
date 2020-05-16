@@ -55,14 +55,13 @@ group:
   quick_timer:
     name: 'Timer'
     icon: mdi:timer
-    view: false
     entities:
       - input_number.timer_minutes
       - timer.quick_timer
 
 automation:
   - alias: "Timer set"
-    # initial_state: "on"
+    initial_state: "on"
     trigger:
       platform: state
       entity_id: input_number.timer_minutes
@@ -77,7 +76,7 @@ automation:
           duration: '00:{{ states.input_number.timer_minutes.state | int }}:00'
 
   - alias: "Timer expired"
-    # initial_state: "on"
+    initial_state: "on"
     trigger:
       - platform: event
         event_type: timer.finished

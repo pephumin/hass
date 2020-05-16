@@ -10,6 +10,11 @@ speedtestdotnet:
     - upload
 
 sensor:
+  - platform: min_max
+    entity_ids:
+      - sensor.calypso_am2301_temperature
+      - sensor.ganymede_am2301_temperature
+      - sensor.hyperion_am2301_temperature
   - platform: synologydsm
     # name: Saturn
     host: !secret synology2_ip
@@ -22,46 +27,22 @@ sensor:
       - network_up
 
 group:
-  home_server:
-    name: "Home Server"
-    icon: mdi:server-security
-    control: hidden
-    view: false
-    entities:
-      - sensor.speedtest_download
-      - sensor.speedtest_upload
-      - sensor.speedtest_ping
   printer:
     name: "Earth"
     icon: mdi:printer
-    control: hidden
-    view: false
     entities:
       - sensor.samsung_m267x_287x_series_192_168_1_44
       - sensor.samsung_m267x_287x_series_192_168_1_44_toner_black
       - sensor.samsung_m267x_287x_series_192_168_1_44_drum_black
       - sensor.samsung_m267x_287x_series_192_168_1_44_output_tray_0
       - sensor.samsung_m267x_287x_series_192_168_1_44_tray_1
-  deeper:
-    name: "Deeper"
-    icon: mdi:server-network
-    control: hidden
-    view: false
-    entities:
-      - sensor.deeper_router_bytes_received
-      - sensor.deeper_router_bytes_sent
-      - sensor.deeper_router_kbyte_sec_received
-      - sensor.deeper_router_kbyte_sec_sent
-      # - sensor.deeper_router_packets_received
-      # - sensor.deeper_router_packets_sent
-      # - sensor.deeper_router_packets_sec_received
-      # - sensor.deeper_router_packets_sec_sent
   glances:
     name: "Jupiter"
     icon: mdi:server-network
-    control: hidden
-    view: false
     entities:
+      - sensor.speedtest_download
+      - sensor.speedtest_upload
+      - sensor.speedtest_ping
       - sensor.glances_ram_used
       - sensor.glances_containers_ram_used
       - sensor.glances_thread

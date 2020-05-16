@@ -222,44 +222,59 @@ light.white_warm:
   icon: mdi:lamp
   friendly_name: Bedroom Warm
 light.common_room_main:
-  icon: mdi:ceiling-light
+  icon: mdi:globe-light
   friendly_name: Common Room
+light.zemi_1:
+  icon: mdi:globe-light
+  friendly_name: Common Room 1
+light.zemi_2:
+  icon: mdi:globe-light
+  friendly_name: Common Room 2
+light.zemi_3:
+  icon: mdi:globe-light
+  friendly_name: Common Room 3
+light.zemi_4:
+  icon: mdi:globe-light
+  friendly_name: Common Room 4
 light.downlightblack1:
   icon: mdi:ceiling-light
-  friendly_name: Common Room 1
+  friendly_name: Hallway 1
 light.downlightblack2:
   icon: mdi:ceiling-light
-  friendly_name: Common Room 2
+  friendly_name: Hallway 2
 light.downlightblack3:
   icon: mdi:ceiling-light
-  friendly_name: Common Room 3
+  friendly_name: Hallway 3
 light.downlightblack4:
   icon: mdi:ceiling-light
-  friendly_name: Common Room 4
+  friendly_name: Hallway 4
+light.downlightblack5:
+  icon: mdi:ceiling-light
+  friendly_name: First Floor 1
+light.downlightblack6:
+  icon: mdi:ceiling-light
+  friendly_name: First Floor 2
+light.downlightblack7:
+  icon: mdi:ceiling-light
+  friendly_name: First Floor 3
+light.downlightblack8:
+  icon: mdi:ceiling-light
+  friendly_name: First Floor 4
 light.tethys:
   icon: mdi:track-light
   friendly_name: Hallway
 light.strip:
-  icon: mdi:alarm-light
+  icon: mdi:spotlight
   friendly_name: TV
 light.hue_hallway:
   icon: mdi:spotlight-beam
   friendly_name: Hallway
-light.front:
-  icon: mdi:lightbulb-outline
+light.first_floor_main:
+  icon: mdi:ceiling-light
   friendly_name: First Floor
-light.front_1:
-  icon: mdi:lightbulb-outline
-  friendly_name: First Floor 1
-light.front_2:
-  icon: mdi:lightbulb-outline
-  friendly_name: First Floor 2
-light.front_3:
-  icon: mdi:lightbulb-outline
-  friendly_name: First Floor 3
 light.white_garage:
-  icon: mdi:outdoor-lamp
   friendly_name: Garage
+  icon: mdi:coach-lamp
 light.neopixel:
   icon: mdi:led-strip-variant
   friendly_name: Neopixel
@@ -392,6 +407,10 @@ switch.bedroom_daikin:
   icon: mdi:air-conditioner
   friendly_name: Bedroom Air Cond
   assumed_state: true
+switch.ff_daikin:
+  icon: mdi:air-conditioner
+  friendly_name: First Floor Air Cond
+  assumed_state: true
 switch.bedroom_tv:
   icon: mdi:television
   friendly_name: Bedroom TV
@@ -460,6 +479,9 @@ binary_sensor.broadlink_rm_mini_a:
 binary_sensor.broadlink_rm_mini_b:
   icon: mdi:remote
   friendly_name: Broadlink RM Mini B
+binary_sensor.broadlink_rm_mini_c:
+  icon: mdi:remote
+  friendly_name: Broadlink RM Mini C
 binary_sensor.doughnut:
   icon: mdi:google-home
   friendly_name: Google Home Mini Bedroom
@@ -523,21 +545,15 @@ binary_sensor.nodemcu_matrix_clock:
 binary_sensor.nodemcu_ring_clock:
   icon: mdi:video-input-antenna
   friendly_name: Wemmos Ring Clock
-binary_sensor.wemos_wled_b:
+binary_sensor.wemos_wled_sa:
   icon: mdi:video-input-antenna
-  friendly_name: WeMos WLED B
-binary_sensor.wemos_wled_c:
+  friendly_name: WeMos WLED SA
+binary_sensor.wemos_wled_sb:
   icon: mdi:video-input-antenna
-  friendly_name: WeMos WLED C
-binary_sensor.wemos_wled_d:
-  icon: mdi:video-input-antenna
-  friendly_name: WeMos WLED D
+  friendly_name: WeMos WLED SB
 binary_sensor.wemos_wled_party:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED Party
-binary_sensor.wemos_wled_e:
-  icon: mdi:video-input-antenna
-  friendly_name: WeMos WLED E
 binary_sensor.wemos_buttonbox:
   icon: mdi:video-input-antenna
   friendly_name: WeMos Button Box
@@ -567,10 +583,12 @@ light.svb:
   icon: mdi:spotlight
   friendly_name: SVB
   assumed_state: false
+light.emergency:
+  icon: mdi:alarm-light
+  friendly_name: Emergency
 light.calypso:
+  friendly_name: Back Door
   icon: mdi:floor-lamp
-  friendly_name: Kitchen
-  assumed_state: false
 sensor.calypso_am2301_temperature:
   icon: mdi:thermometer
   friendly_name: First Floor Temperature
@@ -728,7 +746,9 @@ camera.boxieb1:
   supported_features: 2
 camera.boxieb2:
   access_token: 6fd349d56c3632d577d4a5878b6cc6ea3d501d86fe2fbc2be1ad88611a63bf5b
+  entity_picture: /api/camera_proxy/camera.boxieb1?token=6fd349d56c3632d577d4a5878b6cc6ea3d501d86fe2fbc2be1ad88611a63bf5b
   friendly_name: Boxie B2
+  supported_features: 2
   icon: mdi:webcam
 light.smartdimmer:
   friendly_name: SmartDimmer
@@ -739,3 +759,29 @@ binary_sensor.wemos_ring_clock:
 binary_sensor.wemos_wled_rc:
   friendly_name: Wemos WLED RC
   icon: mdi:video-input-antenna
+switch.first_floor_air_cond:
+  icon: mdi:air-conditioner
+binary_sensor.downlight_black1:
+  icon: mdi:ceiling-light
+binary_sensor.downlight_black2:
+  icon: mdi:ceiling-light
+binary_sensor.downlight_black3:
+  icon: mdi:ceiling-light
+binary_sensor.downlight_black4:
+  icon: mdi:ceiling-light
+binary_sensor.downlight_black5:
+  icon: mdi:ceiling-light
+binary_sensor.downlight_black6:
+  icon: mdi:ceiling-light
+binary_sensor.downlight_black7:
+  icon: mdi:ceiling-light
+binary_sensor.downlight_black8:
+  icon: mdi:ceiling-light
+light.kitchen:
+  icon: mdi:ceiling-light
+group.lights_kitchen:
+  icon: mdi:ceiling-light
+group.lights_front:
+  icon: mdi:ceiling-light
+light.front:
+  icon: mdi:ceiling-light

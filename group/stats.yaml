@@ -1,7 +1,6 @@
 stats_cr:
   name: "Statistics Common Room"
   icon: mdi:chart-line-stacked
-  control: "hidden"
   entities:
     - sensor.titan_current_consumption
     - sensor.titan_current
@@ -12,7 +11,6 @@ stats_cr:
 stats_br:
   name: "Statistics Bedroom"
   icon: mdi:chart-line-stacked
-  control: "hidden"
   entities:
     - sensor.europa_current_consumption
     - sensor.europa_current

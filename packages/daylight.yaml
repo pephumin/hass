@@ -19,8 +19,6 @@ group:
   daylight:
     name: "Daylight"
     icon: mdi:weather-sunny
-    control: "hidden"
-    view: false
     entities:
       - sensor.date
       - sensor.time
@@ -31,7 +29,7 @@ group:
 automation:
 
   - alias: "Sunset 1"
-    # initial_state: 'on'
+    initial_state: 'on'
     trigger:
       - platform: sun
         event: sunset
@@ -52,7 +50,7 @@ automation:
           message: "Sunset is expected in 30 minutes"
 
   - alias: "Sunset 2"
-    # initial_state: 'on'
+    initial_state: 'on'
     trigger:
       - platform: sun
         event: sunset
