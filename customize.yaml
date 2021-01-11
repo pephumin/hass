@@ -1,172 +1,65 @@
-device_tracker.pesiphone7plus:
+device_tracker.pesiphone11pro:
   icon: mdi:cellphone-iphone
-  friendly_name: Pe iPhone 7 Plus
-device_tracker.ping_pesiphone7plus:
+  friendly_name: Pe iPhone 11 Pro
+device_tracker.pes_iphone_11_pro:
+  icon: mdi:cellphone-iphone 
+binary_sensor.pesiphone11pro:
   icon: mdi:cellphone-iphone
-  friendly_name: Pe iPhone 7 Plus (Ping)
-device_tracker.user_pesiphone7plus:
-  icon: mdi:cellphone-iphone
-  friendly_name: Pe iPhone 7 Plus (Owntracks)
-binary_sensor.pesiphone7plus:
-  icon: mdi:cellphone-iphone
-  friendly_name: Pe iPhone 7 Plus
-group.pesiphone7plus:
-  icon: mdi:cellphone-iphone
-  friendly_name: Pe iPhone 7 Plus
-  assumed_state: false
-sensor.group_pesiphone7plus:
-  icon: mdi:cellphone-iphone
-  friendly_name: Pe iPhone 7 Plus
+  friendly_name: Pe iPhone 11 Pro
 device_tracker.pesipadmini5:
   icon: mdi:tablet-ipad
   friendly_name: Pe iPad Mini 5
-device_tracker.ping_pesipadmini5:
-  friendly_name: Pe iPad Mini 5 (Ping)
+device_tracker.pes_ipad_mini_5:
   icon: mdi:tablet-ipad
-device_tracker.user_pesipadmini5:
-  icon: mdi:tablet-ipad
-  friendly_name: Pe iPad Mini 5 (Owntracks)
 binary_sensor.pesipadmini5:
   friendly_name: Pe iPad Mini 5
   icon: mdi:tablet-ipad
-group.pesipadmini5:
-  friendly_name: Pe iPad Mini 5
-  icon: mdi:tablet-ipad
-sensor.group_pe_sipadmini5:
-  icon: mdi:tablet-ipad
-  friendly_name: Pe iPad Mini 5
-  assumed_state: false
 device_tracker.pepework:
   icon: mdi:laptop-windows
   friendly_name: Pe Dell Laptop
-device_tracker.ping_pepework:
-  icon: mdi:laptop-windows
-  friendly_name: Pe Dell Laptop (Ping)
 binary_sensor.pepework:
   icon: mdi:laptop-windows
   friendly_name: Pe Dell Laptop
-group.pepework:
-  icon: mdi:laptop-windows
-  friendly_name: Pe Dell Laptop
-  assumed_state: false
-sensor.group_pepework:
-  icon: mdi:laptop-windows
-  friendly_name: Pe Dell Laptop
-device_tracker.sinbad:
+device_tracker.pepe:
   icon: mdi:laptop-mac
   friendly_name: Pe Macbook Pro
-device_tracker.ping_sinbad:
-  icon: mdi:laptop-mac
-  friendly_name: Pe Macbook Pro (Ping)
-binary_sensor.sinbad:
+binary_sensor.pepe:
   icon: mdi:laptop-mac
   friendly_name: Pe Macbook Pro
-group.sinbad:
-  icon: mdi:laptop-mac
-  friendly_name: Pe Macbook Pro
-sensor.group_sinbad:
-  icon: mdi:laptop-mac
-  friendly_name: Pe Macbook Pro
-  assumed_state: false
 device_tracker.pesipodtouch4:
   icon: mdi:cellphone-dock
   friendly_name: iPod Touch BMW
-device_tracker.ping_pesipodtouch4:
-  icon: mdi:cellphone-dock
-  friendly_name: iPod Touch BMW (Ping)
 binary_sensor.pesipodtouch4:
   icon: mdi:cellphone-dock
   friendly_name: iPod Touch BMW
-group.pesipodtouch4:
-  icon: mdi:cellphone-dock
-  friendly_name: iPod Touch BMW
-  assumed_state: false
-device_tracker.jue_siphone6splus:
-  icon: mdi:cellphone-iphone
-  friendly_name: Jue iPhone 6s Plus
 device_tracker.juesiphone6splus:
   icon: mdi:cellphone-iphone
   friendly_name: Jue iPhone 6s Plus
-device_tracker.ping_juesiphone6splus:
-  icon: mdi:cellphone-iphone
-  friendly_name: Jue iPhone 6s Plus (Ping)
-device_tracker.user_juesiphone6splus:
-  icon: mdi:cellphone-iphone
-  friendly_name: Jue iPhone 6s Plus (Owntracks)
 binary_sensor.juesiphone6splus:
   icon: mdi:cellphone-iphone
   friendly_name: Jue iPhone 6s Plus
-group.juesiphone6splus:
-  icon: mdi:cellphone-iphone
-  friendly_name: Jue iPhone 6s Plus
-  assumed_state: false
-sensor.group_juesiphone6splus:
-  icon: mdi:cellphone-iphone
-  friendly_name: Jue iPhone 6s Plus
-device_tracker.juesipadmini4:
+device_tracker.juesipadmini5:
   icon: mdi:tablet-ipad
   friendly_name: Jue iPad Mini 4
-device_tracker.ping_juesipadmini4:
-  friendly_name: Jue iPad Mini 4 (Ping)
-  icon: mdi:tablet-ipad
-device_tracker.user_juesipadmini4:
-  icon: mdi:tablet-ipad
-  friendly_name: Jue iPad Mini 4 (Owntracks)
-binary_sensor.juesipadmini4:
+binary_sensor.juesipadmini5:
   friendly_name: Jue iPad Mini 4
   icon: mdi:tablet-ipad
-group.juesipadmini4:
-  friendly_name: Jue iPad Mini 4
-  icon: mdi:tablet-ipad
-sensor.group_juesipadmini4:
-  icon: mdi:tablet-ipad
-  friendly_name: Jue iPad Mini 4
 device_tracker.benjysiphone6:
   icon: mdi:cellphone-iphone
   friendly_name: BenjysiPhone6
-device_tracker.ping_benjysiphone6:
-  icon: mdi:cellphone-iphone
-  friendly_name: BenjysiPhone6 (Ping)
 binary_sensor.benjysiphone6:
-  icon: mdi:cellphone-iphone
-  friendly_name: BenjysiPhone6
-group.benjysiphone6:
-  icon: mdi:cellphone-iphone
-  friendly_name: BenjysiPhone6
-  assumed_state: false
-sensor.group_benjysiphone6:
   icon: mdi:cellphone-iphone
   friendly_name: BenjysiPhone6
 device_tracker.benjysipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: Benjy iPad Mini 2
-device_tracker.ping_benjysipadmini2:
-  icon: mdi:tablet-ipad
-  friendly_name: Benjy iPad Mini 2 (Ping)
 binary_sensor.benjysipadmini2:
-  icon: mdi:tablet-ipad
-  friendly_name: Benjy iPad Mini 2
-group.benjysipadmini2:
-  icon: mdi:tablet-ipad
-  friendly_name: Benjy iPad Mini 2
-  assumed_state: false
-sensor.group_benjysipadmini2:
   icon: mdi:tablet-ipad
   friendly_name: Benjy iPad Mini 2
 device_tracker.benjawan:
   icon: mdi:laptop-mac
   friendly_name: Benjy Macbook Pro
-device_tracker.ping_benjawan:
-  icon: mdi:laptop-mac
-  friendly_name: Benjy Macbook Pro (Ping)
 binary_sensor.benjawan:
-  icon: mdi:laptop-mac
-  friendly_name: Benjy Macbook Pro
-group.benjawan:
-  icon: mdi:laptop-mac
-  friendly_name: Benjy Macbook Pro
-  assumed_state: false
-sensor.group_benjawan:
   icon: mdi:laptop-mac
   friendly_name: Benjy Macbook Pro
 device_tracker.boom:
@@ -175,28 +68,15 @@ device_tracker.boom:
 binary_sensor.boom:
   icon: mdi:cellphone-android
   friendly_name: Boom
-group.boom:
-  icon: mdi:cellphone-android
-  friendly_name: Boom
-  assumed_state: false
-sensor.group_boom:
-  icon: mdi:cellphone-android
-  friendly_name: Boom
 device_tracker.dune:
   icon: mdi:movie-roll
   friendly_name: Dune Base
-device_tracker.ping_dune:
-  icon: mdi:movie-roll
-  friendly_name: Dune Base (Ping)
 binary_sensor.dune:
   icon: mdi:movie-roll
   friendly_name: Dune Base
 device_tracker.xdj_rx:
   icon: mdi:music
   friendly_name: Pioneer XDJ-RX
-device_tracker.ping_xdj_rx:
-  icon: mdi:music
-  friendly_name: Pioneer XDJ-RX (Ping)
 binary_sensor.xdj_rx:
   icon: mdi:music
   friendly_name: XDJ-RX
@@ -247,19 +127,19 @@ light.downlightblack3:
   friendly_name: Hallway 3
 light.downlightblack4:
   icon: mdi:ceiling-light
-  friendly_name: Hallway 4
+  friendly_name: First Floor 1
 light.downlightblack5:
   icon: mdi:ceiling-light
-  friendly_name: First Floor 1
+  friendly_name: First Floor 2
 light.downlightblack6:
   icon: mdi:ceiling-light
-  friendly_name: First Floor 2
+  friendly_name: First Floor 3
 light.downlightblack7:
   icon: mdi:ceiling-light
-  friendly_name: First Floor 3
+  friendly_name: First Floor 4
 light.downlightblack8:
   icon: mdi:ceiling-light
-  friendly_name: First Floor 4
+  friendly_name: First Floor 5
 light.tethys:
   icon: mdi:track-light
   friendly_name: Hallway
@@ -445,7 +325,10 @@ binary_sensor.deeper:
   friendly_name: Primary Gateway
 binary_sensor.pluto:
   icon: mdi:wifi
-  friendly_name: Airport Extreme
+  friendly_name: Airport Extreme Pluto
+binary_sensor.sun:
+  icon: mdi:wifi
+  friendly_name: Airport Extreme Sun
 binary_sensor.neptune:
   icon: mdi:wifi
   friendly_name: Airport Express Bedroom
@@ -464,6 +347,9 @@ binary_sensor.sputnik:
 binary_sensor.apple_tv:
   icon: mdi:apple
   friendly_name: Apple TV
+binary_sensor.smart_tv:
+  friendly_name: Smart TV
+  icon: mdi:television
 binary_sensor.denon:
   icon: mdi:amplifier
   friendly_name: Denon AVR-2113
@@ -520,19 +406,19 @@ binary_sensor.ganymede:
   friendly_name: Sonoff Basic Ganymede
 binary_sensor.callisto:
   icon: mdi:power-socket
-  friendly_name: Sonoff Dual Callisto
+  friendly_name: Sonoff Dual R2 Callisto
 binary_sensor.mimas:
   icon: mdi:power-plug
   friendly_name: Sonoff Basic Mimas
 binary_sensor.pandora:
   icon: mdi:power-plug
-  friendly_name: Sonoff Basic Pandora
+  friendly_name: Sonoff S26 Pandora
 binary_sensor.phoebe:
   icon: mdi:power-socket-us
   friendly_name: Sonoff S20 Phoebe
 binary_sensor.calypso:
   icon: mdi:power-socket-us
-  friendly_name: Sonoff S20 Calypso
+  friendly_name: Sonoff S26 Calypso
 binary_sensor.sva:
   icon: mdi:power-plug
   friendly_name: Sonoff SV A
@@ -645,17 +531,17 @@ sensor.last_boot:
   hidden: true
 sensor.since_last_boot:
   hidden: true
-sensor.pes_iphone_7_plus_battery_level:
+sensor.pes_iphone_11_pro_battery_level:
   hidden: true
-sensor.pes_iphone_7_plus_battery_level_2:
+sensor.pes_iphone_11_pro_battery_level_2:
   hidden: true
-sensor.pes_iphone_7_plus_battery_level_3:
+sensor.pes_iphone_11_pro_battery_level_3:
   hidden: true
-sensor.pes_iphone_7_plus_battery_state:
+sensor.pes_iphone_11_pro_battery_state:
   hidden: true
-sensor.pes_iphone_7_plus_battery_state_2:
+sensor.pes_iphone_11_pro_battery_state_2:
   hidden: true
-sensor.pes_iphone_7_plus_battery_state_3:
+sensor.pes_iphone_11_pro_battery_state_3:
   hidden: true
 sensor.jues_iphone_6s_plus_battery_level:
   hidden: true
@@ -677,21 +563,21 @@ sensor.jues_iphone6s_plus_battery_state:
   hidden: true
 sensor.jues_iphone6s_plus_battery_state_2:
   hidden: true
-sensor.pes_ipad_mini_4_battery_level:
+sensor.pes_ipad_mini_5_battery_level:
   hidden: true
-sensor.pes_ipad_mini_4_battery_level_2:
+sensor.pes_ipad_mini_5_battery_level_2:
   hidden: true
-sensor.pes_ipad_mini_4_battery_state:
+sensor.pes_ipad_mini_5_battery_state:
   hidden: true
-sensor.pes_ipad_mini_4_battery_state_2:
+sensor.pes_ipad_mini_5_battery_state_2:
   hidden: true
-sensor.jues_ipad_mini_4_battery_level:
+sensor.jues_ipad_mini_5_battery_level:
   hidden: true
-sensor.jues_ipad_mini_4_battery_level_2:
+sensor.jues_ipad_mini_5_battery_level_2:
   hidden: true
-sensor.jues_ipad_mini_4_battery_state:
+sensor.jues_ipad_mini_5_battery_state:
   hidden: true
-sensor.jues_ipad_mini_4_battery_state_2:
+sensor.jues_ipad_mini_5_battery_state_2:
   hidden: true
 sensor.temperature_sda:
   hidden: true
@@ -785,3 +671,15 @@ group.lights_front:
   icon: mdi:ceiling-light
 light.front:
   icon: mdi:ceiling-light
+sensor.hyperion_am2301_temperature:
+  icon: mdi:thermometer
+  friendly_name: Bedroom Temperature
+sensor.hyperion_am2301_humidity:
+  icon: mdi:water-percent
+  friendly_name: Bedroom Humidity
+sensor.phoebe_am2301_temperature:
+  icon: mdi:thermometer
+  friendly_name: First Floor Temperature
+sensor.phoebeam2301_humidity:
+  icon: mdi:water-percent
+  friendly_name: First Floor Humidity

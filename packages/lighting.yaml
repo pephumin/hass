@@ -9,7 +9,8 @@ light:
       - light.neopixel
       - light.round_clock
       - light.white_warm
-      - light.first_floor_main
+      - light.front
+      - light.kitchen
       - light.pathway
       - light.emergency
       - light.white_garage
@@ -55,6 +56,7 @@ light:
   - platform: group
     name: "First Floor All"
     entities:
+      - light.downlightblack4
       - light.downlightblack5
       - light.downlightblack6
       - light.downlightblack7
@@ -65,6 +67,7 @@ light:
   - platform: group
     name: "First Floor Main"
     entities:
+      - light.downlightblack4
       - light.downlightblack5
       - light.downlightblack6
       - light.downlightblack7
@@ -72,6 +75,7 @@ light:
   - platform: group
     name: "Front"
     entities:
+      - light.downlightblack4
       - light.downlightblack5
       - light.downlightblack6
   - platform: group
@@ -79,12 +83,6 @@ light:
     entities:
       - light.downlightblack7
       - light.downlightblack8
-      - light.calypso
-  - platform: group
-    name: "Emergency"
-    entities:
-      - light.svb
-      - light.calypso
   - platform: group
     name: "Round Clock"
     entities:
@@ -100,7 +98,7 @@ light:
 group:
   lights_all:
     name: "All Lights"
-    icon: mdi:light
+    icon: mdi:ceiling-light
     entities:
       - light.common_room_main
       - light.tethys
@@ -114,109 +112,109 @@ group:
       - light.kitchen
       - light.emergency
       - light.white_garage
-  lights_common_room_all:
-    name: "Common Room All"
-    icon: mdi:light
-    entities:
-      - light.zemi_1
-      - light.zemi_2
-      - light.zemi_3
-      - light.zemi_4
-      - light.tethys
-      - light.strip
-      - light.neopixel
-      - light.round_clock
-  lights_common_room_main:
-    name: "Common Room Main"
-    icon: mdi:light
-    entities:
-      - light.zemi_1
-      - light.zemi_2
-      - light.zemi_3
-      - light.zemi_4
-      - light.tethys
-  lights_neopixel:
-    name: "Neopixel"
-    icon: mdi:light
-    entities:
-      - light.light_sa
-      - light.light_sb
-      - light.light_party
-  lights_roundclock:
-    name: "Round Clock"
-    icon: mdi:alarm
-    entities:
-      - light.roundclock
-      - light.light_rc
-  lights_bedroom_all:
-    name: "Bedroom All"
-    icon: mdi:light
-    entities:
-      - light.hue_1
-      - light.hue_2
-      - light.hue_3
-      - light.hue_4
-      - light.white_warm
-      - light.pandora
-  lights_bedroom_main:
-    name: "Bedroom Main"
-    icon: mdi:light
-    entities:
-      - light.hue_1
-      - light.hue_2
-      - light.hue_3
-      - light.hue_4
-  lights_bedroom_night:
-    name: "Bedroom Night"
-    icon: mdi:light
-    entities:
-      - light.white_warm
-      - light.pandora
-  lights_firstfloor_all:
-    name: "First Floor All"
-    icon: mdi:light
-    entities:
-      - light.downlightblack5
-      - light.downlightblack6
-      - light.downlightblack7
-      - light.downlightblack8
-      - light.calypso
-      - light.svb
-      - light.white_garage
-  lights_firstfloor_main:
-    name: "First Floor Main"
-    icon: mdi:light
-    entities:
-      - light.downlightblack5
-      - light.downlightblack6
-      - light.downlightblack7
-      - light.downlightblack8
-  lights_pathway:
-    name: "Pathway"
-    icon: mdi:light
-    entities:
-      - light.downlightblack1
-      - light.downlightblack2
-      # - light.downlightblack3
-      - light.downlightblack4
-  lights_front:
-    name: "Front"
-    icon: mdi:light
-    entities:
-      - light.downlightblack5
-      - light.downlightblack6
-  lights_kitchen:
-    name: "Kitchen"
-    icon: mdi:light
-    entities:
-      - light.downlightblack7
-      - light.downlightblack8
-  lights_emergency:
-    name: "Emergency"
-    icon: mdi:alarm-light
-    entities:
-      - light.svb
-      - light.calypso
+  # lights_common_room_all:
+  #   name: "Common Room All"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.zemi_1
+  #     - light.zemi_2
+  #     - light.zemi_3
+  #     - light.zemi_4
+  #     - light.tethys
+  #     - light.strip
+  #     - light.neopixel
+  #     - light.round_clock
+  # lights_common_room_main:
+  #   name: "Common Room Main"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.zemi_1
+  #     - light.zemi_2
+  #     - light.zemi_3
+  #     - light.zemi_4
+  #     - light.tethys
+  # lights_neopixel:
+  #   name: "Neopixel"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.light_sa
+  #     - light.light_sb
+  #     - light.light_party
+  # lights_roundclock:
+  #   name: "Round Clock"
+  #   icon: mdi:alarm
+  #   entities:
+  #     - light.roundclock
+  #     - light.light_rc
+  # lights_bedroom_all:
+  #   name: "Bedroom All"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.hue_1
+  #     - light.hue_2
+  #     - light.hue_3
+  #     - light.hue_4
+  #     - light.white_warm
+  #     - light.pandora
+  # lights_bedroom_main:
+  #   name: "Bedroom Main"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.hue_1
+  #     - light.hue_2
+  #     - light.hue_3
+  #     - light.hue_4
+  # lights_bedroom_night:
+  #   name: "Bedroom Night"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.white_warm
+  #     - light.pandora
+  # lights_firstfloor_all:
+  #   name: "First Floor All"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.downlightblack5
+  #     - light.downlightblack6
+  #     - light.downlightblack7
+  #     - light.downlightblack8
+  #     - light.calypso
+  #     - light.svb
+  #     - light.white_garage
+  # lights_firstfloor_main:
+  #   name: "First Floor Main"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.downlightblack5
+  #     - light.downlightblack6
+  #     - light.downlightblack7
+  #     - light.downlightblack8
+  # lights_pathway:
+  #   name: "Pathway"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.downlightblack1
+  #     - light.downlightblack2
+  #     # - light.downlightblack3
+  #     - light.downlightblack4
+  # lights_front:
+  #   name: "Front"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.downlightblack5
+  #     - light.downlightblack6
+  # lights_kitchen:
+  #   name: "Kitchen"
+  #   icon: mdi:ceiling-light
+  #   entities:
+  #     - light.downlightblack7
+  #     - light.downlightblack8
+  # lights_emergency:
+  #   name: "Emergency"
+  #   icon: mdi:alarm-light
+  #   entities:
+  #     - light.svb
+  #     - light.calypso
   common_room_scenes:
     name: "Common Room Light Scenes"
     icon: mdi:duck
@@ -320,9 +318,13 @@ scene:
       light.zemi_1:
         state: off
         transition: 1
+        brightness: 50
+        color_temp: 454
       light.zemi_2:
         state: off
         transition: 1
+        brightness: 50
+        color_temp: 454
       light.zemi_3:
         state: on
         transition: 1
@@ -645,57 +647,130 @@ scene:
     entities:
       light.first_floor_main:
         state: off
+      # light.downlightblack4:
+      #   state: off
+      #   transition: 1
+      # light.downlightblack5:
+      #   state: off
+      #   transition: 1
+      # light.downlightblack6:
+      #   state: off
+      #   transition: 1
+      # light.downlightblack7:
+      #   state: off
+      #   transition: 1
+      # light.downlightblack8:
+      #   state: off
+      #   transition: 1
       light.white_garage:
         state: off
-      # light.calypso:
-      #   state: off
+        transition: 1
+      light.calypso:
+        state: off
       light.svb:
         state: off
-  - name: "First Floor Bright"
+  - name: "First Floor Very Bright"
     entities:
+      light.downlightblack4:
+        state: on
+        transition: 1
+        brightness: 255
+        color_temp: 164
       light.downlightblack5:
         state: on
         transition: 1
-        brightness: 254
+        brightness: 255
+        color_temp: 164
       light.downlightblack6:
         state: on
         transition: 1
-        brightness: 254
+        brightness: 200
+        color_temp: 164
       light.downlightblack7:
         state: on
         transition: 1
-        brightness: 254
+        brightness: 200
+        color_temp: 164
       light.downlightblack8:
         state: on
         transition: 1
-        brightness: 254
+        brightness: 200
+        color_temp: 164
       light.white_garage:
         state: off
         transition: 1
       # light.calypso:
       #   state: on
       light.svb:
-        state: on
-  - name: "First Floor Dim"
+        state: off
+  - name: "First Floor Bright"
     entities:
+      light.downlightblack4:
+        state: on
+        transition: 1
+        brightness: 200
+        color_temp: 164
       light.downlightblack5:
         state: on
         transition: 1
-        brightness: 35
-        rgb_color: (255,226,145)
+        brightness: 200
+        color_temp: 164
       light.downlightblack6:
         state: on
         transition: 1
-        brightness: 35
-        rgb_color: (255,44,130)
+        brightness: 110
+        color_temp: 164
       light.downlightblack7:
         state: on
         transition: 1
-        brightness: 35
+        brightness: 110
+        color_temp: 164
       light.downlightblack8:
         state: on
         transition: 1
-        brightness: 35
+        brightness: 110
+        color_temp: 164
+      light.white_garage:
+        state: off
+        transition: 1
+      # light.calypso:
+      #   state: on
+      light.svb:
+        state: off
+  - name: "First Floor Dim"
+    entities:
+      light.downlightblack4:
+        state: on
+        transition: 1
+        # brightness: 35
+        # rgb_color: (255,226,145)
+        brightness: 100
+        color_temp: 454
+      light.downlightblack5:
+        state: on
+        transition: 1
+        # brightness: 35
+        # rgb_color: (255,44,130)
+        brightness: 100
+        color_temp: 454
+      light.downlightblack6:
+        state: on
+        transition: 1
+        # brightness: 35
+        brightness: 50
+        color_temp: 454
+      light.downlightblack7:
+        state: on
+        transition: 1
+        # brightness: 35
+        brightness: 50
+        color_temp: 454
+      light.downlightblack8:
+        state: on
+        transition: 1
+        # brightness: 35
+        brightness: 50
+        color_temp: 454
       light.white_garage:
         state: off
       # light.calypso:
@@ -735,12 +810,18 @@ automation:
       - condition: template
         value_template: '{{ is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") }}'
     action:
-      - service: light.turn_on
+      # - service: light.turn_on
+      #   data_template:
+      #     entity_id: '{% if is_state("input_select.homemode", "Home") %}light.strip{% elif is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}light.white_garage{% endif %}'
+      #     transition: '5'
+      #     brightness: '255'
+      #     color_name: '{% if is_state("input_select.homemode", "Home") %}blue{% endif %}'
+      - service_template: light.turn_on
         data_template:
           entity_id: '{% if is_state("input_select.homemode", "Home") %}light.strip{% elif is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}light.white_garage{% endif %}'
-          transition: '5'
-          brightness: '255'
-          color_name: '{% if is_state("input_select.homemode", "Home") %}blue{% endif %}'
+          effect: '{% if is_state("input_select.homemode", "Home") %}colorloop{% endif %}'
+          transition: 5
+          brightness: 255
       - service: script.notifying
         data_template:
           email: "true"
@@ -751,12 +832,6 @@ automation:
           light: "false"
           mobile: "pe"
           message: '{% if is_state("input_select.homemode", "Home") %}Strip Light{% elif is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}Garage Light{% endif %} has been turned on 15 minutes before sunset'
-      - service_template: light.turn_on
-        data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.strip{% elif is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}light.white_garage{% endif %}'
-          effect: '{% if is_state("input_select.homemode", "Home") %}colorloop{% endif %}'
-          transition: '{% if is_state("input_select.homemode", "Home") %}5{% endif %}'
-          brightness: '{% if is_state("input_select.homemode", "Home") %}255{% endif %}'
 
   - alias: "Autolight Sunset B"
     initial_state: "on"
@@ -768,6 +843,9 @@ automation:
       - condition: template
         value_template: '{{ is_state("light.strip", "on") or is_state("light.white_garage", "on") }}'
     action:
+      - service_template: light.turn_off
+        data_template:
+          entity_id: '{% if is_state("light.strip", "on") %}light.strip{% elif is_state("light.white_garage", "on") %}light.white_garage{% endif %}'
       - service: script.notifying
         data_template:
           email: "true"
@@ -777,10 +855,7 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "pe"
-          message: 'Turn off {% if is_state("light.strip", "on") %}Strip Light{% elif is_state("light.white_garage", "on") %}Garage Light{% endif %} after sunset for 1 hour'
-      - service_template: light.turn_off
-        data_template:
-          entity_id: '{% if is_state("light.strip", "on") %}light.strip{% elif is_state("light.white_garage", "on") %}light.white_garage{% endif %}'
+          message: 'Turn off {% if is_state("input_select.homemode", "Home") %}Strip Light{% elif is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}Garage Light{% endif %} after sunset for 1 hour'
 
   - alias: "Autolight 1A"
     initial_state: "on"
@@ -863,12 +938,14 @@ automation:
         at: '21:00:00'
     condition:
       - condition: template
-        value_template: '{{ is_state("light.downlightblack8", "on") or is_state("light.downlightblack8", "on") or is_state("light.downlightblack7", "on") }}'
+        value_template: '{{ is_state("light.downlightblack8", "on") or is_state("light.downlightblack7", "on") }}'
     action:
-      - service_template: '{% if is_state("input_select.homemode", "Home") %}light.turn_off{% elif is_state("input_select.homemode", "Away") %}light.turn_off{% elif is_state("input_select.homemode", "Vacation") %}light.turn_off{% endif %}'
+      - service: light.turn_off
+      # - service_template: '{% if is_state("input_select.homemode", "Home") %}light.turn_off{% elif is_state("input_select.homemode", "Away") %}light.turn_off{% elif is_state("input_select.homemode", "Vacation") %}light.turn_off{% endif %}'
         data_template:
           entity_id: '{% if is_state("input_select.homemode", "Home") %}light.downlightblack8{% elif is_state("input_select.homemode", "Away") %}light.downlightblack8{% elif is_state("input_select.homemode", "Vacation") %}light.downlightblack7{% endif %}'
-          transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}5{% elif is_state("input_select.homemode", "Vacation") %}5{% endif %}'
+          # transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}5{% elif is_state("input_select.homemode", "Vacation") %}5{% endif %}'
+          transition: 5
       - service: script.notifying
         data_template:
           email: "true"
@@ -878,7 +955,7 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "pe"
-          message: 'Turn off {% if is_state("input_select.homemode", "Home") %}DownLightBlack8 Light{% elif is_state("input_select.homemode", "Away") %}DownLightBlack8 Light{% elif is_state("input_select.homemode", "Vacation") %}DownLightBlack7 Light{% endif %} at 9:00pm'
+          message: 'Turn off {% if is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") %}DownLightBlack8 Light{% elif is_state("input_select.homemode", "Vacation") %}DownLightBlack7 Light{% endif %} at 9:00pm'
 
   - alias: "Autolight 3A"
     initial_state: "on"
@@ -891,9 +968,9 @@ automation:
     action:
       - service: light.turn_on
         data_template:
-          entity_id: '{% if is_state("input_select.homemode", "Home") %}light.white_warm{% elif is_state("input_select.homemode", "Away") %}light.white_warm{% elif is_state("input_select.homemode", "Vacation") %}light.zemi_1{% endif %}'
-          transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}1{% elif is_state("input_select.homemode", "Vacation") %}1{% endif %}'
-          brightness: '{% if is_state("input_select.homemode", "Home") %}100{% elif is_state("input_select.homemode", "Away") %}255{% elif is_state("input_select.homemode", "Vacation") %}255{% endif %}'
+          entity_id: '{% if is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") %}light.white_warm{% elif is_state("input_select.homemode", "Vacation") %}light.zemi_1{% else %}light.zemi_1{% endif %}'
+          transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}1{% endif %}'
+          brightness: '{% if is_state("input_select.homemode", "Home") %}100{% elif is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}255{% endif %}'
       - service: script.notifying
         data_template:
           email: "true"
@@ -904,7 +981,7 @@ automation:
           light: "false"
           mobile: "pe"
           # message: 'Turn on {% if is_state("input_select.homemode", "Home") %}Warm{% elif is_state("input_select.homemode", "Away") %}Warm{% elif is_state("input_select.homemode", "Vacation") %}Common Room 1{% endif %} light at 9:30pm'
-          message: 'Turn on {% if is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") %}Warm Light{% elif is_state("input_select.homemode", "Vacation") %}Common Room 1 Light{% endif %} at 9:30pm'
+          message: 'Turn on {% if is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") %}Warm Light{% elif is_state("input_select.homemode", "Vacation") %}Common Room 1 Light{% else %} Common Room 1{% endif %} at 9:30pm'
 
   - alias: "Autolight 3B"
     initial_state: "on"
@@ -917,7 +994,7 @@ automation:
     action:
       - service: light.turn_off
         data_template:
-          entity_id: '{% if is_state("light.white_warm", "on") %}light.white_warm{% elif is_state("light.zemi_1", "on") %}light.zemi_1{% endif %}'
+          entity_id: '{% if is_state("light.white_warm", "on") %}light.white_warm{% elif is_state("light.zemi_1", "on") %}light.zemi_1{% else %}light.zemi_1{% endif %}'
       - service: script.notifying
         data_template:
           email: "true"
@@ -927,8 +1004,7 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "pe"
-          # message: 'Turn off {% if is_state("light.white_warm", "on") %}Warm{% elif is_state("light.downlightblack1", "on") %}Common Room 1{% endif %} light at 9:00pm'
-          message: 'Turn off {% if is_state("light.white_warm", "on") %}Warm Light{% elif is_state("light.zemi_1", "on") %}Common Room 1 Light{% endif %} at 9:00pm'
+          message: 'Turn off {{ trigger.from_state.attributes.friendly_name }} at 11:00pm'
 
   - alias: "Autolight Bedroom 1A"
     initial_state: "on"

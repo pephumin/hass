@@ -1,6 +1,3 @@
-# shell_command:
-#   wag160n_reboot: !secret wag160n_reboot
-
 speedtestdotnet:
   scan_interval:
     minutes: 30
@@ -9,23 +6,25 @@ speedtestdotnet:
     - download
     - upload
 
-sensor:
-  - platform: min_max
-    entity_ids:
-      - sensor.calypso_am2301_temperature
-      - sensor.ganymede_am2301_temperature
-      - sensor.hyperion_am2301_temperature
-  - platform: synologydsm
-    # name: Saturn
-    host: !secret synology2_ip
-    username: !secret my_username
-    password: !secret my_longer_password
-    monitored_conditions:
-      - disk_temp
-      - cpu_total_load
-      - memory_real_usage
-      - network_up
-
+# sensor:
+  # - platform: min_max
+  #   entity_ids:
+  #     - sensor.calypso_am2301_temperature
+  #     - sensor.ganymede_am2301_temperature
+  #     - sensor.hyperion_am2301_temperature
+  # - platform: derivative
+  #   source: sensor.hyperion_am2301_temperature
+  #   name: Bedroom Temperature Change Per Hour
+  #   round: 1
+  #   unit_time: h
+  #   time_window: "00:30:00"
+  # - platform: derivative
+  #   source: sensor.calypso_am2301_temperature
+  #   name: First Floor Temperature Change Per Hour
+  #   round: 1
+  #   unit_time: h
+  #   time_window: "00:30:00"
+  
 group:
   printer:
     name: "Earth"

@@ -144,7 +144,7 @@ android_box_ok:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.16
+        host: !secret rmmini_b_ip
         packet:
         - JgBYAAABKJMUEhMSExITEhM3ExITEhQRFDYUNxM3EzcTEhM3FDYUNhQ3ExITEhMSExITEhM3FBEUEhM3EzcTNxM3EzcUERQ2FAAFGAABKEoRAAxYAAEmTBEADQU=
 mute_common_room:
@@ -152,7 +152,7 @@ mute_common_room:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.16
+        host: !secret rmmini_b_ip
         packet:
         - JgAyAXA2Dg4NDg8pDQ4PKQ0ODykNDg4ODygODg4ODikPKQ0ODg4ODg0ODg4NDw0ODg4OKQ4ODygODg4ODQ4ODg8oDg4ODg4pDykOKQ4ODikODg0PDQ4ODg4pDykNDg8pDikOKQ4ODgAJkm83DQ4ODg8oDg4PKA4ODykNDg4ODikODg4ODikPKA4ODg4NDw0ODg4NDw0ODg4OKQ4ODikODg4ODQ4ODg4pDg4ODg4pDykOKQ4ODikODg0ODg4ODg4pDykNDg8pDikPKQ0ODAAJlHA2DQ8LEA8pDQ4PKQ0ODykNDg4ODygODg4ODikPKQ0ODg4ODg0ODg4ODg0ODg4OKQ4ODykNDg4ODQ8NDg8pDQ4ODg8oDykOKQ4ODikODg4ODQ4ODg4pDykNDg8pDikPKQ0ODgANBQAAAAAAAA==
 mute_bedroom:
@@ -160,7 +160,7 @@ mute_bedroom:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.15
+        host: !secret rmmini_a_ip
         packet:
         - JgDMAAgaCjsKGQkZChkJGgkZCRoJGQk8CTwJPAk8CRkKGQkABZ8KGQk8CxcJGgkZCTwKOwo7CTwJGgkZCRoJGQk8CTwKAAWeChkJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwLGAkZCRoJPAk7CjsMOQwXCRkKGQkZCjsKOwwABZ0KGAo7CRoJGQkaCRkJGgkZCRoJPAk8CTwJPAkZCRoJAAWfChgKOwoZCRkKGQk8CTwJPAs6CRkKGQkZChkJPAk8CwANBQAAAAAAAAAAAAAAAA==
 bedroom_ac_24:
@@ -168,7 +168,7 @@ bedroom_ac_24:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.15
+        host: !secret rmmini_a_ip
         packet:
         - JgC8AXA5DyoODg4ODg8NKw4ODg8NDw4ODisODg4rDSsODw0rDisNKw4rDSsPDg0PDioPDg0PDg4ODg4PDQ8OKw0rDyoNKw8NDg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODisODg4ODg4ODw0PDg4OAAPMcTkPKg0PDg4ODg4rDg4ODg4PDQ8OKw0PDioOKw4ODisNKw4rDioPKg4ODg4OKw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4rDg4ODg4ODisOKg8ODQ8ODg4PDQ8ODg4rDSsPDg0PDQ8ODg4PDQ8ODg4ODg8NDw4rDSsPKg4qDg4OKw4ODisOKg8qDioOKw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NKw4rDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4OKw4ODg4ODw0rDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
 bedroom_ac_21:
@@ -176,7 +176,7 @@ bedroom_ac_21:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.15
+        host: !secret rmmini_a_ip
         packet:
         - JgC8AXE5DioPDQ4PDQ8OKw4ODg4ODg4PDSsPDQ4rDyoNDw4qDyoOKg8qDyoODg4ODisODg4ODg8NDw0PDg4OKw4qDisOKw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODisODg4PDQ8NDw4ODg8NAAPNcDkOKw4ODg4ODw0rDg8NDw0PDg4OKw4ODisOKg8ODSsOKw4qDisOKg4PDQ8OKg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4rDg4ODg4PDSsOKw0PDg4ODw0rDw0OKw8NDisODg4ODg8NDw4ODg8NDw0PDg4ODw0rDyoNKw8qDQ8OKw0PDioOKw4rDSsPKg4ODg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4qDw4NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8OKg4rDg4OKw4ODisNKw8qDgANBQAAAAAAAAAAAAAAAA==
 bedroom_ac_18:
@@ -184,7 +184,7 @@ bedroom_ac_18:
   sequence:
     - service: broadlink.send
       data:
-        host: 192.168.1.15
+        host: !secret rmmini_a_ip
         packet:
         - JgC8AXA5DyoODg4ODg8NKw8ODQ8ODg4ODisODg4rDioPDg0rDisOKg4rDioPDg0PDioPDg0PDg4ODw0PDg4OKw0rDyoNKw8ODQ8ODg4ODg8NDw4ODw4NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODisNDw4ODg8NDw4ODg4OAAPMcTkPKg0PDg4ODg4rDg4ODw0PDg4OKw4ODioOKw8NDisOKg8qDioOKw4ODg8NKw4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4rDg4ODg4ODisOKg8ODg4ODg4PDSsODg4PDSsODw0PDg4ODg4PDQ8ODg4PDQ8NDw4rDioPKg4qDw4NKw8NDisOKg4rDyoOKg8NDg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8OKg8qDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4ODisNDw4ODisOKg8qDgANBQAAAAAAAAAAAAAAAA==
 bedroom_ac_powerful:
@@ -194,7 +194,7 @@ bedroom_ac_powerful:
     - delay: 00:00:15
     - service: broadlink.send
       data:
-        host: 192.168.1.15
+        host: !secret rmmini_a_ip
         packet:
         - JgC8AXE5DioPDQ8ODQ8PKg4ODg4PDQ8ODioODg4rDyoODg4qDyoOKg8qDykPDg4ODisNDw4ODg4ODw0PDw0PKg4qDyoOKg8ODQ8PDQ4PDQ8ODg4ODg8ODg4ODw0PDg4ODw0PDg0PDg4ODg8ODQ8ODg4ODg8NDw8NDisODg4ODw4NDw4ODg4OAAPMcTkPKg0PDg4ODg8qDg4ODw4ODg4OKw4ODioPKg8NDisOKg4rDioPKg8NDw4NKw8NDw4ODg4ODw0ODw4ODw0PDg0PDg4PDQ8ODg4ODg8NDw4ODg4rDg4ODg8NDyoOKg4PDg4PDQ8ODg4OKg8ODSsPDQ8ODg4ODg8ODg4ODg4ODg8NDw4qDyoPKg4qDw0OKw8NDisOKg8qDioPKg8NDw0ODw4ODw0PDg0PDg4ODg8ODg4PDQ4ODw4ODg4ODw4ODg4ODg4PDg4ODw0PDQ4PDg4ODg4PDioPDQ4PDg4ODg4PDQ8ODg8NDw4ODg4ODw0ODw4ODg4PDg4ODQ8PDQ4PDg4OKg8qDw0PDg4ODg4PDQ4PDg4ODg4ODw4ODg8NDw4NDw0PDw0PDg4qDw0PKg8NDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
     - delay: 00:10:00
@@ -203,6 +203,46 @@ bedroom_ac_control:
   alias: "Bedroom Air Condition Control"
   sequence:
     - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" %}script.bedroom_ac_18{% elif packet == "powerful" %}script.bedroom_ac_powerful{% else %}{% endif %}'
+first_floor_ac_24:
+  alias: First Floor Air Condition 24
+  sequence:
+    - service: broadlink.send
+      data:
+        host: !secret rmmini_c_ip
+        packet:
+        - JgC8AXA5DyoODg4ODg8NKw4ODg8NDw4ODisODg4rDSsODw0rDisNKw4rDSsPDg0PDioPDg0PDg4ODg4PDQ8OKw0rDyoNKw8NDg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODisODg4ODg4ODw0PDg4OAAPMcTkPKg0PDg4ODg4rDg4ODg4PDQ8OKw0PDioOKw4ODisNKw4rDioPKg4ODg4OKw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4rDg4ODg4ODisOKg8ODQ8ODg4PDQ8ODg4rDSsPDg0PDQ8ODg4PDQ8ODg4ODg8NDw4rDSsPKg4qDg4OKw4ODisOKg8qDioOKw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NKw4rDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4OKw4ODg4ODw0rDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
+first_floor_ac_21:
+  alias: First Floor Air Condition 21
+  sequence:
+    - service: broadlink.send
+      data:
+        host: !secret rmmini_c_ip
+        packet:
+        - JgC8AXE5DioPDQ4PDQ8OKw4ODg4ODg4PDSsPDQ4rDyoNDw4qDyoOKg8qDyoODg4ODisODg4ODg8NDw0PDg4OKw4qDisOKw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODisODg4PDQ8NDw4ODg8NAAPNcDkOKw4ODg4ODw0rDg8NDw0PDg4OKw4ODisOKg8ODSsOKw4qDisOKg4PDQ8OKg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4rDg4ODg4PDSsOKw0PDg4ODw0rDw0OKw8NDisODg4ODg8NDw4ODg8NDw0PDg4ODw0rDyoNKw8qDQ8OKw0PDioOKw4rDSsPKg4ODg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4qDw4NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8OKg4rDg4OKw4ODisNKw8qDgANBQAAAAAAAAAAAAAAAA==
+first_floor_ac_18:
+  alias: "First Floor Air Condition 18"
+  sequence:
+    - service: broadlink.send
+      data:
+        host: !secret rmmini_c_ip
+        packet:
+        - JgC8AXA5DyoODg4ODg8NKw8ODQ8ODg4ODisODg4rDioPDg0rDisOKg4rDioPDg0PDioPDg0PDg4ODw0PDg4OKw0rDyoNKw8ODQ8ODg4ODg8NDw4ODw4NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODisNDw4ODg8NDw4ODg4OAAPMcTkPKg0PDg4ODg4rDg4ODw0PDg4OKw4ODioOKw8NDisOKg8qDioOKw4ODg8NKw4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4rDg4ODg4ODisOKg8ODg4ODg4PDSsODg4PDSsODw0PDg4ODg4PDQ8ODg4PDQ8NDw4rDioPKg4qDw4NKw8NDisOKg4rDyoOKg8NDg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8OKg8qDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4ODisNDw4ODisOKg8qDgANBQAAAAAAAAAAAAAAAA==
+first_floor_ac_powerful:
+  alias: "First Floor Air Condition Powerful"
+  sequence:
+    - service: script.bedroom_ac_18
+    - delay: 00:00:15
+    - service: broadlink.send
+      data:
+        host: !secret rmmini_c_ip
+        packet:
+        - JgC8AXE5DioPDQ8ODQ8PKg4ODg4PDQ8ODioODg4rDyoODg4qDyoOKg8qDykPDg4ODisNDw4ODg4ODw0PDw0PKg4qDyoOKg8ODQ8PDQ4PDQ8ODg4ODg8ODg4ODw0PDg4ODw0PDg0PDg4ODg8ODQ8ODg4ODg8NDw8NDisODg4ODw4NDw4ODg4OAAPMcTkPKg0PDg4ODg8qDg4ODw4ODg4OKw4ODioPKg8NDisOKg4rDioPKg8NDw4NKw8NDw4ODg4ODw0ODw4ODw0PDg0PDg4PDQ8ODg4ODg8NDw4ODg4rDg4ODg8NDyoOKg4PDg4PDQ8ODg4OKg8ODSsPDQ8ODg4ODg8ODg4ODg4ODg8NDw4qDyoPKg4qDw0OKw8NDisOKg8qDioPKg8NDw0ODw4ODw0PDg0PDg4ODg8ODg4PDQ4ODw4ODg4ODw4ODg4ODg4PDg4ODw0PDQ4PDg4ODg4PDioPDQ4PDg4ODg4PDQ8ODg8NDw4ODg4ODw0ODw4ODg4PDg4ODQ8PDQ4PDg4OKg8qDw0PDg4ODg4PDQ4PDg4ODg4ODw4ODg8NDw4NDw0PDw0PDg4qDw0PKg8NDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
+    - delay: 00:10:00
+    - service: script.bedroom_ac_18
+first_floor_ac_control:
+  alias: "First Floor Air Condition Control"
+  sequence:
+    - service_template: '{% if packet == "24" %}script.first_floor_ac_24{% elif packet == "21" %}script.first_floor_ac_21{% elif packet == "18" %}script.first_floor_ac_18{% elif packet == "powerful" %}script.first_floor_ac_powerful{% else %}{% endif %}'
 # shuffle_playlist_dj:
 #   alias: Shuffle DJ
 #   sequence:
@@ -215,62 +255,62 @@ bedroom_ac_control:
 #   alias: Shuffle Others
 #   sequence:
 #     - service: rest_command.shuffle_itunes_others
-kodi_play_youtube_playlist:
-  alias: Kodi Play Music DJ
-  sequence:
-    - service: media_player.play_media
-      data_template:
-        entity_id: media_player.kodi
-        media_content_id: '{% if playlist != "" %}plugin://plugin.video.youtube/play/?playlist_id={{ playlist }}&order=default&play=1&repeat=all{% endif %}'
-        media_content_type: video
-kodi_play_music_dj:
-  alias: Kodi Play Music DJ
-  sequence:
-    - service: media_player.kodi_call_method
-      data:
-        entity_id: media_player.kodi
-        method: VideoLibrary.Player.SetPartymode
-        properties:
-        - title
-        - year
-        - file
-        - lastplayed
-kodi_update_audio_library:
-  alias: "Update Kodi Audio Library"
-  sequence:
-    - service: media_player.kodi_call_method
-      data:
-        entity_id: media_player.kodi
-        method: AudioLibrary.Scan
-    - delay: 00:01:00
-    - service: media_player.kodi_call_method
-      data:
-        entity_id: media_player.kodi
-        method: AudioLibrary.Clean
-kodi_update_video_library:
-  alias: "Update Kodi VDO Library"
-  sequence:
-    - service: media_player.kodi_call_method
-      data:
-        entity_id: media_player.kodi
-        method: VideoLibrary.Scan
-    - delay: 00:01:00
-    - service: media_player.kodi_call_method
-      data:
-        entity_id: media_player.kodi
-        method: VideoLibrary.Clean
+# kodi_play_youtube_playlist:
+#   alias: Kodi Play Music DJ
+#   sequence:
+#     - service: media_player.play_media
+#       data_template:
+#         entity_id: media_player.kodi
+#         media_content_id: '{% if playlist != "" %}plugin://plugin.video.youtube/play/?playlist_id={{ playlist }}&order=default&play=1&repeat=all{% endif %}'
+#         media_content_type: video
+# kodi_play_music_dj:
+#   alias: Kodi Play Music DJ
+#   sequence:
+#     - service: media_player.kodi_call_method
+#       data:
+#         entity_id: media_player.kodi
+#         method: VideoLibrary.Player.SetPartymode
+#         properties:
+#         - title
+#         - year
+#         - file
+#         - lastplayed
+# kodi_update_audio_library:
+#   alias: "Update Kodi Audio Library"
+#   sequence:
+#     - service: media_player.kodi_call_method
+#       data:
+#         entity_id: media_player.kodi
+#         method: AudioLibrary.Scan
+#     - delay: 00:01:00
+#     - service: media_player.kodi_call_method
+#       data:
+#         entity_id: media_player.kodi
+#         method: AudioLibrary.Clean
+# kodi_update_video_library:
+#   alias: "Update Kodi VDO Library"
+#   sequence:
+#     - service: media_player.kodi_call_method
+#       data:
+#         entity_id: media_player.kodi
+#         method: VideoLibrary.Scan
+#     - delay: 00:01:00
+#     - service: media_player.kodi_call_method
+#       data:
+#         entity_id: media_player.kodi
+#         method: VideoLibrary.Clean
 hometheatre_turnon:
   alias: "Home Theatre Turns On"
   sequence:
     - service: switch.turn_on
       entity_id: switch.titan
-    - delay: 00:00:07
+    - delay: 00:00:05
     - service: switch.turn_on
       entity_id: switch.common_room_tv
-    - delay: 00:00:07
+    - delay: 00:00:05
     - service: switch.turn_on
       entity_id: switch.common_room_android_box
-    - delay: 00:00:07
+    - delay: 00:00:05
     - service: script.denon_turnon
     - delay: 00:00:05
     - service: script.switch_to_cabletv
@@ -281,15 +321,15 @@ hometheatre_turnoff:
   sequence:
     - service: switch.turn_off
       entity_id: switch.common_room_android_box
-    - delay: 00:00:07
+    - delay: 00:00:05
     - service: switch.turn_off
       entity_id: switch.mimas
-    - delay: 00:00:07
+    - delay: 00:00:05
     - service: switch.turn_off
       entity_id: switch.common_room_tv
-    - delay: 00:00:07
+    - delay: 00:00:05
     - service: script.switch_to_off
-    - delay: 00:00:07
+    - delay: 00:00:05
     - service: switch.turn_off
       entity_id: switch.titan
 switch_to_cabletv:
@@ -376,9 +416,13 @@ switch_to_off:
   alias: "Switch Media to Off"
   sequence:
     - condition: template
+      value_template: '{{ is_state("binary_sensor.dune", "on") }}'
+    - service: media_player.turn_off
+      entity_id: media_player.dune
+    - condition: template
       value_template: '{{ not is_state("sensor.denon_source", "Off") }}'
     - service: media_player.turn_off
-      entity_id: media_player.denon
+      entity_id: media_player.denon_avr_2113
     - delay: 00:00:02
     - service: input_select.select_option
       data:
@@ -391,11 +435,9 @@ switch_to_off:
 denon_turnon:
   alias: "Turn on Denon when it is Off"
   sequence:
-    - condition: template
-      value_template: '{{ is_state("switch.titan", "on") and is_state("media_player.denon", "off") }}'
     - service: media_player.turn_on
-      entity_id: media_player.denon
-notify_pesiphone7plus:
+      entity_id: media_player.denon_avr_2113
+notify_pesiphone11pro:
   alias: "Notify Pe"
   sequence:
     - service: notify.pe
@@ -406,89 +448,82 @@ notify_pesiphone7plus:
           push:
             badge: 0
             category: ALERT
-        # data:
-        #   attachment: {{ attachment }}
-        #     url: {{ url }}
-        #     hide_thumbnail: {{ hide_thumbnail }}
-notify_juesiphone6splus:
-  alias: "Notify Jue"
-  sequence:
-    - service: notify.jue
-      data_template:
-        message: '{{ message }}'
-        title: '{{ title }}'
-        data:
-          push:
-            badge: 0
-            category: ALERT
-notify_benjysiphone6:
-  alias: "Notify Benjy"
-  sequence:
-    - service: notify.ios_benjysiphone6
-      data_template:
-        message: '{{ message }}'
-        title: '{{ title }}'
-        data:
-          push:
-            badge: 0
-            # category: ALERT
-notify_pesiphone7plus_juesiphone6splus:
-  alias: "Notify Pe & Jue"
-  sequence:
-    - service: notify.pe
-      data_template:
-        message: '{{ message }}'
-        title: '{{ title }}'
-        data:
-          push:
-            badge: 0
-            # category: ALERT
-    - service: notify.jue
-      data_template:
-        message: '{{ message }}'
-        title: '{{ title }}'
-        data:
-          push:
-            badge: 0
-            category: ALERT
-notify_pesiphone7plus_benjysiphone6:
-  alias: "Notify Pe & Benjy"
-  sequence:
-    - service: notify.pe
-      data_template:
-        message: '{{ message }}'
-        title: '{{ title }}'
-        data:
-          push:
-            badge: 0
-            # category: ALERT
-    - service: notify.ios_benjysiphone6
-      data_template:
-        message: '{{ message }}'
-        title: '{{ title }}'
-        data:
-          push:
-            badge: 0
-            category: ALERT
-notify_juesiphone6splus_benjysiphone6:
-  alias: "Notify Jue & Benjy"
-  sequence:
-    - service: notify.jue
-      data_template:
-        message: '{{ message }}'
-        title: '{{ title }}'
-        data:
-          push:
-            badge: 0
-            category: ALERT
-    - service: notify.ios_benjysiphone6
-      data_template:
-        message: '{{ message }}'
-        title: '{{ title }}'
-        data:
-          push:
-            badge: 0
-            category: ALERT
+# notify_juesiphone6splus:
+#   alias: "Notify Jue"
+#   sequence:
+#     - service: notify.jue
+#       data_template:
+#         message: '{{ message }}'
+#         title: '{{ title }}'
+#         data:
+#           push:
+#             badge: 0
+#             category: ALERT
+# notify_benjysiphone6:
+#   alias: "Notify Benjy"
+#   sequence:
+#     - service: notify.ios_benjysiphone6
+#       data_template:
+#         message: '{{ message }}'
+#         title: '{{ title }}'
+#         data:
+#           push:
+#             badge: 0
+# notify_pesiphone11pro_juesiphone6splus:
+#   alias: "Notify Pe & Jue"
+#   sequence:
+#     - service: notify.pe
+#       data_template:
+#         message: '{{ message }}'
+#         title: '{{ title }}'
+#         data:
+#           push:
+#             badge: 0
+#     - service: notify.jue
+#       data_template:
+#         message: '{{ message }}'
+#         title: '{{ title }}'
+#         data:
+#           push:
+#             badge: 0
+#             category: ALERT
+# notify_pesiphone11pro_benjysiphone6:
+#   alias: "Notify Pe & Benjy"
+#   sequence:
+#     - service: notify.pe
+#       data_template:
+#         message: '{{ message }}'
+#         title: '{{ title }}'
+#         data:
+#           push:
+#             badge: 0
+#     - service: notify.ios_benjysiphone6
+#       data_template:
+#         message: '{{ message }}'
+#         title: '{{ title }}'
+#         data:
+#           push:
+#             badge: 0
+#             category: ALERT
+# notify_juesiphone6splus_benjysiphone6:
+#   alias: "Notify Jue & Benjy"
+#   sequence:
+#     - service: notify.jue
+#       data_template:
+#         message: '{{ message }}'
+#         title: '{{ title }}'
+#         data:
+#           push:
+#             badge: 0
+#             category: ALERT
+#     - service: notify.ios_benjysiphone6
+#       data_template:
+#         message: '{{ message }}'
+#         title: '{{ title }}'
+#         data:
+#           push:
+#             badge: 0
+#             category: ALERT
 ss_volume_down:
   alias: Volume Fade Down
   sequence:
@@ -670,7 +705,7 @@ s_mobile:
   sequence:
     - condition: template
       value_template: '{{ mobile != "false" }}'
-    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone7plus{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "pe_jue" or mobile == "both" %}script.notify_pesiphone7plus_juesiphone6splus{% elif mobile == "pe_benjy" %}script.notify_pesiphone7plus_benjysiphone6{% elif mobile == "jue_benjy" %}script.notify_juesiphone6splus_benjysiphone6{% endif %}'
+    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone11pro{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "pe_jue" or mobile == "both" %}script.notify_pesiphone11pro_juesiphone6splus{% elif mobile == "pe_benjy" %}script.notify_pesiphone11pro_benjysiphone6{% elif mobile == "jue_benjy" %}script.notify_juesiphone6splus_benjysiphone6{% endif %}'
       data_template:
         title: '{{ title if title else message }}'
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
@@ -872,36 +907,36 @@ icloud3_command_resume_polling_pe:
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone7plus'
+        device_name: 'pesiphone11pro'
         command: 'resume'
 icloud3_command_pause_polling_pe:
   alias: 'Pause (Pe)'
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone7plus'
+        device_name: 'pesiphone11pro'
         command: 'pause'
 icloud3_set_interval_10_min_pe:
   alias: 'Set interval to 10 minutes (Pe)'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
-        device_name: 'pesiphone7plus'
+        device_name: 'pesiphone11pro'
         interval: '10 min'
 icloud3_set_interval_2_min_pe:
   alias: 'Set interval to 2 minutes (Pe)'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
-        device_name: 'pesiphone7plus'
+        device_name: 'pesiphone11pro'
         interval: '2 min'
 icloud3_lost_iphone_pe:
   alias: 'Find Lost Phone Alert (Pe)'
   sequence:
     - service: device_tracker.icloud3_lost_iphone
       data:
-        device_name: 'pesiphone7plus'
-    - service: script.notify_pesiphone7plus
+        device_name: 'pesiphone11pro'
+    - service: script.notify_pesiphone11pro
       data_template:
         title: 'Lost iPhone Notification'
         message: 'Lost iPhone was triggered for Pe'
@@ -910,99 +945,123 @@ icloud3_update_location_pe:
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone7plus'
+        device_name: 'pesiphone11pro'
         command: 'location'
-icloud3_command_pesiphone7plus_zone_home:
+icloud3_command_pesiphone11pro_zone_home:
   alias: 'Set Zone Home (Pe)'
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone7plus'
+        device_name: 'pesiphone11pro'
         command: 'zone home'
-icloud3_command_pesiphone7plus_zone_not_home:
+icloud3_command_pesiphone11pro_zone_not_home:
   alias: 'Set Zone Away (Pe)'
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone7plus'
+        device_name: 'pesiphone11pro'
         command: 'zone not_home'
 pe_status:
   alias: Send Pe Status
   sequence:
-    - service: script.notify_pesiphone7plus
+    - service: script.notify_pesiphone11pro
       data_template:
         title: 'Pe Status'
-        message: 'Zone = {{ states.sensor.pesiphone7plus_zone.state }}, Zone1 = {{ states.sensor.pesiphone7plus_zone_name1.state }}, Zone2 = {{ states.sensor.pesiphone7plus_zone_name2.state }}, Distance = {{ states.sensor.pesiphone7plus_distance.state }}, DriveFlag = {{ states.input_boolean.pe_on_the_go.state }}, FarFlag = {{ states.input_boolean.pe_far_away.state }}'
-icloud3_command_resume_polling_jue:
-  alias: 'Resume (Jue)'
-  sequence:
-    - service: device_tracker.icloud3_update
-      data:
-        device_name: juesiphone6splus
-        command: 'resume'
-icloud3_command_pause_polling_jue:
-  alias: 'Pause (Jue)'
-  sequence:
-    - service: device_tracker.icloud3_update
-      data:
-        device_name: juesiphone6splus
-        command: 'pause'
-icloud3_set_interval_10_min_jue:
-  alias: 'Set interval to 10 minutes (Jue)'
-  sequence:
-    - service: device_tracker.icloud3_set_interval
-      data:
-        device_name: juesiphone6splus
-        interval: '10 min'
-icloud3_set_interval_2_min_jue:
-  alias: 'Set interval to 2 minutes (Jue)'
-  sequence:
-    - service: device_tracker.icloud3_set_interval
-      data:
-        device_name: juesiphone6splus
-        interval: '2 min'
-icloud3_lost_iphone_jue:
-  alias: 'Find Lost Phone Alert (Jue)'
-  sequence:
-    - service: device_tracker.icloud3_lost_iphone
-      data:
-        device_name: juesiphone6splus
-    - service: script.notify_pesiphone7plus
-      data:
-        title: 'Lost iPhone Notification'
-        message: 'Lost iPhone was triggered for Jue'
-icloud3_update_location_jue:
-  alias: 'Update Location (Jue)'
-  sequence:
-    - service: device_tracker.icloud3_update
-      data:
-        device_name: juesiphone6splus
-        command: location
-icloud3_command_juesiphone6splus_zone_home:
-  alias: 'Set Zone Home (Jue)'
-  sequence:
-    - service: device_tracker.icloud3_update
-      data:
-        device_name: juesiphone6splus
-        command: 'zone home'
-icloud3_command_juesiphone6splus_zone_malaiwan:
-  alias: 'Set Zone Malaiwan (Jue)'
-  sequence:
-    - service: device_tracker.icloud3_update
-      data:
-        device_name: juesiphone6splus
-        command: 'zone malaiwan'
-icloud3_command_juesiphone6splus_zone_not_home:
-  alias: 'Set Zone Away (Jue)'
-  sequence:
-    - service: device_tracker.icloud3_update
-      data:
-        device_name: juesiphone6splus
-        command: 'zone not_home'
+        message: 'Zone = {{ states.sensor.pesiphone11pro_zone.state }}, Zone1 = {{ states.sensor.pesiphone11pro_zone_name1.state }}, Zone2 = {{ states.sensor.pesiphone11pro_zone_name2.state }}, Distance = {{ states.sensor.pesiphone11pro_distance.state }}, DriveFlag = {{ states.input_boolean.pe_on_the_go.state }}, FarFlag = {{ states.input_boolean.pe_far_away.state }}'
+# icloud3_command_resume_polling_jue:
+#   alias: 'Resume (Jue)'
+#   sequence:
+#     - service: device_tracker.icloud3_update
+#       data:
+#         device_name: juesiphone6splus
+#         command: 'resume'
+# icloud3_command_pause_polling_jue:
+#   alias: 'Pause (Jue)'
+#   sequence:
+#     - service: device_tracker.icloud3_update
+#       data:
+#         device_name: juesiphone6splus
+#         command: 'pause'
+# icloud3_set_interval_10_min_jue:
+#   alias: 'Set interval to 10 minutes (Jue)'
+#   sequence:
+#     - service: device_tracker.icloud3_set_interval
+#       data:
+#         device_name: juesiphone6splus
+#         interval: '10 min'
+# icloud3_set_interval_2_min_jue:
+#   alias: 'Set interval to 2 minutes (Jue)'
+#   sequence:
+#     - service: device_tracker.icloud3_set_interval
+#       data:
+#         device_name: juesiphone6splus
+#         interval: '2 min'
+# icloud3_lost_iphone_jue:
+#   alias: 'Find Lost Phone Alert (Jue)'
+#   sequence:
+#     - service: device_tracker.icloud3_lost_iphone
+#       data:
+#         device_name: juesiphone6splus
+#     - service: script.notify_pesiphone11pro
+#       data:
+#         title: 'Lost iPhone Notification'
+#         message: 'Lost iPhone was triggered for Jue'
+# icloud3_update_location_jue:
+#   alias: 'Update Location (Jue)'
+#   sequence:
+#     - service: device_tracker.icloud3_update
+#       data:
+#         device_name: juesiphone6splus
+#         command: location
+# icloud3_command_juesiphone6splus_zone_home:
+#   alias: 'Set Zone Home (Jue)'
+#   sequence:
+#     - service: device_tracker.icloud3_update
+#       data:
+#         device_name: juesiphone6splus
+#         command: 'zone home'
+# icloud3_command_juesiphone6splus_zone_malaiwan:
+#   alias: 'Set Zone Malaiwan (Jue)'
+#   sequence:
+#     - service: device_tracker.icloud3_update
+#       data:
+#         device_name: juesiphone6splus
+#         command: 'zone malaiwan'
+# icloud3_command_juesiphone6splus_zone_not_home:
+#   alias: 'Set Zone Away (Jue)'
+#   sequence:
+#     - service: device_tracker.icloud3_update
+#       data:
+#         device_name: juesiphone6splus
+#         command: 'zone not_home'
+
 jue_status:
   alias: Send Jue Status
   sequence:
-    - service: script.notify_pesiphone7plus
+    - service: script.notify_pesiphone11pro
       data_template:
         title: 'Jue Status'
         message: 'Zone = {{ states.sensor.juesiphone6splus_zone.state }}, Zone1 = {{ states.sensor.juesiphone6splus_zone_name1.state }}, Zone2 = {{ states.sensor.juesiphone6splus_zone_name2.state }}, Distance = {{ states.sensor.juesiphone6splus_distance.state }}, DriveFlag = {{ states.input_boolean.jue_on_the_go.state }}, FarFlag = {{ states.input_boolean.jue_far_away.state }}'
+
+cast_youtube_to_my_chromecast:
+  alias: Cast YouTube to Biscuit
+  sequence:
+  - data:
+      entity_id: media_player.biscuit
+      media_content_type: cast
+      media_content_id: '
+        {
+          "app_name": "youtube",
+          "media_id": "Plw9Ox20l74"
+        }'
+    service: media_player.play_media
+
+cast_downstairs_on_kitchen:
+  alias: Show Downstairs on Biscuit
+  sequence:
+  - data:
+      dashboard_path: lovelace
+      entity_id: media_player.biscuit
+      view_path: downstairs
+    service: cast.show_lovelace_view
+

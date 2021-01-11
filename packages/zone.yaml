@@ -31,6 +31,14 @@ input_boolean:
     name: Jue is at Pause 103
     initial: off
     icon: mdi:home-city
+  peatnichemono:
+    name: Pe is at Niche Mono Bearing
+    initial: off
+    icon: mdi:home-city
+  jueatnichemono:
+    name: Jue is at Niche Mono Bearing
+    initial: off
+    icon: mdi:home-city
 
 input_select:
   homemode:
@@ -90,11 +98,16 @@ zone:
     latitude: !secret latitude_bigcextraonnut
     longitude: !secret longitude_bigcextraonnut
     radius: 250
+  - name: Niche Mono Bearing
+    icon: mdi:home-city
+    latitude: !secret latitude_nichemono_bearing
+    longitude: !secret longitude_nichemono_bearing
+    radius: 150
 
 sensor places_pe:
   - platform: places
     name: pe
-    devicetracker_id: device_tracker.pesiphone7plus
+    devicetracker_id: device_tracker.pesiphone11pro
     options: zone, place, street, city, country
     map_provider: google
     map_zoom: 19
@@ -116,7 +129,7 @@ group:
     name: "Devices"
     icon: mdi:account
     entities:
-      - device_tracker.pesiphone7plus
+      - device_tracker.pesiphone11pro
       - device_tracker.pesipadmini5
       - device_tracker.juesiphone6splus
       - device_tracker.juesipadmini4
@@ -350,7 +363,7 @@ automation:
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.pesiphone7plus", "home") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone11pro", "home") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peathome", "off") }}'
@@ -358,6 +371,15 @@ automation:
       - service: input_boolean.turn_on
         data:
           entity_id: input_boolean.peathome
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peatpause
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peatbigc
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peatnichemono
       - service: mqtt.publish
         data:
           topic: 'location/pe' 
@@ -367,7 +389,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.pesiphone7plus", "home") }}'
+        value_template: '{{ not is_state("device_tracker.pesiphone11pro", "home") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peathome", "on") }}'
@@ -448,45 +470,45 @@ automation:
   #         topic: 'location/benjy' 
   #         payload: 'not_home'
 
-  - alias: "Jue is at Malaiwan"
-    initial_state: "on"
-    trigger:
-      - platform: template
-        value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("input_boolean.jueatmalaiwan", "off") }}'
-    action:
-      - service: input_boolean.turn_on
-        data:
-          entity_id: input_boolean.jueatmalaiwan
-      - service: mqtt.publish
-        data:
-          topic: 'location/jue' 
-          payload: 'malaiwan'
+  # - alias: "Jue is at Malaiwan"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("input_boolean.jueatmalaiwan", "off") }}'
+  #   action:
+  #     - service: input_boolean.turn_on
+  #       data:
+  #         entity_id: input_boolean.jueatmalaiwan
+  #     - service: mqtt.publish
+  #       data:
+  #         topic: 'location/jue' 
+  #         payload: 'malaiwan'
       
-  - alias: "Jue is not at Malaiwan"
-    initial_state: "on"
-    trigger:
-      - platform: template
-        value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("input_boolean.jueatmalaiwan", "on") }}'
-    action:
-      - service: input_boolean.turn_off
-        data:
-          entity_id: input_boolean.jueatmalaiwan
-      - service: mqtt.publish
-        data:
-          topic: 'location/jue' 
-          payload: 'not_home'
+  # - alias: "Jue is not at Malaiwan"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("input_boolean.jueatmalaiwan", "on") }}'
+  #   action:
+  #     - service: input_boolean.turn_off
+  #       data:
+  #         entity_id: input_boolean.jueatmalaiwan
+  #     - service: mqtt.publish
+  #       data:
+  #         topic: 'location/jue' 
+  #         payload: 'not_home'
 
   - alias: "Pe is at Big C On-Nut"
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.pesiphone7plus", "Big C Extra On-Nut") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone11pro", "Big C Extra On-Nut") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peatbigc", "off") }}'
@@ -496,6 +518,15 @@ automation:
       - service: input_boolean.turn_on
         data:
           entity_id: input_boolean.peatbigc
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peathome
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peatpause
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peatnichemono
       - service: mqtt.publish
         data:
           topic: 'location/pe' 
@@ -505,7 +536,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.pesiphone7plus", "Big C Extra On-Nut") }}'
+        value_template: '{{ not is_state("device_tracker.pesiphone11pro", "Big C Extra On-Nut") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peatbigc", "on") }}'
@@ -520,40 +551,125 @@ automation:
           topic: 'location/pe' 
           payload: 'not_home'
 
-  - alias: "Jue is at Big C On-Nut"
-    initial_state: "on"
+  # - alias: "Jue is at Big C On-Nut"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{{ is_state("device_tracker.juesiphone6splus", "Big C Extra On-Nut") }}'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("input_boolean.jueatbigc", "off") }}'
+  #     - condition: template
+  #       value_template: '{% if state_attr("automation.jue_is_at_big_c_on-nut", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_at_big_c_on-nut.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_at_big_c_on-nut", "last_triggered"))) > 600 }}{% endif %}'
+  #   action:
+  #     - service: input_boolean.turn_on
+  #       data:
+  #         entity_id: input_boolean.jueatbigc
+  #     - service: mqtt.publish
+  #       data:
+  #         topic: 'location/jue' 
+  #         payload: 'bigc'
+      
+  # - alias: "Jue is not at Big C On-Nut"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Big C Extra On-Nut") }}'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("input_boolean.jueatbigc", "on") }}'
+  #     - condition: template
+  #       value_template: '{% if state_attr("automation.jue_is_not_at_big_c_on-nut", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_not_at_big_c_on-nut.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_not_at_big_c_on-nut", "last_triggered"))) > 600 }}{% endif %}'
+  #   action:
+  #     - service: input_boolean.turn_off
+  #       data:
+  #         entity_id: input_boolean.jueatbigc
+  #     - service: mqtt.publish
+  #       data:
+  #         topic: 'location/jue' 
+  #         payload: 'not_home'
+
+  - alias: "Pe is at Niche Mono Bearing"
+    initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.juesiphone6splus", "Big C Extra On-Nut") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone11pro", "Niche Mono Bearing") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.jueatbigc", "off") }}'
+        value_template: '{{ is_state("input_boolean.peatnichemono", "off") }}'
       - condition: template
-        value_template: '{% if state_attr("automation.jue_is_at_big_c_on-nut", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_at_big_c_on-nut.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_at_big_c_on-nut", "last_triggered"))) > 600 }}{% endif %}'
+        value_template: '{% if state_attr("automation.pe_is_at_niche_mono_bearing", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.pe_is_at_niche_mono_bearing.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.pe_is_at_niche_mono_bearing", "last_triggered"))) > 600 }}{% endif %}'
     action:
       - service: input_boolean.turn_on
         data:
-          entity_id: input_boolean.jueatbigc
+          entity_id: input_boolean.peatnichemono
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peathome
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peatpause
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.peatbigc
       - service: mqtt.publish
         data:
-          topic: 'location/jue' 
-          payload: 'bigc'
+          topic: 'location/pe' 
+          payload: 'niche_mono_bearing'
       
-  - alias: "Jue is not at Big C On-Nut"
-    initial_state: "on"
+  - alias: "Pe is not at Niche Mono Bearing"
+    initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Big C Extra On-Nut") }}'
+        value_template: '{{ not is_state("device_tracker.pesiphone11pro", "BNiche Mono Bearing") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.jueatbigc", "on") }}'
+        value_template: '{{ is_state("input_boolean.peatnichemono", "on") }}'
       - condition: template
-        value_template: '{% if state_attr("automation.jue_is_not_at_big_c_on-nut", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_not_at_big_c_on-nut.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_not_at_big_c_on-nut", "last_triggered"))) > 600 }}{% endif %}'
+        value_template: '{% if state_attr("automation.pe_is_not_at_niche_mono_bearing", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.pe_is_not_at_niche_mono_bearing.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.pe_is_not_at_niche_mono_bearing", "last_triggered"))) > 600 }}{% endif %}'
     action:
       - service: input_boolean.turn_off
         data:
-          entity_id: input_boolean.jueatbigc
+          entity_id: input_boolean.peatnichemono
       - service: mqtt.publish
         data:
-          topic: 'location/jue' 
+          topic: 'location/pe' 
           payload: 'not_home'
+
+  # - alias: "Jue is at Niche Mono Bearing"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{{ is_state("device_tracker.juesiphone6splus", "Niche Mono Bearing") }}'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("input_boolean.jueatnichemono", "off") }}'
+  #     - condition: template
+  #       value_template: '{% if state_attr("automation.jue_is_at_niche_mono_bearing", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_at_niche_mono_bearing.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_at_niche_mono_bearing", "last_triggered"))) > 600 }}{% endif %}'
+  #   action:
+  #     - service: input_boolean.turn_on
+  #       data:
+  #         entity_id: input_boolean.jueatnichemono
+  #     - service: mqtt.publish
+  #       data:
+  #         topic: 'location/jue' 
+  #         payload: 'niche_mono_bearing'
+      
+  # - alias: "Jue is not at Niche Mono Bearing"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Niche Mono Bearing") }}'
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("input_boolean.jueatnichemono", "on") }}'
+  #     - condition: template
+  #       value_template: '{% if state_attr("automation.jue_is_not_at_niche_mono_bearing", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_not_at_niche_mono_bearing.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_not_at_niche_mono_bearing", "last_triggered"))) > 600 }}{% endif %}'
+  #   action:
+  #     - service: input_boolean.turn_off
+  #       data:
+  #         entity_id: input_boolean.jueatnichemono
+  #     - service: mqtt.publish
+  #       data:
+  #         topic: 'location/jue' 
+  #         payload: 'not_home'

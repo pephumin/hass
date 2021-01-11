@@ -131,7 +131,7 @@ binary_sensor:
     scan_interval: 120
   - platform: ping
     host: 192.168.1.30
-    name: "pesiphone7plus"
+    name: "pesiphone11pro"
     count: 2
     scan_interval: 30
   - platform: ping
@@ -200,6 +200,11 @@ binary_sensor:
     count: 2
     scan_interval: 120
   - platform: ping
+    host: 192.168.1.45
+    name: "XDJ_RX"
+    count: 2
+    scan_interval: 120
+  - platform: ping
     host: 192.168.1.46
     name: "Comet"
     count: 2
@@ -207,6 +212,11 @@ binary_sensor:
   - platform: ping
     host: 192.168.1.52
     name: "Wemos ButtonBox"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.55
+    name: "Apple_TV"
     count: 2
     scan_interval: 120
   # - platform: ping
@@ -336,22 +346,22 @@ binary_sensor:
     scan_interval: 120
   - platform: ping
     host: 192.168.1.88
-    name: "Android TV"
+    name: "Android_Box"
     count: 2
     scan_interval: 120
   - platform: ping
     host: 192.168.1.200
-    name: "pepe"
+    name: "pepe-"
     count: 2
     scan_interval: 30
   - platform: ping
     host: 192.168.1.202
-    name: "pepework"
+    name: "pepe-work"
     count: 2
     scan_interval: 30
   - platform: ping
     host: 192.168.1.250
-    name: "sinbad"
+    name: "pepe"
     count: 2
     scan_interval: 30
 
@@ -360,6 +370,10 @@ input_boolean:
     name: "XDJ-RX online"
     initial: off
     icon: mdi:music
+  presence_pong:
+    name: "Pong online"
+    initial: off
+    icon: mdi:car
 
 counter:
   bedroom:
@@ -380,64 +394,6 @@ counter:
     step: 1
     icon: mdi:counter
     restore: false
-
-group:
-  online_cr:
-    name: "Online Status Common Room"
-    icon: mdi:lan-connect
-    entities:
-      - binary_sensor.deeper
-      - binary_sensor.apollo
-      - binary_sensor.pluto
-      - binary_sensor.broadlink_rm_mini_b
-      - binary_sensor.boxie_b2
-      - binary_sensor.esp32_cam
-      - binary_sensor.candy
-      - binary_sensor.moon
-      - binary_sensor.titan
-      - binary_sensor.ganymede
-      - binary_sensor.callisto
-      - binary_sensor.mimas
-      - binary_sensor.sva
-      - binary_sensor.nodemcu_matrix_clock
-      - binary_sensor.wemos_ring_clock
-      - binary_sensor.wemos_wled_rc
-      - binary_sensor.wemos_wled_sa
-      - binary_sensor.wemos_wled_sb
-      - binary_sensor.wemos_wled_party
-      - binary_sensor.denon
-      - binary_sensor.android_box
-      - binary_sensor.biscuit
-      - binary_sensor.apple_tv
-      - binary_sensor.dune
-      - binary_sensor.xdj_rx
-  online_br:
-    name: "Online Status Bedroom"
-    icon: mdi:lan-connect
-    entities:
-      - binary_sensor.neptune
-      - binary_sensor.broadlink_rm_mini_a
-      - binary_sensor.doughnut
-      - binary_sensor.europa
-      - binary_sensor.pandora
-      - binary_sensor.hyperion
-      - binary_sensor.wemos_buttonbox
-  online_ff:
-    name: "Online Status First Floor"
-    icon: mdi:lan-connect
-    entities:
-      - binary_sensor.uranus
-      - binary_sensor.broadlink_rm_mini_c
-      - binary_sensor.boxie_b1
-      - binary_sensor.foscam_white
-      - binary_sensor.earth
-      - binary_sensor.svb
-      - binary_sensor.phoebe
-      - binary_sensor.calypso
-      - binary_sensor.comet
-      - binary_sensor.bmw
-      - binary_sensor.pong
-      - binary_sensor.freed
 
 automation:
 
@@ -555,7 +511,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: state
-        entity_id: binary_sensor.uranus, binary_sensor.boxie_b1
+        entity_id: binary_sensor.boxie_b1, binary_sensor.earth
         to: "off"
         for:
           minutes: 5
@@ -592,6 +548,8 @@ automation:
     action:
       - service: light.turn_on
         entity_id: light.white_garage
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.presence_pong
       - service: script.notifying
         data_template:
           email: "false"
@@ -601,7 +559,7 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "pe"
-          message: 'Turn on {{ trigger.to_state.attributes.friendly_name }} because {{ trigger.from_state.attributes.friendly_name }} gets online'
+          message: 'Turn on Garage Light because {{ trigger.from_state.attributes.friendly_name }} gets online'
 
   - alias: "Car Offline"
     initial_state: 'on'
@@ -618,6 +576,8 @@ automation:
     action:
       - service: light.turn_off
         entity_id: light.white_garage
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_pong
       - service: script.notifying
         data_template:
           email: "false"
@@ -627,7 +587,7 @@ automation:
           audio: "chime"
           light: "false"
           mobile: "pe"
-          message: 'Turn off {{ trigger.to_state.attributes.friendly_name }} because {{ trigger.from_state.attributes.friendly_name }} has gone offline'
+          message: 'Turn off Garage Light because {{ trigger.from_state.attributes.friendly_name }} has gone offline'
 
   - alias: "XDJ-RX is online"
     initial_state: 'on'

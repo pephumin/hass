@@ -29,12 +29,6 @@ camera:
     port: !secret foscam_r2_port
     username: !secret my_username
     password: !secret my_password
-#  - platform: ffmpeg
-#    name: BoxieB1
-#    input: -rtsp_transport tcp -i rtsp://192.168.1.81:8554/unicast
-#  - platform: ffmpeg
-#    name: BoxieB2
-#    input: -rtsp_transport tcp -i rtsp://192.168.1.82:8554/unicast
   - platform: generic
     name: "Foscam Garage"
     stream_source: !secret foscam_white_mjpeg_url

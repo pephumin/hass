@@ -5,6 +5,8 @@ homeassistant:
   elevation: -21
   unit_system: metric
   time_zone: Asia/Bangkok
+  external_url: http://pephumin.synology.me:7575/
+  internal_url: http://192.168.1.99:8123/
   auth_providers:
     - type: homeassistant
   auth_mfa_modules:
@@ -15,6 +17,8 @@ homeassistant:
   customize: !include customize.yaml
   packages: !include_dir_named packages/
 
+automation: !include automations.yaml
+
 browser:
 
 cast:
@@ -23,17 +27,11 @@ cast:
     - host: !secret biscuit_ip
     - host: !secret doughnut_ip
 
-# cloud:
-
 config:
 
 conversation:
 
 device_tracker:
-  # - platform: icloud
-  #   username: !secret icloud_username
-  #   password: !secret icloud_password
-  #   account_name: pe
   - platform: tomato
     host: !secret deeper_ip
     username: !secret my_username
@@ -43,18 +41,23 @@ device_tracker:
     consider_home: 180
     new_device_defaults:
       track_new_devices: true
+  - platform: icloud
+    username: !secret icloud_username
+    password: !secret icloud_password
+    with_family: true
+    gps_accuracy_threshold: 200
+    max_interval: 10
   - platform: icloud3
     username: !secret icloud_username
     password: !secret icloud_password
-    tracking_method: famshr
     # tracking_method: fmf
+    tracking_method: famshr
     track_devices:
-      - pesiphone7plus > phumin@sawasdee.org, pe.jpg
+      - pesiphone11pro > phumin@sawasdee.org, pe.jpg
       - pesipadmini5 > phumin@sawasdee.org, pe.jpg
-      - juesiphone6splus > malaiwan@gamil.com, jue.jpg
-      - juesipadmini4 > malaiwan@gmail.com, jue.jpg
+      # - juesiphone6splus > malaiwan@gmail.com, jue.jpg
+      # - juesipadmini4 > malaiwan@gmail.com, jue.jpg
       - pepe > phumin@sawasdee.org, pe.jpg
-      - benjysiphone6 > benjy.p@gmail.com, pe.jpg
     group: family
     unit_of_measurement: km
     distance_method: calc
@@ -73,74 +76,77 @@ discovery:
 #   domain: phumin
 #   access_token: !secret duckdnstoken
 
-ffmpeg:
-  ffmpeg_bin: /usr/bin/ffmpeg
+frontend:
+  themes: !include_dir_merge_named themes
 
-glances:
-  host: !secret mqtt_broker
+# ffmpeg:
+#   ffmpeg_bin: /usr/bin/ffmpeg
 
-group: !include_dir_merge_named group/
-
-history:
+# history:
 
 http:
-  base_url: !secret base_url
-  # api_password: !secret my_password
+  # base_url: !secret base_url
+# api_password: !secret my_password
 
-hue:
-  bridges:
-    - host: !secret hue_ip
-      allow_unreachable: true
-      allow_hue_groups: false
+# hue:
+#   bridges:
+#     - host: !secret hue_ip
+#       allow_unreachable: true
+#       allow_hue_groups: false
 
+# ios:
 ios:
+  actions:
+    - name: Fred
+      background_color: "#000000"
+      label:
+        text: "Hello, World"
+        color: "#ff0000"
+      icon:
+        icon: earth
+        color: "#ffffff"
 
-logbook:
+# logbook:
 
+# Example configuration.yaml entry
 logger:
-  default: critical
+  default: warn
   logs:
-    homeassistant.components.automation: debug
-    homeassistant.components.camera.xiaomi: debug
-    homeassistant.components.device_tracker: debug
-    # homeassistant.components.http: debug
-    homeassistant.components.ios: debug
-    homeassistant.components.hacs: error
-    homeassistant.components.lights: debug
-    homeassistant.components.mmpd: debug
-    # homeassistant.components.recorder: debug
-    # homeassistant.components.script: debug
-    # homeassistant.components.sensor: debug
-    homeassistant.components.sensor.command_line: debug
-    homeassistant.components.sensor.speedtest: debug
-    homeassistant.components.sensoer.systemmonitor: debug
-    homeassistant.components.switch.command_line: debug
-    # homeassistant.components.tomato.device_tracker: debug
-    # homeassistant.components.tplink: debug
-    custom_components.notify.gntp: debug
-    custom_components.sensor.places: debug  
+    custom_components.sensor.places: debug
+    # homeassistant.components.switch.template: debug
+    homeassistant.core: fatal
+    # pyatv.tag_definitions: debug
+    # homeassistant.components.mqtt: warning
+    # homeassistant.components.python_script: warning
+    # homeassistant.components.python_script.my_new_script.py: debug
+    # homeassistant.components.smartthings.light: info
+    # custom_components.my_integration: debug
+    # aiohttp: error
+    # homeassistant.components.glances: fatal
+    # glances_api: fatal
+    # pyipp.parser: error
 
-map:
+# map:
 
 media_player:
   - platform: apple_tv
     name: "Apple TV"
     host: !secret apple_tv_ip
     login_id: !secret apple_tv_login_id
-  - platform: denonavr
-    name: "Denon"
-    host: !secret denon_ip
-    show_all_sources: True
-    timeout: 10
-  - platform: dunehd
-    name: Dune
-    host: !secret dune_ip
+  # - platform: denonavr
+  #   name: "Denon"
+  #   host: !secret denon_ip
+  #   show_all_sources: True
+  #   timeout: 10
+  # - platform: dunehd
+  #   name: Dune
+  #   host: !secret dune_ip
   - platform: kodi
     name: "Kodi"
     host: !secret kodi_ip
     username: !secret my_username
     password: !secret my_password
-    turn_off_action: quit
+    # turn_off_action: quit
   - platform: itunes
     name: iTunes
     host: !secret itunes_ip
@@ -153,19 +159,10 @@ media_player:
 
 mobile_app:
 
-mqtt:
-  broker: !secret mqtt_broker
-  port: !secret mqtt_port
-  username: !secret mqtt_username
-  password: !secret my_password
-  client_id: home-assistant
-  discovery: true
-  discovery_prefix: homeassistant
-
 notify:
-  - platform: ios
-    name: iOSApp
-    target: 'PHUMIN'
+  # - platform: ios
+  #   name: iOSApp
+  #   target: 'PHUMIN'
   - platform: nfandroidtv
     name: tv
     host: !secret kodi_ip
@@ -179,22 +176,28 @@ notify:
     name: email
     server: !secret smtp_server
     port: !secret smtp_port
+    encryption: none
+    starttls: false
     sender: !secret smtp_sender
-    recipient: phumin@sawasdee.org
+    recipient: !secret icloud_username
+    debug: true
+    timeout: 30
   - platform: group
     name: television
     services:
       - service: tv
       - service: kodi
-  - platform: gntp
-    name: growl
-    hostname: !secret itunes_ip
-    password: !secret my_password
+  # - platform: gntp
+  #   name: growl
+  #   hostname: !secret itunes_ip
+  #   password: !secret my_password
+  #   app_icon: '/usr/src/homeassistant/homeassistant/components/frontend/ww_static/icons/192x192.png'
   - platform: group
     name: pe
     services:
-      - service: mobile_app_pes_iphone_7_plus
+      - service: mobile_app_pes_iphone_11_pro
       - service: mobile_app_pes_ipad_mini_5
+      - service: mobile_app_sm_g955f
   - platform: group
     name: jue
     services:
@@ -203,16 +206,12 @@ notify:
 
 recorder:
   purge_keep_days: 10
-  commit_interval: 1
-  auto_purge: true
-  # db_url: !secret db_url
-  # exclude:
 
 panel_iframe:
-  configurator:
-    title: 'Editor'
-    icon: mdi:wrench
-    url: !secret url_configurator
+#   configurator:
+#     title: 'Editor'
+#     icon: mdi:wrench
+#     url: !secret url_configurator
   glances:
     title: 'Statistics'
     icon: mdi:speedometer
@@ -230,23 +229,12 @@ system_health:
 
 tts:
   - platform: google_translate
-    base_url: !secret base_url
-    cache: true
-    cache_dir: /config/www/tts
-    time_memory: 300
-    service_name: google_say
 
 updater:
 
-upnp:
-  sensors: true
-  local_ip: !secret mqtt_broker
-  port_mapping: true
-  ports:
-    hass: 7575
-    8080: 8080
-
 wake_on_lan:
+
+websocket_api:
 
 zeroconf:
 

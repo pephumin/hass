@@ -14,7 +14,7 @@
       to: 'Home'
 
     - platform: template
-      value_template: '{{states.sensor.gary_iphone_zone_distance.state | float <= 0.2}}'
+      value_template: '{{states("sensor.gary_iphone_zone_distance") | float <= 0.2}}'
       
   condition: 
     - condition: state
@@ -44,7 +44,7 @@
       value_template: '{{trigger.from_state.state == "Home"}}'
       
     - condition: template
-      value_template: '{{states.sensor.gary_iphone_zone_distance.state | float > 0}}'
+      value_template: '{{states("sensor.gary_iphone_zone_distance") | float > 0}}'
     
     - condition: state
       entity_id: input_boolean.ha_started_flag
@@ -55,7 +55,7 @@
     - service: script.notify_gary_iphone
       data_template:
         title: 'Gary Leaves Home'
-        message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state }}, Distance: {{ states.sensor.gary_iphone_zone_distance.state }}' 
+        message: 'Zone: {{ trigger.from_state.state }} --> {{ trigger.to_state.state }}, Distance: {{ states("sensor.gary_iphone_zone_distance") }}' 
         
     - service: script.gary_leaves_zone
 
@@ -74,14 +74,12 @@
       value_template: '{{trigger.from_state.state != "Home"}}'
       
     - condition: template
-      value_template: '{{states.sensor.gary_iphone_zone_distance.state | float > 0}}'
+      value_template: '{{states("sensor.gary_iphone_zone_distance") | float > 0}}'
     
     - condition: state
       entity_id: input_boolean.ha_started_flag
       state: 'on'    
   action:
-    - service: script.gary_leaves_zone
-        
     - service: script.notify_gary_iphone
       data_template:
         title: 'Gary Leaves Zone'
@@ -95,7 +93,8 @@
         
   trigger:
     - platform: template
-      value_template: '{{states.sensor.gary_iphone_zone_distance.state | float > 2}}'
+      value_template: '{{states("sensor.gary_iphone_zone_distance") | float > 2}}'
+      #value_template: '{{states.sensor.gary_iphone_zone_distance.state | float > 2}}'
 
   condition:
     - condition: state
@@ -134,7 +133,8 @@
   id: gary_far_away_flag_turn_on
   trigger:
     - platform: template
-      value_template: '{{states.sensor.gary_iphone_zone_distance.state | float > 5}}'
+      value_template: '{{states("sensor.gary_iphone_zone_distance") | float > 5}}'
+      #value_template: '{{states.sensor.gary_iphone_zone_distance.state | float > 5}}'
       
   condition:
     - condition: state
@@ -154,7 +154,8 @@
   id: gary_far_away_flag_turn_off
   trigger:
     - platform: template
-      value_template: '{{states.sensor.gary_iphone_zone_distance.state | float <= 5}}'
+      value_template: '{{states("sensor.gary_iphone_zone_distance") | float <= 5}}'
+      #value_template: '{{states.sensor.gary_iphone_zone_distance.state | float <= 5}}'
 
   condition:
     - condition: state

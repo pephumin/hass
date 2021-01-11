@@ -1,12 +1,23 @@
-# lovelace_gen
+# background: var(--background-image)
+
+# custom_header:
+#   background: 'rgba(155, 155, 155, 0.25)'
+#   compact_mode: true
+#   button_text:
+#     options: '{{ hours24 }}:{{ minutesLZ }}'
+custom_header:
+  compact_mode: true
+  tabs_color:
+    0: green
+    home: 'rgb(214, 122, 127)'
+    7: '#fafafa'
+views:
+
 resources:
   - url: /local/custom_cards/icloud3-event-log-card.js?v=1.000
     type: js
-
-- title: iCloud Event Log
-  icon: mdi:information-outline 
-  cards: 
-    - type: custom:icloud3-event-log-card
-      entity: sensor.icloud3_event_log
-
-
+ - title: iCloud Event Log
+    icon: mdi:information-outline 
+    cards: 
+      - type: custom: icloud3-event-log-card
+        entity: sensor.icloud3_event_log

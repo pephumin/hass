@@ -5,7 +5,7 @@ icloud3_update:
       description: Name of the device to be updated. All devices will be updated if this parameter is not specified. (Optional)
       example: gary_iphone
     command:
-      description: The action to be performed (see below). (Required)
+      description: The action to be performed. (Required)
       example: log_level debug
 
 icloud3_set_interval:
