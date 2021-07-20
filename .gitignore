@@ -1,3 +1,5 @@
+!.storage/*
+!*.cnf
 !*.yaml
 !.gitignore
 !*.md
