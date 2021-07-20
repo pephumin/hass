@@ -16,6 +16,8 @@ from custom_components.hacs.helpers.functions.logger import getLogger
 from custom_components.hacs.helpers.functions.save import async_save_file
 from custom_components.hacs.share import get_hacs
 
+_LOGGER = getLogger()
+
 
 class FileInformation:
     def __init__(self, url, path, name):
@@ -28,14 +30,13 @@ class FileInformation:
 async def async_download_file(url):
     """Download files, and return the content."""
     hacs = get_hacs()
-    logger = getLogger("async_download_file")
     if url is None:
         return
 
     if "tags/" in url:
         url = url.replace("tags/", "")
 
-    logger.debug(f"Downloading {url}")
+    _LOGGER.debug("Downloading %s", url)
 
     result = None
 
@@ -209,37 +210,41 @@ async def download_content(repository):
 @concurrent(10)
 async def dowload_repository_content(repository, content):
     """Download content."""
-    repository.logger.debug(f"Downloading {content.name}")
+    try:
+        repository.logger.debug(f"Downloading {content.name}")
 
-    filecontent = await async_download_file(content.download_url)
+        filecontent = await async_download_file(content.download_url)
 
-    if filecontent is None:
+        if filecontent is None:
+            repository.validate.errors.append(f"[{content.name}] was not downloaded.")
+            return
+
+        # Save the content of the file.
+        if repository.content.single or content.path is None:
+            local_directory = repository.content.path.local
+
+        else:
+            _content_path = content.path
+            if not repository.data.content_in_root:
+                _content_path = _content_path.replace(
+                    f"{repository.content.path.remote}", ""
+                )
+
+            local_directory = f"{repository.content.path.local}/{_content_path}"
+            local_directory = local_directory.split("/")
+            del local_directory[-1]
+            local_directory = "/".join(local_directory)
+
+        # Check local directory
+        pathlib.Path(local_directory).mkdir(parents=True, exist_ok=True)
+
+        local_file_path = (f"{local_directory}/{content.name}").replace("//", "/")
+
+        result = await async_save_file(local_file_path, filecontent)
+        if result:
+            repository.logger.info(f"Download of {content.name} completed")
+            return
         repository.validate.errors.append(f"[{content.name}] was not downloaded.")
-        return
 
-    # Save the content of the file.
-    if repository.content.single or content.path is None:
-        local_directory = repository.content.path.local
-
-    else:
-        _content_path = content.path
-        if not repository.data.content_in_root:
-            _content_path = _content_path.replace(
-                f"{repository.content.path.remote}", ""
-            )
-
-        local_directory = f"{repository.content.path.local}/{_content_path}"
-        local_directory = local_directory.split("/")
-        del local_directory[-1]
-        local_directory = "/".join(local_directory)
-
-    # Check local directory
-    pathlib.Path(local_directory).mkdir(parents=True, exist_ok=True)
-
-    local_file_path = (f"{local_directory}/{content.name}").replace("//", "/")
-
-    result = await async_save_file(local_file_path, filecontent)
-    if result:
-        repository.logger.info(f"Download of {content.name} completed")
-        return
-    repository.validate.errors.append(f"[{content.name}] was not downloaded.")
+    except (Exception, BaseException) as exception:  # pylint: disable=broad-except
+        repository.validate.errors.append(f"Download was not completed [{exception}]")

@@ -1,1 +1,10 @@
-[]
+- id: '1622941425016'
+  alias: SVB turns on when BoxieB1 detects motion
+  description: ''
+  use_blueprint:
+    path: homeassistant/motion_light.yaml
+    input:
+      motion_entity: binary_sensor.boxie_b1_motion_sensor
+      light_target:
+        device_id: 97519ad80ece2d42f5c1610115c71e05
+      no_motion_wait: 120

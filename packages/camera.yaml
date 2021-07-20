@@ -11,24 +11,30 @@ camera:
     name: BoxieB1
     still_image_url: !secret boxieb1_still_image_url
     stream_source: !secret boxieb1_stream_source
-    username: !secret boxieb1_username
+    username: !secret boxie_username
     password: !secret my_password
     authentication: basic
     verify_ssl: false
+  # - platform: ffmpeg
+  #   name: BoxieB1
+  #   input: -rtsp_transport tcp -i rtsp://192.168.1.81:8554/unicast
   - platform: generic
     name: BoxieB2
     still_image_url: !secret boxieb2_still_image_url
     stream_source: !secret boxieb2_stream_source
-    username: !secret boxieb2_username
+    username: !secret boxie_username
     password: !secret my_password
     authentication: basic
     verify_ssl: false
-  - platform: foscam
-    name: "Foscam Common Room"
-    ip: !secret foscam_r2_ip
-    port: !secret foscam_r2_port
-    username: !secret my_username
-    password: !secret my_password
+  # - platform: ffmpeg
+  #   name: BoxieB2
+  #   input: -rtsp_transport tcp -i rtsp://192.168.1.82:8554/unicast
+  # - platform: foscam
+  #   name: "Foscam Common Room"
+  #   ip: !secret foscam_r2_ip
+  #   port: !secret foscam_r2_port
+  #   username: !secret my_username
+  #   password: !secret my_password
   - platform: generic
     name: "Foscam Garage"
     stream_source: !secret foscam_white_mjpeg_url
@@ -39,7 +45,8 @@ camera:
     verify_ssl: false
   - platform: generic
     name: "Mini Cam"
-    still_image_url: "http://192.168.1.83/capture?_cb=1577330941882"
-    stream_source: http://192.168.1.83
+    # still_image_url: "http://192.168.1.83/capture?_cb=1577330941882"
+    still_image_url: !secret esp32cam_still_image_url
+    stream_source: !secret esp32cam_stream_source
     authentication: basic
     verify_ssl: false

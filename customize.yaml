@@ -1,67 +1,63 @@
 device_tracker.pesiphone11pro:
   icon: mdi:cellphone-iphone
-  friendly_name: Pe iPhone 11 Pro
-device_tracker.pes_iphone_11_pro:
-  icon: mdi:cellphone-iphone 
+  friendly_name: Pe's iPhone 11 Pro
 binary_sensor.pesiphone11pro:
   icon: mdi:cellphone-iphone
-  friendly_name: Pe iPhone 11 Pro
-device_tracker.pesipadmini5:
+  friendly_name: Pe's iPhone 11 Pro
+device_tracker.peaipadpro:
   icon: mdi:tablet-ipad
-  friendly_name: Pe iPad Mini 5
-device_tracker.pes_ipad_mini_5:
+  friendly_name: Pe's iPad Pro
+binary_sensor.peaipadpro:
   icon: mdi:tablet-ipad
-binary_sensor.pesipadmini5:
-  friendly_name: Pe iPad Mini 5
-  icon: mdi:tablet-ipad
+  friendly_name: Pe's iPad Pro
 device_tracker.pepework:
   icon: mdi:laptop-windows
-  friendly_name: Pe Dell Laptop
+  friendly_name: Pe's Dell Laptop
 binary_sensor.pepework:
   icon: mdi:laptop-windows
-  friendly_name: Pe Dell Laptop
+  friendly_name: Pe's Dell Laptop
 device_tracker.pepe:
   icon: mdi:laptop-mac
-  friendly_name: Pe Macbook Pro
+  friendly_name: Pe's Macbook Pro
 binary_sensor.pepe:
   icon: mdi:laptop-mac
-  friendly_name: Pe Macbook Pro
+  friendly_name: Pe's Macbook Pro
 device_tracker.pesipodtouch4:
   icon: mdi:cellphone-dock
-  friendly_name: iPod Touch BMW
+  friendly_name: Pe's iPod Touch BMW
 binary_sensor.pesipodtouch4:
   icon: mdi:cellphone-dock
-  friendly_name: iPod Touch BMW
-device_tracker.juesiphone6splus:
+  friendly_name: Pe's iPod Touch BMW
+device_tracker.juesiiphonexsmax:
   icon: mdi:cellphone-iphone
-  friendly_name: Jue iPhone 6s Plus
-binary_sensor.juesiphone6splus:
+  friendly_name: Jue's iPhone XS Max
+binary_sensor.juesiiphonexsmax:
   icon: mdi:cellphone-iphone
-  friendly_name: Jue iPhone 6s Plus
-device_tracker.juesipadmini5:
+  friendly_name: Jue's iPhone XS Max
+device_tracker.juesipadmini4:
   icon: mdi:tablet-ipad
-  friendly_name: Jue iPad Mini 4
-binary_sensor.juesipadmini5:
-  friendly_name: Jue iPad Mini 4
+  friendly_name: Jue's iPad Mini 4
+binary_sensor.juesipadmini4:
   icon: mdi:tablet-ipad
-device_tracker.benjysiphone6:
+  friendly_name: Jue's iPad Mini 4
+device_tracker.benjysiphone11:
   icon: mdi:cellphone-iphone
-  friendly_name: BenjysiPhone6
-binary_sensor.benjysiphone6:
+  friendly_name: Benjy's iPhone 11
+binary_sensor.benjysiphone11:
   icon: mdi:cellphone-iphone
-  friendly_name: BenjysiPhone6
-device_tracker.benjysipadmini2:
+  friendly_name: Benjy's iPhone 11
+device_tracker.benjysipadmini5:
   icon: mdi:tablet-ipad
-  friendly_name: Benjy iPad Mini 2
-binary_sensor.benjysipadmini2:
+  friendly_name: Benjy's iPad Mini 5
+binary_sensor.benjysipadmini5:
   icon: mdi:tablet-ipad
-  friendly_name: Benjy iPad Mini 2
+  friendly_name: Benjy's iPad Mini 5
 device_tracker.benjawan:
   icon: mdi:laptop-mac
-  friendly_name: Benjy Macbook Pro
+  friendly_name: Benjy's Macbook Pro
 binary_sensor.benjawan:
   icon: mdi:laptop-mac
-  friendly_name: Benjy Macbook Pro
+  friendly_name: Benjy's Macbook Pro
 device_tracker.boom:
   icon: mdi:cellphone-android
   friendly_name: Boom
@@ -74,15 +70,16 @@ device_tracker.dune:
 binary_sensor.dune:
   icon: mdi:movie-roll
   friendly_name: Dune Base
-device_tracker.xdj_rx:
+device_tracker.xdjrx:
   icon: mdi:music
   friendly_name: Pioneer XDJ-RX
-binary_sensor.xdj_rx:
+binary_sensor.xdjrx:
   icon: mdi:music
-  friendly_name: XDJ-RX
+  friendly_name: Pioneer XDJ-RX
 light.bedroom_main:
-  icon: mdi:lightbulb
+  icon: mdi:lightbulb-group
   friendly_name: Bedroom
+  unique_id: bedroom
 light.hue_1:
   icon: mdi:lightbulb
   friendly_name: Bedroom 1
@@ -95,6 +92,15 @@ light.hue_3:
 light.hue_4:
   icon: mdi:lightbulb
   friendly_name: Bedroom 4
+light.tuya_1:
+  icon: mdi:globe-light
+  friendly_name: Tuya 1
+light.tuya_2:
+  icon: mdi:globe-light
+  friendly_name: Tuya 2
+light.tuya_3:
+  icon: mdi:globe-light
+  friendly_name: Tuya 3
 light.mood:
   icon: mdi:spotlight
   friendly_name: Mood Light
@@ -102,8 +108,9 @@ light.white_warm:
   icon: mdi:lamp
   friendly_name: Bedroom Warm
 light.common_room_main:
-  icon: mdi:globe-light
+  icon: mdi:lightbulb-group
   friendly_name: Common Room
+  unique_id: common-room
 light.zemi_1:
   icon: mdi:globe-light
   friendly_name: Common Room 1
@@ -118,13 +125,17 @@ light.zemi_4:
   friendly_name: Common Room 4
 light.downlightblack1:
   icon: mdi:ceiling-light
-  friendly_name: Hallway 1
+  friendly_name: Closet 1
 light.downlightblack2:
   icon: mdi:ceiling-light
-  friendly_name: Hallway 2
+  friendly_name: Closet 2
 light.downlightblack3:
   icon: mdi:ceiling-light
-  friendly_name: Hallway 3
+  friendly_name: Closet 3
+light.closet:
+  icon: mdi:lightbulb-group
+  friendly_name: Closet
+  unique_id: closet
 light.downlightblack4:
   icon: mdi:ceiling-light
   friendly_name: First Floor 1
@@ -150,8 +161,9 @@ light.hue_hallway:
   icon: mdi:spotlight-beam
   friendly_name: Hallway
 light.first_floor_main:
-  icon: mdi:ceiling-light
+  icon: mdi:lightbulb-group
   friendly_name: First Floor
+  unique_id: first-floor
 light.white_garage:
   friendly_name: Garage
   icon: mdi:coach-lamp
@@ -173,9 +185,6 @@ camera.foscam_black:
 camera.foscam_white:
   icon: mdi:webcam
   friendly_name: Foscam White
-camera.foscam_boxie:
-  icon: mdi:webcam
-  friendly_name: Boxie
 camera.esp32_cam:
   icon: mdi:webcam
   friendly_name: ESP32 CAM
@@ -188,9 +197,6 @@ binary_sensor.foscam_black:
 binary_sensor.foscam_white:
   icon: mdi:webcam
   friendly_name: Foscam White
-binary_sensor.boxie:
-  icon: mdi:webcam
-  friendly_name: Boxie
 binary_sensor.esp32_cam:
   icon: mdi:webcam
   friendly_name: ESP32 CAM
@@ -229,11 +235,11 @@ sensor.malaiwan_to_home:
   friendly_name: Malaiwan to Home
 switch.titan:
   icon: mdi:surround-sound
-  friendly_name: Common Room Home Theatre
+  friendly_name: Common Room Sound Switch
   assumed_state: true
 switch.europa:
   icon: mdi:surround-sound
-  friendly_name: Bedroom Sound System
+  friendly_name: Bedroom Sound Switch
   assumed_state: true
 switch.hometheatre:
   icon: mdi:surround-sound
@@ -263,10 +269,6 @@ switch.common_room_fan:
   icon: mdi:fan
   friendly_name: Common Room Fan
   assumed_state: true
-switch.common_room_saijodenki:
-  icon: mdi:air-conditioner
-  friendly_name: Common Room Air Cond
-  assumed_state: true
 switch.common_room_fanfan:
   icon: mdi:fan
   friendly_name: Common Room Fan
@@ -286,10 +288,6 @@ switch.bedroom_air_cond:
 switch.bedroom_daikin:
   icon: mdi:air-conditioner
   friendly_name: Bedroom Air Cond
-  assumed_state: true
-switch.ff_daikin:
-  icon: mdi:air-conditioner
-  friendly_name: First Floor Air Cond
   assumed_state: true
 switch.bedroom_tv:
   icon: mdi:television
@@ -337,7 +335,7 @@ binary_sensor.uranus:
   friendly_name: Airport Express Front Door
 binary_sensor.mercury:
   icon: mdi:wifi
-  friendly_name: Airport Express Closet
+  friendly_name: Airport Express Bedroom
 binary_sensor.apollo:
   icon: mdi:wifi
   friendly_name: ASUS RT-N12+
@@ -398,12 +396,12 @@ binary_sensor.titan:
 binary_sensor.europa:
   icon: mdi:power-socket-us
   friendly_name: TP-Link Plug Bedroom
-binary_sensor.hyperion:
+binary_sensor.charon:
   icon: mdi:power-socket-us
-  friendly_name: Sonoff S20 Hyperion
+  friendly_name: Sonoff S26 Charon
 binary_sensor.ganymede:
   icon: mdi:power-socket
-  friendly_name: Sonoff Basic Ganymede
+  friendly_name: Sonoff S20 Ganymede
 binary_sensor.callisto:
   icon: mdi:power-socket
   friendly_name: Sonoff Dual R2 Callisto
@@ -437,33 +435,38 @@ binary_sensor.wemos_wled_sa:
 binary_sensor.wemos_wled_sb:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED SB
+binary_sensor.wemos_wled_ba:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos WLED BA
+binary_sensor.wemos_wled_bb:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos WLED BB
 binary_sensor.wemos_wled_party:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED Party
+binary_sensor.wemos_wled_sc:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos WLED SC
+binary_sensor.wemos_wled_sd:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos WLED SD
+binary_sensor.wemos_wled_olympic:
+  icon: mdi:video-input-antenna
+  friendly_name: WeMos WLED Olympic
 binary_sensor.wemos_buttonbox:
   icon: mdi:video-input-antenna
   friendly_name: WeMos Button Box
 switch.callisto:
   icon: mdi:power-socket
-  friendly_name: Common Room Online Switch
-  assumed_state: true
-switch.c4ll1st0:
-  icon: mdi:power-socket
-  friendly_name: Common Room II Online Switch
+  friendly_name: Camera Online Switch
   assumed_state: true
 switch.ganymede:
   icon: mdi:power-socket
-  friendly_name: Camera Online Switch
+  friendly_name: WLED Online Switch
   assumed_state: true
-sensor.ganymede_am2301_temperature:
-  icon: mdi:thermometer
-  friendly_name: Common Room Temperature
-sensor.ganymede_am2301_humidity:
-  icon: mdi:water-percent
-  friendly_name: Common Room Humidity
 switch.sva:
   icon: mdi:power-socket
-  friendly_name: SVA
+  friendly_name: WLED2 Online Switch
   assumed_state: true
 light.svb:
   icon: mdi:spotlight
@@ -475,12 +478,6 @@ light.emergency:
 light.calypso:
   friendly_name: Back Door
   icon: mdi:floor-lamp
-sensor.calypso_am2301_temperature:
-  icon: mdi:thermometer
-  friendly_name: First Floor Temperature
-sensor.calypso_am2301_humidity:
-  icon: mdi:water-percent
-  friendly_name: First Floor Humidity
 switch.mimas:
   icon: mdi:speaker
   friendly_name: Common Room Subwoofer
@@ -489,17 +486,11 @@ light.pandora:
   icon: mdi:desk-lamp
   friendly_name: Bedroom Night
   assumed_state: false
-sensor.pandora_am2301_temperature:
-  icon: mdi:thermometer
-  friendly_name: Bedroom Temperature
-sensor.pandora_am2301_humidity:
-  icon: mdi:water-percent
-  friendly_name: Bedroom Humidity
 switch.phoebe:
   icon: mdi:power-plug
   friendly_name: First Floor Door Online Switch
   assumed_state: true
-switch.hyperion:
+switch.charon:
   icon: mdi:power-socket-us
   friendly_name: Bedroom Online Switch
   assumed_state: true
@@ -531,53 +522,53 @@ sensor.last_boot:
   hidden: true
 sensor.since_last_boot:
   hidden: true
-sensor.pes_iphone_11_pro_battery_level:
+sensor.pesiphone11pro_battery_level:
   hidden: true
-sensor.pes_iphone_11_pro_battery_level_2:
+sensor.pesiphone11pro_battery_level_2:
   hidden: true
-sensor.pes_iphone_11_pro_battery_level_3:
+sensor.pesiphone11pro_battery_level_3:
   hidden: true
-sensor.pes_iphone_11_pro_battery_state:
+sensor.pesiphone11pro_battery_state:
   hidden: true
-sensor.pes_iphone_11_pro_battery_state_2:
+sensor.pesiphone11pro_battery_state_2:
   hidden: true
-sensor.pes_iphone_11_pro_battery_state_3:
+sensor.pesiphone11pro_battery_state_3:
   hidden: true
-sensor.jues_iphone_6s_plus_battery_level:
+sensor.juesiiphonexsmax_battery_level:
   hidden: true
-sensor.jues_iphone_6s_plus_battery_level_2:
+sensor.juesiiphonexsmax_battery_level_2:
   hidden: true
-sensor.jues_iphone_6s_plus_battery_level_3:
+sensor.juesiiphonexsmax_battery_level_3:
   hidden: true
-sensor.jues_iphone_6s_plus_battery_state:
+sensor.juesiiphonexsmax_battery_state:
   hidden: true
-sensor.jues_iphone_6s_plus_battery_state_2:
+sensor.juesiiphonexsmax_battery_state_2:
   hidden: true
-sensor.jues_iphone_6s_plus_battery_state_3:
+sensor.juesiiphonexsmax_battery_state_3:
   hidden: true
-sensor.jues_iphone6s_plus_battery_level:
+sensor.jues_iphonexs_max_battery_level:
   hidden: true
-sensor.jues_iphone6s_plus_battery_level_2:
+sensor.jues_iphonexs_max_battery_level_2:
   hidden: true
-sensor.jues_iphone6s_plus_battery_state:
+sensor.jues_iphonexs_max_battery_state:
   hidden: true
-sensor.jues_iphone6s_plus_battery_state_2:
+sensor.jues_iphonexs_max_battery_state_2:
   hidden: true
-sensor.pes_ipad_mini_5_battery_level:
+sensor.peaipadpro_battery_level:
   hidden: true
-sensor.pes_ipad_mini_5_battery_level_2:
+sensor.peaipadpro_battery_level_2:
   hidden: true
-sensor.pes_ipad_mini_5_battery_state:
+sensor.peaipadpro_battery_state:
   hidden: true
-sensor.pes_ipad_mini_5_battery_state_2:
+sensor.peaipadpro_battery_state_2:
   hidden: true
-sensor.jues_ipad_mini_5_battery_level:
+sensor.jues_ipad_mini_4_battery_level:
   hidden: true
-sensor.jues_ipad_mini_5_battery_level_2:
+sensor.jues_ipad_mini_4_battery_level_2:
   hidden: true
-sensor.jues_ipad_mini_5_battery_state:
+sensor.jues_ipad_mini_4_battery_state:
   hidden: true
-sensor.jues_ipad_mini_5_battery_state_2:
+sensor.jues_ipad_mini_4_battery_state_2:
   hidden: true
 sensor.temperature_sda:
   hidden: true
@@ -632,7 +623,7 @@ camera.boxieb1:
   supported_features: 2
 camera.boxieb2:
   access_token: 6fd349d56c3632d577d4a5878b6cc6ea3d501d86fe2fbc2be1ad88611a63bf5b
-  entity_picture: /api/camera_proxy/camera.boxieb1?token=6fd349d56c3632d577d4a5878b6cc6ea3d501d86fe2fbc2be1ad88611a63bf5b
+  entity_picture: /api/camera_proxy/camera.boxieb2?token=6fd349d56c3632d577d4a5878b6cc6ea3d501d86fe2fbc2be1ad88611a63bf5b
   friendly_name: Boxie B2
   supported_features: 2
   icon: mdi:webcam
@@ -647,39 +638,168 @@ binary_sensor.wemos_wled_rc:
   icon: mdi:video-input-antenna
 switch.first_floor_air_cond:
   icon: mdi:air-conditioner
+  friendly_name: First Floor Air Cond
+switch.ff_daikin:
+  icon: mdi:air-conditioner
+  friendly_name: First Floor Air Cond
+  assumed_state: true
 binary_sensor.downlight_black1:
+  friendly_name: DownLightBlack 1
   icon: mdi:ceiling-light
+  unique_id: downlight-black1
 binary_sensor.downlight_black2:
+  friendly_name: DownLightBlack 2
   icon: mdi:ceiling-light
+  unique_id: downlight-black2
 binary_sensor.downlight_black3:
+  friendly_name: DownLightBlack 3
   icon: mdi:ceiling-light
+  unique_id: downlight-black3
 binary_sensor.downlight_black4:
+  friendly_name: DownLightBlack 4
   icon: mdi:ceiling-light
+  unique_id: downlight-black4
 binary_sensor.downlight_black5:
+  friendly_name: DownLightBlack 5
   icon: mdi:ceiling-light
+  unique_id: downlight-black5
 binary_sensor.downlight_black6:
+  friendly_name: DownLightBlack 6
   icon: mdi:ceiling-light
+  unique_id: downlight-black6
 binary_sensor.downlight_black7:
+  friendly_name: DownLightBlack 7
   icon: mdi:ceiling-light
+  unique_id: downlight-black7
 binary_sensor.downlight_black8:
+  friendly_name: DownLightBlack 8
   icon: mdi:ceiling-light
+  unique_id: downlight-black8
 light.kitchen:
   icon: mdi:ceiling-light
+  friendly_name: Kitchen
+  unique_id: kitchen
 group.lights_kitchen:
   icon: mdi:ceiling-light
+  friendly_name: Kitchen
+  unique_id: lights-kitchen
 group.lights_front:
   icon: mdi:ceiling-light
+  friendly_name: Front
+  unique_id: lights-front
 light.front:
   icon: mdi:ceiling-light
-sensor.hyperion_am2301_temperature:
+  friendly_name: Front
+  unique_id: front
+sensor.hyperion_dht11_temperature:
   icon: mdi:thermometer
   friendly_name: Bedroom Temperature
-sensor.hyperion_am2301_humidity:
+  unique_id: bedroom-temperature
+sensor.hyperion_dht11_humidity:
   icon: mdi:water-percent
   friendly_name: Bedroom Humidity
+  unique_id: bedroom-humidity
+sensor.ganymede_dht11_temperature:
+  icon: mdi:thermometer
+  friendly_name: Common Room Temperature
+  unique_id: common-room-temperature
+sensor.ganymede_dht11_humidity:
+  icon: mdi:water-percent
+  friendly_name: Common Room Humidity
+  unique_id: common-room-humidity
 sensor.phoebe_am2301_temperature:
   icon: mdi:thermometer
   friendly_name: First Floor Temperature
-sensor.phoebeam2301_humidity:
+  unique_id: first-floor-temperature
+sensor.phoebe_am2301_humidity:
   icon: mdi:water-percent
   friendly_name: First Floor Humidity
+  unique_id: first-floor-humidity
+scene.common_room_off:
+  icon: mdi:palette
+  friendly_name: Common Room Off
+  unique_id: common-room-off
+scene.common_room_dim:
+  icon: mdi:palette
+  friendly_name: Common Room Dim
+  unique_id: common-room-dim
+scene.common_room_bright:
+  icon: mdi:palette
+  friendly_name: Common Room Bright
+  unique_id: common-room-bright
+scene.common_room_very_bright:
+  icon: mdi:palette
+  friendly_name: Common Room Very Bright
+  unique_id: common-room-very-bright
+scene.common_room_aurora:
+  icon: mdi:palette
+  friendly_name: Common Room Aurora
+  unique_id: common-room-aurora
+scene.common_room_blossom:
+  icon: mdi:palette
+  friendly_name: Common Room Blossom
+  unique_id: common-room-blossom
+scene.common_room_savanna:
+  icon: mdi:palette
+  friendly_name: Common Room Savanna
+  unique_id: common-room-savanna
+scene.common_room_twilight:
+  icon: mdi:palette
+  friendly_name: Common Room Twilight
+  unique_id: common-room-twilight
+scene.bedroom_off:
+  icon: mdi:palette
+  friendly_name: Bedroom Off
+  unique_id: bedroom-off
+scene.bedroom_sleep:
+  icon: mdi:palette
+  friendly_name: Bedroom Sleep
+  unique_id: bedroom-sleep
+scene.bedroom_night:
+  icon: mdi:palette
+  friendly_name: Bedroom Night
+  unique_id: bedroom-night
+scene.bedroom_bright:
+  icon: mdi:palette
+  friendly_name: Bedroom Bright
+  unique_id: bedroom-bright
+scene.bedroom_very_bright:
+  icon: mdi:palette
+  friendly_name: Bedroom Very Bright
+  unique_id: bedroom-very-bright
+scene.bedroom_aurora:
+  icon: mdi:palette
+  friendly_name: Bedroom Aurora
+  unique_id: bedroom-aurora
+scene.bedroom_blossom:
+  icon: mdi:palette
+  friendly_name: Bedroom Blossom
+  unique_id: bedroom-blossom
+scene.bedroom_savanna:
+  icon: mdi:palette
+  friendly_name: Bedroom Savanna
+  unique_id: bedroom-savanna
+scene.bedroom_twilight:
+  icon: mdi:palette
+  friendly_name: Bedroom Twilight
+  unique_id: bedroom-twilight
+scene.first_floor_off:
+  icon: mdi:palette
+  friendly_name: First Floor Off
+  unique_id: first-floor-off
+scene.first_floor_dim:
+  icon: mdi:palette
+  friendly_name: First Floor Dim
+  unique_id: first-floor-dim
+scene.first_floor_bright:
+  icon: mdi:palette
+  friendly_name: First Floor Bright
+  unique_id: first-floor-bright
+scene.first_floor_very_bright:
+  icon: mdi:palette
+  friendly_name: First Floor Very Bright
+  unique_id: first-floor-very-bright
+binary_sensor.boxieb1:
+  icon: mdi:webcam
+binary_sensor.boxieb2:
+  icon: mdi:webcam

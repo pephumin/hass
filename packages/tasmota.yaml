@@ -16,18 +16,18 @@ script:
     alias: "Tasmota WIFI"
     sequence:
       # Global setting for all sonoff devices
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "hyperion/cmnd/Backlog"
+      #     payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
       - service: mqtt.publish
         data:
-          topic: "hyperion/cmnd/Backlog"
+          topic: "charon/cmnd/Backlog"
           payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "charon/cmnd/Backlog"
-      #     payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "ganymede/cmnd/Backlog"
-      #     payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
+      - service: mqtt.publish
+        data:
+          topic: "ganymede/cmnd/Backlog"
+          payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
       - service: mqtt.publish
         data:
           topic: "callisto/cmnd/Backlog"
@@ -60,18 +60,18 @@ script:
       #   data:
       #     topic: "party/cmnd/Backlog"
       #     payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
-      - service: mqtt.publish
-        data:
-          topic: "roundclock/cmnd/Backlog"
-          payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "roundclock/cmnd/Backlog"
+      #     payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
       # - service: mqtt.publish
       #   data:
       #     topic: "relaybox/cmnd/Backlog"
       #     payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
-      - service: mqtt.publish
-        data:
-          topic: "buttonbox/cmnd/Backlog"
-          payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "buttonbox/cmnd/Backlog"
+      #     payload: "ssid1 dark; password1 stupidg1rl; ssid2 deep; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
       - service: mqtt.publish
         data:
           topic: "downlightblack1/cmnd/Backlog"
@@ -104,118 +104,118 @@ script:
         data:
           topic: "downlightblack8/cmnd/Backlog"
           payload: "ssid1 dark; password1 stupidg1rl; ssid2 dark; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
-      - service: mqtt.publish
-        data:
-          topic: "smartdimmer/cmnd/Backlog"
-          payload: "ssid1 dark; password1 stupidg1rl; ssid2 dark; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "smartdimmer/cmnd/Backlog"
+      #     payload: "ssid1 dark; password1 stupidg1rl; ssid2 dark; password2 stupidg1rl; IPAddress2 192.168.1.1; IPAddress3 255.255.255.0; IPAddress4 192.168.1.1;"
   tasmota_mqtt:
     alias: "Tasmota MQTT"
     sequence:
       # MQTT setting for all sonoff devices
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "hyperion/cmnd/Backlog"
+      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 0;"
       - service: mqtt.publish
         data:
-          topic: "hyperion/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 1;"
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "charon/cmnd/Backlog"
-      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 1;"
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "ganymede/cmnd/Backlog"
-      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 1;"
+          topic: "charon/cmnd/Backlog"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 0;"
+      - service: mqtt.publish
+        data:
+          topic: "ganymede/cmnd/Backlog"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "callisto/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic commonroom; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic commonroom; SetOption19 0;"
       # - service: mqtt.publish
       #   data:
       #     topic: "mimas/cmnd/Backlog"
-      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 1;"
+      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "pandora/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "phoebe/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic firstfloor; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic firstfloor; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "calypso/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "sva/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic commonroom; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic commonroom; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "svb/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic firstfloor; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic firstfloor; SetOption19 0;"
       # - service: mqtt.publish
       #   data:
       #     topic: "party/cmnd/Backlog"
-      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 1;"
-      - service: mqtt.publish
-        data:
-          topic: "roundclock/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic commonroom; SetOption19 1;"
+      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 0;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "roundclock/cmnd/Backlog"
+      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic commonroom; SetOption19 0;"
       # - service: mqtt.publish
       #   data:
       #     topic: "relaybox/cmnd/Backlog"
-      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 1;"
-      - service: mqtt.publish
-        data:
-          topic: "buttonbox/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 1;"
+      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 0;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "buttonbox/cmnd/Backlog"
+      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic bedroom; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack1/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic black1; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic black1; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack2/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic black1; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic black1; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack3/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic black2; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic black2; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack4/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic front; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic front; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack5/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic front; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic front; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack6/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic kitchen; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic kitchen; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack7/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic kitchen; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic kitchen; SetOption19 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack8/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic kitchen; SetOption19 1;"
-      - service: mqtt.publish
-        data:
-          topic: "smartdimmer/cmnd/Backlog"
-          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic commonroom; SetOption19 1;"
+          payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic kitchen; SetOption19 0;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "smartdimmer/cmnd/Backlog"
+      #     payload: "MqttHost 192.168.1.99; MqttPort 1883; MqttUser hass; MqttPassword 2bbadd; FullTopic %topic%/%prefix%/; Timezone +7; Latitude 13.703166; Longitude 100.640315; GroupTopic commonroom; SetOption19 0;"
   tasmota_ip:
     alias: "Tasmota IP"
     sequence:
       # Specific setting for some sonoff devices
-      - service: mqtt.publish
-        data:
-          topic: "hyperion/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.18; DeviceName Hyperion; SetOption30 0; PowerOnState 1; TelePeriod 180;"
       # - service: mqtt.publish
       #   data:
-      #     topic: "charon/cmnd/Backlog"
-      #     payload: "IPAddress1 192.168.1.19; DeviceName Charon; SetOption30 1; PowerOnState 0; TelePeriod 3000;"
+      #     topic: "hyperion/cmnd/Backlog"
+      #     payload: "IPAddress1 192.168.1.18; DeviceName Hyperion; SetOption30 0; PowerOnState 1; TelePeriod 180;"
+      - service: mqtt.publish
+        data:
+          topic: "charon/cmnd/Backlog"
+          payload: "IPAddress1 192.168.1.19; DeviceName Charon; SetOption30 0; PowerOnState 1; TelePeriod 3000;"
       - service: mqtt.publish
         data:
           topic: "ganymede/cmnd/Backlog"
@@ -239,7 +239,7 @@ script:
       - service: mqtt.publish
         data:
           topic: "calypso/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.27; DeviceName Calypso; SetOption30 1; PowerOnState 3; TelePeriod 3000;"
+          payload: "IPAddress1 192.168.1.27; DeviceName Calypso; SetOption30 1; PowerOnState 0; TelePeriod 3000;"
       - service: mqtt.publish
         data:
           topic: "sva/cmnd/Backlog"
@@ -247,51 +247,51 @@ script:
       - service: mqtt.publish
         data:
           topic: "svb/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.29; DeviceName SVB; SetOption30 1; PowerOnState 3; TelePeriod 3000;"
-      - service: mqtt.publish
-        data:
-          topic: "roundclock/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.43; DeviceName RoundClock; SetOption30 1; PowerOnState 1; TelePeriod 3000; SetOption17 0; SetOption65 0;"
+          payload: "IPAddress1 192.168.1.29; DeviceName SVB; SetOption30 1; PowerOnState 0; TelePeriod 3000;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "roundclock/cmnd/Backlog"
+      #     payload: "IPAddress1 192.168.1.43; DeviceName RoundClock; SetOption30 1; PowerOnState 1; TelePeriod 3000; SetOption17 0; SetOption65 0;"
       # - service: mqtt.publish
       #   data:
       #     topic: "relaybox/cmnd/Backlog"
       #     payload: "IPAddress1 192.168.1.51; DeviceName Relaybox; SetOption11 0; PowerOnState 0; TelePeriod 3000;"
-      - service: mqtt.publish
-        data:
-          topic: "buttonbox/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.52; DeviceName ButtonBox; SetOption30 0; PowerOnState 0; TelePeriod 3000;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "buttonbox/cmnd/Backlog"
+      #     payload: "IPAddress1 192.168.1.52; DeviceName ButtonBox; SetOption30 0; PowerOnState 0; TelePeriod 3000;"
       - service: mqtt.publish
         data:
           topic: "downlightblack1/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.69; DeviceName DownLightBlack1; SetOption30 1; PowerOnState 3; TelePeriod 3000; Fade 1; LedTable 0;"
+          payload: "IPAddress1 192.168.1.69; DeviceName DownLightBlack1; SetOption30 1; PowerOnState 1; TelePeriod 3000; Fade 1; LedTable 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack2/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.70; DeviceName DownLightBlack2; SetOption30 1; PowerOnState 3; TelePeriod 3000; Fade 1; LedTable 0;"
+          payload: "IPAddress1 192.168.1.70; DeviceName DownLightBlack2; SetOption30 1; PowerOnState 1; TelePeriod 3000; Fade 1; LedTable 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack3/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.71; DeviceName DownLightBlack3; SetOption30 1; PowerOnState 3; TelePeriod 3000; Fade 1; LedTable 0;"
+          payload: "IPAddress1 192.168.1.71; DeviceName DownLightBlack3; SetOption30 1; PowerOnState 1; TelePeriod 3000; Fade 1; LedTable 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack4/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.72; DeviceName DownLightBlack4; SetOption30 1; PowerOnState 3; TelePeriod 3000; Fade 1; LedTable 0;"
+          payload: "IPAddress1 192.168.1.72; DeviceName DownLightBlack4; SetOption30 1; PowerOnState 1; TelePeriod 3000; Fade 1; LedTable 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack5/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.73; DeviceName DownLightBlack5; SetOption30 1; PowerOnState 3; TelePeriod 3000; Fade 1; LedTable 0;"
+          payload: "IPAddress1 192.168.1.73; DeviceName DownLightBlack5; SetOption30 1; PowerOnState 1; TelePeriod 3000; Fade 1; LedTable 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack6/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.74; DeviceName DownLightBlack6; SetOption30 1; PowerOnState 3; TelePeriod 3000; Fade 1; LedTable 0;"
+          payload: "IPAddress1 192.168.1.74; DeviceName DownLightBlack6; SetOption30 1; PowerOnState 1; TelePeriod 3000; Fade 1; LedTable 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack7/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.75; DeviceName DownLightBlack7; SetOption30 1; PowerOnState 3; TelePeriod 3000; Fade 1; LedTable 0;"
+          payload: "IPAddress1 192.168.1.75; DeviceName DownLightBlack7; SetOption30 1; PowerOnState 1; TelePeriod 3000; Fade 1; LedTable 0;"
       - service: mqtt.publish
         data:
           topic: "downlightblack8/cmnd/Backlog"
-          payload: "IPAddress1 192.168.1.76; DeviceName DownLightBlack8; SetOption30 1; PowerOnState 3; TelePeriod 3000; Fade 1; LedTable 0;"
+          payload: "IPAddress1 192.168.1.76; DeviceName DownLightBlack8; SetOption30 1; PowerOnState 1; TelePeriod 3000; Fade 1; LedTable 0;"
       # - service: mqtt.publish
       #   data:
       #     topic: "smartdimmer/cmnd/Backlog"
@@ -299,57 +299,28 @@ script:
   tasmota_rules:
     alias: "Tasmota Rules"
     sequence:
-      # ------------------------ Add Tasmota rules for Hyperion
+      # ------------------------ Add Tasmota rules for Charon
       - delay: 00:00:05
       - service: mqtt.publish
         data:
-          topic: "hyperion/cmnd/Template"
-          payload: "{'NAME':'Sonoff S20','GPIO':[17,255,255,255,0,0,0,0,21,56,0,0,0],'FLAG':0,'BASE':18}"
+          topic: "charon/cmnd/Rule1"
+          payload: "on power1#state=0 do Backlog power 0; RuleTimer1 30; endon on Rules#Timer=1 do power 1 endon"
       - service: mqtt.publish
         data:
-          topic: "hyperion/cmnd/Backlog"
-          payload: "Module 0; GPIO1 2; GPIO2 0; GPIO3 0; ADC0 0;"
-      - service: mqtt.publish
-        data:
-          topic: "hyperion/cmnd/Rule1"
-          payload: "on power1#state=0 do backlog power 0; RuleTimer1 30; endon on Rules#Timer=1 do power 1 endon"
-      - service: mqtt.publish
-        data:
-          topic: "hyperion/cmnd/Backlog"
+          topic: "charon/cmnd/Backlog"
           payload: "Rule1 1; Rule2 0; Rule3 0;"
-      # # ------------------------ Add Tasmota rules for Charon
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "charon/cmnd/Backlog"
-      #     payload: "Module 8; GPIO1 10; GPIO2 0; GPIO3 0; ADC0 0; SwitchMode2 1; SwitchTopic 0;"
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "charon/cmnd/Rule1"
-      #     payload: "on switch2#state=1 do Backlog power1 1; RuleTimer1 10 endon on Rules#Timer=1 do power1 0 endon on switch2#state=0 do power1 0 endon"
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "charon/cmnd/Backlog"
-      #     payload: "Rule1 1; Rule2 0; Rule3 0;"
-      # # ------------------------ Add Tasmota rules for Ganymede
-      # - delay: 00:00:05
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "ganymede/cmnd/Rule1"
-      #     payload: "on Power1#state do power 1 endon"
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "ganymede/cmnd/Backlog"
-      #     payload: "Rule1 0; Rule2 0; Rule3 0;"
+      # ------------------------ Add Tasmota rules for Ganymede
+      - delay: 00:00:05
+      - service: mqtt.publish
+        data:
+          topic: "ganymede/cmnd/Rule1"
+          payload: "on power1#state=0 do Backlog power 0; RuleTimer2 30; endon on Rules#Timer=2 do power 1 endon"
+      - service: mqtt.publish
+        data:
+          topic: "ganymede/cmnd/Backlog"
+          payload: "Rule1 1; Rule2 0; Rule3 0;"
       # ------------------------ Add Tasmota rules for Callisto
       - delay: 00:00:05
-      - service: mqtt.publish
-        data:
-          topic: "callisto/cmnd/Template"
-          payload: "{'NAME':'Sonoff Dual R2','GPIO':[255,255,0,255,0,22,255,17,21,56,0,0,0],'FLAG':0,'BASE':39}"
-      - service: mqtt.publish
-        data:
-          topic: "callisto/cmnd/Backlog"
-          payload: "Module 0; GPIO0 18; GPIO1 0; GPIO3 0; GPIO9 19; ADC0 0;"
       - service: mqtt.publish
         data:
           topic: "callisto/cmnd/Backlog"
@@ -365,18 +336,13 @@ script:
       - service: mqtt.publish
         data:
           topic: "callisto/cmnd/Rule3"
-          # payload: "on Power1#state do power 1 endon"
-          payload: "on power1#state=0 do backlog power 0; RuleTimer1 30; endon on Rules#Timer=1 do power 1 endon"
+          payload: "on power1#state=0 do backlog power 0; RuleTimer3 30; endon on Rules#Timer=3 do power 1 endon"
       - service: mqtt.publish
         data:
           topic: "callisto/cmnd/Backlog"
           payload: "Rule1 1; Rule2 1; Rule3 1;"
       # ------------------------ Add Tasmota rules for Pandora
       - delay: 00:00:05
-      - service: mqtt.publish
-        data:
-          topic: "pandora/cmnd/Template"
-          payload: "{'NAME':'Sonoff S26','GPIO':[17,255,255,255,0,0,0,0,21,56,0,0,0],'FLAG':0,'BASE':18}"
       - service: mqtt.publish
         data:
           topic: "pandora/cmnd/Rule1"
@@ -389,20 +355,8 @@ script:
         data:
           topic: "pandora/cmnd/Backlog"
           payload: "Module 0; mem1 360; mem2 1350; Rule1 0; Rule2 0;"
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "pandora/cmnd/Backlog"
-      #     payload: "Rule1 0; Rule2 0;"
-      # ------------------------ Add Tasmota rules for Phoebe
+     # ------------------------ Add Tasmota rules for Phoebe
       - delay: 00:00:05
-      - service: mqtt.publish
-        data:
-          topic: "phoebe/cmnd/Template"
-          payload: "{'NAME':'Sonoff S20','GPIO':[17,255,255,255,0,0,0,0,21,56,0,0,0],'FLAG':0,'BASE':18}"
-      - service: mqtt.publish
-        data:
-          topic: "phoebe/cmnd/Backlog"
-          payload: "Module 0; GPIO1 2; GPIO2 0; GPIO3 10; ADC0 0;"
       - service: mqtt.publish
         data:
           topic: "phoebe/cmnd/Backlog"
@@ -410,11 +364,11 @@ script:
       - service: mqtt.publish
         data:
           topic: "phoebe/cmnd/Rule1"
-          payload: "on switch2#state=1 do backlog publish downlightblack5/cmnd/power 1; RuleTimer1 15; publish downlightblack6/cmnd/power 1; RuleTimer2 20; publish downlightblack7/cmnd/power 1; RuleTimer3 25; publish downlightblack8/cmnd/power 1; RuleTimer4 30; endon on switch2#state=0 do power 1 endon"
+          payload: "on switch2#state=1 do backlog publish downlightblack4/cmnd/power 1; RuleTimer1 15; publish downlightblack5/cmnd/power 1; RuleTimer2 20; publish downlightblack7/cmnd/power 1; RuleTimer3 25; publish downlightblack8/cmnd/power 1; RuleTimer4 30; endon on switch2#state=0 do power 1 endon"
       - service: mqtt.publish
         data:
           topic: "phoebe/cmnd/Rule2"
-          payload: "on Rules#Timer=1 do publish downlightblack5/cmnd/power 0 endon on Rules#Timer=2 do publish downlightblack6/cmnd/power 0; endon on Rules#Timer=3 do publish downlightblack7/cmnd/power 0; endon on Rules#Timer=4 do publish downlightblack8/cmnd/power 0; endon"
+          payload: "on Rules#Timer=1 do publish downlightblack4/cmnd/power 0 endon on Rules#Timer=2 do publish downlightblack5/cmnd/power 0; endon on Rules#Timer=3 do publish downlightblack7/cmnd/power 0; endon on Rules#Timer=4 do publish downlightblack8/cmnd/power 0; endon"
       - service: mqtt.publish
         data:
           topic: "phoebe/cmnd/Rule3"
@@ -423,26 +377,8 @@ script:
         data:
           topic: "phoebe/cmnd/Backlog"
           payload: "Rule1 1; Rule2 1; Rule3 1;"
-      # ------------------------ Add Tasmota rules for Calypso
-      - delay: 00:00:05
-      - service: mqtt.publish
-        data:
-          topic: "calypso/cmnd/Template"
-          payload: "{'NAME':'Sonoff S26','GPIO':[17,255,255,255,0,0,0,0,21,56,0,0,0],'FLAG':0,'BASE':18}"
-      - service: mqtt.publish
-        data:
-          topic: "calypso/cmnd/Backlog"
-          payload: "Module 0;"
       # ------------------------ Add Tasmota rules for SVA
       - delay: 00:00:05
-      - service: mqtt.publish
-        data:
-          topic: "sva/cmnd/Template"
-          payload: "{'NAME':'Sonoff SV','GPIO':[17,255,0,255,255,255,0,0,21,56,255,0,0],'FLAG':0,'BASE':3}"
-      # - service: mqtt.publish
-      #   data:
-      #     topic: "sva/cmnd/Backlog"
-      #     payload: "Module 3;"
       - service: mqtt.publish
         data:
           topic: "sva/cmnd/Rule1"
@@ -450,35 +386,25 @@ script:
       - service: mqtt.publish
         data:
           topic: "sva/cmnd/Backlog"
-          payload: "Module 0; Rule1 1; Rule2 0; Rule3 0;"
-      # ------------------------ Add Tasmota rules for SVB
-      - delay: 00:00:05
-      - service: mqtt.publish
-        data:
-          topic: "svb/cmnd/Template"
-          payload: "{'NAME':'Sonoff SV','GPIO':[17,255,0,255,255,255,0,0,21,56,255,0,0],'FLAG':0,'BASE':3}"
-      - service: mqtt.publish
-        data:
-          topic: "svb/cmnd/Backlog"
-          payload: "Module 0; Rule1 0; Rule2 0; Rule3 0;"
+          payload: "Rule1 1; Rule2 0; Rule3 0;"
       # ------------------------ Add Tasmota rules for RoundClock
-      - delay: 00:00:05
-      - service: mqtt.publish
-        data:
-          topic: "roundclock/cmnd/Backlog"
-          payload: "Module 18; GPIO0 17; GPIO1 56; GPIO2 7; GPIO3 0; GPIO4 0; GPIO5 0; GPIO12 0; GPIO13 0; GPIO14 0; GPIO15 0; GPIO16 0; ADC0 1;"
-      - service: mqtt.publish
-        data:
-          topic: "roundclock/cmnd/Backlog"
-          payload: "ButtonTopic 0; SwitchTopic 0; SwitchMode1 5; SetOption32 10; SetOption11 0; SetOption1 1; Setoption36 10;"
-      - service: mqtt.publish
-        data:
-          topic: "roundclock/cmnd/Rule1"
-          payload: "on analog#a0div10 do Dimmer %value% endon on button1#state=3 do backlog Scheme 5; Dimmer 100; Color6 F2F4F4; endon on button1#state=2 do backlog Dimmer 50; Scheme +; endon on Time#Minute|10 do backlog Scheme 5; Dimmer 100; Color6 F2F4F4; endon"
-      - service: mqtt.publish
-        data:
-          topic: "roundclock/cmnd/Backlog"
-          payload: "Pixels 60; Rule1 1; Rule2 0; Rule3 0; SetOption60 1; Sleep 1; Scheme 5; Dimmer 100;"
+      # - delay: 00:00:05
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "roundclock/cmnd/Backlog"
+      #     payload: "Module 18; GPIO0 17; GPIO1 56; GPIO2 7; GPIO3 0; GPIO4 0; GPIO5 0; GPIO12 0; GPIO13 0; GPIO14 0; GPIO15 0; GPIO16 0; ADC0 1;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "roundclock/cmnd/Backlog"
+      #     payload: "ButtonTopic 0; SwitchTopic 0; SwitchMode1 5; SetOption32 10; SetOption11 0; SetOption1 1; Setoption36 10;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "roundclock/cmnd/Rule1"
+      #     payload: "on analog#a0div10 do Dimmer %value% endon on button1#state=3 do backlog Scheme 5; Dimmer 100; Color6 F2F4F4; endon on button1#state=2 do backlog Dimmer 50; Scheme +; endon on Time#Minute|10 do backlog Scheme 5; Dimmer 100; Color6 F2F4F4; endon"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "roundclock/cmnd/Backlog"
+      #     payload: "Pixels 60; Rule1 1; Rule2 0; Rule3 0; SetOption60 1; Sleep 1; Scheme 5; Dimmer 100;"
       # # ------------------------ Add Tasmota rules for RelayBox
       # - delay: 00:00:05
       # - service: mqtt.publish
@@ -502,37 +428,37 @@ script:
       #     topic: "relaybox/cmnd/Backlog"
       #     payload: "Rule1 1; Rule2 1; Rule3 0;"
       # ------------------------ Add Tasmota rules for ButtonBox
-      - delay: 00:00:05
-      - service: mqtt.publish
-        data:
-          topic: "buttonbox/cmnd/Backlog"
-          payload: "Module 18; GPIO0 0; GPIO1 0; GPIO2 29; GPIO3 0; GPIO4 30; GPIO5 31; GPIO12 19; GPIO13 17; GPIO14 18; GPIO15 0; GPIO16 0; ADC0 1;"
-      - service: mqtt.publish
-        data:
-          topic: "buttonbox/cmnd/Backlog"
-          payload: "SwitchMode1 5; SwitchMode2 5; SwitchMode3 5; SetOption32 10; ButtonTopic 0;"
-      - service: mqtt.publish
-        data:
-          topic: "buttonbox/cmnd/Rule1"
-          payload: "on button1#state=3 do backlog publish downnblack1/cmnd/power 0; power1 0 endon on button2#state=3 do backlog publish downnblack1/cmnd/power 0; power2 0 endon on button3#state=3 do backlog publish downnblack1/cmnd/power 0; power3 0 endon"
-      - service: mqtt.publish
-        data:
-          topic: "buttonbox/cmnd/Rule2"
-          payload: "on button1#state=2 do backlog publish downnblack2/cmnd/scheme 9; power1 1 endon on button2#state=2 do backlog publish downnblack2/cmnd/scheme 7; power2 1 endon on button3#state=2 do backlog publish downnblack2/cmnd/scheme 12; power3 1 endon on button1#state=1 do publish party/cmnd/scheme 2 endon on button2#state=1 do publish downnblack1/cmnd/dimmer 100 endon on button3#state=1 do publish downnblack2/cmnd/dimmer 100 endon"
-      - service: mqtt.publish
-        data:
-          topic: "buttonbox/cmnd/Rule3"
-          payload: "on analog#a0div10 do publish backlog downnblack1/cmnd/dimmer %value%; downnblack2/cmnd/dimmer %value% endon"
-      - service: mqtt.publish
-        data:
-          topic: "buttonbox/cmnd/Backlog"
-          payload: "Rule1 1; Rule2 1; Rule3 1;"
+      # - delay: 00:00:05
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "buttonbox/cmnd/Backlog"
+      #     payload: "Module 18; GPIO0 0; GPIO1 0; GPIO2 29; GPIO3 0; GPIO4 30; GPIO5 31; GPIO12 19; GPIO13 17; GPIO14 18; GPIO15 0; GPIO16 0; ADC0 1;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "buttonbox/cmnd/Backlog"
+      #     payload: "SwitchMode1 5; SwitchMode2 5; SwitchMode3 5; SetOption32 10; ButtonTopic 0;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "buttonbox/cmnd/Rule1"
+      #     payload: "on button1#state=3 do backlog publish downnblack1/cmnd/power 0; power1 0 endon on button2#state=3 do backlog publish downnblack1/cmnd/power 0; power2 0 endon on button3#state=3 do backlog publish downnblack1/cmnd/power 0; power3 0 endon"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "buttonbox/cmnd/Rule2"
+      #     payload: "on button1#state=2 do backlog publish downnblack2/cmnd/scheme 9; power1 1 endon on button2#state=2 do backlog publish downnblack2/cmnd/scheme 7; power2 1 endon on button3#state=2 do backlog publish downnblack2/cmnd/scheme 12; power3 1 endon on button1#state=1 do publish party/cmnd/scheme 2 endon on button2#state=1 do publish downnblack1/cmnd/dimmer 100 endon on button3#state=1 do publish downnblack2/cmnd/dimmer 100 endon"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "buttonbox/cmnd/Rule3"
+      #     payload: "on analog#a0div10 do publish backlog downnblack1/cmnd/dimmer %value%; downnblack2/cmnd/dimmer %value% endon"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "buttonbox/cmnd/Backlog"
+      #     payload: "Rule1 1; Rule2 1; Rule3 1;"
       # ------------------------ Add Tasmota rules for Zemismart Downlight Black 1/2/3/4
       - delay: 00:00:05
       - service: mqtt.publish
         data:
           topic: "downlightblack1/cmnd/Template"
-          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,37,40,0,0,38,41,39,0,0],'FLAG':0,'BASE':18}"
+          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,416,419,0,0,417,420,418,0,0,0],'FLAG':0,'BASE':18}"
       - service: mqtt.publish
         data:
           topic: "downlightblack1/cmnd/Backlog"
@@ -540,7 +466,7 @@ script:
       - service: mqtt.publish
         data:
           topic: "downlightblack2/cmnd/Template"
-          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,37,40,0,0,38,41,39,0,0],'FLAG':0,'BASE':18}"
+          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,416,419,0,0,417,420,418,0,0,0],'FLAG':0,'BASE':18}"
       - service: mqtt.publish
         data:
           topic: "downlightblack2/cmnd/Backlog"
@@ -548,7 +474,7 @@ script:
       - service: mqtt.publish
         data:
           topic: "downlightblack3/cmnd/Template"
-          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,37,40,0,0,38,41,39,0,0],'FLAG':0,'BASE':18}"
+          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,416,419,0,0,417,420,418,0,0,0],'FLAG':0,'BASE':18}"
       - service: mqtt.publish
         data:
           topic: "downlightblack3/cmnd/Backlog"
@@ -556,7 +482,7 @@ script:
       - service: mqtt.publish
         data:
           topic: "downlightblack4/cmnd/Template"
-          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,37,40,0,0,38,41,39,0,0],'FLAG':0,'BASE':18}"
+          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,416,419,0,0,417,420,418,0,0,0],'FLAG':0,'BASE':18}"
       - service: mqtt.publish
         data:
           topic: "downlightblack4/cmnd/Backlog"
@@ -564,7 +490,7 @@ script:
       - service: mqtt.publish
         data:
           topic: "downlightblack5/cmnd/Template"
-          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,37,40,0,0,38,41,39,0,0],'FLAG':0,'BASE':18}"
+          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,416,419,0,0,417,420,418,0,0,0],'FLAG':0,'BASE':18}"
       - service: mqtt.publish
         data:
           topic: "downlightblack5/cmnd/Backlog"
@@ -572,7 +498,7 @@ script:
       - service: mqtt.publish
         data:
           topic: "downlightblack6/cmnd/Template"
-          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,37,40,0,0,38,41,39,0,0],'FLAG':0,'BASE':18}"
+          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,416,419,0,0,417,420,418,0,0,0],'FLAG':0,'BASE':18}"
       - service: mqtt.publish
         data:
           topic: "downlightblack6/cmnd/Backlog"
@@ -580,7 +506,7 @@ script:
       - service: mqtt.publish
         data:
           topic: "downlightblack7/cmnd/Template"
-          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,37,40,0,0,38,41,39,0,0],'FLAG':0,'BASE':18}"
+          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,416,419,0,0,417,420,418,0,0,0],'FLAG':0,'BASE':18}"
       - service: mqtt.publish
         data:
           topic: "downlightblack7/cmnd/Backlog"
@@ -588,7 +514,7 @@ script:
       - service: mqtt.publish
         data:
           topic: "downlightblack8/cmnd/Template"
-          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,37,40,0,0,38,41,39,0,0],'FLAG':0,'BASE':18}"
+          payload: "{'NAME':'ZemiDownLight6','GPIO':[0,0,0,0,416,419,0,0,417,420,418,0,0,0],'FLAG':0,'BASE':18}"
       - service: mqtt.publish
         data:
           topic: "downlightblack8/cmnd/Backlog"
@@ -598,22 +524,22 @@ script:
       #   data:
       #     topic: "smartdimmer/cmnd/Template"
       #     payload: "{\"NAME\":\"MOES DS01\",\"GPIO\":[255,255,255,255,255,255,0,0,255,108,255,107,255],\"FLAG\":0,\"BASE\":54}"
-      - service: mqtt.publish
-        data:
-          topic: "smartdimmer/cmnd/Rule1"
-          payload: "on TuyaReceived#Data=55AA030700080202000400000096AF do backlog publish black1/cmnd/power 1; publish black2/cmnd/power 1; endon on TuyaReceived#Data=55AA03070005010100010011 do backlog publish black1/cmnd/power 0; publish black2/cmnd/power 0; endon"
-      - service: mqtt.publish
-        data:
-          topic: "smartdimmer/cmnd/Rule2"
-          payload: "on TuyaReceived#Data=55AA0307000802020004000003E804 do backlog publish black1/cmnd/dimmer 100; publish black2/cmnd/dimmer 100; endon on TuyaReceived#Data=55AA0307000802020004000002BFDA do backlog publish black1/cmnd/dimmer 70; publish black2/cmnd/dimmer 70; endon"
-      - service: mqtt.publish
-        data:
-          topic: "smartdimmer/cmnd/Rule3"
-          payload: "on TuyaReceived#Data=55AA0307000802020004000001A9C3 do backlog publish black1/cmnd/dimmer 43; publish black2/cmnd/dimmer 43; endon on TuyaReceived#Data=55AA030700080202000400000096AF do backlog publish black1/cmnd/dimmer 15; publish black2/cmnd/dimmer 15; endon"
-      - service: mqtt.publish
-        data:
-          topic: "smartdimmer/cmnd/Backlog"
-          payload: "Rule1 1; Rule2 1; Rule3 1; DimmerRange 100,1000;"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "smartdimmer/cmnd/Rule1"
+      #     payload: "on TuyaReceived#Data=55AA030700080202000400000096AF do backlog publish black1/cmnd/power 1; publish black2/cmnd/power 1; endon on TuyaReceived#Data=55AA03070005010100010011 do backlog publish black1/cmnd/power 0; publish black2/cmnd/power 0; endon"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "smartdimmer/cmnd/Rule2"
+      #     payload: "on TuyaReceived#Data=55AA0307000802020004000003E804 do backlog publish black1/cmnd/dimmer 100; publish black2/cmnd/dimmer 100; endon on TuyaReceived#Data=55AA0307000802020004000002BFDA do backlog publish black1/cmnd/dimmer 70; publish black2/cmnd/dimmer 70; endon"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "smartdimmer/cmnd/Rule3"
+      #     payload: "on TuyaReceived#Data=55AA0307000802020004000001A9C3 do backlog publish black1/cmnd/dimmer 43; publish black2/cmnd/dimmer 43; endon on TuyaReceived#Data=55AA030700080202000400000096AF do backlog publish black1/cmnd/dimmer 15; publish black2/cmnd/dimmer 15; endon"
+      # - service: mqtt.publish
+      #   data:
+      #     topic: "smartdimmer/cmnd/Backlog"
+      #     payload: "Rule1 1; Rule2 1; Rule3 1; DimmerRange 100,1000;"
 
 
 

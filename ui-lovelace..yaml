@@ -1,0 +1,242 @@
+views:
+  - title: Home
+    icon: mdi:home
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - entity: input_boolean.mpd_silence
+          - entity: sensor.hacs
+          - entity: sensor.speedtest_ping
+          - entity: sensor.speedtest_download
+          - entity: sensor.speedtest_upload
+        title: Control
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: light.common_room_main
+          - entity: light.strip
+          - entity: light.neopixel
+          - entity: light.tethys
+          - entity: light.bedroom_main
+          - entity: light.white_warm
+          - entity: light.pandora
+          - entity: light.bedroom_2
+          - entity: light.first_floor_main
+          - entity: light.calypso
+          - entity: light.svb
+          - entity: light.white_garage
+        title: Lights
+        show_header_toggle: false
+      - type: weather-forecast
+        entity: weather.luzern
+      - type: glance
+        entities:
+          - entity: sensor.time
+          - entity: sensor.date
+          - entity: sensor.solar_angle
+          - entity: sensor.moon
+      - type: gauge
+        min: 0
+        max: 300000
+        entity: sensor.thailand_coronavirus_confirmed
+      - type: entities
+        entities:
+          - entity: device_tracker.pesiphone11pro
+          - entity: device_tracker.pesipadpro
+          - entity: device_tracker.pepe
+          - entity: device_tracker.juesiphonexsmax
+          - entity: device_tracker.juesipadmini4
+        title: Devices
+        show_header_toggle: false
+  - title: Common Room
+    path: common-room
+    icon: mdi:television
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.ganymede_dht11_temperature
+          - entity: sensor.ganymede_dht11_humidity
+          - entity: switch.common_room_haier
+          - entity: switch.common_room_hometheatre
+          - entity: switch.mimas
+          - entity: switch.callisto
+          - entity: counter.commonroom
+          - entity: switch.ganymede
+          - entity: switch.sva
+        title: Control
+        show_header_toggle: false
+      - type: picture-entity
+        entity: camera.boxieb2
+        name: BoxieB2
+        image: https://192.168.1.82/cgi-bin/currentpic.cgi
+      - type: picture-entity
+        entity: camera.mini_cam
+        name: Mini Cam
+        image: https://192.168.1.83/
+      - type: media-control
+        entity: media_player.denon_avr_2113
+      - type: media-control
+        entity: media_player.itunes
+      - type: entities
+        entities:
+          - entity: light.zemi_1
+          - entity: light.zemi_2
+          - entity: light.zemi_3
+          - entity: light.zemi_4
+          - entity: light.strip
+          - entity: light.neopixel
+          - entity: light.tethys
+          - entity: light.bedroom_2
+        title: Lights
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: light.light_party
+          - entity: light.light_sa
+          - entity: light.light_sb
+          - entity: light.light_ba
+          - entity: light.light_bb
+        title: Neopixel
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: scene.common_room_off
+          - entity: scene.common_room_dim
+          - entity: scene.common_room_bright
+          - entity: scene.common_room_very_bright
+          - entity: scene.common_room_aurora
+          - entity: scene.common_room_blossom
+          - entity: scene.common_room_savanna
+          - entity: scene.common_room_twilight
+        title: Scenes
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: script.denon_mute_off
+          - entity: script.denon_mute_on
+          - entity: script.denon_source_music
+          - entity: script.denon_source_satcbl
+          - entity: script.denon_volume_45
+          - entity: script.denon_volume_50
+        title: Denon 2113
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: binary_sensor.deeper
+          - entity: binary_sensor.pluto
+          - entity: binary_sensor.sun
+          - entity: binary_sensor.apollo
+          - entity: binary_sensor.ganymede
+          - entity: binary_sensor.callisto
+          - entity: binary_sensor.sva
+          - entity: binary_sensor.candy
+          - entity: binary_sensor.broadlink_rm_mini_b
+          - entity: binary_sensor.titan
+          - entity: binary_sensor.denon
+          - entity: binary_sensor.apple_tv
+          - entity: binary_sensor.dune
+        title: Online
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: light.tuya_1
+          - entity: light.tuya_2
+          - entity: light.tuya_3
+        title: Bedroom 2
+        show_header_toggle: false
+  - title: Bedroom
+    path: bedroom
+    icon: mdi:bed
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - entity: switch.bedroom_daikin
+          - entity: switch.europa
+        title: Control
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: light.hue_1
+          - entity: light.hue_2
+          - entity: light.hue_3
+          - entity: light.hue_4
+          - entity: light.white_warm
+          - entity: light.pandora
+        title: Lights
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: scene.bedroom_off
+          - entity: scene.bedroom_sleep
+          - entity: scene.bedroom_night
+          - entity: scene.bedroom_bright
+          - entity: scene.bedroom_very_bright
+          - entity: scene.bedroom_aurora
+          - entity: scene.bedroom_blossom
+          - entity: scene.bedroom_savanna
+          - entity: scene.bedroom_twilight
+        title: Scenes
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: binary_sensor.neptune
+          - entity: binary_sensor.europa
+          - entity: binary_sensor.pandora
+          - entity: binary_sensor.broadlink_rm_mini_a
+        title: Online
+        show_header_toggle: false
+  - title: First Floor
+    path: first-floor
+    icon: mdi:book
+    badges: []
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.phoebe_am2301_temperature
+          - entity: sensor.phoebe_am2301_temperature
+          - entity: switch.ff_daikin
+          - entity: switch.phoebe
+          - entity: counter.firstfloor
+        title: Control
+        show_header_toggle: false
+      - type: picture-entity
+        entity: camera.boxieb1
+        name: BoxieB1
+        image: https://192.168.1.81/cgi-bin/currentpic.cgi
+      - type: picture-entity
+        entity: camera.foscam_garage
+        name: Foscam Garage
+        image: >-
+          http://192.168.1.79:7171/videostream.cgi?user=admin&pwd=2bbadd&resolution=64&rate=0
+      - type: entities
+        entities:
+          - entity: light.downlightblack4
+          - entity: light.downlightblack5
+          - entity: light.downlightblack7
+          - entity: light.downlightblack8
+          - entity: light.calypso
+          - entity: light.svb
+          - entity: light.white_garage
+        title: Lights
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: scene.first_floor_off
+          - entity: scene.first_floor_dim
+          - entity: scene.first_floor_bright
+          - entity: scene.first_floor_very_bright
+        title: Scenes
+        show_header_toggle: false
+      - type: entities
+        entities:
+          - entity: binary_sensor.uranus
+          - entity: binary_sensor.earth
+          - entity: binary_sensor.calypso
+          - entity: binary_sensor.svb
+          - entity: binary_sensor.broadlink_rm_mini_c
+          - entity: binary_sensor.pong
+        title: Online
+        show_header_toggle: false

@@ -1,95 +1,56 @@
 # timer:
-#   second_30:
-#     duration: '00:00:30'
-#     icon: mdi:alarm
-#   minute_1:
-#     duration: '00:01:00'
-#     icon: mdi:alarm
-#   minute_3:
-#     duration: '00:03:00'
-#     icon: mdi:alarm
-#   minute_5:
-#     duration: '00:05:00'
-#     icon: mdi:alarm
-#   minute_10:
-#     duration: '00:10:00'
-#     icon: mdi:alarm
-#
+#   quick_timer:
+#     name: Quick Timer
+#     icon: mdi:clock-end
+
+# input_number:
+#   timer_minutes:
+#     name: Minutes
+#     icon: mdi:timer
+#     initial: 0
+#     min: 0
+#     max: 60
+#     step: 1
+
+# group:
+#   quick_timer:
+#     name: 'Timer'
+#     icon: mdi:timer
+#     entities:
+#       - input_number.timer_minutes
+#       - timer.quick_timer
+
 # automation:
-#
-#   - alias: "Start timer for Pandora"
+#   - alias: "Timer set"
+#     initial_state: "on"
 #     trigger:
-#       - platform: state
-#         entity_id: light.pandora
-#         from: 'off'
-#         to: 'on'
+#       platform: state
+#       entity_id: input_number.timer_minutes
 #     action:
+#       - service: timer.cancel
+#         entity_id: timer.quick_timer
+#       - condition: template
+#         value_template: '{{ states.input_number.timer_minutes.state | float != 0 }}'
 #       - service: timer.start
-#         entity_id: timer.second_30
-#
-#   - alias: "Turn off Pandora when timer runs out"
+#         entity_id: timer.quick_timer
+#         data_template:
+#           duration: '00:{{ states.input_number.timer_minutes.state | int }}:00'
+
+#   - alias: "Timer expired"
+#     initial_state: "on"
 #     trigger:
 #       - platform: event
 #         event_type: timer.finished
 #         event_data:
-#           entity_id: timer.second_30
+#           entity_id: timer.quick_timer
 #     action:
-#       - service: light.turn_off
-#         entity_id: light.pandora
-
-timer:
-  quick_timer:
-    name: Quick Timer
-    icon: mdi:clock-end
-
-input_number:
-  timer_minutes:
-    name: Minutes
-    icon: mdi:timer
-    initial: 0
-    min: 0
-    max: 60
-    step: 1
-
-group:
-  quick_timer:
-    name: 'Timer'
-    icon: mdi:timer
-    entities:
-      - input_number.timer_minutes
-      - timer.quick_timer
-
-automation:
-  - alias: "Timer set"
-    initial_state: "on"
-    trigger:
-      platform: state
-      entity_id: input_number.timer_minutes
-    action:
-      - service: timer.cancel
-        entity_id: timer.quick_timer
-      - condition: template
-        value_template: '{{ states.input_number.timer_minutes.state | float != 0 }}'
-      - service: timer.start
-        entity_id: timer.quick_timer
-        data_template:
-          duration: '00:{{ states.input_number.timer_minutes.state | int }}:00'
-
-  - alias: "Timer expired"
-    initial_state: "on"
-    trigger:
-      - platform: event
-        event_type: timer.finished
-        event_data:
-          entity_id: timer.quick_timer
-    action:
-      - service: light.turn_on
-        entity_id: light.party
-        data:
-          color_name: "red"
-          brightness: 255
-          flash: "long"
-      - service: input_number.set_value
-        entity_id: input_number.timer_minutes
-        data:
-          value: 0
+#       - service: light.turn_on
+#         entity_id: light.party
+#         data:
+#           color_name: "red"
+#           brightness: 255
+#           flash: "long"
+#       - service: input_number.set_value
+#         entity_id: input_number.timer_minutes
+#         data:
+#           value: 0

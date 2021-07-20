@@ -39,6 +39,10 @@ input_boolean:
     name: Jue is at Niche Mono Bearing
     initial: off
     icon: mdi:home-city
+  mpd_silence:
+    name: Silence speeching
+    initial: off
+    icon: mdi:volume-off
 
 input_select:
   homemode:
@@ -104,26 +108,6 @@ zone:
     longitude: !secret longitude_nichemono_bearing
     radius: 150
 
-sensor places_pe:
-  - platform: places
-    name: pe
-    devicetracker_id: device_tracker.pesiphone11pro
-    options: zone, place, street, city, country
-    map_provider: google
-    map_zoom: 19
-    home_zone: zone.home
-    api_key: !secret email_pe
-
-sensor places_jue:
-  - platform: places
-    name: jue
-    devicetracker_id: device_tracker.juesiphone6splus
-    options: zone, place, street, city, country
-    map_provider: google
-    map_zoom: 19
-    home_zone: zone.home
-    api_key: !secret email_pe
-
 group:
   devices:
     name: "Devices"
@@ -131,60 +115,19 @@ group:
     entities:
       - device_tracker.pesiphone11pro
       - device_tracker.pesipadmini5
-      - device_tracker.juesiphone6splus
+      - device_tracker.juesiphonexsmax
       - device_tracker.juesipadmini4
-      # - device_tracker.benjysiphone6
+      - device_tracker.benjysiphone11
       - device_tracker.sinbad
       - input_boolean.peathome
       - input_boolean.jueathome
       - input_boolean.jueatmalaiwan
-      # - input_boolean.peatpause
-      # - input_boolean.jueatpause
+      - input_boolean.peatpause
+      - input_boolean.jueatpause
       - input_boolean.peatbigc
       - input_boolean.jueatbigc
-      - sensor.pe
-      - sensor.jue
 
-# sensor:
-#   - platform: history_stats
-#     name: "Denon On Today"
-#     entity_id: media_player.denon
-#     state: 'on'
-#     type: time
-#     start: '{{ now().replace(hour=0, minute=0, second=0) }}'
-#     end: '{{ now() }}'
-#   - platform: history_stats
-#     name: "Downlightblack8" On Today"
-#     entity_id: light.downlightblack8
-#     state: 'on'
-#     type: time
-#     start: '{{ now().replace(hour=0, minute=0, second=0) }}'
-#     end: '{{ now() }}'
-#   - platform: history_stats
-#     name: "TV On Today"
-#     entity_id: binary_sensor.smart_tv
-#     state: 'on'
-#     type: time
-#     start: '{{ now().replace(hour=0, minute=0, second=0) }}'
-#     end: '{{ now() }}'
-#   - platform: history_stats
-#     name: "No. of times MPD turned ON last 7 days"
-#     entity_id: media_player.mpd_macbook_pro
-#     state: 'on'
-#     type: count
-#     type: time
-#     end: '{{ now().replace(hour=0, minute=0, second=0) }}'
-#     duration:
-#       days: 7
-  # - platform: history_stats
-  #   name: Number of times inngangsdor opened yesterday
-  #   entity_id: sensor.inngangsdor
-  #   state: 'open'
-  #   type: count
-  #   end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
-  #   duration:
-  #     hours: 24
-      
+
 automation:
 
   - alias: "Set Home Mode"
@@ -192,9 +135,6 @@ automation:
     trigger:
       - platform: template
         value_template:  '{{ is_state("input_boolean.peathome", "on") and is_state("input_boolean.jueathome", "on") }}'
-    # condition:
-    #   - condition: template
-    #     value_template: '{{ is_state("input_boolean.presence_benjy", "off") and is_state("input_boolean.presence_boom", "off") }}'
     action:
       - service: input_select.select_option
         data:
@@ -212,9 +152,6 @@ automation:
           minutes: 2
       - platform: template
         value_template:  '{{ is_state("input_boolean.peatpause", "on") }}'
-    # condition:
-    #   - condition: template
-    #     value_template: '{{ is_state("input_boolean.presence_jue", "off") and (is_state("input_boolean.presence_benjy", "off") and is_state("input_boolean.presence_boom", "off")) }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.jueathome", "on") }}'
@@ -240,9 +177,6 @@ automation:
         value_template:  '{{ is_state("input_boolean.jueatmalaiwan", "on") }}'
       - platform: template
         value_template:  '{{ is_state("input_boolean.jueatpause", "on") }}'
-    # condition:
-    #   - condition: template
-    #     value_template: '{{ is_state("input_boolean.presence_pe", "off") and (is_state("input_boolean.presence_benjy", "off") and is_state("input_boolean.boom", "off")) }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peathome", "on") }}'
@@ -254,40 +188,6 @@ automation:
       - service: light.turn_off
         entity_id: group.hue_all
 
-  # - alias: "Set Away Mode"
-  #   initial_state: 'on'
-  #   trigger:
-  #     - platform: state
-  #       entity_id: input_boolean.jueathome
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 2
-  #     - platform: state
-  #       entity_id: input_boolean.peathome
-  #       from: 'on'
-  #       to: 'off'
-  #       for:
-  #         minutes: 2
-  #     - platform: template
-  #       value_template:  '{{ is_state("input_boolean.jueatmalaiwan", "on") }}'
-  #     - platform: template
-  #       value_template:  '{{ is_state("input_boolean.jueatpause", "on") }}'
-  #     - platform: template
-  #       value_template:  '{{ is_state("input_boolean.peatpause", "on") }}'
-  #   # condition:
-  #   #   - condition: template
-  #   #     value_template: '{{ is_state("input_boolean.presence_pe", "off") and (is_state("input_boolean.presence_benjy", "off") and is_state("input_boolean.boom", "off")) }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_boolean.peathome", "off") or is_state("input_boolean.jueathome", "off") }}'
-  #   action:
-  #     - service: input_select.select_option
-  #       data:
-  #         entity_id: input_select.homemode
-  #         option: 'Away'
-  #     - service: light.turn_off
-  #       entity_id: group.hue_all
 
   - alias: "Set Vacation Mode Pe"
     initial_state: "on"
@@ -298,9 +198,6 @@ automation:
         to: 'off'
         for:
           hours: 20
-    # condition:
-    #   - condition: template
-    #     value_template: '{{ is_state("input_boolean.jueathome", "off") and (is_state("input_boolean.presence_benjy", "off") and is_state("input_boolean.boom", "off")) }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.jueathome", "on") }}'
@@ -321,9 +218,6 @@ automation:
         to: 'off'
         for:
           hours: 20
-    # condition:
-    #   - condition: template
-    #     value_template: '{{ is_state("input_boolean.peathome", "off") and (is_state("input_boolean.presence_benjy", "off") and is_state("input_boolean.presence_boom", "off")) }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peathome", "on") }}'
@@ -344,15 +238,6 @@ automation:
         to: 'on'
         for:
           minutes: 2
-      # - platform: state
-      #   entity_id: input_boolean.presence_boom
-      #   from: 'off'
-      #   to: 'on'
-      #   for:
-      #     minutes: 2
-    # condition:
-    #   - condition: template
-    #     value_template: '{{ is_state("input_boolean.peathome", "on") or is_state("input_boolean.jueathome", "on") }}'
     action:
       - service: input_select.select_option
         data:
@@ -364,9 +249,6 @@ automation:
     trigger:
       - platform: template
         value_template: '{{ is_state("device_tracker.pesiphone11pro", "home") }}'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("input_boolean.peathome", "off") }}'
     action:
       - service: input_boolean.turn_on
         data:
@@ -406,7 +288,7 @@ automation:
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.juesiphone6splus", "home") }}'
+        value_template: '{{ is_state("device_tracker.juesiphonexsmax", "home") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.jueathome", "off") }}'
@@ -423,7 +305,7 @@ automation:
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.juesiphone6splus", "home") }}'
+        value_template: '{{ not is_state("device_tracker.juesiphonexsmax", "home") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.jueathome", "on") }}'
@@ -436,73 +318,39 @@ automation:
           topic: 'location/jue' 
           payload: 'not_home'
       
-  # - alias: "Benjy is at Home"
-  #   initial_state: 'on'
-  #   trigger:
-  #     - platform: template
-  #       value_template:  '{{ states.device_tracker.benjysiphone6.state == "home" }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_boolean.benjyathome", "off") }}'
-  #   action:
-  #     - service: input_boolean.turn_on
-  #       data:
-  #         entity_id: input_boolean.benjyathome
-  #     - service: mqtt.publish
-  #       data:
-  #         topic: 'location/benjy' 
-  #         payload: 'home'
+  - alias: "Benjy is at Home"
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template:  '{{ states.device_tracker.benjysiphone11.state == "home" }}'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.benjyathome", "off") }}'
+    action:
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.benjyathome
+      - service: mqtt.publish
+        data:
+          topic: 'location/benjy' 
+          payload: 'home'
 
-  # - alias: "Benjy is not at Home"
-  #   initial_state: 'on'
-  #   trigger:
-  #     - platform: template
-  #       value_template:  '{{ states.device_tracker.benjysiphone6.state != "home" }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_boolean.benjyathome", "on") }}'
-  #   action:
-  #     - service: input_boolean.turn_off
-  #       data:
-  #         entity_id: input_boolean.benjyathome
-  #     - service: mqtt.publish
-  #       data:
-  #         topic: 'location/benjy' 
-  #         payload: 'not_home'
-
-  # - alias: "Jue is at Malaiwan"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_boolean.jueatmalaiwan", "off") }}'
-  #   action:
-  #     - service: input_boolean.turn_on
-  #       data:
-  #         entity_id: input_boolean.jueatmalaiwan
-  #     - service: mqtt.publish
-  #       data:
-  #         topic: 'location/jue' 
-  #         payload: 'malaiwan'
-      
-  # - alias: "Jue is not at Malaiwan"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Malaiwan") }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_boolean.jueatmalaiwan", "on") }}'
-  #   action:
-  #     - service: input_boolean.turn_off
-  #       data:
-  #         entity_id: input_boolean.jueatmalaiwan
-  #     - service: mqtt.publish
-  #       data:
-  #         topic: 'location/jue' 
-  #         payload: 'not_home'
+  - alias: "Benjy is not at Home"
+    initial_state: 'on'
+    trigger:
+      - platform: template
+        value_template:  '{{ states.device_tracker.benjysiphone11.state != "home" }}'
+    condition:
+      - condition: template
+        value_template: '{{ is_state("input_boolean.benjyathome", "on") }}'
+    action:
+      - service: input_boolean.turn_off
+        data:
+          entity_id: input_boolean.benjyathome
+      - service: mqtt.publish
+        data:
+          topic: 'location/benjy' 
+          payload: 'not_home'
 
   - alias: "Pe is at Big C On-Nut"
     initial_state: 'on'
@@ -551,44 +399,6 @@ automation:
           topic: 'location/pe' 
           payload: 'not_home'
 
-  # - alias: "Jue is at Big C On-Nut"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ is_state("device_tracker.juesiphone6splus", "Big C Extra On-Nut") }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_boolean.jueatbigc", "off") }}'
-  #     - condition: template
-  #       value_template: '{% if state_attr("automation.jue_is_at_big_c_on-nut", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_at_big_c_on-nut.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_at_big_c_on-nut", "last_triggered"))) > 600 }}{% endif %}'
-  #   action:
-  #     - service: input_boolean.turn_on
-  #       data:
-  #         entity_id: input_boolean.jueatbigc
-  #     - service: mqtt.publish
-  #       data:
-  #         topic: 'location/jue' 
-  #         payload: 'bigc'
-      
-  # - alias: "Jue is not at Big C On-Nut"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Big C Extra On-Nut") }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_boolean.jueatbigc", "on") }}'
-  #     - condition: template
-  #       value_template: '{% if state_attr("automation.jue_is_not_at_big_c_on-nut", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_not_at_big_c_on-nut.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_not_at_big_c_on-nut", "last_triggered"))) > 600 }}{% endif %}'
-  #   action:
-  #     - service: input_boolean.turn_off
-  #       data:
-  #         entity_id: input_boolean.jueatbigc
-  #     - service: mqtt.publish
-  #       data:
-  #         topic: 'location/jue' 
-  #         payload: 'not_home'
-
   - alias: "Pe is at Niche Mono Bearing"
     initial_state: 'on'
     trigger:
@@ -636,40 +446,3 @@ automation:
           topic: 'location/pe' 
           payload: 'not_home'
 
-  # - alias: "Jue is at Niche Mono Bearing"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ is_state("device_tracker.juesiphone6splus", "Niche Mono Bearing") }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_boolean.jueatnichemono", "off") }}'
-  #     - condition: template
-  #       value_template: '{% if state_attr("automation.jue_is_at_niche_mono_bearing", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_at_niche_mono_bearing.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_at_niche_mono_bearing", "last_triggered"))) > 600 }}{% endif %}'
-  #   action:
-  #     - service: input_boolean.turn_on
-  #       data:
-  #         entity_id: input_boolean.jueatnichemono
-  #     - service: mqtt.publish
-  #       data:
-  #         topic: 'location/jue' 
-  #         payload: 'niche_mono_bearing'
-      
-  # - alias: "Jue is not at Niche Mono Bearing"
-  #   initial_state: "on"
-  #   trigger:
-  #     - platform: template
-  #       value_template: '{{ not is_state("device_tracker.juesiphone6splus", "Niche Mono Bearing") }}'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ is_state("input_boolean.jueatnichemono", "on") }}'
-  #     - condition: template
-  #       value_template: '{% if state_attr("automation.jue_is_not_at_niche_mono_bearing", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.jue_is_not_at_niche_mono_bearing.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.jue_is_not_at_niche_mono_bearing", "last_triggered"))) > 600 }}{% endif %}'
-  #   action:
-  #     - service: input_boolean.turn_off
-  #       data:
-  #         entity_id: input_boolean.jueatnichemono
-  #     - service: mqtt.publish
-  #       data:
-  #         topic: 'location/jue' 
-  #         payload: 'not_home'

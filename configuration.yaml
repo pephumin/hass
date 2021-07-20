@@ -5,7 +5,7 @@ homeassistant:
   elevation: -21
   unit_system: metric
   time_zone: Asia/Bangkok
-  external_url: http://pephumin.synology.me:7575/
+  external_url: http://phumin.synology.me:7575/
   internal_url: http://192.168.1.99:8123/
   auth_providers:
     - type: homeassistant
@@ -19,57 +19,57 @@ homeassistant:
 
 automation: !include automations.yaml
 
+apple_tv:
+  - host: !secret apple_tv_ip
+    login_id: !secret apple_tv_login_id
+    # name: ATV
+    start_off: True
+    credentials: !secret apple_tv_credentials
+
 browser:
 
-cast:
-  media_player:
-    - host: !secret candy_ip
-    - host: !secret biscuit_ip
-    - host: !secret doughnut_ip
+# cast:
+#   media_player:
+#     - host: !secret candy_ip
+#     - host: !secret biscuit_ip
+#     - host: !secret doughnut_ip
 
 config:
 
 conversation:
+
+# device_sun_light_trigger:
+#   light_group: group.common_room_main
+#   light_profile: scene.common_room_very_bright
+#   device_group: device_tracker.pesiphone11pro
+#   disable_turn_off: false
 
 device_tracker:
   - platform: tomato
     host: !secret deeper_ip
     username: !secret my_username
     password:  !secret my_password
-    http_id: !secret http_id
+    http_id: !secret tomato_http_id_1
     interval_seconds: 120
     consider_home: 180
     new_device_defaults:
       track_new_devices: true
-  - platform: icloud
-    username: !secret icloud_username
-    password: !secret icloud_password
-    with_family: true
-    gps_accuracy_threshold: 200
-    max_interval: 10
+  # - platform: icloud
+  #   username: !secret icloud_username
+  #   password: !secret icloud_password
+  #   with_family: true
+  #   gps_accuracy_threshold: 200
+  #   max_interval: 10
   - platform: icloud3
     username: !secret icloud_username
     password: !secret icloud_password
     # tracking_method: fmf
     tracking_method: famshr
-    track_devices:
-      - pesiphone11pro > phumin@sawasdee.org, pe.jpg
-      - pesipadmini5 > phumin@sawasdee.org, pe.jpg
-      # - juesiphone6splus > malaiwan@gmail.com, jue.jpg
-      # - juesipadmini4 > malaiwan@gmail.com, jue.jpg
-      - pepe > phumin@sawasdee.org, pe.jpg
-    group: family
-    unit_of_measurement: km
-    distance_method: calc
-    gps_accuracy_threshold: 100
-    inzone_interval: '5 min'
-    stationary_inzone_interval: '1 min'
-    stationary_still_time: '3 min'
-    old_location_threshold: '2 min'
-    ignore_gps_accuracy_inzone: False
-    travel_time_factor: .6
-    log_level: debug, eventlog
-  
+    # group: family
+    consider_home: 180
+    new_device_defaults:
+      track_new_devices: true
+
 discovery:
 
 # duckdns:
@@ -79,8 +79,8 @@ discovery:
 frontend:
   themes: !include_dir_merge_named themes
 
-# ffmpeg:
-#   ffmpeg_bin: /usr/bin/ffmpeg
+ffmpeg:
+  ffmpeg_bin: /usr/bin/ffmpeg
 
 # history:
 
@@ -94,45 +94,56 @@ http:
 #       allow_unreachable: true
 #       allow_hue_groups: false
 
+# homekit:
+  # - filter:
+  #     include_domains:
+  #       - camera
+  #       # - light
+  #       - media_player
+  #   entity_config:
+  #     media_player.denon:
+  #       feature_list:
+  #         - feature: on_off
+  #         - feature: play_pause
+  #         - feature: play_stop
+  #         - feature: toggle_mute
+  #     switch.common_room_haier:
+  #       type: fan
+  #     switch.bedroom_daikin:
+  #       type: fan
+  #     switch.ff_daikin:
+  #       type: fan
+  #     camera.boxieb1:
+  #       support_audio: True
+  #     camera.boxieb1:
+  #       support_audio: True
+  #     camera.foscam_gaarage:
+  #       support_audio: True
+
 # ios:
-ios:
-  actions:
-    - name: Fred
-      background_color: "#000000"
-      label:
-        text: "Hello, World"
-        color: "#ff0000"
-      icon:
-        icon: earth
-        color: "#ffffff"
+#   actions:
+#     - name: Fred
+#       background_color: "#000000"
+#       label:
+#         text: "Hello, World"
+#         color: "#ff0000"
+#       icon:
+#         icon: earth
+#         color: "#ffffff"
 
 # logbook:
 
-# Example configuration.yaml entry
 logger:
   default: warn
   logs:
-    custom_components.sensor.places: debug
-    # homeassistant.components.switch.template: debug
+    # custom_components.icloud3.device_tracker: debug
+    # custom_components.icloud3_dev.pyicloud_ic3: debug
     homeassistant.core: fatal
-    # pyatv.tag_definitions: debug
-    # homeassistant.components.mqtt: warning
-    # homeassistant.components.python_script: warning
-    # homeassistant.components.python_script.my_new_script.py: debug
-    # homeassistant.components.smartthings.light: info
-    # custom_components.my_integration: debug
-    # aiohttp: error
-    # homeassistant.components.glances: fatal
-    # glances_api: fatal
-    # pyipp.parser: error
 
-# map:
+# lovelace:
+#   mode: yaml
 
 media_player:
-  - platform: apple_tv
-    name: "Apple TV"
-    host: !secret apple_tv_ip
-    login_id: !secret apple_tv_login_id
   # - platform: denonavr
   #   name: "Denon"
   #   host: !secret denon_ip
@@ -146,14 +157,12 @@ media_player:
     host: !secret kodi_ip
     username: !secret my_username
     password: !secret my_password
-    # turn_off_action: quit
   - platform: itunes
     name: iTunes
     host: !secret itunes_ip
   - platform: mpd
     name: "MPD MacBook Pro"
     host: !secret itunes_ip
-    port: 6600
 
 # media_extractor:
 
@@ -195,27 +204,38 @@ notify:
   - platform: group
     name: pe
     services:
-      - service: mobile_app_pes_iphone_11_pro
-      - service: mobile_app_pes_ipad_mini_5
+      - service: mobile_app_pesiphone11pro
+      - service: mobile_app_pesipadpro
       - service: mobile_app_sm_g955f
   - platform: group
     name: jue
     services:
-      - service: mobile_app_jues_iphone_6s_plus
-      - service: mobile_app_jues_ipad_mini_4
+      - service: mobile_app_juesiphonexsmax
+      - service: mobile_app_juesipadmini4
+  # - platform: tts
+  #   name: in_the_living_room
+  #   tts_service: tts.google_say
+  #   media_player: media_player.living_room
 
 recorder:
   purge_keep_days: 10
+  # exclude:
+  #   entities:
+  #     - sensor.icloud3_event_log
 
 panel_iframe:
-#   configurator:
-#     title: 'Editor'
-#     icon: mdi:wrench
-#     url: !secret url_configurator
   glances:
     title: 'Statistics'
     icon: mdi:speedometer
     url: !secret url_stats
+
+# person:
+#   - name: pe
+#     id: 0818068899
+#     device_trackers:
+#       - device_tracker.pesiphone11pro
+#       - device_tracker.pesipadpro
+#       - device_tracker.sm_g955f
 
 # python_scripts:
 
@@ -229,6 +249,11 @@ system_health:
 
 tts:
   - platform: google_translate
+    cache: true
+    cache_dir: /config/tts
+    time_memory: 3000
+    base_url: http://192.168.1.99:8123
+    service_name: google_say
 
 updater:
 

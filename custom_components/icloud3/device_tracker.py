@@ -22,7 +22,16 @@ Thanks to all
 #pylint: disable=unused-argument, unused-variable
 #pylint: disable=too-many-instance-attributes, too-many-lines
 
-VERSION = '2.2.0'
+VERSION = '2.4.2'
+
+'''
+v2.4.2 (4/20/2021)
+1. Added AU to the list of valid Waze regions.
+
+v2.4.1 (4/19/2021)
+1. Fixed a bug where the create_sensor was not creating any sensors and the exclude_sensor was not excluding the specified sensors.
+2. Fixed coding spelling error bugs related to iCloud 2fa reauthorization requests and determining if a beta version of the the Event Log needed updated when iCloud3 was starting.
+'''
 
 #Symbols = •▶¦▶ ●►◄ ▬ ▲▼◀▶ oPhone=►▶►
 
@@ -34,6 +43,10 @@ import time
 import datetime
 import json
 import voluptuous as vol
+from collections import OrderedDict
+from re import match
+
+import homeassistant.util.yaml.loader as yaml_loader
 
 from   homeassistant.const                import CONF_USERNAME, CONF_PASSWORD
 from   homeassistant.helpers.event        import track_utc_time_change
@@ -85,6 +98,7 @@ DEBUG_TRACE_CONTROL_FLAG = False
 
 HA_ENTITY_REGISTRY_FILE_NAME    ='/config/.storage/core.entity_registry'
 ENTITY_REGISTRY_FILE_KEY        = 'core.entity_registry'
+DEFAULT_CONFIG_IC3_FILE_NAME    = '/config/config_ic3.yaml'
 STORAGE_KEY_ICLOUD              = 'icloud'
 STORAGE_KEY_ENTITY_REGISTRY     = 'core.entity_registry'
 STORAGE_VERSION                 = 1
@@ -92,16 +106,18 @@ STORAGE_DIR                     = ".storage"
 
 CONF_ACCOUNT_NAME               = 'account_name'
 CONF_GROUP                      = 'group'
-CONF_DEVICENAME                 = 'device_name'
 CONF_NAME                       = 'name'
 CONF_TRACKING_METHOD            = 'tracking_method'
-CONF_IOSAPP_LOCATE_REQUEST_MAX_CNT = 'iosapp_locate_request_max_cnt'
+CONF_IOSAPP_REQUEST_LOC_MAX_CNT = 'iosapp_request_loc_max_cnt'
 CONF_TRACK_DEVICES              = 'track_devices'
-CONF_TRACK_DEVICE               = 'track_device'
+CONF_DEVICES                    = 'devices'
 CONF_UNIT_OF_MEASUREMENT        = 'unit_of_measurement'
+CONF_TIME_FORMAT                = 'time_format'
 CONF_INTERVAL                   = 'interval'
 CONF_BASE_ZONE                  = 'base_zone'
 CONF_INZONE_INTERVAL            = 'inzone_interval'
+CONF_INZONE_INTERVALS           = 'inzone_intervals'
+CONF_DISPLAY_ZONE_FORMAT        = 'display_zone_format'
 CONF_CENTER_IN_ZONE             = 'center_in_zone'
 CONF_STATIONARY_STILL_TIME      = 'stationary_still_time'
 CONF_STATIONARY_INZONE_INTERVAL = 'stationary_inzone_interval'
@@ -125,8 +141,23 @@ CONF_LOG_LEVEL                  = 'log_level'
 CONF_CONFIG_IC3_FILE_NAME       = 'config_ic3_file_name'
 CONF_LEGACY_MODE                = 'legacy_mode'
 CONF_EVENT_LOG_CARD_DIRECTORY   = 'event_log_card_directory'
-CONF_DEVICE_STATUS              = 'device_status'
 CONF_DISPLAY_TEXT_AS            = 'display_text_as'
+CONF_TEST_PARAMETER             = 'test_parameter'
+CONF_ZONE                       = 'zone'
+
+#devices_schema parameters
+CONF_DEVICENAME                 = 'device_name'
+CONF_TRACK_FROM_ZONE            = 'track_from_zone'
+CONF_IOSAPP_SUFFIX              = 'iosapp_suffix'
+CONF_IOSAPP_ENTITY              = 'iosapp_entity'
+CONF_NOIOSAPP                   = 'noiosapp'
+CONF_NO_IOSAPP                  = 'no_iosapp'
+CONF_IOSAPP_INSTALLED           = 'iosapp_installed'
+CONF_PICTURE                    = 'picture'
+CONF_EMAIL                      = 'email'
+CONF_CONFIG                     = 'config'
+CONF_SOURCE                     = 'source'
+CONF_DEVICE_TYPE                = 'device_type'
 
 # entity attributes (iCloud FmF & FamShr)
 ATTR_ICLOUD_TIMESTAMP           = 'timeStamp'
@@ -144,7 +175,6 @@ ATTR_ATTRIBUTES                 = 'attributes'
 ATTR_RADIUS                     = 'radius'
 ATTR_FRIENDLY_NAME              = 'friendly_name'
 ATTR_NAME                       = 'name'
-ATTR_ISOLD                      = 'isOld'
 ATTR_DEVICE_CLASS               = 'device_class'
 
 # entity attributes
@@ -153,6 +183,7 @@ ATTR_ZONE_TIMESTAMP             = 'zone_timestamp'
 ATTR_LAST_ZONE                  = 'last_zone'
 ATTR_GROUP                      = 'group'
 ATTR_TIMESTAMP                  = 'timestamp'
+ATTR_TIMESTAMP_SECS             = 'timestamp_secs'
 ATTR_TIMESTAMP_TIME             = 'timestamp_time'
 ATTR_AGE                        = 'age'
 ATTR_TRIGGER                    = 'trigger'
@@ -187,15 +218,32 @@ ATTR_BADGE                      = 'badge'
 ATTR_EVENT_LOG                  = 'event_log'
 ATTR_PICTURE                    = 'entity_picture'
 
-
+#General constants
+HOME                            = 'home'
+NOT_HOME                        = 'not_home'
+NOT_SET                         = 'not_set'
+STATIONARY                      = 'stationary'
+AWAY_FROM                       = 'AwayFrom'
+AWAY                            = 'Away'
+PAUSED                          = 'Paused'
+PAUSED_CAPS                     = 'PAUSED'
+UNKNOWN                         = 'Unknown'
+NEVER                           = 'Never'
+ERROR                           = 'Error'
 TIMESTAMP_ZERO                  = '0000-00-00 00:00:00'
 HHMMSS_ZERO                     = '00:00:00'
 HIGH_INTEGER                    = 9999999999
-TIME_24H                        = True
 UTC_TIME                        = True
 LOCAL_TIME                      = False
 NUMERIC                         = True
 NEW_LINE                        = '\n'
+WAZE                            = 'waze'
+CALC                            = 'calc'
+
+IPHONE                          = 'iphone'
+IPAD                            = 'ipad'
+IPOD                            = 'ipod'
+WATCH                           = 'watch'
 
 SENSOR_EVENT_LOG_ENTITY = 'sensor.icloud3_event_log'
 
@@ -210,7 +258,7 @@ DEVICE_ATTRS_BASE = {
          ATTR_TIMESTAMP: TIMESTAMP_ZERO,
          ATTR_ICLOUD_TIMESTAMP: HHMMSS_ZERO,
          ATTR_TRIGGER: '',
-         ATTR_DEVICE_STATUS: '',
+         ATTR_DEVICE_STATUS: UNKNOWN,
          ATTR_LOW_POWER_MODE: '',
          }
 
@@ -218,19 +266,19 @@ INITIAL_LOCATION_DATA  = {
         ATTR_NAME: '',
         ATTR_DEVICE_CLASS: 'iPhone',
         ATTR_BATTERY_LEVEL: 0,
-        ATTR_BATTERY_STATUS: 'Unknown',
-        ATTR_DEVICE_STATUS: '',
+        ATTR_BATTERY_STATUS: UNKNOWN,
+        ATTR_DEVICE_STATUS: UNKNOWN,
         ATTR_LOW_POWER_MODE: False,
-        ATTR_TIMESTAMP: 0,
+        ATTR_TIMESTAMP_SECS: 0,
         ATTR_TIMESTAMP_TIME: HHMMSS_ZERO,
         ATTR_AGE: HIGH_INTEGER,
         ATTR_LATITUDE: 0.0,
         ATTR_LONGITUDE: 0.0,
         ATTR_ALTITUDE: 0.0,
-        ATTR_ISOLD: False,
         ATTR_GPS_ACCURACY: 0,
         ATTR_VERT_ACCURACY: 0,
         }
+        #ATTR_ISOLD: False,
 
 TRACE_ATTRS_BASE = {
         ATTR_NAME: '',
@@ -262,7 +310,6 @@ TRACE_ATTRS_BASE = {
 TRACE_ICLOUD_ATTRS_BASE = {
         CONF_NAME: '',
         ATTR_ICLOUD_DEVICE_STATUS: '',
-        ATTR_ISOLD: False,
         ATTR_LATITUDE: 0,
         ATTR_LONGITUDE: 0,
         ATTR_ICLOUD_TIMESTAMP: 0,
@@ -270,18 +317,19 @@ TRACE_ICLOUD_ATTRS_BASE = {
         ATTR_ICLOUD_VERTICAL_ACCURACY: 0,
         'positionType': 'Wifi',
         }
+        #ATTR_ISOLD: False,
 
 SENSOR_DEVICE_ATTRS = [
         'zone',
-        'zone_name1',
-        'zone_name2',
-        'zone_name3',
         'last_zone',
-        'last_zone_name1',
-        'last_zone_name2',
-        'last_zone_name3',
-        'zone_timestamp',
         'base_zone',
+        'zone_name',
+        'zone_title',
+        'zone_fname',
+        'last_zone_name',
+        'last_zone_title',
+        'last_zone_fname',
+        'zone_timestamp',
         'zone_distance',
         'calc_distance',
         'waze_distance',
@@ -312,18 +360,21 @@ SENSOR_ATTR_FORMAT = {
         'dir_of_travel': 'title',
         'altitude': 'm-ft',
         'badge': 'badge',
+        ATTR_LAST_LOCATED: 'timestamp-time',
+        ATTR_LAST_UPDATE_TIME: 'timestamp-time',
+        ATTR_NEXT_UPDATE_TIME: 'timestamp-time',
         }
 
 #---- iPhone Device Tracker Attribute Templates -----
 SENSOR_ATTR_FNAME = {
         'zone': 'Zone',
-        'zone_name1': 'Zone1',
-        'zone_name2': 'Zone2',
-        'zone_name3': 'Zone3',
         'last_zone': 'Last Zone',
-        'last_zone_name1': 'Last Zone1',
-        'last_zone_name2': 'Last Zone2',
-        'last_zone_name3': 'Last Zone3',
+        'zone_name': 'Zone Name',
+        'zone_title': 'Zone Title',
+        'zone_fname': 'Zone Fname',
+        'last_zone_name': 'Last Zone Name',
+        'last_zone_title': 'Last Zone Title',
+        'last_zone_fname': 'Last Zone Fname',
         'zone_timestamp': 'Zone Timestamp',
         'base_zone': 'Base Zone',
         'zone_distance': 'Zone Distance',
@@ -346,12 +397,20 @@ SENSOR_ATTR_FNAME = {
         'badge': 'Badge',
         'name': 'Name',
         }
+SENSOR_ATTR_ZONE_FNAME = {
+        'zone_name': 'Zone Name',
+        'zone_title': 'Zone Title',
+        'zone_fname': 'Zone Fname',
+        'last_zone_name': 'Last Zone Name',
+        'last_zone_title': 'Last Zone Title',
+        'last_zone_fname': 'Last Zone Fname',
+}
 
 SENSOR_ATTR_ICON = {
         'zone': 'mdi:cellphone-iphone',
-        'last_zone': 'mdi:cellphone-iphone',
-        'base_zone': 'mdi:cellphone-iphone',
-        'zone_timestamp': 'mdi:restore-clock',
+        'last_zone': 'mdi:map-clock-outline',
+        'base_zone': 'mdi:map-clock',
+        'zone_timestamp': 'mdi:clock-in',
         'zone_distance': 'mdi:map-marker-distance',
         'calc_distance': 'mdi:map-marker-distance',
         'waze_distance': 'mdi:map-marker-distance',
@@ -359,14 +418,14 @@ SENSOR_ATTR_ICON = {
         'dir_of_travel': 'mdi:compass-outline',
         'interval': 'mdi:clock-start',
         'info': 'mdi:information-outline',
-        'last_located': 'mdi:restore-clock',
-        'last_update': 'mdi:restore-clock',
+        'last_located': 'mdi:history',
+        'last_update': 'mdi:history',
         'next_update': 'mdi:update',
         'poll_count': 'mdi:counter',
         'travel_distance': 'mdi:map-marker-distance',
         'trigger': 'mdi:flash-outline',
-        'battery': 'mdi:battery',
-        'battery_status': 'mdi:battery',
+        'battery': 'mdi:battery-outline',
+        'battery_status': 'mdi:battery-outline',
         'gps_accuracy': 'mdi:map-marker-radius',
         'altitude': 'mdi:image-filter-hdr',
         'vertical_accuracy': 'mdi:map-marker-radius',
@@ -377,14 +436,14 @@ SENSOR_ATTR_ICON = {
 
 SENSOR_ID_NAME_LIST = {
         'zon': 'zone',
-        'zon1': 'zone_name1',
-        'zon2': 'zone_name2',
-        'zon3': 'zone_name3',
-        'bzon': 'base_zone',
         'lzon': 'last_zone',
-        'lzon1': 'last_zone_name1',
-        'lzon2': 'last_zone_name2',
-        'lzon3': 'last_zone_name3',
+        'bzon': 'base_zone',
+        'zonn': 'zone_name',
+        'zont': 'zone_title',
+        'zonfn': 'zone_fname',
+        'lzonn': 'last_zone_name',
+        'lzont': 'last_zone_title',
+        'lzonfn': 'last_zone_fname',
         'zonts': 'zone_timestamp',
         'zdis': 'zone_distance',
         'cdis': 'calc_distance',
@@ -408,45 +467,60 @@ SENSOR_ID_NAME_LIST = {
         'name': 'name',
         }
 
-
-ATTR_TIMESTAMP_FORMAT    = '%Y-%m-%d %H:%M:%S.%f'
-APPLE_DEVICE_TYPES  = ['iphone', 'ipad', 'ipod', 'watch', 'iwatch', 'icloud',
-                       'iPhone', 'iPad', 'iPod', 'Watch', 'iWatch', 'iCloud']
+ATTR_TIMESTAMP_FORMAT = '%Y-%m-%d %H:%M:%S.%f'
+APPLE_DEVICE_TYPES    = [IPHONE, IPAD, IPOD, WATCH, 'iwatch', 'icloud',
+                         'iPhone', 'iPad', 'iPod', 'Watch', 'iWatch', 'iCloud']
 FMF_FAMSHR_LOCATION_FIELDS = ['altitude', 'latitude', 'longitude', 'timestamp',
                        'horizontalAccuracy', 'verticalAccuracy', ATTR_ICLOUD_BATTERY_STATUS]
+
+#Convert zone/state value to display value
+ZONE_TO_DISPLAY_BASE = {
+        None: "not_home",
+        "not_home": "Away",
+        "not_set": "NotSet",
+        "away": "Away",
+        "stationary": "Stationary",
+        "nearzone": "NearZone",
+        "near_zone": "NearZone",
+        }
+#Convert state non-fname value to internal zone/state value
+STATE_TO_ZONE_BASE = {
+        "NotSet": "not_set",
+        "Away": "not_home",
+        "away": "not_home",
+        "NotHome": "not_home",
+        "nothome": "not_home",
+        "Stationary": "stationary",
+        "stationary": "stationary",
+        "NearZone": "nearzone",
+        "NearZone": "near_zone",
+        }
+
 #icloud_update commands
 CMD_ERROR    = 1
 CMD_INTERVAL = 2
 CMD_PAUSE    = 3
 CMD_RESUME   = 4
 CMD_WAZE     = 5
+CMD_LOCATION = 6
 
 #Other constants
 IOSAPP_DT_ENTITY = True
 ICLOUD_DT_ENTITY = False
 ICLOUD_LOCATION_DATA_ERROR = False
 
-#General constants
-HOME                    = 'home'
-NOT_HOME                = 'not_home'
-NOT_SET                 = 'not_set'
-STATIONARY              = 'stationary'
-AWAY_FROM               = 'AwayFrom'
-AWAY                    = 'Away'
-PAUSED                  = 'Paused'
 STATIONARY_LAT_90       = 90
 STATIONARY_LONG_180     = 180
 STAT_ZONE_NEW_LOCATION  = True
 STAT_ZONE_MOVE_TO_BASE  = False
 STATIONARY_ZONE_1KM_LAT = 0.008983      #Subtract/add from home zone latitude to make stat zone location
 STATIONARY_ZONE_1KM_LONG= 0.010094
-EVLOG_RECDS_PER_DEVICE  = 1000          #Used to calculate the max recds to store
+EVLOG_RECDS_PER_DEVICE  = 2000          #Used to calculate the max recds to store
 EVENT_LOG_CLEAR_SECS    = 600           #Clear event log data interval
 EVENT_LOG_CLEAR_CNT     = 15            #Number of recds to display when clearing event log
 ICLOUD3_ERROR_MSG       = "ICLOUD3 ERROR-SEE EVENT LOG"
 
 #Devicename config parameter file extraction
-
 DI_DEVICENAME           = 0
 DI_DEVICE_TYPE          = 1
 DI_NAME                 = 2
@@ -456,7 +530,6 @@ DI_IOSAPP_ENTITY        = 5
 DI_IOSAPP_SUFFIX        = 6
 DI_ZONES                = 7
 
-
 #Waze status codes
 WAZE_REGIONS      = ['US', 'NA', 'EU', 'IL', 'AU']
 WAZE_USED         = 0
@@ -465,46 +538,64 @@ WAZE_PAUSED       = 2
 WAZE_OUT_OF_RANGE = 3
 WAZE_NO_DATA      = 4
 
+#Interval range table used for setting the interval based on a retry count
+#The key is starting retry count range, the value is the interval (in minutes)
+#poor_location_gps cnt, icloud_authentication cnt (default)
+POOR_LOC_GPS_CNT       = 1.1
+AUTH_ERROR_CNT         = 1.2
+RETRY_INTERVAL_RANGE_1 = {0:.25, 4:1, 8:5,  12:30, 16:60, 20:120, 22:240, 24:-240}
+#request iosapp location retry cnt
+IOSAPP_REQUEST_LOC_CNT = 2.1
+RETRY_INTERVAL_RANGE_2 = {0:.5,  4:2, 8:30, 12:60, 14:120, 16:180, 18:240, 20:-240}
+
 #Used by the 'update_method' in the polling_5_sec loop
 IOSAPP_UPDATE     = "IOSAPP"
 ICLOUD_UPDATE     = "ICLOUD"
 
 #The event_log lovelace card will display the event in a special color if
 #the text starts with a special character:
-#    $   - SeaGreen    *   - Purple
-#    $$  - DodgerBlue  **  - BlueViolet
-#    $$$ - Blue        *** - OrangeRed
-EVLOG_DEBUG       = "$$"
-EVLOG_ALERT       = "***"
-EVLOG_NOTICE      = "**"
+#^1^ - LightSeaGreen
+#^2^ - BlueViolet
+#^3^ - OrangeRed
+#^4^ - DeepPink
+#^5^ - MediumVioletRed
+#^6^ - --dark-primary-color
+EVLOG_NOTICE      = "^2^"
+EVLOG_ERROR       = "^3^"
+EVLOG_ALERT       = "^4^"
+EVLOG_DEBUG       = "^6^"
+CRLF_DOT          = 'CRLF• '
+CRLF_CHK          = 'CRLF✓ '
+
 
 #tracking_method config parameter being used
+ICLOUD            = 'icloud'    #iCloud Location Services (FmF & FamShr)
 FMF               = 'fmf'       #Find My Friends
-FAMSHR            = 'famshr'     #icloud Family-Sharing
+FAMSHR            = 'famshr'    #Family Sharing
 IOSAPP            = 'iosapp'    #HA IOS App v1.5x or v2.x
 IOSAPP1           = 'iosapp1'   #HA IOS App v1.5x only
-FMF_FAMSHR        = [FMF, FAMSHR]
+FMF_FAMSHR        = [FMF, FAMSHR, ICLOUD]
 IOSAPP_IOSAPP1    = [IOSAPP, IOSAPP1]
 
-TRK_METHOD_NAME = {
-        FMF: 'Find My Friends',
-        FAMSHR: 'Family Sharing',
-        IOSAPP: 'IOS App',
-        IOSAPP1: 'IOS App v1',
-        }
+#TRK_METHOD_NAME = {
+#        FMF: 'Find My Friends',
+#        FAMSHR: 'Family Sharing',
+#        IOSAPP: 'iOS App',
+#        IOSAPP1: 'iOS App v1',
+#        }
 TRK_METHOD_SHORT_NAME = {
         FMF: 'FmF',
         FAMSHR: 'FamShr',
-        IOSAPP: 'IOSApp',
-        IOSAPP1: 'IOSApp1',
+        IOSAPP: 'iOSApp',
+        IOSAPP1: 'iOSApp1',
         }
 DEVICE_TYPE_FNAME = {
-        'iphone': 'iPhone',
+        IPHONE: 'iPhone',
         'phone': 'iPhone',
-        'ipad': 'iPad',
+        IPAD: 'iPad',
         'iwatch': 'iWatch',
-        'watch': 'iWatch',
-        'ipod': 'iPod',
+        WATCH: 'Watch',
+        IPOD: 'iPod',
         }
 
 #iOS App Triggers defined in \iOS/Shared/Location/LocatioTrigger.swift
@@ -592,19 +683,52 @@ DEVICE_STATUS_CODES = {
         '204': 'unregistered',
         '0': ''
         }
+DEVICE_STATUS_ONLINE = ['online', 'pending', 'unknown', 'Unknown', '']
+
+#-----►►Test configuration parameters ----------
+VALID_CONF_DEVICES_ITEMS = [CONF_DEVICENAME, CONF_EMAIL, CONF_PICTURE, CONF_NAME, CONF_INZONE_INTERVAL,
+                            CONF_TRACK_FROM_ZONE, CONF_IOSAPP_SUFFIX, CONF_IOSAPP_ENTITY,
+                            CONF_IOSAPP_INSTALLED, CONF_NOIOSAPP, CONF_NO_IOSAPP]
+
 SERVICE_SCHEMA = vol.Schema({
-    vol.Optional(CONF_GROUP):  cv.slugify,
+    vol.Optional(CONF_GROUP):  cv.string,
     vol.Optional(CONF_DEVICENAME): cv.slugify,
     vol.Optional(CONF_INTERVAL): cv.slugify,
     vol.Optional(CONF_COMMAND): cv.string
     })
 
+#Parameters for devices to be tracked
+DEVICES_SCHEMA = vol.Schema({
+    vol.Optional(CONF_DEVICENAME): cv.string,
+    vol.Optional(CONF_EMAIL): cv.string,
+    vol.Optional(CONF_DEVICE_TYPE): cv.string,
+    vol.Optional(CONF_NAME): cv.string,
+    vol.Optional(CONF_TRACK_FROM_ZONE): cv.string,
+    vol.Optional(CONF_PICTURE): cv.string,
+    vol.Optional(CONF_IOSAPP_ENTITY): cv.string,
+    vol.Optional(CONF_IOSAPP_SUFFIX): cv.string,
+    vol.Optional(CONF_INZONE_INTERVAL): cv.string,
+    vol.Optional(CONF_NOIOSAPP): cv.boolean,
+    vol.Optional(CONF_NO_IOSAPP): cv.boolean,
+    vol.Optional(CONF_IOSAPP_INSTALLED): cv.boolean,
+    })
+
+#Parameters for devices to be tracked
+INZONE_INTERVALS_SCHEMA = vol.Schema({
+    vol.Optional(CONF_INZONE_INTERVAL): cv.string,
+    vol.Optional(IPHONE): cv.string,
+    vol.Optional(IPAD): cv.string,
+    vol.Optional(IPOD): cv.string,
+    vol.Optional(WATCH): cv.string,
+    vol.Optional(CONF_NO_IOSAPP): cv.string,
+    })
+
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_USERNAME): cv.string,
     vol.Optional(CONF_PASSWORD, default=''): cv.string,
-    vol.Optional(CONF_GROUP, default='group'): cv.slugify,
-    vol.Optional(CONF_TRACKING_METHOD, default=FMF): cv.slugify,
-    vol.Optional(CONF_IOSAPP_LOCATE_REQUEST_MAX_CNT, default=100): cv.string,
+    vol.Optional(CONF_GROUP, default=''): cv.string,
+    vol.Optional(CONF_TRACKING_METHOD, default=ICLOUD): cv.slugify,
+    vol.Optional(CONF_IOSAPP_REQUEST_LOC_MAX_CNT, default=HIGH_INTEGER): cv.string,
     vol.Optional(CONF_ENTITY_REGISTRY_FILE): cv.string,
     vol.Optional(CONF_CONFIG_IC3_FILE_NAME, default=''): cv.string,
     vol.Optional(CONF_EVENT_LOG_CARD_DIRECTORY, default='www/custom_cards'): cv.string,
@@ -613,26 +737,28 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
 
     #-----►►General Attributes ----------
     vol.Optional(CONF_UNIT_OF_MEASUREMENT, default='mi'): cv.slugify,
+    vol.Optional(CONF_TIME_FORMAT, default=12): cv.positive_int,
     vol.Optional(CONF_INZONE_INTERVAL, default='2 hrs'): cv.string,
+    vol.Optional(CONF_INZONE_INTERVALS, default=[]): vol.All(cv.ensure_list, [INZONE_INTERVALS_SCHEMA]),
+    vol.Optional(CONF_DISPLAY_ZONE_FORMAT, default=CONF_NAME): cv.string,
     vol.Optional(CONF_CENTER_IN_ZONE, default=False): cv.boolean,
     vol.Optional(CONF_MAX_INTERVAL, default='4 hrs'): cv.string,
-    vol.Optional(CONF_TRAVEL_TIME_FACTOR, default=.60): cv.string,
-    vol.Optional(CONF_GPS_ACCURACY_THRESHOLD, default=100): cv.string,
-    vol.Optional(CONF_OLD_LOCATION_THRESHOLD, default='-1 min'): cv.string,
-    vol.Optional(CONF_IGNORE_GPS_ACC_INZONE, default=True): cv.boolean,
+    vol.Optional(CONF_TRAVEL_TIME_FACTOR, default=.60): cv.small_float,
+    vol.Optional(CONF_GPS_ACCURACY_THRESHOLD, default=100): cv.positive_int,
+    vol.Optional(CONF_OLD_LOCATION_THRESHOLD, default='3 min'): cv.string,
+    vol.Optional(CONF_IGNORE_GPS_ACC_INZONE, default=False): cv.boolean,
     vol.Optional(CONF_HIDE_GPS_COORDINATES, default=False): cv.boolean,
     vol.Optional(CONF_LOG_LEVEL, default=''): cv.string,
-    vol.Optional(CONF_DEVICE_STATUS, default='online'): cv.string,
 
     #-----►►Filter, Include, Exclude Devices ----------
     vol.Optional(CONF_TRACK_DEVICES, default=[]): vol.All(cv.ensure_list, [cv.string]),
-    vol.Optional(CONF_TRACK_DEVICE, default=[]): vol.All(cv.ensure_list, [cv.string]),
+    vol.Optional(CONF_DEVICES, default=[]): vol.All(cv.ensure_list, [DEVICES_SCHEMA]),
 
     #-----►►Waze Attributes ----------
-    vol.Optional(CONF_DISTANCE_METHOD, default='waze'): cv.string,
+    vol.Optional(CONF_DISTANCE_METHOD, default=WAZE): cv.string,
     vol.Optional(CONF_WAZE_REGION, default='US'): cv.string,
-    vol.Optional(CONF_WAZE_MAX_DISTANCE, default=1000): cv.string,
-    vol.Optional(CONF_WAZE_MIN_DISTANCE, default=1): cv.string,
+    vol.Optional(CONF_WAZE_MAX_DISTANCE, default=1000): cv.positive_int,
+    vol.Optional(CONF_WAZE_MIN_DISTANCE, default=1): cv.positive_int,
     vol.Optional(CONF_WAZE_REALTIME, default=False): cv.boolean,
 
     #-----►►Other Attributes ----------
@@ -642,34 +768,73 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_CREATE_SENSORS, default=[]): vol.All(cv.ensure_list, [cv.string]),
     vol.Optional(CONF_EXCLUDE_SENSORS, default=[]): vol.All(cv.ensure_list, [cv.string]),
     vol.Optional(CONF_COMMAND): cv.string,
-    })
+})
 
 DEFAULT_CONFIG_VALUES = {
     CONF_UNIT_OF_MEASUREMENT: 'mi',
+    CONF_TIME_FORMAT: 12,
     CONF_INZONE_INTERVAL: '2 hrs',
+    CONF_INZONE_INTERVALS : [],
+    CONF_DISPLAY_ZONE_FORMAT: CONF_NAME,
     CONF_CENTER_IN_ZONE: False,
     CONF_MAX_INTERVAL: '4 hrs',
     CONF_TRAVEL_TIME_FACTOR: .60,
     CONF_GPS_ACCURACY_THRESHOLD: 100,
-    CONF_OLD_LOCATION_THRESHOLD: '-1 min',
-    CONF_IGNORE_GPS_ACC_INZONE: True,
+    CONF_OLD_LOCATION_THRESHOLD: '3 min',
+    CONF_IGNORE_GPS_ACC_INZONE: False,
     CONF_HIDE_GPS_COORDINATES: False,
-    CONF_LOG_LEVEL: '',
-    CONF_DEVICE_STATUS: 'online',
     CONF_TRACK_DEVICES: [],
-    CONF_TRACK_DEVICE: [],
-    CONF_DISTANCE_METHOD: 'waze',
+    CONF_DEVICES: [],
+    CONF_DISTANCE_METHOD: WAZE,
     CONF_LEGACY_MODE: False,
     CONF_WAZE_REGION: 'US',
     CONF_WAZE_MAX_DISTANCE: 1000,
     CONF_WAZE_MIN_DISTANCE: 1,
     CONF_WAZE_REALTIME: False,
-    CONF_STATIONARY_INZONE_INTERVAL: '30 min',
     CONF_STATIONARY_STILL_TIME: '8 min',
     CONF_STATIONARY_ZONE_OFFSET: '1, 0',
+    CONF_STATIONARY_INZONE_INTERVAL: '30 min',
+
+    CONF_LOG_LEVEL: '',
     CONF_EVENT_LOG_CARD_DIRECTORY: 'www/custom_cards',
     CONF_DISPLAY_TEXT_AS: [],
     }
+
+VALIDATE_PARAMETER_LIST = {
+    CONF_UNIT_OF_MEASUREMENT: ['mi', 'km'],
+    CONF_TIME_FORMAT: [12, 24],
+    CONF_DISPLAY_ZONE_FORMAT: ['zone', 'name', 'fname', 'title'],
+    CONF_DISTANCE_METHOD: ['waze', 'calc'],
+    CONF_WAZE_REGION: ['US', 'NA', 'EU', 'IS', 'AU', 'us', 'na', 'eu', 'is', 'au'],
+    CONF_DISPLAY_ZONE_FORMAT: ['zone', 'name', 'fname', 'title'],
+}
+VALIDATE_PARAMETER_TRUE_FALSE = [
+    CONF_CENTER_IN_ZONE,
+    CONF_IGNORE_GPS_ACC_INZONE,
+    CONF_HIDE_GPS_COORDINATES,
+    CONF_WAZE_REALTIME,
+    CONF_LEGACY_MODE,
+]
+VALIDATE_PARAMETER_NUMBER = [
+    CONF_TRAVEL_TIME_FACTOR,
+    CONF_GPS_ACCURACY_THRESHOLD,
+    CONF_WAZE_MAX_DISTANCE,
+    CONF_WAZE_MIN_DISTANCE,
+]
+VALIDATE_PARAMETER_TIME = [
+    CONF_INZONE_INTERVAL,
+    CONF_MAX_INTERVAL,
+    CONF_STATIONARY_STILL_TIME,
+    CONF_STATIONARY_INZONE_INTERVAL,
+    CONF_OLD_LOCATION_THRESHOLD,
+]
+
+#config_ic3.yaml parameter validation items
+LIST = 1
+TIME = 2
+NUMBER = 3
+TRUE_FALSE = 4
+VALID_TIME_TYPES = ['sec', 'secs', 'min', 'mins', 'hr', 'hrs']
 
 #==============================================================================
 #
@@ -735,9 +900,12 @@ def inlist(string, list_items):
 def format_gps(latitude, longitude, accuracy, latitude_to=None, longitude_to=None):
     '''Format the GPS string for logs & messages'''
 
-    accuracy_text = (f"/{accuracy}m)") if accuracy > 0 else ""
-    gps_to_text   = (f" to [{round(latitude_to, 6)}, {round(longitude_to, 6)}]") if latitude_to else ""
-    gps_text      = f"({round(latitude, 6)}, {round(longitude, 6)}){accuracy_text}{gps_to_text}"
+    if longitude is None or latitude is None:
+        gps_text = UNKNOWN
+    else:
+        accuracy_text = (f"/{accuracy}m)") if accuracy > 0 else ")"
+        gps_to_text   = (f" to ({round(latitude_to, 6)}, {round(longitude_to, 6)})") if latitude_to else ""
+        gps_text      = f"({round(latitude, 6)}, {round(longitude, 6)}{accuracy_text}{gps_to_text}"
     return gps_text
 #==============================================================================
 #
@@ -745,106 +913,69 @@ def format_gps(latitude, longitude, accuracy, latitude_to=None, longitude_to=Non
 #
 #==============================================================================
 def setup_scanner(hass, config: dict, see, discovery_info=None):
-    """Set up the iCloud3 Device Tracker"""
-    username              = config.get(CONF_USERNAME)
-    password              = config.get(CONF_PASSWORD)
-    group                 = config.get(CONF_GROUP)
-    base_zone             = config.get(CONF_BASE_ZONE)
-    tracking_method       = config.get(CONF_TRACKING_METHOD)
-    track_devices         = config.get(CONF_TRACK_DEVICES)
-    track_devices.extend(config.get(CONF_TRACK_DEVICE))
-    log_level             = config.get(CONF_LOG_LEVEL)
-    device_status         = config.get(CONF_DEVICE_STATUS)
-    entity_registry_file  = config.get(CONF_ENTITY_REGISTRY_FILE)
-    config_ic3_file_name  = config.get(CONF_CONFIG_IC3_FILE_NAME)
-    event_log_card_directory = config.get(CONF_EVENT_LOG_CARD_DIRECTORY)
-    iosapp_locate_request_max_cnt = int(config.get(CONF_IOSAPP_LOCATE_REQUEST_MAX_CNT))
-    legacy_mode           = config.get(CONF_LEGACY_MODE)
-    display_text_as       = config.get(CONF_DISPLAY_TEXT_AS)
+
+    #Table with all the parameters specified in the configuration.yaml file. These items
+    #will be updated with the parameters in the config_ic3.yaml file and then validated
+    #by parameter type. Invalid parameters will be replaced with the default value and an
+    #error message will be displayed in the Event Log.
+    config_parameter = {}
+    config_parameter[CONF_USERNAME]                 = config.get(CONF_USERNAME)
+    config_parameter[CONF_PASSWORD]                 = config.get(CONF_PASSWORD)
+    config_parameter[CONF_GROUP]                    = config.get(CONF_GROUP)
+    config_parameter[CONF_ENTITY_REGISTRY_FILE]     = config.get(CONF_ENTITY_REGISTRY_FILE)
+    config_parameter[CONF_CONFIG_IC3_FILE_NAME]     = config.get(CONF_CONFIG_IC3_FILE_NAME)
+    config_parameter[CONF_EVENT_LOG_CARD_DIRECTORY] = config.get(CONF_EVENT_LOG_CARD_DIRECTORY)
+    config_parameter[CONF_TRACK_DEVICES]            = config.get(CONF_TRACK_DEVICES) or []
+    config_parameter[CONF_DEVICES]                  = config.get(CONF_DEVICES) or []
+    config_parameter[CONF_DISPLAY_TEXT_AS]          = config.get(CONF_DISPLAY_TEXT_AS)
+    config_parameter[CONF_TRACKING_METHOD]          = config.get(CONF_TRACKING_METHOD)
+    config_parameter[CONF_CREATE_SENSORS]           = config.get(CONF_CREATE_SENSORS)
+    config_parameter[CONF_EXCLUDE_SENSORS]          = config.get(CONF_EXCLUDE_SENSORS)
+    config_parameter[CONF_UNIT_OF_MEASUREMENT]      = config.get(CONF_UNIT_OF_MEASUREMENT)
+    config_parameter[CONF_TIME_FORMAT]              = config.get(CONF_TIME_FORMAT)
+    config_parameter[CONF_INZONE_INTERVAL]          = config.get(CONF_INZONE_INTERVAL)
+    config_parameter[CONF_INZONE_INTERVALS]         = config.get(CONF_INZONE_INTERVALS)
+    config_parameter[CONF_DISPLAY_ZONE_FORMAT]      = config.get(CONF_DISPLAY_ZONE_FORMAT)
+    config_parameter[CONF_CENTER_IN_ZONE]           = config.get(CONF_CENTER_IN_ZONE)
+    config_parameter[CONF_MAX_INTERVAL]             = config.get(CONF_MAX_INTERVAL)
+    config_parameter[CONF_TRAVEL_TIME_FACTOR]       = config.get(CONF_TRAVEL_TIME_FACTOR)
+    config_parameter[CONF_GPS_ACCURACY_THRESHOLD]   = config.get(CONF_GPS_ACCURACY_THRESHOLD)
+    config_parameter[CONF_OLD_LOCATION_THRESHOLD]   = config.get(CONF_OLD_LOCATION_THRESHOLD)
+    config_parameter[CONF_IGNORE_GPS_ACC_INZONE]    = config.get(CONF_IGNORE_GPS_ACC_INZONE)
+    config_parameter[CONF_HIDE_GPS_COORDINATES]     = config.get(CONF_HIDE_GPS_COORDINATES)
+    config_parameter[CONF_DISTANCE_METHOD]          = config.get(CONF_DISTANCE_METHOD).lower()
+    config_parameter[CONF_LEGACY_MODE]              = config.get(CONF_LEGACY_MODE)
+    config_parameter[CONF_WAZE_REGION]              = config.get(CONF_WAZE_REGION).upper()
+    config_parameter[CONF_WAZE_MAX_DISTANCE]        = config.get(CONF_WAZE_MAX_DISTANCE)
+    config_parameter[CONF_WAZE_MIN_DISTANCE]        = config.get(CONF_WAZE_MIN_DISTANCE)
+    config_parameter[CONF_WAZE_REALTIME]            = config.get(CONF_WAZE_REALTIME)
+    config_parameter[CONF_STATIONARY_STILL_TIME]    = config.get(CONF_STATIONARY_STILL_TIME)
+    config_parameter[CONF_STATIONARY_ZONE_OFFSET]   = config.get(CONF_STATIONARY_ZONE_OFFSET)
+    config_parameter[CONF_STATIONARY_INZONE_INTERVAL] = config.get(CONF_STATIONARY_INZONE_INTERVAL)
+    config_parameter[CONF_LOG_LEVEL]                = config.get(CONF_LOG_LEVEL)
+    config_parameter[CONF_IOSAPP_REQUEST_LOC_MAX_CNT] = config.get(CONF_IOSAPP_REQUEST_LOC_MAX_CNT)
 
     #make sure the same group is not specified in more than one platform. If so,
     #append with a number
-    if group in ICLOUD3_GROUPS or group == 'group':
-        group = f"{group}{len(ICLOUD3_GROUPS)+1}"
-    ICLOUD3_GROUPS.append(group)
-    ICLOUD3_TRACKED_DEVICES[group] = track_devices
+    username = config.get(CONF_USERNAME)
+    if username in ICLOUD3_GROUPS:
+        username = f"{username}{len(ICLOUD3_GROUPS)+1}"
 
-    #Changes in device_tracker entities are not supported in HA v0.94 and
-    #legacy code is being used for the DeviceScanner. Try to import from the
-    #.legacy directory and retry from the normal directory if the .legacy
-    #directory does not exist.
-    #try:
-    #    if legacy_mode:
-    #        from homeassistant.components.device_tracker.legacy import DeviceScanner
-    #    else:
-    #        from homeassistant.components.device_tracker import DeviceScanner
+    ICLOUD3_GROUPS.append(username)
+    ICLOUD3_TRACKED_DEVICES[username] = username
 
-    #    HA_DEVICE_TRACKER_LEGACY_MODE = legacy_mode
-
-    #except ImportError:
-    #    from homeassistant.components.device_tracker import DeviceScanner
-    #    HA_DEVICE_TRACKER_LEGACY_MODE = False
-
-    log_msg =(f"Setting up iCloud3 v{VERSION} device tracker for User: {username}, "
-              f"Group: {group}")
+    log_msg =(f"Setting up iCloud3 v{VERSION} device tracker for User: {username}")
     if HA_DEVICE_TRACKER_LEGACY_MODE:
         log_msg = (f"{log_msg}, using device_tracker.legacy code")
     _LOGGER.info(log_msg)
 
-    inzone_interval_str             = config.get(CONF_INZONE_INTERVAL)
-    max_interval_str                = config.get(CONF_MAX_INTERVAL)
-    center_in_zone_flag             = config.get(CONF_CENTER_IN_ZONE)
-    gps_accuracy_threshold          = config.get(CONF_GPS_ACCURACY_THRESHOLD)
-    old_location_threshold_str      = config.get(CONF_OLD_LOCATION_THRESHOLD)
-    ignore_gps_accuracy_inzone_flag = config.get(CONF_IGNORE_GPS_ACC_INZONE)
-    hide_gps_coordinates            = config.get(CONF_HIDE_GPS_COORDINATES)
-    unit_of_measurement             = config.get(CONF_UNIT_OF_MEASUREMENT)
-
-    stationary_inzone_interval_str  = config.get(CONF_STATIONARY_INZONE_INTERVAL)
-    stationary_still_time_str       = config.get(CONF_STATIONARY_STILL_TIME)
-    stationary_zone_offset          = config.get(CONF_STATIONARY_ZONE_OFFSET)
-
-    sensor_ids                      = _combine_lists(config.get(CONF_CREATE_SENSORS))
-    exclude_sensor_ids              = _combine_lists(config.get(CONF_EXCLUDE_SENSORS))
-
-    travel_time_factor              = config.get(CONF_TRAVEL_TIME_FACTOR)
-    waze_realtime                   = config.get(CONF_WAZE_REALTIME)
-    distance_method                 = config.get(CONF_DISTANCE_METHOD).lower()
-    waze_region                     = config.get(CONF_WAZE_REGION)
-    waze_region                     = waze_region.upper()
-    waze_max_distance               = config.get(CONF_WAZE_MAX_DISTANCE)
-    waze_min_distance               = config.get(CONF_WAZE_MIN_DISTANCE)
-
-    if waze_region not in WAZE_REGIONS:
-        log_msg = (f"Invalid Waze Region ({waze_region}). Valid Values are: "
-            "NA=US or North America, EU=Europe, IL=Isreal, AU=Australia")
-        _LOGGER.error(log_msg)
-
-        waze_region       = 'US'
-        waze_max_distance = 0
-        waze_min_distance = 0
-
 #---------------------------------------------
-    ICLOUD3_GROUP_OBJS[group] = Icloud3(
-        hass, see, username, password, group, base_zone,
-        tracking_method, track_devices,
-        iosapp_locate_request_max_cnt, inzone_interval_str,
-        max_interval_str, center_in_zone_flag,
-        gps_accuracy_threshold, old_location_threshold_str,
-        stationary_inzone_interval_str, stationary_still_time_str,
-        stationary_zone_offset,
-        ignore_gps_accuracy_inzone_flag, hide_gps_coordinates,
-        sensor_ids, exclude_sensor_ids,
-        unit_of_measurement, travel_time_factor, distance_method,
-        waze_region, waze_realtime, waze_max_distance, waze_min_distance,
-        log_level, device_status, display_text_as,
-        entity_registry_file, config_ic3_file_name, event_log_card_directory
-        )
+    ICLOUD3_GROUP_OBJS[username] = Icloud3(hass, see,  config_parameter)
 
 
 #--------------------------------------------------------------------
 
-    def _service_callback_update_icloud(call):
+    def _icloud3_update_service(call):
         """Call the update function of an iCloud group."""
 
         groups     = call.data.get(CONF_GROUP, ICLOUD3_GROUP_OBJS)
@@ -853,15 +984,15 @@ def setup_scanner(hass, config: dict, see, discovery_info=None):
 
         for group in groups:
             if group in ICLOUD3_GROUP_OBJS:
-                ICLOUD3_GROUP_OBJS[group]._service_handler_icloud_update(
+                ICLOUD3_GROUP_OBJS[group]._icloud3_update_service_handler(
                                     group, devicename, command)
 
     hass.services.register(DOMAIN, 'icloud3_update',
-                _service_callback_update_icloud, schema=SERVICE_SCHEMA)
+                _icloud3_update_service, schema=SERVICE_SCHEMA)
 
 
 #--------------------------------------------------------------------
-    def _service_callback__start_icloud3(call):
+    def _icloud3_restart_service(call):
         """Reset an iCloud group."""
 
         groups = call.data.get(CONF_GROUP, ICLOUD3_GROUP_OBJS)
@@ -870,10 +1001,10 @@ def setup_scanner(hass, config: dict, see, discovery_info=None):
                 ICLOUD3_GROUP_OBJS[group]._start_icloud3()
 
     hass.services.register(DOMAIN, 'icloud3_restart',
-                _service_callback__start_icloud3, schema=SERVICE_SCHEMA)
+                _icloud3_restart_service, schema=SERVICE_SCHEMA)
 
 #--------------------------------------------------------------------
-    def _service_callback_setinterval(call):
+    def _icloud3_setinterval_service(call):
         """Call the setinterval function of an iCloud group."""
 
         groups     = call.data.get(CONF_GROUP, ICLOUD3_GROUP_OBJS)
@@ -882,25 +1013,26 @@ def setup_scanner(hass, config: dict, see, discovery_info=None):
 
         for group in groups:
             if group in ICLOUD3_GROUP_OBJS:
-                ICLOUD3_GROUP_OBJS[group]._service_handler_icloud_setinterval(
+                ICLOUD3_GROUP_OBJS[group]._icloud3_setinterval_service_handlerl(
                                     group, interval, devicename)
 
     hass.services.register(DOMAIN, 'icloud3_set_interval',
-                _service_callback_setinterval, schema=SERVICE_SCHEMA)
+                _icloud3_setinterval_service, schema=SERVICE_SCHEMA)
 
 #--------------------------------------------------------------------
-    def _service_callback_lost_iphone(call):
-        """Call the lost iPhone function if the device is found."""
+    def _icloud3_find_iphone_alert_service(call):
+        """Call the find_iphone_alert to play a sound on the phone"""
 
-        groups = call.data.get(CONF_GROUP, ICLOUD3_GROUP_OBJS)
+        groups     = call.data.get(CONF_GROUP, ICLOUD3_GROUP_OBJS)
         devicename = call.data.get(CONF_DEVICENAME)
+
         for group in groups:
             if group in ICLOUD3_GROUP_OBJS:
-                ICLOUD3_GROUP_OBJS[group]._service_handler_lost_iphone(
+                ICLOUD3_GROUP_OBJS[group]._icloud3_find_iphone_alert_service_handlert(
                                     group, devicename)
 
-    hass.services.register(DOMAIN, 'icloud3_lost_iphone',
-                _service_callback_lost_iphone, schema=SERVICE_SCHEMA)
+    hass.services.register(DOMAIN, 'icloud3_find_iphone_alert',
+                _icloud3_find_iphone_alert_service, schema=SERVICE_SCHEMA)
 
     # Tells the bootstrapper that the component was successfully initialized
     return True
@@ -910,86 +1042,47 @@ def setup_scanner(hass, config: dict, see, discovery_info=None):
 class Icloud3:#(DeviceScanner):
     """Representation of an iCloud3 platform"""
 
-    def __init__(self,
-        hass, see, username, password, group, base_zone,
-        tracking_method, track_devices,
-        iosapp_locate_request_max_cnt, inzone_interval_str,
-        max_interval_str, center_in_zone_flag,
-        gps_accuracy_threshold, old_location_threshold_str,
-        stationary_inzone_interval_str, stationary_still_time_str,
-        stationary_zone_offset,
-        ignore_gps_accuracy_inzone_flag, hide_gps_coordinates,
-        sensor_ids, exclude_sensor_ids,
-        unit_of_measurement, travel_time_factor, distance_method,
-        waze_region, waze_realtime, waze_max_distance, waze_min_distance,
-        log_level, device_status, display_text_as,
-        entity_registry_file, config_ic3_file_name, event_log_card_directory
-        ):
+    def __init__(self, hass, see,  config_parameter):
 
+        self.config_parameter   = config_parameter
 
         """Initialize the iCloud3 device tracker."""
         self.hass_configurator_request_id    = {}
 
         self.hass                         = hass
         self.see                          = see
-        self.username                     = username
-        self.username_base                = username.split('@')[0]
-        self.password                     = password
-
         self.polling_5_sec_loop_running   = False
         self.api                          = None
-        self.entity_registry_file         = entity_registry_file
-        self.config_ic3_file_name         = config_ic3_file_name
-        self.event_log_card_directory     = event_log_card_directory
-        self.group                        = group
         self.base_zone                    = HOME
         self.verification_inprocess_flag  = False
         self.verification_code            = None
         self.trusted_device               = None
         self.trusted_device_id            = None
         self.trusted_devices              = None
-        self.tracking_method_config       = tracking_method
-
-        self.iosapp_locate_request_max_cnt= iosapp_locate_request_max_cnt
         self.start_icloud3_request_flag   = False
         self.start_icloud3_inprocess_flag = False
         self.authenticated_time           = 0
-        self.log_level                    = log_level
-        self.log_level_eventlog_flag      = False
-        self.device_status_online         = device_status
+        self.log_eventlog_flag            = False
+        self.log_debug_flag               = False
+        self.log_rawdata_flag             = False
+        self.log_debug_flag_restart       = None
+        self.log_rawdata_flag_restart     = None
 
         self.attributes_initialized_flag  = False
-        self.track_devices                = track_devices
-        self.distance_method_waze_flag    = (distance_method.lower() == 'waze')
-        self.inzone_interval_secs         = self._time_str_to_secs(inzone_interval_str)
-        self.max_interval_secs            = self._time_str_to_secs(max_interval_str)
-        self.center_in_zone_flag          = center_in_zone_flag
-        self.gps_accuracy_threshold       = int(gps_accuracy_threshold)
-        self.old_location_threshold       = self._time_str_to_secs(old_location_threshold_str)
-        self.ignore_gps_accuracy_inzone_flag = ignore_gps_accuracy_inzone_flag
-        self.check_gps_accuracy_inzone_flag  = not self.ignore_gps_accuracy_inzone_flag
-        self.hide_gps_coordinates         = hide_gps_coordinates
-        self.sensor_ids                   = sensor_ids
-        self.exclude_sensor_ids           = exclude_sensor_ids
-        self.unit_of_measurement          = unit_of_measurement
-        self.travel_time_factor           = float(travel_time_factor)
         self.e_seconds_local_offset_secs  = 0
-        self.waze_region                  = waze_region
-        self.waze_min_distance            = waze_min_distance
-        self.waze_max_distance            = waze_max_distance
-        self.waze_realtime                = waze_realtime
-        self.stationary_inzone_interval_str = stationary_inzone_interval_str
-        self.stationary_still_time_str    = stationary_still_time_str
-        self.stationary_zone_offset       = stationary_zone_offset
-
-        self.display_text_as              = display_text_as
         self.display_text_as_list         = {}
 
+        #initialize variables configuration.yaml parameters
+        self._set_data_fields_from_config_parameter_dictionary()
+        self._initialize_debug_control(self.log_level)
+        self._setup_tracking_method(self.tracking_method_config)
 
-        #define & initialize fields to carry across icloud3 restarts
+        #define & initialize fields
+        self._define_zone_fields()
         self._define_event_log_fields()
         self._define_usage_counters()
         self._define_iosapp_message_fields()
+        self.last_config_ic3_items = []
 
         #add HA event that will call the _polling_loop_5_sec_icloud function
         #on a 5-second interval. The interval is offset by 1-second for each
@@ -1010,7 +1103,6 @@ class Icloud3:#(DeviceScanner):
 
         try:
             self.start_timer = time.time()
-            self._initialize_debug_control(self.log_level)
 
             self.start_icloud3_inprocess_flag = True
             self.start_icloud3_request_flag   = False
@@ -1019,34 +1111,36 @@ class Icloud3:#(DeviceScanner):
             self.startup_log_msgs_prefix      = ''
             devicename = ''
 
-            self._initialize_um_formats(self.unit_of_measurement)
             self._define_device_fields()
             self._define_device_status_fields()
             self._define_device_tracking_fields()
+            self._define_zone_fields()
             self._define_device_zone_fields()
             self._define_tracking_control_fields()
             self._define_sensor_fields(self.start_icloud3_initial_load_flag)
-            self._setup_tracking_method(self.tracking_method_config)
 
-            event_msg = (f"^^^ Initializing iCloud3 v{VERSION} > "
+            event_msg = (f"^^^Initializing iCloud3 v{VERSION} > "
                          f"{dt_util.now().strftime('%A, %b %d')}")
             self._save_event_halog_info("*", event_msg)
 
             self.startup_log_msgs_prefix = NEW_LINE
-            self._check_config_ic3_yaml_parameter_file()
             self._check_ic3_event_log_file_version()
+            self._check_ic3_update_2sa_to_2fa()
+            self._initialize_zone_tables_step_1()
+            self._get_config_ic3_parameters()
 
-            for item in self.display_text_as:
-                from_to_text = item.split(">")
-                self.display_text_as_list[from_to_text[0].strip()] = from_to_text[1].strip()
-
+            #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+            self._display_info_status_msg("", "Stage 1-Initial Config Setup")
             event_msg = (f"Stage 1 > Prepare iCloud3 for {self.username}")
             self._save_event_halog_info("*", event_msg)
 
-            self._display_info_status_msg("", "Loading conf_ic3.yaml")
+            self._validate_config_parameters()
+            self._set_data_fields_from_config_parameter_dictionary()
+            self._initialize_debug_control(self.log_level)
 
-            self._display_info_status_msg("", "Loading Zones")
-            self._initialize_zone_tables()
+            self._setup_tracking_method(self.tracking_method_config)
+            self._initialize_zone_tables_step_2()
+            self._initialize_um_formats(self.unit_of_measurement)
             self._define_stationary_zone_fields(self.stationary_inzone_interval_str,
                         self.stationary_still_time_str)
 
@@ -1057,36 +1151,38 @@ class Icloud3:#(DeviceScanner):
             for devicename_cnt in self.count_update_iosapp:
                 self._display_usage_counts(devicename_cnt)
 
+            for item in self.display_text_as:
+                if instr(item, '>'):
+                    from_to_text = item.split(">")
+                    self.display_text_as_list[from_to_text[0].strip()] = from_to_text[1].strip()
+
         except Exception as err:
             _LOGGER.exception(err)
 
         try:
             self.startup_log_msgs_prefix = NEW_LINE
             self._update_sensor_ic3_event_log("")
-            event_msg = (f"Stage 2 > Set up tracking method & identify devices")
-            self._save_event_halog_info("*", event_msg)
 
-            event_msg = (f"Preparing Tracking Method > {self.trk_method_name}")
+            #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+            event_msg = (f"Stage 2 > Set up tracked device parameters")
             self._save_event_halog_info("*", event_msg)
 
             self._display_info_status_msg("", "Setting up Tracked Devices")
-            self._setup_tracked_devices_config_parm(self.track_devices)
+            self._set_track_devices_fields_from_config_parms()
 
             self.this_update_secs     = self._time_now_secs()
             self.icloud3_started_secs = self.this_update_secs
 
             if self.CONF_TRK_METHOD_FMF_FAMSHR:
-                event_msg = (f"Stage 2a > Authenticating iCloud Account, Extract devices")
+                event_msg = (f"Stage 2a > Authenticate iCloud Account, List Trackable Devices")
                 self._save_event_halog_info("*", event_msg)
                 self._display_info_status_msg("", "Authenticating iCloud Account")
                 self._pyicloud_initialize_device_api()
 
                 if self.api:
-                    if self.TRK_METHOD_FMF:
-                        self._setup_tracked_devices_for_fmf()
-
-                    elif self.TRK_METHOD_FAMSHR:
-                        self._setup_tracked_devices_for_famshr()
+                    self._setup_tracked_devices_for_fmf()
+                    self._setup_tracked_devices_for_famshr()
+                    self._tune_tracked_devices_fmf_famshr()
 
                 elif self.CONF_TRK_METHOD_FMF_FAMSHR:
                     event_msg = (f"iCloud3 Error > iCloud Account Authentication needed > "
@@ -1111,41 +1207,58 @@ class Icloud3:#(DeviceScanner):
         try:
             self.startup_log_msgs_prefix = NEW_LINE
             self._update_sensor_ic3_event_log("")
+
+            #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
             event_msg = (f"Stage 3 > Identify iOS App entities, Verify tracked devices")
             self._save_event_halog_info("*", event_msg)
 
-            iosapp_entities    = self._get_entity_registry_entities('mobile_app')
-            notify_devicenames = self._get_mobile_app_notify_devicenames()
+            iosapp_entities    = self._get_entity_registry_entities('mobile_app', 'device_tracker')
+            if iosapp_entities == []:
+                event_msg = (f"iCloud3 Alert > No mobile_app device_tracker entities "
+                            f"were found in the HA Entity Registry. The iOSApp "
+                            f"will not be monitored for any device.")
+                self._save_event("*", event_msg)
+            else:
+                notify_devicenames = self._get_mobile_app_notify_devicenames()
 
-            self.track_devicename_list == ''
+            self.track_devicename_list = ""
             for devicename in self.devicename_verified:
                 error_log_msg = None
                 self._display_info_status_msg(devicename, "Verifing Device")
-
                 #Devicename config parameter is OK, now check to make sure the
                 #entity for device name has been setup by iosapp correctly.
                 #If the devicename is valid, it will be tracked
                 self._initialize_iosapp_message_fields(devicename)
+
+                if iosapp_entities == []:
+                    self.iosapp_monitor_dev_trk_flag[devicename] = False
+
                 if self.devicename_verified.get(devicename):
-                    self.tracking_device_flag[devicename] = True
                     self.tracked_devices.append(devicename)
 
-                    self.track_devicename_list = (f"{self.track_devicename_list}, {devicename}")
+                    self.track_devicename_list += (f"{CRLF_DOT}{devicename} > {self.fname.get(devicename)}, ")
+                    self.attr_tracking_msg     += (f"{devicename}")
+
                     if self.iosapp_monitor_dev_trk_flag.get(devicename):
                         self._setup_monitored_iosapp_entities(devicename, iosapp_entities,
-                            notify_devicenames, self.devicename_iosapp_suffix.get(devicename))
+                                notify_devicenames, self.devicename_iosapp_suffix.get(devicename))
+                        suffix = self.devicename_iosapp_entity.get(devicename).replace(devicename, '')
+                        self.track_devicename_list += (f"iOSAppSuffix-{suffix}, ")
+                        self.attr_tracking_msg     += (f"/{suffix}")
+                    else:
+                        self.track_devicename_list += ("iOSApp-NotMonitored, ")
 
-                        self.track_devicename_list = (f"{self.track_devicename_list} "
-                             f"({self.devicename_iosapp_entity.get(devicename).replace(devicename, ' ... ')})")
+                    self.track_devicename_list += (f"TrkMethod-{self._format_tracking_method(devicename)}")
+                    self.attr_tracking_msg     += (f" ({self._format_tracking_method(devicename)}), ")
 
                     event_msg = (f"Verified Device > {self._format_fname_devicename(devicename)}")
                     self._save_event_halog_info("*", event_msg)
                     self._display_info_status_msg(devicename, "Verified Device")
 
                     if self.iosapp_monitor_dev_trk_flag.get(devicename):
-                        event_msg = (f"iOS App monitoring > {self._format_fname_devicename(devicename)} > "
-                                     f"CRLF• device_tracker.{self.devicename_iosapp_entity.get(devicename)}, "
-                                     f"CRLF• sensor.{self.iosapp_last_trigger_entity.get(devicename)}")
+                        event_msg = (f"iOS App monitored > {self._format_fname_devicename(devicename)} >"
+                                     f"{CRLF_DOT}device_tracker.{self.devicename_iosapp_entity.get(devicename)}"
+                                     f"{CRLF_DOT}sensor.{self.iosapp_last_trigger_entity.get(devicename)}")
                         self._save_event_halog_info("*", event_msg)
 
                         event_msg = (f"iOS App location requests sent to > {self._format_fname_devicename(devicename)} > "
@@ -1156,28 +1269,27 @@ class Icloud3:#(DeviceScanner):
                         if self.broadcast_msg != '':
                             self._send_message_to_device(devicename, self.broadcast_msg)
                     else:
-                        event_msg = (f"iOS App monitoring > device_tracker.{devicename}")
+                        event_msg = (f"iOS App not monitored > {self._format_fname_devicename(devicename)}")
                         self._save_event_halog_info("*", event_msg)
 
                 #If the devicename is not valid & verified, it will not be tracked
                 else:
-                    if self.TRK_METHOD_FAMSHR:
+                    if self.TRK_METHOD_FMF_FAMSHR:
                         event_msg = (f"iCloud3 Error for {self._format_fname_devicename(devicename)}/{devicename} > "
                             f"The iCloud Account for {self.username} did not return any "
-                            f"device information for this device when setting up "
-                            f"{self.trk_method_name}."
+                            f"device information for this device."
                             f"CRLF{'-'*25}"
-                            f"CRLF 1. Restart iCloud3 on the Event_log "
-                            f"screen or restart HA."
-                            f"CRLF 2. Verify the devicename on the track_devices "
+                            f"CRLF 1. Restart iCloud3 on the Event_log screen or restart HA."
+                            f"CRLF 2. Verify the devicename on the `devices/device_name: {devicename}` "
                             f"parameter if the error persists."
-                            f"CRLF 3. Refresh the Event Log in your "
-                            f"browser to refresh the list of devices.")
+                            f"CRLF 3. Refresh the Event Log in your browser to refresh the list of devices.")
                         self._save_event_halog_error("*", event_msg)
 
                     event_msg = (f"Not Tracking Device > "
                         f"{self._format_fname_devicename(devicename)}")
                     self._save_event_halog_info("*", event_msg)
+
+            self.attr_tracking_msg = self.attr_tracking_msg[:-2]
 
             #Reset msg sent to all devices during startup
             self.broadcast_msg = ''
@@ -1190,35 +1302,33 @@ class Icloud3:#(DeviceScanner):
 
             #nothing to do if no devices to track
             if self.track_devicename_list == '':
-                event_msg = (f"iCloud3 Error for {self.username} > No devices to track. "
-                    f"Setup aborted. Check `track_devices` parameter and verify the "
-                    f"device name matches the iPhone Name on the `Settings>General>About` "
-                    f"screen on the devices to be tracked.")
+                event_msg = (f"iCloud3 Error for {self.username} > Setup aborted, no devices to track. "
+                    f"Verify the devicename on the `devices/device_name: [devicename]` parameters. "
+                    f"They must be the same as `Settings > General > About > Name` "
+                    f"on the phones being tracked.")
                 self._save_event_halog_error("*", event_msg)
 
                 self._update_sensor_ic3_event_log("*")
                 self.start_icloud3_inprocess_flag = False
                 return False
 
-            self.track_devicename_list = (f"{self.track_devicename_list[1:]}")
-            event_msg = (f"Tracking Devices > "
-                f"CRLF• {self.track_devicename_list.replace(', ','CRLF• ')}")
+            event_msg = (f"Tracking Devices > {self.track_devicename_list}")
             self._save_event_halog_info("*", event_msg)
 
             self.startup_log_msgs_prefix = NEW_LINE
             self._update_sensor_ic3_event_log("*")
+
+            #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
             event_msg = (f"Stage 4 > Configure tracked devices")
             self._save_event_halog_info("*", event_msg)
 
             for devicename in self.tracked_devices:
                 event_msg = (f"Configuring Device > {self._format_fname_devicename(devicename)}")
 
-                if len(self.track_from_zone.get(devicename)) > 1:
-                    w = str(self.track_from_zone.get(devicename))
-                    w = w.replace("[", "")
-                    w = w.replace("]", "")
-                    w = w.replace("'", "")
-                    event_msg += (f"CRLF• Track from zones > {w}")
+                if self.track_from_zones.get(devicename) != [HOME]:
+                    track_from_zones = self.track_from_zones.get(devicename)
+                    track_from_zones = ', '.join(track_from_zones)
+                    event_msg += (f"{CRLF_DOT}Track from zones > {track_from_zones}")
 
                 event_msg += self._display_info_status_msg(devicename, "Initialize Tracking Fields")
                 self._initialize_device_status_fields(devicename)
@@ -1261,7 +1371,6 @@ class Icloud3:#(DeviceScanner):
 
                 if devicename not in self.sensor_prefix_name:
                     event_msg += self._setup_sensor_base_attrs(devicename)
-
                     event_msg += self._display_info_status_msg(devicename, "Initialize Sensor Fields")
                     self._update_device_sensors(devicename, kwargs)
                     self._update_device_sensors(devicename, attrs)
@@ -1275,27 +1384,28 @@ class Icloud3:#(DeviceScanner):
             _LOGGER.exception(err)
 
         for devicename in self.tracked_devices:
-            if self.log_level_debug_flag or self.log_level_eventlog_flag:
+            if self.log_debug_flag or self.log_eventlog_flag:
                 self._display_usage_counts(devicename, force_display=(not self.start_icloud3_initial_load_flag))
 
         self.startup_log_msgs_prefix = NEW_LINE
         self._update_sensor_ic3_event_log("*")
-        event_msg = (f"^^^ Initializing iCloud3 v{VERSION} > Complete, "
+        event_msg = (f"^^^Initializing iCloud3 v{VERSION} > Complete, "
                      f"Took {round(time.time()-self.start_timer, 2)} sec")
         self._save_event_halog_info("*", event_msg)
-        self._display_info_status_msg(devicename, "Setup Complete, Locating Devices")
+        self._display_info_status_msg(devicename, "Setup Complete, Locating Device")
         self._update_sensor_ic3_event_log("*")
+        #<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
 
         self.start_icloud3_inprocess_flag = False
 
-        if self.log_level_debug_flag == False:
+        if self.log_debug_flag is False:
             self.startup_log_msgs = (NEW_LINE + '-'*55 +
                                     self.startup_log_msgs.replace("CRLF", NEW_LINE) +
                                     NEW_LINE + '-'*55)
             _LOGGER.info(self.startup_log_msgs)
         self.startup_log_msgs = ''
 
-        if self.polling_5_sec_loop_running == False:
+        if self.polling_5_sec_loop_running is False:
             self.polling_5_sec_loop_running = True
             track_utc_time_change(self.hass, self._polling_loop_5_sec_device,
                     second=[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55])
@@ -1327,27 +1437,27 @@ class Icloud3:#(DeviceScanner):
             return
 
         self.this_update_secs = self._time_now_secs()
-        this_update_hhmmss    = dt_util.now().strftime('%H:%M:%S')
+        self.this_update_time = dt_util.now().strftime('%H:%M:%S')
         this_minute           = int(dt_util.now().strftime('%M'))
         this_5sec_loop_second = int(dt_util.now().strftime('%S'))
 
         #Reset counts on new day, check for daylight saving time new offset
-        if this_update_hhmmss.endswith(':00:00'):
+        if self.this_update_time.endswith(':00:00'):
             self._timer_tasks_every_hour()
 
-        if this_update_hhmmss == HHMMSS_ZERO:
+        if self.this_update_time == HHMMSS_ZERO:
             self._timer_tasks_midnight()
 
-        elif this_update_hhmmss == '01:00:00':
+        elif self.this_update_time == '01:00:00':
             self._timer_tasks_1am()
 
         #Test code to check ios monitor, display it every minute
-        #if this_update_hhmmss.endswith(':00'):
+        #if self.this_update_time.endswith(':00'):
         #    self.last_iosapp_msg['gary_iphone'] = ""
 
         try:
             if self.this_update_secs >= self.event_log_clear_secs and \
-                        self.log_level_debug_flag == False:
+                        self.log_debug_flag is False:
                 self._update_sensor_ic3_event_log('clear_log_items')
 
             if self.this_update_secs >= self.authentication_error_retry_secs:
@@ -1356,15 +1466,14 @@ class Icloud3:#(DeviceScanner):
             for devicename in self.tracked_devices:
                 devicename_zone = self._format_devicename_zone(devicename, HOME)
 
-                if (self.tracking_device_flag.get(devicename) is False
-                        or self.next_update_time.get(devicename_zone) == PAUSED):
+                if self._is_device_paused(devicename):
                     continue
 
                 update_method = None
                 self.state_change_flag[devicename] = False
 
-                if self.state_last_poll.get(devicename) == NOT_SET:
-                    self._display_info_status_msg(devicename, "Getting Initial Device State/Triggers")
+                #if self.state_last_poll.get(devicename) == NOT_SET:
+                #    self._display_info_status_msg(devicename, "Getting Initial Device State/Triggers")
 
                 #get tracked_device (device_tracker.<devicename>) state & attributes
                 #icloud & ios app v1 use this entity
@@ -1372,12 +1481,14 @@ class Icloud3:#(DeviceScanner):
                 ic3dev_state  = self._get_state(ic3_entity_id)
 
                 #Will be not_set with a last_poll value if the iosapp has not be set up
-                if ic3dev_state == NOT_SET and self.state_last_poll.get(devicename) != NOT_SET:
-                    self._request_iosapp_location_update(devicename)
+                if (ic3dev_state == NOT_SET
+                        and self.state_last_poll.get(devicename) != NOT_SET):
+                    event_msg = "iOSApp state will be updated after iOSApp starts"
+                    self._save_event(devicename,event_msg)
                     continue
 
-                ic3dev_attrs          = self._get_device_attributes(ic3_entity_id)
                 #Extract only attrs needed to update the device
+                ic3dev_attrs          = self._get_device_attributes(ic3_entity_id)
                 ic3dev_attrs_avail    = {k: v for k, v in ic3dev_attrs.items() if k in DEVICE_ATTRS_BASE}
                 ic3dev_data           = {**DEVICE_ATTRS_BASE, **ic3dev_attrs_avail}
 
@@ -1393,7 +1504,7 @@ class Icloud3:#(DeviceScanner):
                                          ATTR_GPS_ACCURACY: ic3dev_gps_accuracy,
                                          ATTR_BATTERY_LEVEL: ic3dev_battery}
 
-                #iosapp v2 uses the device_tracker.<devicename>_# entity for
+                #iosapp uses the device_tracker.<devicename>_# entity for
                 #location info and sensor.<devicename>_last_update_trigger entity
                 #for trigger info. Get location data and trigger.
                 #Use the trigger/timestamp if timestamp is newer than current
@@ -1402,13 +1513,13 @@ class Icloud3:#(DeviceScanner):
                 update_reason      = ""
                 ios_update_reason  = ""
                 update_via_iosapp_flag = False
-
+                last_located_secs_plus_5 = self.last_located_secs.get(devicename) + 5
                 if self.iosapp_monitor_dev_trk_flag.get(devicename):
                     iosapp_state, iosapp_dev_attrs, iosapp_data_flag = \
                             self._get_iosapp_device_tracker_state_attributes(
                                     devicename, iosapp_state, iosapp_dev_attrs)
 
-                    if iosapp_data_flag == False and self.iosapp_monitor_error_cnt.get(devicename) > 120:
+                    if iosapp_data_flag is False and self.iosapp_monitor_error_cnt.get(devicename) > 120:
                         self.iosapp_monitor_error_cnt[devicename] = 0
                         event_msg = (f"iOS App data not available, iCloud data used")
                         self._save_event(devicename, event_msg)
@@ -1426,7 +1537,7 @@ class Icloud3:#(DeviceScanner):
                     iosapp_msg = (f"iOSApp Monitor {iosapp_data_msg}> "
                                   f"Trigger-{iosapp_trigger}@{iosapp_trigger_changed_time} (%tage ago), "
                                   f"State-{iosapp_state}@{iosapp_state_changed_time} (%sage ago), "
-                                  f"GPS-{format_gps(iosapp_dev_attrs[ATTR_LATITUDE], iosapp_dev_attrs[ATTR_LONGITUDE], ic3dev_gps_accuracy)}, "
+                                  f"GPS-{format_gps(iosapp_dev_attrs[ATTR_LATITUDE], iosapp_dev_attrs[ATTR_LONGITUDE], iosapp_dev_attrs[ATTR_GPS_ACCURACY])}, "
                                   f"LastiC3UpdtTime-{self.last_update_time.get(devicename_zone)}, ")
 
                     #Initialize if first time through
@@ -1442,9 +1553,14 @@ class Icloud3:#(DeviceScanner):
                             update_via_iosapp_flag = True
                             ios_update_reason = "Initial Locate"
 
-                    if iosapp_data_flag == False:
+                    if iosapp_data_flag is False:
                         update_via_iosapp_flag = False
                         ios_update_reason = "No data received from the iOS App, using iC3 data"
+
+                    elif (iosapp_state == NOT_SET
+                            and self.iosapp_request_loc_retry_cnt.get(devicename) == 0):
+                        update_via_iosapp_flag = True
+                        ios_update_reason = "Reinitialize iOSApp location"
 
                     elif (instr(iosapp_state, STATIONARY)
                             and iosapp_dev_attrs[ATTR_LATITUDE]  == self.stat_zone_base_lat
@@ -1457,12 +1573,14 @@ class Icloud3:#(DeviceScanner):
                         ios_update_reason = (f"State Change-{iosapp_state}")
 
                     #trigger time is after last locate
-                    elif iosapp_trigger_changed_secs > (self.last_located_secs.get(devicename) + 5):
+                    #elif iosapp_trigger_changed_secs > (self.last_located_secs.get(devicename) + 5):
+                    elif iosapp_trigger_changed_secs > last_located_secs_plus_5:
                         update_via_iosapp_flag = True
                         ios_update_reason  = (f"Trigger Change-{iosapp_trigger}")
 
                     #State changed more than 5-secs after last locate
-                    elif iosapp_state_changed_secs > (self.last_located_secs.get(devicename) + 5):
+                    #elif iosapp_state_changed_secs > (self.last_located_secs.get(devicename) + 5):
+                    elif iosapp_state_changed_secs > last_located_secs_plus_5:
                         update_via_iosapp_flag = True
                         iosapp_trigger = "iOSApp Loc Update"
                         iosapp_trigger_changed_secs = iosapp_state_changed_secs
@@ -1471,7 +1589,8 @@ class Icloud3:#(DeviceScanner):
                     #Prevent duplicate update if State & Trigger changed at the same time
                     #and state change was handled on last cycle
                     elif (iosapp_trigger_changed_secs == iosapp_state_changed_secs
-                            or iosapp_trigger_changed_secs <= (self.last_located_secs.get(devicename) + 5)):
+                            or iosapp_trigger_changed_secs <= last_located_secs_plus_5):
+                           # or iosapp_trigger_changed_secs <= (self.last_located_secs.get(devicename) + 5)):
                         self.last_iosapp_trigger[devicename] = iosapp_trigger
                         ios_update_reason  = "Already Processed"
 
@@ -1484,7 +1603,8 @@ class Icloud3:#(DeviceScanner):
                     elif instr(iosapp_trigger, '@'):
                         ios_update_reason = "Trigger Already Processed"
 
-                    elif iosapp_trigger_changed_secs <= (self.last_located_secs.get(devicename) + 5):
+                    #elif iosapp_trigger_changed_secs <= (self.last_located_secs.get(devicename) + 5):
+                    elif iosapp_trigger_changed_secs <= last_located_secs_plus_5:
                         ios_update_reason  = "Trigger Before Last Locate"
 
                     else:
@@ -1493,7 +1613,7 @@ class Icloud3:#(DeviceScanner):
                     iosapp_msg += (f"WillUpdate-{update_via_iosapp_flag}")
 
                     #Show iOS App monitor every half hour
-                    if this_update_hhmmss.endswith(':00:00') or this_update_hhmmss.endswith(':30:00'):
+                    if self.this_update_time.endswith(':00:00') or self.this_update_time.endswith(':30:00'):
                         self.last_iosapp_msg[devicename] = ""
 
                     if (iosapp_msg != self.last_iosapp_msg.get(devicename)):
@@ -1514,11 +1634,12 @@ class Icloud3:#(DeviceScanner):
                     if update_via_iosapp_flag:
                         if (iosapp_trigger in IOS_TRIGGERS_ENTER):
                             if (instr(iosapp_state, STATIONARY)
-                                    and instr(iosapp_state, devicename) == False
-                                    and self.in_stationary_zone_flag.get(devicename) == False):
+                                    and instr(iosapp_state, devicename) is False
+                                    and self.in_stationary_zone_flag.get(devicename) is False):
 
                                 event_msg = (f"Stationary Zone Entered > iOS App used another device's "
-                                            f"Stationary Zone, changed {iosapp_state} to {self._format_zone_name(devicename, STATIONARY)}")
+                                            f"Stationary Zone, changed {iosapp_state} to "
+                                            f"{self._format_zone_name(devicename, STATIONARY)}")
                                 self._save_event(devicename, event_msg)
 
                                 latitude  = self.zone_lat.get(iosapp_state)
@@ -1528,7 +1649,7 @@ class Icloud3:#(DeviceScanner):
                                         devicename,
                                         latitude,
                                         longitude,
-                                        STAT_ZONE_NEW_LOCATION, 'poll 5-1442')
+                                        STAT_ZONE_NEW_LOCATION, 'poll 5-EnterTrigger')
 
                                 iosapp_state = self._format_zone_name(devicename, STATIONARY)
 
@@ -1538,11 +1659,7 @@ class Icloud3:#(DeviceScanner):
                                         devicename,
                                         self.stat_zone_base_lat,
                                         self.stat_zone_base_long,
-                                        STAT_ZONE_MOVE_TO_BASE, 'poll 5-1470')
-
-                        #Discard another devices Stationary Zone triggers
-                        if instr(iosapp_state, STATIONARY) and instr(iosapp_state, devicename) == False:
-                            continue
+                                        STAT_ZONE_MOVE_TO_BASE, 'poll 5-ExitTrigger')
 
                     if instr(iosapp_state, STATIONARY):
                             iosapp_state = STATIONARY
@@ -1550,6 +1667,7 @@ class Icloud3:#(DeviceScanner):
                     #----------------------------------------------------------------------------
                     ic3dev_battery                = self._get_attr(iosapp_dev_attrs, ATTR_BATTERY_LEVEL, NUMERIC)
                     self.last_battery[devicename] = ic3dev_battery
+
                     if update_via_iosapp_flag:
                         iosapp_trigger_age_secs         = self._secs_since(iosapp_trigger_changed_secs)
                         age                             = iosapp_trigger_changed_secs - self.this_update_secs
@@ -1576,16 +1694,16 @@ class Icloud3:#(DeviceScanner):
 
                     #Check ios app for activity every 6-hours
                     #Issue ios app Location update 15-min before 6-hour alert
-                    elif (this_update_hhmmss in ['23:45:00', '05:45:00', '11:45:00', '17:45:00']
+                    elif (self.this_update_time in ['23:45:00', '05:45:00', '11:45:00', '17:45:00']
                             and iosapp_state_age_secs > 20700
                             and iosapp_trigger_age_secs > 20700):
-                        self._request_iosapp_location_update(devicename)
+                        self._iosapp_request_loc_update(devicename)
 
                     #No activity, display Alert msg in Event Log
-                    elif (this_update_hhmmss in ['00:00:00', '06:00:00', '12:00:00', '18:00:00']
+                    elif (self.this_update_time in ['00:00:00', '06:00:00', '12:00:00', '18:00:00']
                             and iosapp_state_age_secs > 21600
                             and iosapp_trigger_age_secs > 21600):
-                        event_msg = (f"{EVLOG_ALERT}iOS App Alert > No iOS App updates for more than 6 hours > "
+                        event_msg = (f"{EVLOG_NOTICE}iOS App Alert > No iOS App updates for more than 6 hours > "
                                     f"Device-{self.device_tracker_entity_iosapp.get(devicename)}, "
                                     f"LastTrigger-{iosapp_trigger}@{iosapp_trigger_changed_time} ({iosapp_trigger_age_str}), "
                                     f"LastState-{iosapp_state}@{iosapp_state_changed_time} ({iosapp_state_age_str})")
@@ -1593,7 +1711,6 @@ class Icloud3:#(DeviceScanner):
                         event_msg = (f"Last iOS App update from {self.device_tracker_entity_iosapp.get(devicename)}"
                                     f"—{iosapp_trigger_age_str} ago")
                         self._display_info_status_msg(devicename, event_msg)
-
 
                 zone          = self._format_zone_name(devicename, ic3dev_state)
                 event_msg     = ""
@@ -1616,7 +1733,6 @@ class Icloud3:#(DeviceScanner):
                             self.zone_radius_m.get(HOME))
                 zone_radius_accuracy_m = zone_radius_m + self.gps_accuracy_threshold
 
-
                 if (self.TRK_METHOD_IOSAPP and self.zone_current.get(devicename) == ''):
                     update_method = IOSAPP_UPDATE
                     update_reason = "Initial Locate"
@@ -1625,11 +1741,16 @@ class Icloud3:#(DeviceScanner):
                 #latitude and longitude. Reset via icloud update.
                 elif ic3dev_latitude == 0:
                     update_method  = ICLOUD_UPDATE
-                    update_reason  = (f"GPS data = 0 {self.state_last_poll.get(devicename)}-{ic3dev_state}")
+                    update_reason  = (f"GPS=(0, 0) {self.state_last_poll.get(devicename)}/{ic3dev_state}")
                     ic3dev_trigger = "RefreshLocation"
+                    device_offline_msg = (f"May be Offline, No Location "
+                                         f"(#{self.poor_location_gps_cnt.get(devicename)})")
+                    self._display_info_status_msg(devicename, device_offline_msg)
+                    self._save_event(devicename,device_offline_msg)
 
                 #Update the device if it wasn't completed last time.
-                elif self.state_last_poll.get(devicename) == NOT_SET:
+                elif (self.state_last_poll.get(devicename) == NOT_SET
+                        and self.next_update_secs.get(devicename_zone) < self.this_update_secs):
                     update_method  = ICLOUD_UPDATE
                     ic3dev_trigger = update_reason = "Initial Locate"
                     self._display_info_status_msg(devicename, "Locating Device via iCloud")
@@ -1639,7 +1760,7 @@ class Icloud3:#(DeviceScanner):
                 elif (ic3dev_state != self.state_last_poll.get(devicename)
                         and ic3dev_state != STATIONARY
                         and instr(ic3dev_state, STATIONARY)
-                        and instr(ic3dev_state, devicename) == False):
+                        and instr(ic3dev_state, devicename) is False):
                     update_method = None
                     update_reason = "Other Device StatZone"
                     event_msg     = (f"Discarded > Another device's Stationary Zone trigger detected, "
@@ -1648,7 +1769,7 @@ class Icloud3:#(DeviceScanner):
 
                 elif (self.stat_zone_timer.get(devicename, 0) > 0
                         and self.this_update_secs >= self.stat_zone_timer.get(devicename)
-                        and self.old_loc_poor_gps_cnt.get(devicename) == 0):
+                        and self.poor_location_gps_cnt.get(devicename) == 0):
                     event_msg = (f"Move into Stationary Zone Timer reached > {devicename}, "
                                  f"Expired-{self._secs_to_time(self.stat_zone_timer.get(devicename, -1))}")
                     self._save_event(devicename, event_msg)
@@ -1665,7 +1786,7 @@ class Icloud3:#(DeviceScanner):
                 #changed without a trigger being posted and will be picked
                 #up here anyway.
                 elif (ic3dev_state != self.state_last_poll.get(devicename)
-                        and ic3dev_timestamp_secs > (self.last_located_secs.get(devicename) + 5)):
+                        and ic3dev_timestamp_secs > last_located_secs_plus_5):
                     self.count_state_changed[devicename] += 1
                     self.state_change_flag[devicename] = True
                     update_method = IOSAPP_UPDATE
@@ -1680,20 +1801,29 @@ class Icloud3:#(DeviceScanner):
                         and iosapp_dev_attrs[ATTR_LONGITUDE] == self.stat_zone_base_long):
                     update_method = ICLOUD_UPDATE
                     update_reason = "Verify Location"
-                    event_msg     = (f"Discarded > Can not set current location to Stationary Base Zone")
+                    event_msg     = (f"Discarded > Entering Stationary Base Zone")
                     self._save_event(devicename, event_msg)
 
                 elif (ic3dev_trigger != self.trigger.get(devicename)
-                        and ic3dev_timestamp_secs > (self.last_located_secs.get(devicename) + 5)):
+                        and ic3dev_timestamp_secs > last_located_secs_plus_5):
                     update_method = IOSAPP_UPDATE
                     self.count_trigger_changed[devicename] += 1
                     update_reason = "Trigger Change"
                     event_msg     = (f"iOSApp Trigger Change detected > {ic3dev_trigger}")
                     self._save_event(devicename, event_msg)
 
+                #If iOS App tracking and next update time reached and message not sent, request location. iOS App should respond within 20-seconds and create a Location Request
+                #trigger. Do this 4-times and then display message and wait.
+                elif (self.TRK_METHOD_IOSAPP
+                        and self._is_next_update_time_reached_devicename(devicename)):
+                    self._iosapp_request_loc_update(devicename)
+
                 else:
                     update_reason = f"OlderTrigger-{ic3dev_trigger}"
 
+                if (self.TRK_METHOD_IOSAPP
+                        and update_method == ICLOUD_UPDATE):
+                    update_method = IOSAPP_UPDATE
 
                 #Update because of state or trigger change.
                 #Accept the location data as it was sent by ios if the trigger
@@ -1703,19 +1833,20 @@ class Icloud3:#(DeviceScanner):
                 #If the trigger was sometning else (Significant Location Change,
                 #Background Fetch, etc, check to make sure it is not old or
                 #has poor gps info.
-                if update_method == IOSAPP_UPDATE:
+                if (update_method == IOSAPP_UPDATE
+                        or update_method == ICLOUD_UPDATE and self.TRK_METHOD_IOSAPP):
+                    self.iosapp_request_loc_sent_flag[devicename] = False
+
                     #If exit trigger flag is not set, set it now if Exiting zone
                     #If already set, leave it alone and reset when enter Zone (v2.1x)
-                    if  self.got_exit_trigger_flag.get(devicename) == False:
+                    if  self.got_exit_trigger_flag.get(devicename) is False:
                         self.got_exit_trigger_flag[devicename] = (ic3dev_trigger in IOS_TRIGGERS_EXIT)
-                    #self._trace_device_attributes(devicename, '5sPOLL', update_reason, ic3dev_attrs)
-
 
                     if ic3dev_trigger in IOS_TRIGGERS_ENTER:
                         if (zone in self.zone_lat
                                 and dist_from_zone_m > self.zone_radius_m.get(zone)*2
                                 and dist_from_zone_m < HIGH_INTEGER):
-                            event_msg = (f"Conflicting enter zone trigger, Moving into zone > "
+                            event_msg = (f"Enter Zone Trigger Conflict Moving into Zone > "
                                 f"Zone-{zone}, Distance-{dist_from_zone_m}m, "
                                 f"ZoneVerifyDist-{self.zone_radius_m.get(zone)*2}m, "
                                 f"GPS-{format_gps(ic3dev_latitude, ic3dev_longitude, ic3dev_gps_accuracy)}")
@@ -1728,7 +1859,7 @@ class Icloud3:#(DeviceScanner):
 
                     #RegionExit trigger overrules old location, gps accuracy and other checks
                     elif (ic3dev_trigger in IOS_TRIGGERS_EXIT
-                            and ic3dev_timestamp_secs > (self.last_located_secs.get(devicename) + 5)):
+                            and ic3dev_timestamp_secs > last_located_secs_plus_5):
                         update_method = IOSAPP_UPDATE
                         update_reason = "Region Exit"
 
@@ -1737,18 +1868,16 @@ class Icloud3:#(DeviceScanner):
                     #elif (ic3dev_trigger in IOS_TRIGGERS_VERIFY_LOCATION):
                     #If not an enter/exit trigger, verify the location
                     elif (ic3dev_trigger not in IOS_TRIGGERS_ENTER_EXIT):
-                        old_loc_poor_gps_flag, discard_reason = self._check_old_loc_poor_gps(
+                        poor_location_gps_flag, discard_reason = self._check_poor_location_gps(
                                 devicename,
                                 ic3dev_timestamp_secs,
                                 ic3dev_gps_accuracy)
 
                         #If old location, discard
-                        if old_loc_poor_gps_flag:
-                            location_age = self._secs_since(ic3dev_timestamp_secs)
-                            event_msg = (f"Update via iCloud > Old location or poor GPS "
-                                    f"(#{self.old_loc_poor_gps_cnt.get(devicename)}), "
-                                    f"Located-{self._secs_to_time(ic3dev_timestamp_secs)} "
-                                    f"({self._secs_to_time_str(location_age)} ago), "
+                        if poor_location_gps_flag:
+                            event_msg = (f"Old Location or Poor GPS "
+                                    f"(#{self.poor_location_gps_cnt.get(devicename)}) > "
+                                    f"LocTime-{self._format_time_age(ic3dev_timestamp_secs)}, "
                                     f"GPS-{format_gps(ic3dev_latitude, ic3dev_longitude, ic3dev_gps_accuracy)}, "
                                     f"OldLocThreshold-{self._secs_to_time_str(self.old_location_secs.get(devicename))}")
 
@@ -1790,7 +1919,7 @@ class Icloud3:#(DeviceScanner):
                             #by treating it as poor GPS
                             if self._is_inzone_zonename(zone):
                                 outside_no_exit_trigger_flag, info_msg = \
-                                    self._check_outside_zone_no_exit(devicename, zone,
+                                    self._is_outside_zone_no_exit(devicename, zone, ic3dev_trigger,
                                             ic3dev_latitude, ic3dev_longitude)
                                 if outside_no_exit_trigger_flag:
                                     update_method     = None
@@ -1800,7 +1929,7 @@ class Icloud3:#(DeviceScanner):
                             #update via icloud to verify location if less than home_radius*10
                             elif (dist_from_zone_m <= zone_radius_m * 10
                                     and self.TRK_METHOD_FMF_FAMSHR):
-                                event_msg = (f"Update via iCloud > Verify location needed > "
+                                event_msg = (f"Verify Location Needed > "
                                     f"Zone-{zone}, "
                                     f"Distance-{self._format_dist_m(dist_from_zone_m)}m, "
                                     f"ZoneVerifyDist-{self._format_dist_m(zone_radius_m*10)}m, "
@@ -1808,6 +1937,10 @@ class Icloud3:#(DeviceScanner):
                                 self._save_event_halog_info(devicename, event_msg)
                                 update_method = ICLOUD_UPDATE
                                 update_reason = "Verify Location"
+                            else:
+                                pass
+                    else:
+                        pass
 
                     if (ic3dev_data[ATTR_LATITUDE] is None or ic3dev_data[ATTR_LONGITUDE] is None):
                         update_method = ICLOUD_UPDATE
@@ -1827,34 +1960,51 @@ class Icloud3:#(DeviceScanner):
                     self._evlog_debug_msg(devicename, device_monitor_msg)
                     self.last_device_monitor_msg[devicename] = device_monitor_msg
 
+                if (self._device_offline(devicename)
+                        or self.state_this_poll == NOT_SET):
+                    device_offline_msg = (f"May be Offline, Never Located "
+                                         f"(#{self.poor_location_gps_cnt.get(devicename)})")
+                    self._display_info_status_msg(devicename, device_offline_msg)
+
                 #Save trigger and time for cycle even if trigger was discarded.
                 self.trigger[devicename]           = ic3dev_trigger
                 self.last_located_secs[devicename] = ic3dev_timestamp_secs
+
+                if update_method == ICLOUD_UPDATE:
+                    if self.TRK_METHOD_FMF_FAMSHR:
+                        self._update_device_icloud(update_reason, devicename)
+
+                    elif self.TRK_METHOD_IOSAPP:
+                        update_method = IOSAPP_UPDATE
+                        self.iosapp_request_loc_sent_flag[devicename] = False
 
                 if update_method == IOSAPP_UPDATE:
                     self.state_this_poll[devicename]    = ic3dev_state
                     self.iosapp_update_flag[devicename] = True
 
                     update_method = self._update_device_iosapp(devicename, update_reason, ic3dev_data)
-                    self.any_device_being_updated_flag = False
 
-                if update_method == ICLOUD_UPDATE and self.TRK_METHOD_FMF_FAMSHR:
-                    self._update_device_icloud(update_reason, devicename)
+                    #Retry with iCloud of an error or no data
+                    if (update_method == ICLOUD_UPDATE
+                            and self.TRK_METHOD_FMF_FAMSHR):
+                        self._update_device_icloud(update_reason, devicename)
+
+                self.any_device_being_updated_flag = False
 
                 #If less than 90 secs to the next update for any devicename:zone, display time to
                 #the next update in the NextUpdt time field, e.g, 1m05s or 0m15s.
-                if devicename in self.track_from_zone:
-                    for zone in self.track_from_zone.get(devicename):
+                if devicename in self.track_from_zones:
+                    for zone in self.track_from_zones.get(devicename):
                         devicename_zone = self._format_devicename_zone(devicename, zone)
                         if devicename_zone in self.next_update_secs:
                             age_secs = self._secs_to(self.next_update_secs.get(devicename_zone))
-                            if (age_secs <= 90 and age_secs >= -15):
-                                self._display_time_till_update_info_msg(devicename_zone, age_secs)
+                            self._display_time_till_update_info_msg(devicename_zone, age_secs)
 
-                if update_method is not None:
+
+                #if update_method is not None:
+                if update_method:
                     self.device_being_updated_flag[devicename] = False
                     self.state_change_flag[devicename]         = False
-                    self._log_debug_msgs_trace_flag            = False
                     self.update_in_process_flag                = False
 
             #End devicename in self.tracked_devices loop
@@ -1864,14 +2014,13 @@ class Icloud3:#(DeviceScanner):
             log_msg = (f"Device Update Error, Error-{ValueError}")
             self._log_error_msg(log_msg)
 
-        self.update_in_process_flag    = False
-        self._log_debug_msgs_trace_flag = False
+        self.update_in_process_flag     = False
 
         #Cycle thru all devices and check to see if devices next update time
         #will occur in 5-secs. If so, request a location update now so it
         #it might be current on the next update.
-        if ((this_5sec_loop_second % 15) == 10):
-            self._polling_loop_10_sec_fmf_loc_prefetch(now)
+        if ((this_5sec_loop_second % 15) == 10) and self.TRK_METHOD_FMF_FAMSHR:
+            self._polling_loop_10_sec_loc_prefetch(now)
 
         #Cycle thru all devices and check to see if devices need to be
         #updated via every 15 seconds
@@ -1882,7 +2031,7 @@ class Icloud3:#(DeviceScanner):
         #for the first devicename
         if self.tracked_devices:
             devicename = self.tracked_devices[0]
-            if (self.initial_locate_complete_flag == False
+            if (self.initial_locate_complete_flag is False
                     and self.state_this_poll.get(devicename, NOT_SET) != NOT_SET):
                 self.initial_locate_complete_flag = True
                 self._update_sensor_ic3_event_log(devicename)
@@ -1902,7 +2051,6 @@ class Icloud3:#(DeviceScanner):
             self._save_event_halog_info(devicename, log_msg)
 
             self.device_being_updated_flag[devicename] = True
-            self._log_debug_msgs_trace_flag = True
 
             self._wait_if_update_in_process()
             update_reason = (f"Retry Update #{self.device_being_updated_retry_cnt.get(devicename)}")
@@ -1911,12 +2059,56 @@ class Icloud3:#(DeviceScanner):
 
 #########################################################
 #
+#   This function is called every 10 seconds. Cycle through all
+#   of the devices to see if any of the ones being tracked will
+#   be updated on the 15-sec polling loop in 5-secs. If so, request a
+#   location update now so it might be current when the device
+#   is updated.
+#
+#########################################################
+    def _polling_loop_10_sec_loc_prefetch(self, now):
+
+        try:
+            if self.next_update_secs is None:
+                return
+
+            for devicename_zone in self.next_update_secs:
+                devicename = devicename_zone.split(':')[0]
+                if self.state_this_poll.get(devicename) == NOT_SET:
+                    continue
+                elif self._is_device_paused(devicename):
+                    continue
+
+                time_till_update = self.next_update_secs.get(devicename_zone) - \
+                        self.this_update_secs
+                location_data = self.location_data.get(devicename)
+
+                if time_till_update <= 10:
+                    location_data = self.location_data.get(devicename)
+                    location_age  = self._secs_since(location_data[ATTR_TIMESTAMP_SECS])
+                    self.location_data[devicename][ATTR_AGE] = location_age
+
+                    if location_age > 15:
+                        if self.TRK_METHOD_FMF_FAMSHR:
+                            self._refresh_pyicloud_devices_location_data(location_age, devicename)
+
+                        elif self.TRK_METHOD_IOSAPP:
+                            self._iosapp_request_loc_update(devicename)
+                    break
+
+        except Exception as err:
+            _LOGGER.exception(err)
+
+        return
+
+#########################################################
+#
 #   Update the device on a state or trigger change was recieved from the ios app
 #     ●►●◄►●▬▲▼◀►►●◀ oPhone=►▶
 #########################################################
     def _update_device_iosapp(self, devicename, update_reason, ic3dev_data):
         """
-
+        Update the devices location using data from the iOS App
         """
 
         if self.start_icloud3_inprocess_flag:
@@ -1927,14 +2119,21 @@ class Icloud3:#(DeviceScanner):
         self.any_device_being_updated_flag = True
         return_code = IOSAPP_UPDATE
 
+        self.iosapp_request_loc_retry_cnt[devicename] = 0
+        self.iosapp_request_loc_sent_secs[devicename] = 0
+        self.iosapp_request_loc_sent_flag[devicename] = False
+
         try:
             devicename_zone = self._format_devicename_zone(devicename, HOME)
 
-            if self.next_update_time.get(devicename_zone) == PAUSED:
+            if self._is_device_paused(devicename):
+                self._save_event(devicename,"update_iosapp, paused")
                 return
             elif ATTR_LATITUDE not in ic3dev_data or ATTR_LONGITUDE not in ic3dev_data:
+                self._save_event(devicename,f"update_iosapp, ic3_dev_data={ic3dev_data}")
                 return
             elif ic3dev_data[ATTR_LATITUDE] is None or ic3dev_data[ATTR_LONGITUDE] is None:
+                self._save_event(devicename,f"update_iosapp, lat=None, ic3_dev_data={ic3dev_data}")
                 return
 
             self._log_start_finish_update_banner('▼▼▼', devicename, "iOSApp", update_reason)
@@ -1948,8 +2147,9 @@ class Icloud3:#(DeviceScanner):
             state          = self._get_state(entity_id)
             latitude       = ic3dev_data[ATTR_LATITUDE]
             longitude      = ic3dev_data[ATTR_LONGITUDE]
+            timestamp_secs = self._timestamp_to_secs(ic3dev_data[ATTR_TIMESTAMP])
             timestamp      = self._timestamp_to_time(ic3dev_data[ATTR_TIMESTAMP])
-            timestamp      = self._secs_to_time(self.this_update_secs) if timestamp == HHMMSS_ZERO else timestamp
+            timestamp      = self.this_update_time if timestamp == HHMMSS_ZERO else timestamp
             gps_accuracy   = ic3dev_data[ATTR_GPS_ACCURACY]
             battery        = ic3dev_data[ATTR_BATTERY_LEVEL]
             battery_status = ic3dev_data[ATTR_BATTERY_STATUS]
@@ -1958,10 +2158,32 @@ class Icloud3:#(DeviceScanner):
             altitude       = self._get_attr(ic3dev_data, ATTR_ALTITUDE, NUMERIC)
             vertical_accuracy = self._get_attr(ic3dev_data, ATTR_VERT_ACCURACY, NUMERIC)
 
-            location_isold_attr = False
-            old_loc_poor_gps_flag = False
-            self.old_loc_poor_gps_cnt[devicename] = 0
-            self.old_loc_poor_gps_msg[devicename] = False
+            #Save data in common device data field - self.location_data
+            location_data                      = {}
+            location_data[ATTR_NAME]           = self.fname.get(devicename)
+            location_data[ATTR_DEVICE_CLASS]   = self.device_type.get(devicename, '')
+            location_data[ATTR_BATTERY_LEVEL]  = battery
+            location_data[ATTR_BATTERY_STATUS] = battery_status
+            location_data[ATTR_DEVICE_STATUS]  = DEVICE_STATUS_CODES.get(device_status, "")
+            location_data[ATTR_LOW_POWER_MODE] = low_power_mode
+            location_data[ATTR_TIMESTAMP_SECS] = timestamp_secs
+            location_data[ATTR_TIMESTAMP_TIME] = self._secs_to_time(timestamp_secs)
+            location_data[ATTR_AGE]            = self._secs_since(timestamp_secs)
+            location_data[ATTR_LATITUDE]       = latitude
+            location_data[ATTR_LONGITUDE]      = longitude
+            location_data[ATTR_ALTITUDE]       = altitude
+            location_data[ATTR_GPS_ACCURACY]   = gps_accuracy
+            location_data[ATTR_VERT_ACCURACY]  = vertical_accuracy
+
+            self.location_data[devicename]     = location_data
+
+            #location_isold_attr = False
+            poor_location_gps_flag = False
+            self.poor_location_gps_cnt[devicename] = 0
+            self.poor_location_gps_msg[devicename] = False
+            self.poor_gps_flag[devicename]         = False
+            self.device_status[devicename]         = device_status
+
             attrs = {}
 
             #--------------------------------------------------------
@@ -1980,7 +2202,7 @@ class Icloud3:#(DeviceScanner):
                 attrs = self._internal_error_msg(fct_name, err, 'UpdateAttrs1')
 
             try:
-                for zone in self.track_from_zone.get(devicename):
+                for zone in self.track_from_zones.get(devicename):
                     #If the state changed, only process the zone that changed
                     #to avoid delays caused calculating travel time by other zones
                     if (self.state_change_flag.get(devicename)
@@ -1991,7 +2213,8 @@ class Icloud3:#(DeviceScanner):
                     #discard trigger if outsize zone with no exit trigger
                     if self._is_inzone_zonename(zone):
                         discard_flag, discard_msg = \
-                            self._check_outside_zone_no_exit(devicename, zone, latitude, longitude)
+                            self._is_outside_zone_no_exit(devicename, zone, '',
+                                    latitude, longitude)
 
                         if discard_flag:
                             self._save_event(devicename, discard_msg)
@@ -2006,7 +2229,7 @@ class Icloud3:#(DeviceScanner):
                         longitude,
                         battery,
                         gps_accuracy,
-                        old_loc_poor_gps_flag,
+                        poor_location_gps_flag,
                         self.last_located_secs.get(devicename),
                         timestamp,
                         "iOSApp")
@@ -2026,10 +2249,10 @@ class Icloud3:#(DeviceScanner):
                 #device_being_update_flag so an icloud update will be done.
                 if attrs == {} and self.TRK_METHOD_FMF_FAMSHR:
                     self.any_device_being_updated_flag = False
-                    self.iosapp_locate_update_secs[devicename] = 0
+                    self.iosapp_request_loc_sent_secs[devicename] = 0
 
                     event_msg = ("iOS update was not completed, "
-                        f"will retry with {self.trk_method_short_name}")
+                        f"will retry with {self._format_tracking_method(devicename)}")
                     self._save_event_halog_debug(devicename, event_msg)
 
                     return ICLOUD_UPDATE
@@ -2048,7 +2271,13 @@ class Icloud3:#(DeviceScanner):
 
                 #If location is empty or trying to set to the Stationary Base Zone Location,
                 #discard the update and try again in 15-sec
-                if self._update_last_latitude_longitude(devicename, latitude, longitude, (f"iOSApp-{update_reason}")) == False:
+                check_gps = self._update_last_latitude_longitude(
+                        devicename,
+                        latitude,
+                        longitude,
+                        (f"iOSApp-{update_reason}"))
+
+                if check_gps is False:
                     self.any_device_being_updated_flag = False
                     return ICLOUD_UPDATE
 
@@ -2060,8 +2289,8 @@ class Icloud3:#(DeviceScanner):
                 if altitude is None:
                     altitude = 0
 
-                attrs[ATTR_LAST_LOCATED]   = self._time_to_12hrtime(timestamp)
-                attrs[ATTR_DEVICE_STATUS]  = device_status
+                attrs[ATTR_LAST_LOCATED]   = self._secs_to_timestamp(timestamp_secs)
+                attrs[ATTR_DEVICE_STATUS]  = self.device_status.get(devicename)
                 attrs[ATTR_LOW_POWER_MODE] = low_power_mode
                 attrs[ATTR_BATTERY]        = battery
                 attrs[ATTR_BATTERY_STATUS] = battery_status
@@ -2103,7 +2332,6 @@ class Icloud3:#(DeviceScanner):
 
                 entity_id = self.device_tracker_entity_ic3.get(devicename)
                 ic3dev_attrs = self._get_device_attributes(entity_id)
-                #self._trace_device_attributes(devicename, 'AFTER.FINAL', fct_name, ic3dev_attrs)
 
                 return_code = IOSAPP_UPDATE
 
@@ -2118,43 +2346,77 @@ class Icloud3:#(DeviceScanner):
             return_code = ICLOUD_UPDATE
 
         self.any_device_being_updated_flag = False
-        self.iosapp_locate_update_secs[devicename] = 0
+
         return return_code
 
 #########################################################
 #
-#   This function is called every 10 seconds. Cycle through all
-#   of the devices to see if any of the ones being tracked will
-#   be updated on the 15-sec polling loop in 5-secs. If so, request a
-#   location update now so it might be current when the device
-#   is updated.
+#   Using the iosapp tracking method or iCloud is disabled
+#   so trigger the osapp to send a
+#   location transaction
 #
 #########################################################
-    def _polling_loop_10_sec_fmf_loc_prefetch(self, now):
+    def _iosapp_request_loc_update(self, devicename, reissue_msg=""):
+        '''
+        Send location request to phone. Check to see if one has been sent but not responded to
+        and, if true, set interval based on the retry count.
+        '''
 
         try:
-            if self.next_update_secs is None:
-                return
-            elif self.TRK_METHOD_IOSAPP:
-                return
+            #Save initial sent time if not sent before, otherwise increase retry cnt and
+            #set new interval time
+            if self.iosapp_request_loc_sent_flag.get(devicename) is False:
+                self.iosapp_request_loc_sent_secs[devicename] = self.this_update_secs
+                self.iosapp_request_loc_retry_cnt[devicename] = 0
+            else:
+                self.iosapp_request_loc_retry_cnt[devicename] += 1
 
-            for devicename_zone in self.next_update_secs:
-                time_till_update = self.next_update_secs.get(devicename_zone) - \
-                        self.this_update_secs
-                if time_till_update <= 10:
-                    devicename    = devicename_zone.split(':')[0]
-                    location_data = self.location_data.get(devicename)
-                    age           = location_data[ATTR_AGE]
+            location_age = self.location_data.get(devicename)[ATTR_AGE]
 
-                    if age > 15:
-                        if self.TRK_METHOD_FMF_FAMSHR:
-                            self._refresh_pyicloud_devices_location_data(age, devicename)
-                    break
+            event_msg = (f"Requesting iOSApp Location #{self.iosapp_request_loc_retry_cnt.get(devicename)} > "
+                         f"LastLocTime-")
+            if location_age > 604800:
+                event_msg += (f"Never (Initial Locate)")
+            else:
+                event_msg += (f"{self._format_time_age(self.location_data.get(devicename)[ATTR_TIMESTAMP_SECS])}")
+
+            if self.iosapp_request_loc_retry_cnt.get(devicename) > 0:
+                event_msg += (f", LastRequested-{self._format_time_age(self.iosapp_request_loc_sent_secs.get(devicename))}")
+
+                if self.iosapp_request_loc_retry_cnt.get(devicename) > 10:
+                    event_msg += ", May be offline/asleep"
+
+                self._determine_interval_after_error(
+                    devicename,
+                    event_msg,
+                    counter=IOSAPP_REQUEST_LOC_CNT)
+
+            self.iosapp_request_loc_sent_flag[devicename] = True
+            self.iosapp_request_loc_cnt[devicename] += 1
+
+            message = {"message": "request_location_update"}
+            return_code = self._send_message_to_device(devicename, message)
+
+            #self.hass.async_create_task(
+            #    self.hass.services.async_call('notify',  entity_id, service_data))
+
+            self._save_event_halog_info(devicename, event_msg)
+
+            if return_code:
+                attrs = {}
+                attrs[ATTR_POLL_COUNT] = self._format_poll_count(devicename)
+                attrs[ATTR_INFO] = event_msg
+                self._update_device_sensors(devicename, attrs)
+            else:
+                event_msg = f"{EVLOG_NOTICE}{event_msg} > Failed to send message"
+                self._save_event_halog_info(devicename, event_msg)
 
         except Exception as err:
             _LOGGER.exception(err)
+            error_msg = (f"iCloud3 Error > An error occurred sending a location request > "
+                         f"Device-{self.notify_iosapp_entity.get(devicename)}, Error-{err}")
+            self._save_event_halog_error(devicename, error_msg)
 
-        return
 
 #########################################################
 #
@@ -2182,9 +2444,15 @@ class Icloud3:#(DeviceScanner):
             for devicename in self.tracked_devices:
                 update_reason = "Location Update"
                 devicename_zone = self._format_devicename_zone(devicename, HOME)
+                update_via_other_devicename = None
 
-                if (self.tracking_device_flag.get(devicename) is False
-                        or self.next_update_time.get(devicename_zone) == PAUSED):
+                if (devicename_zone not in self.next_update_secs
+                        or devicename_zone not in self.next_update_time):
+                    continue
+                elif self._is_device_paused(devicename):
+                    continue
+                elif (self.state_this_poll.get(devicename) == NOT_SET
+                        and self.next_update_secs.get(devicename_zone) > self.this_update_secs):
                     continue
 
                 self.iosapp_update_flag[devicename] = False
@@ -2210,12 +2478,12 @@ class Icloud3:#(DeviceScanner):
                     if 'nearzone' in state:
                         state = 'near_zone'
 
-                    self.state_this_poll[devicename]       = state
+                    self.state_this_poll[devicename] = state
                     self.next_update_secs[devicename_zone] = 0
 
                     attrs  = {}
                     attrs[ATTR_INTERVAL]           = '0 sec'
-                    attrs[ATTR_NEXT_UPDATE_TIME]   = HHMMSS_ZERO
+                    attrs[ATTR_NEXT_UPDATE_TIME]   = TIMESTAMP_ZERO
                     self._update_device_sensors(devicename, attrs)
 
                 #This flag will be 'true' if the last update for this device
@@ -2224,55 +2492,58 @@ class Icloud3:#(DeviceScanner):
                         and self.device_being_updated_retry_cnt.get(devicename) > 4):
                     self.device_being_updated_flag[devicename] = False
                     self.device_being_updated_retry_cnt[devicename] = 0
-                    self._log_debug_msgs_trace_flag = False
 
                     log_msg = (f"{self._format_fname_devtype(devicename)} Cancelled update retry")
                     self._log_info_msg(log_msg)
 
-                if self._check_in_zone_and_before_next_update(devicename):
+                if self._is_in_zone_and_before_next_update(devicename):
                     continue
 
                 elif self.device_being_updated_flag.get(devicename):
                     update_method = ICLOUD_UPDATE
-                    self._log_debug_msgs_trace_flag = True
                     self.device_being_updated_retry_cnt[devicename] += 1
 
                     update_reason = "Retry Last Update"
-                    event_msg     = (f"{self.trk_method_short_name} update not completed, retrying")
+                    event_msg     = (f"{self._format_tracking_method(devicename)} update not completed, retrying")
                     self._save_event_halog_info(devicename, event_msg)
 
                 elif self.next_update_secs.get(devicename_zone) == 0:
                     update_method = ICLOUD_UPDATE
-                    self._log_debug_msgs_trace_flag = False
                     update_reason = "State Change/Resume"
                     event_msg     = "State Change or Resume Polling Requested"
                     self._save_event(devicename, event_msg)
 
                 else:
-                    update_via_other_devicename = self._check_next_update_time_reached()
-                    if update_via_other_devicename is not None:
-                        self._log_debug_msgs_trace_flag = False
+                    update_via_other_devicename = self._is_next_update_time_reached()
+                    if (update_via_other_devicename != devicename
+                            and self.poor_location_gps_cnt.get(devicename) > 0
+                            and self.next_update_secs.get(devicename_zone) > self.this_update_secs):
+                        pass
+
+                    elif update_via_other_devicename:
+                        retry_suffix = "" if self.poor_location_gps_cnt.get(devicename) == 0 else " (Retry)"
                         update_method = ICLOUD_UPDATE
-                        update_reason = "Next Update Time"
-                        self.trigger[devicename] = 'NextUpdateTime'
-                        event_msg = (f"NextUpdateTime reached > {update_via_other_devicename}")
+                        update_reason = f"Next Update Time reached{retry_suffix}"
+                        self.trigger[devicename] = f"NextUpdateTime{retry_suffix}"
+                        event_msg = (f"{update_reason} > {update_via_other_devicename}")
                         self._save_event(devicename, event_msg)
 
                     elif update_method == ICLOUD_UPDATE:
-                        event_msg = (f"NextUpdateTime reached > {devicename}")
+                        retry_suffix = "" if self.poor_location_gps_cnt.get(devicename) == 0 else " (Retry)"
+                        event_msg = (f"Next Update Time reached{retry_suffix} > {devicename}")
                         self._save_event(devicename, event_msg)
 
                 if update_method == ICLOUD_UPDATE:
                     self._wait_if_update_in_process()
                     self.update_in_process_flag = True
 
-                    if self._check_authentication_2sa_code_needed():
+                    if self._is_authentication_2fa_code_needed():
                         #Only display error once
                         if instr(self.info_notification, "ICLOUD"):
                             self.update_in_process_flag = False
                             return
 
-                        self.info_notification = (f"THE ICLOUD 2SA CODE IS NEEDED TO VERIFY "
+                        self.info_notification = (f"THE ICLOUD 2FA CODE IS NEEDED TO VERIFY "
                                                     f"THE ACCOUNT FOR {self.username}")
                         for devicename in self.tracked_devices:
                             self._display_info_status_msg(devicename, self.info_notification)
@@ -2283,25 +2554,30 @@ class Icloud3:#(DeviceScanner):
                                     f"the HA main screen.")
                             self._save_event_halog_error(devicename, log_msg)
 
-                            # Trigger the next step immediately
-                            self._icloud_show_trusted_device_request_form()
+                            if self.api.requires_2fa:
+                                self._icloud_2fa1_show_verification_code_entry_form()
                         return
 
-                    self._update_device_icloud(update_reason)
+                    self._update_device_icloud(update_reason, update_via_other_devicename)
 
                 self.update_in_process_flag = False
 
         except Exception as err:       #ValueError:
             _LOGGER.exception(err)
 
-            log_msg = (f"iCloud/FmF API Error, Error-{ValueError}")
-            self._log_error_msg(log_msg)
-            self.api.authenticate()           #Reset iCloud
-            self.authenticated_time = time.time()
-            self._update_device_icloud('iCloud/FmF Reauth')    #Retry update devices
+            try:
+                log_msg = ("iCloud/FmF API Error, will reauthenticate and retry")
+                self._log_error_msg(log_msg)
 
-            self.update_in_process_flag = False
-            self._log_debug_msgs_trace_flag = False
+                self._pyicloud_authenticate_account()
+
+                self.authenticated_time = time.time()
+                self._update_device_icloud('iCloud/FmF Reauth', update_via_other_devicename)    #Retry update devices
+
+                self.update_in_process_flag = False
+
+            except Exception as err:       #ValueError:
+                _LOGGER.exception(err)
 
 
 #########################################################
@@ -2311,10 +2587,22 @@ class Icloud3:#(DeviceScanner):
 #     ●►●◄►●▬▲▼◀►►●◀ oPhone=►▶
 #########################################################
     def _update_device_icloud(self, update_reason='Check iCloud',
-            arg_devicename=None):
+            arg_devicename=None, arg_via_other_devicename=None):
+
         """
         Request device information from iCloud (if needed) and update
         device_tracker information.
+
+        arg_devicename -
+                None     = Update all devices
+                Not None = Update specified device
+        arg_other-devicename -
+                None     = Update all devices
+                Not None = One device in the list reached the next update time.
+                           Do not update another device that now has poor location
+                           gps after all the results have been determined if
+                           their update time has not been reached.
+
         """
 
         if self.TRK_METHOD_IOSAPP:
@@ -2331,13 +2619,22 @@ class Icloud3:#(DeviceScanner):
         try:
             for devicename in self.tracked_devices:
                 zone    = self.zone_current.get(devicename)
-                devicename_zone = self._format_devicename_zone(devicename)
+                devicename_home_zone = self._format_devicename_zone(devicename)
 
                 if arg_devicename and devicename != arg_devicename:
                     continue
-                elif self.next_update_time.get(devicename_zone) == PAUSED:
+                elif (devicename_home_zone not in self.next_update_secs
+                        or devicename_home_zone not in self.next_update_time):
                     continue
-
+                elif self._is_device_paused(devicename):
+                    continue
+                elif (update_reason == 'Initial Locate'
+                        and (self.poor_location_gps_cnt.get(devicename) > 35
+                            or self.count_discarded_update.get(devicename) > 125)):
+                    continue
+                elif (self.state_this_poll.get(devicename) == NOT_SET
+                        and self.next_update_secs.get(devicename_home_zone) > self.this_update_secs):
+                    continue
 
                 #If the device is in a zone, and was in the same zone on the
                 #last poll of another device on the account and this device
@@ -2346,48 +2643,50 @@ class Icloud3:#(DeviceScanner):
                 #and really doesn't need to be polled at this time anyway.
                 #If the iOS App triggered the update and it was not done by the
                 #iosapp_update routine, do one now anyway.
-                if (self._check_in_zone_and_before_next_update(devicename)
+                if (self._is_in_zone_and_before_next_update(devicename)
                         and arg_devicename is None):
                     continue
 
-                event_msg = (f"{self.trk_method_short_name} update started "
-                             f"({update_reason.split('@')[0]})")
+                event_msg = (f"{self._format_tracking_method(devicename)} update started ({update_reason.split('@')[0]})")
                 self._save_event_halog_debug(devicename, event_msg)
 
-                self._log_start_finish_update_banner('▼▼▼', devicename,
-                            self.trk_method_short_name, update_reason)
+                self._log_start_finish_update_banner('▼▼▼', devicename, "iCloud", update_reason)
 
                 self.update_timer[devicename] = time.time()
-                self.iosapp_locate_update_secs[devicename] = 0
+                self.iosapp_request_loc_sent_secs[devicename] = 0
                 do_not_update_flag = False
                 location_time      = 0
 
                 #Updating device info. Get data from FmF or FamShr and update
-                if self.TRK_METHOD_FMF:
+                #if self.TRK_METHOD_FMF:
+                if self._devicename_fmf(devicename):
                     valid_data_flag = self._get_fmf_data(devicename)
 
-                elif self.TRK_METHOD_FAMSHR:
+                elif self._devicename_famshr(devicename):
                     valid_data_flag = self._get_famshr_data(devicename)
 
                 #An error ocurred accessing the iCloud account. This can be a
-                #Authentication error or an error retrieving the loction dataevligale
+                #Authentication error or an error retrieving the loction data
                 #if ic3dev_data[0] is False:
                 if valid_data_flag == ICLOUD_LOCATION_DATA_ERROR:
                     self.icloud_acct_auth_error_cnt += 1
-                    self._determine_interval_retry_after_error(
+                    self._determine_interval_after_error(
                         devicename,
-                        self.icloud_acct_auth_error_cnt,
-                        "offline",
-                        "iCloud Offline (Authentication or Location Error)")
+                        "iCloud Offline (Authentication or Location Error)",
+                        counter=AUTH_ERROR_CNT)
 
                     if (self.interval_seconds.get(devicename) != 15
                             and self.icloud_acct_auth_error_cnt > 2):
                         log_msg = ("iCloud3 Error > An error occurred accessing "
-                            f"the iCloud account {self.username} for {devicename}. This can be an account "
+                            f"the iCloud account {self.username} for {devicename}. "
+                            "This can be an account "
                             "authentication issue or no location data is "
                             "available. Retrying at next update time. "
-                            "Retry #{self.icloud_acct_auth_error_cnt}")
+                            f"Retry #{self.icloud_acct_auth_error_cnt}")
                         self._save_event_halog_error("*", log_msg)
+                        if self.icloud_acct_auth_error_cnt > 6:
+                            self._pause_device(devicename)
+                            self.icloud_acct_auth_error_cnt = 0
 
                     if self.icloud_acct_auth_error_cnt > 20:
                         self._setup_tracking_method(IOSAPP)
@@ -2406,26 +2705,13 @@ class Icloud3:#(DeviceScanner):
                 latitude      = location_data[ATTR_LATITUDE]
                 longitude     = location_data[ATTR_LONGITUDE]
                 gps_accuracy  = 0
+                poor_location_gps_flag = False
 
-                #Discard if no location coordinates
-                if latitude == 0 or longitude == 0:
-                    location_time = 'Unknown'
-                    location_age  = None
-                    info_msg = (f"No location data returned from iCloud Location Svcs, "
-                                f"GPS-({latitude}, {longitude})")
-
-                    self._determine_interval_retry_after_error(
-                        devicename,
-                        self.old_loc_poor_gps_cnt.get(devicename),
-                        "",
-                        info_msg)
-                    do_not_update_flag = True
-
-                else:
-                    timestamp           = location_data[ATTR_TIMESTAMP]
-                    location_isold_attr = location_data[ATTR_ISOLD]
-                    location_time_secs  = location_data[ATTR_TIMESTAMP]
+                if latitude != 0 and longitude != 0:
+                    timestamp_secs      = location_data[ATTR_TIMESTAMP_SECS]
+                    last_located_secs   = location_data[ATTR_TIMESTAMP_SECS]
                     location_time       = location_data[ATTR_TIMESTAMP_TIME]
+                    location_age        = self._secs_since(timestamp_secs)
                     battery             = location_data[ATTR_BATTERY_LEVEL]
                     battery_status      = location_data[ATTR_BATTERY_STATUS]
                     device_status       = location_data[ATTR_DEVICE_STATUS]
@@ -2434,84 +2720,100 @@ class Icloud3:#(DeviceScanner):
                     gps_accuracy        = location_data[ATTR_GPS_ACCURACY]
                     vertical_accuracy   = location_data[ATTR_VERT_ACCURACY]
 
-                    location_age        = self._secs_since(location_data.get(ATTR_TIMESTAMP))
-                    location_data[ATTR_AGE] = location_age
-                    old_loc_poor_gps_flag, discard_reason = self._check_old_loc_poor_gps(
-                                                    devicename,
-                                                    location_time_secs,
-                                                    gps_accuracy)
                     self.location_data[devicename][ATTR_BATTERY_LEVEL] = battery
-                    self.last_located_secs[devicename] = location_time_secs
+                    self.last_located_secs[devicename] = last_located_secs
+                    self.location_data[devicename][ATTR_AGE] = location_age
+                    self.device_status[devicename]     = device_status
+
+                    poor_location_gps_flag, discard_reason = self._check_poor_location_gps(
+                            devicename,
+                            last_located_secs,
+                            gps_accuracy)
+
+                #Discard if no location coordinates
+                if latitude == 0 or longitude == 0:
+                    location_time = NEVER
+                    location_age  = HIGH_INTEGER
+                    self.poor_location_gps_cnt[devicename] += 1
+                    poor_location_flag = True
+                    discard_reason     = (f"No location data "
+                                          f"(#{self.poor_location_gps_cnt.get(devicename)})")
+                    device_offline_msg = (f"May be Offline, No Location "
+                                         f"(#{self.poor_location_gps_cnt.get(devicename)})")
+                    info_msg           = discard_reason
+                    do_not_update_flag = True
 
                 #Check to see if currently in a zone. If so, check the zone distance.
                 #If new location is outside of the zone and inside radius*4, discard
                 #by treating it as poor GPS
-                if (self._isnot_inzone_zonename(zone) or self.state_this_poll.get(devicename) == NOT_SET):
+                elif (self._isnot_inzone_zonename(zone)
+                        or self.state_this_poll.get(devicename) == NOT_SET):
                     outside_no_exit_trigger_flag = False
                     info_msg= ''
                 else:
                     outside_no_exit_trigger_flag, info_msg = \
-                        self._check_outside_zone_no_exit(devicename, zone, latitude, longitude)
+                        self._is_outside_zone_no_exit(devicename, zone, '',
+                                latitude, longitude)
 
-                #If not authorized or no data, don't check old or accuracy errors
                 if self.icloud_acct_auth_error_cnt > 0:
+                    event_msg = (f"iCloud Authentication Problem (#{self.icloud_acct_auth_error_cnt}) > "
+                                 f"Location data may be old")
+                    self._save_event(devicename, event_msg)
+
+                if do_not_update_flag:
                     pass
 
-                #If initializing, nothing is set yet
-                elif self.state_this_poll.get(devicename) == NOT_SET:
-                    pass
+                #Ignore old location when in a zone and ignore=True
+                #let normal next time update check process
+                elif (poor_location_gps_flag
+                        and self._is_inzone(devicename)
+                        and self.ignore_gps_accuracy_inzone_flag):
+                    self.poor_location_gps_cnt[devicename] -= 1
+                    location_age_str = "" if location_time == NEVER else (f" ({self._format_age(location_age)})")
+                    event_msg = (f"Poor Loc/GPS Accuracy exception (will process) > "
+                                 f"IgnoreInzoneAccuracy=True, InzoneFlag=True, "
+                                 f"NextUpdate-{self.next_update_time.get(self._format_devicename_zone(devicename))}, "
+                                 f"(Not reached), "
+                                 f"GPS-{format_gps(latitude, longitude, gps_accuracy)}, "
+                                 f"LocationTime-{location_time}{location_age_str}")
+                    self._save_event(devicename, event_msg)
 
-                #If no location data
-                elif do_not_update_flag:
-                    pass
-
-                elif device_status not in ["online", "pending", ""]:
+                elif self._device_offline(devicename):
                     do_not_update_flag = True
-                    info_msg = "DEVICE OFFLINE"
-                    self._determine_interval_retry_after_error(
-                        devicename,
-                        self.old_loc_poor_gps_cnt.get(devicename),
-                        device_status,
-                        info_msg)
-                    event_msg = (f"{EVLOG_ALERT}iCloud Alert > {devicename} is Offline > Tracking is delayed, Status-{device_status}, "
-                                 f"OnlineStatus-{self.device_status_online}")
+                    info_msg = "Device Offline"
+                    event_msg = (f"Device Status Exception, Tracking may be delayed > {devicename} "
+                                 f"Status-{self.device_status.get(devicename)}")
                     self._save_event(devicename, event_msg)
 
                 #Outside zone, no exit trigger check
                 elif outside_no_exit_trigger_flag:
-                    self.poor_gps_accuracy_flag[devicename] = True
-                    self.old_loc_poor_gps_cnt[devicename] += 1
+                    self.poor_gps_flag[devicename] = True
+                    self.poor_location_gps_cnt[devicename] += 1
                     do_not_update_flag = True
-                    self._determine_interval_retry_after_error(
-                        devicename,
-                        self.old_loc_poor_gps_cnt.get(devicename),
-                        device_status,
-                        info_msg)
 
                 #Discard if location is old or poor gps
-                elif old_loc_poor_gps_flag:
+                elif poor_location_gps_flag:
                     info_msg = (f"{discard_reason}")
-
                     do_not_update_flag = True
-                    self._determine_interval_retry_after_error(
-                        devicename,
-                        self.old_loc_poor_gps_cnt.get(devicename),
-                        device_status,
-                        info_msg)
 
                 #discard if outside home zone and less than zone_radius+self.gps_accuracy_threshold due to gps errors
                 dist_from_home_m = self._calc_distance_m(latitude, longitude,
                                             self.zone_home_lat, self.zone_home_long)
 
                 if do_not_update_flag:
-                    event_msg = (f"Discarding > {info_msg} > GPS-{format_gps(latitude, longitude, gps_accuracy)}, "
-                                 f"Located-{location_time} "
-                                 f"({self._secs_to_time_str(location_age)} ago), "
-                                 f"OldLocThreshold-{self._secs_to_time_str(self.old_location_secs.get(devicename))}")
-                    self._save_event(devicename, event_msg)
+                    self._determine_interval_after_error(devicename, info_msg, gps_accuracy=gps_accuracy)
 
-                    self._log_start_finish_update_banner('▲▲▲', devicename,
-                            self.trk_method_short_name, update_reason)
+                    location_age_str = "" if location_time == NEVER else (f" ({self._format_age(location_age)})")
+                    event_msg = (f"Discarded > {info_msg} > "
+                                 f"GPS-{format_gps(latitude, longitude, gps_accuracy)}, "
+                                 f"Located-{location_time}{location_age_str}, "
+                                 f"NextUpdate-{self.next_update_time.get(self._format_devicename_zone(devicename))}, "
+                                 f"OldLocThreshold-{self._secs_to_time_str(self.old_location_secs.get(devicename))}")
+                    if self._device_offline(devicename):
+                        event_msg += (f", DeviceStatus-{self.device_status.get(devicename)}")
+                    #self._save_event(devicename, event_msg)
+
+                    self._log_start_finish_update_banner('▲▲▲', devicename, "iCloud", update_reason)
                     continue
 
                 #--------------------------------------------------------
@@ -2521,8 +2823,9 @@ class Icloud3:#(DeviceScanner):
                         event_msg = info_msg
                     else:
                         info_msg = "Updating"
-                        event_msg = (f"Updating Device > GPS-{format_gps(latitude, longitude, gps_accuracy)}, "
-                            f"Located-{location_time} ({self._secs_to_time_str(location_age)} ago)")
+                        event_msg = (f"Located Device > GPS-{format_gps(latitude, longitude, gps_accuracy)}, "
+                            f"LocTime-{location_time} ({self._format_age(location_age)})")
+                    #        f"LocTime-{location_time} ({self._format_age(location_age)})")
                     info_msg = f"{info_msg} {self.fname.get(devicename)}"
                     self._display_info_status_msg(devicename, info_msg)
                     self._save_event(devicename, event_msg)
@@ -2539,27 +2842,27 @@ class Icloud3:#(DeviceScanner):
                     attrs = self._internal_error_msg(fct_name, err, 'UpdateAttrs1')
 
                 try:
-                    for zone in self.track_from_zone.get(devicename):
+                    for zone in self.track_from_zones.get(devicename):
                         self._set_base_zone_name_lat_long_radius(zone)
 
                         self._log_start_finish_update_banner('▼-▼', devicename,
-                            self.trk_method_short_name, zone)
+                                self._format_tracking_method(devicename), zone)
                         self.location_data[devicename][ATTR_BATTERY_LEVEL] = battery
                         attrs = self._determine_interval(
-                            devicename,
-                            latitude,
-                            longitude,
-                            battery,
-                            gps_accuracy,
-                            old_loc_poor_gps_flag,
-                            location_time_secs,
-                            location_time,
-                            "icld")
+                                    devicename,
+                                    latitude,
+                                    longitude,
+                                    battery,
+                                    gps_accuracy,
+                                    poor_location_gps_flag,
+                                    last_located_secs,
+                                    location_time,
+                                    "icld")
                         if attrs != {}:
                             self._update_device_sensors(devicename, attrs)
 
                         self._log_start_finish_update_banner('▲-▲', devicename,
-                            self.trk_method_short_name,zone)
+                            self._format_tracking_method(devicename), zone)
 
                 except Exception as err:
                     attrs = self._internal_error_msg(fct_name, err, 'DetInterval')
@@ -2573,18 +2876,22 @@ class Icloud3:#(DeviceScanner):
                     #location goes to 'See' as a "(latitude, longitude)" pair.
                     #'See' converts them to ATTR_LATITUDE and ATTR_LONGITUDE
                     #and discards the 'gps' item.
-                    log_msg = (f"LOCATION ATTRIBUTES, State-{self.state_last_poll.get(devicename)}, "
-                                f"Attrs-{attrs}")
+                    log_msg = (f"LOCATION ATTRIBUTES, "
+                               f"State-{self.state_last_poll.get(devicename)}, "
+                               f"Attrs-{attrs}")
                     self._log_debug_msg(devicename, log_msg)
 
                     self.count_update_icloud[devicename] += 1
-                    if not old_loc_poor_gps_flag:
-                        self._update_last_latitude_longitude(devicename, latitude, longitude, (f"iCloud-{update_reason}"))
+                    if not poor_location_gps_flag:
+                        self._update_last_latitude_longitude(
+                                devicename, latitude, longitude,
+                                (f"iCloud-{update_reason}"))
 
                     if altitude is None:
                         altitude = -2
 
-                    attrs[ATTR_DEVICE_STATUS]  = device_status
+                    #attrs[ATTR_DEVICE_STATUS]  = device_status
+                    attrs[ATTR_DEVICE_STATUS]  = self.device_status.get(devicename)
                     attrs[ATTR_LOW_POWER_MODE] = low_power_mode
                     attrs[ATTR_BATTERY]        = battery
                     attrs[ATTR_BATTERY_STATUS] = battery_status
@@ -2615,11 +2922,10 @@ class Icloud3:#(DeviceScanner):
                     _LOGGER.exception(err)
 
                 try:
-                    event_msg = (f"{self.trk_method_short_name} update completed")
+                    event_msg = (f"{self._format_tracking_method(devicename)} update completed")
                     self._save_event(devicename, event_msg)
 
-                    self._log_start_finish_update_banner('▲▲▲', devicename,
-                            self.trk_method_short_name, update_reason)
+                    self._log_start_finish_update_banner('▲▲▲', devicename, "iCloud", update_reason)
 
                 except KeyError as err:
                     self._internal_error_msg(fct_name, err, 'icloudUpdateMsg')
@@ -2685,14 +2991,13 @@ class Icloud3:#(DeviceScanner):
         try:
             self._display_info_status_msg(devicename, "Getting iCloud Location")
             location_data = self.location_data.get(devicename)
+            location_age = location_data[ATTR_AGE]
 
             log_msg = (f"LOCATION DATA-{location_data})")
             self._log_debug_msg(devicename, log_msg)
 
-            age = location_data[ATTR_AGE]
-
-            if age > self.old_location_secs.get(devicename):
-                if self._refresh_pyicloud_devices_location_data(age, devicename):
+            if location_age > self.old_location_secs.get(devicename):
+                if self._refresh_pyicloud_devices_location_data(location_age, devicename):
                     self._display_info_status_msg(devicename, "Location Data Old, Refreshing")
                     location_data = self.location_data.get(devicename)
 
@@ -2704,7 +3009,10 @@ class Icloud3:#(DeviceScanner):
                         self._log_error_msg(f"iCloud3 Error > No Location Data "
                                            f"Returned for {devicename}")
                     return ICLOUD_LOCATION_DATA_ERROR
-            self._display_info_status_msg(devicename, "iCloud Location Data Available")
+
+            if self._device_online(devicename):
+                self._display_info_status_msg(devicename, "iCloud Location Data Available")
+
             return True
 
         except Exception as err:
@@ -2738,14 +3046,14 @@ class Icloud3:#(DeviceScanner):
         try:
             self._display_info_status_msg(devicename, "Getting iCloud Location")
             location_data = self.location_data.get(devicename)
+            location_age  = location_data[ATTR_AGE]
 
             log_msg = (f"LOCATION DATA-{location_data})")
             self._log_debug_msg(devicename, log_msg)
 
-            age = location_data[ATTR_AGE]
 
-            if age > self.old_location_secs.get(devicename):
-                if self._refresh_pyicloud_devices_location_data(age, devicename):
+            if location_age > self.old_location_secs.get(devicename):
+                if self._refresh_pyicloud_devices_location_data(location_age, devicename):
                     self._display_info_status_msg(devicename, "Location Data Old, Refreshing")
                     location_data = self.location_data.get(devicename)
 
@@ -2766,7 +3074,7 @@ class Icloud3:#(DeviceScanner):
             return ICLOUD_LOCATION_DATA_ERROR
 
 #----------------------------------------------------------------------------
-    def _refresh_pyicloud_devices_location_data(self, age, arg_devicename):
+    def _refresh_pyicloud_devices_location_data(self, location_age, arg_devicename):
         '''
         Authenticate pyicloud & refresh device & location data. This calls the
         function to update 'self.location_data' for each device being tracked.
@@ -2776,12 +3084,11 @@ class Icloud3:#(DeviceScanner):
         '''
 
         try:
-            event_msg=(f"Sending location request to iCloud > Last Updated")
-            if age == HIGH_INTEGER:
-                event_msg += (f": Never (Initial Locate)")
+            event_msg=(f"Requesting New iCloud Location > LastLocTime-")
+            if location_age > 604800:
+                event_msg += (f"Never (Initial Locate)")
             else:
-                event_msg += (f" {self.location_data.get(arg_devicename)[ATTR_TIMESTAMP_TIME]} "
-                              f"({self._secs_to_time_str(age)} ago)")
+                event_msg += (f"{self._format_time_age(self.location_data.get(arg_devicename)[ATTR_TIMESTAMP_SECS])}")
             self._save_event_halog_info(arg_devicename, event_msg)
 
             exit_get_data_loop = False
@@ -2789,44 +3096,49 @@ class Icloud3:#(DeviceScanner):
             self.count_pyicloud_location_update += 1
             pyicloud_start_call_time = time.time()
 
-            while exit_get_data_loop == False:
+            while exit_get_data_loop is False:
                 try:
                     if self.api is None:
                         return False
 
-                    if self.TRK_METHOD_FMF:
-                        self.api.friends.refresh_client()
-                        devices = self.api.friends
-                        locations = devices.locations
+                    log_msg = (f"UPDATE LOC DEV TRK METHOD > {self.devicename_tracking_method}")
+                    self._log_debug_msg(arg_devicename, log_msg)
+                    log_msg = (f"UPDATE LOC DEVICE ID > {self.devicename_by_device_id}")
+                    self._log_debug_msg(arg_devicename, log_msg)
 
-                        for location in locations:
-                            if ATTR_LOCATION in location:
-                                contact_id = location['id']
-                                if contact_id in self.fmf_id:
-                                    devicename = self.fmf_id[contact_id]
-                                    self._update_location_data(devicename, location)
+                    if self._devicename_fmf(arg_devicename):
+                        devices_data = self.api.friends.refresh_client()
+                        if devices_data:
+                            for location in devices_data['locations']:
+                                if ATTR_LOCATION in location:
+                                    device_id  = location['id']
+                                    devicename = self.devicename_by_device_id.get(device_id, None)
+                                    log_msg = (f"UPDATE LOC DATA (FAMSHR) > {devicename}, "
+                                                f"id-{device_id} from-{arg_devicename}")
+                                    self._log_debug_msg(arg_devicename, log_msg)
+                                    if devicename:
+                                        self._update_location_data(devicename, location)
 
-                    elif self.TRK_METHOD_FAMSHR:
-                        api_devices = {}
-                        api_devices = self.api.devices
-                        api_device_data = api_devices.response["content"]
-
-                        for device in api_device_data:
-                            if device:
-                                device_data_name = device[ATTR_NAME]
-                                if device_data_name in self.api_device_devicename:
-                                    devicename = self.api_device_devicename.get(device_data_name)
-                                    if devicename in self.tracked_devices:
-                                        self._update_location_data(devicename, device)
+                    elif self._devicename_famshr(arg_devicename):
+                        device_id = self.devicename_device_id.get(arg_devicename)
+                        devices_data = self.api.devices.response["content"]
+                        if devices_data:
+                            for device_data in devices_data:
+                                if device_data:
+                                    device_id  = device_data['id']
+                                    devicename = self.devicename_by_device_id.get(device_id, None)
+                                    log_msg = (f"UPDATE LOC DATA (FAMSHR) > {devicename}, name-{device_data[ATTR_NAME]}, "
+                                                f"id-{device_id} from-{arg_devicename}")
+                                    self._log_debug_msg(arg_devicename, log_msg)
+                                    if devicename:
+                                        self._update_location_data(devicename, device_data)
 
                 except PyiCloud2SARequiredException as err:
                     if authenticated_pyicloud_flag:
                         return False
 
                     authenticated_pyicloud_flag = True
-                    self._check_authentication_2sa_code_needed()
-                    if self.api is not None:
-                        self._pyicloud_authenticate_account(devicename=arg_devicename)
+                    self._pyicloud_authenticate_account(devicename=arg_devicename)
 
                 except PyiCloudAPIResponseException as err:
                     if authenticated_pyicloud_flag:
@@ -2841,8 +3153,11 @@ class Icloud3:#(DeviceScanner):
                 else:
                     exit_get_data_loop = True
 
+            self._check_authentication_message(arg_devicename)
+
             update_took_time = time.time() - pyicloud_start_call_time
             self.time_pyicloud_calls += update_took_time
+
 
             return True
 
@@ -2867,21 +3182,28 @@ class Icloud3:#(DeviceScanner):
                 return
             elif device_data[ATTR_LOCATION] is None:
                 return
+            elif self._is_device_paused(devicename):
+                return
 
-            self._log_level_debug_rawdata("update_location_data (device_data)", device_data)
+            self._log_rawdata("update_location_data (device_data)", device_data)
 
             try:
-                timestamp_field = ATTR_TIMESTAMP if self.TRK_METHOD_FMF else ATTR_ICLOUD_TIMESTAMP
-                timestamp       = device_data[ATTR_LOCATION][timestamp_field] / 1000
-
-                if timestamp == self.location_data.get(devicename)[ATTR_TIMESTAMP]:
-                    age = self.location_data.get(devicename)[ATTR_AGE]
-                    debug_msg = (f"DEVICE NOT UPDATED > Will Refresh, Located-{self._secs_to_time(timestamp)} "
-                                f"({self._secs_to_time_str(age)} ago)")
-                    self._log_debug_msg(devicename, debug_msg)
+                timestamp_field = ATTR_TIMESTAMP if self._devicename_fmf(devicename) else ATTR_ICLOUD_TIMESTAMP
+                timestamp_secs  = device_data[ATTR_LOCATION][timestamp_field] / 1000
+                last_loc_timestamp_secs = self.location_data.get(devicename)[ATTR_TIMESTAMP_SECS]
+                if timestamp_secs < last_loc_timestamp_secs:
+                    location_age = self._secs_since(timestamp_secs)
+                    event_msg = (f"Discarded Update > This Update Request Returned Older Location > "
+                                 f"CurrentLocation-{self._format_time_age(last_loc_timestamp_secs)}), "
+                                 f"RequestReturned-{self._format_time_age(timestamp_secs)}")
+                    self._save_event_halog_debug(devicename, event_msg)
                     return
 
             except:
+                timestamp_secs = self.location_data.get(devicename)[ATTR_TIMESTAMP_SECS]
+                self.location_data[devicename][ATTR_AGE] = self._secs_since(timestamp_secs)
+                event_msg = (f"iCloud Locate Exception > Data not returned, "
+                            f"LastLocTime-{self._format_time_age(timestamp_secs)}")
                 return
 
             iosapp_battery = self.last_battery.get(devicename, -1)
@@ -2898,20 +3220,19 @@ class Icloud3:#(DeviceScanner):
             location_data[ATTR_LOW_POWER_MODE] = device_data.get(ATTR_ICLOUD_LOW_POWER_MODE, "")
 
             location                           = device_data[ATTR_LOCATION]
-            location_data[ATTR_TIMESTAMP]      = timestamp
-            location_data[ATTR_TIMESTAMP_TIME] = self._secs_to_time(timestamp)
-            location_data[ATTR_AGE]            = self._secs_since(timestamp)
+            location_data[ATTR_TIMESTAMP_SECS] = timestamp_secs
+            location_data[ATTR_TIMESTAMP_TIME] = self._secs_to_time(timestamp_secs)
+            location_data[ATTR_AGE]            = self._secs_since(timestamp_secs)
             location_data[ATTR_LATITUDE]       = location.get(ATTR_LATITUDE, 0)
             location_data[ATTR_LONGITUDE]      = location.get(ATTR_LONGITUDE, 0)
             location_data[ATTR_ALTITUDE]       = round(location.get(ATTR_ALTITUDE, 0), 1)
-            location_data[ATTR_ISOLD]          = location.get(ATTR_ISOLD, False)
+            #location_data[ATTR_ISOLD]          = location.get(ATTR_ISOLD, False)
             location_data[ATTR_GPS_ACCURACY]   = int(round(location.get(ATTR_ICLOUD_HORIZONTAL_ACCURACY, 0), 0))
             location_data[ATTR_VERT_ACCURACY]  = int(round(location.get(ATTR_ICLOUD_VERTICAL_ACCURACY, 0), 0))
 
             self.location_data[devicename]     = location_data
 
-            debug_msg = (f"UPDATE LOCATION > Located-{location_data[ATTR_TIMESTAMP_TIME]} "
-                         f"({self._secs_to_time_str(location_data[ATTR_AGE])} ago)")
+            debug_msg = (f"UPDATE LOCATION > LocationTime-{self._format_time_age(location_data[ATTR_TIMESTAMP_SECS])}")
             self._log_debug_msg(devicename, debug_msg)
             self._log_debug_msg(devicename, location_data)
 
@@ -2924,59 +3245,13 @@ class Icloud3:#(DeviceScanner):
 
 #########################################################
 #
-#   iCloud is disabled so trigger the iosapp to send a
-#   Background Fetch location transaction
-#
-#########################################################
-    def _request_iosapp_location_update(self, devicename):
-        '''Send location request to phone'''
-
-        if (self.iosapp_locate_request_cnt.get(devicename) > self.iosapp_locate_request_max_cnt):
-            return
-
-        request_msg_suffix = ''
-
-        try:
-            if self.iosapp_locate_update_secs.get(devicename, 0) > 0:
-                age = self._secs_since(self.iosapp_locate_update_secs.get(devicename))
-                request_msg_suffix = (f" {self._secs_to_time_str(age)} ago")
-
-            else:
-                self.iosapp_locate_update_secs[devicename] = self.this_update_secs
-                self.iosapp_locate_request_cnt[devicename] += 1
-
-                message = {"message": "request_location_update"}
-                return_code = self._send_message_to_device(devicename, message)
-
-                #self.hass.async_create_task(
-                #    self.hass.services.async_call('notify',  entity_id, service_data))
-                if return_code:
-                    event_msg = (f"Requested iOS App Location (#{self.iosapp_locate_request_cnt.get(devicename)})")
-
-                    attrs = {}
-                    attrs[ATTR_POLL_COUNT] = self._format_poll_count(devicename)
-                    attrs[ATTR_INFO] = (f"● Requested iOS App Location "
-                                        f"(#{self.iosapp_locate_request_cnt.get(devicename)})"
-                                        f"{request_msg_suffix} ●")
-                    self._update_device_sensors(devicename, attrs)
-                    self._save_event(devicename, event_msg)
-
-        except Exception as err:
-            _LOGGER.exception(err)
-            error_msg = (f"iCloud3 Error > An error occurred sending a location request > "
-                         f"Device-{self.notify_iosapp_entity.get(devicename)}, Error-{err}")
-            self._save_event_halog_error(devicename, error_msg)
-
-
-#########################################################
-#
 #   Calculate polling interval based on zone, distance from home and
 #   battery level. Setup triggers for next poll
 #
 #########################################################
     def _determine_interval(self, devicename, latitude, longitude,
-                    battery, gps_accuracy, old_loc_poor_gps_flag,
-                    location_time_secs, location_time,
+                    battery, gps_accuracy, poor_location_gps_flag,
+                    last_located_secs, location_time,
                     ios_icld = ''):
         """Calculate new interval. Return location based attributes"""
 
@@ -2991,13 +3266,13 @@ class Icloud3:#(DeviceScanner):
                 latitude,
                 longitude,
                 gps_accuracy,
-                old_loc_poor_gps_flag)
+                poor_location_gps_flag)
 
             log_msg = (f"Location_data-{location_data}")
             self._log_debug_interval_msg(devicename, log_msg)
 
             #Abort and Retry if Internal Error
-            if (location_data[0] == 'ERROR'):
+            if (location_data[0] == ERROR):
                 return location_data[1]     #(attrs)
 
             self._display_info_status_msg(devicename, "● Calculating Tracking Info ●")
@@ -3019,6 +3294,7 @@ class Icloud3:#(DeviceScanner):
             dir_of_trav_msg              = location_data[14]
             timestamp                    = location_data[15]
 
+            last_located_secs            = self.last_located_secs.get(devicename)
 
         except Exception as err:
             attrs_msg = self._internal_error_msg(fct_name, err, 'SetLocation')
@@ -3048,6 +3324,8 @@ class Icloud3:#(DeviceScanner):
             interval_multiplier = 1
             interval_str = ''
 
+            battery10_flag       = (battery > 0 and battery <= 10)
+            battery5_flag        = (battery > 0 and battery <= 5)
             inzone_flag          = (self._is_inzone_zonename(zone))
             not_inzone_flag      = (self._isnot_inzone_zonename(zone))
             was_inzone_flag      = (self._was_inzone(devicename))
@@ -3063,9 +3341,9 @@ class Icloud3:#(DeviceScanner):
                         f"NZ-{near_zone_flag}")
             self._log_debug_interval_msg(devicename, log_msg)
 
-            log_method  = ''
+            interval_method  = ''
             log_msg     = ''
-            log_method_im  = ''
+            interval_method_im  = ''
             old_location_secs_msg = ''
 
         except Exception as err:
@@ -3084,103 +3362,117 @@ class Icloud3:#(DeviceScanner):
             #updating the device_tracker state so it will not trigger a state chng
             if self.state_change_flag.get(devicename):
                 if inzone_flag:
-
-
                     if (STATIONARY in zone):
                         interval = self.stat_zone_inzone_interval
-                        log_method = "1sz-Stationary"
+                        interval_method = "1-Stationary"
                         log_msg    = f"Zone-{zone}"
 
                     #inzone & old location
-                    elif old_loc_poor_gps_flag:
-                        interval = self._get_interval_for_error_retry_cnt(
-                                        self.old_loc_poor_gps_cnt.get(devicename))
-                        log_method = '1iz-OldLocPoorGPS'
+                    elif poor_location_gps_flag and battery10_flag is False:
+                        interval = self._get_interval_for_error_retry_cnt(devicename, POOR_LOC_GPS_CNT)
+                        interval_method = '1-OldLocPoorGPS'
 
                     else:
-                        interval = self.inzone_interval_secs
-                        log_method="1ez-EnterZone"
+                        interval = self.inzone_interval_secs.get(devicename)
+                        interval_method="1-EnterZone"
+
+                #battery < 5% and near zone
+                elif (battery5_flag and dist_from_zone_km <= 1):
+                    interval = 15
+                    dir_of_travel = 'Battery 5%'
+                    interval_method="2-Battery5%"
+
+                #battery < 10%
+                elif (battery10_flag):
+                    interval = self.stat_zone_inzone_interval
+                    dir_of_travel = 'Battery <10%'
+                    interval_method="2-Battery10%"
 
                 #entered 'near_zone' zone if close to HOME and last is NOT_HOME
                 elif (near_zone_flag and wasnot_inzone_flag and
                         calc_dist_from_zone_km < 2):
                     interval = 15
                     dir_of_travel = 'NearZone'
-                    log_method="1nz-EnterHomeNearZone"
+                    interval_method="2-EnterNearZone"
 
                 #entered 'near_zone' zone if close to HOME and last is NOT_HOME
                 elif (near_zone_flag and was_inzone_flag
                         and calc_dist_from_zone_km < 2):
                     interval = 15
                     dir_of_travel = 'NearZone'
-                    log_method="1nhz-EnterNearHomeZone"
+                    interval_method="2-EnterNearZone"
 
                 #exited HOME zone
                 elif (not_inzone_flag and was_inzone_home_flag):
                     interval = 240
                     dir_of_travel = AWAY_FROM
-                    log_method="1ehz-ExitHomeZone"
+                    interval_method="2-ExitHomeZone"
 
                 #exited 'other' zone
                 elif (not_inzone_flag and was_inzone_flag):
                     interval = 120
                     dir_of_travel = 'left_zone'
-                    log_method="1ez-ExitZone"
+                    interval_method="2-ExitZone"
 
                 #entered 'other' zone
                 else:
                     interval = 240
-                    log_method="1zc-ZoneChanged"
+                    interval_method="2-ZoneChanged"
 
                 log_msg = (f"Zone-{zone}, Last-{self.state_last_poll.get(devicename)}, "
                            f"This-{self.state_this_poll.get(devicename)}")
                 self._log_debug_interval_msg(devicename, log_msg)
 
             #inzone & poor gps & check gps accuracy when inzone
-            elif (self.poor_gps_accuracy_flag.get(devicename)
+            elif (self.poor_gps_flag.get(devicename)
                    and inzone_flag
                    and self.check_gps_accuracy_inzone_flag):
-                interval   = 300      #poor accuracy, try again in 5 minutes
-                log_method = '2iz-PoorGPS'
+                interval = 300      #poor accuracy, try again in 5 minutes
+                interval_method = '3-PoorGPSinZone'
 
-            elif self.poor_gps_accuracy_flag.get(devicename):
-                interval = self._get_interval_for_error_retry_cnt(
-                                self.old_loc_poor_gps_cnt.get(devicename))
-                log_method = '2niz-PoorGPS'
+            elif self.poor_gps_flag.get(devicename):
+                interval = self._get_interval_for_error_retry_cnt(devicename, POOR_LOC_GPS_CNT)
+                interval_method = '3-PoorGPS'
 
-            elif self.overrideinterval_seconds.get(devicename) > 0:
-                interval   = self.overrideinterval_seconds.get(devicename)
-                log_method = '3-Override'
+            elif self.override_interval_seconds.get(devicename) > 0:
+                interval = self.override_interval_seconds.get(devicename)
+                interval_method = '3-Override'
 
             elif (STATIONARY in zone):
                 interval = self.stat_zone_inzone_interval
-                log_method = "4sz-Stationary"
-                log_msg    = f"Zone-{zone}"
+                interval_method = "3-Stationary"
+                log_msg = f"Zone-{zone}"
 
-            elif old_loc_poor_gps_flag:
-                interval = self._get_interval_for_error_retry_cnt(
-                                self.old_loc_poor_gps_cnt.get(devicename))
-                log_method = '4-OldLocPoorGPS'
-                log_msg      = f"Cnt-{self.old_loc_poor_gps_cnt.get(devicename)}"
+            #battery <= 10% and not near home ==> stationary time
+            elif (battery10_flag and dist_from_zone_km > 1):
+                interval = self.stat_zone_inzone_interval
+                interval_method="3-Battery10%"
+                dir_of_travel = "Battery <10%"
+                log_msg = (f"Battery-{battery}%")
+
+            elif poor_location_gps_flag:
+                interval = self._get_interval_for_error_retry_cnt(devicename, POOR_LOC_GPS_CNT)
+                interval_method = '3-OldLocPoorGPS'
+                log_msg = f"Cnt-{self.poor_location_gps_cnt.get(devicename)}"
 
             elif (inzone_home_flag
                     or (dist_from_zone_km < .05
                     and dir_of_travel == 'towards')):
-                interval   = self.inzone_interval_secs
-                log_method = '4iz-InZone'
-                log_msg    = f"Zone-{zone}"
+                interval = self.inzone_interval_secs.get(devicename)
+                interval_method = '3-InHomeZone'
+                log_msg = f"Zone-{zone}"
 
             elif zone == 'near_zone':
                 interval = 15
-                log_method = '4nz-NearZone'
-                log_msg    = f"Zone-{zone}, Dir-{dir_of_travel}"
+                interval_method = '3-NearZone'
+                log_msg = f"Zone-{zone}, Dir-{dir_of_travel}"
 
             #in another zone and inzone time > travel time
             elif (inzone_flag
-                    and self.inzone_interval_secs > waze_interval):
-                interval   = self.inzone_interval_secs
-                log_method = '4iz-InZone'
-                log_msg    = f"Zone-{zone}"
+                    and self.inzone_interval_secs.get(devicename) > waze_interval):
+                interval = self.inzone_interval_secs.get(devicename)
+                interval_method = '3-InZone'
+                log_msg = f"Zone-{zone}"
 
             elif dir_of_travel in ('left_zone', NOT_SET):
                 interval = 150
@@ -3188,52 +3480,51 @@ class Icloud3:#(DeviceScanner):
                     dir_of_travel = AWAY_FROM
                 else:
                     dir_of_travel = NOT_SET
-                log_method = '5-NeedInfo'
-                log_msg    = f"ZoneLeft-{zone}"
-
+                interval_method = '3-NeedInfo'
+                log_msg = f"ZoneLeft-{zone}"
 
             elif dist_from_zone_km < 2.5 and self.went_3km.get(devicename):
-                interval   = 15             #1.5 mi=real close and driving
-                log_method = '10a-Dist < 2.5km(1.5mi)'
+                interval = 15             #1.5 mi=real close and driving
+                interval_method = '3-<2.5km'
 
             elif dist_from_zone_km < 3.5:      #2 mi=30 sec
-                interval   = 30
-                log_method = '10b-Dist < 3.5km(2mi)'
+                interval = 30
+                interval_method = '3-<3.5km'
 
             elif waze_time_from_zone > 5 and waze_interval > 0:
-                interval   = waze_interval
-                log_method = '10c-WazeTime'
-                log_msg    = f"TimeFmHome-{waze_time_from_zone}"
+                interval = waze_interval
+                interval_method = '3-WazeTime'
+                log_msg = f"TimeFmHome-{waze_time_from_zone}"
 
             elif dist_from_zone_km < 5:        #3 mi=1 min
-                interval   = 60
-                log_method = '10d-Dist < 5km(3mi)'
+                interval = 60
+                interval_method = '3-<5km'
 
             elif dist_from_zone_km < 8:        #5 mi=2 min
-                interval   = 120
-                log_method = '10e-Dist < 8km(5mi)'
+                interval = 120
+                interval_method = '3-<8km'
 
             elif dist_from_zone_km < 12:       #7.5 mi=3 min
-                interval   = 180
-                log_method = '10f-Dist < 12km(7mi)'
+                interval = 180
+                interval_method = '3-<12km'
 
 
             elif dist_from_zone_km < 20:       #12 mi=10 min
-                interval   = 600
-                log_method = '10g-Dist < 20km(12mi)'
+                interval = 600
+                interval_method = '3-<20km'
 
             elif dist_from_zone_km < 40:       #25 mi=15 min
-                interval   = 900
-                log_method = '10h-Dist < 40km(25mi)'
+                interval = 900
+                interval_method = '3-<40km'
 
             elif dist_from_zone_km > 150:      #90 mi=1 hr
-                interval   = 3600
-                log_method = '10i-Dist > 150km(90mi)'
+                interval = 3600
+                interval_method = '3->150km'
 
             else:
-                interval   = calc_interval
-                log_method = '20-Calculated'
-                log_msg    = f"Value-{self._km_to_mi(dist_from_zone_km)}/1.5"
+                interval = calc_interval
+                interval_method = '3-Calculated'
+                log_msg = f"Value-{self._km_to_mi(dist_from_zone_km)}/1.5"
 
         except Exception as err:
             attrs_msg = self._internal_error_msg(fct_name, err, 'SetInterval')
@@ -3243,20 +3534,20 @@ class Icloud3:#(DeviceScanner):
             #determined in get_dist_data with dir_of_travel
             if dir_of_travel == STATIONARY:
                 interval = self.stat_zone_inzone_interval
-                log_method = "21-Stationary"
+                interval_method += ",5-Stationary"
 
                 if self.in_stationary_zone_flag.get(devicename) is False:
                     rtn_code = self._update_stationary_zone(
                         devicename,
                         latitude,
                         longitude,
-                        STAT_ZONE_NEW_LOCATION, '21-Stationary')
+                        STAT_ZONE_NEW_LOCATION, '5-Stationary')
 
                     self.in_stationary_zone_flag[devicename] = rtn_code
                     if rtn_code:
                         self.zone_current[devicename]   = self._format_zone_name(devicename, STATIONARY)
                         self.zone_timestamp[devicename] = dt_util.now().strftime(self.um_date_time_strfmt)
-                        log_method_im   = "●Set.Stationary.Zone"
+                        interval_method_im  = "●Set.Stationary.Zone"
                         zone            = STATIONARY
                         dir_of_travel   = 'in_zone'
                         inzone_flag     = True
@@ -3264,17 +3555,20 @@ class Icloud3:#(DeviceScanner):
                     else:
                         dir_of_travel = NOT_SET
 
-            if dir_of_travel in ('', AWAY_FROM) and interval < 180:
+            if (dir_of_travel in ('', AWAY_FROM)
+                    and interval < 180
+                    and interval > 30):
                 interval = 180
-                log_method_im = '30-Away(<3min)'
+                interval_method += ',6-Away(<3min)'
 
             elif (dir_of_travel == AWAY_FROM
                     and not self.distance_method_waze_flag):
                 interval_multiplier = 2    #calc-increase timer
-                log_method_im = '30-Away(Calc)'
-
-            elif (dir_of_travel == NOT_SET and interval > 180):
+                interval_method += ',6-Away(Calc)'
+            elif (dir_of_travel == NOT_SET
+                    and interval > 180):
                 interval = 180
+                interval_method += ',6->180s'
 
             #15-sec interval (close to zone) and may be going into a stationary zone,
             #increase the interval
@@ -3282,7 +3576,7 @@ class Icloud3:#(DeviceScanner):
                     and devicename in self.stat_zone_timer
                     and self.this_update_secs >= self.stat_zone_timer.get(devicename)+45):
                 interval = 30
-                log_method_im = '31-StatTimer+45'
+                interval_method += ',6-StatTimer+45'
 
         except Exception as err:
             attrs_msg = self._internal_error_msg(fct_name, err, 'SetStatZone')
@@ -3298,22 +3592,22 @@ class Icloud3:#(DeviceScanner):
             #and interval < 3 min, set to 3 min. Leave alone if > 3 min.
             if (self.iosapp_update_flag.get(devicename)
                     and interval < 180
-                    and self.overrideinterval_seconds.get(devicename) == 0):
+                    and interval > 30
+                    and self.override_interval_seconds.get(devicename) == 0):
                 interval   = 180
-                log_method = '0-iosAppTrigger'
+                interval_method += ',7-iosAppTrigger'
 
             #if changed zones on this poll reset multiplier
             if self.state_change_flag.get(devicename):
                 interval_multiplier = 1
 
             #Check accuracy again to make sure nothing changed, update counter
-            if self.poor_gps_accuracy_flag.get(devicename):
+            if self.poor_gps_flag.get(devicename):
                 interval_multiplier = 1
 
         except Exception as err:
             attrs_msg = self._internal_error_msg(fct_name, err, 'ResetStatZone')
             return attrs_msg
-
 
         try:
             #Real close, final check to make sure interval is not adjusted
@@ -3329,21 +3623,22 @@ class Icloud3:#(DeviceScanner):
             if interval > self.max_interval_secs and not_inzone_flag:
                 interval_str = (f"{self._secs_to_time_str(self.max_interval_secs)}({self._secs_to_time_str(interval)})")
                 interval = self.max_interval_secs
-                log_method = (f"40-MaxIntervalOverride {interval_str}")
+                interval_method += (f",7-Max")
             else:
                 interval_str = self._secs_to_time_str(interval)
 
-            interval_debug_msg = (f"●Interval-{interval_str} ({log_method}, {log_msg}), "
+            interval_debug_msg = (f"●Interval-{interval_str} ({interval_method}, {log_msg}), "
                                   f"●DirOfTrav-{dir_of_trav_msg}, "
                                   f"●State-{self.state_last_poll.get(devicename)}->, "
                                   f"{self.state_this_poll.get(devicename)}, "
                                   f"Zone-{zone}")
-            event_msg = (f"Interval basis: {log_method}, {log_msg}, Direction {dir_of_travel}")
+            event_msg = (f"Interval basis: {interval_method}, {log_msg}, Direction {dir_of_travel}")
             #self._save_event(devicename, event_msg)
 
-            if interval_multiplier != 1:
-               interval_debug_msg = (f"{interval_debug_msg}, "
-                                     f"Multiplier-{interval_multiplier}({log_method_im})")
+            if interval_multiplier > 1:
+                interval_method += (f"x{interval_multiplier}")
+                interval_debug_msg = (f"{interval_debug_msg}, "
+                                     f"Multiplier-{interval_multiplier} ({interval_method})")
 
             #check if next update is past midnight (next day), if so, adjust it
             next_poll = round((self.this_update_secs + interval)/15, 0) * 15
@@ -3354,18 +3649,18 @@ class Icloud3:#(DeviceScanner):
             self.interval_seconds[devicename_zone] = interval
             self.interval_str[devicename_zone]     = interval_str
             self.last_update_secs[devicename_zone] = self.this_update_secs
-            self.last_update_time[devicename_zone] = self._secs_to_time(self.this_update_secs)
+            self.last_update_time[devicename_zone] = self._time_to_12hrtime(self.this_update_time)
 
         #--------------------------------------------------------------------------------
             #Calculate the old_location age check based on the direction and if there are
             #multiple zones being tracked from
 
-            zi=self.track_from_zone.get(devicename).index(self.base_zone)
+            zi=self.track_from_zones.get(devicename).index(self.base_zone)
             if zi == 0:
                 self.old_location_secs[devicename] = HIGH_INTEGER
 
             ic3dev_old_location_secs = self.old_location_secs.get(devicename)
-            new_old_location_secs = self._determine_old_location_secs(zone, interval)
+            new_old_location_secs    = self._determine_old_location_secs(devicename, zone, interval)
             select=''
             if inzone_flag:
                 select='inzone'
@@ -3398,17 +3693,18 @@ class Icloud3:#(DeviceScanner):
             log_msg = (f"►INTERVAL FORMULA, {interval_debug_msg}")
             self._log_debug_interval_msg(devicename, log_msg)
 
-            if self.log_level_intervalcalc_flag == False:
+            if self.log_intervalcalc_flag is False:
                 interval_debug_msg = ''
 
-            log_msg = (f"DETERMINE INTERVAL <COMPLETE>, "
-                f"This poll: {self._secs_to_time(self.this_update_secs)}({self.this_update_secs}), "
-                f"Last Update: {self.last_update_time.get(devicename_zone)}({self.last_update_secs.get(devicename_zone)}), "
-                f"Next Update: {self.next_update_time.get(devicename_zone)}({self.next_update_secs.get(devicename_zone)}), "
-                f"Interval: {self.interval_str.get(devicename_zone)}*{interval_multiplier}, "
-                f"OverrideInterval-{self.overrideinterval_seconds.get(devicename)}, "
-                f"DistTraveled-{dist_last_poll_moved_km}, CurrZone-{zone}")
-            self._log_debug_interval_msg(devicename, log_msg)
+            event_msg = (f"Interval Results > "
+                f"Interval-{interval_str} ({interval_method}), "
+                f"LastUpdate-{self.last_update_time.get(devicename_zone)}, "
+                f"NextUpdate-{self.next_update_time.get(devicename_zone)}, "
+                f"DistTraveled-{self._format_dist(calc_dist_last_poll_moved_km)}, "
+                f"CurrZone-{zone}")
+            if self.override_interval_seconds.get(devicename) > 0:
+                event_msg += (f", OverrideInterval-{self._secs_to_time_str(self.override_interval_seconds.get(devicename))}")
+            self._log_debug_interval_msg(devicename, event_msg)
 
         except Exception as err:
             attrs_msg = self._internal_error_msg(fct_name, err, 'ShowMsgs')
@@ -3419,15 +3715,18 @@ class Icloud3:#(DeviceScanner):
             if near_zone_flag:
                 zone = NOT_HOME
 
-            log_msg = (f"DIR OF TRAVEL ATTRS, Direction-{dir_of_travel}, LastDir-{last_dir_of_travel}, "
-               f"Dist-{dist_from_zone_km}, LastDist-{last_dist_from_zone_km}, "
-               f"SelfDist-{self.zone_dist.get(devicename_zone)}, Moved-{dist_from_zone_moved_km},"
+            log_msg = (f"DIR OF TRAVEL ATTRS, Direction-{dir_of_travel}, "
+               f"LastDir-{last_dir_of_travel}, "
+               f"Dist-{dist_from_zone_km}, "
+               f"LastDist-{last_dist_from_zone_km}, "
+               f"SelfDist-{self.zone_dist.get(devicename_zone)}, "
+               f"Moved-{dist_from_zone_moved_km},"
                f"WazeMoved-{waze_dist_from_zone_moved_km}")
             self._log_debug_interval_msg(devicename, log_msg)
 
             #if poor gps and moved less than 1km, redisplay last distances
-            if (self.state_change_flag.get(devicename) == False
-                    and self.poor_gps_accuracy_flag.get(devicename)
+            if (self.state_change_flag.get(devicename) is False
+                    and self.poor_gps_flag.get(devicename)
                     and dist_last_poll_moved_km < 1):
                 dist_from_zone_km      = self.zone_dist.get(devicename_zone)
                 waze_dist_from_zone_km = self.waze_dist.get(devicename_zone)
@@ -3451,41 +3750,44 @@ class Icloud3:#(DeviceScanner):
             #Save last and new state, set attributes
             #If first time thru, set the last state to the current state
             #so a zone change will not be triggered next time
+
             if self.state_last_poll.get(devicename) == NOT_SET:
-                self.state_last_poll[devicename] = zone
+                last_state = zone
 
             #When put into stationary zone, also set last_poll so it
             #won't trigger again on next cycle as a state change
             elif (instr(zone, STATIONARY)
                     or instr(self.state_this_poll.get(devicename), STATIONARY)):
                 zone = STATIONARY
-                self.state_last_poll[devicename] = STATIONARY
+                last_state = STATIONARY
 
             else:
-                self.state_last_poll[devicename] = self.state_this_poll.get(devicename)
+                last_state = self.state_this_poll.get(devicename)
+
+            #Make sure the new 'last state' value is the internal value for
+            #the state (e.g., Away-->not_home) to reduce state change triggers later.
+            last_state = STATE_TO_ZONE_BASE.get(last_state, last_state)
+            self.state_last_poll[devicename] = last_state
 
             self.state_this_poll[devicename]   = zone
             self.last_located_time[devicename] = self._time_to_12hrtime(location_time)
-            location_age                       = self._secs_since(location_time_secs)
-            location_age_str                   = self._secs_to_time_str(location_age)
-            if (old_loc_poor_gps_flag and self.poor_gps_accuracy_flag.get(devicename) == False):
+            location_age                       = self._secs_since(last_located_secs)
+            location_age_str                   = self._format_age(location_age)
+            if (poor_location_gps_flag and self.poor_gps_flag.get(devicename) is False):
                 location_age_str = (f"Old-{location_age_str}")
 
             log_msg =  (f"LOCATION TIME-{devicename} location_time-{location_time}, "
-                        f"loc_time_secs-{self._secs_to_time(location_time_secs)}({location_time_secs}), "
-                        f"age-{location_age_str}")
+                        f"loc_time_secs-{self._secs_to_time(last_located_secs)} ({location_age_str})")
             self._log_debug_msg(devicename, log_msg)
 
             attrs = {}
             attrs[ATTR_ZONE]              = self.zone_current.get(devicename)
             attrs[ATTR_ZONE_TIMESTAMP]    = str(self.zone_timestamp.get(devicename))
             attrs[ATTR_LAST_ZONE]         = self.zone_last.get(devicename)
-            attrs[ATTR_LAST_UPDATE_TIME]  = self._secs_to_time(self.this_update_secs)
-            attrs[ATTR_LAST_LOCATED]      = self._time_to_12hrtime(location_time)
-
             attrs[ATTR_INTERVAL]          = interval_str
-            attrs[ATTR_NEXT_UPDATE_TIME]  = self._secs_to_time(next_poll)
-
+            attrs[ATTR_LAST_UPDATE_TIME]  = self._secs_to_timestamp(self.this_update_secs)
+            attrs[ATTR_LAST_LOCATED]      = self._secs_to_timestamp(last_located_secs)
+            attrs[ATTR_NEXT_UPDATE_TIME]  = self._secs_to_timestamp(next_poll)
             attrs[ATTR_WAZE_TIME]     = ''
             if self.waze_status == WAZE_USED:
                 attrs[ATTR_WAZE_TIME]     = waze_time_msg
@@ -3521,8 +3823,7 @@ class Icloud3:#(DeviceScanner):
                     battery,
                     gps_accuracy,
                     dist_last_poll_moved_km,
-                    zone,
-                    old_loc_poor_gps_flag, location_time_secs)
+                    zone)
 
             attrs[ATTR_INFO] = interval_debug_msg + info_msg
 
@@ -3532,18 +3833,23 @@ class Icloud3:#(DeviceScanner):
             self.last_distance_str[devicename_zone] = (f"{self._km_to_mi(dist_from_zone_km)} {self.unit_of_measurement}")
             self._trace_device_attributes(devicename, 'RESULTS', fct_name, attrs)
 
-            event_msg = (f"Results: {self.zone_fname.get(self.base_zone)} > "
-                         f"CurrZone-{self.zone_fname.get(self.zone_current.get(devicename), AWAY)}, "
-                         f"GPS-{format_gps(latitude, longitude, gps_accuracy)}, "
-                         f"Interval-{interval_str}, "
-                         f"Dist-{self._km_to_mi(dist_from_zone_km)} {self.unit_of_measurement}, "
+            zone = self.zone_current.get(devicename)
+
+            event_msg = (f"Results: From-{self.zone_to_display.get(self.base_zone)} > CurrZone-"
+                         f"{self.zone_to_display.get(zone)}, ")
+            event_msg +=(f"GPS-{format_gps(latitude, longitude, gps_accuracy)}, "
+                         f"Interval-{interval_str} ({interval_method}), ")
+            #event_msg +=(f" ({interval_method}), ") if self.log_debug_flag else ", "
+            event_msg +=(f"Dist-{self._km_to_mi(dist_from_zone_km)} {self.unit_of_measurement}, "
                          f"TravTime-{waze_time_msg} ({dir_of_travel}), "
                          f"NextUpdt-{self._secs_to_time(next_poll)}, "
-                         f"Located-{self._time_to_12hrtime(location_time)} ({location_age_str} ago), "
+                         f"LocationTime-{self._time_to_12hrtime(location_time)} ({location_age_str}), "
                          f"OldLocThreshold-{old_location_secs_msg}")
+            if battery10_flag:
+                event_msg += (f", Battery-{battery}%")
             if self.stat_zone_timer.get(devicename) > 0:
-                event_msg += (f", WillMoveIntoStatZoneAfter-{self._secs_to_time(self.stat_zone_timer.get(devicename))}"
-                              f"({self.stat_zone_moved_total.get(devicename)*100}m)")
+                event_msg += (f", WillMoveIntoStatZoneAfter-{self._secs_to_time(self.stat_zone_timer.get(devicename))} "
+                              f"({self._format_dist(self.stat_zone_moved_total.get(devicename))})")
             self._save_event_halog_info(devicename, event_msg, log_title="")
 
             return attrs
@@ -3560,7 +3866,7 @@ class Icloud3:#(DeviceScanner):
 #   retry intervals based on current retry count.
 #
 #########################################################
-    def _determine_interval_retry_after_error(self, devicename, retry_cnt, device_status, info_msg):
+    def _determine_interval_after_error(self, devicename, info_msg, counter=POOR_LOC_GPS_CNT, gps_accuracy=0):
         '''
         Handle errors where the device can not be or should not be updated with
         the current data. The update will be retried 4 times on a 15 sec interval.
@@ -3579,39 +3885,44 @@ class Icloud3:#(DeviceScanner):
             - Poor GPS Acuracy
         '''
 
-        fct_name = "_determine_interval_retry_after_error"
+        fct_name = "_determine_interval_after_error"
 
         base_zone_home_flag = (self.base_zone == HOME)
         devicename_zone = self._format_devicename_zone(devicename)
 
         try:
-            if device_status in ["online", "pending", ""]:
-                interval = self._get_interval_for_error_retry_cnt(retry_cnt)
+            interval = self._get_interval_for_error_retry_cnt(devicename, counter, pause_control_flag=True)
+
+            if interval < 0:
+                self._pause_device(devicename)
+
+                interval      = abs(interval)
+                next_poll     = HIGH_INTEGER
+                next_updt_str = PAUSED
             else:
-                interval = 900
+                next_poll     = round((self.this_update_secs + interval)/15, 0) * 15
+                next_updt_str = self._secs_to_time(next_poll)
 
-            #check if next update is past midnight (next day), if so, adjust it
-            next_poll = round((self.this_update_secs + interval)/15, 0) * 15
-
-            # Update all dates and other fields
             interval_str  = self._secs_to_time_str(interval)
-            next_updt_str = self._secs_to_time(next_poll)
-            last_updt_str = self._secs_to_time(self.this_update_secs)
-
             self.interval_seconds[devicename_zone] = interval
-            self.last_update_secs[devicename_zone] = self.this_update_secs
             self.next_update_secs[devicename_zone] = next_poll
-            self.last_update_time[devicename_zone] = last_updt_str
             self.next_update_time[devicename_zone] = next_updt_str
+            self.last_update_secs[devicename_zone] = self.this_update_secs
+            self.last_update_time[devicename_zone] = self._time_to_12hrtime(self.this_update_time)
             self.interval_str[devicename_zone]     = interval_str
-            self.count_update_ignore[devicename]  += 1
+            self.count_discarded_update[devicename]  += 1
 
             attrs = {}
-            attrs[ATTR_LAST_UPDATE_TIME] = last_updt_str
-            attrs[ATTR_INTERVAL]         = interval_str
-            attrs[ATTR_NEXT_UPDATE_TIME] = next_updt_str
-            attrs[ATTR_POLL_COUNT]       = self._format_poll_count(devicename)
-            attrs[ATTR_INFO]             = (f"●● {info_msg} ●●")
+            attrs[ATTR_INTERVAL]          = interval_str
+            attrs[ATTR_POLL_COUNT]        = self._format_poll_count(devicename)
+            attrs[ATTR_LAST_UPDATE_TIME]  = self._secs_to_timestamp(self.this_update_secs)
+            attrs[ATTR_NEXT_UPDATE_TIME]  = self._secs_to_timestamp(next_poll)
+
+            if info_msg.startswith("OldLoc"):
+                attrs[ATTR_INFO] = (f"Discarded, {info_msg.split('(')[0]} "
+                                    f"(#{self.poor_location_gps_cnt.get(devicename)})")
+            else:
+                attrs[ATTR_INFO] = (f"● {info_msg} ●")
 
             this_zone = self.state_this_poll.get(devicename)
             this_zone = self._format_zone_name(devicename, this_zone)
@@ -3650,12 +3961,26 @@ class Icloud3:#(DeviceScanner):
 
             self.device_being_updated_flag[devicename] = False
 
-            log_msg = (f"DETERMINE INTERVAL ERROR RETRY, CurrZone-{this_zone}, "
-                f"LastZone-{last_zone}, GPS-{format_gps(latitude,longitude, 0)}")
-            self._log_debug_interval_msg(devicename, log_msg)
-            log_msg = (f"DETERMINE INTERVAL ERROR RETRY, Interval-{interval_str}, "
-                f"LastUpdt-{last_updt_str}, NextUpdt-{next_updt_str}, Info-{info_msg}")
-            self._log_debug_interval_msg(devicename, log_msg)
+            event_msg = (f"Discarded > {info_msg}, "
+                         f"OldLocThreshold-{self._secs_to_time_str(self.old_location_secs.get(devicename))}, "
+                         f"GPS-{format_gps(latitude, longitude, gps_accuracy)}, "
+                         f"NextUpdt-{next_updt_str}, "
+                         f"OldLocPoorGpsCnt-#{self.poor_location_gps_cnt.get(devicename)}, "
+                         f"DiscardCnt-#{self.count_discarded_update.get(devicename)}")
+            if self._device_offline(devicename):
+                event_msg += (f", DeviceStatus-{self.device_status.get(devicename)}")
+            self._save_event(devicename, event_msg)
+
+            if (self._is_device_paused(devicename)
+                    or self.count_discarded_update.get(devicename) > 400):
+                self._pause_device(devicename)
+
+                event_msg = (f"{EVLOG_NOTICE}Tracking Paused > Excessive Errors Encountered"
+                             f"{CRLF_DOT}Old Location Errors-#{self.poor_location_gps_cnt.get(devicename)}"
+                             f"{CRLF_DOT}Discarded Updates-#{self.count_discarded_update.get(devicename)}"
+                             f"CRLF{'-'*75}"
+                             f"CRLFEvent Log > Actions > Resume Polling to restart")
+                self._save_event(devicename, event_msg)
 
         except Exception as err:
             _LOGGER.exception(err)
@@ -3666,7 +3991,7 @@ class Icloud3:#(DeviceScanner):
 #
 #########################################################
     def _get_distance_data(self, devicename, latitude, longitude,
-                                gps_accuracy, old_loc_poor_gps_flag):
+                                gps_accuracy, poor_location_gps_flag):
         """ Determine the location of the device.
             Returns:
                 - zone (current zone from lat & long)
@@ -3682,7 +4007,7 @@ class Icloud3:#(DeviceScanner):
         try:
             if latitude is None or longitude is None:
                 attrs = self._internal_error_msg(fct_name, 'lat/long=None', 'NoLocation')
-                return ('ERROR', attrs)
+                return (ERROR, attrs)
 
             base_zone_home_flag = (self.base_zone == HOME)
             devicename_zone = self._format_devicename_zone(devicename)
@@ -3713,7 +4038,7 @@ class Icloud3:#(DeviceScanner):
             _LOGGER.exception(err)
             error_msg = (f"Entity-{entity_id}, Err-{err}")
             attrs = self._internal_error_msg(fct_name, error_msg, 'GetAttrs')
-            return ('ERROR', attrs)
+            return (ERROR, attrs)
 
         try:
             #Not available if first time after reset
@@ -3745,10 +4070,11 @@ class Icloud3:#(DeviceScanner):
         except Exception as err:
             _LOGGER.exception(err)
             attrs = self._internal_error_msg(fct_name, err, 'SetupLocation')
-            return ('ERROR', attrs)
+            return (ERROR, attrs)
 
         try:
-            zone = self._get_zone(devicename, this_lat, this_long)
+            display_zone_msg = (zone == self.track_from_zones.get(devicename)[0])
+            zone = self._get_zone(devicename, this_lat, this_long, display_zone_msg)
 
             log_msg =  (f"LAT-LONG GPS INITIALIZED {zone}, LastDirOfTrav-{last_dir_of_travel}, "
                         f"LastGPS=({last_lat}, {last_long}), ThisGPS=({this_lat}, {this_long}), "
@@ -3759,7 +4085,7 @@ class Icloud3:#(DeviceScanner):
         except Exception as err:
             _LOGGER.exception(err)
             attrs = self._internal_error_msg(fct_name, err, 'GetCurrZone')
-            return ('ERROR', attrs)
+            return (ERROR, attrs)
 
         try:
             # Get Waze distance & time
@@ -3832,7 +4158,7 @@ class Icloud3:#(DeviceScanner):
         except Exception as err:
             _LOGGER.exception(err)
             attrs = self._internal_error_msg(fct_name, err, 'InitializeDist')
-            return ('ERROR', attrs)
+            return (ERROR, attrs)
 
         try:
             if self.waze_status == WAZE_USED:
@@ -3869,7 +4195,7 @@ class Icloud3:#(DeviceScanner):
                         #device.
                         if (gps_accuracy <= self.gps_accuracy_threshold
                                 and waze_dist_from_zone_km > 0
-                                and old_loc_poor_gps_flag is False):
+                                and poor_location_gps_flag is False):
                             self.waze_distance_history[devicename_zone] = \
                                     [self._time_now_secs(),
                                     this_lat,
@@ -3895,7 +4221,7 @@ class Icloud3:#(DeviceScanner):
                 dist_last_poll_moved_km = 0
                 dist_from_zone_moved_km = 0
             elif self.waze_status == WAZE_USED:
-                distance_method         = 'Waze'
+                distance_method         = WAZE
                 dist_from_zone_km       = waze_dist_from_zone_km
                 dist_last_poll_moved_km = waze_dist_last_poll_moved_km
                 dist_from_zone_moved_km = waze_dist_from_zone_moved_km
@@ -3934,7 +4260,7 @@ class Icloud3:#(DeviceScanner):
             #poll
             if (dist_from_zone_moved_km> -.3 and dist_from_zone_moved_km< .3):
                 dist_from_zone_moved_km+= \
-                        self.dist_from_zone_km_small_move_total.get(devicename)
+                        self.dist_from_zone_km_small_move_total.get(devicename, 0)
                 self.dist_from_zone_km_small_move_total[devicename] = \
                         dist_from_zone_moved_km
             else:
@@ -3943,7 +4269,7 @@ class Icloud3:#(DeviceScanner):
         except Exception as err:
             _LOGGER.exception(err)
             attrs = self._internal_error_msg(fct_name, err, 'CalcDist')
-            return ('ERROR', attrs)
+            return (ERROR, attrs)
 
         try:
             section = "dir_of_trav"
@@ -3965,7 +4291,7 @@ class Icloud3:#(DeviceScanner):
                 dir_of_travel   = AWAY_FROM
                 dir_of_trav_msg = (f"Dist-{self._format_dist(dist_from_zone_moved_km)}")
 
-            elif self.poor_gps_accuracy_flag.get(devicename):
+            elif self.poor_gps_flag.get(devicename):
                 dir_of_travel   = 'Poor.GPS'
                 dir_of_trav_msg = ("Poor.GPS-{gps_accuracy}")
 
@@ -4090,36 +4416,38 @@ class Icloud3:#(DeviceScanner):
         except Exception as err:
            _LOGGER.exception(err)
            attrs = self._internal_error_msg(fct_name+section, err, 'Finalize')
-           return ('ERROR', attrs)
+           return (ERROR, attrs)
 
 #--------------------------------------------------------------------------------
-    def _determine_old_location_secs(self, zone, interval):
+    def _determine_old_location_secs(self,devicename, zone, interval):
         """
         Calculate the time between the location timestamp and now (age) a
         location record must be before it is considered old
         """
-        if self.old_location_threshold > 0:
-            return self.old_location_threshold
 
-        old_location_secs = 14
+        old_location_secs = 60
         if self._is_inzone_zonename(zone):
             old_location_secs = interval * .025     #inzone interval --> 2.5%
             if old_location_secs < 90: old_location_secs = 90
 
         elif interval < 90:
-            old_location_secs = 30                  #30 secs if < 1.5 min
+            old_location_secs = 60                  #60 secs if < 1.5 min
 
         else:
             old_location_secs = interval * .125    #12.5% of the interval
 
-        if old_location_secs < 15:
-            old_location_secs = 15
+        if old_location_secs < 61:
+            old_location_secs = 61
         elif old_location_secs > 600:
             old_location_secs = 600
 
         #IOS App old location time minimum is 3 min
         if self.TRK_METHOD_IOSAPP and old_location_secs < 180:
             old_location_secs == 180
+
+        if (self.old_location_threshold > 0
+                and old_location_secs > self.old_location_threshold):
+            old_location_secs = self.old_location_threshold
 
         return old_location_secs
 
@@ -4131,19 +4459,13 @@ class Icloud3:#(DeviceScanner):
     def _get_state(self, entity_id):
         """
         Get current state of the device_tracker entity
-        (home, away, other state)
+        (zone's name, actual state (home,  away) or zone's
+        friendly name) and return it's zone name
         """
 
         try:
-            device_state = self.hass.states.get(entity_id).state
-
-            if device_state:
-                if device_state.lower() == 'not set':
-                    state = NOT_SET
-                else:
-                    state = device_state
-            else:
-                state = NOT_HOME
+            entity_state = self.hass.states.get(entity_id).state
+            state = self.state_to_zone.get(entity_state, entity_state.lower())
 
         except Exception as err:
             #When starting iCloud3, the device_tracker for the iosapp might
@@ -4151,7 +4473,7 @@ class Icloud3:#(DeviceScanner):
             #_LOGGER.exception(err)
             state = NOT_SET
 
-        return state.lower()
+        return state
 #--------------------------------------------------------------------
     def _set_state(self, entity_id, state_value, attrs_value):
         """
@@ -4183,7 +4505,7 @@ class Icloud3:#(DeviceScanner):
             hhmmss        = self._secs_to_time(secs)
             timestamp     = self._secs_to_timestamp(secs)
             age_secs      = self.this_update_secs - secs
-            dhms_age_str  = self._secs_to_minsec_str(age_secs)
+            dhms_age_str  = self._secs_to_dhms_str(age_secs)
 
             return hhmmss, secs, timestamp, age_secs, dhms_age_str
 
@@ -4230,7 +4552,7 @@ class Icloud3:#(DeviceScanner):
 
 #--------------------------------------------------------------------
     def _update_device_attributes(self, devicename, kwargs: str = None,
-                        attrs: str = None, fct_name: str = 'Unknown'):
+                        attrs: str = None, fct_name: str = UNKNOWN):
         """
         Update the device and attributes with new information
         On Entry, kwargs = {} or contains the base attributes.
@@ -4270,9 +4592,9 @@ class Icloud3:#(DeviceScanner):
         'entity_picture': '/local/gary-caller_id.png'}
         """
 
+        zone         = self.zone_current.get(devicename)
         ic3dev_state = self.state_this_poll.get(devicename)
-        zone  = self.zone_current.get(devicename)
-
+        ic3dev_state_fname = ic3dev_state
 
         #######################################################################
         #The current zone is based on location of the device after it is looked
@@ -4293,28 +4615,24 @@ class Icloud3:#(DeviceScanner):
         #current zone that was based on the device location.
         #If the state is in a zone but not the current zone, change the state
         #to the current zone that was based on the device location.
-        elif ((ic3dev_state == STATIONARY and self._is_inzone(zone)) or
-                (self._is_inzone(ic3dev_state) and self._is_inzone(zone) and
-                    ic3dev_state != zone)):
-            event_msg = (f"State/Zone mismatch > Resetting iC3 State ({ic3dev_state}) "
-                         f"to ({zone})")
-            self._save_event(devicename, event_msg)
-            ic3dev_state = zone
+        elif ((ic3dev_state == STATIONARY
+                    and self._is_inzone(zone))
+                or (self._is_inzone(ic3dev_state)
+                    and self._is_inzone(zone)
+                    and ic3dev_state != zone)):
+                if self._is_overlapping_zone(ic3dev_state, zone) is False:
+                    event_msg = (f"State/Zone mismatch > Resetting iC3 State ({ic3dev_state}) "
+                                f"to ({zone})")
+                    self._save_event(devicename, event_msg)
+                ic3dev_state = zone
 
         elif ic3dev_state == HOME:
             self.waze_distance_history = {}
 
-        #Get friendly name or capitalize and reformat ic3dev_state, reset waze history
-        if self._is_inzone_zonename(ic3dev_state):
-            if self.zone_fname.get(ic3dev_state):
-                ic3dev_state = self.zone_fname.get(ic3dev_state)
-
-            else:
-                ic3dev_state = ic3dev_state.replace('_', ' ')
-                ic3dev_state = ic3dev_state.title()
-
-            if ic3dev_state == 'Home':
-                ic3dev_state = HOME
+        if (ic3dev_state == HOME or ic3dev_state == NOT_HOME):
+            pass
+        else:
+            ic3dev_state_fname = self.zone_to_display.get(ic3dev_state, ic3dev_state)
 
         #Update the device timestamp
         if not attrs:
@@ -4331,8 +4649,8 @@ class Icloud3:#(DeviceScanner):
             attrs[ATTR_INFO] = f"{attrs[ATTR_INFO]}  • Took {update_took_time}s"
 
         attrs[ATTR_NAME]            = self.fname.get(devicename)
-        attrs[ATTR_GROUP]           = self.group
-        attrs[ATTR_TRACKING]        = (f"{self.track_devicename_list} ({self.trk_method_short_name})")
+        #attrs[ATTR_GROUP]           = self.group
+        attrs[ATTR_TRACKING]        = self.attr_tracking_msg
         attrs[ATTR_ICLOUD3_VERSION] = VERSION
 
         #Add update time to trigger to be able to detect trigger change by iOS App
@@ -4343,7 +4661,7 @@ class Icloud3:#(DeviceScanner):
         self.trigger[devicename] = new_trigger
         attrs[ATTR_TRIGGER]      = new_trigger
 
-        #Update sensor.<devicename>_last_update_trigger if IOS App v2 detected
+        #Update sensor.<devicename>_last_update_trigger if IOS App detected
         #and iCloud3 has been running for at least 10 secs to let HA &
         #mobile_app start up to avoid error if iC3 loads before the mobile_app
 
@@ -4357,7 +4675,7 @@ class Icloud3:#(DeviceScanner):
 
         kwargs['dev_id']        = devicename
         kwargs['host_name']     = self.fname.get(devicename)
-        kwargs['location_name'] = ic3dev_state
+        kwargs['location_name'] = ic3dev_state_fname
         kwargs['source_type']   = 'gps'
         kwargs[ATTR_ATTRIBUTES] = attrs
         self.see(**kwargs)
@@ -4446,7 +4764,7 @@ class Icloud3:#(DeviceScanner):
                     and zone_dist <= self.zone_radius_m.get(zone_name, 100)
                     and (latitude != zone_lat or longitude != zone_long)):
                 event_msg  = (f"Moving to zone center > {zone_name}, "
-                              f"GPS-{format_gps(latitude, longitude, zone_lat, zone_long, 0)}, "
+                              f"GPS-{format_gps(latitude, longitude, gps_accuracy, zone_lat, zone_long)}, "
                               f"Distance-{self._format_dist_m(zone_dist)}")
                 self._save_event(devicename, event_msg)
                 self._log_debug_msg(devicename, event_msg)
@@ -4484,10 +4802,13 @@ class Icloud3:#(DeviceScanner):
 
 #--------------------------------------------------------------------
     def _format_fname_zone(self, zone):
-        return (f"{self.zone_fname.get(zone, zone.title())}")
+        return (f"{self.zone_to_display.get(zone, zone.title())}")
 
 #--------------------------------------------------------------------
-    def _format_devicename_zone(self, devicename, zone = None):
+    def _format_tracking_method(self, devicename):
+        return (TRK_METHOD_SHORT_NAME.get(self.devicename_tracking_method.get(devicename)))
+#--------------------------------------------------------------------
+    def _format_devicename_zone(self, devicename, zone=None):
         if zone is None:
             zone = self.base_zone
         return (f"{devicename}:{zone}")
@@ -4496,8 +4817,20 @@ class Icloud3:#(DeviceScanner):
         formatted_list = str(arg_list)
         formatted_list = formatted_list.replace("[", "").replace("]", "")
         formatted_list = formatted_list.replace("{", "").replace("}", "")
-        formatted_list = formatted_list.replace("'", "").replace(",", "CRLF• ")
-        return (f"CRLF• {formatted_list}")
+        formatted_list = formatted_list.replace("'", "").replace(",", f"{CRLF_DOT}")
+
+        return (f"{CRLF_DOT}{formatted_list}")
+#--------------------------------------------------------------------
+    def _format_time_age(self, timestamp):
+        time_age_str = (f"{self._secs_to_time(timestamp)} "
+                        f"({self._secs_to_time_str(self._secs_since(timestamp))} ago)")
+        return time_age_str
+
+    def _format_age_ts(self, timestamp):
+        return (f"{self._secs_to_time_str(self._secs_since(timestamp))} ago")
+
+    def _format_age(self, secs):
+        return (f"{self._secs_to_time_str(secs)} ago")
 #--------------------------------------------------------------------
     def _trace_device_attributes(self, devicename, description,
             fct_name, attrs):
@@ -4538,6 +4871,8 @@ class Icloud3:#(DeviceScanner):
             log_msg = (f"{description} Attrs-{trace_attrs}{trace_attrs_in_attrs}")
             self._log_debug_msg(devicename, log_msg)
 
+            self._log_rawdata(f"iCloud Rawdata - {devicename}--{description}", attrs)
+
 
         except Exception as err:
             pass
@@ -4568,9 +4903,13 @@ class Icloud3:#(DeviceScanner):
                     "Trigger was not received"}}
         '''
         try:
-            evlog_msg = (f"{EVLOG_NOTICE}Sending Message to Device > "
-                         f"Message-{service_data.get('message')}")
-            self._save_event_halog_info(devicename, evlog_msg)
+            if self.notify_iosapp_entity.get(devicename, None) == None:
+                return
+
+            if service_data.get('message') != "request_location_update":
+                evlog_msg = (f"{EVLOG_NOTICE}Sending Message to Device > "
+                             f"Message-{service_data.get('message')}")
+                self._save_event_halog_info(devicename, evlog_msg)
 
             for notify_devicename in self.notify_iosapp_entity.get(devicename):
                 entity_id = (f"mobile_app_{notify_devicename}")
@@ -4584,12 +4923,12 @@ class Icloud3:#(DeviceScanner):
         except Exception as err:
             event_msg = (f"iCloud3 Error > An error occurred sending a message to device "
                          f"{notify_devicename} via notify.{entity_id} service. "
-                         f"CRLF• Message-{str(service_data)}")
+                         f"{CRLF_DOT}Message-{str(service_data)}")
             if instr(err, "notify/none"):
-                event_msg += "CRLF• The devicename can not be found."
+                event_msg += "{CRLF_DOT}The devicename can not be found."
                 devicename = "*"
             else:
-                event_msg += f"CRLF• Error-{err}"
+                event_msg += f"{CRLF_DOT}Error-{err}"
             self._save_event_halog_error(devicename, event_msg)
 
         return False
@@ -4607,15 +4946,20 @@ class Icloud3:#(DeviceScanner):
                 iosapp_state     = self._get_state(entity_id)
                 iosapp_dev_attrs = self._get_device_attributes(entity_id)
 
+                #iosapp state is the friendly name of the zone, ic3 keeps the state
+                #by zone name, not the friendly name. Convert iosapp state back to zone
+                #entity name to match ic3 state_this_poll and state_last_poll,
+                #state-zone name mismatch errors and state change detected trigger
+                #when it really didn't
+
                 if ATTR_LATITUDE in iosapp_dev_attrs:
                     self.iosapp_monitor_error_cnt[devicename] = 0
-
                     return iosapp_state, iosapp_dev_attrs, True
 
         except Exception as err:
-            self.iosapp_monitor_error_cnt[devicename] += 1
+            if self.start_icloud3_initial_load_flag is False:
+                self.iosapp_monitor_error_cnt[devicename] += 1
             #_LOGGER.exception(err)
-
         return ic3_state, ic3_dev_attrs, False
 
 
@@ -4667,7 +5011,7 @@ class Icloud3:#(DeviceScanner):
 #   DEVICE ZONE ROUTINES
 #
 #########################################################
-    def _get_zone(self, devicename, latitude, longitude):
+    def _get_zone(self, devicename, latitude, longitude, display_zone_msg=True):
 
         '''
         Get current zone of the device based on the location """
@@ -4678,14 +5022,14 @@ class Icloud3:#(DeviceScanner):
         '''
         zone_selected_dist = HIGH_INTEGER
         zone_selected      = None
-        log_msg            = f"Select Zone > "
+        zones_msg          = ""
         iosapp_zone_msg    = ""
 
         zone_iosapp = self.state_this_poll.get(devicename) if self._is_inzone_zonename(self.state_this_poll.get(devicename)) else None
 
         for zone in self.zone_lat:
             #Skip another device's stationary zone or if at base location
-            if (instr(zone, STATIONARY) and instr(zone, devicename) == False):
+            if (instr(zone, STATIONARY) and instr(zone, devicename) is False):
                 continue
 
             zone_dist = self._calc_distance_km(latitude, longitude,
@@ -4710,17 +5054,12 @@ class Icloud3:#(DeviceScanner):
                     zone_selected      = zone
                     iosapp_zone_msg    = " (Using iOSApp State)"
 
-            log_msg += (f"{self.zone_fname.get(zone)}-"
-                        f"{self._format_dist(zone_dist)}/r"
-                        f"{round(self.zone_radius_m.get(zone))}, ")
-
-        event_msg = (f"{log_msg[:-2]}")
-        event_msg += (f" > Selected-{self.zone_fname.get(zone_selected, AWAY)}{iosapp_zone_msg}")
-
-        self._save_event(devicename, event_msg)
-        log_msg = f"GET ZONE {event_msg}"
-        self._log_debug_msg(devicename, log_msg)
-
+            if (instr(zone, STATIONARY)):
+                zones_msg += self.zone_to_display.get(STATIONARY)
+            else:
+                zones_msg += self.zone_to_display.get(zone)
+            zones_msg += (f"-{self._format_dist(zone_dist)}"
+                         f"/r{round(self.zone_radius_m.get(zone))}, ")
 
         if zone_selected is None:
             zone_selected      = NOT_HOME
@@ -4737,15 +5076,35 @@ class Icloud3:#(DeviceScanner):
         elif instr(zone,'nearzone'):
             zone_selected = 'near_zone'
 
+        event_msg  = (f"Selected Zone > ")
+
+        if self.DISPLAY_ZFNAME:
+            zname, ztitle, zfname = self._get_zone_names(zone_selected)
+            event_msg += zname
+        else:
+            event_msg += self.zone_to_display.get(zone_selected, NOT_HOME)
+
+        event_msg += (f"{iosapp_zone_msg} > {zones_msg[:-2]}")
+
+        self._log_debug_msg(devicename, event_msg)
+        if display_zone_msg:
+            self._save_event(devicename, event_msg)
+
+        if (self.zone_last.get(devicename) == ''):
+            self.zone_last[devicename]  = zone_selected
+
+        #Get distance between zone selected and current zone to see if they overlap
+        if self._is_overlapping_zone(self.zone_current.get(devicename), zone_selected):
+            if (self.zone_current.get(devicename) != zone_selected):
+                self.zone_last[devicename]      = self.zone_current.get(devicename)
+                self.zone_current[devicename]   = zone_selected
+                self.zone_timestamp[devicename] = \
+                            dt_util.now().strftime(self.um_date_time_strfmt)
 
         #If the zone changed from a previous poll, save it and set the new one
-        if (self.zone_current.get(devicename) != zone_selected):
-            self.zone_last[devicename] = self.zone_current.get(devicename)
-
-            #First time thru, initialize zone_last
-            if (self.zone_last.get(devicename) == ''):
-                self.zone_last[devicename]  = zone_selected
-
+        #First time thru, initialize zone_last
+        elif (self.zone_current.get(devicename) != zone_selected):
+            self.zone_last[devicename]      = self.zone_current.get(devicename)
             self.zone_current[devicename]   = zone_selected
             self.zone_timestamp[devicename] = \
                         dt_util.now().strftime(self.um_date_time_strfmt)
@@ -4760,38 +5119,55 @@ class Icloud3:#(DeviceScanner):
         return zone_selected
 
 #--------------------------------------------------------------------
-    @staticmethod
-    def _get_zone_names(zone_name):
+    def _is_overlapping_zone(self, zone1, zone2):
+        '''
+        zone1 and zone2 overlap if their distance between centers is less than 2m
+        '''
+        try:
+            if zone1 == zone2:
+                return True
+
+            if zone1 == "": zone1 = HOME
+            zone_dist = self._calc_distance_m(
+                self.zone_lat.get(zone1), self.zone_long.get(zone1),
+                self.zone_lat.get(zone2), self.zone_long.get(zone2))
+
+            return (zone_dist <= 2)
+
+        except:
+            return False
+
+#--------------------------------------------------------------------
+    def _get_zone_names(self, zone):
         """
         Make zone_names 1, 2, & 3 out of the zone_name value for sensors
 
-        name1 = home --> Home
+        name  = home --> Home
                 not_home --> Away
                 gary_iphone_stationary --> Stationary
-        name2 = gary_iphone_stationary --> Gary Iphone Stationary
+                the_shores --> TheShores
+        title = gary_iphone_stationary --> Gary Iphone Stationary
                 office_bldg_1 --> Office Bldg 1
-        name3 = gary_iphone_stationary --> GaryIphoneStationary
+        fname = gary_iphone_stationary --> GaryIphoneStationary
                 office__bldg_1 --> Office Bldg1
         """
-        if zone_name:
-            if STATIONARY in zone_name:
-                name1 = STATIONARY
-            elif NOT_HOME in zone_name:
-                name1 = AWAY
+        if zone:
+            ztitle = zone.title().replace("_S_","'s " ).replace("_", " ")
+            zfname = self.zone_fname.get(zone, ztitle)
+
+            if instr(zone, STATIONARY):
+                zname = STATIONARY
+            elif instr(zone, NOT_HOME):
+                zname = AWAY
             else:
-                name1 = zone_name.title()
+                zname = ztitle.replace(" ","")
 
-            if zone_name == ATTR_ZONE:
-                badge_state = name1
-
-            name2 = zone_name.title().replace('_', ' ', 99)
-            name3 = zone_name.title().replace('_', '', 99)
         else:
-            name1 = NOT_SET
-            name2 = 'Not Set'
-            name3 = 'NotSet'
+            zname  = NOT_SET
+            ztitle = 'Not Set'
+            zfname = 'NotSet'
 
-        return [zone_name, name1, name2, name3]
+        return [zname, ztitle, zfname]
 
 #--------------------------------------------------------------------
     @staticmethod
@@ -4808,7 +5184,7 @@ class Icloud3:#(DeviceScanner):
         Set the base_zone's name, lat, long & radius
         '''
         self.base_zone        = zone
-        self.base_zone_name   = self.zone_fname.get(zone)
+        self.base_zone_name   = self.zone_to_display.get(zone)
         self.base_zone_lat    = self.zone_lat.get(zone)
         self.base_zone_long   = self.zone_long.get(zone)
         self.base_zone_radius_km = float(self.zone_radius_km.get(zone))
@@ -4857,13 +5233,13 @@ class Icloud3:#(DeviceScanner):
         return (instr(self.state_this_poll.get(devicename), STATIONARY))
 
     def _isnot_inzone_stationary(self, devicename):
-        return (instr(self.state_this_poll.get(devicename), STATIONARY) == False)
+        return (instr(self.state_this_poll.get(devicename), STATIONARY) is False)
 
     def _was_inzone_stationary(self, devicename):
         return (instr(self.state_last_poll.get(devicename), STATIONARY))
 
     def _wasnot_inzone_stationary(self, devicename):
-        return (instr(self.state_last_poll.get(devicename), STATIONARY) == False)
+        return (instr(self.state_last_poll.get(devicename), STATIONARY) is False)
 
     @staticmethod
     def _is_inzone_zonename(zone):
@@ -4925,16 +5301,16 @@ class Icloud3:#(DeviceScanner):
 
             if latitude is None or longitude is None:
                 return
+
             stat_zone_dist = self._calc_distance_m(latitude, longitude,
                                     self.zone_lat.get(stat_zone_name), self.zone_long.get(stat_zone_name))
-
             stat_home_dist = self._calc_distance_m(latitude, longitude,
                                     self.zone_home_lat, self.zone_home_long,)
 
             #Make sure stationary zone is not being moved to another zone's location unless it a
             #Stationary Zone
             for zone in self.zone_lat:
-                if instr(zone, STATIONARY) == False:
+                if instr(zone, STATIONARY) is False:
                     zone_dist = self._calc_distance_m(latitude, longitude, self.zone_lat.get(zone), self.zone_long.get(zone))
                     if zone_dist < self.zone_radius_m.get(zone):
                         event_msg = (f"Move into stationary zone cancelled > Too close to zone-{zone}, Dist-{zone_dist}m")
@@ -4967,11 +5343,15 @@ class Icloud3:#(DeviceScanner):
 
                 self.stat_zone_update_location[stat_zone_name] = attrs
 
-                if self.start_icloud3_inprocess_flag == False:
+                if self.start_icloud3_inprocess_flag is False:
                     event_msg = (f"Reset Stationary Zone Location > {stat_zone_name}, "
                                  f"Moved to Base Location-{format_gps(latitude, longitude, 0)}, "
                                  f"DistFromHome-{self._format_dist_m(stat_home_dist)}")
                     self._save_event(devicename, event_msg)
+
+                else:
+                    self.zone_to_display[stat_zone_name]   = 'Stationary'
+                    self.state_to_zone[stat_zone_name] = stat_zone_name
 
                 return True
 
@@ -4996,7 +5376,7 @@ class Icloud3:#(DeviceScanner):
             if stat_zone_dist <= self.stat_zone_radius_m:
                 event_msg += (f", DistFromLastLoc-{stat_zone_dist}m")
             if self.stat_zone_timer.get(devicename) > 0:
-                event_msg += (f", StationarySince-{self._secs_to_time(self.stat_zone_timer.get(devicename) - self.stat_zone_still_time)}")
+                event_msg += (f", StationarySince-{self._format_time_age(self.stat_zone_timer.get(devicename) - self.stat_zone_still_time)}")
             self._save_event_halog_info(event_log_devicename, event_msg)
 
             self.stat_zone_timer[devicename] = 0
@@ -5051,7 +5431,7 @@ class Icloud3:#(DeviceScanner):
                 return
 
             #check to see if arg_devicename is really devicename_zone
-            if instr(arg_devicename, ":") == False:
+            if instr(arg_devicename, ":") is False:
                 devicename  = arg_devicename
                 prefix_zone = self.base_zone
             else:
@@ -5061,15 +5441,13 @@ class Icloud3:#(DeviceScanner):
             badge_state = None
             badge_zone  = None
             badge_dist  = None
+            attr_fname_prefix = self.sensor_attr_fname_prefix.get(devicename)
             base_entity = self.sensor_prefix_name.get(devicename, devicename)
 
             if prefix_zone == HOME:
                 base_entity       = (f"sensor.{self.sensor_prefix_name.get(devicename, devicename)}")
-                attr_fname_prefix = self.sensor_attr_fname_prefix.get(devicename)
             else:
                 base_entity       = (f"sensor.{prefix_zone}_{self.sensor_prefix_name.get(devicename, devicename)}")
-                attr_fname_prefix = (f"{prefix_zone.replace('_', ' ', 99).title()}_"
-                                     f"{self.sensor_attr_fname_prefix.get(devicename)}")
 
             for attr_name in SENSOR_DEVICE_ATTRS:
                 sensor_entity = (f"{base_entity}_{attr_name}")
@@ -5081,25 +5459,29 @@ class Icloud3:#(DeviceScanner):
                 sensor_attrs = {}
                 if attr_name in SENSOR_ATTR_FORMAT:
                     format_type = SENSOR_ATTR_FORMAT.get(attr_name)
-                    if format_type == "dist":
-                        sensor_attrs['unit_of_measurement'] = \
-                                self.unit_of_measurement
+                    if format_type == 'dist':
+                        sensor_attrs[CONF_UNIT_OF_MEASUREMENT] = self.unit_of_measurement
 
-                    elif format_type == "diststr":
+                    elif format_type == 'diststr':
                         try:
                             x = (state_value / 2)
-                            sensor_attrs['unit_of_measurement'] = \
-                                self.unit_of_measurement
+                            sensor_attrs[CONF_UNIT_OF_MEASUREMENT] = self.unit_of_measurement
                         except:
-                            sensor_attrs['unit_of_measurement'] = ''
-                    elif format_type == "%":
-                        sensor_attrs['unit_of_measurment'] = '%'
+                            sensor_attrs[CONF_UNIT_OF_MEASUREMENT] = ''
+                    elif format_type == '%':
+                        sensor_attrs[CONF_UNIT_OF_MEASUREMENT] = '%'
                     elif format_type == 'title':
                         state_value = state_value.title().replace('_', ' ')
                     elif format_type == 'kph-mph':
-                        sensor_attrs['unit_of_measurement'] = self.um_kph_mph
+                        sensor_attrs[CONF_UNIT_OF_MEASUREMENT] = self.um_kph_mph
                     elif format_type == 'm-ft':
-                        sensor_attrs['unit_of_measurement'] = self.um_m_ft
+                        sensor_attrs[CONF_UNIT_OF_MEASUREMENT] = self.um_m_ft
+                    elif format_type == 'timestamp-time':
+                        if state_value == TIMESTAMP_ZERO:
+                            state_value = ''
+                        else:
+                            state_value = self._timestamp_to_time(state_value)
+                            state_value = self._time_to_12hrtime(state_value)
 
                 if attr_name in SENSOR_ATTR_ICON:
                     sensor_attrs['icon'] = SENSOR_ATTR_ICON.get(attr_name)
@@ -5110,34 +5492,42 @@ class Icloud3:#(DeviceScanner):
                 self._update_device_sensors_hass(devicename, base_entity, attr_name,
                                     state_value, sensor_attrs)
 
-                if attr_name == 'zone':
-                    zone_names = self._get_zone_names(state_value)
-                    if badge_state is None:
-                        badge_state = zone_names[1]
-                    self._update_device_sensors_hass(devicename, base_entity,
-                                "zone_name1", zone_names[1], sensor_attrs)
+                if attr_name == ATTR_ZONE:
+                    zname, ztitle, zfname = self._get_zone_names(state_value)
+                    zone_attrs = {}
+                    zone_attrs['icon'] = SENSOR_ATTR_ICON.get(attr_name)
+                    if badge_state is None: badge_state = zname
 
-                    self._update_device_sensors_hass(devicename, base_entity,
-                                "zone_name2", zone_names[2], sensor_attrs)
-
-                    self._update_device_sensors_hass(devicename, base_entity,
-                                "zone_name3", zone_names[3], sensor_attrs)
+                    sensor_attrs = dict(zone_attrs)
+                    sensor_attrs[ATTR_FRIENDLY_NAME] = (f"{attr_fname_prefix} Zone Name")
+                    self._update_device_sensors_hass(devicename, base_entity, "zone_name", zname, sensor_attrs)
+                    sensor_attrs = dict(zone_attrs)
+                    sensor_attrs[ATTR_FRIENDLY_NAME] = (f"{attr_fname_prefix} Zone Title")
+                    self._update_device_sensors_hass(devicename, base_entity, "zone_title", ztitle, sensor_attrs)
+                    sensor_attrs = dict(zone_attrs)
+                    sensor_attrs[ATTR_FRIENDLY_NAME] = (f"{attr_fname_prefix} Zone Fname")
+                    self._update_device_sensors_hass(devicename, base_entity, "zone_fname", zfname, sensor_attrs)
 
                 elif attr_name == 'last_zone':
-                    zone_names = self._get_zone_names(state_value)
+                    zname, ztitle, zfname = self._get_zone_names(state_value)
+                    zone_attrs = {}
+                    zone_attrs['icon'] = SENSOR_ATTR_ICON.get(attr_name)
 
-                    self._update_device_sensors_hass(devicename, base_entity,
-                                "last_zone_name1", zone_names[1], sensor_attrs)
-
-                    self._update_device_sensors_hass(devicename, base_entity,
-                                "last_zone_name2", zone_names[2], sensor_attrs)
-
-                    self._update_device_sensors_hass(devicename, base_entity,
-                                "last_zone_name3", zone_names[3], sensor_attrs)
+                    sensor_attrs = dict(zone_attrs)
+                    sensor_attrs[ATTR_FRIENDLY_NAME] = (f"{attr_fname_prefix} Last Zone Name")
+                    self._update_device_sensors_hass(devicename, base_entity, "last_zone_name", zname, sensor_attrs)
+                    sensor_attrs = dict(zone_attrs)
+                    sensor_attrs[ATTR_FRIENDLY_NAME] = (f"{attr_fname_prefix} Last Zone Title")
+                    self._update_device_sensors_hass(devicename, base_entity,  "last_zone_title", ztitle, sensor_attrs)
+                    sensor_attrs = dict(zone_attrs)
+                    sensor_attrs[ATTR_FRIENDLY_NAME] = (f"{attr_fname_prefix} Last Zone Fname")
+                    self._update_device_sensors_hass(devicename, base_entity,  "last_zone_fname", zfname, sensor_attrs)
 
                 elif attr_name == 'zone_distance':
                     if state_value and float(state_value) > 0:
                         badge_state = (f"{state_value} {self.unit_of_measurement}")
+
+            if self._is_device_paused(devicename): badge_state = PAUSED_CAPS
 
             if badge_state:
                 self._update_device_sensors_hass(devicename,
@@ -5170,7 +5560,7 @@ class Icloud3:#(DeviceScanner):
 #--------------------------------------------------------------------
     def _format_info_attr(self, devicename, battery,
                             gps_accuracy, dist_last_poll_moved_km,
-                            zone, old_loc_poor_gps_flag, location_time_secs):  #location_time):
+                            zone):
 
         """
         Initialize info attribute
@@ -5187,9 +5577,9 @@ class Icloud3:#(DeviceScanner):
 
             if (self.TRK_METHOD_IOSAPP
                     and self.tracking_method_config != IOSAPP):
-                info_msg += (f" • Track.Method: {self.trk_method_short_name}")
+                info_msg += (f" • Track.Method: iOSApp")
 
-            if self.overrideinterval_seconds.get(devicename) > 0:
+            if self.override_interval_seconds.get(devicename) > 0:
                 info_msg += " • Overriding.Interval"
 
             if zone == 'near_zone':
@@ -5200,22 +5590,23 @@ class Icloud3:#(DeviceScanner):
 
             if gps_accuracy > self.gps_accuracy_threshold:
                 info_msg += (f" • Poor.GPS.Accuracy, Dist-{self._format_dist(gps_accuracy)}")
-                if self.old_loc_poor_gps_cnt.get(devicename) > 0:
-                    info_msg += (f" (#{self.old_loc_poor_gps_cnt.get(devicename)})")
+                if self.poor_location_gps_cnt.get(devicename) > 0:
+                    info_msg += (f" (#{self.poor_location_gps_cnt.get(devicename)})")
                 if (self._is_inzone_zonename(zone)
                         and self.ignore_gps_accuracy_inzone_flag):
                     info_msg += " - Discarded"
 
-            isold_cnt = self.old_loc_poor_gps_cnt.get(devicename)
-
-            if isold_cnt > 0:
-                age = self._secs_since(self.last_located_secs.get(devicename))
-                info_msg += (f" • Old.Location, Age-{self._secs_to_time_str(age)} (#{isold_cnt})")
+            old_cnt = self.poor_location_gps_cnt.get(devicename)
+            if old_cnt > 16:
+                location_age = self._secs_since(self.last_located_secs.get(devicename))
+                info_msg += (f" • May Be Offline, "
+                             f"LocTime-{self._format_time_age(self.last_located_secs.get(devicename))}, "
+                             f"OldCnt-#{old_cnt}")
 
             if self.stat_zone_timer.get(devicename) > 0:
-                info_msg += (f" • Into.Stationary.Zone@{self._secs_to_time(self.stat_zone_timer.get(devicename))}")
+                info_msg += (f" • MoveIntoStatZone@{self._secs_to_time(self.stat_zone_timer.get(devicename))}")
 
-            if self.waze_data_copied_from.get(devicename) is not None:
+            if self.waze_data_copied_from.get(devicename):
                 copied_from = self.waze_data_copied_from.get(devicename)
                 if devicename != copied_from:
                     info_msg += (f" • Using Waze data from {self.fname.get(copied_from)}")
@@ -5236,46 +5627,37 @@ class Icloud3:#(DeviceScanner):
         the devicename.
         '''
         try:
-            if start_icloud3_initial_load_flag:
-                return
-
-            save_base_zone = self.base_zone
+            #save_base_zone = self.base_zone
+            if (start_icloud3_initial_load_flag
+                    or self.config_track_devices_fields == []):
+                return ""
 
             if devicename_zone == '':
-                if self.tracked_devices:
-                    devicename           = self.tracked_devices[0]
-                    devicename_zone_list = self.track_from_zone.get(devicename)
-                else:
-                    devicename           = self.track_devices[0].split('>')[0].strip()
-                    devicename_zone_list = [self.base_zone]
+                devicename = self.config_track_devices_fields[0].get(CONF_DEVICENAME)
 
             elif instr(devicename_zone, ':'):
-                devicename           = devicename_zone.split(':')[0]
-                devicename_zone_list = [devicename_zone.split(':')[1]]
+                devicename = devicename_zone.split(':')[0]
+
             else:
-                devicename           = devicename_zone
-                devicename_zone_list = self.track_from_zone.get(devicename)
+                devicename = devicename_zone
 
             elapsed_time = ''
 
-            for zone in devicename_zone_list:
-                self.base_zone = zone
-                attrs = {}
-                attrs[ATTR_INFO] = f"●● {info_msg}{elapsed_time} ●●"
-                self._update_device_sensors(devicename, attrs)
+            attrs = {}
+            attrs[ATTR_INFO] = f"●● {info_msg}{elapsed_time} ●●"
+            self._update_device_sensors(devicename, attrs)
 
+        #Will get an error before the tracked devices info is set up
         except Exception as err:
             _LOGGER.exception(err)
-            pass
-
-        self.base_zone = save_base_zone
+            return ""
 
         #return formatted msg for event log
-        return (f"CRLF• {info_msg}")
+        return (f"{CRLF_DOT}{info_msg}")
 
 #--------------------------------------------------------------------
-    def _update_count_update_ignore_attribute(self, devicename, info = None):
-        self.count_update_ignore[devicename] += 1
+    def _update_count_discarded_update_attribute(self, devicename, info = None):
+        self.count_discarded_update[devicename] += 1
 
         try:
             attrs  = {}
@@ -5290,7 +5672,7 @@ class Icloud3:#(DeviceScanner):
 
         return (f"{self.count_update_icloud.get(devicename)}:"
                 f"{self.count_update_iosapp.get(devicename)}:"
-                f"{self.count_update_ignore.get(devicename)}")
+                f"{self.count_discarded_update.get(devicename)}")
 
 #--------------------------------------------------------------------
     def _display_usage_counts(self, devicename, force_display=False):
@@ -5302,15 +5684,23 @@ class Icloud3:#(DeviceScanner):
 
             total_count = self.count_update_icloud.get(devicename) + \
                           self.count_update_iosapp.get(devicename) + \
-                          self.count_update_ignore.get(devicename) + \
+                          self.count_discarded_update.get(devicename) + \
                           self.count_state_changed.get(devicename) + \
                           self.count_trigger_changed.get(devicename) + \
-                          self.iosapp_locate_request_cnt.get(devicename)
+                          self.iosapp_request_loc_cnt.get(devicename)
 
+            pyi_avg_time_per_call = 0
+            if self.count_pyicloud_location_update > 0:
+                pyi_avg_time_per_call = self.time_pyicloud_calls / \
+                    (self.count_pyicloud_authentications + self.count_pyicloud_location_update)
 
-            pyi_avg_time_per_call = self.time_pyicloud_calls / \
-                    (self.count_pyicloud_authentications + self.count_pyicloud_location_update) \
-                        if self.count_pyicloud_location_update > 0 else 0
+            #Verify average and counts, reset counts if average time > 1 min
+            if pyi_avg_time_per_call > 60:
+                pyi_avg_time_per_call               = 0
+                self.time_pyicloud_calls            = 0
+                self.count_pyicloud_authentications = 0
+                self.count_pyicloud_location_update = 0
+
             #If updating the devicename's info_msg, only add to the event log
             #and info_msg if the counter total is divisible by 5.
             total_count = 1
@@ -5341,10 +5731,10 @@ class Icloud3:#(DeviceScanner):
                               f"«LT-iOS App Updates¦LC-{self.count_update_iosapp.get(devicename)}¦RT-Time/Locate (secs)¦RC-{round(pyi_avg_time_per_call, 2)}»")
             else:
                 count_msg += (f"«HS¦LH-Device Counts¦RH-iOS App Counts»HE"
-                              f"«LT-State/Triggers Chgs¦LC-{state_trig_count}¦RT-iOS Locate Rqsts¦RC-{self.iosapp_locate_request_cnt.get(devicename)}»"
+                              f"«LT-State/Triggers Chgs¦LC-{state_trig_count}¦RT-iOS Locate Requests¦RC-{self.iosapp_request_loc_cnt.get(devicename)}»"
                               f"«LT-iCloud Updates¦LC-{self.count_update_icloud.get(devicename)}¦RT-iOS App Updates¦RC-{self.count_update_iosapp.get(devicename)}»")
 
-            count_msg     += (f"«LT-Discarded¦LC-{self.count_update_ignore.get(devicename)}¦RT-Waze Routes¦RC-{self.count_waze_locates.get(devicename)}»"
+            count_msg     += (f"«LT-Discarded¦LC-{self.count_discarded_update.get(devicename)}¦RT-Waze Routes¦RC-{self.count_waze_locates.get(devicename)}»"
                               f"¤e")
 
             self._save_event(devicename, f"{count_msg}")
@@ -5368,21 +5758,9 @@ class Icloud3:#(DeviceScanner):
         for devicename in self.tracked_devices:
             devicename_zone = self._format_devicename_zone(devicename, HOME)
 
-            event_msg = (f"^^^ iCloud3 v{VERSION} Daily Summary > "
+            event_msg = (f"^^^iCloud3 v{VERSION} Daily Summary > "
                          f"{dt_util.now().strftime('%A, %b %d')}")
             self._save_event_halog_info(devicename, event_msg)
-
-            event_msg = (f"Tracking Devices > {self.track_devicename_list}")
-            self._save_event_halog_info(devicename, event_msg)
-
-            if self.iosapp_monitor_dev_trk_flag.get(devicename):
-                event_msg = (f"iOS App monitoring > {self._format_fname_devicename(devicename)} > "
-                             f"CRLF• device_tracker.{self.devicename_iosapp_entity.get(devicename)}, "
-                             f"CRLF• sensor.{self.iosapp_last_trigger_entity.get(devicename)}")
-                self._save_event_halog_info(devicename, event_msg)
-            else:
-                event_msg = (f"iOS App monitoring > device_tracker.{devicename}")
-                self._save_event_halog_info(devicename, event_msg)
 
             self.count_pyicloud_authentications = 0
             self.count_pyicloud_location_update = 0
@@ -5391,8 +5769,6 @@ class Icloud3:#(DeviceScanner):
 
         for devicename_zone in self.waze_distance_history:
             self.waze_distance_history[devicename_zone] = ''
-
-        self._check_authentication_2sa_code_needed()
 
 #--------------------------------------------------------------------
     def _timer_tasks_1am(self):
@@ -5410,14 +5786,14 @@ class Icloud3:#(DeviceScanner):
         self.time_zone_offset_seconds        = self._calculate_time_zone_offset()
         self.setinterval_cmd_devicename      = None
         self.update_in_process_flag          = False
-        self.track_devicename_list           = ''
+        self.track_devicename_list           = ''       #text string used during initialization that is displayed in evlog
         self.any_device_being_updated_flag   = False
-        self.tracked_devices_config_parm     = {} #config file item for devicename
-        self.tracked_devices                 = []
-
-        self.trigger                         = {}    #device update trigger
-        self.last_iosapp_trigger             = {}    #last trigger issued by iosapp
-        self.got_exit_trigger_flag           = {}    #iosapp issued exit trigger leaving zone
+        self.tracked_devices                 = []       #list of devicenames that have been verified that are being tracked
+        self.config_track_devices_fields     = []       #track_devices + devices config parameter list/dict of fields for each device
+        self.config_ic3_track_devices_fields = []       #track_devices + devices config parameter list/dict of fields for each device
+        self.trigger                         = {}       #device update trigger
+        self.last_iosapp_trigger             = {}       #last trigger issued by iosapp
+        self.got_exit_trigger_flag           = {}       #iosapp issued exit trigger leaving zone
         self.device_being_updated_flag       = {}
         self.device_being_updated_retry_cnt  = {}
         self.last_iosapp_state               = {}
@@ -5458,26 +5834,34 @@ class Icloud3:#(DeviceScanner):
         self.fname                        = {}    #name made from status[CONF_NAME]
         self.badge_picture                = {}    #devicename picture from badge setup
         self.api_devices                  = None  #icloud.api.devices obj
-        self.api_device_devicename        = {}    #icloud.api.device obj for each devicename
+        self.famshr_data_devicename_fname = {}    #famshr device data, devicename by fname, fname by devicename
+        self.devicename_device_id         = {}    #fmf/famshr devicenname's device id
+        self.devicename_device_id_fmf     = {}    #fmf devicenname's device id
+        self.devicename_device_id_famshr  = {}    #famshr devicenname's device id
+        self.devicename_by_device_id      = {}    #fmf/famshr devices id's devicename
         self.data_source                  = {}
         self.device_type                  = {}
+        self.device_status                = {}
         self.devicename_iosapp_entity     = {}
         self.devicename_iosapp_suffix     = {}
         self.notify_iosapp_entity         = {}
+        self.devicename_tracking_method   = {}
+        self.devicename_evlog_tracked_msg     = {}
+        self.devicename_evlog_not_tracked_msg = {}
         self.devicename_verified          = {}    #Set to True in mode setup fcts
-        self.fmf_id                       = {}
-        self.fmf_devicename_email         = {}
+        self.devicename_email             = {}
         self.seen_this_device_flag        = {}
         self.device_tracker_entity_ic3    = {}
         self.device_tracker_entity_iosapp = {}
-        self.track_from_zone              = {}    #Track device from other zone
+        self.track_from_zones             = {}    #Track device from other zone
+        self.inzone_interval_secs         = {}
+        self.display_text_as              = {}
 
 #--------------------------------------------------------------------
     def _define_device_status_fields(self):
         '''
         Dictionary fields for each devicename
         '''
-        self.tracking_device_flag         = {}
         self.state_this_poll              = {}
         self.state_last_poll              = {}
         self.zone_last                    = {}
@@ -5485,75 +5869,9 @@ class Icloud3:#(DeviceScanner):
         self.zone_timestamp               = {}
         self.state_change_flag            = {}
         self.location_data                = {}
-        self.overrideinterval_seconds     = {}
         self.last_located_time            = {}
         self.last_located_secs            = {}    #device timestamp in seconds
         self.went_3km                     = {} #>3 km/mi, probably driving
-
-#--------------------------------------------------------------------
-    def _initialize_um_formats(self, unit_of_measurement):
-        #Define variables, lists & tables
-        if unit_of_measurement == 'mi':
-            self.um_time_strfmt           = '%I:%M:%S'
-            self.um_time_strfmt_ampm      = '%I:%M:%S%P'
-            self.um_date_time_strfmt      = '%Y-%m-%d %I:%M:%S'
-            self.um_km_mi_factor          = 0.62137
-            self.um_m_ft                  = 'ft'
-            self.um_kph_mph               = 'mph'
-        else:
-            self.um_time_strfmt           = '%H:%M:%S'
-            self.um_time_strfmt_ampm      = '%H:%M:%S'
-            self.um_date_time_strfmt      = '%Y-%m-%d %H:%M:%S'
-            self.um_km_mi_factor          = 1
-            self.um_m_ft                  = 'm'
-            self.um_kph_mph               = 'kph'
-
-#--------------------------------------------------------------------
-    def _setup_tracking_method(self, tracking_method):
-        '''
-        tracking_method: method
-        tracking_method: method, iosapp1
-
-        tracking_method can have a secondary option to use iosappv1 even if iosv2 is
-        on the devices
-        '''
-
-        trk_method_split     = (f"{tracking_method}_").split('_')
-        trk_method_primary   = trk_method_split[0]
-        trk_method_secondary = trk_method_split[1]
-
-        self.TRK_METHOD_FMF        = (trk_method_primary == FMF)
-        self.TRK_METHOD_FAMSHR     = (trk_method_primary == FAMSHR)
-        self.TRK_METHOD_FMF_FAMSHR = (trk_method_primary in FMF_FAMSHR)
-        self.CONF_TRK_METHOD_FMF_FAMSHR = (trk_method_primary in FMF_FAMSHR)
-        if (self.TRK_METHOD_FMF_FAMSHR and PYICLOUD_IC3_IMPORT_SUCCESSFUL is False):
-           trk_method_primary = IOSAPP
-
-        self.TRK_METHOD_IOSAPP = (trk_method_primary in IOSAPP_IOSAPP1)
-
-        self.trk_method_config     = trk_method_primary
-        self.trk_method            = trk_method_primary
-        self.trk_method_name       = TRK_METHOD_NAME.get(trk_method_primary)
-        self.trk_method_short_name = TRK_METHOD_SHORT_NAME.get(trk_method_primary)
-
-        if self.TRK_METHOD_FMF_FAMSHR and self.password == '':
-            event_msg = ("iCloud3 Error > The password is required for the "
-                f"{self.trk_method_short_name} tracking method. The "
-                f"iOS App tracking_method will be used.")
-            self._save_event_halog_error("*", event_msg)
-
-            self._setup_iosapp_tracking_method()
-#--------------------------------------------------------------------
-    def _setup_iosapp_tracking_method(self):
-        """ Change tracking method to IOSAPP if FMF or FAMSHR error """
-        self.trk_method_short_name = TRK_METHOD_SHORT_NAME.get(IOSAPP)
-        self.trk_method_config     = IOSAPP
-        self.trk_method            = IOSAPP
-        self.trk_method_name       = TRK_METHOD_NAME.get(IOSAPP)
-        self.TRK_METHOD_IOSAPP     = True
-        self.TRK_METHOD_FMF        = False
-        self.TRK_METHOD_FAMSHR     = False
-        self.TRK_METHOD_FMF_FAMSHR = False
 
 #--------------------------------------------------------------------
     def _initialize_device_status_fields(self, devicename):
@@ -5563,19 +5881,22 @@ class Icloud3:#(DeviceScanner):
         time. Then check to see if 'sensor.geocode_location'
         exists. If it does, then using iosapp version 2.
         '''
-        entity_id = self.device_tracker_entity_ic3.get(devicename)
+        entity_id                                     = (f"device_tracker.{devicename}")
+        self.device_tracker_entity_ic3[devicename]    = entity_id
         self.state_this_poll[devicename]              = self._get_state(entity_id)
         self.state_last_poll[devicename]              = NOT_SET
+        self.device_status[devicename]                = UNKNOWN
         self.zone_last[devicename]                    = ''
         self.zone_current[devicename]                 = ''
         self.zone_timestamp[devicename]               = ''
         self.state_change_flag[devicename]            = False
-        self.trigger[devicename]                      = 'iCloud3'
-        self.got_exit_trigger_flag[devicename]        = False
+        self.location_data[devicename]                = INITIAL_LOCATION_DATA
         self.last_located_time[devicename]            = HHMMSS_ZERO
         self.last_located_secs[devicename]            = 0
-        self.location_data[devicename]                = INITIAL_LOCATION_DATA
         self.went_3km[devicename]                     = False
+
+        self.trigger[devicename]                      = 'iCloud3'
+        self.got_exit_trigger_flag[devicename]        = False
         self.seen_this_device_flag[devicename]        = False
         self.device_being_updated_flag[devicename]    = False
         self.device_being_updated_retry_cnt[devicename] = 0
@@ -5593,38 +5914,91 @@ class Icloud3:#(DeviceScanner):
 
 
 #--------------------------------------------------------------------
+    def _initialize_um_formats(self, unit_of_measurement):
+        #Define variables, lists & tables
+        if unit_of_measurement == 'mi':
+            if self.time_format != 24: self.time_format = 12
+            self.um_km_mi_factor          = 0.62137
+            self.um_m_ft                  = 'ft'
+            self.um_kph_mph               = 'mph'
+        else:
+            if self.time_format != 12: self.time_format = 24
+            self.um_km_mi_factor          = 1
+            self.um_m_ft                  = 'm'
+            self.um_kph_mph               = 'kph'
+
+        if self.time_format == 12:
+            self.um_time_strfmt       = '%I:%M:%S'
+            self.um_time_strfmt_ampm  = '%I:%M:%S%P'
+            self.um_date_time_strfmt  = '%Y-%m-%d %I:%M:%S'
+        else:
+            self.um_time_strfmt       = '%H:%M:%S'
+            self.um_time_strfmt_ampm  = '%H:%M:%S'
+            self.um_date_time_strfmt  = '%Y-%m-%d %H:%M:%S'
+
+#--------------------------------------------------------------------
+    def _setup_tracking_method(self, tracking_method):
+        '''
+        Set up tracking method
+        '''
+        self.TRK_METHOD_FMF_FAMSHR = (tracking_method in FMF_FAMSHR)
+        self.CONF_TRK_METHOD_FMF_FAMSHR = (tracking_method in FMF_FAMSHR)
+        if (self.TRK_METHOD_FMF_FAMSHR and PYICLOUD_IC3_IMPORT_SUCCESSFUL is False):
+           tracking_method = IOSAPP
+
+        self.TRK_METHOD_IOSAPP = (tracking_method in IOSAPP_IOSAPP1)
+
+        self.trk_method_config     = tracking_method
+        self.trk_method            = tracking_method
+        self.attr_tracking_msg     = ""
+
+        if self.TRK_METHOD_FMF_FAMSHR and self.password == '':
+            event_msg = ("iCloud3 Error > The password is required for the "
+                f"iCloud Location Services tracking method. "
+                f"The iOS App tracking_method will be used.")
+            self._save_event_halog_error("*", event_msg)
+
+            self._setup_iosapp_tracking_method()
+#--------------------------------------------------------------------
+    def _setup_iosapp_tracking_method(self):
+        """ Change tracking method to iOSAPP if FMF or FAMSHR error """
+        self.trk_method_config     = IOSAPP
+        self.trk_method            = IOSAPP
+        self.TRK_METHOD_IOSAPP     = True
+        self.TRK_METHOD_FMF_FAMSHR = False
+
+#--------------------------------------------------------------------
     def _define_device_tracking_fields(self):
         #times, flags
-        self.update_timer             = {}
-        self.overrideinterval_seconds = {}
+        self.update_timer              = {}
+        self.override_interval_seconds = {}
         self.dist_from_zone_km_small_move_total = {}
-        self.this_update_secs         = 0
+        self.this_update_secs          = 0
 
         #location, gps
-        self.old_loc_poor_gps_cnt     = {}    # override interval while < 4
-        self.old_loc_poor_gps_msg     = {}
+        self.poor_location_gps_cnt    = {}    # override interval while < 4
+        self.poor_location_gps_msg    = {}
         self.old_location_secs        = {}
-
-        self.poor_gps_accuracy_flag   = {}
+        self.poor_gps_flag            = {}
+        self.last_lat                 = {}
         self.last_long                = {}
         self.last_battery             = {}   #used to detect iosapp v2 change
-        self.last_lat                 = {}
         self.last_gps_accuracy        = {}   #used to detect iosapp v2 change
 
 #--------------------------------------------------------------------
     def _initialize_device_tracking_fields(self, devicename):
         #times, flags
-        self.update_timer[devicename]           = time.time()
-        self.overrideinterval_seconds[devicename] = 0
+        self.update_timer[devicename]              = time.time()
+        self.override_interval_seconds[devicename] = 0
         self.dist_from_zone_km_small_move_total[devicename] = 0
 
         #location, gps
-        self.old_loc_poor_gps_cnt[devicename]   = 0
-        self.old_loc_poor_gps_msg[devicename]   = False
+        self.poor_location_gps_cnt[devicename]  = 0
+        self.poor_location_gps_msg[devicename]  = False
         self.old_location_secs[devicename]      = 90    #Timer (secs) before a location is old
+        self.poor_gps_flag[devicename]          = False
         self.last_lat[devicename]               = self.zone_home_lat
         self.last_long[devicename]              = self.zone_home_long
-        self.poor_gps_accuracy_flag[devicename] = False
         self.last_battery[devicename]           = 0
         self.last_gps_accuracy[devicename]      = 0
         self.stat_zone_timer[devicename]        = 0
@@ -5643,7 +6017,7 @@ class Icloud3:#(DeviceScanner):
     def _define_usage_counters(self):
         self.count_update_icloud            = {}
         self.count_update_iosapp            = {}
-        self.count_update_ignore            = {}
+        self.count_discarded_update            = {}
         self.count_state_changed            = {}
         self.count_trigger_changed          = {}
         self.count_waze_locates             = {}
@@ -5657,24 +6031,28 @@ class Icloud3:#(DeviceScanner):
         if devicename not in self.count_update_icloud or clear_counters:
             self.count_update_icloud[devicename]   = 0
             self.count_update_iosapp[devicename]   = 0
-            self.count_update_ignore[devicename]   = 0
+            self.count_discarded_update[devicename]   = 0
             self.count_state_changed[devicename]   = 0
             self.count_trigger_changed[devicename] = 0
             self.count_waze_locates[devicename]    = 0
             self.time_waze_calls[devicename]       = 0.0
 #--------------------------------------------------------------------
     def _define_iosapp_message_fields(self):
-        self.iosapp_locate_update_secs      = {}
-        self.iosapp_locate_request_cnt      = {}
+        self.iosapp_request_loc_sent_flag      = {}
+        self.iosapp_request_loc_sent_secs      = {}
+        self.iosapp_request_loc_cnt            = {}
+        self.iosapp_request_loc_retry_cnt      = {}
 
 #--------------------------------------------------------------------
     def _initialize_iosapp_message_fields(self, devicename):
-        self.iosapp_locate_update_secs[devicename] = 0
-        self.iosapp_locate_request_cnt[devicename] = 0
+        self.iosapp_request_loc_sent_flag[devicename] = False
+        self.iosapp_request_loc_sent_secs[devicename] = 0
+        self.iosapp_request_loc_cnt[devicename]       = 0
+        self.iosapp_request_loc_retry_cnt[devicename] = 0
 
 #--------------------------------------------------------------------
     def _initialize_next_update_time(self, devicename):
-        for zone in self.track_from_zone.get(devicename):
+        for zone in self.track_from_zones.get(devicename):
             devicename_zone = self._format_devicename_zone(devicename, zone)
 
             self.next_update_time[devicename_zone] = HHMMSS_ZERO
@@ -5690,6 +6068,21 @@ class Icloud3:#(DeviceScanner):
             self.sensor_badge_attrs       = {}
             self.sensor_prefix_name       = {}
             self.sensor_attr_fname_prefix = {}
+
+#--------------------------------------------------------------------
+    def _define_zone_fields(self):
+        '''
+        Dictionary fields for zone friendly names
+        '''
+        self.zones          = []
+        self.zone_to_display= dict(ZONE_TO_DISPLAY_BASE)
+        self.state_to_zone  = dict(STATE_TO_ZONE_BASE)
+        self.zone_fname     = {}
+        self.zone_lat       = {}
+        self.zone_long      = {}
+        self.zone_radius_km = {}
+        self.zone_radius_m  = {}
+        self.zone_passive   = {}
 
 #--------------------------------------------------------------------
     def _define_device_zone_fields(self):
@@ -5719,7 +6112,7 @@ class Icloud3:#(DeviceScanner):
     def _initialize_device_zone_fields(self, devicename):
         #interval, distances, times
 
-        for zone in self.track_from_zone.get(devicename):
+        for zone in self.track_from_zones.get(devicename):
             devicename_zone = self._format_devicename_zone(devicename, zone)
 
             self.last_tavel_time[devicename_zone]   = ''
@@ -5759,7 +6152,7 @@ class Icloud3:#(DeviceScanner):
             self.stat_zone_devicename_icon[icon_name]  = devicename
 
             stat_zone_name = self._format_zone_name(devicename, STATIONARY)
-            self.zone_fname[stat_zone_name] = "Stationary"
+            self.zone_to_display[stat_zone_name] = "Stationary"
 
         except Exception as err:
             _LOGGER.exception(err)
@@ -5813,9 +6206,9 @@ class Icloud3:#(DeviceScanner):
         attrs[ATTR_ZONE_DISTANCE]      = 0
         attrs[ATTR_CALC_DISTANCE]      = 0
         attrs[ATTR_WAZE_DISTANCE]      = 0
-        attrs[ATTR_LAST_LOCATED]       = HHMMSS_ZERO
-        attrs[ATTR_LAST_UPDATE_TIME]   = HHMMSS_ZERO
-        attrs[ATTR_NEXT_UPDATE_TIME]   = HHMMSS_ZERO
+        attrs[ATTR_LAST_LOCATED]       = TIMESTAMP_ZERO
+        attrs[ATTR_LAST_UPDATE_TIME]   = TIMESTAMP_ZERO
+        attrs[ATTR_NEXT_UPDATE_TIME]   = TIMESTAMP_ZERO
         attrs[ATTR_POLL_COUNT]         = '0:0:0'
         attrs[ATTR_DIR_OF_TRAVEL]      = ''
         attrs[ATTR_TRAVEL_DISTANCE]    = 0
@@ -5823,34 +6216,26 @@ class Icloud3:#(DeviceScanner):
         attrs[ATTR_TIMESTAMP]          = dt_util.utcnow().isoformat()[0:19]
         attrs[ATTR_AUTHENTICATED]      = ''
         attrs[ATTR_BATTERY]            = 0
-        attrs[ATTR_BATTERY_STATUS]     = ''
+        attrs[ATTR_BATTERY_STATUS]     = UNKNOWN
         attrs[ATTR_INFO]               = "● HA is initializing dev_trk attributes ●"
         attrs[ATTR_ALTITUDE]           = 0
         attrs[ATTR_VERT_ACCURACY]      = 0
-        attrs[ATTR_DEVICE_STATUS]      = ''
+        attrs[ATTR_DEVICE_STATUS]      = UNKNOWN
         attrs[ATTR_LOW_POWER_MODE]     = ''
-        attrs[CONF_GROUP]              = self.group
         attrs[ATTR_PICTURE]            = self.badge_picture.get(devicename)
-        attrs[ATTR_TRACKING]           = (f"{self.track_devicename_list} ({self.trk_method_short_name})")
+        attrs[ATTR_TRACKING]           = self.attr_tracking_msg
         attrs[ATTR_ICLOUD3_VERSION]    = VERSION
 
         return attrs
 
 #--------------------------------------------------------------------
-    def _initialize_zone_tables(self):
+    def _initialize_zone_tables_step_1(self):
         '''
-        Get friendly name of all zones to set the device_tracker state
+        Get the zone names from HA, fill the zone tables
         '''
-        self.zones          = []
-        self.zone_fname     = {"not_home": "Away", "near_zone": "NearZone"}
-        self.zone_lat       = {}
-        self.zone_long      = {}
-        self.zone_radius_km = {}
-        self.zone_radius_m  = {}
-        self.zone_passive   = {}
 
         try:
-            if self.start_icloud3_initial_load_flag == False:
+            if self.start_icloud3_initial_load_flag is False:
                 self.hass.services.call(ATTR_ZONE, "reload")
         except:
             pass
@@ -5858,45 +6243,57 @@ class Icloud3:#(DeviceScanner):
         log_msg = (f"Reloading Zone.yaml config file")
         self._log_debug_msg("*", log_msg)
 
-        zones = self.hass.states.entity_ids(ATTR_ZONE)
+        #zones = self._get_entity_registry_entities('zone', 'zone')
+        #zone_ha_config_name = {}
+        #for zone_entity in zones:
+        #    zone = zone_entity.get('entity_id').replace('zone.', '')
+        #    zone_ha_config_name[zone] = zone_entity.get('original_name')
+        #TRACE("6309 zone_config_name",zone_ha_config_name)
+
         zone_msg = ''
+        zones = self.hass.states.entity_ids(ATTR_ZONE)
+        self._log_debug_msg("*",f"ZONES - {zones}")
 
-        for zone in zones:
-            zone_name  = zone.split(".")[1]      #zone='zone.'+zone_name
-
+        for zone_entity in zones:
             try:
-                self.zones.append(zone_name.lower())
-                zone_data  = self.hass.states.get(zone).attributes
-                self._log_debug_msg("*",f"zone-{zone_name}, data-{zone_data}")
+                zone_data = self.hass.states.get(zone_entity).attributes
+                zone      = zone_entity.replace('zone.', '')      #zone_entity = 'zone.'+zone
 
-                if instr(zone_name.lower(), STATIONARY):
-                    self.zone_fname[zone_name] = 'Stationary'
+                self.zones.append(zone.lower())
+                self._log_debug_msg("*",f"ZONE.DATA - [zone.{zone}--{zone_data}]")
 
                 if ATTR_LATITUDE in zone_data:
-                    self.zone_lat[zone_name]       = zone_data.get(ATTR_LATITUDE, 0)
-                    self.zone_long[zone_name]      = zone_data.get(ATTR_LONGITUDE, 0)
-                    self.zone_passive[zone_name]   = zone_data.get('passive', True)
-                    self.zone_radius_m[zone_name]  = int(zone_data.get(ATTR_RADIUS, 100))
-                    self.zone_radius_km[zone_name] = round(self.zone_radius_m[zone_name]/1000, 4)
-                    self.zone_fname[zone_name]     = zone_data.get(ATTR_FRIENDLY_NAME, zone_name.title())
+                    zname, ztitle, zfname = self._get_zone_names(zone)
 
-                else:
-                    log_msg = (f"Error loading zone {zone_name} > No data was returned from HA. "
-                               f"Zone data returned is `{zone_data}`")
-                    self._log_error_msg(log_msg)
-                    self._save_event("*", log_msg)
+                    self.zone_lat[zone]       = zone_data.get(ATTR_LATITUDE, 0)
+                    self.zone_long[zone]      = zone_data.get(ATTR_LONGITUDE, 0)
+                    self.zone_passive[zone]   = zone_data.get('passive', True)
+                    self.zone_radius_m[zone]  = int(zone_data.get(ATTR_RADIUS, 100))
+                    self.zone_radius_km[zone] = round(self.zone_radius_m[zone]/1000, 4)
+                    zfname                    = zone_data.get(ATTR_FRIENDLY_NAME, zfname)
+                    #zfname                    = zone_ha_config_name.get(zone, zfname)
+                    self.zone_fname[zone]     = zfname
+                    self.zone_fname[zfname]   = zone
+
+                    self.zone_to_display[zone] = zname
+                    self.state_to_zone[zfname] = zone
+                    if ztitle not in self.state_to_zone:
+                        self.state_to_zone[ztitle] = zone
+                    ztitle_w = ztitle.replace(' ', '')
+                    if ztitle_w not in self.state_to_zone:
+                        self.state_to_zone[ztitle_w] = zone
+
+                if instr(zone.lower(), STATIONARY):
+                    self.zone_to_display[zone] = 'Stationary'
+                    self.zone_fname[zone]      = 'Stationary'
+
+                    self.zone_home_lat    = self.zone_lat.get(HOME)
 
             except KeyError:
-                self.zone_passive[zone_name] = False
+                self.zone_passive[zone] = False
 
             except Exception as err:
                 _LOGGER.exception(err)
-
-            zone_msg = (f"{zone_msg}{zone_name}/{self.zone_fname.get(zone_name)} "
-                        f"(r{self.zone_radius_m[zone_name]}m), ")
-
-        log_msg = (f"Set up Zones > {zone_msg[:-2]}")
-        self._save_event_halog_info("*", log_msg)
 
         self.zone_home_lat    = self.zone_lat.get(HOME)
         self.zone_home_long   = self.zone_long.get(HOME)
@@ -5904,10 +6301,43 @@ class Icloud3:#(DeviceScanner):
         self.zone_home_radius_m  = self.zone_radius_m.get(HOME)
 
         self.base_zone        = HOME
-        self.base_zone_name   = self.zone_fname.get(HOME)
+        self.base_zone_name   = self.zone_to_display.get(HOME)
         self.base_zone_lat    = self.zone_lat.get(HOME)
         self.base_zone_long   = self.zone_long.get(HOME)
         self.base_zone_radius_km = float(self.zone_radius_km.get(HOME))
+
+#--------------------------------------------------------------------
+    def _initialize_zone_tables_step_2(self):
+        '''
+        Display the loaded tables in the Event Log.
+        Set up the zone value to be displayed based on the display_zone_format parameter
+        '''
+
+        zone_msg = ''
+        self.DISPLAY_ZONE   = (self.display_zone_format == CONF_ZONE)
+        self.DISPLAY_ZNAME  = (self.display_zone_format == CONF_NAME)
+        self.DISPLAY_ZTITLE = (self.display_zone_format == 'title')
+        self.DISPLAY_ZFNAME = (self.display_zone_format == 'fname')
+
+        for zone in self.zones:
+            zname, ztitle, zfname = self._get_zone_names(zone)
+
+            if self.DISPLAY_ZNAME:
+                self.zone_to_display[zone] = zname
+            elif self.DISPLAY_ZTITLE:
+                self.zone_to_display[zone] = ztitle
+            elif self.DISPLAY_ZFNAME:
+                self.zone_to_display[zone] = zfname
+            elif self.DISPLAY_ZONE:
+                self.zone_to_display[zone] = zone
+            else:
+                self.zone_to_display[zone] = zname
+
+            zone_msg += (f"{CRLF_DOT}{zone}/{self.zone_to_display.get(zone)} "
+                        f"(r{self.zone_radius_m[zone]}m)")
+
+        log_msg = (f"Set up Zones (zone/{self.display_zone_format}) > {zone_msg}")
+        self._save_event_halog_info("*", log_msg)
 
         return
 
@@ -5961,12 +6391,21 @@ class Icloud3:#(DeviceScanner):
         #   eventlog - Add debug items to ic3 event log
         #   debug+eventlog - Add debug items to HA log file and ic3 event log
 
-        self.log_level_debug_flag         = (instr(log_level, 'debug') or DEBUG_TRACE_CONTROL_FLAG)
-        self.log_level_debug_rawdata_flag = (instr(log_level, 'rawdata') and self.log_level_debug_flag)
-        self._log_debug_msgs_trace_flag    = self.log_level_debug_flag
+        #Save log_level flags across restarts via Event Log > Actions
+        if self.log_debug_flag_restart is not None or self.log_rawdata_flag_restart is not None:
+            if self.log_debug_flag_restart is not None:
+                self.log_debug_flag         = self.log_debug_flag_restart
+                self.log_debug_flag_restart = None
 
-        self.log_level_intervalcalc_flag = DEBUG_TRACE_CONTROL_FLAG or instr(log_level, 'intervalcalc')
-        self.log_level_eventlog_flag     = self.log_level_eventlog_flag or instr(log_level, 'eventlog')
+            if self.log_rawdata_flag_restart is not None:
+                self.log_rawdata_flag         = self.log_rawdata_flag_restart
+                self.log_rawdata_flag_restart = None
+        else:
+            self.log_debug_flag   = instr(log_level, 'debug') or DEBUG_TRACE_CONTROL_FLAG
+            self.log_rawdata_flag = instr(log_level, 'rawdata')
+
+        self.log_intervalcalc_flag = DEBUG_TRACE_CONTROL_FLAG or instr(log_level, 'intervalcalc')
+        self.log_eventlog_flag     = self.log_eventlog_flag or instr(log_level, 'eventlog')
 
         self.debug_counter = 0
         self.last_iosapp_msg = {} #can be used to compare changes in debug msgs
@@ -5980,10 +6419,10 @@ class Icloud3:#(DeviceScanner):
 #########################################################
     def _pyicloud_initialize_device_api(self):
         #See if pyicloud_ic3 is available
-        if (PYICLOUD_IC3_IMPORT_SUCCESSFUL == False and self.CONF_TRK_METHOD_FMF_FAMSHR):
+        if (PYICLOUD_IC3_IMPORT_SUCCESSFUL is False and self.CONF_TRK_METHOD_FMF_FAMSHR):
             event_msg = ("iCloud3 Error > An error was encountered setting up the `pyicloud_ic3.py` "
                 f"module. Either the module was not found or there was an error loading it."
-                f"The {self.trk_method_short_name} Location Service is disabled and the "
+                f"The iCloud Location Service is disabled and the "
                 f"iOS App tracking_method will be used.")
             self._save_event_halog_error("*", event_msg)
 
@@ -5993,8 +6432,7 @@ class Icloud3:#(DeviceScanner):
             #Set up pyicloud cookies directory & file names
             try:
                 self.icloud_cookies_dir  = self.hass.config.path(STORAGE_DIR, STORAGE_KEY_ICLOUD)
-                self.icloud_cookies_file = (f"{self.icloud_cookies_dir}/"
-                                            f"{self.username.replace('@','').replace('.','')}")
+                self.icloud_cookies_file = "".join([c for c in self.username if match(r"\w", c)])
                 if not os.path.exists(self.icloud_cookies_dir):
                     os.makedirs(self.icloud_cookies_dir)
 
@@ -6009,8 +6447,6 @@ class Icloud3:#(DeviceScanner):
             self._save_event_halog_info("*", event_msg)
 
             self._pyicloud_authenticate_account(initial_setup=True)
-            if self.api is not None:
-                self._check_authentication_2sa_code_needed(initial_setup=True)
 
 #--------------------------------------------------------------------
     def _pyicloud_authenticate_account(self, devicename="", initial_setup=False):
@@ -6020,32 +6456,136 @@ class Icloud3:#(DeviceScanner):
         If not        - set self.api = None
         '''
         try:
-            self.count_pyicloud_authentications += 1
-            self.authenticated_time = time.time()
+            auth_start_time = time.time()
+            if self.api:
+                self.api.authenticate(refresh_session=True, service='find')
 
-            self.api = PyiCloudService(self.username, self.password,
-                                       cookie_directory=self.icloud_cookies_dir,
-                                       verify=True)
-            self.time_pyicloud_calls += (time.time() - self.authenticated_time)
+            else:
+                self.api = PyiCloudService(self.username, self.password,
+                                        cookie_directory=self.icloud_cookies_dir,
+                                        session_directory=(f"{self.icloud_cookies_dir}/session"),
+                                        verify=True)
+
+            self.time_pyicloud_calls += (time.time() - auth_start_time)
 
             if self.authentication_error_retry_secs != HIGH_INTEGER:
                 self.authentication_error_cnt = 0
                 self.authentication_error_retry_secs = HIGH_INTEGER
                 self._setup_tracking_method(self.tracking_method_config)
 
-            event_msg = (f"iCloud Account Authentication Successful > {self.username}")
-            self._save_event_halog_info("*", event_msg)
+            if self.api:
+                self._is_authentication_2fa_code_needed(initial_setup=True)
+
+            self._check_authentication_message(devicename)
 
         except (PyiCloudFailedLoginException, PyiCloudNoDevicesException,
                 PyiCloudAPIResponseException) as err:
 
             self._authentication_error()
-            return
-
+            return False
         except (PyiCloud2SARequiredException) as err:
-            self._check_authentication_2sa_code_neede()
+            self._is_authentication_2fa_code_needed()
+            return False
+        except Exception as err:
+            _LOGGER.exception(err)
+            return False
+
+        return True
+
+#--------------------------------------------------------------------
+    def _check_authentication_message(self, devicename):
+        '''
+        If an authentication was done, update the count & time and display
+        an Event Log message
+        '''
+        if not self.api.authentication_method:
             return
 
+        self.count_pyicloud_authentications += 1
+        last_authenticated_time = self.authenticated_time
+        self.authenticated_time = time.time()
+
+        event_msg = (f"iCloud Account Authenticated "
+                    f"(#{self.count_pyicloud_authentications}) > LastAuth-")
+        if last_authenticated_time == 0:
+            event_msg += "Never (Initializing)"
+        else:
+            event_msg += (f"{self._secs_to_time(last_authenticated_time)} "
+                        f" ({self._format_age(self.authenticated_time - last_authenticated_time)})")
+        event_msg += (f", Method-{self.api.authentication_method}")
+        if devicename: event_msg += (f", RequestedBy-{devicename}")
+        self._save_event_halog_info("*", event_msg)
+
+#--------------------------------------------------------------------
+    def _is_authentication_2fa_code_needed(self, initial_setup=False):
+        '''
+        Make sure iCloud is still available and doesn't need to be authenticationd
+        in 15-second polling loop
+
+        Returns True  if Authentication is needed.
+        Returns False if Authentication succeeded
+        '''
+        if self.CONF_TRK_METHOD_FMF_FAMSHR is False:
+            return
+        elif initial_setup:
+            pass
+        elif self.start_icloud3_inprocess_flag:
+            return False
+
+        fct_name = "icloud_authenticate_account"
+
+        from .pyicloud_ic3 import PyiCloudService
+        from .pyicloud_ic3 import PyiCloudException
+
+        try:
+            if initial_setup is False:
+                if self.api is None:
+                    event_msg = ("iCloud/FmF API Error, No device API information "
+                                    "for devices. Resetting iCloud")
+                    self._save_event_halog_error(event_msg)
+                    self._start_icloud3()
+
+                elif self.start_icloud3_request_flag:    #via service call
+                    event_msg = ("iCloud Restarting, Reset command issued")
+                    self._save_event_halog_error(event_msg)
+                    self._start_icloud3()
+
+                if self.api is None:
+                    event_msg = ("iCloud Authentication Required, will retry")
+                    self._save_event_halog_error(event_msg)
+                    return True #Authentication needed
+
+            try:
+                if self.api is None:
+                    return True
+
+                #See if 2fa Verification needed
+                if self.api.requires_2fa is False:
+                    return False
+
+                alert_msg = (f"{EVLOG_ALERT}iCloud3 Alert > 2fa Verification Required")
+                self._save_event("*", alert_msg)
+                if self.verification_code is None:
+                    self._icloud_2fa1_show_verification_code_entry_form()
+                    return True  #Verification needed
+
+            except PyiCloudException as error:
+                event_msg = (f"iCloud3 Error > Setting up 2fa > {error}")
+                self._save_event_halog_error(event_msg)
+                return True         #Verification needed, Verification Failed
+
+            self.authenticated_time = time.time()
+            self.trusted_device    = None
+            self.verification_code = None
+
+            return False         #Verification succeeded
+
+        except Exception as err:
+            _LOGGER.exception(err)
+            #x = self._internal_error_msg(fct_name, err, 'AuthiCloud')
+            return True
+
+#--------------------------------------
     def _authentication_error(self):
             #Set up for retry in X minutes
             self.authentication_error_cnt += 1
@@ -6059,299 +6599,308 @@ class Icloud3:#(DeviceScanner):
             self.authentication_error_retry_secs = time.time() + retry_secs
             auth_retry_time = self._secs_to_time(self.authentication_error_retry_secs)
 
-            event_msg = (f"iCloud3 Error > An error occurred authenticating "
+            event_msg = (f"iCloud3 Error > An error occurred authenticating {self.username}."
                 f"CRLFThe iCloud Web Services may be down or the Username/Password"
-                f" may be invalid. The {self.trk_method_short_name} tracking method "
+                f" may be invalid. The iCloud Location Services tracking method "
                 f"is disabled and the iOS App tracking method will be used. "
                 f"CRLFThe authentication will be retried in "
                 f"{self._secs_to_time_str(retry_secs)} at {auth_retry_time}.")
             self._save_event_halog_error("*", event_msg)
 
             self._setup_iosapp_tracking_method()
-            self.api = None
 
 #--------------------------------------------------------------------
-    def _check_authentication_2sa_code_needed(self, initial_setup=False):
+    def _pyicloud_reset_session(self):
         '''
-        Make sure iCloud is still available and doesn't need to be authenticationd
-        in 15-second polling loop
-
-        Returns True  if Authentication is needed.
-        Returns False if Authentication succeeded
+        Reset the urrent session and authenticate to restart pyicloud_ic3
+        and enter a new verification code
         '''
-        if self.CONF_TRK_METHOD_FMF_FAMSHR == False:
+        if self.api == None:
             return
-        elif initial_setup:
-            pass
-        elif self.start_icloud3_inprocess_flag:
-            return False
-
-        fct_name = "icloud_authenticate_account"
-
-        from .pyicloud_ic3 import PyiCloudService
 
         try:
-            if initial_setup == False:
-                if self.api is None:
-                    event_msg = ("iCloud/FmF API Error, No device API information "
-                                    "for devices. Resetting iCloud")
-                    self._save_event_halog_error(event_msg)
+            self._save_event("*", f"^^^iCloud interface initialization started")
+            cookies_file     = (f"{self.icloud_cookies_dir}/{self.icloud_cookies_file}")
+            session_file     = (f"{self.icloud_cookies_dir}/{self.icloud_cookies_file}")
 
-                    self._start_icloud3()
+            self._cookies_file_rename("", "cookies")
+            self._cookies_file_rename("/session", "session")
 
-                elif self.start_icloud3_request_flag:    #via service call
-                    event_msg = ("iCloud Restarting, Reset command issued")
-                    self._save_event_halog_error(event_msg)
-                    self._start_icloud3()
+            session_dir_suffix = ''
+            self._save_event("*", f"iCloud initializing interface")
+            self.api.__init__(self.username, self.password,
+                            cookie_directory=self.icloud_cookies_dir,
+                            session_directory=(f"{self.icloud_cookies_dir}/session{session_dir_suffix}"),
+                            verify=True)
 
-                if self.api is None:
-                    event_msg = ("iCloud reset failed, no device API information "
-                                    "after reset")
-                    self._save_event_halog_error(event_msg)
+            self.api = None
+            self.verification_code = None
 
-                    return True #Authentication needed
+            self._pyicloud_authenticate_account(initial_setup=True)
 
-            if self.api.requires_2sa:
-                from .pyicloud_ic3 import PyiCloudException
-                try:
-                    if self.trusted_device is None:
-                        self._icloud_show_trusted_device_request_form()
-                        return True  #Authentication needed
+            self._save_event("*", f"^^^iCloud interface initialization completed")
 
-                    if self.verification_code is None:
-                        self._icloud_show_verification_code_entry_form()
-
-                        devicename = list(self.tracked_devices.keys())[0]
-                        self._display_info_status_msg(devicename, '')
-                        return True  #Authentication needed
-
-                    self.api.authenticate()
-                    self.authenticated_time = time.time()
-
-                    event_msg = (f"iCloud/FmF Authentication, Devices-{self.api.devices}")
-                    self._save_event_halog_info("*", event_msg)
-
-                    if self.api.requires_2sa:
-                        raise Exception('Unknown failure')
-
-                    self.trusted_device    = None
-                    self.verification_code = None
-
-                except PyiCloudException as error:
-                    event_msg = (f"iCloud3 Error > Setting up 2FA: {error}")
-                    self._save_event_halog_error(event_msg)
-
-                    return True  #Authentication needed, Authentication Failed
-
-            return False         #Authentication not needed, (Authenticationed OK)
+            self._update_sensor_ic3_event_log(f"{self.tracked_devices[0]}")
 
         except Exception as err:
             _LOGGER.exception(err)
-            x = self._internal_error_msg(fct_name, err, 'AuthiCloud')
-            return True
+
+#--------------------------------------------------------------------
+    def _cookies_file_rename(self, dir_sub_path, file_desc, save_extn='sv'):
+        try:
+            file_msg = ""
+            file_name = (f"{self.icloud_cookies_dir}{dir_sub_path}/{self.icloud_cookies_file}")
+            file_name_sv = (f"{file_name}.{save_extn}")
+            if os.path.isfile(file_name_sv):
+                os.remove(file_name_sv)
+                file_msg += (f"{CRLF_DOT}Deleted backup {file_desc} file ({self.icloud_cookies_file}.{save_extn})")
+            if os.path.isfile(file_name):
+                os.rename(file_name, file_name_sv)
+                file_msg += (f"{CRLF_DOT}Renamed current {file_desc} file ({self.icloud_cookies_file}"
+                             f" -- > {self.icloud_cookies_file}.{save_extn})")
+            if file_msg != "":
+                event_msg = (f"Reset iCloud {file_desc} file > CRLF•{file_name}{file_msg}")
+                self._save_event("*", event_msg)
+
+        except Exception as err:
+            _LOGGER.exception(err)
+
+#--------------------------------------------------------------------
+    def _check_ic3_update_2sa_to_2fa(self):
+        '''
+        When upgrading from v2.2.1 (2sa) to v2.2.2 (2fa), the cookies file must be deleted
+        so the trust cookie for 2sa is reset. If this is not done, the 2fa code is not requested
+        and it constantly asks for a notification code.
+
+        This routine checks to see if '\session\cookiesfilename(icloudacct@email.com)' exists. If not, it is an upgrade
+        and the cookie file is deleted.
+            - rename cookiesfile to cookiesfile.2sa
+            - rename sessionfile to sessionfile.2sa
+        '''
+        try:
+            self.icloud_cookies_dir  = self.hass.config.path(STORAGE_DIR, STORAGE_KEY_ICLOUD)
+            self.icloud_cookies_file = "".join([c for c in self.username if match(r"\w", c)])
+            cookies_file     = (f"{self.icloud_cookies_dir}/{self.icloud_cookies_file}")
+            session_file     = (f"{self.icloud_cookies_dir}/{self.icloud_cookies_file}")
+
+            if os.path.isfile(session_file):
+                return
+            elif os.path.isfile(cookies_file):
+                event_msg = ("iCloud3 Upgrade Notification > Deleted the iCloud cookies file "
+                             "with 2sa data to prepare for Apple native 2fa support")
+
+                file_msg = ""
+                cookies_file_2sa = (f"{self.icloud_cookies_dir}/{self.icloud_cookies_file}.2sa")
+                session_2sa_file = (f"{self.icloud_cookies_dir}/session-2sa/{self.icloud_cookies_file}")
+
+                if os.path.isfile(cookies_file_2sa):
+                    os.remove(cookies_file)
+                    file_msg += (f"{CRLF_DOT}Deleted cookies file ({cookies_file})")
+                elif os.path.isfile(cookies_file):
+                    os.rename(cookies_file, cookies_file_2sa)
+                    file_msg += (f"{CRLF_DOT}Renamed current cookies file ({cookies_file}"
+                                f" --> {cookies_file_2sa})")
+                self._save_event("*", event_msg + file_msg)
+
+        except Exception as err:
+            _LOGGER.exception(err)
 
 #--------------------------------------------------------------------
     def _setup_tracked_devices_for_fmf(self):
         '''
         Cycle thru the Find My Friends contact data. Extract the name, id &
-        email address. Scan fmf_email config parameter to tie the fmf_id in
+        email address. Scan fmf_email config parameter to tie the devicename_device_id in
         the location record to the devicename.
 
-                    email --> devicename <--fmf_id
+                    email --> devicename <--devicename_device_id
         '''
-        '''
-        contact-{
-            'emails': ['gary678tw@', 'gary_2fa_acct@email.com'],
-            'firstName': 'Gary',
-            'lastName': '',
-            'photoUrl': 'PHOTO;X-ABCROP-RECTANGLE=ABClipRect_1&64&42&1228&1228&
-                    //mOVw+4cc3VJSJmspjUWg==;
-                    VALUE=uri:https://p58-contacts.icloud.com:443/186297810/wbs/
-                    0123efg8a51b906789fece
-            'contactId': '8590AE02-7D39-42C1-A2E8-ACCFB9A5E406',60110127e5cb19d1daea',
-            'phones': ['(222)\xa0m456-7899'],
-            'middleName': '',
-            'id': 'ABC0DEFGH2NzE3'}
-
-        cycle thru config>track_devices devicename/email parameter
-        looking for a match with the fmf contact record emails item
-                fmf_devicename_email:
-                   'gary_iphone'       = 'gary_2fa_acct@email.com'
-                   'gary_2fa_acct@email.com' = 'gary_iphone@'
-             - or -
-                   'gary_iphone'       = 'gary678@'
-                   'gary678@'          = 'gary_iphone@gmail'
-
-                emails:
-                   ['gary456tw@', 'gary_2fa_acct@email.com]
-
-        When complete, erase fmf_devicename_email and replace it with full
-        email list
-        '''
+        api_friends = None
         try:
-            if self.api is not None:
-                api_friends = self.api.friends
+            api_friends = self.api.friends
+        except:
+            pass
 
-        except (PyiCloudServiceNotActivatedException, PyiCloudNoDevicesException):
-            self.api = None
-
-        if self.api is None:
-            if self._pyicloud_authenticate_account(initial_setup=True):
-                event_msg = (f"iCloud3 Error for {self.username} > "
-                    f"No information was returned from the iCloud Location Services. "
-                    f"iCloud {self.trk_method_short_name} Location Service is disabled. "
-                    f"iCloud3 will use the IOS App tracking_method until your account is atuthenticated.")
-                self._save_event_halog_error("*", event_msg)
-                self._setup_iosapp_tracking_method()
+        if api_friends == None:
+            event_msg = "FindMy App Friends (People) that can be tracked > No entries found"
+            self._save_event("*", event_msg)
             return
 
         try:
-            if api_friends is None:
-                event_msg = (f"iCloud3 Error for {self.username} > "
-                    f"No FmF data was returned from Apple Web Services. "
-                    f"CRLF{'-'*25}"
-                    f"CRLF 1. Verify that the tracked devices have been added "
-                    f"to the Contacts list for this iCloud account."
-                    f"CRLF 2. Verify that the tracked devices have been set up in the "
-                    f"FindMe App and they can be located. "
-                    f"CRLF 3. See the iCloud3 Documentation, `Setting Up your iCloud "
-                    f"Account/Find-my-Friends Tracking Method`."
-                    f"CRLFThe {self.trk_method_short_name} Location Service "
-                    f"is disabled and the IOS App tracking_method will be used.")
-                self._save_event_halog_error("*", event_msg)
+            self._log_rawdata("iCloud FmF Raw Data - (api_friends.data)", api_friends.data)
 
-                self._setup_iosapp_tracking_method()
-                return
+            devicename_friend_emails = {}
+            friend_valid_emails_msg = ''
 
-            self._log_level_debug_rawdata("iCloud FmF Raw Data - (api_friends.data)", api_friends.data)
+            #Extract the email & ID from the friends being followed by the main user
+            try:
+                for friend in api_friends.following:
+                    friend_emails = friend.get('invitationAcceptedHandles')
+                    friend_id     = friend.get('id')
+                    friend_email_id, friend_valid_emails_msg = \
+                            self._extract_fmf_email_id(friend_emails, friend_id, friend_valid_emails_msg)
+                    devicename_friend_emails.update(friend_email_id)
 
-            #cycle thru al contacts in fmf recd
-            devicename_contact_emails = {}
-            contacts_valid_emails = ''
+                    self._log_rawdata(f"iCloud FmF Raw Data, following -- {friend_emails}", friend)
+            except Exception as err:
+                pass
 
-            #Get contacts data from non-2fa account. If there are no contacts
-            #in the fmf data, use the following data in the fmf data
-            for contact in api_friends.following:
-                contact_emails = contact.get('invitationAcceptedHandles')
-                contact_id     = contact.get('id')
+            #Extract the email & ID from the friends following the main user
+            try:
+                for friend in api_friends.followers:
+                    friend_emails = friend.get('invitationFromHandles')
+                    friend_id     = friend.get('id')
+                    friend_email_id, friend_valid_emails_msg = \
+                            self._extract_fmf_email_id(friend_emails, friend_id, friend_valid_emails_msg)
+                    devicename_friend_emails.update(friend_email_id)
 
-                self._log_level_debug_rawdata("iCloud FmF Raw Data - (api_friends.following) 5715", contact)
+                    self._log_rawdata(f"iCloud FmF Raw Data, followers -- {friend_emails}", friend)
+            except Exception as err:
+                pass
 
-                #cycle thru the emails on the tracked_devices config parameter
-                for parm_email in self.fmf_devicename_email:
-                    if instr(parm_email, '@') == False:
-                        continue
+            #Extract the email & ID from the friends contacts
+            try:
+                for friend in api_friends.contact_details:
+                    friend_emails = friend.get('emails')
+                    friend_id     = friend.get('id')
+                    friend_email_id, friend_valid_emails_msg = \
+                            self._extract_fmf_email_id(friend_emails, friend_id, friend_valid_emails_msg)
+                    devicename_friend_emails.update(friend_email_id)
 
-                    #cycle thru the contacts emails
-                    matched_friend = False
-                    devicename = self.fmf_devicename_email.get(parm_email)
+                    self._log_rawdata(f"iCloud FmF Raw Data, contactDetails -- {friend_emails}", friend)
+            except Exception as err:
+                pass
 
-                    for contact_email in contact_emails:
-                        if instr(contacts_valid_emails, contact_email) == False:
-                            contacts_valid_emails += "CRLF• " + contact_email
+            #Normally, the username's device can not be shared with itself so we must check to see
+            #if the username's device was verified by FmF. If not, get the 'me' DeviceId
+            #from the FamShr data and the 'me' device will be located using FamShr
+            friend_valid_emails_msg = self._get_me_device_id(api_friends, friend_valid_emails_msg)
 
-                        if contact_email.startswith(parm_email):
-                            #update temp list with full email from contact recd
-                            matched_friend = True
-                            devicename_contact_emails[contact_email] = devicename
-                            devicename_contact_emails[devicename]    = contact_email
-
-                            self.fmf_id[contact_id] = devicename
-                            self.fmf_id[devicename] = contact_id
-                            self.devicename_verified[devicename] = True
-
-                            log_msg = (f"Matched FmF Contact > "
-                                       f"{self._format_fname_devicename(devicename)} "
-                                       f"with {contact_email}, Id: {contact_id}")
-                            self._log_info_msg(log_msg)
-                            break
-
-            log_msg = (f"FmF contact list email addresses found in the FindMy app for {self.username} > "
-                        f"{contacts_valid_emails}")
+            log_msg = (f"Friends in the FindMy app data that can be located > {friend_valid_emails_msg}")
             self._save_event_halog_info("*", log_msg)
 
             for devicename in self.devicename_verified:
+                #The devicename email was not in the fmf following/followed list
                 if self.devicename_verified.get(devicename) is False:
-                    parm_email = self.fmf_devicename_email.get(devicename)
-                    devicename_contact_emails[devicename] = parm_email
-                    log_msg = (f"iCloud3 Error for {self._format_fname_devicename(devicename)} > "
-                               f"The email address `{parm_email}` is invalid "
-                               f"or is not in the FmF contact list and will not be tracked."
-                               f"CRLF{'-'*25}"
-                               f"CRLF 1. Open the FindMy App. Select People."
-                               f"CRLF 2. Verify that the person associated with this email address "
-                               f"is listed. The list must include the person associated with the "
-                               f"iCloud account being used. "
-                               f"CRLF 3. Press `Share My Location` and follow the steps to add the "
-                               f"person/email address to track, or"
-                               f"CRLF 4. Press the person's name, then press Contact to verify their "
-                               f"email address."
-                               f"CRLF 5. Restart Home Assistant.")
-                    self._save_event_halog_error("*", log_msg)
+                    parm_email = self.devicename_email.get(devicename)
+                    if parm_email:
+                        devicename_friend_emails[devicename] = parm_email
+                        log_msg = (f"iCloud3 Alert for {self._format_fname_devicename(devicename)} > "
+                                f"The email address `{parm_email}` is not in the FindMy > People list "
+                                f"or being followed by another person and may not be correct. "
+                                f"The Family Sharing list will be checked next.")
+                        self._save_event_halog_error("*", log_msg)
 
-            self.fmf_devicename_email = {}
-            self.fmf_devicename_email.update(devicename_contact_emails)
+            self.devicename_email = {}
+            self.devicename_email.update(devicename_friend_emails)
 
         except Exception as err:
             self._setup_iosapp_tracking_method()
             _LOGGER.exception(err)
 
 #--------------------------------------------------------------------
-    def _setup_tracked_devices_for_famshr(self):
-        '''
-        Verify that the devicenames in the track_devices list are valid
-        and set it's the verified flag. Retry once if any are not verified.
-        '''
-        try:
-            devicename_list_tracked, devicename_list_not_tracked = \
-                    self._verify_tracked_devices_for_famshr()
-            unverified_devicenames = [k for k in self.devicename_verified if self.devicename_verified.get(k) == False]
+    def _extract_fmf_email_id(self, friend_emails, friend_id, friend_valid_emails_msg):
+    #cycle thru the emails on the tracked_devices config parameter
 
-            #Refresh & retry if an unverfied devicename
-            if unverified_devicenames != []:
-                event_msg = (f"{EVLOG_ALERT}iCloud Alert > iCloud did not return device data for any tracked devices > "
-                             f"{self._format_list(unverified_devicenames)}, Authentication & Verification will be retried")
-                self._save_event_halog_info("*", event_msg)
+        devicename_friend_emails = {}
 
-                self._pyicloud_authenticate_account(initial_setup=True)
+        #No devices to track error, display emails anyway
+        if self.devicename_email == {}:
+            for friend_email in friend_emails:
+                if (instr(friend_email, '@')
+                        and instr(friend_valid_emails_msg, friend_email) is False):
+                     friend_valid_emails_msg += (f"{CRLF_DOT}{friend_email}")
+            return devicename_friend_emails, friend_valid_emails_msg
 
-                devicename_list_tracked, devicename_list_not_tracked = \
-                        self._verify_tracked_devices_for_famshr()
-                unverified_devicenames = [k for k in self.devicename_verified if self.devicename_verified.get(k) == False]
+        for parm_email in self.devicename_email:
+            if instr(parm_email, '@') is False:
+                continue
 
-                if unverified_devicenames == []:
-                    event_msg = (f"{EVLOG_ALERT}iCloud Alert > Authentication & Verification Retry Successful")
-                else:
-                    event_msg = (f"Verification not successful for devices > "
-                                 f"{self._format_list(unverified_devicenames)}")
-                    self._save_event_halog_info("*", event_msg)
+            #cycle thru the contacts emails
+            matched_friend = False
+            devicename = self.devicename_email.get(parm_email, "")
 
-            if devicename_list_not_tracked != '':
-                event_msg = (f"Not Tracking Devices >{devicename_list_not_tracked}")
-                if devicename_list_tracked != '':
-                    self._save_event_halog_info("*", event_msg)
-                else:
-                    event_msg = (f"iCloud3 Error > {event_msg}")
-                    self._save_event_halog_error("*", event_msg)
+            for friend_email in friend_emails:
+                if instr(friend_email, '@') is False:
+                    continue
+                elif devicename in self.devicename_evlog_tracked_msg:
+                    continue
 
-            if devicename_list_tracked != '':
-                event_msg = (f"Tracking Devices >{devicename_list_tracked}")
-                self._save_event_halog_info("*", event_msg)
+                if instr(friend_valid_emails_msg, friend_email) is False:
+                    friend_valid_emails_msg += (f"{CRLF_DOT}{friend_email}")
 
-            return
+                if devicename not in self.devicename_evlog_not_tracked_msg:
+                    self.devicename_evlog_not_tracked_msg[devicename] = (f"{friend_email}")
 
-        except Exception as err:
-            _LOGGER.exception(err)
+                if (self.devicename_verified.get(devicename) is False
+                        and friend_email.startswith(parm_email)):
+                    #update temp list with full email from contact recd
+                    matched_friend = True
+                    devicename_friend_emails[friend_email]     = devicename
+                    devicename_friend_emails[devicename]       = friend_email
 
-            event_msg = (f"iCloud3 Error for {self.username} > "
-                "Error Authenticating account or no data was returned from "
-                "iCloud Web Services. Web Services may be down or the "
-                "Username/Password may be invalid.")
-            self._save_event_halog_error("*", event_msg)
-            return False
+                    self.devicename_verified[devicename]        = True
+                    self.devicename_tracking_method[devicename] = FMF
+                    self.devicename_by_device_id[friend_id]     = devicename
+                    self.devicename_device_id[devicename]       = friend_id
+                    self.devicename_device_id_fmf[devicename]   = friend_id
+                    self.devicename_evlog_tracked_msg[devicename] = (f"{friend_email} > {self._format_fname_devicename(devicename)}")
+                    self.devicename_evlog_not_tracked_msg.pop(devicename, None)
+
+                    matched_text = (f"✓ {friend_email} > {self._format_fname_devicename(devicename)}")
+                    friend_valid_emails_msg = \
+                                friend_valid_emails_msg.replace(f"• {friend_email}", f"{matched_text}")
+                    log_msg = (f"Matched FmF Contact > "
+                                f"{self._format_fname_devicename(devicename)} "
+                                f"with {friend_email}, Id: {friend_id}")
+                    self._log_info_msg(log_msg)
+                    break
+
+        return devicename_friend_emails, friend_valid_emails_msg
 
 #--------------------------------------------------------------------
-    def _verify_tracked_devices_for_famshr(self):
+    def _get_me_device_id(self, api_friends, friend_valid_emails_msg):
+        '''
+        Check to see if the devicename email is the same as the username and is verified by being
+        in the followed or is being followed list. If it was not verified, get this devicename's
+        device id from fmf MyPrefs, then follow the trail to get the device_id from the famshr
+        devices. That device id will be used to get the 'me device' location. If it is verified,
+        fmf tracking is already set up for it.
+        '''
+        for devicename in self.devicename_verified:
+            if (self.devicename_email.get(devicename) == self.username
+                    and self.devicename_verified.get(devicename) is False):
+                fmf_data = api_friends.data
+                my_info = fmf_data['myInfo']
+                if self.username in my_info['emails']:
+                    for fmf_device in fmf_data['devices']:
+                        if fmf_device['id'] == my_info['meDeviceId']:
+                            me_device_id = fmf_device['idsDeviceId']
+                            famshr_devices_data = self.api.devices.response["content"]
+                            for famshr_device in famshr_devices_data:
+                                if famshr_device['deviceDiscoveryId'] == me_device_id:
+                                    device_id = famshr_device['id']
+
+                                    friend_valid_emails_msg += (f"{CRLF_CHK}{self.username} > "
+                                                f"{self._format_fname_devicename(devicename)} (Set as MyDevice)")
+
+                                    #If going to track device by famshr, erase fmf device id if needed
+                                    if devicename in self.devicename_device_id:
+                                        fmf_device_id = self.devicename_device_id.get(devicename)
+                                        self.devicename_by_device_id.pop(fmf_device_id)
+
+                                    self.devicename_verified[devicename]        = True
+                                    self.devicename_tracking_method[devicename] = FAMSHR
+                                    self.devicename_by_device_id[device_id]     = devicename
+                                    self.devicename_device_id[devicename]       = device_id
+                                    self.devicename_device_id_famshr[devicename]= device_id
+                                    self.devicename_evlog_tracked_msg[devicename]  = (f"{self.username} > "
+                                                f"{self._format_fname_devicename(devicename)}")
+                                    break
+
+        return friend_valid_emails_msg
+
+#--------------------------------------------------------------------
+    def _setup_tracked_devices_for_famshr(self):
         '''
         Get the device info from iCloud Web Svcs via pyicloud. Then cycle through
         the iCloud devices and for each device, see if it is in the list of devicenames
@@ -6360,49 +6909,45 @@ class Icloud3:#(DeviceScanner):
         Returns the devices being tracked and the devices in the iCloud list that are
         not being tracked.
         '''
+
+        devices_data = None
         try:
-            devicename_list_tracked     = ""
-            devicename_list_not_tracked = ""
+            devices_data = self.api.devices.response["content"]
+        except:
+            pass
 
-            if self.api is not None:
-                api_devices = self.api.devices
-
-                api_device_content = api_devices.response["content"]
-
-        except (PyiCloudServiceNotActivatedException, PyiCloudNoDevicesException):
-             self.api = None
-
-        if self.api is None:
-            event_msg = (f"iCloud3 Error for {self.username} > "
-                f"No devices were returned from the iCloud Location Services. "
-                f"iCloud {self.trk_method_short_name} Location Service is disabled. "
-                f"iCloud3 will use the IOS App tracking_method until your account is authenticated.")
-            self._save_event_halog_error("*", event_msg)
-            self._setup_iosapp_tracking_method()
-            return "", ""
+        if devices_data == None:
+            event_msg = "Family Sharing List devices that can be tracked > No entries found"
+            self._save_event("*", event_msg)
+            return
 
         try:
-            self._log_level_debug_rawdata("FamShr iCloud Data - (devices) 5826", api_device_content)
+            event_msg = "Family Sharing List devices that can be tracked >"
 
-            for device in api_device_content:
-                device_content_name = device[ATTR_NAME]
-                devicename          = slugify(device_content_name)
-                device_type         = device[ATTR_ICLOUD_DEVICE_CLASS]
-                self._log_level_debug_rawdata((f"FamShr iCloud Data - {devicename}"),
-                            device, log_rawdata=self.log_level_debug_flag)
+            for device_data in devices_data:
+                device_fname = device_data[ATTR_NAME].replace(u'\xa0', u' ')
+                device_id    = device_data['id']
+                devicename   = slugify(device_fname)
+                device_type  = device_data[ATTR_ICLOUD_DEVICE_CLASS]
+                self._log_rawdata((f"FamShr iCloud Data, device_data -- {devicename}"), device_data)
 
                 if devicename in self.devicename_verified:
-                    self.devicename_verified[devicename] = True
+                    if self.devicename_verified.get(devicename) is False:
+                        self.devicename_verified[devicename]        = True
+                        self.devicename_tracking_method[devicename] = FAMSHR
+                        self.devicename_by_device_id[device_id]     = devicename
+                        self.devicename_device_id[devicename]       = device_id
 
-                    self.api_device_devicename[device_content_name] = devicename
-                    self.api_device_devicename[devicename]          = device_content_name
+                    self.devicename_device_id_famshr[devicename]= device_id
 
-                    devicename_list_tracked += (f"CRLF• {devicename} ({device_content_name}/{device_type})")
-
+                    event_msg += (f"{CRLF_CHK}{devicename} > {device_fname}, {device_type}")
+                    self.devicename_evlog_tracked_msg[devicename] = (f"{devicename} > {device_fname}, {device_type}")
                 else:
-                    devicename_list_not_tracked += (f"CRLF• {devicename} ({device_content_name}/{device_type})")
+                    event_msg += (f"{CRLF_DOT}{devicename} > {device_fname}, {device_type}")
+                    self.devicename_evlog_not_tracked_msg[devicename] = (f"{devicename} > {device_fname}, {device_type}")
 
-            return devicename_list_tracked, devicename_list_not_tracked
+            self._save_event("*", event_msg)
+            return
 
         except Exception as err:
             _LOGGER.exception(err)
@@ -6413,24 +6958,71 @@ class Icloud3:#(DeviceScanner):
                 "Username/Password may be invalid.")
             self._save_event_halog_error("*", event_msg)
 
-        return "", ""
+        return
+
+#--------------------------------------------------------------------
+    def _tune_tracked_devices_fmf_famshr(self):
+        '''
+        The goal is to get either all fmf or all famshr to minimize the number of
+        calls to iCloud Web Services by pyicloud_ic3. Look at the fmf and famshr
+        devices to see if:
+        1. All devices are fmf or all devices are famshr.
+        2. There are famshr devices and all the fmf devices are in the famshr list.
+        3. Most devices are famshr but there is a fmf device that is not in the
+        famshr list.
+        If:
+        1. Then there will be no famshr locates (acceptible).
+        2. Change the all fmf devices to  famshr and update the device id for the device.
+        3. Leave alone since it will need calls to both.
+        '''
+
+        fmf_cnt    = 0
+        famshr_cnt = 0
+        iosapp_cnt = 0
+        device_cnt = 0
+        for devicename in self.devicename_tracking_method:
+            device_cnt += 1
+            if self.devicename_tracking_method.get(devicename) == FMF:
+                fmf_cnt += 1
+            elif self.devicename_tracking_method.get(devicename) == FAMSHR:
+                famshr_cnt += 1
+            else:
+                iosapp_cnt += 1
+
+        if fmf_cnt == 0 or famshr_cnt == 0:
+            return
+
+        elif fmf_cnt > 0 and famshr_cnt > 0:
+            #Go through devices and move from fmf to famshr if famshr is available
+            for devicename in self.devicename_tracking_method:
+                if (self.devicename_tracking_method.get(devicename) == FMF
+                        and devicename in self.devicename_device_id_famshr):
+                    device_id = self.devicename_device_id_famshr.get(devicename)
+                    self.devicename_tracking_method[devicename] = FAMSHR
+                    self.devicename_by_device_id[device_id] = devicename
+                    self.devicename_device_id[devicename]   = device_id
+
+                    fmf_cnt    -= 1
+                    famshr_cnt += 1
 
 #--------------------------------------------------------------------
     def _setup_tracked_devices_for_iosapp(self):
         '''
         The devices to be tracked are in the track_devices or the
-        include_devices  config parameters.
+        include_devices config parameters.
         '''
         for devicename in self.devicename_verified:
             self.devicename_verified[devicename] = True
+            if self.TRK_METHOD_FMF_FAMSHR is False:
+                self.devicename_tracking_method[devicename] = IOSAPP
 
         event_msg = (f"Verified Device for iOS App Tracking > "
                      f"{self._format_list(self.devicename_verified)}")
         self._save_event_halog_info("*", event_msg)
         return
 
- #--------------------------------------------------------------------
-    def _setup_tracked_devices_config_parm(self, config_parameter):
+#--------------------------------------------------------------------
+    def _set_track_devices_fields_from_config_parms(self):
         '''
         Set up the devices to be tracked and it's associated information
         for the configuration line entry. This will fill in the following
@@ -6445,27 +7037,42 @@ class Icloud3:#(DeviceScanner):
         operating mode (fmf, icloud, iosapp)
         '''
 
-        if config_parameter is None:
-            return
+        # Extract device fields from ha config file 'devices:' parameter
+        self.config_track_devices_fields.extend(
+                self._get_devices_list_from_config_devices_parm(\
+                        self.config_devices_schema, 'HA config'))
+
+        # Get device fields from iCloud3 config_ic3 file
+        self.config_track_devices_fields.extend(self.config_ic3_track_devices_fields)
+
+        # Extract device fields from ha config file 'track_devices:' parameter
+        self.config_track_devices_fields.extend(\
+                self._get_devices_list_from_config_track_devices_parm(\
+                        self.config_track_devices_parm, 'HA config'))
 
         try:
-            for track_device_line in config_parameter:
-                di = self._decode_track_device_config_parms(track_device_line)
+            for device_fields in self.config_track_devices_fields:
+                if CONF_DEVICENAME not in device_fields:
+                   continue
 
-                if di is None:
-                    return
-
-                devicename = di[DI_DEVICENAME]
-                if self._check_devicename_in_another_thread(devicename):
+                devicename = device_fields.get(CONF_DEVICENAME)
+                if devicename in self.devicename_verified:
+                    event_msg = (f"Duplicate Entry Discarded > {devicename} > The parameters "
+                                 f"for this device have already been processed. Parameters "
+                                 f"in the {device_fields.get(CONF_CONFIG)} file will not be used.")
+                    self._save_event("*", event_msg)
                     continue
 
-                elif (self.iosapp_monitor_dev_trk_flag.get(devicename)
-                        and devicename == di[DI_IOSAPP_ENTITY]):
-                    event_msg = (f"iCloud3 Error > iCloud3 not tracking {devicename}. "
+                warning_msg = ""
+
+
+                if (self.iosapp_monitor_dev_trk_flag.get(devicename)
+                        and devicename == device_fields.get(CONF_IOSAPP_ENTITY)):
+                    event_msg = (f"iCloud3 Error > iCloud3 is not tracking {devicename}. "
                         f"The iCloud3 tracked_device is already assigned to "
-                        f"the IOS App v2 and duplicate names are not allowed for HA "
-                        f"Integration entities. You must change the IOS App v2 "
-                        f"entity name on the HA `Sidebar>Configuration>Integrations` "
+                        f"the iOSApp and duplicate names are not allowed for HA "
+                        f"Integration entities. You must change the iOS App "
+                        f"entity name on the HA `Sidebar > Configuration > Integrations` "
                         f"screen. Then do the following: "
                         f"CRLF{'-'*25}"
                         f"CRLF 1. Select the Mobile_App entry for `{devicename}`."
@@ -6474,28 +7081,83 @@ class Icloud3:#(DeviceScanner):
                         f"CRLF 4. Click the Settings icon."
                         f"CRLF 5. Add or change the suffix of the "
                         f"`device_tracker.{devicename}` Entity ID to another value "
-                        f"(e.g., _2, _10, _iosappv2)."
+                        f"(e.g., _2, _app, etc)."
                         f"CRLF 6. Restart HA.")
                     self._save_event_halog_error("*", event_msg)
                     continue
 
-                email = di[DI_EMAIL]
-                self.fmf_devicename_email[email]      = devicename
-                self.fmf_devicename_email[devicename] = email
-                self.device_type[devicename]          = di[DI_DEVICE_TYPE]
-                self.fname[devicename]                = di[DI_NAME]
-                self.badge_picture[devicename]        = di[DI_BADGE_PICTURE]
-                self.devicename_iosapp_entity[devicename]    = di[DI_IOSAPP_ENTITY]
-                self.devicename_iosapp_suffix[devicename] = di[DI_IOSAPP_SUFFIX]
-                self.track_from_zone[devicename]      = di[DI_ZONES]
-
                 self.devicename_verified[devicename] = False
+                self.device_type[devicename] = device_fields.get(CONF_DEVICE_TYPE, UNKNOWN)
+                device_type                  = device_fields.get(CONF_DEVICE_TYPE, UNKNOWN).lower()
+                self.fname[devicename]       = device_fields.get(CONF_NAME, devicename)
+
+                email = device_fields.get(CONF_EMAIL, '')
+                if email and email in self.devicename_email:
+                    wrning_msg = (f"The email address {email} is also assigned to {self.devicename_email.get(email)}")
+                    email = ""
+                picture = device_fields.get(CONF_PICTURE, '')
+
+                #Make a list of tracked devices from the parameter
+                track_from_zones = device_fields.get(CONF_TRACK_FROM_ZONE, '').replace(',', ' ').split()
+                track_from_zones.append(HOME)
+
+                iosapp_monitor_flag = device_fields.get(CONF_IOSAPP_INSTALLED, True)
+                iosapp_entity       = ''
+                iosapp_suffix       = ''
+                iosapp_info_event_msg = ''
+                iosapp_inzone_interval_key = ''
+
+                if iosapp_monitor_flag is False:
+                    iosapp_inzone_interval_key = CONF_NO_IOSAPP
+                    iosapp_info_event_msg = "iOSApp-NotUsed"
+                elif CONF_IOSAPP_ENTITY in device_fields:
+                    iosapp_entity         = device_fields.get(CONF_IOSAPP_ENTITY)
+                    iosapp_info_event_msg = (f"iOSAppEntity-{device_fields.get(CONF_IOSAPP_ENTITY)}")
+                elif CONF_IOSAPP_SUFFIX in device_fields:
+                    iosapp_entity         = (f"{devicename}{device_fields.get(CONF_IOSAPP_SUFFIX)}")
+                    iosapp_suffix         = device_fields.get(CONF_IOSAPP_SUFFIX)
+                    iosapp_info_event_msg = (f"iOSAppSuffix-{device_fields.get(CONF_IOSAPP_SUFFIX)}")
+
+                self.devicename_email[email]                 = devicename
+                self.devicename_email[devicename]            = email
+                self.badge_picture[devicename]               = picture if instr(picture, '/') else (f"/local/{picture}")
+                self.iosapp_monitor_dev_trk_flag[devicename] = iosapp_monitor_flag
+                self.devicename_iosapp_entity[devicename]    = iosapp_entity
+                self.devicename_iosapp_suffix[devicename]    = iosapp_suffix
+                self.devicename_verified[devicename]         = False
+                self.devicename_tracking_method[devicename]  = None
+                self.track_from_zones[devicename]            = track_from_zones
+
+                #Set interval-specified for device, then use device type, then use default inzone_interval parm
+                self.inzone_interval_secs[devicename]        = \
+                        device_fields.get(CONF_INZONE_INTERVAL,
+                            self.config_inzone_interval_secs.get(iosapp_inzone_interval_key,
+                                self.config_inzone_interval_secs.get(device_type,
+                                    self.config_inzone_interval_secs.get(CONF_INZONE_INTERVAL,
+                                        self.inzone_interval_secs))))
+
+                event_msg =      (f"Decoding ... {device_fields.get(CONF_SOURCE)} >CRLF") if CONF_SOURCE in device_fields else ""
+                event_msg +=     (f"✓ {devicename} > Name-{device_fields.get(CONF_NAME)}, ")
+                if picture: event_msg += (f"Picture-{device_fields.get(CONF_PICTURE)}, ")
+                if email:   event_msg += (f"email-{email}, ")
+                event_msg += (f"Type-{self.device_type.get(devicename)}, "
+                              f"inZoneInterval-{self._secs_to_time_str(self.inzone_interval_secs.get(devicename))}")
+
+                if track_from_zones != [HOME]:
+                    zones_str = ", ".join(track_from_zones)
+                    event_msg += (f", TrackFromZone-{zones_str}, ")
+                if iosapp_info_event_msg: event_msg += (f", {iosapp_info_event_msg}, ")
+                if warning_msg:           event_msg += (f", WARNING-{warning_msg}")
+
+                self._save_event_halog_info("*", event_msg)
 
         except Exception as err:
             _LOGGER.exception(err)
 
+        return
+
 #--------------------------------------------------------------------
-    def _decode_track_device_config_parms(self, track_device_line):
+    def _decode_track_devices_parameter(self, track_devices_device):
         '''
         This will decode the device's parameter in the configuration file for
         the include_devices, sensor_name_prefix, track_devices items in the
@@ -6510,125 +7172,74 @@ class Icloud3:#(DeviceScanner):
         following order as a list item:
             devicename, device_type, friendlyname, email, picture, sensor name
 
-        Various formats:
-
-        Find my Friends:
-        ----------------
-        devicename > email_address
-        devicename > email_address, badge_picture_name
-        devicename > email_address, badge_picture_name, iosapp_id, name
-        devicename > email_address, iosapp_id
-        devicename > email_address, iosapp_id, name
-        devicename > email_address, badge_picture_name, name
-        devicename > email_address, name
-
-        Find my Phone:
-        --------------
-        devicename
-        devicename > badge_picture_name
-        devicename > badge_picture_name, name
-        devicename > iosapp_id
-        devicename > iosapp_id, name
-        devicename > name
-
-
-        IOS App Version 1:
-        ------------------
-        devicename
-        devicename > badge_picture_name
-        devicename > badge_picture_name, name
-
-        IOS App Version 2:
-        ------------------
-        devicename
-        devicename > iosapp_id
-        devicename > badge_picture_name, iosapp_id
-        devicename > badge_picture_name, iosapp_id, name
         '''
 
         try:
-            badge_picture         = ""
-            email                 = ""
-            fname                 = ""
-            device_type           = ""
-            zones                 = []
-            dev_trk_entity_id     = ""
-            dev_trk_iosapp_suffix = ""
-            dev_trk_device_id     = ""
-            iosapp_monitor_flag   = True
+            device_fields       = {}
+            picture             = ""
+            email               = ""
+            name                = ""
+            device_type         = ""
+            track_from_zones    = []
+            dev_trk_entity_id   = ""
+            iosapp_suffix       = ""
+            dev_trk_device_id   = ""
+            iosapp_monitor_flag = True
 
-            #devicename_parameters = track_device_line.lower().split('>')
-            devicename_parameters = track_device_line.split('>')
-            devicename  = slugify(devicename_parameters[0].replace(' ', '', 99).lower())
-            log_msg = (f"Decoding > {track_device_line}")
-            self._save_event_halog_info("*", log_msg)
+            devicename_parameters = track_devices_device.split('>')
+            devicename  = slugify(devicename_parameters[0])
 
             #If tracking method is IOSAPP or FAMSHR, try to make a friendly
             #name from the devicename. If FMF, it will be retrieved from the
             #contacts data. If it is specified on the config parms, it will be
             #overridden with the specified name later.
 
-            fname, device_type = self._extract_name_device_type(devicename)
-            self.tracked_devices_config_parm[devicename] = track_device_line
+            name, device_type = self._extract_name_device_type(devicename)
+            device_fields[CONF_DEVICENAME]  = devicename
+            device_fields[CONF_NAME]        = name
+            device_fields[CONF_DEVICE_TYPE] = device_type
+            device_fields[CONF_SOURCE]      = track_devices_device
 
-            if len(devicename_parameters) > 1:
-                parameters = devicename_parameters[1].strip()
-                parameters = parameters + ',,,,,,'
-            else:
-                parameters = ''
+            if instr(track_devices_device, '>'):
+                parameter_items = devicename_parameters[1].strip().split(',')
 
-            items = parameters.split(',')
-            for itemx in items:
-                item_entered = itemx.strip().replace(' ', '_', 99)
-                item = item_entered.lower()
+                for parameter_item in parameter_items:
+                    pvalue = parameter_item.strip().replace(' ', '_').lower()
 
-                if item == '':
-                    continue
-                elif instr(item, '@'):
-                    email = item
-                elif instr(item, 'png') or instr(item, 'jpg'):
-                    badge_picture = item
-                elif item == 'iosappv1':
-                    iosapp_monitor_flag = False
-                elif item.startswith("_"):
-                    dev_trk_iosapp_suffix = item
-                    dev_trk_entity_id = devicename + dev_trk_iosapp_suffix
-                elif instr(item, "_"):
-                    dev_trk_entity_id = item
-                    dev_trk_iosapp_suffix = dev_trk_entity_id.replace(devicename, "")
-                elif item in self.zones:
-                    if item != HOME:
-                        if zones == []:
-                            zones = [item]
-                        else:
-                            zones.append(item)
-                else:
-                    fname = item_entered
+                    if pvalue == '':
+                        continue
+                    elif instr(pvalue, '@'):
+                        device_fields[CONF_EMAIL] = pvalue
 
-            zones.append(HOME)
-            if badge_picture and instr(badge_picture, '/') == False:
-                badge_picture = '/local/' + badge_picture
+                    elif (instr(pvalue, 'png')
+                            or instr(pvalue, 'jpg')
+                            or instr(pvalue, 'jpeg')):
+                        device_fields[CONF_PICTURE] = pvalue
 
-            event_msg = (f"Results > FriendlyName-{fname}, Email-{email}, "
-                         f"Picture-{badge_picture}, DeviceType-{device_type}")
-            if zones != []:
-                event_msg += f", TrackFromZone-{zones}"
+                    elif pvalue in [CONF_NOIOSAPP, CONF_NO_IOSAPP]:
+                        device_fields[CONF_IOSAPP_INSTALLED] = False
 
-            if dev_trk_entity_id != "":
-                event_msg += (f", iOSAppDevTrkEntity-{dev_trk_entity_id}")
-            self._save_event("*", event_msg)
+                    elif pvalue.startswith("_"):
+                        device_fields[CONF_IOSAPP_SUFFIX] = pvalue
+                        device_fields.pop(CONF_IOSAPP_ENTITY, None)
 
-            self.iosapp_monitor_dev_trk_flag[devicename] = iosapp_monitor_flag
-            device_info = [devicename, device_type, fname, email, badge_picture,
-                           dev_trk_entity_id, dev_trk_iosapp_suffix, zones]
+                    elif instr(pvalue, "_"):
+                        device_fields[CONF_IOSAPP_ENTITY] = pvalue
+                        device_fields.pop(CONF_IOSAPP_SUFFIX, None)
 
-            log_msg = (f"Extract Trk_Dev Parm, ic3dev_info-{device_info}")
-            self._log_debug_msg("*", log_msg)
+                    elif pvalue == self.zones:
+                        track_from_zones.append(pvalue)
+
+                    else:
+                        device_fields[CONF_NAME] = parameter_item.strip()
+
+            if track_from_zones != []:
+                device_fields[CONF_TRACK_FROM_ZONE] = track_from_zones
 
         except Exception as err:
             _LOGGER.exception(err)
 
-        return device_info
+        return device_fields
 
     #--------------------------------------------------------------------
     def _setup_monitored_iosapp_entities(self, devicename, iosapp_entities, notify_devicenames, dev_trk_iosapp_suffix):
@@ -6639,8 +7250,7 @@ class Icloud3:#(DeviceScanner):
         #and the sensor.xxxx_last_update_trigger entity for that device.
 
 
-        self.device_tracker_entity_ic3[devicename] = (f"device_tracker.{devicename}")
-        if (self.iosapp_monitor_dev_trk_flag.get(devicename) == False):
+        if (self.iosapp_monitor_dev_trk_flag.get(devicename) is False):
             self.device_tracker_entity_iosapp[devicename] = (f"device_tracker.{devicename}")
             self.notify_iosapp_entity[devicename]  = (f"ios_{devicename}")
             return ("", "", "", "")
@@ -6684,11 +7294,12 @@ class Icloud3:#(DeviceScanner):
             dev_trk_entity_id     = entity_id.replace("device_tracker.", "")
             dev_trk_iosapp_suffix = dev_trk_entity_id.replace(devicename, "")
             dev_trk_device_id     = entity['device_id']
-            dev_trk_list         += (f"CRLF• {dev_trk_entity_id} ({dev_trk_iosapp_suffix})")
+            dev_trk_list         += (f"{CRLF_DOT}{dev_trk_entity_id} ({dev_trk_iosapp_suffix})")
 
         log_msg = (f"SCAN ENTITY REG, device_trackers found-[{dev_trk_list}]")
         self._log_debug_msg(devicename, log_msg)
 
+        #Will monitor if found an iosapp device_tracker entity
         self.iosapp_monitor_dev_trk_flag[devicename] = (dev_trk_entity_cnt > 0)
 
         if dev_trk_entity_cnt > 1:
@@ -6696,11 +7307,11 @@ class Icloud3:#(DeviceScanner):
                             f"{self._format_fname_devicename(devicename)}. See Event Log for more information.")
             dev_trk_list += " ← ← Will be monitored"
             event_msg = (f"iCloud3 Setup Error > There are {dev_trk_entity_cnt} iOS App "
-                        f"device_tracker entities for {devicename}, iCloud3 can only monitor one."
+                        f"device_tracker entities for {devicename}. iCloud3 can only monitor one."
                         f"CRLF{'-'*25}CRLFDo one of the following:"
                         f"CRLF●  Delete the incorrect device_tracker from the Entity Registry, or"
                         f"CRLF●  Add the full entity name or the suffix of the device_tracker entity that "
-                        f"should be monitored to the `{devicename}` track_devices parameter, or"
+                        f"should be monitored to the `devices/device_name: {devicename}` parameter, or"
                         f"CRLF●  Change the device_tracker entity's name of the one that should not be monitored "
                         f"so it does not start with `{devicename}`."
                         f"CRLF{'-'*25}CRLFDevice_tracker entities (suffixes) found:"
@@ -6713,38 +7324,41 @@ class Icloud3:#(DeviceScanner):
                 self._get_entity_registry_item(devicename, iosapp_entities, dev_trk_device_id, '_last_update_trigger')
             sensor_battery_level_entity = ''
 
-        if self.iosapp_monitor_dev_trk_flag.get(devicename) == False:
-            event_msg = (f"iCloud3 Setup Error > {dev_trk_entity_id} > "
-                            f"The iOS App device_tracker entity was not found in the "
-                            f"Entity Registry."
-                            f"CRLFDevice_tracker entities (suffixes) found -"
-                            f"{dev_trk_list}")
+        if self.iosapp_monitor_dev_trk_flag.get(devicename) is False:
+            event_msg = (f"iCloud3 Setup Error > {devicename} > "
+                         f"The iOS App device_tracker entity was not found in the "
+                         f"Entity Registry for this device.")
             self._save_event_halog_error("*", event_msg)
             self.info_notification = ICLOUD3_ERROR_MSG
 
-            dev_trk_entity_id           = devicename
+            dev_trk_entity_id           = ''        #devicename
             dev_trk_iosapp_suffix       = ''
             sensor_last_trigger_entity  = ''
             sensor_battery_level_entity = ''
 
-        self.devicename_iosapp_entity[devicename]     = dev_trk_entity_id
-        self.devicename_iosapp_suffix[devicename]     = dev_trk_iosapp_suffix
-        self.iosapp_last_trigger_entity[devicename]   = sensor_last_trigger_entity
-        self.iosapp_battery_level_entity[devicename]  = sensor_battery_level_entity
-        self.device_tracker_entity_iosapp[devicename] = (f"device_tracker.{dev_trk_entity_id}")
+        self.devicename_iosapp_entity[devicename]    = dev_trk_entity_id
+        self.devicename_iosapp_suffix[devicename]    = dev_trk_iosapp_suffix
+        self.iosapp_last_trigger_entity[devicename]  = sensor_last_trigger_entity
+        self.iosapp_battery_level_entity[devicename] = sensor_battery_level_entity
 
-        #Extract all notify entitity id's with this devicename in them from hass notify services notify list
-        notify_devicename_list = []
-        for notify_devicename in notify_devicenames:
-            if instr(notify_devicename, devicename):
-                notify_devicename_list.append(notify_devicename.replace("mobile_app_", ""))
+        if dev_trk_entity_id:
+            #Extract all notify entitity id's with this devicename in them from hass notify services notify list
+            notify_devicename_list = []
+            for notify_devicename in notify_devicenames:
+                if instr(notify_devicename, devicename):
+                    notify_devicename_list.append(notify_devicename.replace("mobile_app_", ""))
 
-        self.notify_iosapp_entity[devicename] = notify_devicename_list
+            self.notify_iosapp_entity[devicename] = notify_devicename_list
+            self.device_tracker_entity_iosapp[devicename] = (f"device_tracker.{dev_trk_entity_id}")
+        else:
+            self.notify_iosapp_entity[devicename] = ''
+            self.device_tracker_entity_iosapp[devicename] = ''
+            self.iosapp_monitor_dev_trk_flag[devicename] is False
 
         return
 
 #--------------------------------------------------------------------
-    def _get_entity_registry_entities(self, platform):
+    def _get_entity_registry_entities(self, platform, entity_prefix):
         '''
         Read the /config/.storage/core.entity_registry file and return
         the entities for platform ('mobile_app', 'ios', etc)
@@ -6755,6 +7369,7 @@ class Icloud3:#(DeviceScanner):
                 self.entity_registry_file  = self.hass.config.path(
                         STORAGE_DIR, STORAGE_KEY_ENTITY_REGISTRY)
 
+            entity_prefix       += '.'
             entities            = []
             entity_reg_file     = open(self.entity_registry_file)
             entity_reg_str      = entity_reg_file.read()
@@ -6766,11 +7381,11 @@ class Icloud3:#(DeviceScanner):
             for entity in entity_reg_entities:
                 if (entity['platform'] == platform):
                     entities.append(entity)
-                    if entity['entity_id'].startswith("device_tracker."):
-                        entity_devicename_list += (f"CRLF• {entity['entity_id'].replace('device_tracker.', '')} "
+                    if entity['entity_id'].startswith(entity_prefix):
+                        entity_devicename_list += (f"{CRLF_DOT}{entity['entity_id'].replace(entity_prefix, '')} "
                                                    f"({entity['original_name']})")
 
-            event_msg = (f"Entity Registry mobile_app device_tracker entities found >{entity_devicename_list}")
+            event_msg = (f"Entity Registry {platform} {entity_prefix} entities found >{entity_devicename_list}")
             self._save_event("*", event_msg)
 
         except Exception as err:
@@ -6815,7 +7430,7 @@ class Icloud3:#(DeviceScanner):
         return ''
 
 #--------------------------------------------------------------------
-    def _check_valid_ha_device_tracker(self, devicename):
+    def _is_valid_ha_device_tracker(self, devicename):
         '''
         Validate the 'device_tracker.devicename' entity during the iCloud3
         Stage 2 initialization. If it does not exist, then it has not been set
@@ -6863,8 +7478,10 @@ class Icloud3:#(DeviceScanner):
         attr_prefix_fname = attr_prefix_fname.replace('Ip','-iP')
         attr_prefix_fname = attr_prefix_fname.replace('Iw','-iW')
         attr_prefix_fname = attr_prefix_fname.replace('--','-')
+        attr_prefix_fname = attr_prefix_fname.replace('-De-', '-de-')
+        if attr_prefix_fname.startswith('-'): attr_prefix_fname = attr_prefix_fname[1:]
 
-        self.sensor_attr_fname_prefix[devicename] = (f"{attr_prefix_fname}-")
+        self.sensor_attr_fname_prefix[devicename] = (f"{attr_prefix_fname} ")
 
         badge_attrs = {}
         badge_attrs['entity_picture'] = self.badge_picture.get(devicename)
@@ -6873,12 +7490,12 @@ class Icloud3:#(DeviceScanner):
         self.sensor_badge_attrs[devicename] = badge_attrs
 
         event_msg = ""
-        for zone in self.track_from_zone.get(devicename):
-            if zone == 'home':
+        for zone in self.track_from_zones.get(devicename):
+            if zone == HOME:
                 zone_prefix = ''
             else:
                 zone_prefix = zone + '_'
-            event_msg = (f"CRLF• Sensor entity prefix > sensor.{zone_prefix}"
+            event_msg = (f"{CRLF_DOT}Sensor entity prefix > sensor.{zone_prefix}"
                          f"{self.sensor_prefix_name.get(devicename)}")
 
         log_msg = (f"Set up sensor name for device, devicename-{devicename}, "
@@ -6897,19 +7514,19 @@ class Icloud3:#(DeviceScanner):
         'sensors' takes ppresidence over 'exclude_sensors'.
         '''
 
-        if initial_load_flag == False:
+        if initial_load_flag is False:
             return
 
         if self.sensor_ids != []:
             self.sensors_custom_list = []
-            for sensor_id in self.sensor_ids:
+            for sensor_id in self.sensor_ids[0].split(','):
                 id = sensor_id.lower().strip()
                 if id in SENSOR_ID_NAME_LIST:
                     self.sensors_custom_list.append(SENSOR_ID_NAME_LIST.get(id))
 
         elif self.exclude_sensor_ids != []:
             self.sensors_custom_list.extend(SENSOR_DEVICE_ATTRS)
-            for sensor_id in self.exclude_sensor_ids:
+            for sensor_id in self.exclude_sensor_ids[0].split(','):
                 id = sensor_id.lower().strip()
                 if id in SENSOR_ID_NAME_LIST:
                     if SENSOR_ID_NAME_LIST.get(id) in self.sensors_custom_list:
@@ -6923,7 +7540,7 @@ class Icloud3:#(DeviceScanner):
 #   DEVICE STATUS SUPPORT FUNCTIONS FOR GPS ACCURACY, OLD LOC DATA, ETC
 #
 #########################################################
-    def _check_old_loc_poor_gps(self, devicename, timestamp_secs, gps_accuracy):
+    def _check_poor_location_gps(self, devicename, timestamp_secs, gps_accuracy, checkOnly=False):
         """
         If this is checked in the icloud location cycle,
         check if the location isold flag. Then check to see if
@@ -6934,55 +7551,67 @@ class Icloud3:#(DeviceScanner):
         already updated the lat/long so
         you don't want to discard the record just because it is old.
         If in a zone, use the trigger but check the distance from the
-        zone when updating the device. If the distance from the zone = 0,
-        then reset the lat/long to the center of the zone.
+        zone when updating the device.
+
+        Update the old_location_poor_gps_cnt if just_check=False
         """
 
         try:
-            discard_reason      = ""
-            age                 = int(self._secs_since(timestamp_secs))
-            age_str             = self._secs_to_time_str(age)
-            location_isold_flag = (age > self.old_location_secs.get(devicename))
-            poor_gps_flag       = (gps_accuracy > self.gps_accuracy_threshold)
+            discard_reason    = ""
+            location_age      = int(self._secs_since(timestamp_secs))
+            location_age_str  = (f"{self._format_age(location_age)}")
+            location_time_age = self._format_time_age(timestamp_secs)
+            old_location_flag = (location_age > self.old_location_secs.get(devicename))
+            poor_gps_flag     = (gps_accuracy > self.gps_accuracy_threshold)
 
-            if location_isold_flag and poor_gps_flag:
-                discard_reason = (f"Old.Location-{age_str}, GPSAccuracy-{gps_accuracy}m")
-            elif location_isold_flag:
-                discard_reason = (f"Old.Location-{age_str}")
+            if old_location_flag and poor_gps_flag:
+                discard_reason = (f"OldLocation-{location_time_age}, PoorGPS-{gps_accuracy}m")
+            elif old_location_flag:
+                discard_reason = (f"OldLocation-{location_time_age}")
             elif poor_gps_flag:
-                discard_reason = (f"GPSAccuracy-{gps_accuracy}m")
+                discard_reason = (f"PoorGPS-{gps_accuracy}m")
 
-            if location_isold_flag or poor_gps_flag:
-                self.old_loc_poor_gps_cnt[devicename] += 1
-                discard_reason += (f" (#{self.old_loc_poor_gps_cnt.get(devicename)})")
+            #Do not update status and count if just checking poor loc gps status
+            if checkOnly:
+                return (old_location_flag or poor_gps_flag)
+
+
+            if old_location_flag or poor_gps_flag:
+                self.poor_gps_flag[devicename] = True
+                self.poor_location_gps_cnt[devicename] += 1
+                discard_reason += (f" (#{self.poor_location_gps_cnt.get(devicename)})")
             else:
-                self.old_loc_poor_gps_cnt[devicename]  = 0
+                self.poor_gps_flag[devicename] = False
+                self.poor_location_gps_cnt[devicename]  = 0
 
-            self.poor_gps_accuracy_flag[devicename] = (location_isold_flag or poor_gps_flag)
-
-            log_msg = (f"CHECK ISOLD/GPS ACCURACY, Time-{self._secs_to_time(timestamp_secs)}, "
-                        f"isOldFlag-{location_isold_flag}, Age-{age_str}, "
+            #log_msg = (f"CHECK ISOLD/GPS ACCURACY, Time-{self._secs_to_time(timestamp_secs)}, "
+            #            f"isOldFlag-{old_location_flag}, Age-{location_age_str}, "
+            log_msg = (f"CHECK ISOLD/GPS ACCURACY, Time-{location_time_age}, "
+                        f"isOldFlag-{old_location_flag}, "
                         f"GPSAccuracy-{gps_accuracy}m, GPSAccuracyFlag-{poor_gps_flag}",
-                        f"Results-{self.poor_gps_accuracy_flag.get(devicename)}, "
+                        f"Results-{self.poor_gps_flag.get(devicename)}, "
                         f"DiscardReason-{discard_reason}")
             self._log_debug_msg(devicename, log_msg)
 
         except Exception as err:
             _LOGGER.exception(err)
-            self.poor_gps_accuracy_flag[devicename] = False
-            self.old_loc_poor_gps_cnt[devicename]   = 0
+            self.poor_gps_flag[devicename] = False
+            self.poor_location_gps_cnt[devicename] = 0
 
             log_msg = ("►INTERNAL ERROR (ChkOldLocPoorGPS)")
             self._log_error_msg(log_msg)
 
-        return (self.poor_gps_accuracy_flag.get(devicename), discard_reason)
+        return (self.poor_gps_flag.get(devicename), discard_reason)
 
 #--------------------------------------------------------------------
-    def _check_next_update_time_reached(self, devicename=None):
+    def _is_next_update_time_reached(self, devicename=None):
         '''
         Cycle through the next_update_secs for all devices and
         determine if one of them is earlier than the current time.
         If so, the devices need to be updated.
+
+        Return  None    - Next update time has not been reached on any devicename:zone
+                devicename - devicename of phone that needs to be updated
         '''
         try:
             if self.next_update_secs is None:
@@ -7005,7 +7634,33 @@ class Icloud3:#(DeviceScanner):
         return None
 
 #--------------------------------------------------------------------
-    def _check_in_zone_and_before_next_update(self, devicename):
+    def _is_next_update_time_reached_devicename(self, devicename):
+        '''
+        Cycle through the next_update_secs for this devicename and
+        determine if one of them is earlier than the current time.
+        If so, the devicename need to be updated.
+
+        Return  True    - Reached next_update_secs, update devicename
+                False   - Do not update devicename
+        '''
+        try:
+            if self.next_update_secs is None:
+                return False
+
+            for devicename_zone in self.next_update_secs:
+                if devicename_zone.startswith(devicename):
+                    time_till_update = self.next_update_secs.get(devicename_zone) - \
+                            self.this_update_secs
+
+                    if time_till_update <= 5:
+                        return True
+
+        except Exception as err:
+            _LOGGER.exception(err)
+
+        return False
+#--------------------------------------------------------------------
+    def _is_in_zone_and_before_next_update(self, devicename):
         '''
         If updated because another device was updated and this device is
         in a zone and it's next time has not been reached, do not update now
@@ -7014,7 +7669,7 @@ class Icloud3:#(DeviceScanner):
             if (self.state_this_poll.get(devicename) != NOT_SET
                     and self._is_inzone(devicename)
                     and self._was_inzone(devicename)
-                    and self._check_next_update_time_reached(devicename) is None):
+                    and self._is_next_update_time_reached(devicename) is None):
 
                 return True
 
@@ -7024,12 +7679,16 @@ class Icloud3:#(DeviceScanner):
         return False
 
 #--------------------------------------------------------------------
-    def _check_outside_zone_no_exit(self,devicename, zone, latitude, longitude):
+    def _is_outside_zone_no_exit(self, devicename, zone, trigger, latitude, longitude):
         '''
         If the device is outside of the zone and less than the zone radius + gps_acuracy_threshold
         and no Geographic Zone Exit trigger was received, it has probably wandered due to
         GPS errors. If so, discard the poll and try again later
         '''
+        trigger = self.trigger.get(devicename) if trigger == '' else trigger
+        if trigger in IOS_TRIGGERS_ENTER:
+            return False, ''
+
         dist_from_zone_m  = self._zone_distance_m(
                                 devicename,
                                 zone,
@@ -7043,10 +7702,10 @@ class Icloud3:#(DeviceScanner):
 
         msg = ''
         if (dist_from_zone_m > zone_radius_m
-                and self.got_exit_trigger_flag.get(devicename) == False
-                and instr(zone, STATIONARY) == False):
+                and self.got_exit_trigger_flag.get(devicename) is False
+                and instr(zone, STATIONARY) is False):
             if dist_from_zone_m < zone_radius_accuracy_m:
-                self.poor_gps_accuracy_flag[devicename] = True
+                self.poor_gps_flag[devicename] = True
 
                 msg = ("Outside Zone and No Exit Zone trigger, "
                     f"Keeping in zone > Zone-{zone}, "
@@ -7060,31 +7719,91 @@ class Icloud3:#(DeviceScanner):
                     f"DiscardDist-{zone_radius_m}m to {zone_radius_accuracy_m}m ")
 
         return False, ''
-#--------------------------------------------------------------------
-    #@staticmethod
-    def _get_interval_for_error_retry_cnt(self, retry_cnt):
-        cycle, cycle_cnt = divmod(retry_cnt, 4)
 
-        if cycle == 0:
-            interval = 15
-        elif cycle == 1:
-            interval = 60           #1 min
-        elif cycle == 2:
-            interval = 300          #5 min
-        elif cycle == 3:
-            interval = 900          #15 min
+#--------------------------------------------------------------------
+    def _pause_device(self, devicename):
+        '''
+        Pause tracking the device
+        '''
+        devicename_zone = self._format_devicename_zone(devicename, HOME)
+
+        self.next_update_secs[devicename_zone] = HIGH_INTEGER
+        self.next_update_time[devicename_zone] = PAUSED
+
+        attrs = {}
+        attrs[ATTR_NEXT_UPDATE_TIME] = PAUSED
+        self._update_device_sensors(devicename_zone, attrs)
+
+        self._display_info_status_msg(devicename, PAUSED_CAPS)
+
+#--------------------------------------------------------------------
+    def _is_device_paused(self, devicename):
+        '''
+        Return True if the device is paused
+        '''
+        devicename_zone = self._format_devicename_zone(devicename, HOME)
+
+        return (self.next_update_time.get(devicename_zone) == PAUSED)
+
+#--------------------------------------------------------------------
+    def _get_interval_for_error_retry_cnt(self, devicename, counter=POOR_LOC_GPS_CNT, pause_control_flag=False):
+        '''
+        Get the interval time based on the retry_cnt.
+        retry_cnt   =   poor_location_gps count (default)
+                    =   iosapp_request_loc_sent_retry_cnt
+                    =   retry pyicloud authorization count
+        pause_control_flag = True if device will be paused (interval is negative)
+                           = False if just getting interfal and device will not be paused
+
+        Returns     interval in minutes
+                    (interval is negative if device should be paused)
+
+        Interval range table - key = retry_cnt, value = time in minutes
+        - poor_location_gps cnt, icloud_authentication cnt (default):
+            interval_range_1 = {0:.25, 4:1, 8:5,  12:30, 16:60, 20:120, 24:240}
+        - request iosapp location retry cnt:
+            interval_range_2 = {0:.5,  4:2, 8:30, 12:60, 16:120}
+
+        '''
+        if counter == POOR_LOC_GPS_CNT:
+            retry_cnt = self.poor_location_gps_cnt.get(devicename, 0)
+            range_tbl = RETRY_INTERVAL_RANGE_1
+
+        elif counter == AUTH_ERROR_CNT:
+            retry_cnt = self.icloud_acct_auth_error_cnt
+            range_tbl = RETRY_INTERVAL_RANGE_1
+
+        elif counter == IOSAPP_REQUEST_LOC_CNT:
+            retry_cnt = self.iosapp_request_loc_retry_cnt.get(devicename)
+            range_tbl = RETRY_INTERVAL_RANGE_2
         else:
-            interval = 1800         #30 min
+            return 60
+
+        interval = .25
+        for k, v in range_tbl.items():
+            if k <= retry_cnt:
+                interval = v
+
+        if pause_control_flag is False: interval = abs(interval)
+        interval = interval * 60
 
         return interval
 #--------------------------------------------------------------------
     def _display_time_till_update_info_msg(self, devicename_zone, age_secs):
-        info_msg = (f"● {self._secs_to_minsec_str(age_secs)} ●")
+        '''
+        Display the secs until the next update in the next update time field.
+        if between 90s to -90s. if between -90s and -120s, resisplay time
+        without the age to make sure it goes away.
+        '''
 
-        attrs = {}
-        attrs[ATTR_NEXT_UPDATE_TIME] = info_msg
+        info_msg=(f"{self._secs_to_timestamp(self.next_update_secs.get(devicename_zone))}")
+        if age_secs <= 90 and age_secs >= -90:
+            info_msg += (f"-{age_secs}s")
 
-        self._update_device_sensors(devicename_zone, attrs)
+        if age_secs <= 90 and age_secs > -120:
+            attrs = {}
+            attrs[ATTR_NEXT_UPDATE_TIME] = info_msg
+            self._update_device_sensors(devicename_zone, attrs)
 
 #--------------------------------------------------------------------
     def _log_device_status_attrubutes(self, status):
@@ -7123,13 +7842,13 @@ class Icloud3:#(DeviceScanner):
             f"●deviceClass-{status[ATTR_ICLOUD_DEVICE_CLASS]}, "
             f"●batteryLevel-{status[ATTR_ICLOUD_BATTERY_LEVEL]}, "
             f"●batteryStatus-{status[ATTR_ICLOUD_BATTERY_STATUS]}, "
-            f"●isOld-{location[ATTR_ISOLD]}, "
             f"●positionType-{location['positionType']}, "
             f"●latitude-{location[ATTR_LATITUDE]}, "
             f"●longitude-{location[ATTR_LONGITUDE]}, "
             f"●horizontalAccuracy-{location[ATTR_ICLOUD_HORIZONTAL_ACCURACY]}, "
             f"●timeStamp-{location[ATTR_ICLOUD_TIMESTAMP]}"
             f"({self._timestamp_to_time_utcsecs(location[ATTR_ICLOUD_TIMESTAMP])})")
+            #f"●isOld-{location[ATTR_ISOLD]}, "
         self._log_debug_msg('*', log_msg)
         return True
 
@@ -7180,6 +7899,8 @@ class Icloud3:#(DeviceScanner):
 
             if len(self.tracked_devices) > 0:
                 self.log_table_max_items  = EVLOG_RECDS_PER_DEVICE * len(self.tracked_devices)
+                if len(self.track_from_zones.get(devicename)) > 1:
+                    self.log_table_max_items  = .25 * self.log_table_max_items * len(self.track_from_zones.get(devicename))
 
             base_attrs["names"] = name_attrs
 
@@ -7194,6 +7915,9 @@ class Icloud3:#(DeviceScanner):
         return
 
 #------------------------------------------------------
+    def _save_sysevent(self, event_text):
+        self._save_event("*", event_text)
+
     def _save_event(self, devicename, event_text):
         '''
         Add records to the Event Log table the devicename. If the devicename="*",
@@ -7228,18 +7952,26 @@ class Icloud3:#(DeviceScanner):
 
             else:
                 iosapp_state= self.last_iosapp_state.get(devicename, '')
-                zone_names  = self._get_zone_names(self.zone_current.get(devicename, ''))
-                zone        = zone_names[1][:12] if zone_names != '' else ''
+                zone        = self.zone_current.get(devicename, AWAY)
                 interval    = self.interval_str.get(devicename_zone, '').split("(")[0]
                 travel_time = self.last_tavel_time.get(devicename_zone, '')
                 distance    = self.last_distance_str.get(devicename_zone, '')
 
             if (instr(type(event_text), 'dict') or instr(type(event_text), 'list')):
                  event_text = str(event_text)
-            if instr(iosapp_state, STATIONARY): iosapp_state = STATIONARY
-            if instr(zone, STATIONARY):         zone = STATIONARY
-            if len(event_text) == 0:            event_text = 'Info Message'
 
+            if instr(zone, STATIONARY):         zone = STATIONARY
+            if instr(iosapp_state, STATIONARY): iosapp_state = STATIONARY
+
+            iosapp_state = self.zone_to_display.get(iosapp_state, iosapp_state.title())
+            zone         = self.zone_to_display.get(zone, zone.title())
+            iosapp_state = iosapp_state.replace("'", "`")
+            zone         = zone.replace("'", "`")
+
+            if iosapp_state == None: iosapp_state = ''
+            if zone         == None: zone         = ''
+
+            if len(event_text) == 0: event_text = 'Info Message'
             if event_text.startswith('__'): event_text = event_text[2:]
             event_text = event_text.replace('"', '`')
             event_text = event_text.replace("'", "`")
@@ -7254,13 +7986,13 @@ class Icloud3:#(DeviceScanner):
             #Keep track of special colors so it will continue on the
             #next text chunk
             color_symbol = ''
-            if event_text.startswith('$'):   color_symbol = '$'
-            if event_text.startswith('$$'):  color_symbol = '$$'
-            if event_text.startswith('$$$'): color_symbol = '$$$'
-            if event_text.startswith('*'):   color_symbol = '*'
-            if event_text.startswith('**'):  color_symbol = '**'
-            if event_text.startswith('***'): color_symbol = '***'
-            if instr(event_text, 'Error'):   color_symbol = '!'
+            if event_text.startswith('^1^'): color_symbol = '^1^'
+            if event_text.startswith('^2^'): color_symbol = '^2^'
+            if event_text.startswith('^3^'): color_symbol = '^3^'
+            if event_text.startswith('^4^'): color_symbol = '^4^'
+            if event_text.startswith('^5^'): color_symbol = '^5^'
+            if event_text.startswith('^6^'): color_symbol = '^6^'
+            if instr(event_text, ERROR):     color_symbol = '!'
             char_per_line = 2000
 
             #Break the event_text string into chunks of 250 characters each and
@@ -7311,7 +8043,7 @@ class Icloud3:#(DeviceScanner):
         """Add the event recd into the event table"""
 
         if self.event_log_table is None:
-            self.event_log_table = []
+            self.event_log_table = INITIAL_EVLOG_TABLE
 
         while len(self.event_log_table) >= self.log_table_max_items:
             self.event_log_table.pop()
@@ -7328,8 +8060,9 @@ class Icloud3:#(DeviceScanner):
             attr_recd  = {}
             attr_event = {}
             log_attr_text = ""
-            if self.log_level_eventlog_flag: log_attr_text += "evlog,"
-            if self.log_level_debug_flag:    log_attr_text += "halog"
+            if self.log_eventlog_flag: log_attr_text += "evlog,"
+            if self.log_debug_flag:    log_attr_text += "halog,"
+            if self.log_rawdata_flag:  log_attr_text += "rawdata,"
             log_attrs["log_level_debug"] = log_attr_text
 
             if devicename is None:
@@ -7378,24 +8111,24 @@ class Icloud3:#(DeviceScanner):
 
         el_devicename_check=['*', devicename]
 
-        if self.log_level_eventlog_flag:
+        if self.log_eventlog_flag:
             attr_recd = [el_recd[1:8] for el_recd in self.event_log_table \
                 if el_recd[0] in el_devicename_check]
         elif devicename == "*":
             attr_recd = [el_recd[1:8] for el_recd in self.event_log_table \
                 if ((el_recd[0] in el_devicename_check
                         or el_recd[7].startswith(EVLOG_ALERT))
-                    and (el_recd[7].startswith(EVLOG_DEBUG) == False))]
+                    and (el_recd[7].startswith(EVLOG_DEBUG) is False))]
         else:
             attr_recd = [el_recd[1:8] for el_recd in self.event_log_table \
                 if (el_recd[0] in el_devicename_check
-                    and el_recd[7].startswith(EVLOG_DEBUG) == False)]
+                    and el_recd[7].startswith(EVLOG_DEBUG) is False)]
 
         if max_recds == EVENT_LOG_CLEAR_CNT:
             recd_cnt = len(attr_recd)
             attr_recd = attr_recd[0:max_recds]
-            control_recd = ['',' ',' ',' ',' ',' ',f'^^^ Click `Refresh` to display \
-                                all records ({max_recds} of {recd_cnt} displayed) ^^^']
+            control_recd = ['',' ',' ',' ',' ',' ',f'^^^Click `Refresh` to display \
+                                all records ({max_recds} of {recd_cnt} displayed)^^^']
             attr_recd.insert(0, control_recd)
 
         control_recd = [HHMMSS_ZERO,'','','','','','Last Record']
@@ -7405,7 +8138,7 @@ class Icloud3:#(DeviceScanner):
 
 #------------------------------------------------------
     def _export_ic3_event_log(self):
-        ''' Export Event Log to 'config/icloud_event_log.log' '''
+        ''' Export Event Log to 'config/icloud_event_log.txt' '''
 
         try:
             log_update_time = (f"{dt_util.now().strftime('%a, %m/%d')}, "
@@ -7429,7 +8162,7 @@ class Icloud3:#(DeviceScanner):
                 export_recd += self._export_ic3_event_log_reformat_recds(dev_recds)
 
             ic3_directory = os.path.abspath(os.path.dirname(__file__))
-            export_filename = (f"{ic3_directory.split('custom_components')[0]}/icloud3-event-log.log")
+            export_filename = (f"{ic3_directory.split('custom_components')[0]}/icloud3-event-log.txt")
             export_filename = export_filename.replace("//", "/")
 
             export_file = open(export_filename, "w")
@@ -7447,6 +8180,8 @@ class Icloud3:#(DeviceScanner):
         recd_str = recd_str.replace("[[", "").replace("]]","").replace("], [", "\n")
         recd_str = recd_str.replace("''", "'-'").replace("', '","\t")
         recd_str = recd_str.replace("'", "").replace("CRLF", ", ")
+        recd_str = recd_str.replace("^^^", "").replace("^1^", "").replace("^2^", "").replace("^3^", "")
+        recd_str = recd_str.replace("^4^", "").replace("^5^", "").replace("^6^", "")
         recd_str = recd_str.replace("*", "-- sys event --")
 
         for from_text in self.display_text_as_list:
@@ -7520,7 +8255,7 @@ class Icloud3:#(DeviceScanner):
                 self._log_error_msg(log_msg)
 
             waze_time_msg = self._format_waze_time_msg(waze_time_from_zone)
-            event_msg = (f"Waze Route Info: {self.zone_fname.get(self.base_zone)} > "
+            event_msg = (f"Waze Route Info: {self.zone_to_display.get(self.base_zone)} > "
                          f"Dist-{waze_dist_from_zone_km}km, "
                          f"TravTime-{waze_time_msg}, "
                          f"DistMovedSinceLastUpdate-{waze_dist_last_poll}km")
@@ -7530,7 +8265,8 @@ class Icloud3:#(DeviceScanner):
                       f"Status-{waze_status}, DistFromHome-{waze_dist_from_zone_km}, "
                       f"TimeFromHome-{waze_time_from_zone}, "
                       f"DistLastPoll-{waze_dist_last_poll}, "
-                      f"WazeFromHome-{waze_from_zone}, WazeFromLastPoll-{waze_from_last_poll}")
+                      f"WazeFromHome-{waze_from_zone}, "
+                      f"WazeFromLastPoll-{waze_from_last_poll}")
             self._log_debug_interval_msg(devicename, log_msg)
 
             return (waze_status, waze_dist_from_zone_km, waze_time_from_zone,
@@ -7652,7 +8388,7 @@ class Icloud3:#(DeviceScanner):
                     continue
                 elif len(waze_data_other_device[3]) == 0:
                     continue
-                elif near_devicename_zone.endswith(':'+self.base_zone) == False:
+                elif near_devicename_zone.endswith(':'+self.base_zone) is False:
                     continue
 
                 waze_data_timestamp = waze_data_other_device[0]
@@ -7671,9 +8407,10 @@ class Icloud3:#(DeviceScanner):
                     test_distance                  = dist_from_other_waze_data
 
             #Return the waze history data for the other closest device
-            if used_data_from_devicename_zone is not None:
+            #if used_data_from_devicename_zone is not None:
+            if used_data_from_devicename_zone:
                 used_devicename = used_data_from_devicename_zone.split(':')[0]
-                event_msg = (f"Waze Route History Used: {self.zone_fname.get(self.base_zone)} > "
+                event_msg = (f"Waze Route History Used: {self.zone_to_display.get(self.base_zone)} > "
                              f"Dist-{other_closest_device_data[1]}km, "
                              f"TravTime-{round(other_closest_device_data[2], 0)} min, "
                              f"UsedInfoFrom-{self._format_fname_devicename(used_devicename)}, "
@@ -7725,40 +8462,6 @@ class Icloud3:#(DeviceScanner):
             self.waze_status = WAZE_NOT_USED
             self.distance_method_waze_flag = False
             self._log_info_msg("Waze Route Service not available")
-#########################################################
-#
-#   MULTIPLE PLATFORM/GROUP ROUTINES
-#
-#########################################################
-    def _check_devicename_in_another_thread(self, devicename):
-        '''
-        Cycle through all instances of the ICLOUD3_TRACKED_DEVICES and check
-        to see if  this devicename is also in another the tracked_devices
-        for group/instance/thread/platform.
-        If so, return True to reject this devicename and generate an error msg.
-
-        ICLOUD3_TRACKED_DEVICES = {
-            'work': ['gary_iphone > gcobb321@gmail.com, gary.png'],
-            'group2': ['gary_iphone > gcobb321@gmail.com, gary.png, whse',
-            'lillian_iphone > lilliancobb321@gmail.com, lillian.png']}
-        '''
-        try:
-            for group in ICLOUD3_GROUPS:
-                if group != self.group and ICLOUD3_GROUPS.index(group) > 0:
-                    tracked_devices = ICLOUD3_TRACKED_DEVICES.get(group)
-                    for tracked_device in tracked_devices:
-                        tracked_devicename = tracked_device.split('>')[0].strip()
-                        if devicename == tracked_devicename:
-                            log_msg = (f"Error: A device can only be tracked in "
-                                f"one platform/group {ICLOUD3_GROUPS}. '{devicename}' was defined multiple "
-                                f"groups and will not be tracked in '{self.group}'.")
-                            self._save_event_halog_error('*', log_msg)
-                            return True
-
-        except Exception as err:
-            _LOGGER.exception(err)
-
-        return False
 
 #######################################################################
 #
@@ -7782,199 +8485,393 @@ class Icloud3:#(DeviceScanner):
 #
 #
 #######################################################################
-    def _check_config_ic3_yaml_parameter_file(self):
+    def _get_config_ic3_parameters(self):
 
         try:
-            ic3_directory = os.path.abspath(os.path.dirname(__file__))
-            self._save_event("*", f"iCloud3 Directory > {ic3_directory}")
+            config_filename = ""
+            ic3_directory   = os.path.abspath(os.path.dirname(__file__))
+            evlog_notice_color = "" if ic3_directory == "/config/custom_components/icloud3" else EVLOG_ALERT
+            self._save_event("*", f"{evlog_notice_color}iCloud3 Directory > {ic3_directory}")
+            event_msg = (f"iCloud3 Configuration File > ")
 
-            if self.config_ic3_file_name == "":
-                return
+            #File name specified
+            if self.config_ic3_file_name != "":
+                if (instr(self.config_ic3_file_name, "/")
+                        and os.path.exists(self.config_ic3_file_name)):
+                    config_filename = self.config_ic3_file_name
 
-            event_msg = (f"iCloud3 Configuration File > "
-                         f"Specified-{self.config_ic3_file_name}, ")
+                elif os.path.exists(f"/config/{self.config_ic3_file_name}"):
+                    config_filename = (f"/config/{self.config_ic3_file_name}")
 
-            #fully qualified name specified ('/' in filename)
-            if (instr(self.config_ic3_file_name, "/")
-                    and os.path.exists(self.config_ic3_file_name)):
-                config_filename = self.config_ic3_file_name
+                elif os.path.exists(f"{ic3_directory}/{self.config_ic3_file_name}"):
+                    config_filename = (f"{ic3_directory}/{self.config_ic3_file_name}")
 
-            elif os.path.exists(f"{ic3_directory}/{self.config_ic3_file_name}"):
-                config_filename = (f"{ic3_directory}/{self.config_ic3_file_name}")
+            elif os.path.exists(DEFAULT_CONFIG_IC3_FILE_NAME):
+                config_filename = DEFAULT_CONFIG_IC3_FILE_NAME
 
-            elif os.path.exists(f"/config/{self.config_ic3_file_name}"):
-                config_filename = (f"/config/{self.config_ic3_file_name}")
+            elif os.path.exists(f"{ic3_directory}/config_ic3.yaml"):
+                config_filename = (f"{ic3_directory}/config_ic3.yaml")
 
-            else:
-                event_msg += "Error-File Not Found"
+                alert_msg = (f"{EVLOG_ALERT}iCloud3 Alert > The `config_ic3.yaml` "
+                             f"configuration file should moved to the `/config` "
+                             f"directory so it is not deleted when HACS updates iCloud3")
+                self._save_event("*", alert_msg)
+
+            if config_filename == "":
+                if self.config_ic3_file_name:
+                    event_msg = (f"{EVLOG_ERROR}iCloud3 Error, Configuration File > "
+                                 f"File not Found - {self.config_ic3_file_name}")
+                else:
+                    event_msg += "iCloud3 Configuration File > config_ic3.yaml not used"
                 self._save_event("*", event_msg)
                 return
 
             config_filename = config_filename.replace("//", "/")
 
-            event_msg += (f"Found-{config_filename}")
+            event_msg += (f"{config_filename}")
             self._save_event("*", event_msg)
-
-            config_ic3_file = open(config_filename)
-
-        except (FileNotFoundError, IOError):
-            event_msg = (f"iCloud3 Error Opening {config_filename} > File not Found")
-            self._save_event_halog_error("*", event_msg)
-            self.info_notification = event_msg
-            return
 
         except Exception as err:
             _LOGGER.exception(err)
             return
 
+        log_success_msg, log_error_msg = \
+                self._get_recds_from_config_ic3(config_filename)
+
+        if log_error_msg != "":
+            event_msg = (f"{EVLOG_ERROR}iCloud3 Error processing '{config_filename}` parameters. "
+                         f"The following parameters are invalid >{log_error_msg}")
+            self._save_event_halog_error("*", event_msg)
+
+        return
+
+#-------------------------------------------------------------------------
+    def _get_recds_from_config_ic3(self, config_filename):
+        '''
+        OrderedDict([('devices', [OrderedDict([('device_name', 'Gary-iPhone'),
+        ('name', 'Gary'), ('email', 'gcobb321@gmail.com'),
+        ('picture', 'gary.png'), ('track_from_zone', 'warehouse')]), OrderedDict([('device_name', 'lillian_iphone'),
+        ('name', 'Lillian'), ('picture', 'lillian.png'), ('email', 'lilliancobb321@gmail.com')])]),
+        ('display_text_as', ['gcobb321@gmail.com > gary_2fa@email.com', 'lilliancobb321@gmail.com > lillian_2fa@email.com',
+        'twitter:@lillianhc > twitter:@lillian_twitter_handle', 'gary-real-email@gmail.com > gary_secret@email.com',
+        'lillian-real-email@gmail.com > lillian_secret@email.com']),
+        ('inzone_interval', '30 min'),
+        ('display_zone_format', 'fname')])
+        '''
         try:
-            if self.start_icloud3_initial_load_flag:
-                self.last_config_ic3_items = []
+            log_success_msg = ""
+            log_error_msg   = ""
+            success_msg     = ""
+            error_msg       = ""
+            devices_list    = []
+
+            try:
+                config_yaml_recds = yaml_loader.load_yaml(config_filename)
+            except Exception as err:
+                #_LOGGER.exception(err)
+                #A missing quote mark gives the following error:
+                #while parsing a block mapping in "/config/config_ic3.yaml", line 18, column 1
+                #expected <block end>, but found '<scalar>' in "/config/config_ic3.yaml", line 47, column 31
+                err_text = str(err)
+                err_parts = err_text.split(', ')
+                error_msg = (f"{EVLOG_ERROR}iCloud3 Error > Invalid configuration parameter > "
+                        f"{CRLF_DOT}File-{config_filename}, {err_parts[4]}"
+                        f"{CRLF_DOT}A mismatched quote (`) was found. Can not continue. Setup will be aborted.")
+                self._save_event_halog_error("*", error_msg)
+                return log_success_msg, log_error_msg
+
+            #log_msg = (f"{EVLOG_DEBUG}config_ic3 Parameter Records > {config_yaml_recds}")
+            #self._save_event("*", log_msg)
 
             #reset any changed items in config_ic3 from the last ic3 reset back to it's default value
-            for last_config_ic3_item in self.last_config_ic3_items:
-                self._set_parameter_item(last_config_ic3_item, DEFAULT_CONFIG_VALUES.get(last_config_ic3_item))
+            try:
+                for last_config_ic3_item in self.last_config_ic3_items:
+                    self._get_non_device_parms_from_config_ic3(
+                                last_config_ic3_item, DEFAULT_CONFIG_VALUES.get(last_config_ic3_item))
+            except:
+                pass
 
             self.last_config_ic3_items = []
 
-            parameter_list      = []
-            parameter_list_name = ""
-            log_success_msg     = ""
-            log_error_msg       = ""
-            success_msg         = ""
-            error_msg           = ""
-            for config_ic3_recd in config_ic3_file:
-                parm_recd_flag = True
-                recd = config_ic3_recd.strip()
-                if len(recd) < 2 or recd.startswith('#'):
-                    continue
+            for pname, pvalue in config_yaml_recds.items():
+                if pname == CONF_DEVICES:
+                    self.config_ic3_track_devices_fields.extend(\
+                            self._get_devices_list_from_config_devices_parm(pvalue, 'config_ic3'))
 
-                #Last recd started with a '-' (list item), Add this one to the list being built
-                if recd.startswith('-'):
-                    parameter_value = recd[1:].strip()
-                    parameter_list.append(parameter_value)
-                    continue
-
-                #Not a list recd but a list exists, update it's parameter value, then process this recd
-                elif parameter_list != []:
-                    success_msg, error_msg = self._set_parameter_item(parameter_list_name, parameter_list)
-                    log_success_msg += success_msg
-                    log_error_msg   += error_msg
-                    parameter_list_name = ""
-                    parameter_list      = []
-
-                #Decode and process the config recd
-                recd_fields     = recd.split(":")
-                parameter_name  = recd_fields[0].strip().lower()
-                parameter_value = recd_fields[1].replace("'","").strip().lower()
-
-                #Check to see if the parameter is a list parameter. If so start building a list
-                if parameter_name in [CONF_TRACK_DEVICE, CONF_TRACK_DEVICES,
-                                      CONF_CREATE_SENSORS, CONF_EXCLUDE_SENSORS,
-                                      CONF_DISPLAY_TEXT_AS]:
-                    parameter_list_name = parameter_name
+                elif pname == CONF_TRACK_DEVICES:
+                    self.config_ic3_track_devices_fields.extend(\
+                             self._get_devices_list_from_config_track_devices_parm(pvalue, 'config_ic3'))
                 else:
-                    success_msg, error_msg = self._set_parameter_item(parameter_name, parameter_value)
+                    success_msg, error_msg = self._set_non_device_parm_in_config_parameter_dictionary(pname, pvalue)
                     if success_msg != "":
-                        self.last_config_ic3_items.append(parameter_name)
+                        self.last_config_ic3_items.append(pname)
 
                     log_success_msg += success_msg
                     log_error_msg   += error_msg
-
-            if parameter_list != []:
-                success_msg, error_msg = self._set_parameter_item(parameter_list_name, parameter_list)
-                log_success_msg += success_msg
-                log_error_msg   += error_msg
 
         except Exception as err:
             _LOGGER.exception(err)
             pass
 
-        config_ic3_file.close()
-
-        if log_error_msg != "":
-            event_msg = (f"iCloud3 Error decoding '{config_filename}` parameters > "
-                         f"The following parameters can not be handled:CRLF{log_error_msg}")
-            self._save_event_halog_info("*", event_msg)
-
-        return
+        return log_success_msg, log_error_msg
 
 #-------------------------------------------------------------------------
-    def _set_parameter_item(self, parameter_name, parameter_value):
+    def _get_devices_list_from_config_devices_parm(self, conf_devices_parameter, source_file):
+        '''
+        Process the CONF_DEVICES parameter. This is the general routine for parsing
+        the parameter and creating a dictionary (devices_list) containing values
+        associated with each device_name.
+
+        Input:      The CONF_DEVICES parameter
+        Returns:    The dictionary with the fields associated with all of the devices
+        '''
+        devices_list = []
+        for device in conf_devices_parameter:
+            device_fields = {}
+            for pname, pvalue in device.items():
+                if pname in VALID_CONF_DEVICES_ITEMS:
+                    if pname == CONF_DEVICENAME:
+                        devicename        = slugify(pvalue)
+                        name, device_type = self._extract_name_device_type(pvalue)
+                        device_fields[CONF_DEVICENAME]  = devicename
+                        device_fields[CONF_DEVICE_TYPE] = device_type
+                        device_fields[CONF_NAME]        = name
+                        device_fields[CONF_CONFIG]      = source_file
+                        device_fields[CONF_SOURCE]      = 'Config Devices Parameter'
+
+                    #You can track from multiple zones, cycle through zones and check each one
+                    elif pname == CONF_TRACK_FROM_ZONE:
+                        zones = pvalue.replace('zone.', '')
+                        zones = zones.split(',')
+                        db=f"8648 {self.zones=} {self.zone_fname=} {pvalue=} {zones=}"
+                        self._save_sysevent(db)
+                        pvalue = ''
+                        for zone in zones:
+                            zone = zone.strip()
+                            if zone == HOME: continue
+                            zfname = zone.replace(' ', '_')
+                            if zone in self.zones:
+                                pvalue += (f"{zone},")
+                            elif zfname in self.zones:
+                                pvalue += (f"{zfname},")
+                            elif zone in self.zone_fname:
+                                pvalue += (f"{self.zone_fname.get(zone)},")
+                            elif zfname in self.zone_fname:
+                                pvalue += (f"{self.zone_fname.get(zfname)},")
+                            else:
+                                self._display_config_parameter_error_msg(CONF_TRACK_FROM_ZONE, zone,
+                                        self.zones, '(Invalid Zone Name)')
+                        device_fields[CONF_TRACK_FROM_ZONE] = pvalue[:-1]
+
+                    elif pname == CONF_IOSAPP_SUFFIX:
+                            device_fields[CONF_IOSAPP_SUFFIX] = pvalue
+                            device_fields.pop(CONF_IOSAPP_ENTITY, None)
+                    elif pname == CONF_IOSAPP_ENTITY:
+                            device_fields[CONF_IOSAPP_ENTITY] = pvalue
+                            device_fields.pop(CONF_IOSAPP_SUFFIX, None)
+
+                    elif pname == CONF_INZONE_INTERVAL:
+                        device_fields[CONF_INZONE_INTERVAL] = self._time_str_to_secs(pvalue)
+
+                    elif pname in [CONF_NOIOSAPP, CONF_NO_IOSAPP] and pvalue:
+                        device_fields[CONF_IOSAPP_INSTALLED] = not pvalue
+
+                    else:
+                        device_fields[pname] = pvalue
+                else:
+                    self._display_config_parameter_error_msg(
+                                pname, pvalue, VALID_CONF_DEVICES_ITEMS)
+
+            devices_list.append(device_fields)
+
+        return devices_list
+
+#-------------------------------------------------------------------------
+    def _get_devices_list_from_config_track_devices_parm(self, \
+                            conf_track_devices_parameter, source_file):
+        '''
+        Process the CONF_TRACK_DEVICES parameter. This is the general routine for parsing
+        the parameter and creating a dictionary (devices_list) containing values
+        associated with each device_name.
+
+        Input:      The CONF_DEVICES parameter
+        Returns:    The dictionary with the fields associated with all of the devices
+        '''
+        devices_list = []
+        for devicename_parameter in conf_track_devices_parameter:
+            device_fields = {}
+            device_fields = self._decode_track_devices_parameter(devicename_parameter)
+            device_fields[CONF_CONFIG] = source_file
+            device_fields[CONF_SOURCE] = devicename_parameter
+            devices_list.append(device_fields)
+        return devices_list
+
+#-------------------------------------------------------------------------
+    def _set_non_device_parm_in_config_parameter_dictionary(self, pname, pvalue):
+        '''
+        Set the config_parameters[key] master parameter dictionary from the
+        config_ic3 parameter file
+
+        Input:      parameter name & value
+        Output:     Valid parameters are added to the config_parameter[pname] dictionary
+        '''
         try:
             success_msg = ""
             error_msg   = ""
+            if pname == "":
+                return ("", "")
+
              #These parameters can not be changed
-            if parameter_name in [CONF_GROUP, CONF_USERNAME, CONF_PASSWORD,
+            if pname in [CONF_GROUP, CONF_USERNAME, CONF_PASSWORD,
                                   CONF_TRACKING_METHOD,
                                   CONF_CREATE_SENSORS, CONF_EXCLUDE_SENSORS,
                                   CONF_ENTITY_REGISTRY_FILE, CONF_CONFIG_IC3_FILE_NAME]:
                 return ("", "")
 
+            log_msg = (f"config_ic3 Parameter > {pname}: {pvalue}")
+            self._evlog_debug_msg("*", log_msg)
 
-            log_msg = (f"config_ic3 Updating parameter-{parameter_name}: {parameter_value}")
-            self._log_debug_msg("*", log_msg)
+            if pname in self.config_parameter:
+                self.config_parameter[pname] = pvalue
 
-            if parameter_name in [CONF_TRACK_DEVICES, CONF_TRACK_DEVICE]:
-                self.track_devices = parameter_value
-            elif parameter_name == CONF_IOSAPP_LOCATE_REQUEST_MAX_CNT:
-                self.iosapp_locate_request_max_cnt = int(parameter_value)
-            elif parameter_name == CONF_UNIT_OF_MEASUREMENT:
-                self.unit_of_measurement = parameter_value
-            elif parameter_name == CONF_BASE_ZONE:
-                self.base_zone = parameter_value
-            elif parameter_name == CONF_INZONE_INTERVAL:
-                self.inzone_interval_secs = self._time_str_to_secs(parameter_value)
-            elif parameter_name == CONF_MAX_INTERVAL:
-                self.max_interval_secs = self._time_str_to_secs(parameter_value)
-            elif parameter_name == CONF_CENTER_IN_ZONE:
-                self.center_in_zone_flag = (parameter_value == 'true')
-            elif parameter_name == CONF_STATIONARY_STILL_TIME:
-                self.stationary_still_time_str = parameter_value
-            elif parameter_name == CONF_STATIONARY_INZONE_INTERVAL:
-                self.stationary_inzone_interval_str = parameter_value
-            elif parameter_name == CONF_STATIONARY_ZONE_OFFSET:
-                self.stationary_zone_offset = parameter_value
-            elif parameter_name == CONF_TRAVEL_TIME_FACTOR:
-                self.travel_time_factor = float(parameter_value)
-            elif parameter_name == CONF_GPS_ACCURACY_THRESHOLD:
-                self.gps_accuracy_threshold = int(parameter_value)
-            elif parameter_name == CONF_OLD_LOCATION_THRESHOLD:
-                self.old_location_threshold = self._time_str_to_secs(parameter_value)
-            elif parameter_name == CONF_IGNORE_GPS_ACC_INZONE:
-                self.ignore_gps_accuracy_inzone_flag = (parameter_value == 'true')
-                self.check_gps_accuracy_inzone_flag = not self.ignore_gps_accuracy_inzone_flag
-            elif parameter_name == CONF_WAZE_REGION:
-                self.waze_region = parameter_value
-            elif parameter_name == CONF_WAZE_MAX_DISTANCE:
-                self.waze_max_distance = int(parameter_value)
-            elif parameter_name == CONF_WAZE_MIN_DISTANCE:
-                self.waze_min_distance = int(parameter_value)
-            elif parameter_name == CONF_WAZE_REALTIME:
-                self.waze_realtime = (parameter_value == 'true')
-            elif parameter_name == CONF_DISTANCE_METHOD:
-                self.distance_method_waze_flag = (parameter_value == 'waze')
-            elif parameter_name == CONF_LOG_LEVEL:
-                self._initialize_debug_control(parameter_value)
-            elif parameter_name == CONF_EVENT_LOG_CARD_DIRECTORY:
-                self.event_log_card_directory = parameter_value
-            elif parameter_name == CONF_DEVICE_STATUS:
-                self.device_status_online = parameter_value
-            elif parameter_name == CONF_DISPLAY_TEXT_AS:
-                self.display_text_as = parameter_value
             else:
-                error_msg = (f"{parameter_name}: {parameter_value}CRLF")
-                log_msg = (f"Invalid parameter-{parameter_name}: {parameter_value}")
+                error_msg = (f"{CRLF_DOT}{pname}: {pvalue}")
+                log_msg = (f"Invalid parameter-{pname}: {pvalue}")
                 self._log_debug_msg("*", log_msg)
 
         except Exception as err:
             _LOGGER.exception(err)
-            error_msg = (f"{err}CRLF")
+            error_msg = (f"{CRLF_DOT}{err}")
 
         if error_msg == "":
-            success_msg = (f"{parameter_name}: {parameter_value}CRLF")
+            success_msg = (f"{CRLF_DOT}{pname}: {pvalue}")
 
         return (success_msg, error_msg)
+
+#-------------------------------------------------------------------------
+    def _validate_config_parameters(self):
+        '''
+        Cycle through the each of the validate_parameters_type lists and
+        validate the parameter values for each list type.
+
+        If the value is invalid, display an error message in the event log
+        and reset the config_parameter[xxx] value to it's default value.
+        '''
+
+        #validate list parameters: CONF_UNIT_OF_MEASUREMENT: ['mi', 'km']
+        for pname in VALIDATE_PARAMETER_LIST:
+            pvalue       = self.config_parameter.get(pname)
+            valid_values = VALIDATE_PARAMETER_LIST.get(pname)
+            if pvalue not in valid_values:
+                self._display_config_parameter_error_msg(pname, pvalue, valid_values)
+
+        #validate true/false parameters: CONF_CENTER_IN_ZONE (center_in_zone: false)
+        for pname in VALIDATE_PARAMETER_TRUE_FALSE:
+            pvalue       = self.config_parameter.get(pname)
+            valid_values = [True, False]
+            if pvalue not in valid_values:
+                self._display_config_parameter_error_msg(pname, pvalue, valid_values)
+
+        #validate number parameters: CONF_TRAVEL_TIME_FACTOR (travel_time_factor: .6)
+        for pname in VALIDATE_PARAMETER_NUMBER:
+            pvalue       = self.config_parameter.get(pname)
+            valid_values = 'Number'
+            if pvalue and isnumber(str(pvalue)) is False:
+                self._display_config_parameter_error_msg(pname, pvalue, valid_values)
+
+        #validate time parameters: CONF_INZONE_INTERVAL (inzone_interval: 30 min)
+        for pname in VALIDATE_PARAMETER_TIME:
+            pvalue       = self.config_parameter.get(pname)
+            valid_values = ['sec', 'secs', 'min', 'mins', 'hr', 'hrs']
+            time_parts   = (f"{pvalue} min").split(' ')
+            if (time_parts[0] and time_parts[1] in valid_values
+                    and isnumber(str(time_parts[0]))) is False:
+                self._display_config_parameter_error_msg(pname, pvalue, valid_values)
+
+#-------------------------------------------------------------------------
+    def _display_config_parameter_error_msg(self, pname, pvalue, valid_values, msg=''):
+        '''
+        Display an invalid parameter error in the Event Log
+        '''
+        try:
+            if valid_values == [True, False]:
+                valid_values = 'true, false'
+
+            elif type(valid_values) is list:
+                if type(pvalue) is not int:
+                    valid_values = ', '.join(valid_values)
+
+        except Exception as err:
+            _LOGGER.exception(err)
+            pass
+
+        default_value = DEFAULT_CONFIG_VALUES.get(pname, '')
+        self.config_parameter[pname] = default_value
+
+        error_msg = (f"{EVLOG_ERROR}iCloud3 Error > Invalid configuration parameter > "
+                        f"{CRLF_DOT}Parameter .. - {pname}: {pvalue} {msg}"
+                        f"{CRLF_DOT}Valid values - {valid_values}"
+                        f"{CRLF_DOT}Resetting to - {default_value}")
+        self._save_event_halog_error("*", error_msg)
+
+#-------------------------------------------------------------------------
+    def _set_data_fields_from_config_parameter_dictionary(self):
+        '''
+        Set the iCloud3 variables from the configuration parameters
+        '''
+        self.username                     = self.config_parameter[CONF_USERNAME]
+        self.username_base                = self.username.split('@')[0]
+        self.password                     = self.config_parameter[CONF_PASSWORD]
+        self.group                        = self.config_parameter[CONF_GROUP]
+        self.entity_registry_file         = self.config_parameter[CONF_ENTITY_REGISTRY_FILE]
+        self.config_ic3_file_name         = self.config_parameter[CONF_CONFIG_IC3_FILE_NAME]
+        self.event_log_card_directory     = self.config_parameter[CONF_EVENT_LOG_CARD_DIRECTORY]
+        self.config_devices_schema        = self.config_parameter[CONF_DEVICES]
+        self.config_track_devices_parm    = self.config_parameter[CONF_TRACK_DEVICES]
+
+        self.display_text_as              = self.config_parameter[CONF_DISPLAY_TEXT_AS]
+        self.tracking_method_config       = self.config_parameter[CONF_TRACKING_METHOD]
+        self.sensor_ids                   = self.config_parameter[CONF_CREATE_SENSORS]
+        self.exclude_sensor_ids           = self.config_parameter[CONF_EXCLUDE_SENSORS]
+        self.unit_of_measurement          = self.config_parameter[CONF_UNIT_OF_MEASUREMENT]
+        self.time_format                  = self.config_parameter[CONF_TIME_FORMAT]
+        self.display_zone_format          = self.config_parameter[CONF_DISPLAY_ZONE_FORMAT]
+        self.center_in_zone_flag          = self.config_parameter[CONF_CENTER_IN_ZONE]
+        self.max_interval_secs            = self._time_str_to_secs(self.config_parameter[CONF_MAX_INTERVAL])
+        self.travel_time_factor           = self.config_parameter[CONF_TRAVEL_TIME_FACTOR]
+        self.gps_accuracy_threshold       = self.config_parameter[CONF_GPS_ACCURACY_THRESHOLD]
+        self.old_location_threshold       = self._time_str_to_secs(self.config_parameter[CONF_OLD_LOCATION_THRESHOLD])
+        self.ignore_gps_accuracy_inzone_flag = self.config_parameter[CONF_IGNORE_GPS_ACC_INZONE]
+        self.check_gps_accuracy_inzone_flag  = not self.ignore_gps_accuracy_inzone_flag
+        self.hide_gps_coordinates         = self.config_parameter[CONF_HIDE_GPS_COORDINATES]
+        self.distance_method_waze_flag    = (self.config_parameter[CONF_DISTANCE_METHOD].lower() == WAZE)
+        self.legacy_mode_flag             = self.config_parameter[CONF_LEGACY_MODE]
+        self.waze_region                  = self.config_parameter[CONF_WAZE_REGION]
+        self.waze_max_distance            = self.config_parameter[CONF_WAZE_MAX_DISTANCE]
+        self.waze_min_distance            = self.config_parameter[CONF_WAZE_MIN_DISTANCE]
+        self.waze_realtime                = self.config_parameter[CONF_WAZE_REALTIME]
+        self.stationary_still_time_str    = self.config_parameter[CONF_STATIONARY_STILL_TIME]
+        self.stationary_zone_offset       = self.config_parameter[CONF_STATIONARY_ZONE_OFFSET]
+        self.stationary_inzone_interval_str = self.config_parameter[CONF_STATIONARY_INZONE_INTERVAL]
+        self.log_level                    = self.config_parameter[CONF_LOG_LEVEL]
+        self.iosapp_request_loc_max_cnt   = self.config_parameter[CONF_IOSAPP_REQUEST_LOC_MAX_CNT]
+
+        #update the interval time for each of the interval types (i.e., ipad: 2 hrs, noiosapp: 15 min)
+        self.config_inzone_interval_secs = {}
+        self.config_inzone_interval_secs[CONF_INZONE_INTERVAL] = \
+                self._time_str_to_secs(self.config_parameter[CONF_INZONE_INTERVAL])
+        try:
+            for itype_itime in self.config_parameter[CONF_INZONE_INTERVALS]:
+                for itype, itime in itype_itime.items():
+                    self.config_inzone_interval_secs[itype] = self._time_str_to_secs(itime)
+        except:
+            pass
+
+        if self.start_icloud3_inprocess_flag:
+            event_msg = (f"inZone Intervals > ")
+            for itype, itime in self.config_inzone_interval_secs.items():
+                event_msg += (f"{itype}-{self._secs_to_time_str(itime)}, ")
+            self._save_event("*", event_msg)
 
 #########################################################
 #
@@ -7995,7 +8892,7 @@ class Icloud3:#(DeviceScanner):
         try:
             ic3_directory = os.path.abspath(os.path.dirname(__file__))
             ic3_evlog_filename = (f"{ic3_directory}/icloud3-event-log-card.js")
-            if os.path.exists(ic3_evlog_filename) == False:
+            if os.path.exists(ic3_evlog_filename) is False:
                 return
 
             www_directory      = (f"{ic3_evlog_filename.split('custom_components')[0]}"
@@ -8008,12 +8905,13 @@ class Icloud3:#(DeviceScanner):
             _LOGGER.exception(err)
 
         try:
-            ic3_version, ic3_version_text = self._read_event_log_card_js_file(ic3_evlog_filename)
+            ic3_version, ic3_beta_version, ic3_version_text = self._read_event_log_card_js_file(ic3_evlog_filename)
             if www_evlog_file_exists_flag:
-                www_version, www_version_text = self._read_event_log_card_js_file(www_evlog_filename)
+                www_version, www_beta_version, www_version_text = self._read_event_log_card_js_file(www_evlog_filename)
             else:
-                www_version = 0
-                www_version_text = "Unknown"
+                www_version      = 0
+                www_beta_version = 0
+                www_version_text = UNKNOWN
                 try:
                     os.mkdir(www_directory)
                 except FileExistsError:
@@ -8022,14 +8920,25 @@ class Icloud3:#(DeviceScanner):
                     _LOGGER.exception(err)
                     pass
 
+            update_event_log_card_flag = False
             if ic3_version > www_version:
+                update_event_log_card_flag = True
+            elif ic3_version == www_version:
+                if www_beta_version == 0:
+                    pass
+                elif (ic3_beta_version > www_beta_version
+                        or ic3_beta_version == 0 and www_beta_version > 0):
+                    update_event_log_card_flag = True
+
+            if update_event_log_card_flag:
                 shutil.copy(ic3_evlog_filename, www_evlog_filename)
-                event_msg = (f"{EVLOG_ALERT}"
-                             f"EventLog Alert > Event Log was updated, "
-                             f"CRLFOldVersion-{www_version_text}, "
-                             f"NewVersion-v{ic3_version_text}, "
-                             f"CRLFCopied-`{ic3_evlog_filename}` to `{www_directory}`"
-                             f"CRLF-----"
+                event_msg = (f"{EVLOG_NOTICE}"
+                             f"Event Log Alert > Event Log was updated"
+                             f"{CRLF_DOT}Old Version.. - v{www_version_text}"
+                             f"{CRLF_DOT}New Version - v{ic3_version_text}"
+                             f"{CRLF_DOT}Copied From - {ic3_directory}"
+                             f"{CRLF_DOT}Copied To..... - {www_directory}"
+                             f"CRLF{'-'*75}"
                              f"CRLFThe Event Log Card was updated to v{ic3_version_text}. "
                               "Refresh your browser and do the following on every tracked "
                               "devices running the iOS App to load the new version."
@@ -8064,54 +8973,47 @@ class Icloud3:#(DeviceScanner):
         '''
         Read the records in the the evlog_filename up to the 'class' statement and
         extract the version and date.
-        Return the Version number and the Version text (#.#.#.### (m/d/yyy))
-        Return 0, "Unknown" if the Version number was not found
+        Return the Version number and the Version text (#.#.#b## (m/d/yyy))
+        Return 0, 0, "Unknown" if the Version number was not found
         '''
         try:
             #Cycle thru the file looking for the Version
-            evlog_version_text = "Unknown"
+            evlog_version_text = UNKNOWN
             evlog_version_no   = 0
             evlog_file = open(evlog_filename)
-            evlog_version_parts = [0, 0, 0]
+            evlog_version_parts = [0, 0, 0, 0]
 
             for evlog_recd in evlog_file:
-                version_pos = evlog_recd.lower().find("version")
-                if version_pos > 0:
-                    #Make sure it's 'Version=#.#.#.## (m/d/yyyy), get number & date
-                    evlog_recd = evlog_recd.replace("("," (")
-                    version_text = evlog_recd[version_pos:].split("=")
-
-                    if len(version_text) == 2:
-                        #Get number portion, then get each number
-                        evlog_version_text  = version_text[1].strip()
-                        evlog_version       = evlog_version_text.split(" ")[0]
-                        evlog_version_parts = evlog_version.split(".")
-                        break
+                if instr(evlog_recd.lower().replace(' ', ''), 'version='):
+                    break
 
                 #exit if find 'class' recd before 'version' recd
                 elif instr(evlog_recd, "class"):
-                    break
+                    return (0, 0, UNKNOWN)
 
-            evlog_version_parts.append('0')
-            evlog_version_no  = 0
-            evlog_version_no += int(evlog_version_parts[0])*100000
-            evlog_version_no += int(evlog_version_parts[1])*10000
-            evlog_version_no += int(evlog_version_parts[2])*1000
-            evlog_version_no += int(evlog_version_parts[3])
+            evlog_recd   = evlog_recd.replace("("," (").replace("  "," ")
+            version_text = evlog_recd.split("=")[1].replace('\n', '')
+            version_date = version_text.split(' ')
+            version_beta = (f"{version_date[0]}b0").split('b')
+
+            version_parts = version_beta[0].split('.')
+            beta_version = int(version_beta[1])
+
+            version  = 0
+            version += int(version_parts[0])*10000
+            version += int(version_parts[1])*100
+            version += int(version_parts[2])*1
 
         except FileNotFoundError:
-            evlog_version_no   = 0
-            evlog_version_text = "Unknown"
-            return (evlog_version_no, evlog_version_text)
+            return (0, 0, UNKNOWN)
 
         except Exception as err:
             _LOGGER.exception(err)
-            evlog_version_no   = HIGH_INTEGER
-            evlog_version_text = "Error"
+            return (0, 0, 'Error')
 
         evlog_file.close()
 
-        return (evlog_version_no, evlog_version_text)
+        return (version, beta_version, version_text)
 
 #########################################################
 #
@@ -8120,7 +9022,7 @@ class Icloud3:#(DeviceScanner):
 #########################################################
     def _log_info_msg(self, log_msg):
         ''' Always add log_msg to HA log '''
-        if self.start_icloud3_inprocess_flag and not self.log_level_debug_flag:
+        if self.start_icloud3_inprocess_flag and not self.log_debug_flag:
             self.startup_log_msgs       += f"{self.startup_log_msgs_prefix}\n {log_msg}"
             self.startup_log_msgs_prefix = ""
         else:
@@ -8129,13 +9031,14 @@ class Icloud3:#(DeviceScanner):
 #--------------------------------------
     def _save_event_halog_info(self, devicename, log_msg, log_title=""):
         ''' Always display log_msg in Event Log; Always add log_msg to HA log  '''
+
         self._save_event(devicename, log_msg)
 
         log_msg = str(log_msg).replace("CRLF", ". ")
         if devicename != "*":
             log_msg = (f"{log_title}{self._format_fname_devtype(devicename)} {log_msg}")
 
-        if self.start_icloud3_inprocess_flag and not self.log_level_debug_flag:
+        if self.start_icloud3_inprocess_flag and not self.log_debug_flag:
             self.startup_log_msgs       += f"{self.startup_log_msgs_prefix}\n {log_msg}"
             self.startup_log_msgs_prefix = ""
         else:
@@ -8155,7 +9058,7 @@ class Icloud3:#(DeviceScanner):
         ''' Only display log_msg in Event Log and HA log when "log_level: eventlog" '''
         self._save_event(devicename, f"{EVLOG_DEBUG}{log_msg}")
 
-        if self.log_level_eventlog_flag:
+        if self.log_eventlog_flag:
             if devicename != "*":
                 log_msg = (f"{self._format_fname_devtype(devicename)} {log_msg}")
             self._log_debug_msg(devicename, log_msg, log_title)
@@ -8182,7 +9085,7 @@ class Icloud3:#(DeviceScanner):
         log_msg = (f"{self._format_fname_devtype(devicename)} {log_msg}")
         log_msg = str(log_msg).replace("CRLF", ". ")
 
-        if self.start_icloud3_inprocess_flag and not self.log_level_debug_flag:
+        if self.start_icloud3_inprocess_flag and not self.log_debug_flag:
             self.startup_log_msgs       += f"{self.startup_log_msgs_prefix}\n {log_msg}"
             self.startup_log_msgs_prefix = ""
 
@@ -8193,45 +9096,43 @@ class Icloud3:#(DeviceScanner):
         ''' Always add log_msg to HA log only when "log_level: debug" '''
 
         log_msg = str(log_msg).replace("CRLF", ". ")
-        if self.log_level_debug_flag:
-            _LOGGER.info(f"◆{devicename}◆ {log_title}{log_msg}")
+        if self.log_debug_flag:
+            _LOGGER.info(f"◆{devicename}--{log_title}◆{log_msg}")
         else:
-            _LOGGER.debug(f"◆{devicename}◆ {log_title}{log_msg}")
+            _LOGGER.debug(f"◆{devicename}--{log_title}◆{log_msg}")
 
 #--------------------------------------
     def _log_debug_interval_msg(self, devicename, log_msg):
         ''' Add log_msg to HA log only when "log_level: intervalcalc" '''
-        if self.log_level_intervalcalc_flag:
-            _LOGGER.debug(f"◆{devicename}◆ {log_msg}")
+        if self.log_intervalcalc_flag:
+            _LOGGER.debug(f"◆{devicename}--{log_msg}")
 
-            if self.log_level_eventlog_flag:
+            if self.log_eventlog_flag:
                 self._save_event(devicename, (f"{EVLOG_DEBUG}{str(log_msg).replace('►','')}"))
 
 #--------------------------------------
-    def _log_level_debug_rawdata(self, title, data, log_rawdata=False):
+    def _log_rawdata(self, title, data, log_rawdata=False):
         ''' Add log_msg to HA log only when "log_level: rawdata" '''
         display_title = title.replace(" ",".").upper()
-        if self.log_level_debug_rawdata_flag or log_rawdata:
-            log_msg = (f"▼---------▼--{display_title}--▼---------▼")
-            self._log_debug_msg("*", log_msg)
-            log_msg = (f"{data}")
-            self._log_debug_msg("*", log_msg)
-            log_msg = (f"▲---------▲--{display_title}--▲---------▲")
-            self._log_debug_msg("*", log_msg)
+
+        if self.log_rawdata_flag or log_rawdata:
+            _LOGGER.info(f"▼-----▼-----▼--{display_title}--▼-----▼-----▼")
+            _LOGGER.info(f"{data}")
+            _LOGGER.info("-"*75)
 #--------------------------------------
     def _log_debug_msg2(self, log_msg):
             _LOGGER.debug(log_msg)
 
 #--------------------------------------
-    @staticmethod
-    def _internal_error_msg(function_name, err_text: str='',
+    def _internal_error_msg(self, function_name, err_text: str='',
                 section_name: str=''):
         log_msg = (f"►INTERNAL ERROR-RETRYING ({function_name}:{section_name}-{err_text})")
         _LOGGER.error(log_msg)
+        self._save_event("*", log_msg)
 
         attrs = {}
         attrs[ATTR_INTERVAL]         = '0 sec'
-        attrs[ATTR_NEXT_UPDATE_TIME] = HHMMSS_ZERO
+        attrs[ATTR_NEXT_UPDATE_TIME] = TIMESTAMP_ZERO
         attrs[ATTR_INFO]             = log_msg
 
         return attrs
@@ -8246,18 +9147,16 @@ class Icloud3:#(DeviceScanner):
         ''' Return the epoch seconds in utc time '''
 
         return int(time.time())
+
 #--------------------------------------------------------------------
-    def _secs_to_time(self, e_seconds, time_24h = False):
+    def _secs_to_time(self, e_seconds):
         """ Convert seconds to hh:mm:ss """
 
         if e_seconds == 0 or e_seconds == HIGH_INTEGER:
             return HHMMSS_ZERO
         else:
             t_struct = time.localtime(e_seconds + self.e_seconds_local_offset_secs)
-            if time_24h:
-                return  time.strftime("%H:%M:%S", t_struct).lstrip('0')
-            else:
-                return  time.strftime(self.um_time_strfmt, t_struct).lstrip('0')
+            return  time.strftime(self.um_time_strfmt, t_struct).lstrip('0')
 
 #--------------------------------------------------------------------
     @staticmethod
@@ -8265,7 +9164,9 @@ class Icloud3:#(DeviceScanner):
         """ Create the time string from seconds """
 
         try:
-            if secs < 60:
+            if secs >= 86400:
+                time_str = self._secs_to_dhms_str(secs)
+            elif secs < 60:
                 time_str = str(round(secs, 0)) + " sec"
             elif secs < 3600:
                 time_str = str(round(secs/60, 1)) + " min"
@@ -8283,19 +9184,20 @@ class Icloud3:#(DeviceScanner):
         return time_str
 #--------------------------------------------------------------------
     @staticmethod
-    def _secs_to_minsec_str(secs):
+    def _secs_to_dhms_str(secs):
         """ Create the time 0d0h0m0s time string from seconds """
 
         try:
             secs_dhms = float(secs)
             dhms_str = ""
-            if (secs > 86400): dhms_str += f"{secs_dhms // 86400}d"
+            if (secs >= 86400): dhms_str += f"{secs_dhms // 86400}d"
             secs_dhms = secs_dhms % 86400
-            if (secs > 3600): dhms_str += f"{secs_dhms // 3600}h"
+            if (secs >= 3600): dhms_str += f"{secs_dhms // 3600}h"
             secs_dhms %= 3600
-            if (secs > 60): dhms_str += f"{secs_dhms // 60}m"
+            if (secs >= 60): dhms_str += f"{secs_dhms // 60}m"
             secs_dhms %= 60
             dhms_str += f"{secs_dhms}s"
+
             dhms_str = dhms_str.replace('.0', '')
 
         except:
@@ -8323,12 +9225,19 @@ class Icloud3:#(DeviceScanner):
         return secs
 
 #--------------------------------------------------------------------
-    def _time_to_12hrtime(self, hhmmss, time_24h=False, ampm=False):
+    def _time_to_12hrtime(self, hhmmss, ampm=False):
+        '''
+        Change hh:mm:ss time to a 12 hour time
+        Input : hh:mm:ss where hh=(0-23)
+              : hh:mm:ss (30s)
+        Return: hh:mm:ss where hh=(0-11) with 'a' or 'p'
+        '''
 
         try:
-            if self.unit_of_measurement == 'mi' and time_24h is False:
-                hh_mm_ss  = hhmmss.split(':')
-                hhmmss_hh = int(hh_mm_ss[0])
+            if self.time_format == 12:
+                hh_mm_ss    = hhmmss.split(':')
+                hhmmss_hh   = int(hh_mm_ss[0])
+                secs_suffix = hh_mm_ss[2].split('-')
 
                 ap = 'a'
                 if hhmmss_hh > 12:
@@ -8339,10 +9248,11 @@ class Icloud3:#(DeviceScanner):
                 elif hhmmss_hh == 0:
                     hhmmss_hh = 12
 
-                ap = '' if ampm == False else ap
+                ap = '' if ampm is False else ap
 
-                hhmmss = f"{hhmmss_hh}:{hh_mm_ss[1]}:{hh_mm_ss[2]}{ap}"
-
+                hhmmss = f"{hhmmss_hh}:{hh_mm_ss[1]}:{secs_suffix[0]}{ap}"
+                if len(secs_suffix) == 2:
+                    hhmmss += f"-{secs_suffix[1]}"
         except:
              pass
 
@@ -8359,20 +9269,22 @@ class Icloud3:#(DeviceScanner):
         if time_str == "":
             return 0
 
-        s1 = str(time_str).replace('_', ' ') + " min"
-        time_part = float((s1.split(" ")[0]))
-        text_part = s1.split(" ")[1]
+        try:
+            s1 = str(time_str).replace('_', ' ') + " min"
+            time_part = float((s1.split(" ")[0]))
+            text_part = s1.split(" ")[1]
 
-        if text_part == 'sec':
-            secs = time_part
-        elif text_part == 'min':
-            secs = time_part * 60
-        elif text_part == 'hrs':
-            secs = time_part * 3600
-        elif text_part in ('hr', 'hrs'):
-            secs = time_part * 3600
-        else:
-            secs = 1200      #default to 20 minutes
+            if text_part in ('sec', 'secs'):
+                secs = time_part
+            elif text_part in ('min', 'mins'):
+                secs = time_part * 60
+            elif text_part in ('hr', 'hrs'):
+                secs = time_part * 3600
+            else:
+                secs = 1800      #default to 20 minutes
+
+        except:
+            secs = 1800
 
         return secs
 
@@ -8391,25 +9303,34 @@ class Icloud3:#(DeviceScanner):
         return hhmmss
 
 #--------------------------------------------------------------------
-    def _timestamp_to_time(self, timestamp, time_24h = False):
+    def _timestamp_to_time(self, timestamp):
         """
         Extract the time from the device timeStamp attribute
         updated by the IOS app.
-        Format is --'timestamp': '2019-02-02 12:12:38.358-0500'
-        Return as a 24hour time if time_24h = True
+        Format #1 is --'timestamp': '2019-02-02 12:12:38.358-0500'
+        Format #2 is --'timestamp': '2019-02-02 12:12:38 (30s)'
         """
 
         try:
+            #'000-00-00 00:00:00' --> '00:00:00'
             if timestamp == TIMESTAMP_ZERO:
                 return HHMMSS_ZERO
 
-            yyyymmdd_hhmmss = (f"{timestamp}.").split(' ')[1]
-            hhmmss = yyyymmdd_hhmmss.split('.')[0]
+            #'2019-02-02 12:12:38.358-0500' --> '12:12:38'
+            elif instr(timestamp, '.'):
+                return timestamp[11:19]
+
+            #'2019-02-02 12:12:38 (30s)' --> '12:12:38 (30s)'
+            elif instr(timestamp, '-'):
+                return timestamp[11:]
+
+            else:
+                return timestamp
 
         except:
-            hhmmss = HHMMSS_ZERO
+            pass
 
-        return hhmmss
+        return timestamp
 
 #--------------------------------------------------------------------
     def _timestamp_to_secs_utc(self, utc_timestamp) -> int:
@@ -8437,11 +9358,13 @@ class Icloud3:#(DeviceScanner):
         Convert seconds to timestamp
         Return timestamp (2020-05-19 09:12:30)
         """
+
         try:
             time_struct = time.localtime(secs)
             timestamp   = time.strftime("%Y-%m-%d %H:%M:%S", time_struct)
 
-        except:
+        except Exception as err:
+            _LOGGER.exception(err)
             timestamp = "0000-00-00 00:00:00"
 
         return timestamp
@@ -8509,24 +9432,23 @@ class Icloud3:#(DeviceScanner):
         """
 
         try:
-            arg_distance = arg_distance * self.um_km_mi_factor
+            mi = arg_distance * self.um_km_mi_factor
 
-            if arg_distance == 0:
+            if mi == 0:
                 mi = 0
-            elif arg_distance <= 10:
-                mi = round(arg_distance, 2)
-            elif arg_distance <= 100:
-                mi = round(arg_distance, 1)
+            elif mi <= 10:
+                mi = round(mi, 2)
+            elif mi <= 100:
+                mi = round(mi, 1)
             else:
-                mi = round(arg_distance)
+                mi = round(mi)
 
         except:
             mi = 0
-
         return mi
 
     def _mi_to_km(self, arg_distance):
-       return round(float(arg_distance) / self.um_km_mi_factor, 2)
+        return round(float(arg_distance) / self.um_km_mi_factor, 2)
 
 #--------------------------------------------------------------------
     @staticmethod
@@ -8580,26 +9502,49 @@ class Icloud3:#(DeviceScanner):
             return False
 
 #--------------------------------------------------------------------
-
     def _extract_name_device_type(self, devicename):
         '''Extract the name and device type from the devicename'''
 
         try:
-            fname    = devicename.title()
-            device_type = ''
-
+            fname       = devicename.lower()
+            device_type = ""
             for ic3dev_type in APPLE_DEVICE_TYPES:
-                if instr(devicename, ic3dev_type):
-                    fnamew = devicename.replace(ic3dev_type, "", 99)
-                    fname  = fnamew.replace("_", "", 99)
-                    fname  = fname.replace("-", "", 99).title()
-                    device_type  = ic3dev_type
-                    return (fname, ic3dev_type)
+                if devicename == ic3dev_type:
+                    return (devicename, devicename)
+
+                elif instr(devicename, ic3dev_type):
+                    fnamew = devicename.replace(ic3dev_type, "")
+                    fname  = fnamew.replace("_", "").replace("-", "").title().strip()
+                    device_type = DEVICE_TYPE_FNAME.get(ic3dev_type, ic3dev_type)
+                    break
+
+            if device_type == "":
+                fname  = fname.replace("_", "").replace("-", "").title().strip()
 
         except Exception as err:
             _LOGGER.exception(err)
 
-        return (fname, "iCloud")
+        return (fname, device_type)
+
+#--------------------------------------------------------------------
+    def _device_online(self, devicename):
+        ''' Returns True/False if the device is online based on the device_status '''
+        if self.TRK_METHOD_IOSAPP:
+            return True
+        else:
+            return (self.device_status.get(devicename) in DEVICE_STATUS_ONLINE)
+
+#--------------------------------------------------------------------
+    def _device_offline(self, devicename):
+        ''' Returns True/False if the device is offline based on the device_status '''
+        return not self._device_online(devicename)
+
+#--------------------------------------------------------------------
+    def _devicename_fmf(self, devicename):
+        return (self.devicename_tracking_method.get(devicename) == FMF)
+
+    def _devicename_famshr(self, devicename):
+        return (self.devicename_tracking_method.get(devicename) == FAMSHR)
 
 #########################################################
 #
@@ -8607,98 +9552,11 @@ class Icloud3:#(DeviceScanner):
 #   iCloud Account trusted device verification code.
 #
 #########################################################
-    def _icloud_show_trusted_device_request_form(self):
-        """We need a trusted device."""
+    def _icloud_2fa1_show_verification_code_entry_form(self, invalid_code_msg=""):
 
-        self._service_handler_icloud_update(self.group, arg_command='pause')
-        configurator = self.hass.components.configurator
-
-        event_msg = (f"{EVLOG_ALERT}iCloud Alert > Apple/iCloud Account Verification Required > "
-                     f"Open HA Notifications window to select Trusted Device and to "
-                     f"enter the 6-digit Verification Code.")
-        self._save_event_halog_info('*', event_msg)
-        self.info_notification = "Apple/iCloud Account Verification Required, See Event Log."
-
-        device_list = ''
-        self.trusted_device_list = {}
-        self.trusted_devices     = self.api.trusted_devices
-        device_list += "ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phone Number\n" \
-                      "––&nbsp;&nbsp;&nbsp;&nbsp;––––––––––––\n"
-
-        for trusted_device in self.trusted_devices:
-            phone_number = trusted_device.get('phoneNumber')
-            device_list += (f"{trusted_device['deviceId']}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-                            f"&nbsp;&nbsp;{phone_number}\n")
-            event_msg   += (f"#{trusted_device['deviceId']}-{phone_number}, ")
-
-            self.trusted_device_list[trusted_device['deviceId']] = trusted_device
-
-        log_msg = (f"VALID TRUSTED IDs={self.trusted_device_list}")
-        self._log_debug_msg('*', log_msg)
-
-        description_msg = (f"Account {self.username} needs to be verified. Enter the "
-                           f"ID for the Trusted Device that will receive the "
-                           f"verification code via a text message.\n\n\n{device_list}")
-
-        self.hass_configurator_request_id[self.username] = configurator.request_config(
-            (f"Select Trusted Device"),
-            self._icloud_handle_trusted_device_entry,
-            description    = (description_msg),
-            entity_picture = "/static/images/config_icloud.png",
-            submit_caption = 'Confirm',
-            fields         = [{'id': 'trusted_device', \
-                               CONF_NAME: 'Trusted Device ID'}]
-        )
-
-#--------------------------------------------------------------------
-    def _icloud_handle_trusted_device_entry(self, callback_data):
-        """
-        Take the device number enterd above, get the api.device info and
-        have pyiCloud validate the device.
-
-        callbackData-{'trusted_device': '1'}
-        apiDevices=[{'deviceType': 'SMS', 'areaCode': '', 'phoneNumber':
-                    '********65', 'deviceId': '1'},
-                    {'deviceType': 'SMS', 'areaCode': '', 'phoneNumber':
-                    '********66', 'deviceId': '2'}]
-        """
-        device_id_entered = str(callback_data.get('trusted_device'))
-
-        if device_id_entered in self.trusted_device_list:
-            self.trusted_device = self.trusted_device_list.get(device_id_entered)
-            phone_number        = self.trusted_device.get('phoneNumber')
-            event_msg = (f"Verify Trusted Device Id > Device Id Entered-{device_id_entered}, "
-                        f"Phone Number-{phone_number}")
-            self._save_event("*", event_msg)
-
-            if self.username not in self.hass_configurator_request_id:
-                request_id   = self.hass_configurator_request_id.pop(self.username)
-                configurator = self.hass.components.configurator
-                configurator.request_done(request_id)
-        else:
-            #By returning, the Device ID Entry screen will remain open for a valid entry
-            self.trusted_device = None
-            event_msg = (f"Verify Trusted Device Id > Invalid Device Id Entered-{device_id_entered}")
-            self._save_event("*", event_msg)
-            return
-
-        text_msg_send_success = self.api.send_verification_code(self.trusted_device)
-        if text_msg_send_success:
-            # Get the verification code, Trigger the next step immediately
-            self._icloud_show_verification_code_entry_form()
-        else:
-            #trusted_device = self.trusted_device_list[trusted_device['deviceId']]
-            event_msg = (f"iCloud3 Error > Failed to send text verification code to Phone ID #{device_id_entered}. "
-                         f"Restart HA to reset everything and try again later.")
-            self._save_event_halog_error("*", event_msg)
-
-            self.trusted_device = None
-
-#------------------------------------------------------
-    def _icloud_show_verification_code_entry_form(self, invalid_code_msg=""):
         """Return the verification code."""
 
-        self._service_handler_icloud_update(self.group, arg_command='pause')
+        self._icloud3_update_service_handler(self.group, arg_command='pause')
 
         configurator = self.hass.components.configurator
         if self.username in self.hass_configurator_request_id:
@@ -8707,28 +9565,33 @@ class Icloud3:#(DeviceScanner):
             configurator.request_done(request_id)
 
         self.hass_configurator_request_id[self.username] = configurator.request_config(
-                ("Enter Apple Verification Code"),
-                self._icloud_handle_verification_code_entry,
-                description    = (f"{invalid_code_msg}Enter the Verification Code sent to the Trusted Device"),
+                ("Apple ID Verification Code"),
+                self._icloud_2fa2_handle_verification_code_entry,
+                description    = (f"{invalid_code_msg}Enter the Apple ID Verification Code sent to the Trusted Device"),
                 entity_picture = "/static/images/config_icloud.png",
                 submit_caption = 'Confirm',
                 fields         = [{'id': 'code', CONF_NAME: 'Verification Code'}]
         )
 
 #--------------------------------------------------------------------
-    def _icloud_handle_verification_code_entry(self, callback_data):
+    def _icloud_2fa2_handle_verification_code_entry(self, callback_data):
         """Handle the chosen trusted device."""
 
+        if self._icloud_valid_api() is False:
+            return
+
         from .pyicloud_ic3 import PyiCloudException
+
         self.verification_code = callback_data.get('code')
-        event_msg = (f"Submit Verification Code > Code-{callback_data}")
+        event_msg = (f"Submit Apple ID Verification Code > Code-{callback_data}")
         self._save_event("*", event_msg)
 
         try:
-            valid_code = self.api.validate_verification_code(self.trusted_device, self.verification_code)
-            if valid_code == False:
+            valid_code = self.api.validate_2fa_code(self.verification_code)
+            if valid_code is False:
                 invalid_code_text = (f"The code {self.verification_code} in incorrect.\n\n")
-                self._icloud_show_verification_code_entry_form(invalid_code_msg=invalid_code_text)
+                self._icloud_2fa1_show_verification_code_entry_form(
+                            invalid_code_msg=invalid_code_text)
                 return
 
             event_msg = "Apple/iCloud Account Verification Successful"
@@ -8736,57 +9599,84 @@ class Icloud3:#(DeviceScanner):
 
         except PyiCloudException as error:
             # Reset to the initial 2FA state to allow the user to retry
-            event_msg = (f"Failed to verify account > Error-{error}")
-            self._save_event_halog_error("*", event_msg)
+            invalid_code_msg = (f"Failed to verify account > Error-{error}")
+            self._save_event_halog_error("*", invalid_code_msg)
 
-            # Trigger the next step immediately
-            self._icloud_show_trusted_device_request_form()
-        if valid_code == False:
+            # Trigger the code rentry step immediately
+            self._icloud_2fa1_show_verification_code_entry_form(
+                            invalid_code_msg=invalid_code_text)
+            return
+
+        if valid_code is False:
                 invalid_code_text = (f"The Verification Code {self.verification_code} in incorrect.\n\n")
 
-                self._icloud_show_verification_code_entry_form(invalid_code_msg=invalid_code_text)
+                self._icloud_2fa1_show_verification_code_entry_form(
+                            invalid_code_msg=invalid_code_text)
                 return
+
         if self.username in self.hass_configurator_request_id:
             request_id   = self.hass_configurator_request_id.pop(self.username)
             configurator = self.hass.components.configurator
             configurator.request_done(request_id)
 
         self._setup_tracking_method(self.tracking_method_config)
-        event_msg = (f"{EVLOG_ALERT}iCloud Alert > iCloud Account Verification completed, {self.tracking_method_config}"
-                     f"{self.trk_method_short_name} will be used.")
+        event_msg = (f"{EVLOG_ALERT}iCloud Alert > iCloud Account Verification completed")
         self._save_event("*", event_msg)
-        self._service_handler_icloud_update(self.group, arg_command='resume')
+        self._start_icloud3()
+
+#--------------------------------------------------------------------
+    def _icloud_valid_api(self):
+        '''
+        Make sure the pyicloud_ic3 api is valid
+        '''
+
+        if self.api == None:
+            event_msg = (f"{EVLOG_ERROR}iCloud3 Error > There was an error logging into the "
+                         f"Apple/iCloud Account when iCloud3 was started. Verification can not "
+                         f"be completed. Review the iCloud3 Event Log for more information.")
+            self._save_event_halog_error('*', event_msg)
+            return False
+        return True
 
 #########################################################
 #
 #   ICLOUD ROUTINES
 #
 #########################################################
-    def _service_handler_lost_iphone(self, group, arg_devicename):
-        """Call the lost iPhone function if the device is found."""
+    def _icloud3_find_iphone_alert_service_handlert(self, group, devicename):
+        """
+        Call the lost iPhone function if using th e FamShr tracking method.
+        Otherwise, send a notification to the iOS App
+        """
 
-        if self.TRK_METHOD_FAMSHR is False:
-            log_msg = ("Lost Phone Alert Error: Alerts can only be sent "
-                       "when using tracking_method FamShr")
-            self._log_warning_msg(log_msg)
-            self.info_notification = log_msg
-            self._display_status_info_msg(arg_devicename, log_msg)
-            return
+        #if self.TRK_METHOD_FAMSHR:
+        if self._devicename_famshr(devicename):
+            device_id = self.devicename_device_id.get(devicename, None)
+            if device_id and self.api:
+                self.api.play_sound(device_id)
 
-        valid_devicename = self._service_multi_acct_devicename_check(
-                "Lost iPhone Service", group, arg_devicename)
-        if valid_devicename is False:
-            return
+                self._save_event(devicename, "iCloud Find My iPhone Alert sent")
+                return
+            else:
+                event_msg = ("iCloud Device not available, the alert will be "
+                             "sent to the iOS App")
+                self._save_event(devicename, event_msg)
 
-        device = self.tracked_devices.get(arg_devicename)
-        device.play_sound()
-
-        log_msg = (f"iCloud Lost iPhone Alert, Device {arg_devicename}")
-        self._log_info_msg(log_msg)
-        self._display_status_info_msg(arg_devicename, "Lost Phone Alert sent")
+        message =   {"message": "Find My iPhone Alert",
+                        "data": {
+                            "push": {
+                                "sound": {
+                                "name": "alarm.caf",
+                                "critical": 1,
+                                "volume": 1
+                                }
+                            }
+                        }
+                    }
+        self._send_message_to_device(devicename, message)
 
 #--------------------------------------------------------------------
-    def _service_handler_icloud_update(self, group, arg_devicename=None,
+    def _icloud3_update_service_handler(self, group, arg_devicename=None,
                     arg_command=None):
         """
         Authenticate against iCloud and scan for devices.
@@ -8817,13 +9707,6 @@ class Icloud3:#(DeviceScanner):
         log_msg = (f"iCLOUD3 COMMAND, Device: `{arg_devicename}`, Command: `{arg_command}`")
         self._log_debug_msg("*", log_msg)
 
-        if (arg_devicename and arg_devicename != "startup_log"):
-            if (arg_devicename != 'restart'):
-                valid_devicename = self._service_multi_acct_devicename_check(
-                    "Update iCloud Service", group, arg_devicename)
-                if valid_devicename is False:
-                    return
-
         self._evlog_debug_msg(arg_devicename, (f"Service Call Command Received > `{arg_command}`"))
 
         arg_command         = (f"{arg_command} ")
@@ -8836,7 +9719,12 @@ class Icloud3:#(DeviceScanner):
 
         #System level commands
         if arg_command_cmd == 'restart':
+            #preserve debug & rawdata across restarts
+            self.log_debug_flag_restart   = self.log_debug_flag
+            self.log_rawdata_flag_restart = self.log_rawdata_flag
+
             self._start_icloud3()
+
             return
 
             if self.tracked_devices == []:
@@ -8867,7 +9755,11 @@ class Icloud3:#(DeviceScanner):
             return
 
         elif arg_command_cmd == 'trusted_device':
-            self._icloud_show_trusted_device_request_form()
+            self._icloud_2fa1_show_verification_code_entry_form()
+            return
+
+        elif arg_command_cmd == 'reset_session':
+            self._pyicloud_reset_session()
             return
 
         elif arg_command_cmd == 'event_log':
@@ -8886,23 +9778,26 @@ class Icloud3:#(DeviceScanner):
         #command preprocessor, reformat specific commands
         elif instr(arg_command_cmd, 'log_level'):
             if instr(arg_command_parm, 'debug'):
-                self.log_level_debug_flag = (not self.log_level_debug_flag)
+                self.log_debug_flag = (not self.log_debug_flag)
 
             if instr(arg_command_parm, 'rawdata'):
-                self.log_level_debug_rawdata_flag = (not self.log_level_debug_rawdata_flag)
-                if self.log_level_debug_rawdata_flag: self.log_level_debug_flag = True
+                self.log_rawdata_flag = (not self.log_rawdata_flag)
+                #if self.log_rawdata_flag: self.log_debug_flag = True
+                if self.log_rawdata_flag:
+                    self.log_rawdata_flag_restart = True
+                    self._start_icloud3()
 
             if instr(arg_command_parm, 'intervalcalc'):
-                self.log_level_intervalcalc_flag = (not self.log_level_intervalcalc_flag)
+                self.log_intervalcalc_flag = (not self.log_intervalcalc_flag)
 
             if instr(arg_command_parm, 'eventlog'):
-                self.log_level_eventlog_flag = (not self.log_level_eventlog_flag)
+                self.log_eventlog_flag = (not self.log_eventlog_flag)
 
             event_msg = ""
-            if self.log_level_eventlog_flag:      event_msg += "Event Log Details: On, "
-            if self.log_level_debug_flag:         event_msg += "Debug: On, "
-            if self.log_level_debug_rawdata_flag: event_msg += "+Rawdata: On, "
-            if self.log_level_intervalcalc_flag:  event_msg += "+IntervalCalc: On, "
+            if self.log_eventlog_flag:     event_msg += "Event Log Details: On, "
+            if self.log_debug_flag:        event_msg += "Debug: On, "
+            if self.log_rawdata_flag:      event_msg += "Rawdata: On, "
+            if self.log_intervalcalc_flag: event_msg += "IntervalCalc: On, "
             event_msg = "Logging: Off" if event_msg == "" else event_msg
             event_msg = (f"Log Level State > {event_msg}")
             self._save_event_halog_debug("*", event_msg)
@@ -8914,7 +9809,7 @@ class Icloud3:#(DeviceScanner):
         self._save_event_halog_info("*", log_msg)
 
         #Location level commands
-        if arg_command_cmd == 'waze':
+        if arg_command_cmd == WAZE:
             if self.waze_status == WAZE_NOT_USED:
                 arg_command_cmd = ''
                 return
@@ -8937,7 +9832,7 @@ class Icloud3:#(DeviceScanner):
                 self.waze_manual_pause_flag = True
                 self.waze_status = WAZE_PAUSED
 
-        elif arg_command_cmd == 'zone':     #parmeter is the new zone
+        elif arg_command_cmd == CONF_ZONE:     #parmeter is the new zone
             #if HOME in arg_command_parmlow:    #home/not_home is lower case
             if self.base_zone in arg_command_parmlow:    #home/not_home is lower case
                 arg_command_parm = arg_command_parmlow
@@ -8946,7 +9841,7 @@ class Icloud3:#(DeviceScanner):
             attrs  = {}
 
             self._wait_if_update_in_process(arg_devicename)
-            self.overrideinterval_seconds[arg_devicename] = 0
+            self.override_interval_seconds[arg_devicename] = 0
             self.update_in_process_flag = False
             self._initialize_next_update_time(arg_devicename)
 
@@ -8974,26 +9869,33 @@ class Icloud3:#(DeviceScanner):
             info_msg = None
             if arg_command_cmd == 'pause':
                 cmd_type = CMD_PAUSE
-                self.next_update_secs[devicename_zone] = HIGH_INTEGER
-                self.next_update_time[devicename_zone] = PAUSED
-                self._display_info_status_msg(devicename, 'PAUSED')
+                self._pause_device(devicename)
 
             elif arg_command_cmd == 'resume':
                 cmd_type = CMD_RESUME
-                self.next_update_time[devicename_zone]    = HHMMSS_ZERO
-                self.next_update_secs[devicename_zone]    = 0
-                self.overrideinterval_seconds[devicename] = 0
+                self.next_update_time[devicename_zone]        = HHMMSS_ZERO
+                self.next_update_secs[devicename_zone]        = 0
+                self.override_interval_seconds[devicename]    = 0
+                self.poor_location_gps_cnt[devicename]        = 0
+                self.poor_location_gps_msg[devicename]        = False
+                self.poor_gps_flag[devicename]                = False
+                self.iosapp_request_loc_retry_cnt[devicename] = 0
+                self.iosapp_request_loc_retry_cnt[devicename] = 0
+                self.iosapp_request_loc_sent_secs[devicename] = 0
+                self.iosapp_request_loc_sent_flag[devicename] = False
+                self.icloud_acct_auth_error_cnt               = 0
+
                 self._display_info_status_msg(devicename, 'RESUMING')
                 self._update_device_icloud('Resuming', devicename)
 
-            elif arg_command_cmd == 'waze':
+            elif arg_command_cmd == WAZE:
                 cmd_type = CMD_WAZE
                 if self.waze_status == WAZE_USED:
                     self.next_update_time[devicename_zone] = HHMMSS_ZERO
                     self.next_update_secs[devicename_zone] = 0
-                    attrs[ATTR_NEXT_UPDATE_TIME]           = HHMMSS_ZERO
+                    attrs[ATTR_NEXT_UPDATE_TIME]           = TIMESTAMP_ZERO
                     attrs[ATTR_WAZE_DISTANCE]              = 'Resuming'
-                    self.overrideinterval_seconds[devicename] = 0
+                    self.override_interval_seconds[devicename] = 0
                     self._update_device_sensors(devicename, attrs)
                     attrs = {}
 
@@ -9002,8 +9904,16 @@ class Icloud3:#(DeviceScanner):
                     attrs[ATTR_WAZE_DISTANCE] = PAUSED
                     attrs[ATTR_WAZE_TIME]     = ''
 
-            elif arg_command_cmd == ATTR_LOCATION:
-                self._request_iosapp_location_update(devicename)
+            elif arg_command_cmd == 'location':
+                cmd_type = CMD_LOCATION
+                self._display_info_status_msg(devicename, 'locating')
+                if self.iosapp_monitor_dev_trk_flag.get(devicename):
+                    self._iosapp_request_loc_update(devicename)
+                else:
+                    self.next_update_time[devicename_zone]    = HHMMSS_ZERO
+                    self.next_update_secs[devicename_zone]    = 0
+                    self.override_interval_seconds[devicename] = 0
+                    self._update_device_icloud('Locating', devicename)
                 self._update_sensor_ic3_event_log(devicename)
 
             else:
@@ -9017,7 +9927,7 @@ class Icloud3:#(DeviceScanner):
         #end for devicename in devs loop
 
 #--------------------------------------------------------------------
-    def _service_handler_icloud_setinterval(self, group, arg_interval=None,
+    def _icloud3_setinterval_service_handlerl(self, group, arg_interval=None,
                     arg_devicename=None):
 
         """
@@ -9040,21 +9950,16 @@ class Icloud3:#(DeviceScanner):
         #device.
 
         if arg_devicename and self.TRK_METHOD_IOSAPP:
-            if self.iosapp_locate_request_cnt.get(arg_devicename) > self.iosapp_locate_request_max_cnt:
+            if self.iosapp_request_loc_cnt.get(arg_devicename) > self.iosapp_request_loc_max_cnt:
                 event_msg = (f"Can not Set Interval, location request cnt "
-                             f"exceeded ({self.iosapp_locate_request_cnt.get(arg_devicename)} "
-                             f"of { self.iosapp_locate_request_max_cnt})")
+                             f"exceeded ({self.iosapp_request_location_cnt.get(arg_devicename)} "
+                             f"of {self.iosapp_request_loc_max_cnt})")
                 self._save_event(arg_devicename, event_msg)
                 return
 
-        elif arg_devicename:
-            valid_devicename = self._service_multi_acct_devicename_check(
-                "Update Interval Service", group, arg_devicename)
-            if valid_devicename is False:
-                return
-
         if arg_interval is None:
-            if arg_devicename is not None:
+            #if arg_devicename is not None:
+            if arg_devicename:
                 self._save_event(arg_devicename, "Set Interval Command Error, "
                         "no new interval specified")
             return
@@ -9085,7 +9990,7 @@ class Icloud3:#(DeviceScanner):
             self.next_update_time[devicename_zone] = HHMMSS_ZERO
             self.next_update_secs[devicename_zone] = 0
             self.interval_str[devicename_zone]        = new_interval
-            self.overrideinterval_seconds[devicename] = self._time_str_to_secs(new_interval)
+            self.override_interval_seconds[devicename] = self._time_str_to_secs(new_interval)
 
             now_seconds = self._time_to_secs(dt_util.now().strftime('%X'))
             x, update_in_secs = divmod(now_seconds, 15)
@@ -9096,22 +10001,5 @@ class Icloud3:#(DeviceScanner):
 
             log_msg = (f"SET INTERVAL COMMAND END {devicename}")
             self._log_debug_msg(devicename, log_msg)
-#--------------------------------------------------------------------
-    def _service_multi_acct_devicename_check(self, svc_call_name,
-            group, arg_devicename):
 
-        if arg_devicename is None:
-            log_msg = (f"{svc_call_name} Error, no devicename specified")
-            self._log_error_msg(log_msg)
-            return False
-
-        info_msg = (f"Checking {svc_call_name} for {group}")
-
-        if (arg_devicename not in self.track_devicename_list):
-            event_msg = (f"{info_msg}, {arg_devicename} not in this group")
-            self._log_info_msg(event_msg)
-            return False
-
-        event_msg = (f"{info_msg}-{arg_devicename} Processed")
-        return True
 #--------------------------------------------------------------------

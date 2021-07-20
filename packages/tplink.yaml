@@ -1,116 +1,54 @@
-# tplink:
-#   discovery: true
-#   switch:
-#     - host: !secret tplink_plug_ip1
-#     - host: !secret tplink_plug_ip2
-#   light:
-#     - host: !secret tplink_bulb_ip
-
 # sensor:
 #   - platform: template
 #     sensors:
 #       titan_current:
 #         friendly_name_template: "{{ states.switch.titan.name }} Current"
-#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes.current_a | float }}{% endif %}'
+#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["current_a"] | float }}{% endif %}'
 #         icon_template: mdi:pulse
 #         unit_of_measurement: 'A'
 #       titan_current_consumption:
 #         friendly_name_template: "{{ states.switch.titan.name }} Current Consumption"
-#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes.current_power_w | float }}{% endif %}'
+#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["current_power_w"] | float }}{% endif %}'
 #         icon_template: mdi:power-socket-us
 #         unit_of_measurement: 'W'
 #       titan_voltage:
 #         friendly_name_template: "{{ states.switch.titan.name }} Voltage"
-#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes.voltage | float }}{% endif %}'
+#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["voltage"] | float }}{% endif %}'
 #         icon_template: mdi:tower-fire
 #         unit_of_measurement: 'V'
 #       titan_total_energy:
 #         friendly_name_template: "{{ states.switch.titan.name }} Total Consumption"
-#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes.total_energy_kwh | float }}{% endif %}'
+#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["total_energy_kwh"] | float }}{% endif %}'
 #         icon_template: mdi:power-socket-us
 #         unit_of_measurement: 'kWh'
 #       titan_today_energy:
 #         friendly_name_template: "{{ states.switch.titan.name }} Consumption Today"
-#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes.today_energy_kwh | float }}{% endif %}'
+#         value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["today_energy_kwh"] | float }}{% endif %}'
 #         icon_template: mdi:power-socket-us
 #         unit_of_measurement: 'kWh'
 #       europa_current:
 #         friendly_name_template: "{{ states.switch.europa.name }} Current"
-#         value_template: '{% if states.switch.europa %}{{ state_attr("switch.europa", "current_a") | float }}{% endif %}'
+#         value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["current_a"] | float }}{% endif %}'
 #         icon_template: mdi:pulse
 #         unit_of_measurement: 'A'
 #       europa_current_consumption:
 #         friendly_name_template: "{{ states.switch.europa.name }} Current Consumption"
-#         value_template: '{% if states.switch.europa %}{{ state_attr("switch.europa", "current_power_w") | float }}{% endif %}'
+#         value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["current_power_w"] | float }}{% endif %}'
 #         icon_template: mdi:power-socket-us
 #         unit_of_measurement: 'W'
 #       europa_voltage:
 #         friendly_name_template: "{{ states.switch.europa.name }} Voltage"
-#         value_template: '{% if states.switch.europa %}{{ state_attr("switch.europa", "voltage") | float }}{% endif %}'
+#         value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["voltage"] | float }}{% endif %}'
 #         icon_template: mdi:tower-fire
 #         unit_of_measurement: 'V'
 #       europa_total_energy:
 #         friendly_name_template: "{{ states.switch.europa.name }} Total Consumption"
-#         value_template: '{% if states.switch.europa %}{{ state_attr("switch.europa", "total_energy_kwh") | float }}{% endif %}'
+#         value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["total_energy_kwh"] | float }}{% endif %}'
 #         icon_template: mdi:power-socket-us
 #         unit_of_measurement: 'kWh'
 #       europa_today_energy:
 #         friendly_name_template: "{{ states.switch.europa.name }} Today's Consumption"
-#         value_template: '{% if states.switch.europa %}{{ state_attr("switch.europa", "today_energy_kwh") | float }}{% endif %}'
+#         value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["today_energy_kwh"] | float }}{% endif %}'
 #         icon_template: mdi:power-socket-us
 #         unit_of_measurement: 'kWh'
-
-sensor:
-  - platform: template
-    sensors:
-      titan_current:
-        friendly_name_template: "{{ states.switch.titan.name }} Current"
-        value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["current_a"] | float }}{% endif %}'
-        icon_template: mdi:pulse
-        unit_of_measurement: 'A'
-      titan_current_consumption:
-        friendly_name_template: "{{ states.switch.titan.name }} Current Consumption"
-        value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["current_power_w"] | float }}{% endif %}'
-        icon_template: mdi:power-socket-us
-        unit_of_measurement: 'W'
-      titan_voltage:
-        friendly_name_template: "{{ states.switch.titan.name }} Voltage"
-        value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["voltage"] | float }}{% endif %}'
-        icon_template: mdi:tower-fire
-        unit_of_measurement: 'V'
-      titan_total_energy:
-        friendly_name_template: "{{ states.switch.titan.name }} Total Consumption"
-        value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["total_energy_kwh"] | float }}{% endif %}'
-        icon_template: mdi:power-socket-us
-        unit_of_measurement: 'kWh'
-      titan_today_energy:
-        friendly_name_template: "{{ states.switch.titan.name }} Consumption Today"
-        value_template: '{% if states.switch.titan %}{{ states.switch.titan.attributes["today_energy_kwh"] | float }}{% endif %}'
-        icon_template: mdi:power-socket-us
-        unit_of_measurement: 'kWh'
-      europa_current:
-        friendly_name_template: "{{ states.switch.europa.name }} Current"
-        value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["current_a"] | float }}{% endif %}'
-        icon_template: mdi:pulse
-        unit_of_measurement: 'A'
-      europa_current_consumption:
-        friendly_name_template: "{{ states.switch.europa.name }} Current Consumption"
-        value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["current_power_w"] | float }}{% endif %}'
-        icon_template: mdi:power-socket-us
-        unit_of_measurement: 'W'
-      europa_voltage:
-        friendly_name_template: "{{ states.switch.europa.name }} Voltage"
-        value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["voltage"] | float }}{% endif %}'
-        icon_template: mdi:tower-fire
-        unit_of_measurement: 'V'
-      europa_total_energy:
-        friendly_name_template: "{{ states.switch.europa.name }} Total Consumption"
-        value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["total_energy_kwh"] | float }}{% endif %}'
-        icon_template: mdi:power-socket-us
-        unit_of_measurement: 'kWh'
-      europa_today_energy:
-        friendly_name_template: "{{ states.switch.europa.name }} Today's Consumption"
-        value_template: '{% if states.switch.europa %}{{ states.switch.europa.attributes["today_energy_kwh"] | float }}{% endif %}'
-        icon_template: mdi:power-socket-us
-        unit_of_measurement: 'kWh'
 

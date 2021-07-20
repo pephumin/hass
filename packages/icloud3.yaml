@@ -1,39 +1,39 @@
-input_select:
-  icloud3_commands:
-    name: iCloud3 Commands
-    options:
-      - Pause
-      - Resume
-      - Waze On/Off
-      - Pause pesiphone11pro
-      - Resume pesiphone11pro
-      - Pause juesiphone6splus
-      - Resume juesiphone6splus
-    icon: mdi:apple-keyboard-command
-    initial: Waze On/Off
-  icloud3_set_interval:
-    name: iCloud3 Set Interval
-    options:
-      - 15 sec
-      - 1 min
-      - 3 min
-      - 5 min
-      - 10 min
-      - 20 min
-      - 30 min
-      - 1 hr
-      - 2 hrs
-    initial: 1 min
-    icon: mdi:clock
-  icloud3_debug_commands:
-    name: iCloud Debug Command
-    options:
-      - info logger
-      - info interval
-      - debug gps
-      - debug old
-    icon: mdi:android-debug-bridge
-    initial: info interval
+# input_select:
+#   icloud3_commands:
+#     name: iCloud3 Commands
+#     options:
+#       - Pause
+#       - Resume
+#       - Waze On/Off
+#       - Pause pesiphone11pro
+#       - Resume pesiphone11pro
+#       - Pause juesiphonexsmax
+#       - Resume juesiphonexsmax
+#     icon: mdi:apple-keyboard-command
+#     initial: Waze On/Off
+#   icloud3_set_interval:
+#     name: iCloud3 Set Interval
+#     options:
+#       - 15 sec
+#       - 1 min
+#       - 3 min
+#       - 5 min
+#       - 10 min
+#       - 20 min
+#       - 30 min
+#       - 1 hr
+#       - 2 hrs
+#     initial: 1 min
+#     icon: mdi:clock
+#   icloud3_debug_commands:
+#     name: iCloud Debug Command
+#     options:
+#       - info logger
+#       - info interval
+#       - debug gps
+#       - debug old
+#     icon: mdi:android-debug-bridge
+#     initial: info interval
 
 automation:
 
@@ -109,7 +109,7 @@ automation:
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
+  #       entity_id: device_tracker.juesiphonexsmax
   #       # from: 'not_home'
   #       to: 'home'
   #   condition:
@@ -136,14 +136,14 @@ automation:
   #         entity_id: input_boolean.jueathome
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: juesiphone6splus
+  #         device_name: juesiphonexsmax
   #         command: 'zone home'
       
   # - alias: "Jue Leaves Home"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
+  #       entity_id: device_tracker.juesiphonexsmax
   #       from: 'home'
   #       # to: 'not_home'
   #   condition:
@@ -170,14 +170,14 @@ automation:
   #         entity_id: input_boolean.jueathome
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: juesiphone6splus
+  #         device_name: juesiphonexsmax
   #         command: 'zone not_home'
 
   # - alias: "Jue Arrives Malaiwan"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
+  #       entity_id: device_tracker.juesiphonexsmax
   #       # from: 'not_home'
   #       to: 'Malaiwan'
   #   condition:
@@ -198,20 +198,20 @@ automation:
   #         audio: "horn"
   #         light: "false"
   #         mobile: "pe"
-  #         message: 'Jue Has Arrived Malaiwan [Distance: {% if states.device_tracker.juesiphone6splus.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphone6splus.attributes["calc_distance"] }}{% endif %} km.]'
+  #         message: 'Jue Has Arrived Malaiwan [Distance: {% if states.device_tracker.juesiphonexsmax.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphonexsmax.attributes["calc_distance"] }}{% endif %} km.]'
   #     - service: input_boolean.turn_on
   #       data:
   #         entity_id: input_boolean.jueatmalaiwan
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: juesiphone6splus
+  #         device_name: juesiphonexsmax
   #         command: 'zone malaiwan'
 
   # - alias: "Jue Leaves Malaiwan"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
+  #       entity_id: device_tracker.juesiphonexsmax
   #       from: 'Malaiwan'
   #       # to: 'not_home'
   #   condition:
@@ -232,13 +232,13 @@ automation:
   #         audio: "horn"
   #         light: "false"
   #         mobile: "pe"
-  #         message: 'Jue Has Left Malaiwan [Distance: {% if states.device_tracker.juesiphone6splus.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphone6splus.attributes["calc_distance"] }}{% endif %} km.]'
+  #         message: 'Jue Has Left Malaiwan [Distance: {% if states.device_tracker.juesiphonexsmax.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphonexsmax.attributes["calc_distance"] }}{% endif %} km.]'
   #     - service: input_boolean.turn_off
   #       data:
   #         entity_id: input_boolean.jueatmalaiwan
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: juesiphone6splus
+  #         device_name: juesiphonexsmax
   #         command: 'zone not_home'
       
   # - alias: "Pe Arrives Pause 103"
@@ -381,7 +381,7 @@ automation:
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
+  #       entity_id: device_tracker.juesiphonexsmax
   #       # from: 'not_home'
   #       to: 'Big C Extra On-Nut'
   #   condition:
@@ -402,20 +402,20 @@ automation:
   #         audio: "horn"
   #         light: "false"
   #         mobile: "pe"
-  #         message: 'Jue Has Arrived Big C Extra On-Nut [Distance: {% if states.device_tracker.juesiphone6splus.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphone6splus.attributes["calc_distance"] }}{% endif %} km.]'
+  #         message: 'Jue Has Arrived Big C Extra On-Nut [Distance: {% if states.device_tracker.juesiphonexsmax.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphonexsmax.attributes["calc_distance"] }}{% endif %} km.]'
   #     - service: input_boolean.turn_on
   #       data:
   #         entity_id: input_boolean.jueatbigc
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: juesiphone6splus
+  #         device_name: juesiphonexsmax
   #         command: 'zone bigc'
 
   # - alias: "Jue Leaves Big C Extra On-Nut"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
+  #       entity_id: device_tracker.juesiphonexsmax
   #       from: 'Big C Extra On-Nut'
   #       # to: 'not_home'
   #   condition:
@@ -436,20 +436,20 @@ automation:
   #         audio: "horn"
   #         light: "false"
   #         mobile: "pe"
-  #         message: 'Jue Has Left Big C Extra On-Nut [Distance: {% if states.device_tracker.juesiphone6splus.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphone6splus.attributes["calc_distance"] }}{% endif %} km.]'
+  #         message: 'Jue Has Left Big C Extra On-Nut [Distance: {% if states.device_tracker.juesiphonexsmax.attributes["calc_distance"] == 0 %}0{% else %}{{ states.device_tracker.juesiphonexsmax.attributes["calc_distance"] }}{% endif %} km.]'
   #     - service: input_boolean.turn_off
   #       data:
   #         entity_id: input_boolean.jueatbigc
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: juesiphone6splus
+  #         device_name: juesiphonexsmax
   #         command: 'zone not_home'
 
   # - alias: "Jue Arrives Pause 103"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
+  #       entity_id: device_tracker.juesiphonexsmax
   #       # from: 'not_home'
   #       to: 'Pause 103'
   #   condition:
@@ -476,14 +476,14 @@ automation:
   #         entity_id: input_boolean.jueatpause
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: juesiphone6splus
+  #         device_name: juesiphonexsmax
   #         command: 'zone pause103'
 
   # - alias: "Jue Leaves Pause 103"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.juesiphone6splus
+  #       entity_id: device_tracker.juesiphonexsmax
   #       from: 'Pause 103'
   #       # to: 'not_home'
   #   condition:
@@ -510,6 +510,6 @@ automation:
   #         entity_id: input_boolean.jueatpause
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: juesiphone6splus
+  #         device_name: juesiphonexsmax
   #         command: 'zone not_home'
 

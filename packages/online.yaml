@@ -136,22 +136,22 @@ binary_sensor:
     scan_interval: 30
   - platform: ping
     host: 192.168.1.31
-    name: "pesipadmini5"
+    name: "pesipadpro"
     count: 2
     scan_interval: 30
   - platform: ping
     host: 192.168.1.32
-    name: "juesiphone6splus"
+    name: "juesiphonexsmax"
     count: 2
     scan_interval: 30
   - platform: ping
     host: 192.168.1.33
-    name: "juesipadmini4"
+    name: "jues_ipad_mini_4"
     count: 2
     scan_interval: 30
   - platform: ping
     host: 192.168.1.34
-    name: "pesipodtouch4"
+    name: "pes_ipod_touch_4"
     count: 2
     scan_interval: 30
   - platform: ping
@@ -201,7 +201,7 @@ binary_sensor:
     scan_interval: 120
   - platform: ping
     host: 192.168.1.45
-    name: "XDJ_RX"
+    name: "XDJRX"
     count: 2
     scan_interval: 120
   - platform: ping
@@ -251,7 +251,7 @@ binary_sensor:
     scan_interval: 120
   - platform: ping
     host: 192.168.1.67
-    name: "Downlight Black1"
+    name: "Homepod Mini"
     count: 2
     scan_interval: 120
   - platform: ping
@@ -281,22 +281,22 @@ binary_sensor:
     scan_interval: 120
   - platform: ping
     host: 192.168.1.73
-    name: "Downlight Black5"
+    name: "DownlightBlack5"
     count: 2
     scan_interval: 120
   - platform: ping
     host: 192.168.1.74
-    name: "Downlight Black6"
+    name: "DownlightBlack6"
     count: 2
     scan_interval: 120
   - platform: ping
     host: 192.168.1.75
-    name: "Downlight Black7"
+    name: "DownlightBlack7"
     count: 2
     scan_interval: 120
   - platform: ping
     host: 192.168.1.76
-    name: "Downlight Black8"
+    name: "DownlightBlack8"
     count: 2
     scan_interval: 120
   - platform: ping
@@ -321,12 +321,12 @@ binary_sensor:
     scan_interval: 120
   - platform: ping
     host: 192.168.1.81
-    name: "Boxie B1"
+    name: "BoxieB1"
     count: 2
     scan_interval: 120
   - platform: ping
     host: 192.168.1.82
-    name: "Boxie B2"
+    name: "BoxieB2"
     count: 2
     scan_interval: 120
   - platform: ping
@@ -350,6 +350,21 @@ binary_sensor:
     count: 2
     scan_interval: 120
   - platform: ping
+    host: 192.168.1.95
+    name: "Wemos WLED SC"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.96
+    name: "Wemos WLED SD"
+    count: 2
+    scan_interval: 120
+  - platform: ping
+    host: 192.168.1.97
+    name: "Wemos WLED Olympic"
+    count: 2
+    scan_interval: 120
+  - platform: ping
     host: 192.168.1.200
     name: "pepe-"
     count: 2
@@ -366,7 +381,7 @@ binary_sensor:
     scan_interval: 30
 
 input_boolean:
-  presence_xdj_rx:
+  presence_xdjrx:
     name: "XDJ-RX online"
     initial: off
     icon: mdi:music
@@ -401,13 +416,13 @@ automation:
     initial_state: "on"
     trigger:
       - platform: state
-        entity_id: binary_sensor.broadlink_rm_mini_b, binary_sensor.boxie_b2, binary_sensor.candy, binary_sensor.cookie
+        entity_id: binary_sensor.broadlink_rm_mini_b, binary_sensor.boxieb2, binary_sensor.candy
         to: "off"
         for:
           minutes: 5
     condition:
       - condition: template
-        value_template: '{% if state_attr("automation.common_room_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.common_room_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.camera_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
+        value_template: '{% if state_attr("automation.common_room_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.common_room_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.common_room_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
     action:
       - service: script.turn_on
         entity_id: script.restart_callisto
@@ -416,7 +431,7 @@ automation:
       - service: script.notifying
         data_template:
           email: "false"
-          tv: "false"
+          tv: "true"
           line: "false"
           speak: "true"
           audio: "false"
@@ -425,93 +440,91 @@ automation:
           title: "Restarting Common Room Online Switch (Callisto)"
           message: 'Camera Online Switch (Callisto) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
-  - alias: 'ESP32 Camera Online Switch Restart'
+  - alias: 'WLED Online Switch Restart'
     initial_state: 'on'
     trigger:
       - platform: state
-        entity_id: binary_sensor.esp32_cam
+        entity_id: binary_sensor.wemos_wled_sa, binary_sensor.wemos_wled_sb, binary_sensor.wemos_wled_party
         to: "off"
         for:
           minutes: 5
     condition:
       - condition: template
-        value_template: '{% if state_attr("automation.esp32_camera_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.esp32_camera_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.esp32_camera_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
+        value_template: '{% if state_attr("automation.wled_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.wled_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.wled_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
     action:
       - service: script.turn_on
-        entity_id: script.restart_sva
+        entity_id: script.restart_ganymede
       - service: script.notifying
         data_template:
           email: "false"
-          tv: "false"
+          tv: "true"
           line: "false"
           speak: "true"
           audio: "false"
           light: "false"
           mobile: "pe"
-          title: "Restarting ESP32 Camera Online Switch (SVA)"
-          message: 'ESP32 Camera Online Switch (SVA) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
+          title: "Restarting WLED Online Switch (Ganymede)"
+          message: 'WLED Online Switch (Ganymede) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
-  # - alias: 'Common Room Online Switch Restart'
+  # - alias: 'WLED2 Online Switch Restart'
   #   initial_state: 'on'
   #   trigger:
   #     - platform: state
-  #       entity_id: binary_sensor.candy
+  #       entity_id: binary_sensor.wemos_wled_sc, binary_sensor.wemos_wled_sd
   #       to: "off"
   #       for:
   #         minutes: 5
   #   condition:
   #     - condition: template
-  #       value_template: '{% if state_attr("automation.common_room_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.common_room_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.common_room_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
+  #       value_template: '{% if state_attr("automation.wled2_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.wled2_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.wled2_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
   #   action:
   #     - service: script.turn_on
-  #       entity_id: script.restart_callisto
-  #     - service: counter.increment
-  #       entity_id: counter.commonroom
+  #       entity_id: script.restart_sva
   #     - service: script.notifying
   #       data_template:
   #         email: "false"
-  #         tv: "false"
+  #         tv: "true"
   #         line: "false"
   #         speak: "true"
   #         audio: "false"
   #         light: "false"
   #         mobile: "pe"
-  #         title: "Restarting Common Room online switch (Callisto)"
-  #         message: 'Common Room Online Switch (Phoebe) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
+  #         title: "Restarting WLED2 Online Switch (SVA)"
+  #         message: 'WLED2 Online Switch (SVA) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
-  - alias: 'Bedroom Online Switch Restart'
-    initial_state: 'on'
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.neptune, binary_sensor.broadlink_rm_mini_a, binary_sensor.doughnut
-        to: "off"
-        for:
-          minutes: 5
-    condition:
-      - condition: template
-        value_template: '{% if state_attr("automation.bedroom_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.bedroom_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.bedroom_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
-    action:
-      - service: script.turn_on
-        entity_id: script.restart_hyperion
-      - service: counter.increment
-        entity_id: counter.bedroom
-      - service: script.notifying
-        data_template:
-          email: "false"
-          tv: "false"
-          line: "false"
-          speak: "true"
-          audio: "false"
-          light: "false"
-          mobile: "pe"
-          title: "Restarting Bedroom online switch (Hyperion)"
-          message: 'Bedroom Online Switch (Hyperion) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
+  # - alias: 'Bedroom Online Switch Restart'
+  #   initial_state: 'on'
+  #   trigger:
+  #     - platform: state
+  #       entity_id: binary_sensor.neptune, binary_sensor.broadlink_rm_mini_a, binary_sensor.doughnut
+  #       to: "off"
+  #       for:
+  #         minutes: 5
+  #   condition:
+  #     - condition: template
+  #       value_template: '{% if state_attr("automation.bedroom_online_switch_restart", "last_triggered") == none %}{{ (as_timestamp(now())-as_timestamp(states.automation.bedroom_online_switch_restart.last_updated)) > 600 }}{% else %}{{ (as_timestamp(now())-as_timestamp(state_attr("automation.bedroom_online_switch_restart", "last_triggered"))) > 600 }}{% endif %}'
+  #   action:
+  #     - service: script.turn_on
+  #       entity_id: script.restart_hyperion
+  #     - service: counter.increment
+  #       entity_id: counter.bedroom
+  #     - service: script.notifying
+  #       data_template:
+  #         email: "false"
+  #         tv: "true"
+  #         line: "false"
+  #         speak: "true"
+  #         audio: "false"
+  #         light: "false"
+  #         mobile: "pe"
+  #         title: "Restarting Bedroom online switch (Hyperion)"
+  #         message: 'Bedroom Online Switch (Hyperion) was restarted because {{ trigger.from_state.attributes.friendly_name }} was detected as being {{ trigger.to_state.state }}line for 5 minutes'
 
   - alias: 'First Floor Online Switch Restart'
     initial_state: 'on'
     trigger:
       - platform: state
-        entity_id: binary_sensor.boxie_b1, binary_sensor.earth
+        entity_id: binary_sensor.boxieb1, binary_sensor.earth
         to: "off"
         for:
           minutes: 5
@@ -526,7 +539,7 @@ automation:
       - service: script.notifying
         data_template:
           email: "false"
-          tv: "false"
+          tv: "true"
           line: "false"
           speak: "true"
           audio: "false"
@@ -539,7 +552,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: state
-        entity_id: binary_sensor.bmw, binary_sensor.pong, binary_sensor.freed
+        entity_id: binary_sensor.pong
         from: 'off'
         to: 'on'
     condition:
@@ -553,7 +566,7 @@ automation:
       - service: script.notifying
         data_template:
           email: "false"
-          tv: "false"
+          tv: "true"
           line: "false"
           speak: "false"
           audio: "chime"
@@ -565,7 +578,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: state
-        entity_id: binary_sensor.bmw, binary_sensor.pong, binary_sensor.freed
+        entity_id: binary_sensor.pong
         from: 'on'
         to: 'off'
         for:
@@ -581,7 +594,7 @@ automation:
       - service: script.notifying
         data_template:
           email: "false"
-          tv: "false"
+          tv: "true"
           line: "false"
           speak: "false"
           audio: "chime"
@@ -593,40 +606,13 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.ping_xdj_rx", "home") and is_state("binary_sensor.xdj_rx", "on") }}'
+        value_template: '{{ is_state("binary_sensor.xdjrx", "on") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("input_boolean.presence_xdj_rx", "off")  }}'
+        value_template: '{{ is_state("input_boolean.presence_xdjrx", "off") }}'
     action:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.presence_xdj_rx
-
-  - alias: "XDJ-RX is offline"
-    initial_state: 'on'
-    trigger:
-      - platform: template
-        value_template: '{{ is_state("device_tracker.ping_xdj_rx", "not_home") and is_state("binary_sensor.xdj_rx", "off") }}'
-    condition:
-      - condition: template
-        value_template: '{{ is_state("input_boolean.presence_xdj_rx", "on") }}'
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.presence_xdj_rx
-
-  - alias: "XDJ-RX is on"
-    initial_state: "on"
-    trigger:
-      - platform: state
-        entity_id: input_boolean.presence_xdj_rx
-        from: 'off'
-        to: 'on'
-        for:
-          minutes: 1
-          seconds: 30
-    condition:
-      - condition: template
-        value_template: '{{ is_state("binary_sensor.xdj_rx", "on") }}'
-    action:
+        entity_id: input_boolean.presence_xdjrx
       - service: script.notifying
         data_template:
           email: "true"
@@ -638,20 +624,17 @@ automation:
           mobile: "pe"
           message: "XDJ-RX has been turned on!"
 
-  - alias: "XDJ-RX is off"
-    initial_state: "on"
+  - alias: "XDJ-RX is offline"
+    initial_state: 'on'
     trigger:
-      - platform: state
-        entity_id: input_boolean.presence_xdj_rx
-        from: 'on'
-        to: 'off'
-        for:
-          minutes: 1
-          seconds: 30
+      - platform: template
+        value_template: '{{ is_state("binary_sensor.xdjrx", "off") }}'
     condition:
       - condition: template
-        value_template: '{{ is_state("binary_sensor.xdj_rx", "off") }}'
+        value_template: '{{ is_state("input_boolean.presence_xdjrx", "on") }}'
     action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.presence_xdjrx
       - service: script.notifying
         data_template:
           email: "true"
@@ -662,3 +645,53 @@ automation:
           light: "false"
           mobile: "pe"
           message: "XDJ-RX has been turned off!"
+
+  # - alias: "XDJ-RX is on"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_boolean.presence_xdjrx
+  #       from: 'off'
+  #       to: 'on'
+  #       for:
+  #         minutes: 1
+  #         seconds: 30
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("binary_sensor.xdjrx", "on") }}'
+  #   action:
+  #     - service: script.notifying
+  #       data_template:
+  #         email: "true"
+  #         tv: "true"
+  #         line: "true"
+  #         speak: "true"
+  #         audio: "pip"
+  #         light: "false"
+  #         mobile: "pe"
+  #         message: "XDJ-RX has been turned on!"
+
+  # - alias: "XDJ-RX is off"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: state
+  #       entity_id: input_boolean.presence_xdjrx
+  #       from: 'on'
+  #       to: 'off'
+  #       for:
+  #         minutes: 1
+  #         seconds: 30
+  #   condition:
+  #     - condition: template
+  #       value_template: '{{ is_state("binary_sensor.xdjrx", "off") }}'
+  #   action:
+  #     - service: script.notifying
+  #       data_template:
+  #         email: "true"
+  #         tv: "true"
+  #         line: "true"
+  #         speak: "true"
+  #         audio: "pip"
+  #         light: "false"
+  #         mobile: "pe"
+  #         message: "XDJ-RX has been turned off!"

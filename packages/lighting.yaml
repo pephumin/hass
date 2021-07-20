@@ -8,7 +8,7 @@ light:
       - light.bedroom_main
       - light.neopixel
       - light.round_clock
-      - light.white_warm
+      - light.white_warmxel
       - light.front
       - light.kitchen
       - light.pathway
@@ -22,6 +22,9 @@ light:
       - light.strip
       - light.light_sa
       - light.light_sb
+      - light.light_ba
+      - light.light_bb
+      - light.light_olympic
       - light.light_party
       - light.round_clock
   - platform: group
@@ -31,13 +34,6 @@ light:
       - light.zemi_2
       - light.zemi_3
       - light.zemi_4
-  - platform: group
-    name: "Pathway"
-    entities:
-      - light.downlightblack1
-      - light.downlightblack2
-      - light.downlightblack3
-      - light.downlightblack4
   - platform: group
     name: "Bedroom All"
     entities:
@@ -53,6 +49,19 @@ light:
       - light.hue_2
       - light.hue_3
       - light.hue_4
+  - platform: group
+    name: "Bedroom 2"
+    entities:
+      - light.tuya_1
+      - light.tuya_2
+      - light.tuya_3
+      - light.tuya_4
+  - platform: group
+    name: "Closet"
+    entities:
+      - light.downlightblack1
+      - light.downlightblack2
+      - light.downlightblack3
   - platform: group
     name: "First Floor All"
     entities:
@@ -91,9 +100,12 @@ light:
   - platform: group
     name: "Neopixel"
     entities:
+      - light.light_party
       - light.light_sa
       - light.light_sb
-      - light.light_party
+      - light.light_ba
+      - light.light_bb
+      - light.light_olympic
 
 group:
   lights_all:
@@ -107,114 +119,10 @@ group:
       - light.round_clock
       - light.bedroom_main
       - light.white_warm
-      # - light.first_floor_main
       - light.front
       - light.kitchen
       - light.emergency
       - light.white_garage
-  # lights_common_room_all:
-  #   name: "Common Room All"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.zemi_1
-  #     - light.zemi_2
-  #     - light.zemi_3
-  #     - light.zemi_4
-  #     - light.tethys
-  #     - light.strip
-  #     - light.neopixel
-  #     - light.round_clock
-  # lights_common_room_main:
-  #   name: "Common Room Main"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.zemi_1
-  #     - light.zemi_2
-  #     - light.zemi_3
-  #     - light.zemi_4
-  #     - light.tethys
-  # lights_neopixel:
-  #   name: "Neopixel"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.light_sa
-  #     - light.light_sb
-  #     - light.light_party
-  # lights_roundclock:
-  #   name: "Round Clock"
-  #   icon: mdi:alarm
-  #   entities:
-  #     - light.roundclock
-  #     - light.light_rc
-  # lights_bedroom_all:
-  #   name: "Bedroom All"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.hue_1
-  #     - light.hue_2
-  #     - light.hue_3
-  #     - light.hue_4
-  #     - light.white_warm
-  #     - light.pandora
-  # lights_bedroom_main:
-  #   name: "Bedroom Main"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.hue_1
-  #     - light.hue_2
-  #     - light.hue_3
-  #     - light.hue_4
-  # lights_bedroom_night:
-  #   name: "Bedroom Night"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.white_warm
-  #     - light.pandora
-  # lights_firstfloor_all:
-  #   name: "First Floor All"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.downlightblack5
-  #     - light.downlightblack6
-  #     - light.downlightblack7
-  #     - light.downlightblack8
-  #     - light.calypso
-  #     - light.svb
-  #     - light.white_garage
-  # lights_firstfloor_main:
-  #   name: "First Floor Main"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.downlightblack5
-  #     - light.downlightblack6
-  #     - light.downlightblack7
-  #     - light.downlightblack8
-  # lights_pathway:
-  #   name: "Pathway"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.downlightblack1
-  #     - light.downlightblack2
-  #     # - light.downlightblack3
-  #     - light.downlightblack4
-  # lights_front:
-  #   name: "Front"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.downlightblack5
-  #     - light.downlightblack6
-  # lights_kitchen:
-  #   name: "Kitchen"
-  #   icon: mdi:ceiling-light
-  #   entities:
-  #     - light.downlightblack7
-  #     - light.downlightblack8
-  # lights_emergency:
-  #   name: "Emergency"
-  #   icon: mdi:alarm-light
-  #   entities:
-  #     - light.svb
-  #     - light.calypso
   common_room_scenes:
     name: "Common Room Light Scenes"
     icon: mdi:duck
@@ -339,11 +247,6 @@ scene:
         state: off
       light.strip:
         state: off
-      # light.mood:
-      #   state: off
-      #   transition: 1
-      #   brightness: 70
-      #   xy_color: [0.3227,0.5086]
   - name: "Common Room Blossom"
     entities:
       light.zemi_1:
@@ -366,10 +269,6 @@ scene:
         transition: 1
         brightness: 200
         xy_color: [0.3944,0.2952]
-      # light.tethys:
-      #   state: off
-      # light.strip:
-      #   state: off
   - name: "Common Room Savanna"
     entities:
       light.zemi_1:
@@ -392,10 +291,6 @@ scene:
         transition: 1
         brightness: 200
         xy_color: [0.5888,0.3536]
-      # light.tethys:
-      #   state: off
-      # light.strip:
-      #   state: off
   - name: "Common Room Twilight"
     entities:
       light.zemi_1:
@@ -418,10 +313,6 @@ scene:
         transition: 1
         brightness: 200
         xy_color: [0.3581,0.2872]
-      # light.tethys:
-      #   state: off
-      # light.strip:
-      #   state: off
   - name: "Common Room Aurora"
     entities:
       light.zemi_1:
@@ -444,18 +335,12 @@ scene:
         transition: 1
         brightness: 200
         xy_color: [0.3108,0.3239]
-      # light.tethys:
-      #   state: off
-      # light.strip:
-      #   state: off
   - name: "Bedroom Off"
     entities:
       light.bedroom_main:
         state: off
       light.white_warm:
         state: off
-      # light.pandora:
-      #   state: off
   - name: "Bedroom Very Bright"
     entities:
       light.hue_1:
@@ -480,8 +365,6 @@ scene:
         xy_color: [0.3145,0.3303]
       light.white_warm:
         state: off
-      # light.pandora:
-      #   state: off
   - name: "Bedroom Bright"
     entities:
       light.hue_1:
@@ -506,8 +389,6 @@ scene:
         xy_color: [0.2951,0.2930]
       light.white_warm:
         state: off
-      # light.pandora:
-      #   state: off
   - name: "Bedroom Night"
     entities:
       light.hue_1:
@@ -561,10 +442,6 @@ scene:
         transition: 1
         brightness: 123
         xy_color: [0.3944,0.2952]
-      # light.white_warm:
-      #   state: off
-      # light.pandora:
-      #   state: off
   - name: "Bedroom Savanna"
     entities:
       light.hue_1:
@@ -589,8 +466,6 @@ scene:
         xy_color: [0.5888,0.3536]
       light.white_warm:
         state: off
-      # light.pandora:
-      #   state: off
   - name: "Bedroom Twilight"
     entities:
       light.hue_1:
@@ -615,8 +490,6 @@ scene:
         xy_color: [0.3581,0.2872]
       light.white_warm:
         state: off
-      # light.pandora:
-      #   state: off
   - name: "Bedroom Aurora"
     entities:
       light.hue_1:
@@ -641,27 +514,10 @@ scene:
         xy_color: [0.3108,0.3239]
       light.white_warm:
         state: off
-      # light.pandora:
-      #   state: off
   - name: "First Floor Off"
     entities:
       light.first_floor_main:
         state: off
-      # light.downlightblack4:
-      #   state: off
-      #   transition: 1
-      # light.downlightblack5:
-      #   state: off
-      #   transition: 1
-      # light.downlightblack6:
-      #   state: off
-      #   transition: 1
-      # light.downlightblack7:
-      #   state: off
-      #   transition: 1
-      # light.downlightblack8:
-      #   state: off
-      #   transition: 1
       light.white_garage:
         state: off
         transition: 1
@@ -699,8 +555,6 @@ scene:
       light.white_garage:
         state: off
         transition: 1
-      # light.calypso:
-      #   state: on
       light.svb:
         state: off
   - name: "First Floor Bright"
@@ -733,8 +587,6 @@ scene:
       light.white_garage:
         state: off
         transition: 1
-      # light.calypso:
-      #   state: on
       light.svb:
         state: off
   - name: "First Floor Dim"
@@ -742,63 +594,89 @@ scene:
       light.downlightblack4:
         state: on
         transition: 1
-        # brightness: 35
-        # rgb_color: (255,226,145)
         brightness: 100
         color_temp: 454
       light.downlightblack5:
         state: on
         transition: 1
-        # brightness: 35
-        # rgb_color: (255,44,130)
         brightness: 100
         color_temp: 454
       light.downlightblack6:
         state: on
         transition: 1
-        # brightness: 35
         brightness: 50
         color_temp: 454
       light.downlightblack7:
         state: on
         transition: 1
-        # brightness: 35
         brightness: 50
         color_temp: 454
       light.downlightblack8:
         state: on
         transition: 1
-        # brightness: 35
         brightness: 50
         color_temp: 454
       light.white_garage:
         state: off
-      # light.calypso:
-      #   state: on
       light.svb:
         state: off
+  - name: "Closet Off"
+    entities:
+      light.closet:
+        state: off
+  - name: "Closet Very Bright"
+    entities:
+      light.downlightblack1:
+        state: on
+        transition: 1
+        brightness: 255
+        color_temp: 164
+      light.downlightblack2:
+        state: on
+        transition: 1
+        brightness: 255
+        color_temp: 164
+      light.downlightblack3:
+        state: on
+        transition: 1
+        brightness: 200
+        color_temp: 164
+  - name: "Closet Bright"
+    entities:
+      light.downlightblack1:
+        state: on
+        transition: 1
+        brightness: 200
+        color_temp: 164
+      light.downlightblack2:
+        state: on
+        transition: 1
+        brightness: 200
+        color_temp: 164
+      light.downlightblack3:
+        state: on
+        transition: 1
+        brightness: 110
+        color_temp: 164
+  - name: "Closet Dim"
+    entities:
+      light.downlightblack1:
+        state: on
+        transition: 1
+        brightness: 100
+        color_temp: 454
+      light.downlightblack2:
+        state: on
+        transition: 1
+        brightness: 100
+        color_temp: 454
+      light.downlightblack3:
+        state: on
+        transition: 1
+        brightness: 50
+        color_temp: 454
 
 automation:
-
-  # - alias: "Autolight All Off"
-  #   trigger:
-  #     - platform: time
-  #       at: '00:01:00'
-  #   condition:
-  #     - condition: template
-  #       value_template: '{{ not is_state("input_select.homemode", "Visitor") }}'
-  #   action:
-  #     - service: script.all_lights_off_but_pandora
-  #     - service: script.notifying
-  #       data_template:
-  #         email: "true"
-  #         tv: "true"
-  #         line: "true"
-  #         speak: "true"
-  #         audio: "chime"
-  #         light: "false"
-  #         mobile: "false"
-  #         message: "All lights are off after midnight"
 
   - alias: "Autolight Sunset A"
     initial_state: "on"
@@ -810,12 +688,6 @@ automation:
       - condition: template
         value_template: '{{ is_state("input_select.homemode", "Home") or is_state("input_select.homemode", "Away") }}'
     action:
-      # - service: light.turn_on
-      #   data_template:
-      #     entity_id: '{% if is_state("input_select.homemode", "Home") %}light.strip{% elif is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}light.white_garage{% endif %}'
-      #     transition: '5'
-      #     brightness: '255'
-      #     color_name: '{% if is_state("input_select.homemode", "Home") %}blue{% endif %}'
       - service_template: light.turn_on
         data_template:
           entity_id: '{% if is_state("input_select.homemode", "Home") %}light.strip{% elif is_state("input_select.homemode", "Away") or is_state("input_select.homemode", "Vacation") %}light.white_garage{% endif %}'
@@ -941,10 +813,8 @@ automation:
         value_template: '{{ is_state("light.downlightblack8", "on") or is_state("light.downlightblack7", "on") }}'
     action:
       - service: light.turn_off
-      # - service_template: '{% if is_state("input_select.homemode", "Home") %}light.turn_off{% elif is_state("input_select.homemode", "Away") %}light.turn_off{% elif is_state("input_select.homemode", "Vacation") %}light.turn_off{% endif %}'
         data_template:
           entity_id: '{% if is_state("input_select.homemode", "Home") %}light.downlightblack8{% elif is_state("input_select.homemode", "Away") %}light.downlightblack8{% elif is_state("input_select.homemode", "Vacation") %}light.downlightblack7{% endif %}'
-          # transition: '{% if is_state("input_select.homemode", "Home") %}5{% elif is_state("input_select.homemode", "Away") %}5{% elif is_state("input_select.homemode", "Vacation") %}5{% endif %}'
           transition: 5
       - service: script.notifying
         data_template:
@@ -1094,47 +964,38 @@ automation:
           mobile: "pe"
           message: 'Turn off Bedroom 4 Light again at 11:00pm'
 
-  - alias: "Auto off Reset Light Bedroom 1"
+  - alias: "Auto Off Light Bedroom 4"
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ is_state("light.hue_1", "on") and is_state_attr("light.hue_1", "rgb_color", (255,207,120)) }}'
+        value_template: '{{ is_state("light.hue_4", "on") and is_state_attr("light.hue_4", "rgb_color", (255,70,21)) }}'
       - platform: template
-        value_template: '{{ is_state("light.hue_1", "on") and is_state_attr("light.hue_1", "color_temp", 366) }}'
-    action:
-      - service: light.turn_off
-        entity_id: light.hue_1
-
-  - alias: "Auto off Reset Light Bedroom 2"
-    initial_state: "on"
-    trigger:
-      - platform: template
-        value_template: '{{ is_state("light.hue_2", "on") and is_state_attr("light.hue_2", "rgb_color", (255,207,120)) }}'
-      - platform: template
-        value_template: '{{ is_state("light.hue_2", "on") and is_state_attr("light.hue_2", "color_temp", 366) }}'
-    action:
-      - service: light.turn_off
-        entity_id: light.hue_2
-
-  - alias: "Auto off Reset Light Bedroom 3"
-    initial_state: "on"
-    trigger:
-      - platform: template
-        value_template: '{{ is_state("light.hue_3", "on") and is_state_attr("light.hue_3", "rgb_color", (255,207,120)) }}'
-      - platform: template
-        value_template: '{{ is_state("light.hue_3", "on") and is_state_attr("light.hue_3", "color_temp", 366) }}'
-    action:
-      - service: light.turn_off
-        entity_id: light.hue_3
-
-  - alias: "Auto off Reset Light Bedroom 4"
-    initial_state: "on"
-    trigger:
-      - platform: template
-        value_template: '{{ is_state("light.hue_4", "on") and is_state_attr("light.hue_4", "rgb_color", (255,207,120)) }}'
-      - platform: template
-        value_template: '{{ is_state("light.hue_4", "on") and is_state_attr("light.hue_4", "color_temp", 366) }}'
+        value_template: '{{ is_state("light.hue_4", "on") and is_state_attr("light.hue_4", "rgb_color", (235,255,67)) }}'
     action:
       - service: light.turn_off
         entity_id: light.hue_4
 
+  # - alias: "Auto Off Light Strip"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: template
+  #       value_template: '{{ is_state("light.strip", "on") and is_state_attr("light.strip", "rgb_color", (255,40,38)) }}'
+  #     - platform: template
+  #       value_template: '{{ is_state("light.strip", "on") and is_state_attr("light.strip", "rgb_color", (82,255,81)) }}'
+  #   action:
+  #     - service: light.turn_off
+  #       entity_id: light.strip
+
+  - alias: "Auto Off Light Garage"
+    initial_state: "on"
+    trigger:
+      - platform: state
+        entity_id:
+          - light.white_garage
+        from: "off"
+        to: "on"
+        for:
+          minutes: 5
+    action:
+      - service: light.turn_off
+        entity_id: light.white_garage
