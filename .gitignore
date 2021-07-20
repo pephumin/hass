@@ -1,3 +1,6 @@
+!*.yaml
+!.gitignore
+!*.md
 *.pid
 *.xml
 *.csr
