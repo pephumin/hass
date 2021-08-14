@@ -62,6 +62,11 @@ zone:
     latitude: !secret latitude_home
     longitude: !secret longitude_home
     radius: 100
+  - name: Benjys
+    icon: mdi:home-variant
+    latitude: !secret latitude_benjys
+    longitude: !secret longitude_benjys
+    radius: 100
   - name: Benjawan
     icon: mdi:home-variant
     latitude: !secret latitude_benjawan

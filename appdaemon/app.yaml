@@ -1,0 +1,4 @@
+check_config:
+  module: checkconfig
+  class: CheckConfig
+

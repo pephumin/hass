@@ -125,13 +125,17 @@ light.zemi_4:
   friendly_name: Common Room 4
 light.downlightblack1:
   icon: mdi:ceiling-light
-  friendly_name: Closet 1
+  friendly_name: Bedroom2 1
 light.downlightblack2:
   icon: mdi:ceiling-light
-  friendly_name: Closet 2
+  friendly_name: Bedroom2 2
 light.downlightblack3:
   icon: mdi:ceiling-light
-  friendly_name: Closet 3
+  friendly_name: Bedroom2 3
+light.bedroom2:
+  icon: mdi:lightbulb-group
+  friendly_name: Bedroom2
+  unique_id: bedroom2
 light.closet:
   icon: mdi:lightbulb-group
   friendly_name: Closet
@@ -327,6 +331,9 @@ binary_sensor.pluto:
 binary_sensor.sun:
   icon: mdi:wifi
   friendly_name: Airport Extreme Sun
+binary_sensor.kepler:
+  icon: mdi:router-wireless
+  friendly_name: Bedroom Gateway
 binary_sensor.neptune:
   icon: mdi:wifi
   friendly_name: Airport Express Bedroom
@@ -360,18 +367,27 @@ binary_sensor.moon:
 binary_sensor.broadlink_rm_mini_a:
   icon: mdi:remote
   friendly_name: Broadlink RM Mini A
+  unique_id: broadlink-rm-mini-a
 binary_sensor.broadlink_rm_mini_b:
   icon: mdi:remote
   friendly_name: Broadlink RM Mini B
+  unique_id: broadlink-rm-mini-b
 binary_sensor.broadlink_rm_mini_c:
   icon: mdi:remote
   friendly_name: Broadlink RM Mini C
+  unique_id: broadlink-rm-mini-c
+binary_sensor.broadlink_rm_mini_d:
+  icon: mdi:remote
+  friendly_name: Broadlink RM Mini D
+  unique_id: broadlink-rm-mini-d
 binary_sensor.doughnut:
   icon: mdi:google-home
   friendly_name: Google Home Mini Bedroom
+  unique_id: google-home-mini-bedroom
 binary_sensor.candy:
   icon: mdi:google-home
   friendly_name: Google Home Mini Common Room
+  unique_id: google-home-mini-common-room
 binary_sensor.biscuit:
   icon: mdi:google-chrome
   friendly_name: Google Chromecast
@@ -393,36 +409,51 @@ binary_sensor.freed:
 binary_sensor.titan:
   icon: mdi:power-socket-us
   friendly_name: TP-Link Plug Common Room
+  unique_id: tplink-plug-common-room
 binary_sensor.europa:
   icon: mdi:power-socket-us
   friendly_name: TP-Link Plug Bedroom
+  unique_id: tplink-plug-bedroom
 binary_sensor.charon:
   icon: mdi:power-socket-us
-  friendly_name: Sonoff S26 Charon
+  friendly_name: Sonoff Basic Charon
+  unique_id: sonoff-s26-charon
+binary_sensor.hyperion:
+  icon: mdi:power-socket-us
+  friendly_name: Sonoff S20 Hyperion
+  unique_id: sonoff-s20-hyperion
 binary_sensor.ganymede:
   icon: mdi:power-socket
   friendly_name: Sonoff S20 Ganymede
+  unique_id: sonoff-s20-ganymede
 binary_sensor.callisto:
   icon: mdi:power-socket
   friendly_name: Sonoff Dual R2 Callisto
+  unique_id: sonoff-dualr2-callisto
 binary_sensor.mimas:
   icon: mdi:power-plug
-  friendly_name: Sonoff Basic Mimas
+  friendly_name: Sonoff Mini Mimas
+  unique_id: sonoff-mini-mimas
 binary_sensor.pandora:
   icon: mdi:power-plug
   friendly_name: Sonoff S26 Pandora
+  unique_id: sonoff-s26-pandora
 binary_sensor.phoebe:
   icon: mdi:power-socket-us
   friendly_name: Sonoff S20 Phoebe
+  unique_id: sonoff-s20-phoebe
 binary_sensor.calypso:
   icon: mdi:power-socket-us
   friendly_name: Sonoff S26 Calypso
+  unique_id: sonoff-s26-calypso
 binary_sensor.sva:
   icon: mdi:power-plug
   friendly_name: Sonoff SV A
+  unique_id: sonoff-sv-a
 binary_sensor.svb:
   icon: mdi:power-plug
   friendly_name: Sonoff SV B
+  unique_id: sonoff-sv-b
 binary_sensor.nodemcu_matrix_clock:
   icon: mdi:video-input-antenna
   friendly_name: NodeMCU Matrix Clock
@@ -432,27 +463,35 @@ binary_sensor.nodemcu_ring_clock:
 binary_sensor.wemos_wled_sa:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED SA
+  unique_id: wemos-wled-sa
 binary_sensor.wemos_wled_sb:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED SB
+  unique_id: wemos-wled-sb
 binary_sensor.wemos_wled_ba:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED BA
+  unique_id: wemos-wled-ba
 binary_sensor.wemos_wled_bb:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED BB
+  unique_id: wemos-wled-bb
 binary_sensor.wemos_wled_party:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED Party
+  unique_id: wemos-wled-party
 binary_sensor.wemos_wled_sc:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED SC
+  unique_id: wemos-wled-sc
 binary_sensor.wemos_wled_sd:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED SD
+  unique_id: wemos-wled-sd
 binary_sensor.wemos_wled_olympic:
   icon: mdi:video-input-antenna
   friendly_name: WeMos WLED Olympic
+  unique_id: wemos-wled-olympic
 binary_sensor.wemos_buttonbox:
   icon: mdi:video-input-antenna
   friendly_name: WeMos Button Box
@@ -460,14 +499,17 @@ switch.callisto:
   icon: mdi:power-socket
   friendly_name: Camera Online Switch
   assumed_state: true
+  unique_id: camera-online-switch
 switch.ganymede:
   icon: mdi:power-socket
   friendly_name: WLED Online Switch
   assumed_state: true
+  unique_id: wled-online-switch
 switch.sva:
   icon: mdi:power-socket
   friendly_name: WLED2 Online Switch
   assumed_state: true
+  unique_id: wled2-online-switch
 light.svb:
   icon: mdi:spotlight
   friendly_name: SVB
@@ -478,22 +520,36 @@ light.emergency:
 light.calypso:
   friendly_name: Back Door
   icon: mdi:floor-lamp
-switch.mimas:
+switch.mimaz:
   icon: mdi:speaker
   friendly_name: Common Room Subwoofer
   assumed_state: true
+  unique_id: common-room-subwoofer
+switch.mimas:
+  icon: mdi:speaker
+  friendly_name: Sonoff Mini
+  assumed_state: true
+  unique_id: sonoff-mini
 light.pandora:
   icon: mdi:desk-lamp
   friendly_name: Bedroom Night
   assumed_state: false
+  unique_id: bedroom-night
 switch.phoebe:
   icon: mdi:power-plug
   friendly_name: First Floor Door Online Switch
   assumed_state: true
+  unique_id: first-floor-online-switch
 switch.charon:
+  icon: mdi:power-socket-us
+  friendly_name: Bedroom2 Online Switch
+  assumed_state: true
+  unique_id: bedroom2-online-switch
+switch.hyperion:
   icon: mdi:power-socket-us
   friendly_name: Bedroom Online Switch
   assumed_state: true
+  unique_id: bedroom-online-switch
 script.android_box_ok:
   icon: mdi:checkbox-marked-circle
   friendly_name: Ok Android TV Box
@@ -581,12 +637,15 @@ sensor.temperature_sdd:
 sensor.pe:
   icon: mdi:duck
   friendly_name: Pe
+  unique_id: pe
 sensor.jue:
   icon: mdi:flower
   friendly_name: Jue
+  unique_id: jue
 sensor.benjy:
   icon: mdi:cat
   friendly_name: Benjy
+  unique_id: benjy
 sensor.deeper_router_bytes_received:
   icon: mdi:server-network
   friendly_name: Total amount received
@@ -613,20 +672,24 @@ sensor.deeper_router_packets_sec_sent:
   friendly_name: Speed packets sent
 binary_sensor.boxie_b1:
   icon: mdi:webcam
+  unique_id: boxie_b1
 binary_sensor.boxie_b2:
   icon: mdi:webcam
+  unique_id: boxie_b2
 camera.boxieb1:
   access_token: f1f63f180bbd90e794d2652a6efabb9cfd8b97305cd0ae15a164e811cd59dd9c
   entity_picture: /api/camera_proxy/camera.boxieb1?token=f1f63f180bbd90e794d2652a6efabb9cfd8b97305cd0ae15a164e811cd59dd9c
   friendly_name: Boxie B1
   icon: mdi:webcam
   supported_features: 2
+  unique_id: camera-boxieb1
 camera.boxieb2:
   access_token: 6fd349d56c3632d577d4a5878b6cc6ea3d501d86fe2fbc2be1ad88611a63bf5b
   entity_picture: /api/camera_proxy/camera.boxieb2?token=6fd349d56c3632d577d4a5878b6cc6ea3d501d86fe2fbc2be1ad88611a63bf5b
   friendly_name: Boxie B2
   supported_features: 2
   icon: mdi:webcam
+  unique_id: camera-boxieb1
 light.smartdimmer:
   friendly_name: SmartDimmer
   icon: mdi:light-switch
@@ -639,10 +702,22 @@ binary_sensor.wemos_wled_rc:
 switch.first_floor_air_cond:
   icon: mdi:air-conditioner
   friendly_name: First Floor Air Cond
+  unique_id: first-floor-air-cond
 switch.ff_daikin:
   icon: mdi:air-conditioner
   friendly_name: First Floor Air Cond
   assumed_state: true
+  unique_id: first-floor-daikin
+switch.bedroom2_daikin:
+  icon: mdi:air-conditioner
+  friendly_name: Bedroom2 Air Cond
+  assumed_state: true
+  unique_id: bedroom2-daikin
+switch.bedroom2_air_cond:
+  icon: mdi:air-conditioner
+  friendly_name: Bedroom2 Air Cond
+  assumed_state: true
+  unique_id: bedroom2-air-cond
 binary_sensor.downlight_black1:
   friendly_name: DownLightBlack 1
   icon: mdi:ceiling-light
@@ -699,6 +774,14 @@ sensor.hyperion_dht11_humidity:
   icon: mdi:water-percent
   friendly_name: Bedroom Humidity
   unique_id: bedroom-humidity
+sensor.charon_dht11_temperature:
+  icon: mdi:thermometer
+  friendly_name: Bedroom2 Temperature
+  unique_id: bedroom2-temperature
+sensor.charon_dht11_humidity:
+  icon: mdi:water-percent
+  friendly_name: Bedroom2 Humidity
+  unique_id: bedroom2-humidity
 sensor.ganymede_dht11_temperature:
   icon: mdi:thermometer
   friendly_name: Common Room Temperature

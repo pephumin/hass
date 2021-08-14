@@ -34,15 +34,85 @@ browser:
 #     - host: !secret biscuit_ip
 #     - host: !secret doughnut_ip
 
+camera:
+  - platform: generic
+    name: BoxieB1
+    still_image_url: !secret boxieb1_still_image_url
+    stream_source: !secret boxieb1_stream_source
+    username: !secret boxie_username
+    password: !secret my_password
+    authentication: basic
+    verify_ssl: false
+  - platform: generic
+    name: BoxieB2
+    still_image_url: !secret boxieb2_still_image_url
+    stream_source: !secret boxieb2_stream_source
+    username: !secret boxie_username
+    password: !secret my_password
+    authentication: basic
+    verify_ssl: false
+  - platform: generic
+    name: "Foscam Garage"
+    stream_source: !secret foscam_white_mjpeg_url
+    still_image_url: !secret foscam_white_still_image_url
+    username: !secret my_username
+    password: !secret my_password
+    authentication: basic
+    verify_ssl: false
+  - platform: generic
+    name: "Mini Cam"
+    still_image_url: !secret esp32cam_still_image_url
+    stream_source: !secret esp32cam_stream_source
+    authentication: basic
+    verify_ssl: false
+
 config:
 
 conversation:
 
-# device_sun_light_trigger:
-#   light_group: group.common_room_main
-#   light_profile: scene.common_room_very_bright
-#   device_group: device_tracker.pesiphone11pro
-#   disable_turn_off: false
+counter:
+  bedroom:
+    name: "Bedroom Reboot Counter"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+    restore: false
+  commonroom:
+    name: "Common Room Reboot Counter"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+    restore: false
+  firstfloor:
+    name: "Frst Floor Reboot Counter"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+    restore: false
+  wled:
+    name: "WLED Reboot Counter"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+    restore: false
+  wled2:
+    name: "WLED2 Reboot Counter"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+    restore: false
+  bedroom2:
+    name: "Bedroom2 Reboot Counter"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+    restore: false
+  foscammotion:
+    name: "Foscam Motion Activation"
+    initial: 0
+    step: 1
+    icon: mdi:counter
+    restore: false
 
 device_tracker:
   - platform: tomato
@@ -54,12 +124,6 @@ device_tracker:
     consider_home: 180
     new_device_defaults:
       track_new_devices: true
-  # - platform: icloud
-  #   username: !secret icloud_username
-  #   password: !secret icloud_password
-  #   with_family: true
-  #   gps_accuracy_threshold: 200
-  #   max_interval: 10
   - platform: icloud3
     username: !secret icloud_username
     password: !secret icloud_password
@@ -120,7 +184,7 @@ http:
   #     camera.foscam_gaarage:
   #       support_audio: True
 
-# ios:
+ios:
 #   actions:
 #     - name: Fred
 #       background_color: "#000000"
@@ -157,30 +221,30 @@ media_player:
     host: !secret kodi_ip
     username: !secret my_username
     password: !secret my_password
-  - platform: itunes
-    name: iTunes
-    host: !secret itunes_ip
+  # - platform: itunes
+  #   name: iTunes
+  #   host: !secret itunes_ip
   - platform: mpd
     name: "MPD MacBook Pro"
     host: !secret itunes_ip
 
-# media_extractor:
+media_extractor:
 
 mobile_app:
 
 notify:
   # - platform: ios
   #   name: iOSApp
-  #   target: 'PHUMIN'
-  - platform: nfandroidtv
-    name: tv
-    host: !secret kodi_ip
-  - platform: kodi
-    name: kodi
-    host: !secret kodi_ip
-    port: 8080
-    username: !secret my_username
-    password: !secret my_password
+  # #   target: 'PHUMIN'
+  # - platform: nfandroidtv
+  #   name: tv
+  #   host: !secret kodi_ip
+  # - platform: kodi
+  #   name: kodi
+  #   host: !secret kodi_ip
+  #   port: 8080
+  #   username: !secret my_username
+  #   password: !secret my_password
   - platform: smtp
     name: email
     server: !secret smtp_server
@@ -196,11 +260,6 @@ notify:
     services:
       - service: tv
       - service: kodi
-  # - platform: gntp
-  #   name: growl
-  #   hostname: !secret itunes_ip
-  #   password: !secret my_password
-  #   app_icon: '/usr/src/homeassistant/homeassistant/components/frontend/ww_static/icons/192x192.png'
   - platform: group
     name: pe
     services:
@@ -229,16 +288,6 @@ panel_iframe:
     icon: mdi:speedometer
     url: !secret url_stats
 
-# person:
-#   - name: pe
-#     id: 0818068899
-#     device_trackers:
-#       - device_tracker.pesiphone11pro
-#       - device_tracker.pesipadpro
-#       - device_tracker.sm_g955f
-
-# python_scripts:
-
 script: !include scripts.yaml
 
 stream:
@@ -252,7 +301,7 @@ tts:
     cache: true
     cache_dir: /config/tts
     time_memory: 3000
-    base_url: http://192.168.1.99:8123
+    base_url: !secret internal_url
     service_name: google_say
 
 updater:

@@ -50,14 +50,13 @@ light:
       - light.hue_3
       - light.hue_4
   - platform: group
-    name: "Bedroom 2"
+    name: "Closet"
     entities:
       - light.tuya_1
       - light.tuya_2
       - light.tuya_3
-      - light.tuya_4
   - platform: group
-    name: "Closet"
+    name: "Bedroom2"
     entities:
       - light.downlightblack1
       - light.downlightblack2
@@ -65,6 +64,9 @@ light:
   - platform: group
     name: "First Floor All"
     entities:
+      - light.downlightblack1
+      - light.downlightblack2
+      - light.downlightblack3
       - light.downlightblack4
       - light.downlightblack5
       - light.downlightblack6
@@ -620,11 +622,11 @@ scene:
         state: off
       light.svb:
         state: off
-  - name: "Closet Off"
+  - name: "Bedroom2 Off"
     entities:
-      light.closet:
+      light.bedroom2:
         state: off
-  - name: "Closet Very Bright"
+  - name: "Bedroom2 Very Bright"
     entities:
       light.downlightblack1:
         state: on
@@ -641,7 +643,7 @@ scene:
         transition: 1
         brightness: 200
         color_temp: 164
-  - name: "Closet Bright"
+  - name: "Bedroom2 Bright"
     entities:
       light.downlightblack1:
         state: on
@@ -658,7 +660,7 @@ scene:
         transition: 1
         brightness: 110
         color_temp: 164
-  - name: "Closet Dim"
+  - name: "Bedroom2 Dim"
     entities:
       light.downlightblack1:
         state: on
@@ -671,6 +673,61 @@ scene:
         brightness: 100
         color_temp: 454
       light.downlightblack3:
+        state: on
+        transition: 1
+        brightness: 50
+        color_temp: 454
+  - name: "Closet Off"
+    entities:
+      light.closet:
+        state: off
+  - name: "Closet Very Bright"
+    entities:
+      light.tuya_1:
+        state: on
+        transition: 1
+        brightness: 255
+        color_temp: 164
+      light.tuya_2:
+        state: on
+        transition: 1
+        brightness: 255
+        color_temp: 164
+      light.tuya_3:
+        state: on
+        transition: 1
+        brightness: 200
+        color_temp: 164
+  - name: "Closet Bright"
+    entities:
+      light.tuya_1:
+        state: on
+        transition: 1
+        brightness: 200
+        color_temp: 164
+      light.tuya_2:
+        state: on
+        transition: 1
+        brightness: 200
+        color_temp: 164
+      light.tuya_3:
+        state: on
+        transition: 1
+        brightness: 110
+        color_temp: 164
+  - name: "Closet Dim"
+    entities:
+      light.tuya_1:
+        state: on
+        transition: 1
+        brightness: 100
+        color_temp: 454
+      light.tuya_2:
+        state: on
+        transition: 1
+        brightness: 100
+        color_temp: 454
+      light.tuya_3:
         state: on
         transition: 1
         brightness: 50

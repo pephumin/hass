@@ -107,14 +107,14 @@ restart_sva:
     - delay: 00:00:20
     - service: switch.turn_on
       entity_id: switch.sva
-restart_svb:
-  alias: Restart SVB
+restart_charon:
+  alias: Restart Charon
   sequence:
     - service: switch.turn_off
-      entity_id: switch.svb
+      entity_id: switch.charon
     - delay: 00:00:20
     - service: switch.turn_on
-      entity_id: switch.svb
+      entity_id: switch.charon
 restart_ganymede:
   alias: Restart WLED Online Switch
   sequence:
@@ -148,107 +148,140 @@ restart_hyperion:
     - service: switch.turn_on
       entity_id: switch.hyperion
 android_box_ok:
-  alias: Android Box OK
   sequence:
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_common_room_remote
       data:
-        host: !secret rmmini_b_ip
-        packet:
-        - JgBYAAABKJMUEhMSExITEhM3ExITEhQRFDYUNxM3EzcTEhM3FDYUNhQ3ExITEhMSExITEhM3FBEUEhM3EzcTNxM3EzcUERQ2FAAFGAABKEoRAAxYAAEmTBEADQU=
+        device: hometheatre
+        command:
+          - androidbox turn on
 mute_common_room:
-  alias: Mute Common Room
   sequence:
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_common_room_remote
       data:
-        host: !secret rmmini_b_ip
-        packet:
-        - JgAyAXA2Dg4NDg8pDQ4PKQ0ODykNDg4ODygODg4ODikPKQ0ODg4ODg0ODg4NDw0ODg4OKQ4ODygODg4ODQ4ODg8oDg4ODg4pDykOKQ4ODikODg0PDQ4ODg4pDykNDg8pDikOKQ4ODgAJkm83DQ4ODg8oDg4PKA4ODykNDg4ODikODg4ODikPKA4ODg4NDw0ODg4NDw0ODg4OKQ4ODikODg4ODQ4ODg4pDg4ODg4pDykOKQ4ODikODg0ODg4ODg4pDykNDg8pDikPKQ0ODAAJlHA2DQ8LEA8pDQ4PKQ0ODykNDg4ODygODg4ODikPKQ0ODg4ODg0ODg4ODg0ODg4OKQ4ODykNDg4ODQ8NDg8pDQ4ODg8oDykOKQ4ODikODg4ODQ4ODg4pDykNDg8pDikPKQ0ODgANBQAAAAAAAA==
+        device: hometheatre
+        command:
+          - denon mute
 mute_bedroom:
-  alias: Mute Bedroom
   sequence:
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
       data:
-        host: !secret rmmini_a_ip
-        packet:
-        - JgDMAAgaCjsKGQkZChkJGgkZCRoJGQk8CTwJPAk8CRkKGQkABZ8KGQk8CxcJGgkZCTwKOwo7CTwJGgkZCRoJGQk8CTwKAAWeChkJPAkZChkJGQoZCRkKGQkZCjsKOwo7CjsKGQkZCgAFnwoYCTwLGAkZCRoJPAk7CjsMOQwXCRkKGQkZCjsKOwwABZ0KGAo7CRoJGQkaCRkJGgkZCRoJPAk8CTwJPAkZCRoJAAWfChgKOwoZCRkKGQk8CTwJPAs6CRkKGQkZChkJPAk8CwANBQAAAAAAAAAAAAAAAA==
+        device: hometheatre
+        command:
+          - denon mute
 bedroom_ac_24:
-  alias: Bedroom Air Condition 24
   sequence:
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
       data:
-        host: !secret rmmini_a_ip
-        packet:
-        - JgC8AXA5DyoODg4ODg8NKw4ODg8NDw4ODisODg4rDSsODw0rDisNKw4rDSsPDg0PDioPDg0PDg4ODg4PDQ8OKw0rDyoNKw8NDg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODisODg4ODg4ODw0PDg4OAAPMcTkPKg0PDg4ODg4rDg4ODg4PDQ8OKw0PDioOKw4ODisNKw4rDioPKg4ODg4OKw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4rDg4ODg4ODisOKg8ODQ8ODg4PDQ8ODg4rDSsPDg0PDQ8ODg4PDQ8ODg4ODg8NDw4rDSsPKg4qDg4OKw4ODisOKg8qDioOKw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NKw4rDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4OKw4ODg4ODw0rDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
+        device: airconditioning
+        command:
+          - bedroom daikin 24
 bedroom_ac_21:
-  alias: Bedroom Air Condition 21
   sequence:
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
       data:
-        host: !secret rmmini_a_ip
-        packet:
-        - JgC8AXE5DioPDQ4PDQ8OKw4ODg4ODg4PDSsPDQ4rDyoNDw4qDyoOKg8qDyoODg4ODisODg4ODg8NDw0PDg4OKw4qDisOKw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODisODg4PDQ8NDw4ODg8NAAPNcDkOKw4ODg4ODw0rDg8NDw0PDg4OKw4ODisOKg8ODSsOKw4qDisOKg4PDQ8OKg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4rDg4ODg4PDSsOKw0PDg4ODw0rDw0OKw8NDisODg4ODg8NDw4ODg8NDw0PDg4ODw0rDyoNKw8qDQ8OKw0PDioOKw4rDSsPKg4ODg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4qDw4NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8OKg4rDg4OKw4ODisNKw8qDgANBQAAAAAAAAAAAAAAAA==
+        device: airconditioning
+        command:
+          - bedroom daikin 21
 bedroom_ac_18:
-  alias: "Bedroom Air Condition 18"
   sequence:
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
       data:
-        host: !secret rmmini_a_ip
-        packet:
-        - JgC8AXA5DyoODg4ODg8NKw8ODQ8ODg4ODisODg4rDioPDg0rDisOKg4rDioPDg0PDioPDg0PDg4ODw0PDg4OKw0rDyoNKw8ODQ8ODg4ODg8NDw4ODw4NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODisNDw4ODg8NDw4ODg4OAAPMcTkPKg0PDg4ODg4rDg4ODw0PDg4OKw4ODioOKw8NDisOKg8qDioOKw4ODg8NKw4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4rDg4ODg4ODisOKg8ODg4ODg4PDSsODg4PDSsODw0PDg4ODg4PDQ8ODg4PDQ8NDw4rDioPKg4qDw4NKw8NDisOKg4rDyoOKg8NDg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8OKg8qDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4ODisNDw4ODisOKg8qDgANBQAAAAAAAAAAAAAAAA==
+        device: airconditioning
+        command:
+          - bedroom daikin 18
 bedroom_ac_powerful:
-  alias: "Bedroom Air Condition Powerful"
   sequence:
-    - service: script.bedroom_ac_18
-    - delay: 00:00:15
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
       data:
-        host: !secret rmmini_a_ip
-        packet:
-        - JgC8AXE5DioPDQ8ODQ8PKg4ODg4PDQ8ODioODg4rDyoODg4qDyoOKg8qDykPDg4ODisNDw4ODg4ODw0PDw0PKg4qDyoOKg8ODQ8PDQ4PDQ8ODg4ODg8ODg4ODw0PDg4ODw0PDg0PDg4ODg8ODQ8ODg4ODg8NDw8NDisODg4ODw4NDw4ODg4OAAPMcTkPKg0PDg4ODg8qDg4ODw4ODg4OKw4ODioPKg8NDisOKg4rDioPKg8NDw4NKw8NDw4ODg4ODw0ODw4ODw0PDg0PDg4PDQ8ODg4ODg8NDw4ODg4rDg4ODg8NDyoOKg4PDg4PDQ8ODg4OKg8ODSsPDQ8ODg4ODg8ODg4ODg4ODg8NDw4qDyoPKg4qDw0OKw8NDisOKg8qDioPKg8NDw0ODw4ODw0PDg0PDg4ODg8ODg4PDQ4ODw4ODg4ODw4ODg4ODg4PDg4ODw0PDQ4PDg4ODg4PDioPDQ4PDg4ODg4PDQ8ODg8NDw4ODg4ODw0ODw4ODg4PDg4ODQ8PDQ4PDg4OKg8qDw0PDg4ODg4PDQ4PDg4ODg4ODw4ODg8NDw4NDw0PDw0PDg4qDw0PKg8NDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
+        device: airconditioning
+        command:
+          - bedroom daikin 18
+    - delay: 00:00:15
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
+      data:
+        device: airconditioning
+        command:
+          - bedroom daikin powerful
     - delay: 00:10:00
-    - service: script.bedroom_ac_18
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
+      data:
+        device: airconditioning
+        command:
+          - bedroom daikin 18
 bedroom_ac_control:
-  alias: "Bedroom Air Condition Control"
   sequence:
     - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" %}script.bedroom_ac_18{% elif packet == "powerful" %}script.bedroom_ac_powerful{% else %}{% endif %}'
 first_floor_ac_24:
-  alias: First Floor Air Condition 24
   sequence:
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
       data:
-        host: !secret rmmini_c_ip
-        packet:
-        - JgC8AXA5DyoODg4ODg8NKw4ODg8NDw4ODisODg4rDSsODw0rDisNKw4rDSsPDg0PDioPDg0PDg4ODg4PDQ8OKw0rDyoNKw8NDg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODisODg4ODg4ODw0PDg4OAAPMcTkPKg0PDg4ODg4rDg4ODg4PDQ8OKw0PDioOKw4ODisNKw4rDioPKg4ODg4OKw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4rDg4ODg4ODisOKg8ODQ8ODg4PDQ8ODg4rDSsPDg0PDQ8ODg4PDQ8ODg4ODg8NDw4rDSsPKg4qDg4OKw4ODisOKg8qDioOKw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NKw4rDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4OKw4ODg4ODw0rDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
+        device: airconditioning
+        command:
+          - firstfloor daikin 24
 first_floor_ac_21:
-  alias: First Floor Air Condition 21
   sequence:
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
       data:
-        host: !secret rmmini_c_ip
-        packet:
-        - JgC8AXE5DioPDQ4PDQ8OKw4ODg4ODg4PDSsPDQ4rDyoNDw4qDyoOKg8qDyoODg4ODisODg4ODg8NDw0PDg4OKw4qDisOKw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODisODg4PDQ8NDw4ODg8NAAPNcDkOKw4ODg4ODw0rDg8NDw0PDg4OKw4ODisOKg8ODSsOKw4qDisOKg4PDQ8OKg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4rDg4ODg4PDSsOKw0PDg4ODw0rDw0OKw8NDisODg4ODg8NDw4ODg8NDw0PDg4ODw0rDyoNKw8qDQ8OKw0PDioOKw4rDSsPKg4ODg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4qDw4NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDQ8ODg4PDQ8OKg4rDg4OKw4ODisNKw8qDgANBQAAAAAAAAAAAAAAAA==
+        device: airconditioning
+        command:
+          - firstfloor daikin 21
 first_floor_ac_18:
-  alias: "First Floor Air Condition 18"
   sequence:
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
       data:
-        host: !secret rmmini_c_ip
-        packet:
-        - JgC8AXA5DyoODg4ODg8NKw8ODQ8ODg4ODisODg4rDioPDg0rDisOKg4rDioPDg0PDioPDg0PDg4ODw0PDg4OKw0rDyoNKw8ODQ8ODg4ODg8NDw4ODw4NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODisNDw4ODg8NDw4ODg4OAAPMcTkPKg0PDg4ODg4rDg4ODw0PDg4OKw4ODioOKw8NDisOKg8qDioOKw4ODg8NKw4ODg8NDw4ODg8NDw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8ODg4rDg4ODg4ODisOKg8ODg4ODg4PDSsODg4PDSsODw0PDg4ODg4PDQ8ODg4PDQ8NDw4rDioPKg4qDw4NKw8NDisOKg4rDyoOKg8NDg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4PDQ8NDw4ODg8NDw4ODg4ODw0PDg4ODw0PDg4ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4ODw0PDg4ODg4PDQ8ODg4PDQ8OKg8qDg4ODg4PDQ8ODg4PDQ8ODg4ODg8NDw4ODg8NDw4ODg4OKw4ODisNDw4ODisOKg8qDgANBQAAAAAAAAAAAAAAAA==
+        device: airconditioning
+        command:
+          - firstfloor daikin 18
 first_floor_ac_powerful:
-  alias: "First Floor Air Condition Powerful"
   sequence:
-    - service: script.bedroom_ac_18
-    - delay: 00:00:15
-    - service: broadlink.send
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
       data:
-        host: !secret rmmini_c_ip
-        packet:
-        - JgC8AXE5DioPDQ8ODQ8PKg4ODg4PDQ8ODioODg4rDyoODg4qDyoOKg8qDykPDg4ODisNDw4ODg4ODw0PDw0PKg4qDyoOKg8ODQ8PDQ4PDQ8ODg4ODg8ODg4ODw0PDg4ODw0PDg0PDg4ODg8ODQ8ODg4ODg8NDw8NDisODg4ODw4NDw4ODg4OAAPMcTkPKg0PDg4ODg8qDg4ODw4ODg4OKw4ODioPKg8NDisOKg4rDioPKg8NDw4NKw8NDw4ODg4ODw0ODw4ODw0PDg0PDg4PDQ8ODg4ODg8NDw4ODg4rDg4ODg8NDyoOKg4PDg4PDQ8ODg4OKg8ODSsPDQ8ODg4ODg8ODg4ODg4ODg8NDw4qDyoPKg4qDw0OKw8NDisOKg8qDioPKg8NDw0ODw4ODw0PDg0PDg4ODg8ODg4PDQ4ODw4ODg4ODw4ODg4ODg4PDg4ODw0PDQ4PDg4ODg4PDioPDQ4PDg4ODg4PDQ8ODg8NDw4ODg4ODw0ODw4ODg4PDg4ODQ8PDQ4PDg4OKg8qDw0PDg4ODg4PDQ4PDg4ODg4ODw4ODg8NDw4NDw0PDw0PDg4qDw0PKg8NDisOKg4rDgANBQAAAAAAAAAAAAAAAA==
+        device: airconditioning
+        command:
+          - firstfloor daikin 18
+    - delay: 00:00:15
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
+      data:
+        device: airconditioning
+        command:
+          - firstfloor daikin powerful
     - delay: 00:10:00
-    - service: script.bedroom_ac_18
+    - service: remote.send_command
+      target:
+        entity_id: remote.rm_bedroom_remote
+      data:
+        device: airconditioning
+        command:
+          - firstfloor daikin 18
 first_floor_ac_control:
-  alias: "First Floor Air Condition Control"
   sequence:
     - service_template: '{% if packet == "24" %}script.first_floor_ac_24{% elif packet == "21" %}script.first_floor_ac_21{% elif packet == "18" %}script.first_floor_ac_18{% elif packet == "powerful" %}script.first_floor_ac_powerful{% else %}{% endif %}'
 hometheatre_turnon:
@@ -312,6 +345,22 @@ denon_power_off:
   alias: "Denon Power Off"
   sequence:
     - service: shell_command.denon_power_off
+denon_source_dune:
+  alias: "Denon Source Dune"
+  sequence:
+    - service: shell_command.denon_source_dune
+denon_source_appletv:
+  alias: "Denon Source Apple TV"
+  sequence:
+    - service: shell_command.denon_source_appletv
+denon_source_usbipod:
+  alias: "Denon Source USB/iPod"
+  sequence:
+    - service: shell_command.denon_source_usbipod
+denon_source_biscuit:
+  alias: "Denon Source Biscuit"
+  sequence:
+    - service: shell_command.denon_source_biscuit
 denon_source_satcbl:
   alias: "Denon Source SATCBL"
   sequence:
@@ -320,6 +369,14 @@ denon_source_music:
   alias: "Denon Source Music"
   sequence:
     - service: shell_command.denon_source_music
+denon_mode_auto:
+  alias: "Denon Mode Auto"
+  sequence:
+    - service: shell_command.denon_mode_auto
+denon_mode_analog:
+  alias: "Denon Mode Analog"
+  sequence:
+    - service: shell_command.denon_smode_analog
 switch_to_cabletv:
   alias: "Switch Media to Cable TV"
   sequence:
