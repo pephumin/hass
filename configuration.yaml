@@ -302,7 +302,7 @@ tts:
     base_url: !secret internal_url
     service_name: google_say
 
-updater:
+# updater:
 
 wake_on_lan:
 
