@@ -12,8 +12,8 @@
 
 # --Track Devices Parameters-------------------------------
 devices:
- - device_name: pesiphone11pro
-   name: Pe's iPhone 11 Pro
+ - device_name: pesiphone13pro
+   name: Pe's iPhone 13 Pro
    email: phumin@sawasdee.org
    picture: pe.jpg
  - device_name: pesipadpro
@@ -32,24 +32,6 @@ devices:
    name: Jue's iPad Mini 4
    email: malaiwan@gmail.com
    picture: jue.jpg
-#  - device_name: benjysiphone11
-#    name: Benjy iPhone 11
-#   #  email: Benjawan.puttarugsa@icloud.com
-#    email: benjy.p@gmail.com
-#    picture: pe.jpg
-#  - device_name: benjysipadmini5
-#    name: Benjy iPad Mini 5
-#   #  email: Benjawan.puttarugsa@icloud.com
-#    email: benjy.p@gmail.com
-#    picture: pe.jpg
-
-# Other devices parameters not normally used
-  #  noiosapp: false
-  #  iosapp_suffix: _app
-  #  iosapp_entity: gary_iphone_app
-  #  track_from_zone: warehouse
-
-#event_log_card_directory: www/custom_cards
 
 # --Zone/Tracking Parameters--------------------------------
 inzone_interval: 5 min
