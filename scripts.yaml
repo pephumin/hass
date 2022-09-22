@@ -486,7 +486,7 @@ denon_turnon:
   sequence:
     - service: media_player.turn_on
       entity_id: media_player.denon_avr_2113
-notify_pesiphone11pro:
+notify_pesiphone13pro:
   alias: "Notify Pe"
   sequence:
     - service: notify.pe
@@ -678,7 +678,7 @@ s_mobile:
   sequence:
     - condition: template
       value_template: '{{ mobile != "false" }}'
-    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone11pro{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "pe_jue" or mobile == "both" %}script.notify_pesiphone11pro_juesiphone6splus{% elif mobile == "pe_benjy" %}script.notify_pesiphone11pro_benjysiphone6{% elif mobile == "jue_benjy" %}script.notify_juesiphone6splus_benjysiphone6{% endif %}'
+    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone13pro{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "pe_jue" or mobile == "both" %}script.notify_pesiphone13pro_juesiphone6splus{% elif mobile == "pe_benjy" %}script.notify_pesiphone13pro_benjysiphone6{% elif mobile == "jue_benjy" %}script.notify_juesiphone6splus_benjysiphone6{% endif %}'
       data_template:
         title: '{{ title if title else message }}'
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
@@ -880,36 +880,36 @@ icloud3_command_resume_polling_pe:
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone11pro'
+        device_name: 'pesiphone13pro'
         command: 'resume'
 icloud3_command_pause_polling_pe:
   alias: 'Pause (Pe)'
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone11pro'
+        device_name: 'pesiphone13pro'
         command: 'pause'
 icloud3_set_interval_10_min_pe:
   alias: 'Set interval to 10 minutes (Pe)'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
-        device_name: 'pesiphone11pro'
+        device_name: 'pesiphone13pro'
         interval: '10 min'
 icloud3_set_interval_2_min_pe:
   alias: 'Set interval to 2 minutes (Pe)'
   sequence:
     - service: device_tracker.icloud3_set_interval
       data:
-        device_name: 'pesiphone11pro'
+        device_name: 'pesiphone13pro'
         interval: '2 min'
 icloud3_lost_iphone_pe:
   alias: 'Find Lost Phone Alert (Pe)'
   sequence:
     - service: device_tracker.icloud3_lost_iphone
       data:
-        device_name: 'pesiphone11pro'
-    - service: script.notify_pesiphone11pro
+        device_name: 'pesiphone13pro'
+    - service: script.notify_pesiphone13pro
       data_template:
         title: 'Lost iPhone Notification'
         message: 'Lost iPhone was triggered for Pe'
@@ -918,33 +918,33 @@ icloud3_update_location_pe:
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone11pro'
+        device_name: 'pesiphone13pro'
         command: 'location'
-icloud3_command_pesiphone11pro_zone_home:
+icloud3_command_pesiphone13pro_zone_home:
   alias: 'Set Zone Home (Pe)'
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone11pro'
+        device_name: 'pesiphone13pro'
         command: 'zone home'
-icloud3_command_pesiphone11pro_zone_not_home:
+icloud3_command_pesiphone13pro_zone_not_home:
   alias: 'Set Zone Away (Pe)'
   sequence:
     - service: device_tracker.icloud3_update
       data:
-        device_name: 'pesiphone11pro'
+        device_name: 'pesiphone13pro'
         command: 'zone not_home'
 pe_status:
   alias: Send Pe Status
   sequence:
-    - service: script.notify_pesiphone11pro
+    - service: script.notify_pesiphone13pro
       data_template:
         title: 'Pe Status'
-        message: 'Zone = {{ states.sensor.pesiphone11pro_zone.state }}, Zone1 = {{ states.sensor.pesiphone11pro_zone_name1.state }}, Zone2 = {{ states.sensor.pesiphone11pro_zone_name2.state }}, Distance = {{ states.sensor.pesiphone11pro_distance.state }}, DriveFlag = {{ states.input_boolean.pe_on_the_go.state }}, FarFlag = {{ states.input_boolean.pe_far_away.state }}'
+        message: 'Zone = {{ states.sensor.pesiphone13pro_zone.state }}, Zone1 = {{ states.sensor.pesiphone13pro_zone_name1.state }}, Zone2 = {{ states.sensor.pesiphone13pro_zone_name2.state }}, Distance = {{ states.sensor.pesiphone13pro_distance.state }}, DriveFlag = {{ states.input_boolean.pe_on_the_go.state }}, FarFlag = {{ states.input_boolean.pe_far_away.state }}'
 jue_status:
   alias: Send Jue Status
   sequence:
-    - service: script.notify_pesiphone11pro
+    - service: script.notify_pesiphone13pro
       data_template:
         title: 'Jue Status'
         message: 'Zone = {{ states.sensor.juesiphone6splus_zone.state }}, Zone1 = {{ states.sensor.juesiphone6splus_zone_name1.state }}, Zone2 = {{ states.sensor.juesiphone6splus_zone_name2.state }}, Distance = {{ states.sensor.juesiphone6splus_distance.state }}, DriveFlag = {{ states.input_boolean.jue_on_the_go.state }}, FarFlag = {{ states.input_boolean.jue_far_away.state }}'

@@ -5,8 +5,8 @@ homeassistant:
   elevation: -21
   unit_system: metric
   time_zone: Asia/Bangkok
-  external_url: http://phumin.synology.me:7575/
-  internal_url: http://192.168.1.99:8123/
+  external_url: http://hypnotize.synology.me:7575/
+  internal_url: http://192.168.1.100:8123/
   auth_providers:
     - type: homeassistant
   auth_mfa_modules:
@@ -261,7 +261,7 @@ notify:
   - platform: group
     name: pe
     services:
-      - service: mobile_app_pesiphone11pro
+      - service: mobile_app_pesiphone13pro
       - service: mobile_app_pesipadpro
       - service: mobile_app_sm_g955f
   - platform: group
