@@ -146,7 +146,7 @@ frontend:
 ffmpeg:
   ffmpeg_bin: /usr/bin/ffmpeg
 
-# history:
+history:
 
 http:
   # base_url: !secret base_url
@@ -184,7 +184,7 @@ http:
   #     camera.foscam_gaarage:
   #       support_audio: True
 
-ios:
+# ios:
 #   actions:
 #     - name: Fred
 #       background_color: "#000000"
@@ -248,13 +248,11 @@ notify:
   - platform: smtp
     name: email
     server: !secret smtp_server
-    port: !secret smtp_port
-    encryption: none
-    starttls: false
+    port: 587
+    timeout: 15
+    encryption: starttls
     sender: !secret smtp_sender
     recipient: !secret icloud_username
-    debug: true
-    timeout: 30
   - platform: group
     name: television
     services:

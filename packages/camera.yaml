@@ -1,10 +1,10 @@
-counter:
-  foscammotion:
-    name: "Foscam Motion Activation"
-    initial: 0
-    step: 1
-    icon: mdi:counter
-    restore: false
+# counter:
+#   foscammotion:
+#     name: "Foscam Motion Activation"
+#     initial: 0
+#     step: 1
+#     icon: mdi:counter
+#     restore: false
 
 # camera:
 #   - platform: generic

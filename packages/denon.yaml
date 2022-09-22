@@ -28,6 +28,7 @@ shell_command:
   denon_volume_40: !secret denon_volume_40
   denon_volume_45: !secret denon_volume_45
   denon_volume_50: !secret denon_volume_50
+  denon_volume_55: !secret denon_volume_55
   denon_mute_on: !secret denon_mute_on
   denon_mute_off: !secret denon_mute_off
   denon_source_dune: !secret denon_source_dune

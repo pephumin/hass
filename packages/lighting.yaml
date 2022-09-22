@@ -641,7 +641,7 @@ scene:
       light.downlightblack3:
         state: on
         transition: 1
-        brightness: 200
+        brightness: 255
         color_temp: 164
   - name: "Bedroom2 Bright"
     entities:
@@ -658,7 +658,7 @@ scene:
       light.downlightblack3:
         state: on
         transition: 1
-        brightness: 110
+        brightness: 200
         color_temp: 164
   - name: "Bedroom2 Dim"
     entities:
@@ -675,7 +675,7 @@ scene:
       light.downlightblack3:
         state: on
         transition: 1
-        brightness: 50
+        brightness: 100
         color_temp: 454
   - name: "Closet Off"
     entities:
@@ -696,7 +696,7 @@ scene:
       light.tuya_3:
         state: on
         transition: 1
-        brightness: 200
+        brightness: 255
         color_temp: 164
   - name: "Closet Bright"
     entities:
@@ -713,7 +713,7 @@ scene:
       light.tuya_3:
         state: on
         transition: 1
-        brightness: 110
+        brightness: 200
         color_temp: 164
   - name: "Closet Dim"
     entities:
@@ -730,7 +730,7 @@ scene:
       light.tuya_3:
         state: on
         transition: 1
-        brightness: 50
+        brightness: 100
         color_temp: 454
 
 automation:

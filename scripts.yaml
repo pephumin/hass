@@ -329,6 +329,10 @@ denon_volume_50:
   alias: "Denon Volume 50"
   sequence:
     - service: shell_command.denon_volume_50
+denon_volume_55:
+  alias: "Denon Volume 55"
+  sequence:
+    - service: shell_command.denon_volume_55
 denon_mute_on:
   alias: "Denon Mute On"
   sequence:
