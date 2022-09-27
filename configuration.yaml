@@ -5,8 +5,8 @@ homeassistant:
   elevation: -21
   unit_system: metric
   time_zone: Asia/Bangkok
-  external_url: http://hypnotize.synology.me:7575/
-  internal_url: http://192.168.1.100:8123/
+  external_url: http://phumin.synology.me:7575/
+  internal_url: http://192.168.1.99:8123/
   auth_providers:
     - type: homeassistant
   auth_mfa_modules:
@@ -115,15 +115,15 @@ counter:
     restore: false
 
 device_tracker:
-  - platform: tomato
-    host: !secret deeper_ip
-    username: !secret my_username
-    password:  !secret my_password
-    http_id: !secret tomato_http_id_1
-    interval_seconds: 120
-    consider_home: 180
-    new_device_defaults:
-      track_new_devices: true
+  # - platform: tomato
+  #   host: !secret deeper_ip
+  #   username: !secret my_username
+  #   password:  !secret my_password
+  #   http_id: !secret tomato_http_id_1
+  #   interval_seconds: 240
+  #   consider_home: 180
+  #   new_device_defaults:
+  #     track_new_devices: true
   - platform: icloud3
     username: !secret icloud_username
     password: !secret icloud_password
@@ -144,7 +144,7 @@ frontend:
   themes: !include_dir_merge_named themes
 
 ffmpeg:
-  ffmpeg_bin: /usr/bin/ffmpeg
+  # ffmpeg_bin: /usr/bin/ffmpeg
 
 history:
 
@@ -207,6 +207,8 @@ logger:
 # lovelace:
 #   mode: yaml
 
+# map:
+
 media_player:
   # - platform: denonavr
   #   name: "Denon"
@@ -263,7 +265,7 @@ notify:
     services:
       - service: mobile_app_pesiphone13pro
       - service: mobile_app_pesipadpro
-      - service: mobile_app_sm_g955f
+      - service: mobile_app_samsungs8plus
   - platform: group
     name: jue
     services:

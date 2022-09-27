@@ -36,3 +36,5 @@ ping/
 sh/
 removed/
 .DS_Store
+tts/*
+custom_components/*

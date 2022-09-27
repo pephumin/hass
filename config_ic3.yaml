@@ -32,6 +32,24 @@ devices:
    name: Jue's iPad Mini 4
    email: malaiwan@gmail.com
    picture: jue.jpg
+#  - device_name: benjysiphone11
+#    name: Benjy iPhone 11
+#   #  email: Benjawan.puttarugsa@icloud.com
+#    email: benjy.p@gmail.com
+#    picture: pe.jpg
+#  - device_name: benjysipadmini5
+#    name: Benjy iPad Mini 5
+#   #  email: Benjawan.puttarugsa@icloud.com
+#    email: benjy.p@gmail.com
+#    picture: pe.jpg
+
+# Other devices parameters not normally used
+  #  noiosapp: true
+  #  iosapp_suffix: _app
+  #  iosapp_entity: gary_iphone_app
+  #  track_from_zone: warehouse
+
+#event_log_card_directory: www/custom_cards
 
 # --Zone/Tracking Parameters--------------------------------
 inzone_interval: 5 min
