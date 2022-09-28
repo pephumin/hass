@@ -36,6 +36,11 @@ ping/
 sh/
 removed/
 .DS_Store
+config_ic3.yaml
+aircast.xml
+appdaemon/*
 tts/*
 custom_components/*
-home-assistant*
+ui-lovelace.yaml
+home-assistant_v2*
+home-assistant.log*
