@@ -67,11 +67,11 @@ zone:
     latitude: !secret latitude_benjys
     longitude: !secret longitude_benjys
     radius: 100
-  - name: Benjawan
-    icon: mdi:home-variant
-    latitude: !secret latitude_benjawan
-    longitude: !secret longitude_benjawan
-    radius: 100
+  # - name: Benjawan
+  #   icon: mdi:home-variant
+  #   latitude: !secret latitude_benjawan
+  #   longitude: !secret longitude_benjawan
+  #   radius: 100
   - name: Malaiwan
     icon: mdi:home-modern
     latitude: !secret latitude_malaiwan
@@ -81,44 +81,44 @@ zone:
     icon: mdi:shopping
     latitude: !secret latitude_seaconsquare
     longitude: !secret longitude_seaconsquare
-    radius: 200
+    radius: 100
   - name: Paradise Park
     icon: mdi:shopping
     latitude: !secret latitude_paradisepark
     longitude: !secret longitude_paradisepark
-    radius: 200
+    radius: 100
   - name: Central Bangna
     icon: mdi:shopping
     latitude: !secret latitude_centralbangna
     longitude: !secret longitude_centralbangna
-    radius: 200
+    radius: 100
   - name: Foodland
     icon: mdi:food
     latitude: !secret latitude_foodland
     longitude: !secret longitude_foodland
-    radius: 150
+    radius: 100
   - name: Pause 103
     icon: mdi:home-city
     latitude: !secret latitude_pause103
     longitude: !secret longitude_pause103
-    radius: 150
-  - name: Big C Extra On-Nut
-    icon: mdi:store
-    latitude: !secret latitude_bigcextraonnut
-    longitude: !secret longitude_bigcextraonnut
-    radius: 250
+    radius: 100
+  # - name: Big C Extra On-Nut
+  #   icon: mdi:store
+  #   latitude: !secret latitude_bigcextraonnut
+  #   longitude: !secret longitude_bigcextraonnut
+  #   radius: 100
   - name: Niche Mono Bearing
     icon: mdi:home-city
     latitude: !secret latitude_nichemono_bearing
     longitude: !secret longitude_nichemono_bearing
-    radius: 150
+    radius: 100
 
 group:
   devices:
     name: "Devices"
     icon: mdi:account
     entities:
-      - device_tracker.pesiphone11pro
+      - device_tracker.pesiphone13pro
       - device_tracker.pesipadmini5
       - device_tracker.juesiphonexsmax
       - device_tracker.juesipadmini4
@@ -253,7 +253,7 @@ automation:
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.pesiphone11pro", "home") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone13pro", "home") }}'
     action:
       - service: input_boolean.turn_on
         data:
@@ -276,7 +276,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.pesiphone11pro", "home") }}'
+        value_template: '{{ not is_state("device_tracker.pesiphone13pro", "home") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peathome", "on") }}'
@@ -361,7 +361,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.pesiphone11pro", "Big C Extra On-Nut") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone13pro", "Big C Extra On-Nut") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peatbigc", "off") }}'
@@ -389,7 +389,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.pesiphone11pro", "Big C Extra On-Nut") }}'
+        value_template: '{{ not is_state("device_tracker.pesiphone13pro", "Big C Extra On-Nut") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peatbigc", "on") }}'
@@ -408,7 +408,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ is_state("device_tracker.pesiphone11pro", "Niche Mono Bearing") }}'
+        value_template: '{{ is_state("device_tracker.pesiphone13pro", "Niche Mono Bearing") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peatnichemono", "off") }}'
@@ -436,7 +436,7 @@ automation:
     initial_state: 'on'
     trigger:
       - platform: template
-        value_template: '{{ not is_state("device_tracker.pesiphone11pro", "BNiche Mono Bearing") }}'
+        value_template: '{{ not is_state("device_tracker.pesiphone13pro", "BNiche Mono Bearing") }}'
     condition:
       - condition: template
         value_template: '{{ is_state("input_boolean.peatnichemono", "on") }}'

@@ -182,7 +182,7 @@ bedroom_ac_24:
       data:
         device: airconditioning
         command:
-          - bedroom daikin 24
+          - bedroom haier 24
 bedroom_ac_21:
   sequence:
     - service: remote.send_command
@@ -191,7 +191,7 @@ bedroom_ac_21:
       data:
         device: airconditioning
         command:
-          - bedroom daikin 21
+          - bedroom haier 21
 bedroom_ac_18:
   sequence:
     - service: remote.send_command
@@ -200,7 +200,7 @@ bedroom_ac_18:
       data:
         device: airconditioning
         command:
-          - bedroom daikin 18
+          - bedroom haier 18
 bedroom_ac_powerful:
   sequence:
     - service: remote.send_command
@@ -209,15 +209,15 @@ bedroom_ac_powerful:
       data:
         device: airconditioning
         command:
-          - bedroom daikin 18
-    - delay: 00:00:15
-    - service: remote.send_command
-      target:
-        entity_id: remote.rm_bedroom_remote
-      data:
-        device: airconditioning
-        command:
-          - bedroom daikin powerful
+          - bedroom haier 18
+    # - delay: 00:00:15
+    # - service: remote.send_command
+    #   target:
+    #     entity_id: remote.rm_bedroom_remote
+    #   data:
+    #     device: airconditioning
+    #     command:
+    #       - bedroom haier powerful
     - delay: 00:10:00
     - service: remote.send_command
       target:
@@ -225,7 +225,7 @@ bedroom_ac_powerful:
       data:
         device: airconditioning
         command:
-          - bedroom daikin 18
+          - bedroom haier 18
 bedroom_ac_control:
   sequence:
     - service_template: '{% if packet == "24" %}script.bedroom_ac_24{% elif packet == "21" %}script.bedroom_ac_21{% elif packet == "18" %}script.bedroom_ac_18{% elif packet == "powerful" %}script.bedroom_ac_powerful{% else %}{% endif %}'
@@ -678,7 +678,7 @@ s_mobile:
   sequence:
     - condition: template
       value_template: '{{ mobile != "false" }}'
-    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone13pro{% elif mobile == "jue" %}script.notify_juesiphone6splus{% elif mobile == "pe_jue" or mobile == "both" %}script.notify_pesiphone13pro_juesiphone6splus{% elif mobile == "pe_benjy" %}script.notify_pesiphone13pro_benjysiphone6{% elif mobile == "jue_benjy" %}script.notify_juesiphone6splus_benjysiphone6{% endif %}'
+    - service_template: '{% if mobile == "pe" %}script.notify_pesiphone13pro{% elif mobile == "jue" %}script.notify_juesiphonexsmax{% elif mobile == "pe_jue" or mobile == "both" %}script.notify_pesiphone13pro_juesiphonexsmax{% endif %}'
       data_template:
         title: '{{ title if title else message }}'
         message: '{{ message }} [{{now().strftime("%d %B")}} at {{now().strftime("%H:%M")}}]'
@@ -949,25 +949,29 @@ jue_status:
         title: 'Jue Status'
         message: 'Zone = {{ states.sensor.juesiphone6splus_zone.state }}, Zone1 = {{ states.sensor.juesiphone6splus_zone_name1.state }}, Zone2 = {{ states.sensor.juesiphone6splus_zone_name2.state }}, Distance = {{ states.sensor.juesiphone6splus_distance.state }}, DriveFlag = {{ states.input_boolean.jue_on_the_go.state }}, FarFlag = {{ states.input_boolean.jue_far_away.state }}'
 
-cast_youtube_to_my_chromecast:
-  alias: Cast YouTube to Biscuit
-  sequence:
-  - data:
-      entity_id: media_player.biscuit
-      media_content_type: cast
-      media_content_id: '
-        {
-          "app_name": "youtube",
-          "media_id": "Plw9Ox20l74"
-        }'
-    service: media_player.play_media
+# cast_youtube_to_my_chromecast:
+#   alias: Cast YouTube to Biscuit
+#   sequence:
+#   - data:
+#       entity_id: media_player.biscuit
+#       media_content_type: cast
+#       media_content_id: '
+#         {
+#           "app_name": "youtube",
+#           "media_id": "Plw9Ox20l74"
+#         }'
+#     service: media_player.play_media
 
-cast_downstairs_on_kitchen:
-  alias: Show Downstairs on Biscuit
-  sequence:
-  - data:
-      dashboard_path: lovelace
-      entity_id: media_player.biscuit
-      view_path: downstairs
-    service: cast.show_lovelace_view
+# cast_downstairs_on_kitchen:
+#   alias: Show Downstairs on Biscuit
+#   sequence:
+#   - data:
+#       dashboard_path: lovelace
+#       entity_id: media_player.biscuit
+#       view_path: downstairs
+#     service: cast.show_lovelace_view
+
+check_config:
+  sequence: []
+  alias: Check Configuration
 

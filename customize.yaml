@@ -1,21 +1,21 @@
-device_tracker.pesiphone11pro:
+device_tracker.pesiphone13pro:
   icon: mdi:cellphone-iphone
-  friendly_name: Pe's iPhone 11 Pro
-binary_sensor.pesiphone11pro:
+  friendly_name: Pe's iPhone 13 Pro
+binary_sensor.pesiphone13pro:
   icon: mdi:cellphone-iphone
-  friendly_name: Pe's iPhone 11 Pro
+  friendly_name: Pe's iPhone 13 Pro
 device_tracker.peaipadpro:
   icon: mdi:tablet-ipad
   friendly_name: Pe's iPad Pro
 binary_sensor.peaipadpro:
   icon: mdi:tablet-ipad
   friendly_name: Pe's iPad Pro
-device_tracker.pepework:
-  icon: mdi:laptop-windows
-  friendly_name: Pe's Dell Laptop
-binary_sensor.pepework:
-  icon: mdi:laptop-windows
-  friendly_name: Pe's Dell Laptop
+# device_tracker.pepework:
+#   icon: mdi:laptop-windows
+#   friendly_name: Pe's Dell Laptop
+# binary_sensor.pepework:
+#   icon: mdi:laptop-windows
+#   friendly_name: Pe's Dell Laptop
 device_tracker.pepe:
   icon: mdi:laptop-mac
   friendly_name: Pe's Macbook Pro
@@ -89,7 +89,7 @@ light.hue_2:
 light.hue_3:
   icon: mdi:lightbulb
   friendly_name: Bedroom 3
-light.hue_4:
+light.whites_4:
   icon: mdi:lightbulb
   friendly_name: Bedroom 4
 light.tuya_1:
@@ -289,24 +289,29 @@ switch.bedroom_air_cond:
   icon: mdi:air-conditioner
   friendly_name: Bedroom Air Cond
   assumed_state: true
-switch.bedroom_daikin:
+switch.bedroom_haier:
   icon: mdi:air-conditioner
   friendly_name: Bedroom Air Cond
   assumed_state: true
+  unique_id: bedroom-haier
 switch.bedroom_tv:
   icon: mdi:television
   friendly_name: Bedroom TV
   assumed_state: true
+  unique_id: bedroom-tv
 switch.bedroom_sound:
   icon: mdi:amplifier
   friendly_name: Bedroom Denon
   assumed_state: true
+  unique_id: bedroom-denon
 script.mute_common_room:
   icon: mdi:volume-mute
   friendly_name: Mute Common Room
+  unique_id: mute-common-room
 script.mute_bedroom:
   icon: mdi:volume-mute
   friendly_name: Mute Bedroom
+  unique_id: mute-bedroom
 script.dj_shuffle:
   icon: mdi:music-box-outline
   friendly_name: Playlist DJ
@@ -316,54 +321,71 @@ script.soft_shuffle:
 script.bedroom_ac_powerful:
   icon: mdi:dumbbell
   friendly_name: AC Powerful
+  unique_id: bedroom-ac-powerful
 sensor.denon_source:
   icon: mdi:amplifier
   friendly_name: Common Room Denon
+  unique_id: denon-source
 sensor.denonsourcecheck:
   icon: mdi:amplifier
   friendly_name: Common Room Denon
+  unique_id: denon-source-check
 binary_sensor.deeper:
   icon: mdi:router-wireless
   friendly_name: Primary Gateway
+  unique_id: sensor-deeper
 binary_sensor.pluto:
   icon: mdi:wifi
   friendly_name: Airport Extreme Pluto
+  unique_id: sensor-pluto  
 binary_sensor.sun:
   icon: mdi:wifi
   friendly_name: Airport Extreme Sun
+  unique_id: sensor-sun  
 binary_sensor.kepler:
   icon: mdi:router-wireless
   friendly_name: Bedroom Gateway
+  unique_id: sensor-kepler  
 binary_sensor.neptune:
   icon: mdi:wifi
   friendly_name: Airport Express Bedroom
+  unique_id: sensor-neptune  
 binary_sensor.uranus:
   icon: mdi:wifi
   friendly_name: Airport Express Front Door
+  unique_id: sensor-uranus
 binary_sensor.mercury:
   icon: mdi:wifi
   friendly_name: Airport Express Bedroom
+  unique_id: sensor-mercury
 binary_sensor.apollo:
   icon: mdi:wifi
   friendly_name: ASUS RT-N12+
+  unique_id: sensor-apollo
 binary_sensor.sputnik:
   icon: mdi:wifi
   friendly_name: Ubiquiti Rocket M2
+  unique_id: sensor-sputnik
 binary_sensor.apple_tv:
   icon: mdi:apple
   friendly_name: Apple TV
+  unique_id: sensor-apple-tv
 binary_sensor.smart_tv:
   friendly_name: Smart TV
+  unique_id: sensor-smart-tv
   icon: mdi:television
 binary_sensor.denon:
   icon: mdi:amplifier
   friendly_name: Denon AVR-2113
+  unique_id: sensor-denon
 binary_sensor.android_box:
   icon: mdi:android
   friendly_name: Android Box
+  unique_id: sensor-android-box
 binary_sensor.moon:
   icon: mdi:orbit
   friendly_name: Philips Hue
+  unique_id: sensor-philips-hue
 binary_sensor.broadlink_rm_mini_a:
   icon: mdi:remote
   friendly_name: Broadlink RM Mini A
@@ -391,29 +413,39 @@ binary_sensor.candy:
 binary_sensor.biscuit:
   icon: mdi:google-chrome
   friendly_name: Google Chromecast
+  unique_id: sensor-biscuit
 binary_sensor.earth:
   icon: mdi:printer
   friendly_name: Samsung Printer
+  unique_id: sensor-earth
 binary_sensor.comet:
   icon: mdi:doorbell-video
   friendly_name: Comet Doorbell
+  unique_id: sensor-comet
 binary_sensor.bmw:
   icon: mdi:car-sports
   friendly_name: BMW
+  unique_id: sensor-bmw
 binary_sensor.pong:
   icon: mdi:car-sports
   friendly_name: Pong
+  unique_id: sensor-pong
 binary_sensor.freed:
   icon: mdi:car-sports
   friendly_name: Freed
+  unique_id: sensor-freed
+binary_sensor.cookie:
+  icon: mdi:raspberry-pi
+  friendly_name: Raspberry PI Cookie
+  unique_id: sensor-cookie
 binary_sensor.titan:
   icon: mdi:power-socket-us
   friendly_name: TP-Link Plug Common Room
-  unique_id: tplink-plug-common-room
+  unique_id: sensor-titan
 binary_sensor.europa:
   icon: mdi:power-socket-us
   friendly_name: TP-Link Plug Bedroom
-  unique_id: tplink-plug-bedroom
+  unique_id: sensor-europa
 binary_sensor.charon:
   icon: mdi:power-socket-us
   friendly_name: Sonoff Basic Charon
@@ -505,6 +537,11 @@ switch.ganymede:
   friendly_name: WLED Online Switch
   assumed_state: true
   unique_id: wled-online-switch
+switch.waterfall:
+  icon: mdi:cat
+  friendly_name: Cat Waterfall
+  assumed_state: true
+  unique_id: cat-waterfall
 switch.sva:
   icon: mdi:power-socket
   friendly_name: WLED2 Online Switch
@@ -578,17 +615,17 @@ sensor.last_boot:
   hidden: true
 sensor.since_last_boot:
   hidden: true
-sensor.pesiphone11pro_battery_level:
+sensor.pesiphone13pro_battery_level:
   hidden: true
-sensor.pesiphone11pro_battery_level_2:
+sensor.pesiphone13pro_battery_level_2:
   hidden: true
-sensor.pesiphone11pro_battery_level_3:
+sensor.pesiphone13pro_battery_level_3:
   hidden: true
-sensor.pesiphone11pro_battery_state:
+sensor.pesiphone13pro_battery_state:
   hidden: true
-sensor.pesiphone11pro_battery_state_2:
+sensor.pesiphone13pro_battery_state_2:
   hidden: true
-sensor.pesiphone11pro_battery_state_3:
+sensor.pesiphone13pro_battery_state_3:
   hidden: true
 sensor.juesiiphonexsmax_battery_level:
   hidden: true

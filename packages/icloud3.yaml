@@ -5,8 +5,8 @@
 #       - Pause
 #       - Resume
 #       - Waze On/Off
-#       - Pause pesiphone11pro
-#       - Resume pesiphone11pro
+#       - Pause pesiphone13pro
+#       - Resume pesiphone13pro
 #       - Pause juesiphonexsmax
 #       - Resume juesiphonexsmax
 #     icon: mdi:apple-keyboard-command
@@ -41,7 +41,7 @@ automation:
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.pesiphone11pro
+  #       entity_id: device_tracker.pesiphone13pro
   #       # from: 'not_home'
   #       to: 'home'
   #   condition:
@@ -68,14 +68,14 @@ automation:
   #         entity_id: input_boolean.peathome
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: pesiphone11pro
+  #         device_name: pesiphone13pro
   #         command: 'zone home'
       
   # - alias: "Pe Leaves Home"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.pesiphone11pro
+  #       entity_id: device_tracker.pesiphone13pro
   #       from: 'home'
   #       # to: 'not_home'
   #   condition:
@@ -102,7 +102,7 @@ automation:
   #         entity_id: input_boolean.peathome
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: pesiphone11pro
+  #         device_name: pesiphone13pro
   #         command: 'zone not_home'
 
   # - alias: "Jue Arrives Home"
@@ -245,7 +245,7 @@ automation:
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.pesiphone11pro
+  #       entity_id: device_tracker.pesiphone13pro
   #       # from: 'not_home'
   #       to: 'Pause 103'
   #   condition:
@@ -272,14 +272,14 @@ automation:
   #         entity_id: input_boolean.peatpause
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: pesiphone11pro
+  #         device_name: pesiphone13pro
   #         command: 'zone pause103'
 
   # - alias: "Pe Leaves Pause 103"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.pesiphone11pro
+  #       entity_id: device_tracker.pesiphone13pro
   #       from: 'Pause 103'
   #       # to: 'not_home'
   #   condition:
@@ -306,14 +306,14 @@ automation:
   #         entity_id: input_boolean.peatpause
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: pesiphone11pro
+  #         device_name: pesiphone13pro
   #         command: 'zone not_home'
 
   # - alias: "Pe Arrives Big C Extra On-Nut"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.pesiphone11pro
+  #       entity_id: device_tracker.pesiphone13pro
   #       # from: 'not_home'
   #       to: 'Big C Extra On-Nut'
   #   condition:
@@ -340,14 +340,14 @@ automation:
   #         entity_id: input_boolean.peatbigc
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: pesiphone11pro
+  #         device_name: pesiphone13pro
   #         command: 'zone bigc'
 
   # - alias: "Pe Leaves Big C Extra On-Nut"
   #   initial_state: "on"
   #   trigger:
   #     - platform: state
-  #       entity_id: device_tracker.pesiphone11pro
+  #       entity_id: device_tracker.pesiphone13pro
   #       from: 'Big C Extra On-Nut'
   #       # to: 'not_home'
   #   condition:
@@ -374,7 +374,7 @@ automation:
   #         entity_id: input_boolean.peatbigc
   #     - service: device_tracker.icloud3_update
   #       data:
-  #         device_name: pesiphone11pro
+  #         device_name: pesiphone13pro
   #         command: 'zone not_home'
 
   # - alias: "Jue Arrives Big C Extra On-Nut"

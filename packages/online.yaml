@@ -141,7 +141,7 @@ binary_sensor:
     scan_interval: 120
   - platform: ping
     host: 192.168.1.30
-    name: "pesiphone11pro"
+    name: "pesiphone13pro"
     count: 2
     scan_interval: 30
   - platform: ping

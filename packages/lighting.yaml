@@ -40,7 +40,7 @@ light:
       - light.hue_1
       - light.hue_2
       - light.hue_3
-      - light.hue_4
+      - light.whites_4
       - light.white_warm
   - platform: group
     name: "Bedroom Main"
@@ -48,7 +48,7 @@ light:
       - light.hue_1
       - light.hue_2
       - light.hue_3
-      - light.hue_4
+      - light.whites_4
   - platform: group
     name: "Closet"
     entities:
@@ -150,6 +150,14 @@ group:
       - scene.bedroom_savanna
       - scene.bedroom_twilight
       - scene.bedroom_aurora
+  bedroom2_scenes:
+    name: "Bedroom2 Light Scenes"
+    icon: mdi:cat
+    entities:
+      - scene.bedroom2_off
+      - scene.bedroom2_very_bright
+      - scene.bedroom2_bright
+      - scene.bedroom2_dim
   first_floor_scenes:
     name: First Floor Light Scenes
     icon: mdi:duck
@@ -360,11 +368,10 @@ scene:
         transition: 1
         brightness: 255
         xy_color: [0.3145,0.3303]
-      light.hue_4:
+      light.whites_4:
         state: on
         transition: 1
         brightness: 255
-        xy_color: [0.3145,0.3303]
       light.white_warm:
         state: off
   - name: "Bedroom Bright"
@@ -384,11 +391,10 @@ scene:
         transition: 1
         brightness: 200
         xy_color: [0.2951,0.2930]
-      light.hue_4:
+      light.whites_4:
         state: on
         transition: 1
         brightness: 200
-        xy_color: [0.2951,0.2930]
       light.white_warm:
         state: off
   - name: "Bedroom Night"
@@ -402,8 +408,10 @@ scene:
         transition: 1
         brightness: 220
         xy_color: [0.3685,0.3717]
-      light.hue_4:
-        state: off
+      light.whites_4:
+        state: on
+        transition: 1
+        brightness: 200
       light.white_warm:
         state: off
       light.pandora:
@@ -416,7 +424,7 @@ scene:
         state: off
       light.hue_3:
         state: off
-      light.hue_4:
+      light.whites_4:
         state: off
       light.white_warm:
         state: off
@@ -439,11 +447,10 @@ scene:
         transition: 1
         brightness: 123
         xy_color: [0.3944,0.2952]
-      light.hue_4:
+      light.whites_4:
         state: on
         transition: 1
         brightness: 123
-        xy_color: [0.3944,0.2952]
   - name: "Bedroom Savanna"
     entities:
       light.hue_1:
@@ -461,11 +468,10 @@ scene:
         transition: 1
         brightness: 123
         xy_color: [0.6406,0.3333]
-      light.hue_4:
+      light.whites_4:
         state: on
         transition: 1
         brightness: 123
-        xy_color: [0.5888,0.3536]
       light.white_warm:
         state: off
   - name: "Bedroom Twilight"
@@ -485,11 +491,10 @@ scene:
         transition: 1
         brightness: 123
         xy_color: [0.5993,0.3765]
-      light.hue_4:
+      light.whites_4:
         state: on
         transition: 1
         brightness: 123
-        xy_color: [0.3581,0.2872]
       light.white_warm:
         state: off
   - name: "Bedroom Aurora"
@@ -509,11 +514,10 @@ scene:
         transition: 1
         brightness: 123
         xy_color: [0.2916,0.2860]
-      light.hue_4:
+      light.whites_4:
         state: on
         transition: 1
         brightness: 123
-        xy_color: [0.3108,0.3239]
       light.white_warm:
         state: off
   - name: "First Floor Off"
@@ -940,10 +944,11 @@ automation:
         at: '20:00:00'
     condition:
       - condition: template
-        value_template: '{{ is_state("light.hue_4", "off") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.peathome", "on")) }}'
+        # value_template: '{{ is_state("light.whites_4", "off") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.peathome", "on")) }}'
+        value_template: '{{ is_state("light.whites_4", "off") and is_state("input_boolean.peathome", "on") }}'
     action:
       - service: light.turn_on
-        entity_id: light.hue_4
+        entity_id: light.whites_4
       - service: script.notifying
         data:
           email: "true"
@@ -962,10 +967,11 @@ automation:
         at: '20:45:00'
     condition:
       - condition: template
-        value_template: '{{ is_state("light.hue_4", "on") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.peathome", "on")) }}'
+        # value_template: '{{ is_state("light.whites_4", "on") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.peathome", "on")) }}'
+        value_template: '{{ is_state("light.whites_4", "on") and is_state("input_boolean.peathome", "on") }}'
     action:
       - service: light.turn_off
-        entity_id: light.hue_4
+        entity_id: light.whites_4
       - service: script.notifying
         data:
           email: "true"
@@ -984,10 +990,11 @@ automation:
         at: '21:00:00'
     condition:
       - condition: template
-        value_template: '{{ is_state("light.hue_4", "off") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.peathome", "on")) }}'
+        # value_template: '{{ is_state("light.whites_4", "off") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.peathome", "on")) }}'
+        value_template: '{{ is_state("light.whites_4", "off") and is_state("input_boolean.peathome", "on") }}'
     action:
       - service: light.turn_on
-        entity_id: light.hue_4
+        entity_id: light.whites_4
       - service: script.notifying
         data:
           email: "true"
@@ -1006,10 +1013,11 @@ automation:
         at: '23:00:00'
     condition:
       - condition: template
-        value_template: '{{ is_state("light.hue_4", "on") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.peathome", "on")) }}'
+        # value_template: '{{ is_state("light.whites_4", "on") and (is_state("input_select.homemode", "Home") and is_state("input_boolean.peathome", "on")) }}'
+        value_template: '{{ is_state("light.whites_4", "on") and is_state("input_boolean.peathome", "on") }}'
     action:
       - service: light.turn_off
-        entity_id: light.hue_4
+        entity_id: light.whites_4
       - service: script.notifying
         data:
           email: "true"
@@ -1025,12 +1033,14 @@ automation:
     initial_state: "on"
     trigger:
       - platform: template
-        value_template: '{{ is_state("light.hue_4", "on") and is_state_attr("light.hue_4", "rgb_color", (255,70,21)) }}'
+        # value_template: '{{ is_state("light.whites_4", "on") and is_state_attr("light.whites_4", "rgb_color", (255,70,21)) }}'
+        value_template: '{{ is_state("light.whites_4", "on") }}'
       - platform: template
-        value_template: '{{ is_state("light.hue_4", "on") and is_state_attr("light.hue_4", "rgb_color", (235,255,67)) }}'
+        # value_template: '{{ is_state("light.whites_4", "on") and is_state_attr("light.whites_4", "rgb_color", (235,255,67)) }}'
+        value_template: '{{ is_state("light.whites_4", "on") }}'
     action:
       - service: light.turn_off
-        entity_id: light.hue_4
+        entity_id: light.whites_4
 
   # - alias: "Auto Off Light Strip"
   #   initial_state: "on"

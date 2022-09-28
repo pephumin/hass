@@ -38,3 +38,4 @@ removed/
 .DS_Store
 tts/*
 custom_components/*
+home-assistant*
