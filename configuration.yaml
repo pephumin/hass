@@ -234,6 +234,8 @@ media_extractor:
 
 mobile_app:
 
+# moon:
+
 notify:
   # - platform: ios
   #   name: iOSApp
@@ -247,14 +249,14 @@ notify:
   #   port: 8080
   #   username: !secret my_username
   #   password: !secret my_password
-  - platform: smtp
-    name: email
-    server: !secret smtp_server
-    port: 587
-    timeout: 15
-    encryption: starttls
-    sender: !secret smtp_sender
-    recipient: !secret icloud_username
+  # - platform: smtp
+  #   name: email
+  #   server: !secret smtp_server
+  #   port: 587
+  #   timeout: 15
+  #   encryption: starttls
+  #   sender: !secret smtp_sender
+  #   recipient: !secret icloud_username
   - platform: group
     name: television
     services:
@@ -265,7 +267,7 @@ notify:
     services:
       - service: mobile_app_pesiphone13pro
       - service: mobile_app_pesipadpro
-      - service: mobile_app_samsungs8plus
+      # - service: mobile_app_samsungs8plus
   - platform: group
     name: jue
     services:

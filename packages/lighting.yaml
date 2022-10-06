@@ -173,12 +173,24 @@ scene:
         state: off
   - name: "Common Room Off"
     entities:
-      light.common_room_main:
+      light.zemi_1:
         state: off
-      # light.tethys:
-      #   state: off
-      # light.strip:
-      #   state: off
+        transition: 1
+      light.zemi_2:
+        state: off
+        transition: 1
+      light.zemi_3:
+        state: off
+        transition: 1
+      light.zemi_4:
+        state: off
+        transition: 1
+      light.tethys:
+        state: off
+        transition: 1
+      light.strip:
+        state: off
+        transition: 1
   - name: "Common Room Very Bright"
     entities:
       light.zemi_1:
@@ -347,8 +359,18 @@ scene:
         xy_color: [0.3108,0.3239]
   - name: "Bedroom Off"
     entities:
-      light.bedroom_main:
+      light.hue_1:
         state: off
+        transition: 1
+      light.hue_2:
+        state: off
+        transition: 1
+      light.hue_3:
+        state: off
+        transition: 1
+      light.whites_4:
+        state: off
+        transition: 1
       light.white_warm:
         state: off
   - name: "Bedroom Very Bright"
@@ -397,25 +419,25 @@ scene:
         brightness: 200
       light.white_warm:
         state: off
-  - name: "Bedroom Night"
-    entities:
-      light.hue_1:
-        state: off
-      light.hue_2:
-        state: off
-      light.hue_3:
-        state: on
-        transition: 1
-        brightness: 220
-        xy_color: [0.3685,0.3717]
-      light.whites_4:
-        state: on
-        transition: 1
-        brightness: 200
-      light.white_warm:
-        state: off
-      light.pandora:
-        state: on
+  # - name: "Bedroom Night"
+  #   entities:
+  #     light.hue_1:
+  #       state: off
+  #     light.hue_2:
+  #       state: off
+  #     light.hue_3:
+  #       state: on
+  #       transition: 1
+  #       brightness: 88
+  #       xy_color: [0.3685,0.3717]
+  #     light.whites_4:
+  #       state: on
+  #       transition: 1
+  #       brightness: 88
+  #     light.white_warm:
+  #       state: off
+  #     light.pandora:
+  #       state: on
   - name: "Bedroom Sleep"
     entities:
       light.hue_1:
@@ -423,13 +445,20 @@ scene:
       light.hue_2:
         state: off
       light.hue_3:
-        state: off
+        state: on
+        transition: 1
+        brightness: 88
+        xy_color: [0.3685,0.3717]
       light.whites_4:
-        state: off
+        state: on
+        transition: 1
+        brightness: 88
       light.white_warm:
-        state: off
+        state: on
+        transition: 1
+        brightness: 88
       light.pandora:
-        state: off
+        state: on
   - name: "Bedroom Blossom"
     entities:
       light.hue_1:
@@ -522,15 +551,27 @@ scene:
         state: off
   - name: "First Floor Off"
     entities:
-      light.first_floor_main:
+      light.downlightblack4:
         state: off
+        transition: 1
+      light.downlightblack5:
+        state: off
+        transition: 1
+      light.downlightblack6:
+        state: off
+        transition: 1
+      light.downlightblack7:
+        state: off
+        transition: 1
+      light.downlightblack8:
+        state: off
+        transition: 1
       light.white_garage:
         state: off
         transition: 1
-      light.calypso:
-        state: off
       light.svb:
         state: off
+        transition: 1
   - name: "First Floor Very Bright"
     entities:
       light.downlightblack4:
@@ -1029,18 +1070,18 @@ automation:
           mobile: "pe"
           message: 'Turn off Bedroom 4 Light again at 11:00pm'
 
-  - alias: "Auto Off Light Bedroom 4"
-    initial_state: "on"
-    trigger:
-      - platform: template
-        # value_template: '{{ is_state("light.whites_4", "on") and is_state_attr("light.whites_4", "rgb_color", (255,70,21)) }}'
-        value_template: '{{ is_state("light.whites_4", "on") }}'
-      - platform: template
-        # value_template: '{{ is_state("light.whites_4", "on") and is_state_attr("light.whites_4", "rgb_color", (235,255,67)) }}'
-        value_template: '{{ is_state("light.whites_4", "on") }}'
-    action:
-      - service: light.turn_off
-        entity_id: light.whites_4
+  # - alias: "Auto Off Light Bedroom 4"
+  #   initial_state: "on"
+  #   trigger:
+  #     - platform: template
+  #       # value_template: '{{ is_state("light.whites_4", "on") and is_state_attr("light.whites_4", "rgb_color", (255,70,21)) }}'
+  #       value_template: '{{ is_state("light.whites_4", "on") }}'
+  #     - platform: template
+  #       # value_template: '{{ is_state("light.whites_4", "on") and is_state_attr("light.whites_4", "rgb_color", (235,255,67)) }}'
+  #       value_template: '{{ is_state("light.whites_4", "on") }}'
+  #   action:
+  #     - service: light.turn_off
+  #       entity_id: light.whites_4
 
   # - alias: "Auto Off Light Strip"
   #   initial_state: "on"

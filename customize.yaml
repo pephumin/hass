@@ -356,7 +356,7 @@ binary_sensor.uranus:
   unique_id: sensor-uranus
 binary_sensor.mercury:
   icon: mdi:wifi
-  friendly_name: Airport Express Bedroom
+  friendly_name: Airport Express Bedroom2
   unique_id: sensor-mercury
 binary_sensor.apollo:
   icon: mdi:wifi
